@@ -1,0 +1,10 @@
+global-styling:
+  css:
+    theme:
+      css/styles.css: {}
+
+# Custom components
+gho-hero-image:
+  css:
+    theme:
+      components/gho-hero-image/gho-hero-image.css: {}

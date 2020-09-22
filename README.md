@@ -7,6 +7,24 @@ Global Humanitarian Overview (GHO) site - Drupal 8 version
 
 This is the drupal 8 codebase for the [Global Humanitarian Overview](https://gho.unocha.org) site.
 
+Content
+-------
+
+**Note:** This is temporary and serves as a starting point. The content will
+have to be better modelled once we know more about the actual content to put
+inside the site.
+
+The site has 2 types of content: `public pages` and `private pages`.
+The site also contains `images` and `documents`, managed as `media` entities.
+All the files are private but images on public pages are accessible to all.
+
+**Pages and Paragraphs**
+
+The public and private pages contain a unique field that can accept different
+types of paragraphs like hero image, text, links and even a page title
+paragraph. Those paragraphs can be arranged via [*layout paragraphs*](https://www.drupal.org/project/layout_paragraphs) to define multi columns sections or image grids for example.
+
+
 Themes
 ------
 
@@ -27,6 +45,12 @@ The main contrib modules for this site are the [paragraphs](https://www.drupal.o
 
 In addition, the site has several custom modules:
 
+- [**GHO Access**](html/modules/custom/gho_access)
+
+  The gho_access module provides granular view permissions for node and media
+  entities as well as handling the access to images on public pages, and a
+  permission to assign roles.
+
 - [**GHO General**](html/modules/custom/gho_general)
 
   The gho_general module provides tests of the site as well as general
@@ -41,7 +65,7 @@ In addition, the site has several custom modules:
   case of GHO). This module provides notably a layout plugin to handle
   configurable grids with any number of areas.
 
-The site has 1 more custom module that could/should be separated from the GHO
+The site has 2 more custom module that could/should be separated from the GHO
 codebase to be independent module that other sites could use:
 
 - [**Paragraphs - Page title**](html/modules/custom/paragraphs_page_title)
@@ -59,6 +83,23 @@ codebase to be independent module that other sites could use:
   content type using page title paragraphs should be changed so that page titles
   don't appear multiple times.
 
+- [**Linked Responsive Image Media Formatter**](html/modules/custom/linked_responsive_image_media_formatter)
+
+  The linked_responsive_image_media_formatter module, in addition to competing
+  for the longest module name, provides a formatter for image media types. This
+  formatter can be used to display the image using responsive image styles and
+  with extended linking options: link to content, link to media, link to image
+  and custom link that can use `tokens`. It also offers the opion to set a
+  custom `alt` text using `tokens` as well and an option to display the image
+  as background for the link, using the `alt` text as text for the link.
+
+  In the case of GHO, there is a `image link` paragraph type with a media
+  reference field (image media) and a link field. The formatter for the image
+  media is configured to have the image linking to the URL from the link field
+  using a token, and to use the link field text as alt text via a token as well.
+
+  This paragraph type is currently not in use and serves as a reference.
+
 Notes
 -----
 
@@ -68,9 +109,7 @@ the [notes.md](notes.md) file.
 Todo
 ----
 
-- [ ] Consolidate Hero image size (`object-fit: cover` etc.).
-- [ ] Review responsiveness of image grids.
-- [ ] Check `optimize_image_binaries` module and if `pngquant` is available
+- [ ] Test translations
 
 Local testing
 -------------

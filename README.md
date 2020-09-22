@@ -111,6 +111,14 @@ Todo
 
 - [ ] Test translations
 
+Local development
+-----------------
+
+The site is docker based. See https://github.com/UN-OCHA/gho-stack for instructions.
+
+To build an image run `make`. This will create a `gho8-site:local` image usable
+with the local setup described in the `gho-stack` repository.
+
 Local testing
 -------------
 

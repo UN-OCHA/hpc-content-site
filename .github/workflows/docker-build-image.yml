@@ -32,12 +32,12 @@ jobs:
             --build-arg GITHUB_REPOSITORY=${GITHUB_REPOSITORY} \
             --build-arg GITHUB_SHA=${GITHUB_SHA} \
             --build-arg GITHUB_REF=${GITHUB_REF} \
-         . --file docker/Dockerfile --tag unocha/gho8-site:${DOCKER_TAG}
-        docker push unocha/gho8-site:${DOCKER_TAG}
+         . --file docker/Dockerfile --tag unocha/gho-site:${DOCKER_TAG}
+        docker push unocha/gho-site:${DOCKER_TAG}
     - name: Flowdock Notify
       uses: docker://unocha/actions:flowdock-notify-v3
       env:
         FLOWDOCK_TOKEN: ${{ secrets.FLOWDOCK_TOKEN }}
         FLOWDOCK_ICON: 'package'
-        FLOWDOCK_MESSAGE: 'Built a new `unocha/gho8-site` image from ${{ github.ref }} and pushed to [DockerHub](https://hub.docker.com/r/unocha/gho8-site/tags).'
+        FLOWDOCK_MESSAGE: 'Built a new `unocha/gho-site` image from ${{ github.ref }} and pushed to [DockerHub](https://hub.docker.com/r/unocha/gho-site/tags).'
         FLOWDOCK_TAGS: 'build,docker,${{ github.actor }}'

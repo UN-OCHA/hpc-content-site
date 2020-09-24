@@ -31,7 +31,7 @@ RUN cp -a docker/settings.php docker/services.yml html/sites/default
 ################################################################################
 
 # Generate the image.
-FROM unocha/php7-k8s:7.3.20-r0-202007-01-NR
+FROM unocha/php7-k8s:7.3-NR-stable
 
 ARG VCS_REF
 ARG VCS_URL

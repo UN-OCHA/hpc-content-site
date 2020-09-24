@@ -1,6 +1,6 @@
-[![Develop - build Status](https://travis-ci.com/UN-OCHA/gho8-site.svg?token=q5DydpJDYUBJoayLktvd&branch=develop)](https://travis-ci.com/UN-OCHA/gho8-site)
-[![Main - build Status](https://travis-ci.com/UN-OCHA/gho8-site.svg?token=q5DydpJDYUBJoayLktvd&branch=main)](https://travis-ci.com/UN-OCHA/gho8-site)
-![Build docker image](https://github.com/UN-OCHA/gho8-site/workflows/Build%20docker%20image/badge.svg)
+[![Develop - build Status](https://travis-ci.com/UN-OCHA/gho-site.svg?token=q5DydpJDYUBJoayLktvd&branch=develop)](https://travis-ci.com/UN-OCHA/gho-site)
+[![Main - build Status](https://travis-ci.com/UN-OCHA/gho-site.svg?token=q5DydpJDYUBJoayLktvd&branch=main)](https://travis-ci.com/UN-OCHA/gho-site)
+![Build docker image](https://github.com/UN-OCHA/gho-site/workflows/Build%20docker%20image/badge.svg)
 
 Global Humanitarian Overview (GHO) site - Drupal 8 version
 ==========================================================
@@ -116,7 +116,7 @@ Local development
 
 The site is docker based. See https://github.com/UN-OCHA/gho-stack for instructions.
 
-To build an image run `make`. This will create a `gho8-site:local` image usable
+To build an image run `make`. This will create a `gho-site:local` image usable
 with the local setup described in the `gho-stack` repository.
 
 Local testing
@@ -124,25 +124,25 @@ Local testing
 
 **With Docksal**
 
-Note: Replace `test.gho8-site.docksal` below with the appriate hostname for
-your local site (ex: `gho8.test`).
+Note: Replace `test.gho-site.docksal` below with the appriate hostname for
+your local site (ex: `gho.test`).
 
 ```bash
 mkdir -p ./html/sites/test
 cp ./.travis/local/* ./html/sites/test/
 
 fin db create test
-fin drush --uri=test.gho8-site.docksal si minimal -y
-fin drush --uri=test.gho8-site.docksal cset system.site uuid $(grep uuid ./config/system.site.yml | awk '{print $2}') -y
-fin drush --uri=test.gho8-site.docksal cim -y
-fin drush --uri=test.gho8-site.docksal cr
+fin drush --uri=test.gho-site.docksal si minimal -y
+fin drush --uri=test.gho-site.docksal cset system.site uuid $(grep uuid ./config/system.site.yml | awk '{print $2}') -y
+fin drush --uri=test.gho-site.docksal cim -y
+fin drush --uri=test.gho-site.docksal cr
 
-fin drush --uri=test.gho8-site.docksal en yaml_content -y
-fin drush --uri=test.gho8-site.docksal yaml-content-import /var/www/.travis/
+fin drush --uri=test.gho-site.docksal en yaml_content -y
+fin drush --uri=test.gho-site.docksal yaml-content-import /var/www/.travis/
 ```
 
 Run tests using docksal
 
 ```bash
-fin exec DTT_BASE_URL=http://test.gho8-site.docksal/ ./vendor/bin/phpunit --debug --colors --testsuite=existing-site,existing-site-javascript --printer '\Drupal\Tests\Listeners\HtmlOutputPrinter'
+fin exec DTT_BASE_URL=http://test.gho-site.docksal/ ./vendor/bin/phpunit --debug --colors --testsuite=existing-site,existing-site-javascript --printer '\Drupal\Tests\Listeners\HtmlOutputPrinter'
 ```

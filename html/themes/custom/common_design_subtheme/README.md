@@ -128,6 +128,18 @@ The list below contains additions to the default common design subtheme:
 - Header: [OCHA services](templates/cd/cd-header/cd-ocha.html.twig)
 - Footer: [Social menu](templates/cd/cd-footer/cd-social-menu.html.twig)
 
+Translations
+------------
+
+The following templates are overridden to allow for translation of the texts.
+
+**TODO:** Once validated, the changes could/should be pushed upstream in the
+`common_design` theme.
+
+- [cd-footer/cd-copyright.html.twig](templates/cd/cd-footer/cd-copyright.html.twig)
+- [cd-footer/cd-mandate.html.twig](templates/cd/cd-footer/cd-mandate.html.twig)
+- [cd-header/cd-ocha.html.twig](templates/cd/cd-header/cd-ocha.html.twig)
+
 ---
 
 ## OCHA Common Design sub theme for Drupal 8

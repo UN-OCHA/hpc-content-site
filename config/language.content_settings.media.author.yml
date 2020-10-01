@@ -1,0 +1,16 @@
+uuid: 27d9ad00-97d1-482e-95dc-ac75d382b64b
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.author
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: media.author
+target_entity_type_id: media
+target_bundle: author
+default_langcode: site_default
+language_alterable: true

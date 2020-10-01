@@ -1,0 +1,13 @@
+uuid: 710f33ea-9410-44b9-adb3-17496b7b28bd
+langcode: en
+status: true
+dependencies: {  }
+id: author
+label: Author
+description: 'Authorship information of an article with the author image, name and title.'
+source: image
+queue_thumbnail_downloads: false
+new_revision: true
+source_configuration:
+  source_field: field_media_image
+field_map: {  }

@@ -73,6 +73,10 @@ The list below contains additions to the default common design subtheme:
 
   Styling for the hero image (paragraph) displayed on public and private pages.
 
+- [components/gho-photo-gallery](components/gho-photo-gallery):
+
+  Styling for the photo gallery paragraphs in articles.
+
 **Layouts**
 
 - [layouts/twocol_section](layouts/twocol_section):

@@ -1,0 +1,19 @@
+uuid: 167c0ac0-118e-47d4-84df-9934bdf55d10
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_credits
+    - paragraphs.paragraphs_type.photo_gallery
+id: paragraph.photo_gallery.field_credits
+field_name: field_credits
+entity_type: paragraph
+bundle: photo_gallery
+label: Credits
+description: 'Credits for the photos in the form <em>Photographer/Organization</em>. Ex: <em>Jane Doe/OCHA</em>'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

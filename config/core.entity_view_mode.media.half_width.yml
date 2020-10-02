@@ -1,0 +1,10 @@
+uuid: af7817a4-6694-4911-b599-3cde7be65eb4
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.half_width
+label: 'Half Width'
+targetEntityType: media
+cache: true

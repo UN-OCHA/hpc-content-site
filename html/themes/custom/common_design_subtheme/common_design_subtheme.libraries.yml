@@ -8,3 +8,8 @@ gho-hero-image:
   css:
     theme:
       components/gho-hero-image/gho-hero-image.css: {}
+
+gho-photo-gallery:
+  css:
+    theme:
+      components/gho-photo-gallery/gho-photo-gallery.css: {}

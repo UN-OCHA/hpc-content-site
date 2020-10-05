@@ -1,0 +1,19 @@
+uuid: fef72aae-1307-44e6-81a2-f7f0e0b04e03
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_location
+    - paragraphs.paragraphs_type.photo_gallery
+id: paragraph.photo_gallery.field_location
+field_name: field_location
+entity_type: paragraph
+bundle: photo_gallery
+label: Location
+description: 'Location in the form <em>Location, Country</em>. Ex: <em>Mbuji-Mayi, RDC</em>.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

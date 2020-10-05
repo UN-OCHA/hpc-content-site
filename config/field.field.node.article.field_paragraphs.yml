@@ -6,6 +6,7 @@ dependencies:
     - field.storage.node.field_paragraphs
     - node.type.article
     - paragraphs.paragraphs_type.layout
+    - paragraphs.paragraphs_type.photo_gallery
     - paragraphs.paragraphs_type.text
   module:
     - entity_reference_revisions
@@ -26,6 +27,7 @@ settings:
     target_bundles:
       layout: layout
       text: text
+      photo_gallery: photo_gallery
     target_bundles_drag_drop:
       image:
         weight: 6
@@ -39,6 +41,9 @@ settings:
       page_title:
         weight: 9
         enabled: false
+      photo_gallery:
+        enabled: true
+        weight: 11
       text:
         enabled: true
         weight: 10

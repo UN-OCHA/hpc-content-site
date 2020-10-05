@@ -1,0 +1,28 @@
+uuid: 9e298b66-c6d0-4728-b8fd-64c246ae18f3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_photos
+    - media.type.image
+    - paragraphs.paragraphs_type.photo_gallery
+id: paragraph.photo_gallery.field_photos
+field_name: field_photos
+entity_type: paragraph
+bundle: photo_gallery
+label: Photos
+description: 'Up to 4 photos.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

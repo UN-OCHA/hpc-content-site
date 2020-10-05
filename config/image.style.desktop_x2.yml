@@ -7,12 +7,12 @@ _core:
 name: desktop_x2
 label: 'desktop x2'
 effects:
-  5b872e7d-16b4-462a-a340-a458f20a5d8d:
-    uuid: 5b872e7d-16b4-462a-a340-a458f20a5d8d
-    id: image_scale
-    weight: 1
+  4b989ae4-7c67-4e1e-942a-1b0e2b56d7ec:
+    uuid: 4b989ae4-7c67-4e1e-942a-1b0e2b56d7ec
+    id: image_scale_and_crop
+    weight: 2
     data:
       width: 1952
-      height: null
-      upscale: true
+      height: 1464
+      anchor: center-center
 pipeline: __default__

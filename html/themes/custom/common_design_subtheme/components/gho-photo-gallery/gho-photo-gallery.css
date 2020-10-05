@@ -1,0 +1,50 @@
+/**
+ * Base photo gallery.
+ */
+.gho-photo-gallery .field--name-field-photos {
+  /* Compensate for the padding of the photos */
+  margin: 0 -0.5rem;
+}
+.gho-photo-gallery .field--name-field-photos > .field__item {
+  padding: 0.5rem;
+}
+.gho-photo-gallery .field--name-field-location {
+  font-weight: bold;
+}
+.gho-photo-gallery .field--name-field-caption,
+.gho-photo-gallery .field--name-field-caption * {
+  display: inline;
+}
+.gho-photo-gallery .field--name-field-credits,
+.gho-photo-gallery .field--name-field-credits * {
+  display: inline;
+  font-style: italic;
+}
+
+/**
+ * Single column gallery.
+ *
+ * In this mode, the images (responsive) span the entire width of the pages's
+ * content region.
+ */
+.gho-photo-gallery--single-column {
+  /* @todo remove if unnecessary. */
+}
+
+/**
+ * Two columns gallery.
+ *
+ * In this mode, the images (responsive) span the half of the width the pages's
+ * content region on desktop and the entire width like the single column, on
+ * smaller screens.
+ */
+@media screen and (min-width: 768px) {
+  .gho-photo-gallery--two-columns .field--name-field-photos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .gho-photo-gallery--two-columns .field--name-field-photos > .field__item {
+    flex: 0 0 50%;
+  }
+}

@@ -1,0 +1,24 @@
+uuid: 1b54e4a4-a1cd-4077-91ee-84f8ddec0b18
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.author_x1
+    - image.style.author_x2
+  theme:
+    - common_design
+id: author_image
+label: 'Author Image'
+image_style_mappings:
+  -
+    breakpoint_id: common_design.xs
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: author_x1
+  -
+    breakpoint_id: common_design.xs
+    multiplier: 2x
+    image_mapping_type: image_style
+    image_mapping: author_x2
+breakpoint_group: common_design
+fallback_image_style: author_x1

@@ -1,0 +1,27 @@
+uuid: 1f40b99a-a324-43e8-b362-f6ac31719960
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_summary
+    - node.type.article
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    limited_html: limited_html
+    plain_text: '0'
+    filtered_html: '0'
+id: node.article.field_summary
+field_name: field_summary
+entity_type: node
+bundle: article
+label: Summary
+description: 'Summary of the article used when the article is displayed as a "Related Article".'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

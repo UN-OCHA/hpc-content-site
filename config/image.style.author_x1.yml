@@ -1,0 +1,16 @@
+uuid: 3c272576-32f5-49ff-90bb-632f1d2dbd63
+langcode: en
+status: true
+dependencies: {  }
+name: author_x1
+label: 'author x1'
+effects:
+  9dac55fc-9efc-4981-b553-cb7a46fccfcd:
+    uuid: 9dac55fc-9efc-4981-b553-cb7a46fccfcd
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 150
+      height: 150
+      anchor: center-center
+pipeline: __default__

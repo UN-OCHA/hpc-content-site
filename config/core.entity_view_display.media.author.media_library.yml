@@ -1,0 +1,33 @@
+uuid: 999f3e8e-91ed-499a-8def-5530b831c7bd
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.media_library
+    - field.field.media.author.field_author_title
+    - field.field.media.author.field_media_image
+    - image.style.medium
+    - media.type.author
+  module:
+    - image
+id: media.author.media_library
+targetEntityType: media
+bundle: author
+mode: media_library
+content:
+  thumbnail:
+    type: image
+    label: hidden
+    settings:
+      image_style: medium
+      image_link: ''
+    weight: 0
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  field_author_title: true
+  field_media_image: true
+  langcode: true
+  name: true
+  uid: true

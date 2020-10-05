@@ -1,0 +1,11 @@
+{%
+  set classes = [
+    'gho-photo-gallery__location',
+    'location',
+  ]
+%}
+<p{{ attributes.addClass(classes) }}>
+  {%- for item in items -%}
+    {{ item.content }}
+  {%- endfor -%}
+</p>

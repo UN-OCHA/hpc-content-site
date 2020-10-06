@@ -1,6 +1,18 @@
 /**
  * Base facts and figures.
  */
+.gho-facts-and-figures {
+  background: #222;
+  color: #ddd;
+}
+@media screen and (min-width: 1440px) {
+  .gho-facts-and-figures {
+    margin-left: -130px;
+    margin-right: -130px;
+    padding: 2em;
+  }
+}
+
 .gho-facts-and-figures .field--name-field-paragraphs {
   /* Compensate for the padding of the image and text paragraphs */
   margin: 0 -0.5rem;
@@ -33,6 +45,6 @@
     justify-content: space-around;
   }
   .gho-facts-and-figures--two-columns .field--name-field-paragraphs > .field__item {
-    flex: 0 0 50%;
+    flex: 1 0 33.33%;
   }
 }

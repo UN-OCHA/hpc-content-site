@@ -111,4 +111,15 @@
       }
     }
   }
+
+  @include max-width(lg) {
+    .cd-nav > ul > li {
+      a,
+      button {
+        &::before {
+          right: 15px; // Half of the horizontal padding.
+        }
+      }
+    }
+  }
 }

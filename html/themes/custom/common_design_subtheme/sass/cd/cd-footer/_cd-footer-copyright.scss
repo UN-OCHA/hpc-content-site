@@ -1,0 +1,16 @@
+//——————————————————————————————————————————————————————————————————————————————
+// GHO-4: RTL adjustments
+//
+// These need to be sent upstream once we're all happy with them.
+//——————————————————————————————————————————————————————————————————————————————
+[dir='rtl'] .cd-footer-copyright {
+  @include desktop {
+    text-align: left;
+  }
+}
+
+[dir='rtl'] .cd-footer-copyright svg {
+  @include desktop {
+    margin: 0 20px 0 0;
+  }
+}

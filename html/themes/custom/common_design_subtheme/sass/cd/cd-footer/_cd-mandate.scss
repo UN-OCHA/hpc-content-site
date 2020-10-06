@@ -11,7 +11,6 @@
 
 [dir='rtl'] .cd-mandate__logo {
   $logo-vert-offset: 4px;
-  background-position: 12px $logo-vert-offset;
 
   @include desktop {
     float: right;
@@ -21,6 +20,7 @@
     border-left: 1px solid $cd-border-color;
     border-right: 0; // unsetting original
     padding-bottom: $logo-vert-offset;
+    background-position: 12px $logo-vert-offset;
   }
 }
 

@@ -1,0 +1,38 @@
+uuid: 90eb6b04-cd28-4ebc-b752-1b6483433e51
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.facts_and_figures.field_paragraphs
+    - field.field.paragraph.facts_and_figures.field_title
+    - paragraphs.paragraphs_type.facts_and_figures
+  module:
+    - paragraphs
+id: paragraph.facts_and_figures.default
+targetEntityType: paragraph
+bundle: facts_and_figures
+mode: default
+content:
+  field_paragraphs:
+    type: entity_reference_paragraphs
+    weight: 2
+    settings:
+      title: 'Fact and figure'
+      title_plural: 'Facts and figures'
+      edit_mode: preview
+      add_mode: button
+      form_display_mode: default
+      default_paragraph_type: image_with_text
+    third_party_settings: {  }
+    region: content
+  field_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true

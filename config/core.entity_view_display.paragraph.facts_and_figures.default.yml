@@ -1,0 +1,33 @@
+uuid: eb092219-28d6-434c-a261-9673ef90c72e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.facts_and_figures.field_paragraphs
+    - field.field.paragraph.facts_and_figures.field_title
+    - paragraphs.paragraphs_type.facts_and_figures
+  module:
+    - entity_reference_revisions
+id: paragraph.facts_and_figures.default
+targetEntityType: paragraph
+bundle: facts_and_figures
+mode: default
+content:
+  field_paragraphs:
+    type: entity_reference_revisions_entity_view
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: full_width
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_title:
+    weight: 0
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

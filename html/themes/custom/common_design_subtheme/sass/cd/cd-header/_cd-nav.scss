@@ -109,6 +109,25 @@
           border-left: 1px solid $cd-border-color;
         }
       }
+
+      > li > ul {
+        a,
+        button {
+          &:hover {
+            background: $cd-mid-bg-color;
+          }
+
+          &.is-active {
+            border-left: 0;
+            border-right: 3px solid $cd-highlight-red;
+          }
+        }
+
+        > li.menu-item--active-trail .is-active {
+          border-left: 0;
+          border-right: 3px solid $cd-highlight-red;
+        }
+      }
     }
   }
 

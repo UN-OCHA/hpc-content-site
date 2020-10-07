@@ -13,6 +13,13 @@
   }
 }
 
+.gho-facts-and-figures .field--name-field-title {
+  color: inherit;
+  font-size: 1.1em;
+  font-weight: 700;
+  margin-top: .25em;
+}
+
 .gho-facts-and-figures .field--name-field-paragraphs {
   /* Compensate for the padding of the image and text paragraphs */
   margin: 0 -0.5rem;

@@ -7,14 +7,23 @@
   max-width: 580px;
 }
 
+[dir='rtl'] .gho-author {
+  float: right;
+  text-align: right;
+}
+
 .gho-author .media picture {
   max-width: 100px;
   max-height: 100px;
 }
 
-.gho-author .media picture {
+[dir='ltr'] .gho-author .media picture {
   float: left;
   margin-right: 1em;
+}
+[dir='rtl'] .gho-author .media picture {
+  float: right;
+  margin-left: 1em;
 }
 
 .gho-author .media img {

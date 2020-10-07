@@ -95,3 +95,50 @@
     }
   }
 }
+
+//——————————————————————————————————————————————————————————————————————————————
+// GHO-4: RTL adjustments
+//
+// These need to be sent upstream once we're all happy with them.
+//——————————————————————————————————————————————————————————————————————————————
+.cd-site-header__nav-holder {
+  @include desktop {
+    .cd-nav > .menu {
+      > .menu-item {
+        [dir='rtl'] &:last-child {
+          border-left: 1px solid $cd-border-color;
+        }
+      }
+
+      > li > ul {
+        a,
+        button {
+          &:hover {
+            background: $cd-mid-bg-color;
+          }
+
+          &.is-active {
+            border-left: 0;
+            border-right: 3px solid $cd-highlight-red;
+          }
+        }
+
+        > li.menu-item--active-trail .is-active {
+          border-left: 0;
+          border-right: 3px solid $cd-highlight-red;
+        }
+      }
+    }
+  }
+
+  @include max-width(lg) {
+    .cd-nav > ul > li {
+      a,
+      button {
+        &::before {
+          right: 15px; // Half of the horizontal padding.
+        }
+      }
+    }
+  }
+}

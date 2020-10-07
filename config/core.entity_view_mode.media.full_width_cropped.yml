@@ -1,0 +1,10 @@
+uuid: d298438f-8cf0-4e26-89c4-b727fb411f8a
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.full_width_cropped
+label: 'Full Width - Cropped'
+targetEntityType: media
+cache: true

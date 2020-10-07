@@ -17,3 +17,20 @@
   background: $implementation-highlight;
   color: $cd-default-text-color;
 }
+
+//——————————————————————————————————————————————————————————————————————————————
+// GHO-4: RTL adjustments
+//
+// These need to be sent upstream once we're all happy with them.
+//——————————————————————————————————————————————————————————————————————————————
+.cd-ocha__logo {
+  margin-right: 0; // unsetting upstream CD
+
+  [dir='ltr'] & {
+    margin-right: 4px;
+  }
+
+  [dir='rtl'] & {
+    margin-left: 4px;
+  }
+}

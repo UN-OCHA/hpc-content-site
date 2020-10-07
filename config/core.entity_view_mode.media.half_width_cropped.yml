@@ -1,0 +1,10 @@
+uuid: 2844aae1-fdf3-4995-9325-00669b240e70
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.half_width_cropped
+label: 'Half Width - Cropped'
+targetEntityType: media
+cache: true

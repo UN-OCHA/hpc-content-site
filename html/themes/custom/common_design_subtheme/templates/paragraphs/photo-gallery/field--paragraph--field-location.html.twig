@@ -1,0 +1,11 @@
+{%
+  set classes = [
+    'field--name-field-location',
+    'location',
+  ]
+%}
+<p{{ attributes.addClass(classes) }}>
+  {%- for item in items -%}
+    {{ item.content }}
+  {%- endfor -%}
+</p>

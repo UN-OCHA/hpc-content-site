@@ -1,0 +1,34 @@
+//——————————————————————————————————————————————————————————————————————————————
+// GHO-4: RTL adjustments
+//
+// These need to be sent upstream once we're all happy with them.
+//——————————————————————————————————————————————————————————————————————————————
+[dir='rtl'] .cd-mandate__heading {
+  @include desktop {
+    text-align: right;
+  }
+}
+
+[dir='rtl'] .cd-mandate__logo {
+  $logo-vert-offset: 4px;
+
+  @include desktop {
+    float: right;
+    margin: -4px auto 0 $cd-container-padding;
+    padding-left: $cd-container-padding;
+    padding-right: 0; // unsetting original
+    border-left: 1px solid $cd-border-color;
+    border-right: 0; // unsetting original
+    padding-bottom: $logo-vert-offset;
+    background-position: 12px $logo-vert-offset;
+  }
+}
+
+[dir='rtl'] .cd-mandate__text {
+  @include desktop {
+    text-align: right;
+    padding: 0;
+    padding-right: 173px; // Width of logo.
+    padding-left: $cd-container-padding-xlarge;
+  }
+}

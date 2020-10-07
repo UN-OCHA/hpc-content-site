@@ -1,21 +1,10 @@
-gho_general.add_public_page:
-  title: 'Add public page'
+gho_general.add_article:
+  title: 'Add article'
   route_name: node.add
   route_parameters:
-    node_type: public_page
+    node_type: article
   appears_on:
-    - view.content.page_public_pages
-  # Temporary solution to ensure redirection to the origin page until
-  # https://www.drupal.org/project/drupal/issues/1344902 is solved.
-  class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
-
-gho_general.add_private_page:
-  title: 'Add private page'
-  route_name: node.add
-  route_parameters:
-    node_type: private_page
-  appears_on:
-    - view.content.page_private_pages
+    - view.content.page_articles
   # Temporary solution to ensure redirection to the origin page until
   # https://www.drupal.org/project/drupal/issues/1344902 is solved.
   class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd

@@ -15,7 +15,6 @@ module:
   editor: 0
   editor_advanced_link: 0
   entity_reference_revisions: 0
-  entity_usage: 0
   field: 0
   field_ui: 0
   file: 0
@@ -33,7 +32,6 @@ module:
   layout_discovery: 0
   layout_paragraphs: 0
   link: 0
-  linked_responsive_image_media_formatter: 0
   locale: 0
   maintenance200: 0
   media: 0
@@ -42,7 +40,6 @@ module:
   menu_ui: 0
   node: 0
   page_cache: 0
-  paragraphs_page_title: 0
   paragraphs_viewmode: 0
   path: 0
   path_alias: 0

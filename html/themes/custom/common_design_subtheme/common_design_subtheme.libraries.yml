@@ -4,6 +4,11 @@ global-styling:
       css/styles.css: {}
 
 # Custom components
+gho-author:
+  css:
+    theme:
+      components/gho-author/gho-author.css: {}
+
 gho-hero-image:
   css:
     theme:

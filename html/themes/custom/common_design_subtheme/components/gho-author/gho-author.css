@@ -1,0 +1,27 @@
+/**
+ * Base Author field
+ */
+.gho-author {
+  display: block;
+  margin: 1em 0;
+  max-width: 580px;
+}
+
+.gho-author .media picture {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.gho-author .media picture {
+  float: left;
+  margin-right: 1em;
+}
+
+.gho-author .media img {
+  border-radius: 50%;
+}
+
+.gho-author .field--name-name {
+  padding-top: 1em;
+  font-weight: 700;
+}

@@ -23,6 +23,8 @@
 //——————————————————————————————————————————————————————————————————————————————
 button[aria-expanded] {
   .cd-icon--arrow-down {
+    margin-left: 0; // unsetting upstream CD
+
     [dir='ltr'] & {
       margin-left: 4px;
     }

@@ -12,8 +12,7 @@ selection_criteria:
   a001be3b-4e93-42ef-979a-889cdd4a7c5d:
     id: node_type
     bundles:
-      private_page: private_page
-      public_page: public_page
+      article: article
     negate: false
     context_mapping:
       node: node

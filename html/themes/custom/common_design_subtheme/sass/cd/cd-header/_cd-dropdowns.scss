@@ -15,3 +15,20 @@
     border-color: transparent transparent $implementation-primary;
   }
 }
+
+//——————————————————————————————————————————————————————————————————————————————
+// GHO-4: RTL adjustments
+//
+// These need to be sent upstream once we're all happy with them.
+//——————————————————————————————————————————————————————————————————————————————
+button[aria-expanded] {
+  .cd-icon--arrow-down {
+    [dir='ltr'] & {
+      margin-left: 4px;
+    }
+
+    [dir='rtl'] & {
+      margin-right: 4px;
+    }
+  }
+}

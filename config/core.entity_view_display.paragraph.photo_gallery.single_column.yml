@@ -48,7 +48,7 @@ content:
     weight: 0
     label: hidden
     settings:
-      view_mode: full_width
+      view_mode: full_width_cropped
       link: false
     third_party_settings: {  }
     region: content

@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme implementation for a photo gallery paragraph with a single column.
+ * Theme implementation for a photo gallery paragraph.
  *
  * Overrides paragraphs/templates/paragraph.html.twig.
  *
@@ -48,7 +48,7 @@
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
     'gho-photo-gallery',
-    'gho-photo-gallery--single-column',
+    view_mode ? 'gho-photo-gallery--' ~ view_mode|clean_class,
   ]
 %}
 {% block paragraph %}

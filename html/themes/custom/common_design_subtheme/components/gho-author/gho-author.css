@@ -13,8 +13,15 @@
 }
 
 .gho-author .media picture {
+  width: 25%;
   max-width: 100px;
   max-height: 100px;
+  margin-bottom: 4em;
+}
+@media screen and (min-width: 550px) {
+  .gho-author .media picture {
+    margin-bottom: 0;
+  }
 }
 
 [dir='ltr'] .gho-author .media picture {
@@ -31,6 +38,10 @@
 }
 
 .gho-author .field--name-name {
-  padding-top: 1em;
   font-weight: 700;
+}
+@media screen and (min-width: 550px) {
+  .gho-author .field--name-name {
+    padding-top: 1em;
+  }
 }

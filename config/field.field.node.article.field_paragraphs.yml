@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_paragraphs
     - node.type.article
+    - paragraphs.paragraphs_type.facts_and_figures
     - paragraphs.paragraphs_type.layout
     - paragraphs.paragraphs_type.photo_gallery
     - paragraphs.paragraphs_type.text
@@ -26,14 +27,21 @@ settings:
     negate: 0
     target_bundles:
       layout: layout
+      facts_and_figures: facts_and_figures
       text: text
       photo_gallery: photo_gallery
     target_bundles_drag_drop:
+      facts_and_figures:
+        enabled: true
+        weight: 9
       image:
         weight: 6
         enabled: false
       image_link:
         weight: 7
+        enabled: false
+      image_with_text:
+        weight: 12
         enabled: false
       layout:
         enabled: true

@@ -1,0 +1,52 @@
+uuid: 0fc2692c-974b-4417-9c29-2ac9bb888860
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraphs
+    - paragraphs.paragraphs_type.facts_and_figures
+    - paragraphs.paragraphs_type.image_with_text
+  module:
+    - entity_reference_revisions
+id: paragraph.facts_and_figures.field_paragraphs
+field_name: field_paragraphs
+entity_type: paragraph
+bundle: facts_and_figures
+label: 'Facts and figures'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      image_with_text: image_with_text
+    target_bundles_drag_drop:
+      facts_and_figures:
+        weight: 9
+        enabled: false
+      image:
+        weight: 10
+        enabled: false
+      image_link:
+        weight: 11
+        enabled: false
+      image_with_text:
+        enabled: true
+        weight: 12
+      layout:
+        weight: 13
+        enabled: false
+      page_title:
+        weight: 14
+        enabled: false
+      photo_gallery:
+        weight: 15
+        enabled: false
+      text:
+        weight: 16
+        enabled: false
+field_type: entity_reference_revisions

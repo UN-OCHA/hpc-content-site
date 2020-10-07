@@ -1,0 +1,28 @@
+uuid: 9227cd77-7831-4ef9-9f6c-f8100b5ee4dd
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_viewmode
+id: facts_and_figures
+label: 'Facts and figures'
+icon_uuid: null
+icon_default: null
+description: 'A list of facts and figures composed of images with a text.'
+behavior_plugins:
+  paragraphs_viewmode_behavior:
+    enabled: true
+    override_mode: default
+    override_available:
+      single_column: single_column
+      two_columns: two_columns
+      default: '0'
+      full_width: '0'
+      half_width: '0'
+      hero_image: '0'
+      link_with_background_image_medium: '0'
+      link_with_background_image_small: '0'
+      linked_image_medium: '0'
+      linked_image_small: '0'
+      preview: '0'
+    override_default: single_column

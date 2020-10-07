@@ -69,6 +69,10 @@ The list below contains additions to the default common design subtheme:
 
 **Components**
 
+- [components/gho-facts-and-figures](components/gho-facts-and-figures):
+
+  Styling for the facts and figures paragraphs in articles.
+
 - [components/gho-hero-image](components/gho-hero-image):
 
   Styling for the hero image (paragraph) displayed on public and private pages.
@@ -109,6 +113,24 @@ The list below contains additions to the default common design subtheme:
   Override of the paragraph template to use the `gho-hero-image` component for
   the Hero images. This is applied when an **image** paragraph has its
   **view mode** set to `Hero image`.
+
+- [Paragraph - Facts and figures - Single column](templates/paragraphs/paragraph--facts-and-figures--single-column.html.twig):
+
+  Override of the paragraph template to use the `gho-facts-and-figures`
+  component for facts and figures sections. This is applied when an
+  **facts and figures** paragraph has its **view mode** set to `Single Column`.
+
+- [Paragraph - Facts and figures - Two columns](templates/paragraphs/paragraph--facts-and-figures--two-columns.html.twig):
+
+  Override of the paragraph template to use the `gho-facts-and-figures`
+  component for facts and figures sections. This is applied when an
+  **facts and figures** paragraph has its **view mode** set to `Two Columns`.
+
+- [Fields - Facts and figures title](templates/fields/field--paragraph--field-title--facts-and-figures.html.twig)
+
+  Override the field template to ensure the facts and figures titles use a
+  heading appropriate to the page hierarchy (`h2`).
+  **TODO**: review if `h2` is ok or if `h3` should be used.
 
 **Preprocessors**
 

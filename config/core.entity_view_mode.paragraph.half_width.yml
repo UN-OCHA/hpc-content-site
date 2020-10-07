@@ -1,0 +1,10 @@
+uuid: 65f9c91b-35e4-42da-a1e3-18084f792063
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.half_width
+label: 'Half Width'
+targetEntityType: paragraph
+cache: true

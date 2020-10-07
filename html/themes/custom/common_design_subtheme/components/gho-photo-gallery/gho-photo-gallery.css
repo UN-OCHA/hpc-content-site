@@ -10,6 +10,7 @@
 }
 .gho-photo-gallery .field--name-field-location {
   font-weight: bold;
+  margin-bottom: 0;
 }
 .gho-photo-gallery .field--name-field-caption,
 .gho-photo-gallery .field--name-field-caption * {

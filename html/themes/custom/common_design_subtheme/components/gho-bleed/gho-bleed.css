@@ -1,0 +1,31 @@
+/**
+ * Class to allow the content to bleed to the edges of the body.
+ */
+:root {
+  /* This will be set up by javascript after the document is loaded as we cannot
+   * determine it via css only... */
+  --gho-bleed-scrollbar-width: 0px;
+}
+
+.gho-bleed {
+  margin-left: calc(50% - 50vw + var(--gho-bleed-scrollbar-width) / 2);
+  margin-right: calc(50% - 50vw + var(--gho-bleed-scrollbar-width) / 2);
+  padding: 1em;
+}
+
+@media screen and (min-width: 1024px) {
+  .gho-bleed {
+    /* Include the grey margin. */
+    margin-left: calc(50% + 8px - 50vw + var(--gho-bleed-scrollbar-width) / 2);
+    margin-right: calc(50% + 8px - 50vw + var(--gho-bleed-scrollbar-width) / 2);
+    padding: 2em;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .gho-bleed {
+    /* Limit to the maxium width of the body. */
+    margin-left: -130px;
+    margin-right: -130px;
+  }
+}

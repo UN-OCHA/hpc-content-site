@@ -10,7 +10,7 @@ effects:
     id: image_scale_and_crop
     weight: 1
     data:
-      width: 150
-      height: 150
+      width: 100
+      height: 100
       anchor: center-center
 pipeline: __default__

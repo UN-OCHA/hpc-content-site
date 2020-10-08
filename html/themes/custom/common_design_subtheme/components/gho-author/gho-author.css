@@ -1,13 +1,13 @@
 /**
  * Base Author field
  */
-.gho-author {
+.gho-author .media {
   display: block;
   margin: 1em 0;
   max-width: 580px;
 }
 
-[dir='rtl'] .gho-author {
+[dir='rtl'] .gho-author .media {
   float: right;
   text-align: right;
 }

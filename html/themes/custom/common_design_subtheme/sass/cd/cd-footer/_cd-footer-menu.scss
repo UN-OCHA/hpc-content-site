@@ -1,27 +1,25 @@
 //——————————————————————————————————————————————————————————————————————————————
-// Common Design: Footer
+// Common Design: Footer menu
+//
+// Used for team and project specific links plus links to legalese.
 //——————————————————————————————————————————————————————————————————————————————
-
-.cd-footer {
-  background: $implementation-primary;
-
-  a {
-    &:focus {
-      outline: 3px solid $implementation-highlight;
-    }
-  }
-}
-
 
 //——————————————————————————————————————————————————————————————————————————————
 // GHO-4: RTL adjustments
 //
 // These need to be sent upstream once we're all happy with them.
 //——————————————————————————————————————————————————————————————————————————————
-[dir='rtl'] .cd-footer__section--menu {
+
+// The second selector has to be supplied to override an @extend in the CD
+[dir='rtl'] .cd-footer-menu,
+[dir='rtl'] .menu--footer .menu {
+  padding-right: 0;
+}
+
+// The second selector has to be supplied to override an @extend in the CD
+[dir='rtl'] .cd-footer-menu__item,
+[dir='rtl'] .menu--footer .menu > li {
   @include desktop {
-    text-align: right;
-    float: right; // IE11 needs this
-    width: 70%;
+    margin: 0 0 0 32px;
   }
 }

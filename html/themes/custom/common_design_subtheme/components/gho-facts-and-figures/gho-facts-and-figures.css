@@ -4,6 +4,8 @@
 .gho-facts-and-figures {
   background: #222;
   color: #ddd;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 
 .gho-facts-and-figures .field--name-field-title {

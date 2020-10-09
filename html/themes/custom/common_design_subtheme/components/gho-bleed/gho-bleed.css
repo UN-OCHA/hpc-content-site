@@ -7,6 +7,9 @@
   --gho-bleed-scrollbar-width: 0px;
 }
 
+/**
+ * Bleed the content and the background if any.
+ */
 .gho-bleed {
   margin-left: calc(50% - 50vw + var(--gho-bleed-scrollbar-width) / 2);
   margin-right: calc(50% - 50vw + var(--gho-bleed-scrollbar-width) / 2);
@@ -24,6 +27,47 @@
 
 @media screen and (min-width: 1400px) {
   .gho-bleed {
+    /* Limit to the maxium width of the body. */
+    margin-left: -130px;
+    margin-right: -130px;
+  }
+}
+
+/**
+ * Bleed the background only.
+ */
+.gho-bleed--background-only {
+  position: relative;
+  z-index: 1;
+  padding: 1em 0;
+}
+
+.gho-bleed--background-only:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin-left: calc(50% - 50vw + var(--gho-bleed-scrollbar-width) / 2);
+  margin-right: calc(50% - 50vw + var(--gho-bleed-scrollbar-width) / 2);
+  background-color: inherit;
+  z-index: 0;
+}
+
+@media screen and (min-width: 1024px) {
+  .gho-bleed--background-only {
+    padding: 2em 0;
+  }
+  .gho-bleed--background-only:before {
+    /* Include the grey margin. */
+    margin-left: calc(50% + 8px - 50vw + var(--gho-bleed-scrollbar-width) / 2);
+    margin-right: calc(50% + 8px - 50vw + var(--gho-bleed-scrollbar-width) / 2);
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .gho-bleed--background-only:before {
     /* Limit to the maxium width of the body. */
     margin-left: -130px;
     margin-right: -130px;

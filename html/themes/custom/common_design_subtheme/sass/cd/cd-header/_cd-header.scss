@@ -17,21 +17,43 @@
   background-image: linear-gradient(-180deg, $implementation-primary 67%, $implementation-primary-dark 97%);
 }
 
+.cd-site-header__nav-holder nav > ul {
+  > li,
+  > .cd-nav__item {
+    @include desktop {
+      max-width: 280px;
+    }
+  }
+}
+
+//——————————————————————————————————————————————————————————————————————————————
+// GHO-4: RTL adjustments
+//
+// These need to be sent upstream once we're all happy with them.
+//——————————————————————————————————————————————————————————————————————————————
 .cd-site-header__inner {
+  // IE11 can't do RTL grid
+  [dir='rtl'] & {
+    .cd-site-logo {
+      float: right;
+    }
+
+    .cd-site-header__actions {
+      float: left;
+    }
+  }
+
   @supports(display: grid) {
     grid-template-columns: 52px 1fr;
 
     @include tablet {
       grid-template-columns: 186px 1fr;
     }
-  }
-}
 
-.cd-site-header__nav-holder nav > ul {
-  > li,
-  > .cd-nav__item {
-    @include desktop {
-      max-width: 280px;
+    // unset RTL styles for IE11
+    .cd-site-logo,
+    .cd-site-header__actions {
+      float: none;
     }
   }
 }

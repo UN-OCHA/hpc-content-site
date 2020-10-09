@@ -15,4 +15,3 @@ permissions:
   - 'view published article content'
   - 'view published author media'
   - 'view published image media'
-  - 'view published public_page content'

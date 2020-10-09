@@ -4,6 +4,11 @@ global-styling:
       css/styles.css: {}
 
 # Custom components
+gho-author:
+  css:
+    theme:
+      components/gho-author/gho-author.css: {}
+
 gho-hero-image:
   css:
     theme:
@@ -18,3 +23,11 @@ gho-facts-and-figures:
   css:
     theme:
       components/gho-facts-and-figures/gho-facts-and-figures.css: {}
+
+gho-bleed:
+  header: true
+  js:
+    components/gho-bleed/gho-bleed.js: {}
+  css:
+    theme:
+      components/gho-bleed/gho-bleed.css: {}

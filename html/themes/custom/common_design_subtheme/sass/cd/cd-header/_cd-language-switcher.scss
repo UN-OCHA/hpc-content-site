@@ -25,6 +25,8 @@
 // GHO-4: RTL adjustments
 //
 // These need to be sent upstream once we're all happy with them.
+//
+// sass-lint:disable no-mergeable-selectors
 //——————————————————————————————————————————————————————————————————————————————
 .cd-language-switcher__btn {
   [dir='ltr'] & {
@@ -32,7 +34,7 @@
   }
 
   [dir='rtl'] & {
-    padding: 0 10px 0 0;
+    padding: 0 10px 0 20px;
   }
 }
 

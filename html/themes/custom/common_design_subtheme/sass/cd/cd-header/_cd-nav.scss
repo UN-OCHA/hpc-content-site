@@ -100,6 +100,8 @@
 // GHO-4: RTL adjustments
 //
 // These need to be sent upstream once we're all happy with them.
+//
+// sass-lint:disable no-mergeable-selectors
 //——————————————————————————————————————————————————————————————————————————————
 .cd-site-header__nav-holder {
   @include desktop {
@@ -117,15 +119,20 @@
             background: $cd-mid-bg-color;
           }
 
-          &.is-active {
+          [dir='rtl'] &.is-active {
             border-left: 0;
             border-right: 3px solid $cd-highlight-red;
           }
         }
 
-        > li.menu-item--active-trail .is-active {
-          border-left: 0;
-          border-right: 3px solid $cd-highlight-red;
+        > li.menu-item--active-trail {
+          a,
+          button {
+            [dir='rtl'] &.is-active {
+              border-left: 0;
+              border-right: 3px solid $cd-highlight-red;
+            }
+          }
         }
       }
     }

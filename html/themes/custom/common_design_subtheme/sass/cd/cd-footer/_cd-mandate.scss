@@ -3,6 +3,18 @@
 //
 // These need to be sent upstream once we're all happy with them.
 //——————————————————————————————————————————————————————————————————————————————
+[dir='rtl'] .cd-footer__section--mandate {
+  @include desktop {
+    float: right; // IE11
+  }
+}
+
+[dir='rtl'] .cd-footer__section--copyright {
+  @include desktop {
+    float: left; // IE11
+  }
+}
+
 [dir='rtl'] .cd-mandate__heading {
   @include desktop {
     text-align: right;

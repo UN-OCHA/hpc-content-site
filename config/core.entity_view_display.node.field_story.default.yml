@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.field_story.field_credits
     - field.field.node.field_story.field_image
     - field.field.node.field_story.field_text
     - node.type.field_story
@@ -15,14 +14,6 @@ targetEntityType: node
 bundle: field_story
 mode: default
 content:
-  field_credits:
-    weight: 3
-    label: hidden
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
   field_image:
     type: entity_reference_entity_view
     weight: 1

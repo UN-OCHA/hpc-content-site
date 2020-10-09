@@ -1,0 +1,16 @@
+uuid: 88931f58-799e-405c-92b9-04805769ae3d
+langcode: en
+status: true
+dependencies: {  }
+name: 435_x_326
+label: '435 x 326'
+effects:
+  08edc91d-a6ba-4bc7-807a-16d6cf24968d:
+    uuid: 08edc91d-a6ba-4bc7-807a-16d6cf24968d
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 435
+      height: 326
+      anchor: center-center
+pipeline: __default__

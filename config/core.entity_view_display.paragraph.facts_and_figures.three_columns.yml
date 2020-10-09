@@ -1,6 +1,6 @@
 uuid: b23d41b6-2438-44ad-b6f0-11fb1a3dc5a4
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - core.entity_view_mode.paragraph.three_columns

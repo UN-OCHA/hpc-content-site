@@ -31,3 +31,10 @@ gho-bleed:
   css:
     theme:
       components/gho-bleed/gho-bleed.css: {}
+
+gho-aside:
+  css:
+    theme:
+      components/gho-aside/gho-aside.css: {}
+  dependencies:
+    - common_design_subtheme/gho-bleed

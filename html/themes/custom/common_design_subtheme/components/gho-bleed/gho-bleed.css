@@ -45,9 +45,10 @@
 .gho-bleed--background-only:before {
   content: "";
   position: absolute;
-  top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
+  top: 0;
+  bottom: 0;
   height: 100%;
   margin-left: calc(50% - 50vw + var(--gho-bleed-scrollbar-width) / 2);
   margin-right: calc(50% - 50vw + var(--gho-bleed-scrollbar-width) / 2);

@@ -14,4 +14,6 @@ permissions:
   - 'view own unpublished media'
   - 'view published article content'
   - 'view published author media'
+  - 'view published document media'
+  - 'view published field_story content'
   - 'view published image media'

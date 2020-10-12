@@ -1,0 +1,17 @@
+uuid: cc846ea7-c5b5-4b96-95bb-54677c85a4e5
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Field story'
+type: field_story
+description: 'A story from the field.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

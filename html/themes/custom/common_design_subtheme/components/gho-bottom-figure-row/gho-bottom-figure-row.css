@@ -15,8 +15,14 @@
   padding: 0 2em 0 1em;
 }
 
-.gho-bottom-figure-row .field__items > .field__item + .field__item {
+.gho-bottom-figure-row .field__items > .field__item {
   border-left: 1px solid #ddd;
+}
+
+@media screen and (min-width: 768px) {
+  .gho-bottom-figure-row .field__items > .field__item:first-child {
+    border-left: 0;
+  }
 }
 
 .gho-bottom-figure-row .double-field-first,

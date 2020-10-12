@@ -1,0 +1,21 @@
+.gho-aside * {
+  color: rgb(93,93,93);
+}
+.gho-aside--dark {
+  background-color: black;
+}
+.gho-aside--dark * {
+  color: white;
+}
+.gho-aside__title {
+  margin-top: 0;
+  /* 18px. */
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.gho-aside__title[data-pre-title]::before {
+  content: attr(data-pre-title);
+  display: block;
+  font-weight: 400;
+}

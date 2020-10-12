@@ -1,0 +1,22 @@
+uuid: b20875c5-e8f8-4d5b-97d9-069e315acc12
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: field_story
+label: 'Field story'
+type: 'canonical_entities:node'
+pattern: 'field-story/[node:title]'
+selection_criteria:
+  16e6a58a-1138-4062-b302-e0386946d3f1:
+    id: node_type
+    bundles:
+      field_story: field_story
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 16e6a58a-1138-4062-b302-e0386946d3f1
+selection_logic: and
+weight: -5
+relationships: {  }

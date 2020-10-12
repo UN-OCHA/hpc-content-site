@@ -1,0 +1,10 @@
+uuid: 95ece9fc-253b-4b3e-9a27-d18985f04df0
+langcode: en
+status: true
+dependencies: {  }
+id: field_story
+label: 'Story from the field'
+icon_uuid: null
+icon_default: null
+description: 'A story from the field.'
+behavior_plugins: {  }

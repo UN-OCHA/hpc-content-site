@@ -1,0 +1,22 @@
+uuid: facccc8c-38c7-4cff-84de-9ae0330846f8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.field_story.field_content
+    - paragraphs.paragraphs_type.field_story
+id: paragraph.field_story.default
+targetEntityType: paragraph
+bundle: field_story
+mode: default
+content:
+  field_content:
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: teaser
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+hidden: {  }

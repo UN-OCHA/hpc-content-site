@@ -2,10 +2,10 @@
   color: rgb(93,93,93);
 }
 .gho-aside--dark {
-  background-color: black;
+  background-color: #1f1f1f;
 }
 .gho-aside--dark * {
-  color: white;
+  color: #ddd;
 }
 .gho-aside__title {
   margin-top: 0;

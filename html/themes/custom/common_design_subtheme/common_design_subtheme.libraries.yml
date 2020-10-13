@@ -9,6 +9,11 @@ gho-author:
     theme:
       components/gho-author/gho-author.css: {}
 
+gho-bottom-figure-row:
+  css:
+    theme:
+      components/gho-bottom-figure-row/gho-bottom-figure-row.css: {}
+
 gho-hero-image:
   css:
     theme:

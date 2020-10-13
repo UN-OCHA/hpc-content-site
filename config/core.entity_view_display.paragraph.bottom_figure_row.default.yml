@@ -1,0 +1,41 @@
+uuid: 2bca7602-503b-48de-a8c1-ecf4f536fe7d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.bottom_figure_row.field_bottom_figures
+    - paragraphs.paragraphs_type.bottom_figure_row
+  module:
+    - double_field
+id: paragraph.bottom_figure_row.default
+targetEntityType: paragraph
+bundle: bottom_figure_row
+mode: default
+content:
+  field_bottom_figures:
+    weight: 0
+    label: hidden
+    settings:
+      first:
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+        hidden: false
+        thousand_separator: ''
+        decimal_separator: .
+        scale: 2
+      second:
+        prefix: ''
+        suffix: ''
+        link: false
+        format_type: medium
+        hidden: false
+        thousand_separator: ''
+        decimal_separator: .
+        scale: 2
+      inline: false
+    third_party_settings: {  }
+    type: double_field_unformatted_list
+    region: content
+hidden: {  }

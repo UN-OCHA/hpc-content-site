@@ -1,0 +1,39 @@
+uuid: 25815140-0e56-4211-9be6-f89af6c289a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_bottom_figures
+    - paragraphs.paragraphs_type.bottom_figure_row
+  module:
+    - double_field
+id: paragraph.bottom_figure_row.field_bottom_figures
+field_name: field_bottom_figures
+entity_type: paragraph
+bundle: bottom_figure_row
+label: Figures
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  first:
+    label: ''
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+  second:
+    label: ''
+    required: true
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    on_label: 'On'
+    off_label: 'Off'
+field_type: double_field

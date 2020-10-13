@@ -41,6 +41,9 @@ display:
               1:
                 title: منشور
       title: ميديا
+      empty:
+        area_text_custom:
+          content: 'No media available.'
   media_page_list:
     display_title: ميديا
     display_options:

@@ -12,6 +12,7 @@
   color: #ddd;
 }
 .gho-aside__pre-title {
+  display: block;
 }
 .gho-aside__title {
   margin-top: 0;

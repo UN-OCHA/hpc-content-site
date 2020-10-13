@@ -20,3 +20,26 @@
 .is-collapse-enabled .tabs {
   overflow: hidden;
 }
+
+/*------------------------------------------------------------------------------
+ * Styling of the Facts and Figures paragraph type
+ *----------------------------------------------------------------------------*/
+.paragraph--type--facts-and-figures.paragraph--view-mode--three-columns {
+  background: #222;
+  color: white;
+  padding: 1em;
+}
+.paragraph--type--facts-and-figures.paragraph--view-mode--three-columns .field--name-field-title {
+  padding-bottom: 1em;
+  margin: 0;
+}
+.paragraph--type--facts-and-figures.paragraph--view-mode--three-columns .field--name-field-paragraphs {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0 -.5em;
+}
+
+.paragraph--type--facts-and-figures.paragraph--view-mode--three-columns .field--name-field-paragraphs > .field__item {
+  flex: 0 0 32%;
+  padding: 0 .5em;
+}

@@ -1,0 +1,16 @@
+uuid: 7b409aee-1380-4d3d-9fec-578770e3ffd2
+langcode: en
+status: true
+dependencies: {  }
+name: 870_x_652
+label: '870 x 652'
+effects:
+  1aa21fc9-09c7-4dbe-9f33-dbcbbec57433:
+    uuid: 1aa21fc9-09c7-4dbe-9f33-dbcbbec57433
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 870
+      height: 652
+      anchor: center-center
+pipeline: __default__

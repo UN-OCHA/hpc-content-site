@@ -14,8 +14,7 @@ behavior_plugins:
     enabled: true
     override_mode: default
     override_available:
-      single_column: single_column
-      two_columns: two_columns
+      three_columns: three_columns
       default: '0'
       full_width: '0'
       half_width: '0'
@@ -25,4 +24,7 @@ behavior_plugins:
       linked_image_medium: '0'
       linked_image_small: '0'
       preview: '0'
-    override_default: single_column
+      single_column: '0'
+      third_width_cropped: '0'
+      two_columns: '0'
+    override_default: three_columns

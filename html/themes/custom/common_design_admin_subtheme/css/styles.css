@@ -22,6 +22,18 @@
 }
 
 /*------------------------------------------------------------------------------
+ * Styling of the Bottom Figures Row paragraph type
+ *----------------------------------------------------------------------------*/
+.paragraph--type--bottom-figure-row.paragraph--view-mode--default .field__items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.paragraph--type--bottom-figure-row.paragraph--view-mode--default .double-field-first {
+  font-weight: bold;
+}
+
+/*------------------------------------------------------------------------------
  * Styling of the Facts and Figures paragraph type
  *----------------------------------------------------------------------------*/
 .paragraph--type--facts-and-figures.paragraph--view-mode--three-columns {
@@ -38,7 +50,6 @@
   flex-flow: row wrap;
   margin: 0 -.5em;
 }
-
 .paragraph--type--facts-and-figures.paragraph--view-mode--three-columns .field--name-field-paragraphs > .field__item {
   flex: 0 0 32%;
   padding: 0 .5em;

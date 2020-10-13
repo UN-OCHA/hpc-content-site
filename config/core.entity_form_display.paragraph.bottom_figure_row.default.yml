@@ -1,0 +1,44 @@
+uuid: 34baf368-bde9-4b0c-9d68-348acabb6047
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.bottom_figure_row.field_bottom_figures
+    - paragraphs.paragraphs_type.bottom_figure_row
+  module:
+    - double_field
+id: paragraph.bottom_figure_row.default
+targetEntityType: paragraph
+bundle: bottom_figure_row
+mode: default
+content:
+  field_bottom_figures:
+    weight: 0
+    settings:
+      first:
+        type: null
+        label_display: block
+        prefix: ''
+        suffix: ''
+        size: 10
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+      second:
+        type: null
+        label_display: block
+        prefix: ''
+        suffix: ''
+        size: 10
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+      inline: false
+    third_party_settings: {  }
+    type: double_field
+    region: content
+hidden:
+  created: true
+  status: true

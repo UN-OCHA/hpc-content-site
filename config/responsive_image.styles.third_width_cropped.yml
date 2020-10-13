@@ -1,0 +1,59 @@
+uuid: 6af4eb07-ee3d-4139-9cdc-1849d9eaeae1
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.218_x_163
+    - image.style.435_x_326
+    - image.style.652_x_489
+    - image.style.870_x_652
+  theme:
+    - common_design
+id: third_width_cropped
+label: 'Third Width - Cropped'
+image_style_mappings:
+  -
+    breakpoint_id: common_design.xl
+    multiplier: 1x
+    image_mapping_type: sizes
+    image_mapping:
+      sizes: 'calc(((100vw - 16px - 4em) / 3) - .5em), (min-width:1400px) 435w'
+      sizes_image_styles:
+        - 435_x_326
+        - 652_x_489
+        - 870_x_652
+  -
+    breakpoint_id: common_design.lg
+    multiplier: 1x
+    image_mapping_type: sizes
+    image_mapping:
+      sizes: 'calc(((100vw - 16px - 4em) / 3) - .5em)'
+      sizes_image_styles:
+        - 218_x_163
+        - 435_x_326
+        - 652_x_489
+        - 870_x_652
+  -
+    breakpoint_id: common_design.md
+    multiplier: 1x
+    image_mapping_type: sizes
+    image_mapping:
+      sizes: 'calc(((100vw - 2em) / 3) - .5em)'
+      sizes_image_styles:
+        - 218_x_163
+        - 435_x_326
+        - 652_x_489
+        - 870_x_652
+  -
+    breakpoint_id: common_design.xs
+    multiplier: 1x
+    image_mapping_type: sizes
+    image_mapping:
+      sizes: 'calc(100vw - 2em)'
+      sizes_image_styles:
+        - 218_x_163
+        - 435_x_326
+        - 652_x_489
+        - 870_x_652
+breakpoint_group: common_design
+fallback_image_style: 435_x_326

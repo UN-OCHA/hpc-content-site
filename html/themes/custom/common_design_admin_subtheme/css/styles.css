@@ -20,3 +20,15 @@
 .is-collapse-enabled .tabs {
   overflow: hidden;
 }
+
+/*------------------------------------------------------------------------------
+ * Styling of the Bottom Figures Row paragraph type
+ *----------------------------------------------------------------------------*/
+.paragraph--type--bottom-figure-row.paragraph--view-mode--default .field__items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.paragraph--type--bottom-figure-row.paragraph--view-mode--default .double-field-first {
+  font-weight: bold;
+}

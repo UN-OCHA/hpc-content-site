@@ -51,7 +51,7 @@
 <div{{ attributes.addClass(classes) }}>
   {% for item in items %}
     <div{{ item.attributes.addClass('field__item') }}>
-      Source: {{ item.content }}
+      {{ 'Source'|t }}: {{ item.content }}
     </div>
   {% endfor %}
 </div>

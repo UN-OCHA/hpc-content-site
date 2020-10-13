@@ -1,0 +1,16 @@
+uuid: c84af40d-7191-44cd-a222-ec7ec4ec03fd
+langcode: en
+status: true
+dependencies: {  }
+name: 218_x_163
+label: '218 x 163'
+effects:
+  b002e135-0471-4955-8dbb-65c0b8605ad8:
+    uuid: b002e135-0471-4955-8dbb-65c0b8605ad8
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 218
+      height: 163
+      anchor: center-center
+pipeline: __default__

@@ -19,7 +19,7 @@ default_value: {  }
 default_value_callback: ''
 settings:
   first:
-    label: ''
+    label: Label
     required: true
     list: false
     allowed_values: {  }
@@ -28,7 +28,7 @@ settings:
     on_label: 'On'
     off_label: 'Off'
   second:
-    label: ''
+    label: Value
     required: true
     list: false
     allowed_values: {  }

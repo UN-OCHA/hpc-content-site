@@ -33,3 +33,9 @@
 .gho-bottom-figure-row .double-field-first {
   font-weight: 700;
 }
+
+.gho-bottom-figure-row .dataset {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+}

@@ -4,9 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.bottom_figure_row.field_bottom_figures
+    - field.field.paragraph.bottom_figure_row.field_dataset
     - paragraphs.paragraphs_type.bottom_figure_row
   module:
     - double_field
+    - link
 id: paragraph.bottom_figure_row.default
 targetEntityType: paragraph
 bundle: bottom_figure_row
@@ -38,6 +40,14 @@ content:
       inline: false
     third_party_settings: {  }
     type: double_field
+    region: content
+  field_dataset:
+    weight: 1
+    settings:
+      placeholder_url: 'https://example.com/link-to-data'
+      placeholder_title: 'Ex: Office for the Coordination of Humanitarian Affairs'
+    third_party_settings: {  }
+    type: link_default
     region: content
 hidden:
   created: true

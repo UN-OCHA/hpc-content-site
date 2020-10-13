@@ -11,8 +11,8 @@
 .gho-bottom-figure-row .field__items > .field__item {
   flex: 0 1 auto;
   min-width: 140px;
-  margin: 1em 0;
-  padding: 0 2em 0 1em;
+  margin: 1rem 0;
+  padding: 0 2rem 0 1rem;
 }
 
 .gho-bottom-figure-row .field__items > .field__item {
@@ -35,7 +35,7 @@
 }
 
 .gho-bottom-figure-row .dataset {
-  margin-top: 1rem;
   padding-top: 1rem;
+  padding-left: 1rem;
   border-top: 1px solid #ddd;
 }

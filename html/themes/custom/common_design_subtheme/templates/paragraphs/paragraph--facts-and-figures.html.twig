@@ -41,7 +41,7 @@
  */
 #}
 {{ attach_library('common_design_subtheme/gho-facts-and-figures') }}
-{{ attach_library('common_design_subtheme/gho-bleed') }}
+{{ attach_library('common_design_subtheme/gho-aside') }}
 {%
   set classes = [
     'paragraph',
@@ -49,8 +49,10 @@
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
     'gho-facts-and-figures',
-    'gho-bleed',
     view_mode ? 'gho-facts-and-figures--' ~ view_mode|clean_class,
+    'gho-aside',
+    'gho-aside--dark',
+    'gho-bleed',
   ]
 %}
 {% block paragraph %}

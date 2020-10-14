@@ -25,7 +25,7 @@ settings:
       datetime_type: datetime
 module: double_field
 locked: false
-cardinality: 4
+cardinality: -1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

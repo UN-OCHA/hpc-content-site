@@ -12,11 +12,30 @@
 .gho-bottom-figure-row .field__items > .field__item {
   flex: 0 1 auto;
   min-width: 140px;
+  margin: 1rem 0;
+}
+[dir='ltr'] .gho-bottom-figure-row .field__items > .field__item {
   /* The left margin combined with the overflow-x: hidden of the parent
    * ensures the border is hidden for the first item of each row. */
-  margin: 1em 0 1em -1px;
-  padding: 0 2em 0 1em;
+  margin-left: -1px;
+  padding: 0 2rem 0 1rem;
   border-left: 1px solid #ddd;
+}
+[dir='rtl'] .gho-bottom-figure-row .field__items > .field__item {
+  /* The right margin combined with the overflow-x: hidden of the parent
+   * ensures the border is hidden for the first item of each row. */
+  margin-right: -1px;
+  padding: 0 1rem 0 2rem;
+  border-right: 1px solid #ddd;
+}
+
+@media screen and (min-width: 768px) {
+  [dir='ltr'] .gho-bottom-figure-row .field__items > .field__item:first-child {
+    border-left: 0;
+  }
+  [dir='rtl'] .gho-bottom-figure-row .field__items > .field__item:first-child {
+    border-right: 0;
+  }
 }
 
 .gho-bottom-figure-row .double-field-first,
@@ -26,4 +45,15 @@
 
 .gho-bottom-figure-row .double-field-first {
   font-weight: 700;
+}
+
+.gho-bottom-figure-row .dataset {
+  padding-top: 1rem;
+  padding-left: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+[dir='rtl'] .gho-bottom-figure-row .dataset {
+  padding-left: 0;
+  padding-right: 1rem;
 }

@@ -59,12 +59,12 @@
   {% if multiple %}
     <div{{ attributes.addClass(classes, 'field__items') }}>
       {% for item in items %}
-        <h2{{ item.attributes.addClass('field__item') }} data-pre-title="{{ 'Facts and Figures'|t }}">{{ item.content }}</h2>
+        <h2{{ item.attributes.addClass('field__item').addClass('gho-aside__title').setAttribute('data-pre-title', 'Facts and Figures'|t) }}>{{ item.content }}</h2>
       {% endfor %}
     </div>
   {% else %}
     {% for item in items %}
-      <h2{{ attributes.addClass(classes, 'field__item') }} data-pre-title="{{ 'Facts and Figures'|t }}">{{ item.content }}</h2>
+      <h2{{ attributes.addClass(classes, 'field__item').addClass('gho-aside__title').setAttribute('data-pre-title', 'Facts and Figures'|t) }}>{{ item.content }}</h2>
     {% endfor %}
   {% endif %}
 {% else %}
@@ -74,7 +74,7 @@
       <div class="field__items">
     {% endif %}
     {% for item in items %}
-      <h2{{ item.attributes.addClass('field__item') }} data-pre-title="{{ 'Facts and Figures'|t }}">{{ item.content }}</h2>
+      <h2{{ item.attributes.addClass('field__item').addClass('gho-aside__title').setAttribute('data-pre-title', 'Facts and Figures'|t) }}>{{ item.content }}</h2>
     {% endfor %}
     {% if multiple %}
       </div>

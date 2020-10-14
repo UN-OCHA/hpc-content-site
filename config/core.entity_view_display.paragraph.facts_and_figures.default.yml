@@ -18,7 +18,7 @@ content:
     weight: 2
     label: hidden
     settings:
-      view_mode: three_columns
+      view_mode: third_width_cropped
       link: ''
     third_party_settings: {  }
     region: content

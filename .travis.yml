@@ -23,8 +23,9 @@ env:
      - CODER_VERSION='dev-8.x-2.x'
      - DB=sqlite
 
-install:
-  ssh-agent -k
+# Disabled as it causes errors and doesn't seem necessary - 2020/10/14
+# install:
+#  - test -n "${SSH_AGENT_PID}" && ssh-agent -k
 
 before_script:
   # Composer.

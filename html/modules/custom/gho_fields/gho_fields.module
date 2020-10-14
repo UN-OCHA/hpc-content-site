@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * GHO Formatters.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function gho_fields_theme() {
+  return [
+    'gho_dataset_link_formatter' => [
+      'variables' => [
+        'url' => NULL,
+        'source' => NULL,
+      ],
+    ],
+  ];
+}

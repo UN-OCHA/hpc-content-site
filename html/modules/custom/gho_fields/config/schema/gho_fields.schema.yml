@@ -4,7 +4,7 @@ field.formatter.settings.gho_dataset_link:
   mapping:
     # No settings.
 
-field.formatter.settings.gho_dataset_link:
+field.widget.settings.gho_dataset_link:
   # Inherit the settings from the link widget.
-  type: field.formatter.settings.link
-  label: 'Link format settings'
+  type: field.widget.settings.link_default
+  label: 'GHO dataset link widget settings'

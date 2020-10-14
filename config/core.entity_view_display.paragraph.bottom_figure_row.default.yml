@@ -8,7 +8,7 @@ dependencies:
     - paragraphs.paragraphs_type.bottom_figure_row
   module:
     - double_field
-    - link
+    - gho_fields
 id: paragraph.bottom_figure_row.default
 targetEntityType: paragraph
 bundle: bottom_figure_row
@@ -43,13 +43,8 @@ content:
   field_dataset:
     weight: 1
     label: hidden
-    settings:
-      trim_length: null
-      url_only: false
-      url_plain: false
-      rel: '0'
-      target: '0'
+    settings: {  }
     third_party_settings: {  }
-    type: link
+    type: gho_dataset_link
     region: content
 hidden: {  }

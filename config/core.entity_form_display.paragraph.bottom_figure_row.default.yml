@@ -8,7 +8,7 @@ dependencies:
     - paragraphs.paragraphs_type.bottom_figure_row
   module:
     - double_field
-    - link
+    - gho_fields
 id: paragraph.bottom_figure_row.default
 targetEntityType: paragraph
 bundle: bottom_figure_row
@@ -47,7 +47,7 @@ content:
       placeholder_url: 'https://example.com/link-to-data'
       placeholder_title: 'Ex: Office for the Coordination of Humanitarian Affairs'
     third_party_settings: {  }
-    type: link_default
+    type: gho_dataset_link
     region: content
 hidden:
   created: true

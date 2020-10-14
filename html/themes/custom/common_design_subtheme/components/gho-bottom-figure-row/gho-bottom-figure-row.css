@@ -47,13 +47,13 @@
   font-weight: 700;
 }
 
-.gho-bottom-figure-row .dataset {
+.gho-bottom-figure-row .gho-dataset-link {
   padding-top: 1rem;
   padding-left: 1rem;
   border-top: 1px solid #ddd;
 }
 
-[dir='rtl'] .gho-bottom-figure-row .dataset {
+[dir='rtl'] .gho-bottom-figure-row .gho-dataset-link {
   padding-left: 0;
   padding-right: 1rem;
 }

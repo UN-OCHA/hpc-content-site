@@ -21,6 +21,7 @@ module:
   file: 0
   filter: 0
   gho_access: 0
+  gho_fields: 0
   gho_general: 0
   gho_layouts: 0
   google_tag: 0

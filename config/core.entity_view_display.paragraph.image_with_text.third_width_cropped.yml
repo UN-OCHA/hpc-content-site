@@ -1,6 +1,6 @@
 uuid: 6cac6a7d-e2e2-4f61-863d-431e22a5bca6
 langcode: en
-status: false
+status: true
 dependencies:
   config:
     - core.entity_view_mode.paragraph.third_width_cropped

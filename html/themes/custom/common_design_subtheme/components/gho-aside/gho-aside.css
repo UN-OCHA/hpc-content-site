@@ -1,5 +1,9 @@
+.gho-aside {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
 .gho-aside * {
-  color: rgb(93,93,93);
+  color: #6d6d6d;
 }
 .gho-aside--dark {
   background-color: #1f1f1f;
@@ -7,15 +11,13 @@
 .gho-aside--dark * {
   color: #ddd;
 }
+.gho-aside__pre-title {
+  display: block;
+}
 .gho-aside__title {
   margin-top: 0;
   /* 18px. */
   font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.5;
-}
-.gho-aside__title[data-pre-title]::before {
-  content: attr(data-pre-title);
-  display: block;
-  font-weight: 400;
 }

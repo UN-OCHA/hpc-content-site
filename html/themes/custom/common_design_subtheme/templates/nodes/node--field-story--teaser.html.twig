@@ -72,6 +72,7 @@
  *   in different view modes.
  */
 #}
+{{ attach_library('classy/node') }}
 {%
   set classes = [
     'node',
@@ -82,9 +83,11 @@
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
   ]
 %}
-{{ attach_library('classy/node') }}
 <article{{ attributes.addClass(classes) }}>
-  <h2{{ title_attributes.addClass('gho-aside__title').setAttribute('data-pre-title', 'Stories from the field'|t) }}>{{ label }}</h2>
+  <header>
+    <span class="gho-aside__pre-title">{{ 'Stories from the field'|t }}</span>
+    <h2{{ title_attributes.addClass('gho-aside__title') }}>{{ label }}</h2>
+  </header>
 
   <div{{ content_attributes.addClass('node__content') }}>
     {{ content }}

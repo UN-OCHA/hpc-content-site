@@ -1,45 +1,12 @@
 /**
  * Base facts and figures.
  */
-.gho-facts-and-figures {
-  background: #222;
-  color: #ddd;
-  margin-top: 2em;
-  margin-bottom: 2em;
-}
-
-.gho-facts-and-figures .field--name-field-title {
-  color: inherit;
-  font-size: 1.1em;
-  font-weight: 700;
-  margin-top: .25em;
-}
-
-.gho-facts-and-figures .field--name-field-title::before {
-  content: attr(data-pre-title);
-  display: block;
-  position: relative;
-  top: calc(-.5em / 1.1);
-  font-size: calc(1em / 1.1);
-  font-weight: 400;
-}
-
 .gho-facts-and-figures .field--name-field-paragraphs {
   /* Compensate for the padding of the image and text paragraphs */
-  margin: 0 -0.5rem;
+  margin: -0.5rem;
 }
 .gho-facts-and-figures .field--name-field-paragraphs > .field__item {
   padding: 0.5rem;
-}
-
-/**
- * Single column.
- *
- * In this mode, the images (responsive) span the entire width of the pages's
- * content region.
- */
-.gho-facts-and-figures--single-column {
-  /* @todo remove if unnecessary. */
 }
 
 /**
@@ -50,12 +17,12 @@
  * content column width like the single column.
  */
 @media screen and (min-width: 768px) {
-  .gho-facts-and-figures--three-columns .field--name-field-paragraphs {
+  .gho-facts-and-figures .field--name-field-paragraphs {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
   }
-  .gho-facts-and-figures--three-columns .field--name-field-paragraphs > .field__item {
+  .gho-facts-and-figures .field--name-field-paragraphs > .field__item {
     flex: 0 0 33.33%;
   }
 }

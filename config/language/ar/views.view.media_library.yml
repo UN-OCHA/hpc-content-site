@@ -29,9 +29,6 @@ display:
           expose:
             label: اللغة
       title: ميديا
-      empty:
-        area_text_custom:
-          content: 'No media available.'
   page:
     display_title: الصفحة
     display_options:

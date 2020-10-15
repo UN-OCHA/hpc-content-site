@@ -1,0 +1,14 @@
+.separator {
+  border: none;
+  height: 1px;
+  background: #ddd;
+  margin: 2rem auto;
+}
+
+.separator--half {
+  width: 50%;
+}
+
+.separator--full {
+  width: 100%;
+}

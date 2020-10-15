@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.article.field_author
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
+    - field.field.node.article.field_related_articles
     - field.field.node.article.field_summary
     - field.field.node.article.field_thumbnail_image
     - node.type.article
@@ -48,10 +49,20 @@ content:
     weight: 7
     settings:
       preview_view_mode: default
-      nesting_depth: '4'
+      nesting_depth: 4
       require_layouts: 0
     third_party_settings: {  }
     type: layout_paragraphs
+    region: content
+  field_related_articles:
+    weight: 26
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   field_summary:
     weight: 6

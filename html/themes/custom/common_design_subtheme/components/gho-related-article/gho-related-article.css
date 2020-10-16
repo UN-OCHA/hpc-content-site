@@ -97,14 +97,8 @@
   [dir='ltr'] .gho-related-article .read-article {
     float: left;
   }
-  [dir='ltr'] .gho-related-article .read-article::after {
-    /*margin-left: .333em;*/
-  }
 
   [dir='rtl'] .gho-related-article .read-article {
     float: right;
-  }
-  [dir='rtl'] .gho-related-article .read-article::after {
-    /*margin-right: .333em;*/
   }
 }

@@ -29,6 +29,11 @@ gho-facts-and-figures:
     theme:
       components/gho-facts-and-figures/gho-facts-and-figures.css: {}
 
+gho-separator:
+  css:
+    theme:
+      components/gho-separator/gho-separator.css: {}
+
 gho-bleed:
   header: true
   js:

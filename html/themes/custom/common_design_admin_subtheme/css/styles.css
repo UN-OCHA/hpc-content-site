@@ -54,3 +54,32 @@
   flex: 0 0 32%;
   padding: 0 .5em;
 }
+
+/*------------------------------------------------------------------------------
+ * Styling of the Separator paragraph type
+ *----------------------------------------------------------------------------*/
+.paragraph--type--separator {
+  position: relative;
+}
+.paragraph--type--separator::after {
+  content: '';
+  position: absolute;
+  top: .75em;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #ccc;
+}
+
+/* the label, e.g. "Separator: full" */
+.field--name-field-separator-size {
+  position: relative;
+  text-align: center;
+  z-index: 2;
+  width: 110px;
+  margin: 0 auto;
+  background: #fcfcfa;
+}
+.field--name-field-separator-size::before {
+  content: 'Separator: ';
+}

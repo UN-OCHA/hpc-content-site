@@ -1,0 +1,16 @@
+uuid: f9a8712e-1cee-405a-a53b-a3a3d21d225f
+langcode: en
+status: true
+dependencies: {  }
+name: 736_x_452
+label: '736 x 452'
+effects:
+  cd3a4b6d-0cb3-4764-b198-7dbfa14d80e3:
+    uuid: cd3a4b6d-0cb3-4764-b198-7dbfa14d80e3
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 736
+      height: 452
+      anchor: center-center
+pipeline: __default__

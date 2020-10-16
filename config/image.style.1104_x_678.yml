@@ -1,0 +1,16 @@
+uuid: 77bbf12b-5349-4066-9beb-9182ba27e9f9
+langcode: en
+status: true
+dependencies: {  }
+name: 1104_x_678
+label: '1104 x 678'
+effects:
+  6315977d-77f2-4e52-ae7a-551813d5dbce:
+    uuid: 6315977d-77f2-4e52-ae7a-551813d5dbce
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 1104
+      height: 678
+      anchor: center-center
+pipeline: __default__

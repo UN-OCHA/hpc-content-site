@@ -1,0 +1,66 @@
+/**
+ * Base component styles
+ */
+.gho-related-article {
+  position: relative; /* title will be positioned absolutely */
+  margin-bottom: 1rem;
+  max-width: 960px;
+}
+
+/**
+ * Title
+ */
+.gho-related-article__title {
+  position: absolute;
+  margin-top: 0;
+  font-size: 1.125em;
+  font-weight: 700;
+}
+[dir='ltr'] .gho-related-article__title {
+  left: calc(40% + 1rem);
+}
+[dir='rtl'] .gho-related-article__title {
+  right: calc(40% + 1rem);
+}
+.gho-related-article__title a {
+  color: black;
+  text-decoration: none;
+}
+
+/**
+ * Thumbnail image
+ */
+.gho-related-article .field--name-field-thumbnail-image {
+  float: left;
+  width: calc(40% - 1rem);
+  margin-right: 1rem;
+}
+
+/**
+ * Summary
+ */
+.gho-related-article .field--name-field-summary {
+  float: left;
+  width: 60%;
+  padding: 32px 1rem 0;
+}
+.gho-related-article .field--name-field-summary p {
+  margin: 0;
+}
+
+/**
+ * Link to read article
+ */
+.gho-related-article .read-article {
+  float: left;
+  width: 60%;
+  padding: 1rem;
+  font-weight: 700;
+  color: black;
+}
+.gho-related-article .read-article:after {
+  display: inline-block;
+  content: '›';
+  color: #699fd3;
+  margin-left: .333em;
+}

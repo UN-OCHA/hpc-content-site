@@ -1,0 +1,36 @@
+/**
+ * Base component styles for the collection of tags
+ */
+.gho-appeals-tags {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 1rem -0.25rem;
+}
+
+/**
+ * Individual tag
+ */
+.gho-appeals-tag {
+  flex: 0 0 auto;
+  margin: 0 .25rem;
+  min-width: 4em;
+  display: inline-block;
+  text-align: center;
+  background: #555;
+  color: #fff;
+  font-size: .75em;
+  font-weight: 700;
+}
+
+.gho-appeals-tag--hrp {
+  background-color: #5090cd;
+}
+.gho-appeals-tag--fa {
+  background-color: #8869ae;
+}
+.gho-appeals-tag--rrp {
+  background-color: #e66751;
+}
+.gho-appeals-tag--other {
+  background-color: #87cfad;
+}

@@ -31,6 +31,6 @@
   ]
 %}
 {% set tagname = name|render|striptags|trim %}
-<div{{ attributes.setAttribute('id', 'taxonomy-term-' ~ term.id).addClass(classes, 'gho-appeals-tag--' ~ tagname|lower) }} title="{{ content.field_appeal_extended|render|striptags|trim }}">
+<div{{ attributes.addClass(classes, 'gho-appeals-tag--' ~ tagname|lower) }} title="{{ content.field_appeal_extended|render|striptags|trim }}">
   {{- tagname -}}
 </div>

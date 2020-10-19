@@ -1,0 +1,23 @@
+uuid: bb4a1997-2d6d-4a9c-931b-a32f947074a2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.appeals.field_appeal_extended
+    - taxonomy.vocabulary.appeals
+id: taxonomy_term.appeals.default
+targetEntityType: taxonomy_term
+bundle: appeals
+mode: default
+content:
+  field_appeal_extended:
+    weight: 1
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  description: true
+  langcode: true

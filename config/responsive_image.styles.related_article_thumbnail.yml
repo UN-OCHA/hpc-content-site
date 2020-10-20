@@ -11,7 +11,7 @@ dependencies:
   theme:
     - common_design
 id: related_article_thumbnail
-label: 'Related Article Thumbnail'
+label: 'Related Article Thumb'
 image_style_mappings:
   -
     breakpoint_id: common_design.md

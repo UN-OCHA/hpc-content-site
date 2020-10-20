@@ -4,6 +4,11 @@ global-styling:
       css/styles.css: {}
 
 # Custom components
+gho-appeals-tags:
+  css:
+    theme:
+      components/gho-appeals-tags/gho-appeals-tags.css: {}
+
 gho-author:
   css:
     theme:

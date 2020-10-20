@@ -1,10 +1,24 @@
 /**
- * Base component styles
+ * List styles
+ */
+.gho-related-articles {
+
+}
+
+/**
+ * Individual Article
  */
 .gho-related-article {
-  position: relative; /* title will be positioned absolutely */
-  margin-bottom: 1rem;
   max-width: 960px;
+  padding: 1rem 0;
+  position: relative; /* title will be positioned absolutely */
+}
+
+/**
+ * Lists of related articles have separators
+ */
+.gho-related-article + .gho-related-article {
+  border-top: 1px solid #ccc;
 }
 
 /**
@@ -50,6 +64,7 @@
 }
 @media screen and (min-width: 960px) {
   .gho-related-article .field--name-field-thumbnail-image {
+    height: 226px;
     width: calc(40% - 1rem);
     margin-bottom: 0;
   }

@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.article.field_appeals
     - field.field.node.article.field_author
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
@@ -17,9 +18,18 @@ targetEntityType: node
 bundle: article
 mode: default
 content:
+  field_appeals:
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
   field_author:
     type: entity_reference_entity_view
-    weight: 2
+    weight: 3
     label: hidden
     settings:
       view_mode: default
@@ -28,7 +38,7 @@ content:
     region: content
   field_hero_image:
     type: entity_reference_entity_view
-    weight: 1
+    weight: 2
     label: hidden
     settings:
       view_mode: hero_image
@@ -36,7 +46,7 @@ content:
     third_party_settings: {  }
     region: content
   field_paragraphs:
-    weight: 3
+    weight: 4
     label: hidden
     settings:
       view_mode: default

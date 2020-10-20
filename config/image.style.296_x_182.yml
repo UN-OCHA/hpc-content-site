@@ -1,0 +1,16 @@
+uuid: dff0d0f3-6925-42d2-8435-aec0128e8f9c
+langcode: en
+status: true
+dependencies: {  }
+name: 296_x_182
+label: '296 x 182'
+effects:
+  96df2091-f98f-4fa7-bb9f-682bb672dd2b:
+    uuid: 96df2091-f98f-4fa7-bb9f-682bb672dd2b
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 296
+      height: 182
+      anchor: center-center
+pipeline: __default__

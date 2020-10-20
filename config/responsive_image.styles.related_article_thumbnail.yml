@@ -1,0 +1,37 @@
+uuid: e9f69d10-d428-47ff-9de0-83925310521b
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.1104_x_678
+    - image.style.296_x_182
+    - image.style.368_x_226
+    - image.style.592_x_364
+    - image.style.736_x_452
+  theme:
+    - common_design
+id: related_article_thumbnail
+label: 'Related Article Thumb'
+image_style_mappings:
+  -
+    breakpoint_id: common_design.md
+    multiplier: 2x
+    image_mapping_type: sizes
+    image_mapping:
+      sizes: 'calc(((100vw - 48px) * .4) - 1rem), (min-width: 1008px) calc(((960px) * .4) - 1rem)'
+      sizes_image_styles:
+        - 1104_x_678
+        - 368_x_226
+        - 736_x_452
+  -
+    breakpoint_id: common_design.xs
+    multiplier: 2x
+    image_mapping_type: sizes
+    image_mapping:
+      sizes: 'calc(100vw - 24px)'
+      sizes_image_styles:
+        - 296_x_182
+        - 592_x_364
+        - 736_x_452
+breakpoint_group: common_design
+fallback_image_style: 296_x_182

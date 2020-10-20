@@ -34,6 +34,11 @@ gho-facts-and-figures:
     theme:
       components/gho-facts-and-figures/gho-facts-and-figures.css: {}
 
+gho-related-article:
+  css:
+    theme:
+      components/gho-related-article/gho-related-article.css: {}
+
 gho-separator:
   css:
     theme:

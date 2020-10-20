@@ -1,0 +1,10 @@
+uuid: 570f6f2c-bb40-4d8b-958a-75e215f9b277
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.related_article_thumb
+label: 'Related Article Thumb'
+targetEntityType: media
+cache: true

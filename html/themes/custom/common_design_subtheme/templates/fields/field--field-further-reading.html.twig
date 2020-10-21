@@ -76,7 +76,7 @@
     {% for item in items %}
       <div{{ item.attributes.addClass('field__item') }}>
         {{ item.content }}
-        <span class="source">{# 💰 #}</span>
+        <p class="source"><span class="visually-hidden">{{ 'Source:'|t }}</span>{# 💰 #}</p>
       </div>
     {% endfor %}
     {% if multiple %}

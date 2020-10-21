@@ -145,7 +145,9 @@ function gho_footnotes_generate_footnotes($base_id, $text, array $references) {
       $footnotes[$reference] = [
         '#theme' => 'gho_footnote',
         '#id' => $footnote_id,
-        '#content' => $content,
+        // The content of the footnote is already rendered HTML. This ensures
+        // the markup is preserved and not encoded.
+        '#content' => ['#markup' => $content],
         '#backlinks' => gho_footnotes_get_backlinks($footnote_id, $references[$reference]),
       ];
     }

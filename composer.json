@@ -27,6 +27,7 @@
         "drupal-composer/preserve-paths": "^0.1.5",
         "drupal/admin_denied": "^1.0",
         "drupal/allowed_formats": "^1.2",
+        "drupal/ckeditor_config": "^3.0",
         "drupal/components": "^2.0-beta3",
         "drupal/config_split": "^1.4",
         "drupal/core": "^8.9.6",

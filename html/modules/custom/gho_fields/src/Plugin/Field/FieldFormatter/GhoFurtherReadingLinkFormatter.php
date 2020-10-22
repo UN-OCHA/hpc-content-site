@@ -28,9 +28,10 @@ class GhoFurtherReadingLinkFormatter extends FormatterBase {
 
     foreach ($items as $delta => $item) {
       // Retrieve the source information which is stored as a link attribute.
-      $options = $item->options;
-      $attributes = $options['attributes'] ?? [];
-      $source = $attributes['source'] ?? '';
+      $source = '';
+      if (isset($item->options['attributes']['source'])) {
+        $source = $item->options['attributes']['source'];
+      }
 
       $url = $this->buildUrl($item);
       $element[$delta] = [
@@ -58,6 +59,9 @@ class GhoFurtherReadingLinkFormatter extends FormatterBase {
 
     $options = $item->options;
     $options += $url->getOptions();
+
+    // No need to have the source added as attribute to the link.
+    unset($options['attributes']['source']);
 
     $url->setOptions($options);
 

@@ -37,7 +37,6 @@
         "drupal/imageapi_optimize_binaries": "^1.0-alpha2",
         "drupal/inline_entity_form": "^1.0-rc8",
         "drupal/layout_paragraphs": "1.0.x-dev",
-        "drupal/link_attributes": "^1.11",
         "drupal/maintenance200": "^1.0",
         "drupal/paragraphs": "^1.12",
         "drupal/paragraphs_viewmode": "^1.0-alpha2",

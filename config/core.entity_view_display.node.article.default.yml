@@ -13,8 +13,8 @@ dependencies:
     - field.field.node.article.field_thumbnail_image
     - node.type.article
   module:
+    - gho_fields
     - layout_paragraphs
-    - link
     - user
 id: node.article.default
 targetEntityType: node
@@ -42,14 +42,9 @@ content:
   field_further_reading:
     weight: 5
     label: hidden
-    settings:
-      trim_length: null
-      rel: nofollow
-      url_only: false
-      url_plain: false
-      target: '0'
+    settings: {  }
     third_party_settings: {  }
-    type: link
+    type: gho_further_reading_link
     region: content
   field_hero_image:
     type: entity_reference_entity_view

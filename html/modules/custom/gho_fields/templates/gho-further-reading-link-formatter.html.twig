@@ -12,9 +12,12 @@
  */
 #}
 {% set link = link(title, url, {'rel': 'nofollow'})|render %}
-<div class="gho-further-reading-link">
+<div class="gho-further-reading__link">
   {{ link }}
   {% if source %}
   <p><span class="visually-hidden">{{ 'Source: '|t}}</span>{{ source }}</p>
   {% endif %}
+  <svg class="cd-icon cd-icon--arrow-right gho-further-reading__arrow" width="16" height="16" aria-hidden="true" focusable="false">
+    <use xlink:href="#cd-icon--arrow-right"></use>
+  </svg>
 </div>

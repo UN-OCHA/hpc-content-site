@@ -16,14 +16,15 @@
 /**
  * Style list of links
  */
-.gho-further-reading .field__item {
+.gho-further-reading__link {
   border-top: 1px solid #ccc;
+  position: relative; /* for SVG @see gho_fields/templates */
 }
 
 /**
  * Style last link in list
  */
-.gho-further-reading .field__item:last-child {
+.gho-further-reading__link:last-child {
   border-bottom: 1px solid #ccc;
 }
 
@@ -37,32 +38,47 @@
   display: block;
   font-weight: 700;
   padding: 1rem 0 3rem;
-  position: relative; /* for pseudo positioning */
 }
-.gho-further-reading a::before {
+
+/**
+ * Chevron icon
+ */
+.gho-further-reading__arrow {
+  display: none; /* not visible on skinny screens */
   position: absolute;
-  /* This, combined with the line-height, ensures the chevron is centered
-   * vertically. */
-  top: calc(50% - 0.75em);
-  font-size: 1.5em;
-  font-weight: 400;
-  line-height: 1;
+  top: 50%;
+  transform: translateY(-50%);
+  fill: black;
 }
+
+/**
+ * Show chevron once we have room
+ */
 @media screen and (min-width: 576px) {
-  .gho-further-reading a::before {
-    /* @todo Maybe this should be replaced with a SVG icon in the markup:
-     * cd-icon--arrow-right for LTR and maybe cd-icon--arrow-left for RTL or
-     * a simply a CSS rotation?. */
-    content: '›';
+  .gho-further-reading__arrow {
+    display: block;
   }
-  [dir='ltr'] .gho-further-reading a::before {
-    left: auto;
-    right: 1rem;
-  }
-  [dir='rtl'] .gho-further-reading a::before {
-    left: 1rem;
-    right: auto;
-  }
+}
+
+/**
+ * LTR/RTL customizations
+ */
+[dir='ltr'] .gho-further-reading__arrow {
+  left: auto;
+  right: 1rem;
+}
+[dir='rtl'] .gho-further-reading__arrow {
+  left: 1rem;
+  right: auto;
+  transform: translateY(-50%) scale(-1, 1);
+}
+
+/**
+ * Since the source does weird things with margins, we need to account for lack
+ * of margin-collapse on first link.
+ */
+.gho-further-reading__link:first-child .gho-further-reading__arrow {
+  top: calc(50% + .5rem); /* margin-collapse on other links is 1rem so split it in half */
 }
 
 /**

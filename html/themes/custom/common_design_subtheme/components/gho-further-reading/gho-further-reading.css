@@ -50,15 +50,18 @@
 }
 @media screen and (min-width: 576px) {
   .gho-further-reading a::before {
-    /* @todo this should be replaced with a SVG icon: cd-icon--arrow-right and
-     * maybe cd-icon--arrow-left for ltr?. */
+    /* @todo Maybe this should be replaced with a SVG icon in the markup:
+     * cd-icon--arrow-right for LTR and maybe cd-icon--arrow-left for RTL or
+     * a simply a CSS rotation?. */
     content: '›';
   }
   [dir='ltr'] .gho-further-reading a::before {
+    left: auto;
     right: 1rem;
   }
   [dir='rtl'] .gho-further-reading a::before {
     left: 1rem;
+    right: auto;
   }
 }
 

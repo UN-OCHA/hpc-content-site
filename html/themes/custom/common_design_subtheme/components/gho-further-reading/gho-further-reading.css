@@ -41,27 +41,40 @@
 }
 .gho-further-reading a::before {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  /* This, combined with the line-height, ensures the chevron is centered
+   * vertically. */
+  top: calc(50% - 0.75em);
   font-size: 1.5em;
   font-weight: 400;
+  line-height: 1;
 }
 @media screen and (min-width: 576px) {
   .gho-further-reading a::before {
+    /* @todo Maybe this should be replaced with a SVG icon in the markup:
+     * cd-icon--arrow-right for LTR and maybe cd-icon--arrow-left for RTL or
+     * a simply a CSS rotation?. */
     content: '›';
   }
   [dir='ltr'] .gho-further-reading a::before {
+    left: auto;
     right: 1rem;
   }
   [dir='rtl'] .gho-further-reading a::before {
     left: 1rem;
+    right: auto;
   }
 }
 
 /**
  * Author / Source
  */
-.gho-further-reading .source {
-  margin-top: -3rem;
-  margin-bottom: 1rem;
+.gho-further-reading p {
+  /* Move the source close to the link text. This puts the source in the
+   * clicking area of the link at the cost of making it non selectable.
+   * This can be "fixed" by adding `position: relative;` but then it's not
+   * "clickable" anymore.
+   *
+   * Note: if the source is long then when it wraps to multiple lines, it may
+   * not be fully included in the `3rem` space anymore. */
+  margin: -3rem 0 1rem 0;
 }

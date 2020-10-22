@@ -13,9 +13,9 @@ dependencies:
     - field.field.node.article.field_thumbnail_image
     - node.type.article
   module:
+    - gho_fields
     - inline_entity_form
     - layout_paragraphs
-    - link_attributes
     - media_library
     - path
     - text
@@ -52,18 +52,8 @@ content:
     settings:
       placeholder_url: 'https://example.com'
       placeholder_title: 'Example URL Title'
-      enabled_attributes:
-        source: true
-        id: false
-        name: false
-        target: false
-        rel: false
-        class: false
-        accesskey: false
-        aria-label: false
-        title: false
     third_party_settings: {  }
-    type: link_attributes
+    type: gho_further_reading_link
     region: content
   field_hero_image:
     type: media_library_widget

@@ -9,7 +9,6 @@
  * Individual Article
  */
 .gho-related-article {
-  max-width: 960px;
   padding: 1rem 0;
   position: relative; /* title will be positioned absolutely */
 }
@@ -51,7 +50,7 @@
 @media screen and (min-width: 768px) {
   .gho-related-article .field--name-field-thumbnail-image {
     width: calc(40% - 1rem);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
   [dir='ltr'] .gho-related-article .field--name-field-thumbnail-image {
     float: left;
@@ -62,17 +61,9 @@
     margin-left: 1rem;
   }
 }
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 1024px) {
   .gho-related-article .field--name-field-thumbnail-image {
-    height: 226px;
-    width: calc(40% - 1rem);
     margin-bottom: 0;
-  }
-  [dir='ltr'] .gho-related-article .field--name-field-thumbnail-image {
-    float: left;
-  }
-  [dir='rtl'] .gho-related-article .field--name-field-thumbnail-image {
-    float: right;
   }
 }
 

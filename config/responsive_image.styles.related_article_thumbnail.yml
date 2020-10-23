@@ -18,7 +18,7 @@ image_style_mappings:
     multiplier: 2x
     image_mapping_type: sizes
     image_mapping:
-      sizes: 'calc(((100vw - 48px) * .4) - 1rem), (min-width: 1008px) calc(((960px) * .4) - 1rem)'
+      sizes: 'calc(((100vw - 48px) * .4) - 1rem)'
       sizes_image_styles:
         - 1104_x_678
         - 368_x_226

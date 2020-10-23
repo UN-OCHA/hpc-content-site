@@ -16,5 +16,12 @@ function gho_fields_theme() {
         'source' => NULL,
       ],
     ],
+    'gho_further_reading_link_formatter' => [
+      'variables' => [
+        'url' => NULL,
+        'title' => NULL,
+        'source' => NULL,
+      ],
+    ],
   ];
 }

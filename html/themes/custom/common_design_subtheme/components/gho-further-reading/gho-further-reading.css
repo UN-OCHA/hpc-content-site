@@ -1,0 +1,96 @@
+/**
+ * Base component styles
+ */
+.gho-further-reading {
+  max-width: 768px;
+  margin-bottom: 2rem;
+}
+
+/**
+ * Title
+ */
+.gho-further-reading .field__label {
+  color: black;
+}
+
+/**
+ * Style list of links
+ */
+.gho-further-reading__link {
+  border-top: 1px solid #ccc;
+  position: relative; /* for SVG @see gho_fields/templates */
+}
+
+/**
+ * Style last link in list
+ */
+.gho-further-reading__link:last-child {
+  border-bottom: 1px solid #ccc;
+}
+
+/**
+ * Actual hyperlink
+ *
+ * It's styled as a block element to allow all aspects of the component to be
+ * clickable: the chevron and authorship line.
+ */
+.gho-further-reading a {
+  display: block;
+  font-weight: 700;
+  padding: 1rem 0 3rem;
+}
+
+/**
+ * Chevron icon
+ */
+.gho-further-reading__arrow {
+  display: none; /* not visible on skinny screens */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  fill: black;
+}
+
+/**
+ * Show chevron once we have room
+ */
+@media screen and (min-width: 576px) {
+  .gho-further-reading__arrow {
+    display: block;
+  }
+}
+
+/**
+ * LTR/RTL customizations
+ */
+[dir='ltr'] .gho-further-reading__arrow {
+  left: auto;
+  right: 1rem;
+}
+[dir='rtl'] .gho-further-reading__arrow {
+  left: 1rem;
+  right: auto;
+  transform: translateY(-50%) scale(-1, 1);
+}
+
+/**
+ * Since the source does weird things with margins, we need to account for lack
+ * of margin-collapse on first link.
+ */
+.gho-further-reading__link:first-child .gho-further-reading__arrow {
+  top: calc(50% + .5rem); /* margin-collapse on other links is 1rem so split it in half */
+}
+
+/**
+ * Author / Source
+ */
+.gho-further-reading p {
+  /* Move the source close to the link text. This puts the source in the
+   * clicking area of the link at the cost of making it non selectable.
+   * This can be "fixed" by adding `position: relative;` but then it's not
+   * "clickable" anymore.
+   *
+   * Note: if the source is long then when it wraps to multiple lines, it may
+   * not be fully included in the `3rem` space anymore. */
+  margin: -3rem 0 1rem 0;
+}

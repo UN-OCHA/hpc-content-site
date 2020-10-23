@@ -34,6 +34,11 @@ gho-facts-and-figures:
     theme:
       components/gho-facts-and-figures/gho-facts-and-figures.css: {}
 
+gho-further-reading:
+  css:
+    theme:
+      components/gho-further-reading/gho-further-reading.css: {}
+
 gho-related-article:
   css:
     theme:

@@ -1,24 +1,24 @@
-uuid: f6fce241-09e4-4b0a-924c-fe4b97f856a1
+uuid: c2019d73-83fb-4ef3-bfe2-42f32a6c7f8e
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.field_story.field_content
-    - paragraphs.paragraphs_type.field_story
+    - field.field.paragraph.story.field_story
+    - paragraphs.paragraphs_type.story
   module:
     - inline_entity_form
-id: paragraph.field_story.default
+id: paragraph.story.default
 targetEntityType: paragraph
-bundle: field_story
+bundle: story
 mode: default
 content:
-  field_content:
-    weight: 0
+  field_story:
+    weight: 1
     settings:
       form_mode: default
       override_labels: true
-      label_singular: 'Story from the field'
-      label_plural: 'Stories from the field'
+      label_singular: Story
+      label_plural: Stories
       allow_new: true
       allow_existing: true
       match_operator: CONTAINS

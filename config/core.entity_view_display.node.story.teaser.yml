@@ -1,23 +1,24 @@
-uuid: 8644e9e9-93aa-4a2a-94e4-2ac47b3e1c09
+uuid: 136ac1d6-9a4e-44ea-a4fe-b9b84e4eb35f
 langcode: en
 status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.field_story.field_image
-    - field.field.node.field_story.field_text
-    - node.type.field_story
+    - field.field.node.story.field_media
+    - field.field.node.story.field_text
+    - field.field.node.story.field_type
+    - node.type.story
   module:
     - text
     - user
-id: node.field_story.teaser
+id: node.story.teaser
 targetEntityType: node
-bundle: field_story
+bundle: story
 mode: teaser
 content:
-  field_image:
+  field_media:
     type: entity_reference_entity_view
-    weight: 0
+    weight: 1
     region: content
     label: hidden
     settings:
@@ -26,10 +27,18 @@ content:
     third_party_settings: {  }
   field_text:
     type: text_default
-    weight: 1
+    weight: 2
     region: content
     label: hidden
     settings: {  }
+    third_party_settings: {  }
+  field_type:
+    type: entity_reference_label
+    weight: 0
+    region: content
+    label: hidden
+    settings:
+      link: false
     third_party_settings: {  }
 hidden:
   langcode: true

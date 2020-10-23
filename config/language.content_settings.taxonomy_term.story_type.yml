@@ -1,16 +1,16 @@
-uuid: dbb5aed5-757a-4ce3-b023-6c2867a4b0a9
+uuid: e3356414-fbb2-499c-a83c-5e7f39112d0b
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.field_story
+    - taxonomy.vocabulary.story_type
   module:
     - content_translation
 third_party_settings:
   content_translation:
     enabled: true
-id: node.field_story
-target_entity_type_id: node
-target_bundle: field_story
+id: taxonomy_term.story_type
+target_entity_type_id: taxonomy_term
+target_bundle: story_type
 default_langcode: site_default
 language_alterable: true

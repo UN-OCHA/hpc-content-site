@@ -1,17 +1,17 @@
-uuid: facccc8c-38c7-4cff-84de-9ae0330846f8
+uuid: 3c322803-6fd2-4b1b-b729-29011cdeb9f2
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.field_story.field_content
-    - paragraphs.paragraphs_type.field_story
-id: paragraph.field_story.default
+    - field.field.paragraph.story.field_story
+    - paragraphs.paragraphs_type.story
+id: paragraph.story.default
 targetEntityType: paragraph
-bundle: field_story
+bundle: story
 mode: default
 content:
-  field_content:
-    weight: 0
+  field_story:
+    weight: 1
     label: hidden
     settings:
       view_mode: teaser

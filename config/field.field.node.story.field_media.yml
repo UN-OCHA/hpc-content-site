@@ -1,18 +1,18 @@
-uuid: 743861e9-8155-41e2-b83d-ac22e612af56
+uuid: 558642e0-25bd-494a-919d-d69a8b5ab8dc
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_image
+    - field.storage.node.field_media
     - media.type.image
-    - node.type.field_story
-id: node.field_story.field_image
-field_name: field_image
+    - node.type.story
+id: node.story.field_media
+field_name: field_media
 entity_type: node
-bundle: field_story
-label: Image
-description: 'Image used to illustrate the story.'
-required: true
+bundle: story
+label: Media
+description: 'Media used to illustrate the story. It can be an image, a video or an embedded content (infographic etc.).'
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''

@@ -44,6 +44,11 @@ gho-related-article:
     theme:
       components/gho-related-article/gho-related-article.css: {}
 
+gho-footnotes:
+  css:
+    theme:
+      components/gho-footnotes/gho-footnotes.css: {}
+
 gho-separator:
   css:
     theme:

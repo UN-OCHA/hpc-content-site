@@ -1,0 +1,28 @@
+uuid: 1dac2c1b-ade6-455d-a3f1-c0558801da8a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_footnotes
+    - paragraphs.paragraphs_type.text
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    footnotes: footnotes
+    plain_text: '0'
+    filtered_html: '0'
+    limited_html: '0'
+id: paragraph.text.field_footnotes
+field_name: field_footnotes
+entity_type: paragraph
+bundle: text
+label: Footnotes
+description: 'Enter one footnote per line. They can be referenced in the text field above via their number in the form <code>[X]</code> where <code>X</code> is the number of the footnote. Links to the footnotes will be generated automatically when rendered.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

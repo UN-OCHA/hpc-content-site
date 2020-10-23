@@ -1,0 +1,45 @@
+uuid: 89a5b2bb-8143-4278-bee3-91a2f0101997
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.footnotes
+  module:
+    - ckeditor
+format: footnotes
+editor: ckeditor
+settings:
+  toolbar:
+    rows:
+      -
+        -
+          name: Formatting
+          items:
+            - Bold
+            - Italic
+        -
+          name: Links
+          items:
+            - DrupalLink
+            - DrupalUnlink
+        -
+          name: Tools
+          items:
+            - Undo
+            - Redo
+            - RemoveFormat
+  plugins:
+    stylescombo:
+      styles: ''
+    language:
+      language_list: un
+    customconfig:
+      ckeditor_custom_config: 'bodyClass = "footnotes"'
+image_upload:
+  status: false
+  scheme: public
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: null
+    height: null

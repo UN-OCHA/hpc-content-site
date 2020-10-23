@@ -1,14 +1,14 @@
-uuid: 91aeaac1-47dc-4dd7-b84a-2a130846a8e1
+uuid: b372d8f5-5782-48eb-8964-f8863022018f
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.field_story
-id: node.field_story.promote
-field_name: promote
+    - node.type.story
+id: node.story.status
+field_name: status
 entity_type: node
-bundle: field_story
-label: 'Promoted to front page'
+bundle: story
+label: Published
 description: ''
 required: false
 translatable: true

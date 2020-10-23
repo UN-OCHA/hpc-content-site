@@ -72,7 +72,6 @@
  *   in different view modes.
  */
 #}
-{{ attach_library('classy/node') }}
 {%
   set classes = [
     'node',
@@ -85,11 +84,11 @@
 %}
 <article{{ attributes.addClass(classes) }}>
   <header>
-    <span class="gho-aside__pre-title">{{ 'Stories from the field'|t }}</span>
+    <span class="gho-aside__pre-title">{{ content.field_type|render }}</span>
     <h2{{ title_attributes.addClass('gho-aside__title') }}>{{ label }}</h2>
   </header>
 
   <div{{ content_attributes.addClass('node__content') }}>
-    {{ content }}
+    {{ content|without('field_type') }}
   </div>
 </article>

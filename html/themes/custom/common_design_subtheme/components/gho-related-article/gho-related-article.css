@@ -2,7 +2,13 @@
  * List styles
  */
 .gho-related-articles {
+}
 
+/**
+ * List title
+ */
+.gho-related-articles__title {
+  color: black;
 }
 
 /**

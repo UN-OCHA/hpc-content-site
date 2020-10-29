@@ -1,0 +1,20 @@
+{
+    "name": "unocha/gho_figures",
+    "description": "Global Humanitarian Overview Figures Import.",
+    "type": "drupal-module",
+    "authors": [
+        {
+            "name": "UNOCHA"
+        }
+    ],
+    "keywords": [
+        "Drupal",
+        "Spreadsheet",
+        "Excel"
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.14.1"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -54,6 +54,11 @@ gho-separator:
     theme:
       components/gho-separator/gho-separator.css: {}
 
+gho-needs-and-requirements:
+  css:
+    theme:
+      components/gho-needs-and-requirements/gho-needs-and-requirements.css: {}
+
 gho-bleed:
   header: true
   js:

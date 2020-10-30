@@ -1,0 +1,25 @@
+uuid: d3a413ce-2072-418f-9c94-b91279cc0275
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_people_targeted
+    - taxonomy.vocabulary.needs_and_requirements
+  module:
+    - bigint
+id: taxonomy_term.needs_and_requirements.field_people_targeted
+field_name: field_people_targeted
+entity_type: taxonomy_term
+bundle: needs_and_requirements
+label: 'People targeted'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: bigint

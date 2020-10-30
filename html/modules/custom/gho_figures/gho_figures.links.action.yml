@@ -1,0 +1,5 @@
+gho_figures.import_needs_and_requirements:
+  title: 'Import needs and requirements figures'
+  route_name: gho_figures.import_needs_and_requirements
+  appears_on:
+    - view.needs_and_requirements.page_needs_and_requirements

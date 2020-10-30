@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.related_article
+    - field.field.node.article.field_appeals
     - field.field.node.article.field_author
     - field.field.node.article.field_further_reading
     - field.field.node.article.field_hero_image

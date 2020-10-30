@@ -1,6 +1,7 @@
 module:
   admin_denied: 0
   allowed_formats: 0
+  bigint: 0
   block: 0
   breakpoint: 0
   ckeditor: 0
@@ -23,6 +24,7 @@ module:
   filter: 0
   gho_access: 0
   gho_fields: 0
+  gho_figures: 0
   gho_footnotes: 0
   gho_general: 0
   gho_layouts: 0

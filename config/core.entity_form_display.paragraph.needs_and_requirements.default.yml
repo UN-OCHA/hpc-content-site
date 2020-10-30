@@ -1,0 +1,21 @@
+uuid: 380f691d-1f81-4e43-9b53-a23ad1b3d6c3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.needs_and_requirements.field_needs_and_requirements
+    - paragraphs.paragraphs_type.needs_and_requirements
+id: paragraph.needs_and_requirements.default
+targetEntityType: paragraph
+bundle: needs_and_requirements
+mode: default
+content:
+  field_needs_and_requirements:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+hidden:
+  created: true
+  status: true

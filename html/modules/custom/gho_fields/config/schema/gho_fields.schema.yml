@@ -9,6 +9,16 @@ field.formatter.settings.gho_further_reading_link:
   label: 'GHO further reading link formatter settings'
   mapping:
     # No settings.
+field.formatter.settings.gho_number:
+  type: mapping
+  label: 'GHO number formatter settings'
+  mapping:
+    format:
+      type: string
+      label: 'Format'
+    precision:
+      type: integer
+      label: 'Precision'
 
 # Widgets.
 field.widget.settings.gho_dataset_link:

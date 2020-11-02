@@ -5,12 +5,12 @@ dependencies: {  }
 name: hero_desktop_x2
 label: 'hero desktop x2'
 effects:
-  a50b2bb1-d142-48bb-a1fc-0e6bc4d8d61c:
-    uuid: a50b2bb1-d142-48bb-a1fc-0e6bc4d8d61c
-    id: image_scale_and_crop
-    weight: 1
+  a68aae79-6ee2-4885-b758-0a4554997d6d:
+    uuid: a68aae79-6ee2-4885-b758-0a4554997d6d
+    id: image_scale
+    weight: 2
     data:
       width: 1952
-      height: 534
-      anchor: center-center
+      height: null
+      upscale: true
 pipeline: __default__

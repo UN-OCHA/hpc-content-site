@@ -73,3 +73,21 @@ gho-aside:
       components/gho-aside/gho-aside.css: {}
   dependencies:
     - common_design_subtheme/gho-bleed
+
+gho-hero-image:
+   css:
+     theme:
+       components/gho-hero-image/gho-hero-image.css: {}
+   dependencies:
+     - common_design_subtheme/gho-bleed
+
+gho-article:
+   css:
+     theme:
+       components/gho-article/gho-article.css: {}
+
+gho-sub-article:
+   css:
+     theme:
+       components/gho-sub-article/gho-sub-article.css: {}
+

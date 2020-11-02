@@ -1,0 +1,33 @@
+/**
+ * Base styles
+ */
+.gho-sub-article__header {
+  margin: 2rem 0 ;
+  padding: 2rem 0 0 0;
+  border-top: 1px solid #ccc;
+}
+.gho-sub-article--with-hero-image .gho-sub-article__header {
+  margin-top: 2rem;
+  padding-top: 0;
+  border-top: none;
+}
+.gho-sub-article--with-hero-image .gho-hero-image {
+  margin-bottom: 2rem;
+}
+.gho-sub-article__title {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  color: black;
+  font-size: 2rem;
+  font-weight: 700;
+}
+.gho-sub-article .gho-appeals-tags {
+  display: inline;
+  vertical-align: top;
+}
+@media (min-width: 768px) {
+  .gho-sub-article__title {
+    font-size: 2.625rem;
+  }
+}

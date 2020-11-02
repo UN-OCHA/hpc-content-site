@@ -1,7 +1,11 @@
 {#
 /**
  * @file
- * Theme override to display an Article node using Related Article view mode.
+ * Theme override to display an Article node in Full view mode.
+ *
+ * Note: there is a hook_preprocess_node__article() that adds those variables:
+ * - title: node title
+ * - local_tasks: local tasks (edit etc.)
  *
  * Available variables:
  * - node: The node entity with limited access to object properties and methods.
@@ -70,7 +74,10 @@
  *   in different view modes.
  */
 #}
-{{ attach_library('common_design_subtheme/gho-related-article') }}
+{{ attach_library('common_design_subtheme/gho-article') }}
+{%
+  set hero_image = content.field_hero_image|render
+%}
 {%
   set classes = [
     'node',
@@ -79,15 +86,23 @@
     node.isSticky() ? 'node--sticky',
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
-    'gho-related-article',
+    'gho-article',
+    hero_image ? 'gho-article--with-hero-image',
     'clearfix',
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
-  <h3{{ title_attributes.addClass('gho-related-article__title') }}>
-    <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-  </h3>
-
-  {{ content }}
-  <a href="{{ url }}" class="read-article">{{ 'Read article'|t }}</a>
+  <header class="gho-article__header">
+    {{ hero_image }}
+    <div class="gho-article__heading">
+      {{ content.field_section }}
+      {{ title }}
+    </div>
+  </header>
+  {% if local_tasks %}
+  <div class="gho-article__local_tasks clearfix">{{ local_tasks }}</div>
+  {% endif %}
+  <div{{ content_attributes.addClass('node__content') }}>
+    {{ content|without(['field_hero_image', 'field_section']) }}
+  </div>
 </article>

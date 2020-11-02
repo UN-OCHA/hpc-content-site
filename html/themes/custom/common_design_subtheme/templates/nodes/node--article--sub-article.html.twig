@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme override to display an Article node using Related Article view mode.
+ * Theme override to display an Article node in Sub-Article view mode.
  *
  * Available variables:
  * - node: The node entity with limited access to object properties and methods.
@@ -70,7 +70,10 @@
  *   in different view modes.
  */
 #}
-{{ attach_library('common_design_subtheme/gho-related-article') }}
+{{ attach_library('common_design_subtheme/gho-sub-article') }}
+{%
+  set hero_image = content.field_hero_image|render
+%}
 {%
   set classes = [
     'node',
@@ -79,15 +82,18 @@
     node.isSticky() ? 'node--sticky',
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
-    'gho-related-article',
+    'gho-sub-article',
+    hero_image ? 'gho-sub-article--with-hero-image',
     'clearfix',
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
-  <h3{{ title_attributes.addClass('gho-related-article__title') }}>
-    <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-  </h3>
-
-  {{ content }}
-  <a href="{{ url }}" class="read-article">{{ 'Read article'|t }}</a>
+  <header class="gho-sub-article__header">
+    {{ hero_image }}
+    <h2{{ title_attributes.addClass('gho-sub-article__title') }}>{{ label }}</h2>
+    {{ content.field_appeals }}
+  </header>
+  <div{{ content_attributes.addClass('node__content') }}>
+    {{ content|without(['field_hero_image', 'field_appeals']) }}
+  </div>
 </article>

@@ -3,7 +3,7 @@
 //——————————————————————————————————————————————————————————————————————————————
 body {
   @include font-size($cd-font-size-base);
-  font-family: $cd-font--system;
+  font-family: $cd-font;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;

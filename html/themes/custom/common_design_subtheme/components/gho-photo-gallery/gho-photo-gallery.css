@@ -49,7 +49,6 @@
     flex: 0 0 50%;
   }
   .gho-photo-gallery--two-columns .field--name-field-caption {
-    display: block;
     max-width: 820px; /* 75% of content column */
   }
 }

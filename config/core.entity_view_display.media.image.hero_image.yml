@@ -20,14 +20,6 @@ targetEntityType: media
 bundle: image
 mode: hero_image
 content:
-  field_credits:
-    type: string
-    weight: 1
-    region: content
-    label: hidden
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
   field_media_image:
     label: hidden
     weight: 0
@@ -39,6 +31,7 @@ content:
     region: content
 hidden:
   created: true
+  field_credits: true
   langcode: true
   name: true
   thumbnail: true

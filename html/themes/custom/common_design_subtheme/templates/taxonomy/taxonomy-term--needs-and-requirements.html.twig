@@ -3,6 +3,10 @@
  * @file
  * Theme override to display a "needs and requirements" taxonomy term.
  *
+ * Note: the content is pre-rendered in a hook_preprocess() to avoid Drupal
+ * from crashing without errors (nginx 502) when rendering the content in the
+ * template, probably due to too many nested entity references.
+ *
  * Available variables:
  * - url: URL of the current term.
  * - name: (optional) Name of the current term.

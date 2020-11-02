@@ -54,6 +54,11 @@ gho-separator:
     theme:
       components/gho-separator/gho-separator.css: {}
 
+gho-text:
+  css:
+    theme:
+      components/gho-text/gho-text.css: {}
+
 gho-needs-and-requirements:
   css:
     theme:

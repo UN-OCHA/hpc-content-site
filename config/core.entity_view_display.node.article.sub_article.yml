@@ -1,9 +1,9 @@
-uuid: 5c24d6df-6ea9-475e-8136-fa6a941b5dd6
+uuid: ce31b97a-5150-4f1d-8d50-76fd0ddf134c
 langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.node.teaser
+    - core.entity_view_mode.node.sub_article
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
     - field.field.node.article.field_further_reading
@@ -15,36 +15,59 @@ dependencies:
     - field.field.node.article.field_thumbnail_image
     - node.type.article
   module:
-    - text
+    - layout_builder
+    - layout_paragraphs
     - user
-id: node.article.teaser
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: node.article.sub_article
 targetEntityType: node
 bundle: article
-mode: teaser
+mode: sub_article
 content:
-  field_summary:
-    type: text_default
+  field_appeals:
     weight: 1
-    region: content
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-  field_thumbnail_image:
-    type: entity_reference_entity_view
-    weight: 0
-    region: content
     label: hidden
     settings:
-      view_mode: thumbnail_medium
+      view_mode: default
       link: false
     third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+  field_author:
+    type: entity_reference_entity_view
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_hero_image:
+    type: entity_reference_entity_view
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: hero_image
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_paragraphs:
+    weight: 3
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: layout_paragraphs
+    region: content
 hidden:
-  field_appeals: true
-  field_author: true
   field_further_reading: true
-  field_hero_image: true
-  field_paragraphs: true
   field_related_articles: true
   field_section: true
+  field_summary: true
+  field_thumbnail_image: true
   langcode: true
   links: true

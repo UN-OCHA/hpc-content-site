@@ -1,0 +1,39 @@
+uuid: e0bf36b5-bdc9-41eb-83b2-ec667464c4ab
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.section
+  module:
+    - text
+id: taxonomy_term.section.default
+targetEntityType: taxonomy_term
+bundle: section
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 2
+    region: content
+    third_party_settings: {  }
+hidden:
+  langcode: true
+  path: true

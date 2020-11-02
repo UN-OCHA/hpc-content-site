@@ -92,6 +92,24 @@ function common_design_subtheme_add_component_classes($html, array $element) {
 }
 
 /**
+ * Implements hook_preprocess_paragraph__needs_and_requirements().
+ *
+ * Pre-render the needs and requirements to avoid Drupal crashing without any
+ * error messages (nginx 502) when rendering the content in a twig template,
+ * probably due to too many nested entity references.
+ *
+ * @todo check if wee need to do something about the cache.
+ */
+function common_design_subtheme_preprocess_paragraph__needs_and_requirements(&$variables) {
+  if (isset($variables['content']['field_needs_and_requirements'][0])) {
+    $content = $variables['content']['field_needs_and_requirements'][0];
+    $variables['content'] = [
+      ['#markup' => \Drupal::service('renderer')->render($content)],
+    ];
+  }
+}
+
+/**
  * Implements hook_preprocess_paragraph__page_title().
  *
  * Use the page title block for the title and display the local tasks below it.
@@ -111,12 +129,31 @@ function common_design_subtheme_preprocess_paragraph__page_title(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_node__article().
+ *
+ * Use the page title block for the title and display the local tasks below it.
+ * We use common_design_subtheme_get_block_render_array() that will cache the
+ * render array of the blocks so that they are not re-rendered and displayed
+ * again.
+ *
+ * @see common_design_subtheme_preprocess_page()
+ * @see common_design_subtheme_get_block_render_array()
+ */
+function common_design_subtheme_preprocess_node__article(&$variables) {
+  if (isset($variables['view_mode']) && $variables['view_mode'] === 'full') {
+    $variables['title'] = common_design_subtheme_get_block_render_array('page_title_block');
+    $variables['local_tasks'] = common_design_subtheme_get_block_render_array('local_tasks_block');
+  }
+}
+
+/**
  * Implements hook_preprocess_page().
  *
  * Remove the default page title and local tasks blocks if they were already
- * rendered by a page title paragraph.
+ * rendered by a page title paragraph or when viewing full article nodes.
  *
  * @see common_design_subtheme_preprocess_paragraph__page_title()
+ * @see common_design_subtheme_preprocess_node__article()
  */
 function common_design_subtheme_preprocess_page(&$variables) {
   if (isset($variables['node'])) {

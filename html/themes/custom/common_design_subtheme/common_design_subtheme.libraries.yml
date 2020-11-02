@@ -85,9 +85,13 @@ gho-article:
    css:
      theme:
        components/gho-article/gho-article.css: {}
+   dependencies:
+     - common_design_subtheme/gho-bleed
 
 gho-sub-article:
    css:
      theme:
        components/gho-sub-article/gho-sub-article.css: {}
+   dependencies:
+     - common_design_subtheme/gho-bleed
 

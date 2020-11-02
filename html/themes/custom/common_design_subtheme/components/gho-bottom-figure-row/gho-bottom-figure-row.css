@@ -1,6 +1,11 @@
 /**
- * Base field
+ * Base field.
  */
+.gho-bottom-figure-row {
+  /* Same margins as the aside components for consistency. */
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
 .gho-bottom-figure-row .field__items {
   display: flex;
   flex-flow: row wrap;
@@ -16,15 +21,17 @@
 }
 [dir='ltr'] .gho-bottom-figure-row .field__items > .field__item {
   /* The left margin combined with the overflow-x: hidden of the parent
-   * ensures the border is hidden for the first item of each row. */
-  margin-left: -1px;
+   * ensures the left border and padding are hidden for the first item of each
+   * row. */
+  margin-left: calc(-1rem - 1px);
   padding: 0 2rem 0 1rem;
   border-left: 1px solid #ddd;
 }
 [dir='rtl'] .gho-bottom-figure-row .field__items > .field__item {
   /* The right margin combined with the overflow-x: hidden of the parent
-   * ensures the border is hidden for the first item of each row. */
-  margin-right: -1px;
+   * ensures the right border and padding are hidden for the first item of each
+   * row. */
+  margin-right: calc(-1rem - 1px);
   padding: 0 1rem 0 2rem;
   border-right: 1px solid #ddd;
 }
@@ -49,11 +56,5 @@
 
 .gho-bottom-figure-row .gho-dataset-link {
   padding-top: 1rem;
-  padding-left: 1rem;
   border-top: 1px solid #ddd;
-}
-
-[dir='rtl'] .gho-bottom-figure-row .gho-dataset-link {
-  padding-left: 0;
-  padding-right: 1rem;
 }

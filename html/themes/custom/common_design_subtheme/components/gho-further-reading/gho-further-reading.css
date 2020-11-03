@@ -2,7 +2,7 @@
  * Base component styles
  */
 .gho-further-reading {
-  max-width: 820px;
+  max-width: 720px; /* reading-width */
   margin-bottom: 2rem;
 }
 

@@ -23,7 +23,7 @@
  * content region.
  */
 .gho-photo-gallery--single-column {
-  max-width: 820px; /* 75% of content column */
+  max-width: 720px; /* reading-width */
 }
 
 /**
@@ -43,6 +43,6 @@
     flex: 0 0 50%;
   }
   .gho-photo-gallery--two-columns .gho-photo-gallery__caption {
-    max-width: 820px; /* 75% of content column */
+    max-width: 720px; /* reading-width */
   }
 }

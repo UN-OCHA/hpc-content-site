@@ -2,5 +2,5 @@
    wrap it in the Paragraph type classname in order to restrict it within an
    article, but potentially let it fill the screen if shown on its own. */
 .paragraph--type--story .field--name-field-story {
-  max-width: 820px; /* CD content column is 1024, so roughly 75% is 820px */
+  max-width: 720px; /* reading-width */
 }

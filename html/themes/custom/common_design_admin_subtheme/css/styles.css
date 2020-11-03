@@ -83,3 +83,15 @@
 .field--name-field-separator-size::before {
   content: 'Separator: ';
 }
+
+/*------------------------------------------------------------------------------
+ * Styling of the Photo Gallery paragraph type - 2 column layout
+ *----------------------------------------------------------------------------*/
+.paragraph--type--photo-gallery.paragraph--view-mode--two-columns .field__items {
+  display: flex;
+  flex-flow: row wrap;
+}
+.paragraph--type--photo-gallery.paragraph--view-mode--two-columns .field__items > .field__item {
+  flex: 1 0 40%;
+  margin: 0 1rem 1rem;
+}

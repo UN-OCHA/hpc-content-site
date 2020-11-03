@@ -20,20 +20,6 @@ display:
       fields:
         title:
           label: Título
-        type:
-          label: 'Tipo de contenido'
-          separator: ', '
-        name:
-          label: Autor
-        status:
-          label: Estado
-          settings:
-            format_custom_true: Publicado
-            format_custom_false: 'Sin publicar'
-        changed:
-          label: Actualizado
-        operations:
-          label: Operaciones
       filters:
         title:
           expose:

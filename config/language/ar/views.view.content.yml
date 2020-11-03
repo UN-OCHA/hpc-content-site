@@ -13,18 +13,6 @@ display:
       fields:
         title:
           label: العنوان
-        type:
-          label: 'نوع المحتوى'
-        name:
-          label: المؤلف
-        status:
-          label: الحالة
-          settings:
-            format_custom_true: منشور
-        changed:
-          label: التحديث
-        operations:
-          label: عمليات
       filters:
         title:
           expose:

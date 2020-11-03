@@ -8,6 +8,7 @@ dependencies:
     - node.type.article
     - node.type.story
     - taxonomy.vocabulary.section
+    - taxonomy.vocabulary.story_type
   module:
     - node
     - taxonomy
@@ -793,7 +794,7 @@ display:
       tags: {  }
   page_articles:
     display_options:
-      path: admin/content/node
+      path: admin/content/articles
       menu:
         type: tab
         title: Articles
@@ -1437,7 +1438,7 @@ display:
         - 'config:field.storage.node.field_section'
   page_stories:
     display_options:
-      path: admin/content/node
+      path: admin/content/stories
       menu:
         type: tab
         title: Stories
@@ -1503,10 +1504,10 @@ display:
           plugin_id: string
           entity_type: node
           entity_field: title
-        field_section_target_id:
-          id: field_section_target_id
-          table: node__field_section
-          field: field_section_target_id
+        field_type_target_id:
+          id: field_type_target_id
+          table: node__field_type
+          field: field_type_target_id
           relationship: none
           group_type: group
           admin_label: ''
@@ -1515,14 +1516,14 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: field_section_target_id_op
-            label: Section
+            operator_id: field_type_target_id_op
+            label: 'Story type'
             description: ''
             use_operator: false
-            operator: field_section_target_id_op
+            operator: field_type_target_id_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: field_section_target_id
+            identifier: field_type_target_id
             required: false
             remember: false
             multiple: false
@@ -1546,8 +1547,8 @@ display:
           reduce_duplicates: false
           type: select
           limit: true
-          vid: section
-          hierarchy: true
+          vid: story_type
+          hierarchy: false
           error_message: true
           plugin_id: taxonomy_index_tid
         type:

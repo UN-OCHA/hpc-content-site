@@ -8,17 +8,11 @@
 .gho-photo-gallery .field--name-field-photos > .field__item {
   padding: 0.5rem;
 }
-.gho-photo-gallery .field--name-field-location {
+.gho-photo-gallery__location {
   font-weight: bold;
   margin-bottom: 0;
 }
-.gho-photo-gallery .field--name-field-caption,
-.gho-photo-gallery .field--name-field-caption * {
-  display: inline;
-}
-.gho-photo-gallery .field--name-field-credits,
-.gho-photo-gallery .field--name-field-credits * {
-  display: inline;
+.gho-photo-gallery__credits {
   font-style: italic;
 }
 
@@ -48,7 +42,7 @@
   .gho-photo-gallery--two-columns .field--name-field-photos > .field__item {
     flex: 0 0 50%;
   }
-  .gho-photo-gallery--two-columns .field--name-field-caption {
+  .gho-photo-gallery--two-columns .gho-photo-gallery__caption {
     max-width: 820px; /* 75% of content column */
   }
 }

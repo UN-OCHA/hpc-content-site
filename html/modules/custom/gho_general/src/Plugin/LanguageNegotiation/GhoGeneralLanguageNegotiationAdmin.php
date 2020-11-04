@@ -4,15 +4,22 @@ namespace Drupal\gho_general\Plugin\LanguageNegotiation;
 
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\PathProcessor\PathProcessorManager;
+use Drupal\Core\ParamConverter\ParamNotConvertedException;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\AdminContext;
 use Drupal\Core\Routing\StackedRouteMatchInterface;
-use Drupal\user\Plugin\LanguageNegotiation\LanguageNegotiationUserAdmin;
+use Drupal\language\LanguageNegotiationMethodBase;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 
 /**
  * Use site's default language for administration pages.
+ *
+ * @see Drupal\user\Plugin\LanguageNegotiationLanguageNegotiationUserAdmin
  *
  * @LanguageNegotiation(
  *   id = Drupal\gho_general\Plugin\LanguageNegotiation\GhoGeneralLanguageNegotiationAdmin::METHOD_ID,
@@ -22,12 +29,45 @@ use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
  *   description = @Translation("Use site's default language for administration pages.")
  * )
  */
-class GhoGeneralLanguageNegotiationAdmin extends LanguageNegotiationUserAdmin {
+class GhoGeneralLanguageNegotiationAdmin extends LanguageNegotiationMethodBase implements ContainerFactoryPluginInterface {
 
   /**
    * The language negotiation method id.
    */
   const METHOD_ID = 'gho-general-language-admin';
+
+
+  /**
+   * The admin context.
+   *
+   * @var \Drupal\Core\Routing\AdminContext
+   */
+  protected $adminContext;
+
+  /**
+   * The router.
+   *
+   * This is only used when called from an event subscriber, before the request
+   * has been populated with the route info.
+   *
+   * @var \Symfony\Component\Routing\Matcher\UrlMatcherInterface
+   */
+  protected $router;
+
+  /**
+   * The path processor manager.
+   *
+   * @var \Drupal\Core\PathProcessor\PathProcessorManager
+   */
+  protected $pathProcessorManager;
+
+  /**
+   * The stacked route match.
+   *
+   * @var \Drupal\Core\Routing\StackedRouteMatchInterface
+   */
+  protected $stackedRouteMatch;
+
 
   /**
    * The language manager service.
@@ -80,6 +120,51 @@ class GhoGeneralLanguageNegotiationAdmin extends LanguageNegotiationUserAdmin {
       return $this->languageManager->getDefaultLanguage()->getId();
     }
     return NULL;
+  }
+
+  /**
+   * Checks whether the given path is an administrative one.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request object.
+   *
+   * @return bool
+   *   TRUE if the path is administrative, FALSE otherwise.
+   */
+  protected function isAdminPath(Request $request) {
+    $result = FALSE;
+    if ($request && $this->adminContext) {
+      // If called from an event subscriber, the request may not have the route
+      // object yet (it is still being built), so use the router to look up
+      // based on the path.
+      $route_match = $this->stackedRouteMatch->getRouteMatchFromRequest($request);
+      if ($route_match && !$route_object = $route_match->getRouteObject()) {
+        try {
+          // Some inbound path processors make changes to the request. Make a
+          // copy as we're not actually routing the request so we do not want to
+          // make changes.
+          $cloned_request = clone $request;
+          // Process the path as an inbound path. This will remove any language
+          // prefixes and other path components that inbound processing would
+          // clear out, so we can attempt to load the route clearly.
+          $path = $this->pathProcessorManager->processInbound(urldecode(rtrim($cloned_request->getPathInfo(), '/')), $cloned_request);
+          $attributes = $this->router->match($path);
+        }
+        catch (ResourceNotFoundException $e) {
+          return FALSE;
+        }
+        catch (AccessDeniedHttpException $e) {
+          return FALSE;
+        }
+        // @see https://www.drupal.org/node/2188259
+        catch (ParamNotConvertedException $e) {
+          return FALSE;
+        }
+        $route_object = $attributes[RouteObjectInterface::ROUTE_OBJECT];
+      }
+      $result = $this->adminContext->isAdminRoute($route_object);
+    }
+    return $result;
   }
 
 }

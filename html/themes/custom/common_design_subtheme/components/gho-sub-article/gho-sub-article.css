@@ -18,6 +18,7 @@
 }
 .gho-sub-article__title {
   display: inline-block;
+  max-width: 720px; /* reading-width */
   /* The bottom margin is to ensure the appeals tag are displayed nicely below
    * the title on smaller screens. */
   margin: 0 0 1rem 0;

@@ -1,11 +1,14 @@
 {%
   set classes = [
     'field--name-field-credits',
+    'gho-photo-gallery__credits',
     'credits',
   ]
 %}
+{% spaceless %}
 <span{{ attributes.addClass(classes) }}>
   {%- for item in items -%}
     {{ item.content }}
   {%- endfor -%}
 </span>
+{% endspaceless %}

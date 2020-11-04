@@ -1,0 +1,10 @@
+uuid: 3d3db1b5-475d-4ef3-a3ef-c3bbd644faac
+langcode: en
+status: true
+dependencies: {  }
+id: further_reading
+label: 'Further reading'
+icon_uuid: null
+icon_default: null
+description: 'A list of links to futher information related to the topics of the article.'
+behavior_plugins: {  }

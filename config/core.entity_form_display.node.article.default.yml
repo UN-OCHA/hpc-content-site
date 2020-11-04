@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
-    - field.field.node.article.field_further_reading
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_related_articles
@@ -14,7 +13,6 @@ dependencies:
     - field.field.node.article.field_thumbnail_image
     - node.type.article
   module:
-    - gho_fields
     - inline_entity_form
     - layout_paragraphs
     - media_library
@@ -47,14 +45,6 @@ content:
       collapsible: false
       allow_duplicate: false
     third_party_settings: {  }
-    region: content
-  field_further_reading:
-    weight: 10
-    settings:
-      placeholder_url: 'https://example.com'
-      placeholder_title: 'Example URL Title'
-    third_party_settings: {  }
-    type: gho_further_reading_link
     region: content
   field_hero_image:
     type: media_library_widget

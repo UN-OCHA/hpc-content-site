@@ -1,0 +1,22 @@
+uuid: 043c5322-6b2e-48a0-9b8f-7bba74e16a50
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.further_reading.field_links
+    - paragraphs.paragraphs_type.further_reading
+  module:
+    - gho_fields
+id: paragraph.further_reading.default
+targetEntityType: paragraph
+bundle: further_reading
+mode: default
+content:
+  field_links:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: gho_further_reading_link
+    region: content
+hidden: {  }

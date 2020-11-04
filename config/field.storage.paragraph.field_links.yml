@@ -1,13 +1,13 @@
-uuid: 3de665e6-f78a-4c2f-8f0d-af272782cfcc
+uuid: 55129d96-bfd3-4e1f-aa1b-5411df8d6178
 langcode: en
 status: true
 dependencies:
   module:
     - link
-    - node
-id: node.field_further_reading
-field_name: field_further_reading
-entity_type: node
+    - paragraphs
+id: paragraph.field_links
+field_name: field_links
+entity_type: paragraph
 type: link
 settings: {  }
 module: link

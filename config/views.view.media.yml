@@ -9,7 +9,6 @@ dependencies:
   module:
     - image
     - media
-    - taxonomy
     - user
 _core:
   default_config_hash: UZP23LgBdE1XbvscbLCdd9uTk5t4qqA1Z56koqbvYP0
@@ -816,7 +815,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'administer media types'
+          perm: 'access media overview'
       defaults:
         access: false
     cache_metadata:
@@ -1395,6 +1394,7 @@ display:
           destination: true
           entity_type: media
           plugin_id: entity_operations
+      enabled: false
     cache_metadata:
       max-age: -1
       contexts:

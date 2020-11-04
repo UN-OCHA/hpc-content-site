@@ -12,14 +12,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 
 /**
- * Identifies admin language from the user preferences.
+ * Use site's default language for administration pages.
  *
  * @LanguageNegotiation(
  *   id = Drupal\gho_general\Plugin\LanguageNegotiation\GhoGeneralLanguageNegotiationAdmin::METHOD_ID,
  *   types = {Drupal\Core\Language\LanguageInterface::TYPE_INTERFACE},
  *   weight = -10,
  *   name = @Translation("Default site language"),
- *   description = @Translation("Use default site language for administration pages.")
+ *   description = @Translation("Use site's default language for administration pages.")
  * )
  */
 class GhoGeneralLanguageNegotiationAdmin extends LanguageNegotiationUserAdmin {
@@ -75,7 +75,7 @@ class GhoGeneralLanguageNegotiationAdmin extends LanguageNegotiationUserAdmin {
    * {@inheritdoc}
    */
   public function getLangcode(Request $request = NULL) {
-    // Force the use of the site default language for the admin pages.
+    // Force the use of the site's default language for the admin pages.
     if ($this->isAdminPath($request)) {
       return $this->languageManager->getDefaultLanguage()->getId();
     }

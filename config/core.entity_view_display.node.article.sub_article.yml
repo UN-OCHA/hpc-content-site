@@ -6,7 +6,6 @@ dependencies:
     - core.entity_view_mode.node.sub_article
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
-    - field.field.node.article.field_further_reading
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_related_articles
@@ -64,7 +63,6 @@ content:
     type: layout_paragraphs
     region: content
 hidden:
-  field_further_reading: true
   field_related_articles: true
   field_section: true
   field_summary: true

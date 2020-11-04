@@ -1,7 +1,11 @@
 {#
 /**
  * @file
- * Theme override for a field.
+ * Theme override for the further reading links field.
+ *
+ * @todo The heading should be a <h2> when on a page article and a <h3> for
+ * sub-articles. Find a way to determine the context or apply a global page
+ * post processing to fix the heading hierarchy.
  *
  * To override output, copy the "field.html.twig" from the templates directory
  * to your theme's directory and customize it, just like customizing other
@@ -48,36 +52,11 @@
     'gho-further-reading',
   ]
 %}
-{%
-  set title_classes = [
-    'field__label',
-    label_display == 'visually_hidden' ? 'visually-hidden',
-  ]
-%}
-
-{% if label_hidden %}
-  {% if multiple %}
-    <div{{ attributes.addClass(classes, 'field__items') }}>
-      {% for item in items %}
-        {{ item.content }}
-      {% endfor %}
-    </div>
-  {% else %}
-    {% for item in items %}
-      <div{{ attributes.addClass(classes, 'field__item') }}>{{ item.content }}</div>
-    {% endfor %}
-  {% endif %}
-{% else %}
-  <div{{ attributes.addClass(classes) }}>
-    <h3{{ title_attributes.addClass(title_classes) }}>{{ label }}</h3>
-    {% if multiple %}
-      <div class="field__items">
-    {% endif %}
-    {% for item in items %}
-      {{ item.content }}
-    {% endfor %}
-    {% if multiple %}
-      </div>
-    {% endif %}
+<div{{ attributes.addClass(classes) }}>
+  <h2 class="gho-further-reading__title">{{ 'Further reading'|t }}</h2>
+  <div class="field__items">
+  {% for item in items %}
+    {{ item.content }}
+  {% endfor %}
   </div>
-{% endif %}
+</div>

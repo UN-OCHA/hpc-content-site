@@ -1,0 +1,25 @@
+uuid: ea245a90-f36f-4534-a070-7b31edc58d4b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.further_reading.field_links
+    - paragraphs.paragraphs_type.further_reading
+  module:
+    - gho_fields
+id: paragraph.further_reading.default
+targetEntityType: paragraph
+bundle: further_reading
+mode: default
+content:
+  field_links:
+    weight: 0
+    settings:
+      placeholder_url: 'https://example.com'
+      placeholder_title: 'Example URL Title'
+    third_party_settings: {  }
+    type: gho_further_reading_link
+    region: content
+hidden:
+  created: true
+  status: true

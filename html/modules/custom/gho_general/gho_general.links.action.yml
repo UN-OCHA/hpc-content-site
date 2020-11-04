@@ -9,6 +9,50 @@ gho_general.add_article:
   # https://www.drupal.org/project/drupal/issues/1344902 is solved.
   class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
 
+gho_general.add_story:
+  title: 'Add story'
+  route_name: node.add
+  route_parameters:
+    node_type: story
+  appears_on:
+    - view.content.page_stories
+  # Temporary solution to ensure redirection to the origin page until
+  # https://www.drupal.org/project/drupal/issues/1344902 is solved.
+  class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
+
+gho_general.add_appeal_tag:
+  title: 'Add appeal tag'
+  route_name: entity.taxonomy_term.add_form
+  route_parameters:
+    taxonomy_vocabulary: appeals
+  appears_on:
+    - view.content_taxonomy_terms.page_admin_content_terms
+  # Temporary solution to ensure redirection to the origin page until
+  # https://www.drupal.org/project/drupal/issues/1344902 is solved.
+  class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
+
+gho_general.add_section:
+  title: 'Add section'
+  route_name: entity.taxonomy_term.add_form
+  route_parameters:
+    taxonomy_vocabulary: section
+  appears_on:
+    - view.content_taxonomy_terms.page_admin_content_terms
+  # Temporary solution to ensure redirection to the origin page until
+  # https://www.drupal.org/project/drupal/issues/1344902 is solved.
+  class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
+
+gho_general.add_story_type:
+  title: 'Add story type'
+  route_name: entity.taxonomy_term.add_form
+  route_parameters:
+    taxonomy_vocabulary: story_type
+  appears_on:
+    - view.content_taxonomy_terms.page_admin_content_terms
+  # Temporary solution to ensure redirection to the origin page until
+  # https://www.drupal.org/project/drupal/issues/1344902 is solved.
+  class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
+
 gho_general.add_document:
   title: 'Add document'
   route_name: entity.media.add_form

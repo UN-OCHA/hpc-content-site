@@ -4,3 +4,98 @@
  * @file
  * GHO General module file.
  */
+
+/**
+ * Implements hook_element_info_alter().
+ *
+ * Add pre and post render callbacks to ensure the contextual links and
+ * admin toolbar are always rendered with the site default language.
+ */
+function gho_access_element_info_alter(array &$info) {
+  $ids = ['contextual_links', 'toolbar'];
+  foreach ($ids as $id) {
+    if (isset($info[$id])) {
+      gho_access_add_language_switch_callbacks($info[$id]);
+    }
+  }
+}
+
+/**
+ * Add pre and post render callbacks to switch the language to a render element.
+ *
+ * @param array $element
+ *   A renderable array.
+ */
+function gho_access_add_language_switch_callbacks(array &$element) {
+  if (!isset($element['#pre_render'])) {
+    $element['#pre_render'] = [];
+  }
+  array_unshift($element['#pre_render'], 'gho_access_switch_language_pre_render');
+  $element['#post_render'][] = 'gho_access_switch_language_post_render';
+}
+
+/**
+ * Switch to the site default language before rendering the given element.
+ *
+ * @param array $element
+ *   A renderable array.
+ *
+ * @return array
+ *   A renderable array.
+ */
+function gho_access_switch_language_pre_render(array $element) {
+  $element['#original_langcode'] = gho_access_switch_to_language();
+  return $element;
+}
+
+/**
+ * Switch back to the current language after rendering the given element.
+ *
+ * @param string $content
+ *   Rendered element's content.
+ * @param array $element
+ *   A renderable array.
+ *
+ * @return array
+ *   A renderable array.
+ */
+function gho_access_switch_language_post_render($content, array $element) {
+  if (isset($element['#original_langcode'])) {
+    gho_access_switch_to_language($element['#original_langcode']);
+    unset($element['#original_langcode']);
+  }
+  return $content;
+}
+
+/**
+ * Switch to the given language.
+ *
+ * @param string $langcode
+ *   Language code to switch to. Empty to switch to the site's default language.
+ *
+ * @return string
+ *   Current language code before the switch.
+ */
+function gho_access_switch_to_language($langcode = '') {
+  $language_manager = \Drupal::service('language_manager');
+  $translation_manager = \Drupal::service('string_translation');
+
+  // Store the current language code.
+  $current_langcode = $language_manager->getConfigOverrideLanguage()->getId();
+
+  // Get the language associated with the langcode.
+  if (!empty($langcode)) {
+    $language = $language_manager->getLanguage($langcode);
+  }
+
+  // Use the site's default language.
+  if (empty($language)) {
+    $language = $language_manager->getDefaultLanguage();
+  }
+
+  // Change to the site default language.
+  $language_manager->setConfigOverrideLanguage($language);
+  $translation_manager->setDefaultLangcode($language->getId());
+
+  return $current_langcode;
+}

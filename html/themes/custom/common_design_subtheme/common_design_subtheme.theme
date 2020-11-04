@@ -106,7 +106,7 @@ function common_design_subtheme_preprocess_paragraph__page_title(&$variables) {
   // paragraphs_page_title_preprocess_paragraph__page_title().
   if (!isset($variables['elements']['#id'])) {
     $variables['content']['title'] = common_design_subtheme_get_block_render_array('page_title_block');
-    $variables['content']['local_tasks'] = common_design_subtheme_get_block_render_array('local_tasks_block');
+    $variables['content']['local_tasks'] = common_design_subtheme_get_block_render_array('local_tasks_block', FALSE);
   }
 }
 
@@ -124,7 +124,7 @@ function common_design_subtheme_preprocess_paragraph__page_title(&$variables) {
 function common_design_subtheme_preprocess_node__article(&$variables) {
   if (isset($variables['view_mode']) && $variables['view_mode'] === 'full') {
     $variables['title'] = common_design_subtheme_get_block_render_array('page_title_block');
-    $variables['local_tasks'] = common_design_subtheme_get_block_render_array('local_tasks_block');
+    $variables['local_tasks'] = common_design_subtheme_get_block_render_array('local_tasks_block', FALSE);
   }
 }
 
@@ -163,6 +163,10 @@ function common_design_subtheme_preprocess_page(&$variables) {
  *
  * @param string $id
  *   Block ID.
+ * @param bool $translate
+ *   Translate the block or not. This allows to keep some elements of the page
+ *   in the site's default language for example like the local tasks (view, edit
+ *   etc.).
  *
  * @return array
  *   Renderable array of the block. Empty array if this was already called
@@ -170,7 +174,7 @@ function common_design_subtheme_preprocess_page(&$variables) {
  *
  * @see https://drupal.stackexchange.com/a/171733
  */
-function common_design_subtheme_get_block_render_array($id) {
+function common_design_subtheme_get_block_render_array($id, $translate = TRUE) {
   $rendered = &drupal_static('common_design_subtheme_rendered_blocks');
 
   if (!isset($rendered[$id])) {
@@ -190,7 +194,15 @@ function common_design_subtheme_get_block_render_array($id) {
     $access = $plugin_block->access(\Drupal::currentUser());
     // This can be a boolean or an object implementing AccessResultInterface.
     if ($access === TRUE || ($access instanceof AccessResultInterface && $access->isAllowed())) {
-      return $plugin_block->build();
+      if ($translate === FALSE) {
+        $current_langcode = gho_access_switch_to_language();
+        $build = $plugin_block->build();
+        gho_access_switch_to_language($current_langcode);
+      }
+      else {
+        $build = $plugin_block->build();
+      }
+      return $build;
     }
   }
 

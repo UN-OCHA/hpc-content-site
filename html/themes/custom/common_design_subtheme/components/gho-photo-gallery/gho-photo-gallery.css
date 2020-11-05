@@ -9,8 +9,11 @@
   padding: 0.5rem;
 }
 .gho-photo-gallery__location {
-  font-weight: bold;
   margin-bottom: 0;
+  font-weight: bold;
+}
+.gho-photo-gallery__caption {
+  margin-top: 0;
 }
 .gho-photo-gallery__credits {
   font-style: italic;
@@ -23,7 +26,7 @@
  * content region.
  */
 .gho-photo-gallery--single-column {
-  max-width: 720px; /* reading-width */
+  max-width: var(--reading-width);
 }
 
 /**
@@ -33,6 +36,9 @@
  * content region on desktop and the entire width like the single column, on
  * smaller screens.
  */
+.gho-photo-gallery--two-columns {
+  max-width: var(--reading-width);
+}
 @media screen and (min-width: 768px) {
   .gho-photo-gallery--two-columns .field--name-field-photos {
     display: flex;
@@ -40,9 +46,10 @@
     justify-content: space-around;
   }
   .gho-photo-gallery--two-columns .field--name-field-photos > .field__item {
-    flex: 0 0 50%;
-  }
-  .gho-photo-gallery--two-columns .gho-photo-gallery__caption {
-    max-width: 720px; /* reading-width */
+    /* To maintain IE11 compat, do NOT use shorthand because calc cannot be
+       recognized by IE 10-11 within the `flex` shorthand property */
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: calc(50% - 1rem);
   }
 }

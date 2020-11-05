@@ -1,0 +1,10 @@
+uuid: f39f42d3-4bec-458f-83a8-94f98935fbd6
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.photo_gallery_two_columns
+label: 'Photo gallery - Two columns'
+targetEntityType: media
+cache: true

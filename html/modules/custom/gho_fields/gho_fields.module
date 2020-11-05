@@ -7,6 +7,7 @@
 
 use Drupal\media\IFrameMarkup;
 use Drupal\Component\Utility\UrlHelper;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Implements hook_theme().
@@ -27,6 +28,23 @@ function gho_fields_theme() {
       ],
     ],
   ];
+}
+
+/**
+ * Implements hook_entity_view_mode_alter().
+ *
+ * Change the view mode of the photo galleries based on the number of images
+ * they contain.
+ */
+function gho_fields_entity_view_mode_alter(&$view_mode, EntityInterface $entity, $context) {
+  if ($entity->getEntityTypeId() === 'paragraph' && $entity->bundle() == 'photo_gallery') {
+    if ($entity->field_photos->count() % 2 === 0) {
+      $view_mode = 'two_columns';
+    }
+    else {
+      $view_mode = 'single_column';
+    }
+  }
 }
 
 /**

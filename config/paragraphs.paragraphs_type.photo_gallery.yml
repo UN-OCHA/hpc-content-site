@@ -1,26 +1,10 @@
 uuid: c5e5598e-d4e8-4eb7-a97a-79a1569b4030
 langcode: en
 status: true
-dependencies:
-  module:
-    - paragraphs_viewmode
+dependencies: {  }
 id: photo_gallery
 label: 'Photo Gallery'
 icon_uuid: null
 icon_default: null
 description: 'A photo gallery with up to 4 images.'
-behavior_plugins:
-  paragraphs_viewmode_behavior:
-    enabled: true
-    override_mode: default
-    override_available:
-      single_column: single_column
-      two_columns: two_columns
-      default: '0'
-      hero_image: '0'
-      link_with_background_image_medium: '0'
-      link_with_background_image_small: '0'
-      linked_image_medium: '0'
-      linked_image_small: '0'
-      preview: '0'
-    override_default: single_column
+behavior_plugins: {  }

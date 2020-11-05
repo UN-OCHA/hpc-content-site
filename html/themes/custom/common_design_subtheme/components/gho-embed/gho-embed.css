@@ -1,0 +1,21 @@
+.gho-embed-wrapper {
+  display: block;
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  height: 0;
+  /* This reserve sone space for the iframe with a 16:9 aspect ratio. */
+  padding-bottom: 56.25%;
+  overflow: hidden;
+}
+.gho-embed-wrapper--4\:3 {
+  padding-bottom: 75%;
+}
+.gho-embed-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%:
+  border: none;
+}

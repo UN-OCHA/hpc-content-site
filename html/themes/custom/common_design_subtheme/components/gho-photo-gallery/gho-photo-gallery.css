@@ -43,6 +43,10 @@
     justify-content: space-around;
   }
   .gho-photo-gallery--two-columns .field--name-field-photos > .field__item {
-    flex: 0 0 50%;
+    /* To maintain IE11 compat, do NOT use shorthand because calc cannot be
+       recognized by IE 10-11 within the `flex` shorthand property */
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: calc(50% - 1rem);
   }
 }

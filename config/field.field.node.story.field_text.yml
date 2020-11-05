@@ -13,6 +13,7 @@ third_party_settings:
     limited_html: limited_html
     plain_text: '0'
     filtered_html: '0'
+    footnotes: '0'
 id: node.story.field_text
 field_name: field_text
 entity_type: node

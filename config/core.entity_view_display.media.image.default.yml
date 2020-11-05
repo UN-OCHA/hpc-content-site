@@ -15,13 +15,13 @@ bundle: image
 mode: default
 content:
   field_credits:
+    type: string
     weight: 1
+    region: content
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
-    region: content
   field_media_image:
     type: responsive_image
     weight: 0

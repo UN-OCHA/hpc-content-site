@@ -10,7 +10,7 @@ third_party_settings:
     parent: ''
 name: Story
 type: story
-description: 'A story (ex: a story from the field).'
+description: 'A story (ex: a story from the field, interactive maps).'
 help: ''
 new_revision: true
 preview_mode: 1

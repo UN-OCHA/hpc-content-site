@@ -1,5 +1,5 @@
 .gho-story--teaser {
-  max-width: 720px; /* reading-width */
+  max-width: var(--reading-width);
 }
 .gho-story__caption {
   margin-top: 1rem;

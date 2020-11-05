@@ -12,6 +12,14 @@ targetEntityType: media
 bundle: video
 mode: media_library
 content:
+  field_credits:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   name:
     type: string_textfield
     settings:
@@ -22,7 +30,6 @@ content:
     region: content
 hidden:
   created: true
-  field_credits: true
   field_media_oembed_video: true
   langcode: true
   path: true

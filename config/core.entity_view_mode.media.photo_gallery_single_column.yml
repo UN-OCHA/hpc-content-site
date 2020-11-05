@@ -1,0 +1,10 @@
+uuid: e796a2cd-866a-4478-9b9c-88ef55b54389
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.photo_gallery_single_column
+label: 'Photo gallery - Single column'
+targetEntityType: media
+cache: true

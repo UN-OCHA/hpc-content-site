@@ -9,8 +9,11 @@
   padding: 0.5rem;
 }
 .gho-photo-gallery__location {
-  font-weight: bold;
   margin-bottom: 0;
+  font-weight: bold;
+}
+.gho-photo-gallery__caption {
+  margin-top: 0;
 }
 .gho-photo-gallery__credits {
   font-style: italic;

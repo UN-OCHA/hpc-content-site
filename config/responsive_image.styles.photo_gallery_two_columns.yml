@@ -1,0 +1,58 @@
+uuid: 5f4021e6-c0b4-41e5-94dd-55761cc8ff8d
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.full_width_16_9_100
+    - image.style.full_width_16_9_133
+    - image.style.full_width_16_9_45
+    - image.style.full_width_16_9_50
+    - image.style.full_width_16_9_66
+    - image.style.full_width_16_9_90
+  theme:
+    - common_design
+id: photo_gallery_two_columns
+label: 'Photo gallery - Two columns'
+image_style_mappings:
+  -
+    breakpoint_id: common_design.lg
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: full_width_16_9_50
+  -
+    breakpoint_id: common_design.lg
+    multiplier: 2x
+    image_mapping_type: image_style
+    image_mapping: full_width_16_9_100
+  -
+    breakpoint_id: common_design.md
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: full_width_16_9_45
+  -
+    breakpoint_id: common_design.md
+    multiplier: 2x
+    image_mapping_type: image_style
+    image_mapping: full_width_16_9_90
+  -
+    breakpoint_id: common_design.sm
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: full_width_16_9_66
+  -
+    breakpoint_id: common_design.sm
+    multiplier: 2x
+    image_mapping_type: image_style
+    image_mapping: full_width_16_9_133
+  -
+    breakpoint_id: common_design.xs
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: full_width_16_9_50
+  -
+    breakpoint_id: common_design.xs
+    multiplier: 2x
+    image_mapping_type: image_style
+    image_mapping: full_width_16_9_100
+breakpoint_group: common_design
+fallback_image_style: full_width_16_9_50

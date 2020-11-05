@@ -11,3 +11,13 @@ body {
   color: $cd-dark-grey;
   line-height: 1.5;
 }
+
+// Avoid extra space at the bottom of the image.
+picture img {
+  display: block;
+}
+
+// Maximum width on full screen for texts, photo galleries etc.
+:root {
+  --reading-width: 720px;
+}

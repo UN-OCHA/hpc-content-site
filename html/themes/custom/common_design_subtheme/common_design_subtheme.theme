@@ -111,7 +111,7 @@ function common_design_subtheme_preprocess_paragraph__page_title(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_node__article().
+ * Implements hook_preprocess_node().
  *
  * Use the page title block for the title and display the local tasks below it.
  * We use common_design_subtheme_get_block_render_array() that will cache the
@@ -121,10 +121,22 @@ function common_design_subtheme_preprocess_paragraph__page_title(&$variables) {
  * @see common_design_subtheme_preprocess_page()
  * @see common_design_subtheme_get_block_render_array()
  */
-function common_design_subtheme_preprocess_node__article(&$variables) {
+function common_design_subtheme_preprocess_node(&$variables) {
   if (isset($variables['view_mode']) && $variables['view_mode'] === 'full') {
     $variables['title'] = common_design_subtheme_get_block_render_array('page_title_block');
     $variables['local_tasks'] = common_design_subtheme_get_block_render_array('local_tasks_block', FALSE);
+  }
+}
+
+/**
+ * Implements hook_preprocess_node__article().
+ *
+ * Extract the media credits to display them after the text.
+ */
+function common_design_subtheme_preprocess_node__story(&$variables) {
+  if (isset($variables['content']['field_media'][0]['#media'])) {
+    $credits = $variables['content']['field_media'][0]['#media']->field_credits->value;
+    $variables['content']['credits'] = ['#markup' => $credits];
   }
 }
 

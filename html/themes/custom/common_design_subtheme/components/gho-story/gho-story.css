@@ -1,6 +1,12 @@
-/* Not 100% sure if the Story can appear independently somewhere, so for now we
-   wrap it in the Paragraph type classname in order to restrict it within an
-   article, but potentially let it fill the screen if shown on its own. */
-.paragraph--type--story .field--name-field-story {
+.gho-story--teaser {
   max-width: 720px; /* reading-width */
+}
+.gho-story__caption {
+  margin-top: 1rem;
+}
+.gho-story__caption > p:last-of-type {
+  display: inline;
+}
+.gho-story__credits {
+  font-style: italic;
 }

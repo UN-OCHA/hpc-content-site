@@ -41,15 +41,12 @@
  */
 #}
 {{ attach_library('common_design_subtheme/gho-aside') }}
-{{ attach_library('common_design_subtheme/gho-story') }}
 {%
   set classes = [
     'paragraph',
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
-    'gho-field-story',
-    view_mode ? 'gho-field-story--' ~ view_mode|clean_class,
     'gho-aside',
     'gho-aside--dark',
     'gho-bleed--background-only',

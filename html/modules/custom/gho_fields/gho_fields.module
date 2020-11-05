@@ -5,6 +5,9 @@
  * GHO Formatters.
  */
 
+use Drupal\media\IFrameMarkup;
+use Drupal\Component\Utility\UrlHelper;
+
 /**
  * Implements hook_theme().
  */
@@ -24,4 +27,35 @@ function gho_fields_theme() {
       ],
     ],
   ];
+}
+
+/**
+ * Implements hook_preprocess_media_oembed_iframe().
+ *
+ * Change the youtube URL to https://youtube-nookie.com.
+ *
+ * Unfortunately youtube-nocookie doesn't work with oembed so we need to some
+ * gymnastic and replace the source in the iframe snippet returned by calling
+ * youtube.com/oembed.
+ *
+ * @see https://www.drupal.org/project/drupal/issues/3043821
+ */
+function gho_fields_preprocess_media_oembed_iframe(&$variables) {
+  $html = (string) $variables['media'];
+  if (strpos($html, 'youtube') !== FALSE) {
+    $html = preg_replace_callback('/src="([^"]+)"/', function ($matches) {
+      $parts = UrlHelper::parse($matches[1]);
+      $parts['query']['rel'] = 0;
+      $parts['query']['autoplay'] = 0;
+      $parts['query']['controls'] = 0;
+      $parts['query']['showinfo'] = 0;
+      $url = 'https://www.youtube-nocookie.com/embed' .
+              strrchr($parts['path'], '/') . '?' .
+              rawurldecode(UrlHelper::buildQuery($parts['query']));
+      return 'src="' . $url . '"';
+    }, $html);
+    if ($html !== NULL) {
+      $variables['media'] = IFrameMarkup::create($html);
+    }
+  }
 }

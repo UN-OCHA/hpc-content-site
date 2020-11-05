@@ -4,7 +4,7 @@ A few notes related to the translation of hardcoded strings in themes and module
 
 ## Importing translations
 
-Visit `/admin/config/regional/translate/import` and upload the file of your choice.
+Visit `/admin/config/regional/translate/import` and upload the file of your choice. Select all three configuration options when importing the file.
 
 ## Exporting translations
 

@@ -1,6 +1,6 @@
 uuid: f76568cd-3529-4602-9b17-33e4c6e04447
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - core.entity_view_mode.media.full_width

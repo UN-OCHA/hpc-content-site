@@ -103,5 +103,6 @@
       {{ content.field_text }}
       <span class="gho-story__credits credits">{{ content.credits }}</span>
     </div>
+    {{ content|without(['field_type', 'field_media', 'field_text', 'credits']) }}
   </div>
 </article>

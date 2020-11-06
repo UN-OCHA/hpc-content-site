@@ -5,8 +5,6 @@ dependencies:
   config:
     - field.field.paragraph.story.field_story
     - paragraphs.paragraphs_type.story
-  module:
-    - inline_entity_form
 id: paragraph.story.default
 targetEntityType: paragraph
 bundle: story
@@ -15,19 +13,12 @@ content:
   field_story:
     weight: 1
     settings:
-      form_mode: default
-      override_labels: true
-      label_singular: Story
-      label_plural: Stories
-      allow_new: true
-      allow_existing: true
       match_operator: CONTAINS
-      revision: false
-      collapsible: false
-      collapsed: false
-      allow_duplicate: false
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
-    type: inline_entity_form_complex
+    type: entity_reference_autocomplete
     region: content
 hidden:
   created: true

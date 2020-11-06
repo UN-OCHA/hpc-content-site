@@ -105,3 +105,7 @@ gho-sub-article:
    dependencies:
      - common_design_subtheme/gho-bleed
 
+gho-embed:
+   css:
+     theme:
+       components/gho-embed/gho-embed.css: {}

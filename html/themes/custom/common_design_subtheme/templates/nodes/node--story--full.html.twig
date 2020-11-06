@@ -1,7 +1,11 @@
 {#
 /**
  * @file
- * Theme override to display a field story node in teaser view mode.
+ * Theme override to display a field story node in full view mode.
+ *
+ * Note: there is a hook_preprocess_node__article() that adds those variables:
+ * - title: node title
+ * - local_tasks: local tasks (edit etc.)
  *
  * Overrides core/themes/classy/templates/content/node.html.twig.
  *
@@ -87,10 +91,12 @@
 %}
 <article{{ attributes.addClass(classes) }}>
   <header>
-    <span class="gho-aside__pre-title">{{ content.field_type|render }}</span>
-    <h2{{ title_attributes.addClass('gho-aside__title') }}>{{ label }}</h2>
+    {{ content.field_type }}
+    {{ title }}
   </header>
-
+  {% if local_tasks %}
+  <div class="gho-story__local_tasks clearfix">{{ local_tasks }}</div>
+  {% endif %}
   <div{{ content_attributes.addClass('node__content') }}>
     {{ content.field_media }}
     <div class="gho-story__caption caption">

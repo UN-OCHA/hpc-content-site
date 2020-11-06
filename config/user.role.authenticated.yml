@@ -20,3 +20,4 @@ permissions:
   - 'view published document media'
   - 'view published image media'
   - 'view published story content'
+  - 'view published video media'

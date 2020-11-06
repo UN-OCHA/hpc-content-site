@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme implementation for a text paragraph.
+ * Theme implementation for an image with text in Facts and figures view mode.
  *
  * Overrides paragraphs/templates/paragraph.html.twig.
  *
@@ -40,7 +40,6 @@
  * @ingroup themeable
  */
 #}
-{{ attach_library('common_design_subtheme/gho-text') }}
 {%
   set classes = [
     'paragraph',
@@ -52,7 +51,12 @@
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-      {{ content }}
+    {{ content.field_image }}
+    <div class="gho-facts-and-figures__caption caption">
+      {{ content.field_text }}
+      <span class="gho-facts-and-figures__credits credits">{{ content.credits }}</span>
+    </div>
+    {{ content|without(['field_image', 'field_text', 'credits']) }}
     {% endblock %}
   </div>
 {% endblock paragraph %}

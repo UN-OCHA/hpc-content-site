@@ -2,11 +2,30 @@
   max-width: var(--reading-width);
 }
 .gho-story__caption {
-  margin-top: 1rem;
+  margin: 1rem 0;
 }
 .gho-story__caption > p:last-of-type {
   display: inline;
 }
 .gho-story__credits {
   font-style: italic;
+}
+.gho-story__source {
+  border-top: 1px solid #ccc;
+  font-size: 0.85rem;
+}
+.gho-story .gho-footnote-list + .gho-story__source {
+  margin-top: 0.5rem;
+}
+.gho-story__source__title {
+  margin-top: 0.5rem;
+  font-weight: 700;
+}
+.gho-story__source .item-list {
+  margin: 0.5rem 0 0 0;
+  padding: 0;
+}
+.gho-story__source .item-list li {
+  list-style: none;
+  margin: 0;
 }

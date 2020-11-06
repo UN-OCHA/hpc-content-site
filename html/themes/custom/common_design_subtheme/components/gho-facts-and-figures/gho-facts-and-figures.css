@@ -9,6 +9,16 @@
   padding: 0.5rem;
 }
 
+.gho-facts-and-figures__caption {
+  margin-top: 1rem;
+}
+.gho-facts-and-figures__caption > p:last-of-type {
+  display: inline;
+}
+.gho-facts-and-figures__credits {
+  font-style: italic;
+}
+
 /**
  * Three columns.
  *

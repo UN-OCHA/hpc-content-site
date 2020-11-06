@@ -1,9 +1,9 @@
-uuid: ad2c990f-8d20-45ac-8ba0-e4c1e35d6545
+uuid: d75c79ff-36c3-402a-b5a2-27e9f0cd5803
 langcode: en
-status: false
+status: true
 dependencies:
   config:
-    - core.entity_view_mode.paragraph.full_width
+    - core.entity_view_mode.paragraph.facts_and_figures
     - field.field.paragraph.image_with_text.field_image
     - field.field.paragraph.image_with_text.field_text
     - paragraphs.paragraphs_type.image_with_text
@@ -14,25 +14,25 @@ third_party_settings:
   layout_builder:
     allow_custom: false
     enabled: false
-id: paragraph.image_with_text.full_width
+id: paragraph.image_with_text.facts_and_figures
 targetEntityType: paragraph
 bundle: image_with_text
-mode: full_width
+mode: facts_and_figures
 content:
   field_image:
     type: entity_reference_entity_view
-    weight: 0
-    region: content
+    weight: 2
     label: hidden
     settings:
-      view_mode: full_width
+      view_mode: facts_and_figures
       link: false
     third_party_settings: {  }
-  field_text:
-    type: text_default
-    weight: 1
     region: content
+  field_text:
+    weight: 3
     label: hidden
     settings: {  }
     third_party_settings: {  }
+    type: text_default
+    region: content
 hidden: {  }

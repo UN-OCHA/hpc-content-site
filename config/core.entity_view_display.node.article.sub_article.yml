@@ -8,7 +8,6 @@ dependencies:
     - field.field.node.article.field_author
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
-    - field.field.node.article.field_related_articles
     - field.field.node.article.field_section
     - field.field.node.article.field_summary
     - field.field.node.article.field_thumbnail_image
@@ -63,7 +62,6 @@ content:
     type: layout_paragraphs
     region: content
 hidden:
-  field_related_articles: true
   field_section: true
   field_summary: true
   field_thumbnail_image: true

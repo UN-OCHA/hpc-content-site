@@ -11,7 +11,7 @@ field_name: field_story
 entity_type: paragraph
 bundle: story
 label: Story
-description: ''
+description: 'Type part of the title of the story to include.'
 required: true
 translatable: false
 default_value: {  }

@@ -43,21 +43,48 @@ function gho_footnotes_theme() {
  * Implements hook_preprocess_paragraph__text().
  */
 function gho_footnotes_preprocess_paragraph__text(&$variables) {
-  // This module requires a field_footnotes to work with. If there is none
-  // then skip the process entirely.
-  if (!isset($variables['content']['field_footnotes'])) {
+  // If there is no paragraph is (because it's new), then we generate a
+  // temporary unique id. This mostly for when the paragraph is rendered in the
+  // forms.
+  $id = $variables['paragraph']->id();
+  if (empty($id)) {
+    $id = \Drupal::service('uuid')->generate();
+  }
+
+  gho_footnotes_update_text_with_footnotes($id, $variables);
+}
+
+/**
+ * Implements hook_preprocess_node__story().
+ */
+function gho_footnotes_preprocess_node__story(&$variables) {
+  // If there is no node is (because it's new), then we generate a
+  // temporary unique id. This mostly for when the node is rendered in the
+  // forms.
+  $id = $variables['node']->id();
+  if (empty($id)) {
+    $id = \Drupal::service('uuid')->generate();
+  }
+
+  gho_footnotes_update_text_with_footnotes($id, $variables);
+}
+
+/**
+ * Update a text with footnotes.
+ *
+ * @param string $base_id
+ *   Base id for the footnotes (ex: paragraph id)
+ * @param array $variables
+ *   Array of variables as passed to preprocess hooks.
+ */
+function gho_footnotes_update_text_with_footnotes($base_id, array &$variables) {
+  // This module requires a field_footnotes and a field_text to work with.
+  // If there is none then skip the process entirely.
+  if (!isset($variables['content']['field_footnotes'], $variables['content']['field_text'])) {
     return;
   }
 
   $renderer = \Drupal::service('renderer');
-
-  // If there is no paragraph is (because it's new), then we generate a
-  // temporary unique id. This mostly for when the paragraph is rendered in the
-  // forms.
-  $paragraph_id = $variables['paragraph']->id();
-  if (empty($paragraph_id)) {
-    $paragraph_id = \Drupal::service('uuid')->generate();
-  }
 
   // We render the text to ensure all the text filters are applied (like
   // the one ensuring the HTML is correct) instead of using the raw text
@@ -71,8 +98,9 @@ function gho_footnotes_preprocess_paragraph__text(&$variables) {
 
   // We render the footnotes to ensure all the text filters are applied (like
   // the one ensuring the HTML is correct) instead of using the raw text
-  // because we will generate the correct footnotes content and append it
-  // to the text.
+  // so that we can more easily update the footnotes. Notably the "footnotes"
+  // text format strips the `<p>` tag which makes it easier to extract the
+  // content.
   $field_footnotes_text = '';
   if (isset($variables['content']['field_footnotes'][0])) {
     $field_footnotes_text = $renderer->renderPlain($variables['content']['field_footnotes'][0]);
@@ -83,17 +111,26 @@ function gho_footnotes_preprocess_paragraph__text(&$variables) {
 
   // Generate the footnotes. This will be an empty array if there are no
   // references to the footnotes or the footnotes don't match the references.
-  $footnotes = gho_footnotes_generate_footnotes($paragraph_id, $field_footnotes_text, $references);
+  $footnotes = gho_footnotes_generate_footnotes($base_id, $field_footnotes_text, $references);
 
-  // Hide the field as the footnotes are appended to the text directly.
-  $variables['content']['field_footnotes']['#access'] = FALSE;
-
-  // Update the references and add the footnotes to the text. We already
-  // rendered the text, so we replace the field item with a simple markup type
-  // render array.
+  // Update the references. We already rendered the text, so we replace the
+  // field item with a simple markup type render array.
   $variables['content']['field_text'][0] = [
-    '#markup' => gho_footnotes_update_text($paragraph_id, $field_text_text, $references, $footnotes),
+    '#markup' => gho_footnotes_update_text($base_id, $field_text_text, $references, $footnotes),
   ];
+
+  // Update the footnotes field.
+  if (!empty($footnotes)) {
+    $variables['content']['field_footnotes'][0] = [
+      '#theme' => 'gho_footnote_list',
+      '#id' => 'footnote-list-' . $base_id,
+      '#footnotes' => $footnotes,
+    ];
+  }
+  // Otherwise hide the footnotes field.
+  else {
+    $variables['content']['field_footnotes']['#access'] = FALSE;
+  }
 }
 
 /**
@@ -228,15 +265,6 @@ function gho_footnotes_update_text($base_id, $text, array $references, array $fo
       // references which returns the positions in the string in "bytes".
       $text = substr($text, 0, $position) . $replacement . substr($text, $position + strlen($value));
     }
-  }
-  // Append the footnotes to the text content.
-  if (!empty($footnotes)) {
-    $element = [
-      '#theme' => 'gho_footnote_list',
-      '#id' => 'footnote-list-' . $base_id,
-      '#footnotes' => $footnotes,
-    ];
-    $text .= trim($renderer->render($element));
   }
   return $text;
 }

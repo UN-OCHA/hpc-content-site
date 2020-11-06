@@ -77,3 +77,38 @@ function gho_fields_preprocess_media_oembed_iframe(&$variables) {
     }
   }
 }
+
+/**
+ * Implements hook_preprocess_node__story().
+ *
+ * Process the sources field.
+ */
+function gho_fields_preprocess_node__story(&$variables) {
+  if (!isset($variables['content']['field_source'][0]['#text'])) {
+    return;
+  }
+
+  // We render the sources to ensure all the text filters are applied (like
+  // the one ensuring the HTML is correct) instead of using the raw text
+  // so that we can more easily update the sources. Notably the "footnotes"
+  // text format strips the `<p>` tag which makes it easier to extract the
+  // content.
+  $text = \Drupal::service('renderer')->renderPlain($variables['content']['field_source'][0]);
+
+  // The sources are separated by a new line, split them and generate the list.
+  $items = [];
+  foreach (preg_split("/\n+/", $text) as $source) {
+    if (!empty($source)) {
+      // The source is already rendered so we use #markup to avoid double
+      // escaping.
+      $items[] = ['#markup' => $source];
+    }
+  }
+
+  $title = count($items) > 1 ? t('Sources:') : t('Source:');
+  $variables['content']['field_source']['#title'] = $title;
+  $variables['content']['field_source'][0] = [
+    '#theme' => 'item_list',
+    '#items' => $items,
+  ];
+}

@@ -1,0 +1,20 @@
+.node[data-status] {
+  position: relative;
+
+  &::before {
+    content: attr(data-status);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    background: #29830d;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
+
+.node.node--unpublished[data-status]::before {
+  background: #ca1616;
+}

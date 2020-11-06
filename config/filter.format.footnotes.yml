@@ -14,7 +14,7 @@ filters:
     status: true
     weight: -10
     settings:
-      allowed_html: '<0 href hreflang target rel> <1> <2> <3 class="footnote"> <strong> <em> <a href>'
+      allowed_html: '<strong> <em> <a href rel target>'
       filter_html_help: false
       filter_html_nofollow: false
   filter_htmlcorrector:
@@ -23,3 +23,12 @@ filters:
     status: true
     weight: 10
     settings: {  }
+  media_embed:
+    id: media_embed
+    provider: media
+    status: false
+    weight: 100
+    settings:
+      default_view_mode: default
+      allowed_media_types: {  }
+      allowed_view_modes: {  }

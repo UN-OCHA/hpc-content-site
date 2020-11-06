@@ -122,6 +122,29 @@ function common_design_subtheme_preprocess_paragraph__page_title(&$variables) {
  * @see common_design_subtheme_get_block_render_array()
  */
 function common_design_subtheme_preprocess_node(&$variables) {
+  $node = $variables['node'];
+  $language = $node->language();
+  $variables['attributes']['lang'] = $language->getId();
+  $variables['attributes']['dir'] = $language->getDirection();
+
+  // Editorial status for the node to help distinguished if a node is published
+  // and what is the current language.
+  $user = \Drupal::currentUser();
+  if ($user->hasPermission('edit any ' . $node->bundle() . ' content')) {
+    // We don't want to show the translated language name for that so we need
+    // that map because ::getName() returns the translated name.
+    $languages = [
+      'ar' => 'Arabic',
+      'en' => 'English',
+      'es' => 'Spanish',
+      'fr' => 'French',
+    ];
+    $variables['attributes']['data-status'] = implode(' - ', [
+      $languages[$language->getId()] ?? $language->getName(),
+      $node->isPublished() ? 'published' : 'not published',
+    ]);
+  }
+
   if (isset($variables['view_mode']) && $variables['view_mode'] === 'full') {
     $variables['title'] = common_design_subtheme_get_block_render_array('page_title_block');
     $variables['local_tasks'] = common_design_subtheme_get_block_render_array('local_tasks_block', FALSE);
@@ -136,6 +159,18 @@ function common_design_subtheme_preprocess_node(&$variables) {
 function common_design_subtheme_preprocess_node__story(&$variables) {
   if (isset($variables['content']['field_media'][0]['#media'])) {
     $credits = $variables['content']['field_media'][0]['#media']->field_credits->value;
+    $variables['content']['credits'] = ['#markup' => $credits];
+  }
+}
+
+/**
+ * Implements hook_preprocess_paragraph__image_with_text().
+ *
+ * Extract the media credits to display them after the text.
+ */
+function common_design_subtheme_preprocess_paragraph__image_with_text(&$variables) {
+  if (isset($variables['content']['field_image'][0]['#media'])) {
+    $credits = $variables['content']['field_image'][0]['#media']->field_credits->value;
     $variables['content']['credits'] = ['#markup' => $credits];
   }
 }

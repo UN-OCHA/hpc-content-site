@@ -3,7 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.story.field_footnotes
     - field.field.node.story.field_media
+    - field.field.node.story.field_source
     - field.field.node.story.field_text
     - field.field.node.story.field_type
     - node.type.story
@@ -15,6 +17,13 @@ targetEntityType: node
 bundle: story
 mode: default
 content:
+  field_footnotes:
+    weight: 4
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
   field_media:
     type: entity_reference_entity_view
     weight: 2
@@ -23,6 +32,13 @@ content:
       view_mode: story
       link: false
     third_party_settings: {  }
+    region: content
+  field_source:
+    weight: 5
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
     region: content
   field_text:
     weight: 3

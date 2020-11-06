@@ -1,9 +1,9 @@
-uuid: 9131a8b9-e2ba-459f-ad34-4584562a63cf
+uuid: 95214ecb-0dd1-48f6-a6da-ddcc3bc01840
 langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.node.related_article
+    - core.entity_view_mode.node.home_page
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
     - field.field.node.article.field_hero_image
@@ -16,40 +16,49 @@ dependencies:
     - node.type.article
   module:
     - layout_builder
-    - text
+    - link
     - user
 third_party_settings:
   layout_builder:
     allow_custom: false
     enabled: false
-id: node.article.related_article
+id: node.article.home_page
 targetEntityType: node
 bundle: article
-mode: related_article
+mode: home_page
 content:
-  field_summary:
-    type: text_default
-    weight: 1
-    region: content
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-  field_thumbnail_image:
+  field_hero_image:
     type: entity_reference_entity_view
-    weight: 0
-    region: content
+    weight: 1
     label: hidden
     settings:
-      view_mode: related_article_thumb
+      view_mode: hero_image
       link: false
+    third_party_settings: {  }
+    region: content
+  field_report_link:
+    weight: 2
+    label: hidden
+    settings:
+      trim_length: null
+      url_only: false
+      url_plain: false
+      rel: '0'
+      target: '0'
+    third_party_settings: {  }
+    type: link
+    region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden:
   field_appeals: true
   field_author: true
-  field_hero_image: true
   field_paragraphs: true
   field_related_articles: true
-  field_report_link: true
   field_section: true
+  field_summary: true
+  field_thumbnail_image: true
   langcode: true
-  links: true

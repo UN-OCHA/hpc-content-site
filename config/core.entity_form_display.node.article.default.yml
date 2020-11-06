@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_related_articles
+    - field.field.node.article.field_report_link
     - field.field.node.article.field_section
     - field.field.node.article.field_summary
     - field.field.node.article.field_thumbnail_image
@@ -15,6 +16,7 @@ dependencies:
   module:
     - inline_entity_form
     - layout_paragraphs
+    - link
     - media_library
     - path
     - text
@@ -48,13 +50,13 @@ content:
     region: content
   field_hero_image:
     type: media_library_widget
-    weight: 4
+    weight: 5
     settings:
       media_types: {  }
     third_party_settings: {  }
     region: content
   field_paragraphs:
-    weight: 7
+    weight: 8
     settings:
       preview_view_mode: default
       nesting_depth: 4
@@ -72,6 +74,14 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  field_report_link:
+    weight: 4
+    settings:
+      placeholder_url: 'Ex: https://reliefweb.int/gho-2020.pdf'
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
   field_section:
     weight: 0
     settings: {  }
@@ -79,7 +89,7 @@ content:
     type: options_select
     region: content
   field_summary:
-    weight: 6
+    weight: 7
     settings:
       rows: 5
       placeholder: ''
@@ -88,14 +98,14 @@ content:
     region: content
   field_thumbnail_image:
     type: media_library_widget
-    weight: 5
+    weight: 6
     settings:
       media_types: {  }
     third_party_settings: {  }
     region: content
   path:
     type: path
-    weight: 8
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -103,7 +113,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 9
+    weight: 10
     region: content
     third_party_settings: {  }
   title:

@@ -7,6 +7,7 @@
 
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Access\AccessResultInterface;
+use Drupal\gho_fields\Plugin\Field\FieldFormatter\GhoRelatedArticlesFormatter;
 
 /**
  * Get the list of components to attach to formatted text fields.
@@ -160,6 +161,40 @@ function common_design_subtheme_preprocess_node__story(&$variables) {
   if (isset($variables['content']['field_media'][0]['#media'])) {
     $credits = $variables['content']['field_media'][0]['#media']->field_credits->value;
     $variables['content']['credits'] = ['#markup' => $credits];
+  }
+}
+
+/**
+ * Implements hook_preprocess_node__article().
+ *
+ * Show the related articles at the end of the main articles.
+ */
+function common_design_subtheme_preprocess_node__article(&$variables) {
+  if (isset($variables['view_mode']) && $variables['view_mode'] === 'full') {
+    $node_id = $variables['node']->id();
+    $node_uri = 'entity:node/' . $node_id;
+
+    // Load the menu link associated with the node.
+    $storage = \Drupal::service('entity_type.manager')->getStorage('menu_link_content');
+    $links = $storage->loadByProperties(['link__uri' => $node_uri]);
+
+    if (!empty($links)) {
+      // Get the list of node render arrays for the children of the parent of
+      // the menu link, excluding this node. This will return the related
+      // articles.
+      $menu_id = reset($links)->getParentId();
+      $list = GhoRelatedArticlesFormatter::getNodeListFromMenu($menu_id, [$node_id]);
+
+      if (!empty($list)) {
+        $variables['content']['related_articles'] = [
+          '#theme' => 'gho_related_articles_formatter',
+          '#title' => t('More from this section'),
+          '#list' => $list,
+          // Ensure it's displayed at the end.
+          '#weight' => 999,
+        ];
+      }
+    }
   }
 }
 

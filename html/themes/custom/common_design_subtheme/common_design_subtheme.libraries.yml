@@ -39,10 +39,15 @@ gho-further-reading:
     theme:
       components/gho-further-reading/gho-further-reading.css: {}
 
-gho-related-article:
+gho-related-articles:
   css:
     theme:
-      components/gho-related-article/gho-related-article.css: {}
+      components/gho-related-articles/gho-related-articles.css: {}
+
+gho-section-index:
+  css:
+    theme:
+      components/gho-section-index/gho-section-index.css: {}
 
 gho-footnotes:
   css:

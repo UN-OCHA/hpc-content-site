@@ -1,0 +1,27 @@
+/* This is similar to the sub-article styling */
+.gho-section-index__header {
+  margin: 2rem 0 1rem 0;
+  padding: 2rem 0 0 0;
+  border-top: 1px solid #ccc;
+}
+.gho-section-index__pre-title {
+  margin-bottom: 0.5rem;
+  color: #6d6d6d;
+}
+.gho-section-index__title {
+  margin: 0;
+  padding: 0;
+  color: black;
+  font-size: 2rem;
+  font-weight: 700;
+}
+/* @todo check if  we need to limit the width of the description. This doesn't
+ * seem to be the case on the homepage. */
+.gho-section-index .field--name-field-text {
+   /* max-width: var(--reading-width); */
+   margin-bottom: 1rem;
+ }
+
+.gho-section-index .gho-related-article {
+  border-top: 1px solid #ccc;
+}

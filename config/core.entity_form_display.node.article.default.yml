@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.article.field_author
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
-    - field.field.node.article.field_related_articles
     - field.field.node.article.field_report_link
     - field.field.node.article.field_section
     - field.field.node.article.field_summary
@@ -63,16 +62,6 @@ content:
       require_layouts: 0
     third_party_settings: {  }
     type: layout_paragraphs
-    region: content
-  field_related_articles:
-    weight: 11
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete
     region: content
   field_report_link:
     weight: 4

@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.article.field_author
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
-    - field.field.node.article.field_related_articles
     - field.field.node.article.field_report_link
     - field.field.node.article.field_section
     - field.field.node.article.field_summary
@@ -57,15 +56,6 @@ content:
       link: ''
     third_party_settings: {  }
     type: entity_reference_revisions_entity_view
-    region: content
-  field_related_articles:
-    weight: 7
-    label: above
-    settings:
-      view_mode: related_article
-      link: false
-    third_party_settings: {  }
-    type: entity_reference_entity_view
     region: content
   field_report_link:
     weight: 4

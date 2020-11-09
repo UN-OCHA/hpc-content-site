@@ -44,6 +44,7 @@
         "drupal/paragraphs_viewmode": "^1.0-alpha2",
         "drupal/pathauto": "^1.8",
         "drupal/redirect": "^1.6",
+        "drupal/redis": "^1.4",
         "drupal/social_auth_hid": "^2.5",
         "drupal/views_field_view": "^1.0-beta3",
         "drush/drush": "^10.2.2",

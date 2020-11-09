@@ -27,6 +27,12 @@ function gho_fields_theme() {
         'source' => NULL,
       ],
     ],
+    'gho_related_articles_formatter' => [
+      'variables' => [
+        'title' => NULL,
+        'list' => NULL,
+      ],
+    ],
   ];
 }
 

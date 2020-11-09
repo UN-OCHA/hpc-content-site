@@ -3,6 +3,9 @@
  * @file
  * Theme override to display an Article node using Related Article view mode.
  *
+ * Note: we attach the library for the list of related articles here for
+ * convenience so that we don't need to do that in several places.
+ *
  * Overrides core/themes/classy/templates/content/node.html.twig.
  *
  * Available variables:
@@ -72,7 +75,7 @@
  *   in different view modes.
  */
 #}
-{{ attach_library('common_design_subtheme/gho-related-article') }}
+{{ attach_library('common_design_subtheme/gho-related-articles') }}
 {%
   set classes = [
     'node',
@@ -86,10 +89,17 @@
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
-  <h3{{ title_attributes.addClass('gho-related-article__title') }}>
-    <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-  </h3>
-
-  {{ content }}
-  <a href="{{ url }}" class="read-article">{{ 'Read article'|t }}</a>
+  {{ content.field_thumbnail_image }}
+  <div class="gho-related-article__content">
+    <h3{{ title_attributes.addClass('gho-related-article__title') }}>
+      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h3>
+    {{ content|without('field_thumbnail_image') }}
+    <a href="{{ url }}" class="gho-related-article__read-article read-article">
+      {{- 'Read article'|t -}}
+      <svg class="cd-icon cd-icon--arrow-right gho-related-article__arrow" width="16" height="16" aria-hidden="true" focusable="false">
+        <use xlink:href="#cd-icon--arrow-right"></use>
+      </svg>
+    </a>
+  </div>
 </article>

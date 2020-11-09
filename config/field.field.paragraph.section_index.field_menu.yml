@@ -1,0 +1,28 @@
+uuid: 7a175cc3-b56c-488a-be8f-a84955c00694
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_menu
+    - paragraphs.paragraphs_type.section_index
+id: paragraph.section_index.field_menu
+field_name: field_menu
+entity_type: paragraph
+bundle: section_index
+label: Menu
+description: 'Menu containing the list of articles to display.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:menu_link_content'
+  handler_settings:
+    target_bundles:
+      menu_link_content: menu_link_content
+    sort:
+      field: weight
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

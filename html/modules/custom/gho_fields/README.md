@@ -26,3 +26,24 @@ Further reading links
 - [Widget](src/Plugin/Field/FieldWidget/GhoFurtherReadingLinkWidget.php)
 
   Add a mandatory `source` field in addition to the `uri` and `title`.
+
+
+Compact Numbers
+---------------
+
+- [Formatter](src/Plugin/Field/FieldFormatter/GhoNumberFormatter.php)
+
+  Handles the language aware display of compact numbers (ex: 1.2 milliom).
+
+
+Related Articles
+----------------
+
+- [Formatter](src/Plugin/Field/FieldFormatter/GhoRelatedArticlesFormatter.php)
+
+  Uses the [gho-related-articles-formatter.html.twig](templates/gho-related-articles-formatter.html.twig) template with the `title` and `list`
+  (of related articles) variables.
+
+- [Widget](src/Plugin/Field/FieldWidget/GhoMenuWidget.php)
+
+  Allow the selection of a direct child of the `main` navigation menu.

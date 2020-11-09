@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.article.field_author
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
+    - field.field.node.article.field_report_link
     - field.field.node.article.field_section
     - field.field.node.article.field_summary
     - field.field.node.article.field_thumbnail_image
@@ -41,6 +42,7 @@ hidden:
   field_author: true
   field_hero_image: true
   field_paragraphs: true
+  field_report_link: true
   field_section: true
   langcode: true
   links: true

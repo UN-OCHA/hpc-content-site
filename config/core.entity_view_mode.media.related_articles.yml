@@ -1,0 +1,10 @@
+uuid: 4a900afb-926f-4053-a249-19dfbd1d6bb2
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.related_articles
+label: 'Related articles'
+targetEntityType: media
+cache: true

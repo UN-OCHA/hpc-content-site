@@ -90,30 +90,30 @@ gho-aside:
     - common_design_subtheme/gho-bleed
 
 gho-hero-image:
-   css:
-     theme:
-       components/gho-hero-image/gho-hero-image.css: {}
-   dependencies:
-     - common_design_subtheme/gho-bleed
+  css:
+    theme:
+      components/gho-hero-image/gho-hero-image.css: {}
+  dependencies:
+    - common_design_subtheme/gho-bleed
 
 gho-article:
-   css:
-     theme:
-       components/gho-article/gho-article.css: {}
-   dependencies:
-     - common_design_subtheme/gho-bleed
+  css:
+    theme:
+      components/gho-article/gho-article.css: {}
+  dependencies:
+    - common_design_subtheme/gho-bleed
 
 gho-sub-article:
-   css:
-     theme:
-       components/gho-sub-article/gho-sub-article.css: {}
-   dependencies:
-     - common_design_subtheme/gho-bleed
+  css:
+    theme:
+      components/gho-sub-article/gho-sub-article.css: {}
+  dependencies:
+    - common_design_subtheme/gho-bleed
 
 gho-embed:
-   css:
-     theme:
-       components/gho-embed/gho-embed.css: {}
+  css:
+    theme:
+      components/gho-embed/gho-embed.css: {}
 
 gho-home-page:
   css:

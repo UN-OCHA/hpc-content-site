@@ -1,0 +1,49 @@
+uuid: f4384e2b-1a6e-4d56-b183-093bb1cafb5c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.section_index.field_menu
+    - field.field.paragraph.section_index.field_section
+    - field.field.paragraph.section_index.field_text
+    - field.field.paragraph.section_index.field_title
+    - paragraphs.paragraphs_type.section_index
+  module:
+    - gho_fields
+    - text
+id: paragraph.section_index.default
+targetEntityType: paragraph
+bundle: section_index
+mode: default
+content:
+  field_menu:
+    weight: 3
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: gho_related_articles
+    region: content
+  field_section:
+    weight: 0
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_text:
+    weight: 2
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_title:
+    weight: 1
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

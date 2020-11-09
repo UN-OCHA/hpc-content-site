@@ -1,0 +1,123 @@
+/**
+ * List styles
+ */
+.gho-related-articles {
+}
+
+/**
+ * List title
+ */
+.gho-related-articles__title {
+  margin: 2rem 0 0.5rem 0;
+  padding: 2rem 0 0 0;
+  border-top: 1px solid #ccc;
+  color: black;
+}
+
+/**
+ * Individual Article
+ */
+.gho-related-article {
+  padding: 1.5rem 0;
+}
+@media screen and (min-width: 768px) {
+  .gho-related-article {
+    /* Using flex-wrap here to avoid having the design failing due to the
+     * editorial status (language - published) displayed via article::before. */
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+/**
+ * Lists of related articles have separators
+ */
+.gho-related-article + .gho-related-article {
+  border-top: 1px solid #ccc;
+}
+
+/**
+ * Thumbnail image
+ */
+@media screen and (min-width: 768px) {
+  .gho-related-article .field--name-field-thumbnail-image {
+    /* The 2rem are for the padding of the text */
+    width: calc(40% - 2rem);
+    min-width: 320px;
+  }
+}
+
+/**
+ * Content: title, summary and read-more lunk.
+ */
+ @media screen and (min-width: 768px) {
+  .gho-related-article__content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+    /* Minimum width of the image. */
+    flex-basis: 320px;
+  }
+  [dir='ltr'] .gho-related-article__content {
+    padding-left: 2rem;
+    padding-right: 0;
+  }
+  [dir='rtl'] .gho-related-article__content {
+    padding-left: 0;
+    padding-right: 2rem;
+  }
+}
+
+/**
+ * Title
+ */
+.gho-related-article__title {
+  font-size: 1.125em;
+  font-weight: 700;
+  margin: 1rem 0;
+}
+.gho-related-article__title a {
+  color: black;
+  text-decoration: none;
+}
+@media screen and (min-width: 768px) {
+  .gho-related-article__title {
+    margin-top: 0;
+  }
+}
+
+/**
+ * Summary
+ */
+.gho-related-article .field--name-field-summary > :first-child {
+  margin-top: 0;
+}
+.gho-related-article .field--name-field-summary > :last-child {
+  margin-bottom: 0;
+}
+@media screen and (min-width: 768px) {
+  .gho-related-article .field--name-field-summary {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: auto;
+  }
+}
+
+/**
+ * Link to read article
+ */
+.gho-related-article__read-article {
+  display: block;
+  padding: 1rem 0 0 0;
+  color: #000;
+  font-weight: 700;
+}
+.gho-related-article__arrow {
+  margin: 0 0 0 0.25rem;
+  fill: #699fd3;
+}
+[dir='rtl'] .gho-related-article__arrow {
+  margin: 0 0.25rem 0 0;
+  transform: scale(-1, 1);
+}

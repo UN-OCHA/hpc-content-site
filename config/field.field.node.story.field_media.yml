@@ -1,0 +1,30 @@
+uuid: 558642e0-25bd-494a-919d-d69a8b5ab8dc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_media
+    - media.type.image
+    - media.type.video
+    - node.type.story
+id: node.story.field_media
+field_name: field_media
+entity_type: node
+bundle: story
+label: Media
+description: 'Media used to illustrate the story. It can be an image, a video or an embedded content (infographic etc.).'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      video: video
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: image
+field_type: entity_reference

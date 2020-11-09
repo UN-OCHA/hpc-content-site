@@ -1,0 +1,21 @@
+uuid: 3ea8858d-e206-4197-86a5-b32876f84579
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.field_credits
+field_name: field_credits
+entity_type: media
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

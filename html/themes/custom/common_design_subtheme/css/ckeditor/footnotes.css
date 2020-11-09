@@ -1,0 +1,7 @@
+body.footnotes {
+  counter-reset: footnotes;
+}
+body.footnotes p:before {
+  counter-increment: footnotes;
+  content: counter(footnotes)'. ';
+}

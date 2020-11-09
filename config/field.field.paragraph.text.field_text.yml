@@ -1,0 +1,28 @@
+uuid: e0ce1624-8a68-4680-8067-622536c2df1a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_text
+    - paragraphs.paragraphs_type.text
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    limited_html: limited_html
+    plain_text: '0'
+    filtered_html: '0'
+    footnotes: '0'
+id: paragraph.text.field_text
+field_name: field_text
+entity_type: paragraph
+bundle: text
+label: Text
+description: 'Main content of the paragraph. To reference footnotes simply add <code>[X]</code> where <code>X</code> is the number of the footnote. Links to the footnotes will be generated automatically when the paragraph is rendered.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

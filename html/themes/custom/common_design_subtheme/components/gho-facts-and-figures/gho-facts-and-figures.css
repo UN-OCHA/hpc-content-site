@@ -1,0 +1,38 @@
+/**
+ * Base facts and figures.
+ */
+.gho-facts-and-figures .field--name-field-paragraphs {
+  /* Compensate for the padding of the image and text paragraphs */
+  margin: -0.5rem;
+}
+.gho-facts-and-figures .field--name-field-paragraphs > .field__item {
+  padding: 0.5rem;
+}
+
+.gho-facts-and-figures__caption {
+  margin-top: 1rem;
+}
+.gho-facts-and-figures__caption > p:last-of-type {
+  display: inline;
+}
+.gho-facts-and-figures__credits {
+  font-style: italic;
+}
+
+/**
+ * Three columns.
+ *
+ * In this mode, the images (responsive) span 1/3 of the width the page's
+ * content region on desktop and on smaller screens they take up the entire
+ * content column width like the single column.
+ */
+@media screen and (min-width: 768px) {
+  .gho-facts-and-figures .field--name-field-paragraphs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .gho-facts-and-figures .field--name-field-paragraphs > .field__item {
+    flex: 0 0 33.33%;
+  }
+}

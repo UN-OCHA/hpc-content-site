@@ -4,10 +4,25 @@
 
 .cd-footer {
   background: $implementation-primary;
+  font-family: $cd-font;
 
   a {
     &:focus {
       outline: 3px solid $implementation-highlight;
     }
+  }
+}
+
+
+//——————————————————————————————————————————————————————————————————————————————
+// GHO-4: RTL adjustments
+//
+// These need to be sent upstream once we're all happy with them.
+//——————————————————————————————————————————————————————————————————————————————
+[dir='rtl'] .cd-footer__section--menu {
+  @include desktop {
+    text-align: right;
+    float: right; // IE11 needs this
+    width: 70%;
   }
 }

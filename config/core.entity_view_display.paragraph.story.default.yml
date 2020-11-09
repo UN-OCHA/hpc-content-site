@@ -1,0 +1,22 @@
+uuid: 3c322803-6fd2-4b1b-b729-29011cdeb9f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.story.field_story
+    - paragraphs.paragraphs_type.story
+id: paragraph.story.default
+targetEntityType: paragraph
+bundle: story
+mode: default
+content:
+  field_story:
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: teaser
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+hidden: {  }

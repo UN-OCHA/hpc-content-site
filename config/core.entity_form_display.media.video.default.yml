@@ -1,0 +1,44 @@
+uuid: a399b02b-ed72-4d5d-8667-af1c12c57514
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.media.video.field_credits
+    - field.field.media.video.field_media_oembed_video
+    - media.type.video
+  module:
+    - media
+id: media.video.default
+targetEntityType: media
+bundle: video
+mode: default
+content:
+  field_credits:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_media_oembed_video:
+    type: oembed_textfield
+    weight: 0
+    settings:
+      size: 255
+      placeholder: 'https://www.youtube.com/watch?v=VIDEOID'
+    third_party_settings: {  }
+    region: content
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 2
+    region: content
+    third_party_settings: {  }
+hidden:
+  created: true
+  langcode: true
+  name: true
+  path: true
+  uid: true

@@ -5,6 +5,7 @@
 // Sass utilities
 @import 'cd-variables';
 @import 'cd-mixins';
+@import 'cd-resets';
 
 // Layout
 @import 'cd-layout/cd-layout';
@@ -22,4 +23,7 @@
 
 // Footer
 @import 'cd-footer/cd-footer';
+@import 'cd-footer/cd-footer-menu';
+@import 'cd-footer/cd-footer-copyright';
 @import 'cd-footer/cd-soft-footer';
+@import 'cd-footer/cd-mandate';

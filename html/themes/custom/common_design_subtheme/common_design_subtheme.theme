@@ -7,6 +7,7 @@
 
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Access\AccessResultInterface;
+use Drupal\gho_fields\Plugin\Field\FieldFormatter\GhoRelatedArticlesFormatter;
 
 /**
  * Get the list of components to attach to formatted text fields.
@@ -106,7 +107,106 @@ function common_design_subtheme_preprocess_paragraph__page_title(&$variables) {
   // paragraphs_page_title_preprocess_paragraph__page_title().
   if (!isset($variables['elements']['#id'])) {
     $variables['content']['title'] = common_design_subtheme_get_block_render_array('page_title_block');
-    $variables['content']['local_tasks'] = common_design_subtheme_get_block_render_array('local_tasks_block');
+    $variables['content']['local_tasks'] = common_design_subtheme_get_block_render_array('local_tasks_block', FALSE);
+  }
+}
+
+/**
+ * Implements hook_preprocess_node().
+ *
+ * Use the page title block for the title and display the local tasks below it.
+ * We use common_design_subtheme_get_block_render_array() that will cache the
+ * render array of the blocks so that they are not re-rendered and displayed
+ * again.
+ *
+ * @see common_design_subtheme_preprocess_page()
+ * @see common_design_subtheme_get_block_render_array()
+ */
+function common_design_subtheme_preprocess_node(&$variables) {
+  $node = $variables['node'];
+  $language = $node->language();
+  $variables['attributes']['lang'] = $language->getId();
+  $variables['attributes']['dir'] = $language->getDirection();
+
+  // Editorial status for the node to help distinguished if a node is published
+  // and what is the current language.
+  $user = \Drupal::currentUser();
+  if ($user->hasPermission('edit any ' . $node->bundle() . ' content')) {
+    // We don't want to show the translated language name for that so we need
+    // that map because ::getName() returns the translated name.
+    $languages = [
+      'ar' => 'Arabic',
+      'en' => 'English',
+      'es' => 'Spanish',
+      'fr' => 'French',
+    ];
+    $variables['attributes']['data-status'] = implode(' - ', [
+      $languages[$language->getId()] ?? $language->getName(),
+      $node->isPublished() ? 'published' : 'not published',
+    ]);
+  }
+
+  if (isset($variables['view_mode']) && $variables['view_mode'] === 'full') {
+    $variables['title'] = common_design_subtheme_get_block_render_array('page_title_block');
+    $variables['local_tasks'] = common_design_subtheme_get_block_render_array('local_tasks_block', FALSE);
+  }
+}
+
+/**
+ * Implements hook_preprocess_node__article().
+ *
+ * Extract the media credits to display them after the text.
+ */
+function common_design_subtheme_preprocess_node__story(&$variables) {
+  if (isset($variables['content']['field_media'][0]['#media'])) {
+    $credits = $variables['content']['field_media'][0]['#media']->field_credits->value;
+    $variables['content']['credits'] = ['#markup' => $credits];
+  }
+}
+
+/**
+ * Implements hook_preprocess_node__article().
+ *
+ * Show the related articles at the end of the main articles.
+ */
+function common_design_subtheme_preprocess_node__article(&$variables) {
+  if (isset($variables['view_mode']) && $variables['view_mode'] === 'full') {
+    $node_id = $variables['node']->id();
+    $node_uri = 'entity:node/' . $node_id;
+
+    // Load the menu link associated with the node.
+    $storage = \Drupal::service('entity_type.manager')->getStorage('menu_link_content');
+    $links = $storage->loadByProperties(['link__uri' => $node_uri]);
+
+    if (!empty($links)) {
+      // Get the list of node render arrays for the children of the parent of
+      // the menu link, excluding this node. This will return the related
+      // articles.
+      $menu_id = reset($links)->getParentId();
+      $list = GhoRelatedArticlesFormatter::getNodeListFromMenu($menu_id, [$node_id]);
+
+      if (!empty($list)) {
+        $variables['content']['related_articles'] = [
+          '#theme' => 'gho_related_articles_formatter',
+          '#title' => t('More from this section'),
+          '#list' => $list,
+          // Ensure it's displayed at the end.
+          '#weight' => 999,
+        ];
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_paragraph__image_with_text().
+ *
+ * Extract the media credits to display them after the text.
+ */
+function common_design_subtheme_preprocess_paragraph__image_with_text(&$variables) {
+  if (isset($variables['content']['field_image'][0]['#media'])) {
+    $credits = $variables['content']['field_image'][0]['#media']->field_credits->value;
+    $variables['content']['credits'] = ['#markup' => $credits];
   }
 }
 
@@ -114,9 +214,10 @@ function common_design_subtheme_preprocess_paragraph__page_title(&$variables) {
  * Implements hook_preprocess_page().
  *
  * Remove the default page title and local tasks blocks if they were already
- * rendered by a page title paragraph.
+ * rendered by a page title paragraph or when viewing full article nodes.
  *
  * @see common_design_subtheme_preprocess_paragraph__page_title()
+ * @see common_design_subtheme_preprocess_node__article()
  */
 function common_design_subtheme_preprocess_page(&$variables) {
   if (isset($variables['node'])) {
@@ -144,6 +245,10 @@ function common_design_subtheme_preprocess_page(&$variables) {
  *
  * @param string $id
  *   Block ID.
+ * @param bool $translate
+ *   Translate the block or not. This allows to keep some elements of the page
+ *   in the site's default language for example like the local tasks (view, edit
+ *   etc.).
  *
  * @return array
  *   Renderable array of the block. Empty array if this was already called
@@ -151,7 +256,7 @@ function common_design_subtheme_preprocess_page(&$variables) {
  *
  * @see https://drupal.stackexchange.com/a/171733
  */
-function common_design_subtheme_get_block_render_array($id) {
+function common_design_subtheme_get_block_render_array($id, $translate = TRUE) {
   $rendered = &drupal_static('common_design_subtheme_rendered_blocks');
 
   if (!isset($rendered[$id])) {
@@ -171,7 +276,15 @@ function common_design_subtheme_get_block_render_array($id) {
     $access = $plugin_block->access(\Drupal::currentUser());
     // This can be a boolean or an object implementing AccessResultInterface.
     if ($access === TRUE || ($access instanceof AccessResultInterface && $access->isAllowed())) {
-      return $plugin_block->build();
+      if ($translate === FALSE) {
+        $current_langcode = gho_access_switch_to_language();
+        $build = $plugin_block->build();
+        gho_access_switch_to_language($current_langcode);
+      }
+      else {
+        $build = $plugin_block->build();
+      }
+      return $build;
     }
   }
 

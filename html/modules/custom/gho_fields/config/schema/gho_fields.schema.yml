@@ -1,0 +1,41 @@
+# Formatters.
+field.formatter.settings.gho_dataset_link:
+  type: mapping
+  label: 'GHO dataset link formatter settings'
+  mapping:
+    # No settings.
+field.formatter.settings.gho_further_reading_link:
+  type: mapping
+  label: 'GHO further reading link formatter settings'
+  mapping:
+    # No settings.
+field.formatter.settings.gho_number:
+  type: mapping
+  label: 'GHO number formatter settings'
+  mapping:
+    format:
+      type: string
+      label: 'Format'
+    precision:
+      type: integer
+      label: 'Precision'
+field.formatter.settings.gho_related_articles:
+  type: mapping
+  label: 'GHO related articles formatter settings'
+  mapping:
+    # No settings.
+
+# Widgets.
+field.widget.settings.gho_dataset_link:
+  # Inherit the settings from the link widget.
+  type: field.widget.settings.link_default
+  label: 'GHO dataset link widget settings'
+field.widget.settings.gho_further_reading_link:
+  # Inherit the settings from the link widget.
+  type: field.widget.settings.link_default
+  label: 'GHO further reading link widget settings'
+field.widget.settings.gho_menu_select:
+  type: mapping
+  label: 'GHO menu select widget settings'
+  mapping:
+    # No settings.

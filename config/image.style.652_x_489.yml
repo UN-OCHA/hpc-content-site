@@ -1,0 +1,16 @@
+uuid: cdf7115c-758a-4877-8055-042cdc57323c
+langcode: en
+status: true
+dependencies: {  }
+name: 652_x_489
+label: '652 x 489'
+effects:
+  329b2c21-e2b1-4e63-ab9e-69241334d654:
+    uuid: 329b2c21-e2b1-4e63-ab9e-69241334d654
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 652
+      height: 489
+      anchor: center-center
+pipeline: __default__

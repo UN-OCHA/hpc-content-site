@@ -1,0 +1,19 @@
+uuid: da7c6f02-ccbb-45e4-8558-358a13459c31
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_credits
+    - media.type.image
+id: media.image.field_credits
+field_name: field_credits
+entity_type: media
+bundle: image
+label: Credits
+description: 'Image credits in the form <em>Photographer/OCHA</em>. Ex: <em>Jane Doe/OCHA</em>.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -11,18 +11,6 @@
   }
 }
 
-// No language switcher so hide the separator.
-.cd-global-header .menu {
-  li:last-child a,
-  li:last-child button {
-    padding-right: 0;
-
-    &::after {
-      content: none;
-    }
-  }
-}
-
 //——————————————————————————————————————————————————————————————————————————————
 // Drupal selectors
 //——————————————————————————————————————————————————————————————————————————————
@@ -30,4 +18,13 @@
 .cd-global-header .menu > li a,
 .cd-global-header .menu > li button {
   @extend .cd-user-menu__item;
+}
+
+//——————————————————————————————————————————————————————————————————————————————
+// GHO-4: RTL adjustments
+//
+// These need to be sent upstream once we're all happy with them.
+//——————————————————————————————————————————————————————————————————————————————
+.cd-global-header__user-menu > .menu {
+  padding-right: 0;
 }

@@ -20,3 +20,78 @@
 .is-collapse-enabled .tabs {
   overflow: hidden;
 }
+
+/*------------------------------------------------------------------------------
+ * Styling of the Bottom Figures Row paragraph type
+ *----------------------------------------------------------------------------*/
+.paragraph--type--bottom-figure-row.paragraph--view-mode--default .field__items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.paragraph--type--bottom-figure-row.paragraph--view-mode--default .double-field-first {
+  font-weight: bold;
+}
+
+/*------------------------------------------------------------------------------
+ * Styling of the Facts and Figures paragraph type
+ *----------------------------------------------------------------------------*/
+.paragraph--type--facts-and-figures {
+  background: #222;
+  color: white;
+  padding: 1em;
+}
+.paragraph--type--facts-and-figures .field--name-field-title {
+  padding-bottom: 1em;
+  margin: 0;
+}
+.paragraph--type--facts-and-figures .field--name-field-paragraphs {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0 -.5em;
+}
+.paragraph--type--facts-and-figures .field--name-field-paragraphs > .field__item {
+  flex: 0 0 32%;
+  padding: 0 .5em;
+}
+
+/*------------------------------------------------------------------------------
+ * Styling of the Separator paragraph type
+ *----------------------------------------------------------------------------*/
+.paragraph--type--separator {
+  position: relative;
+}
+.paragraph--type--separator::after {
+  content: '';
+  position: absolute;
+  top: .75em;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #ccc;
+}
+
+/* the label, e.g. "Separator: full" */
+.field--name-field-separator-size {
+  position: relative;
+  text-align: center;
+  z-index: 2;
+  width: 110px;
+  margin: 0 auto;
+  background: #fcfcfa;
+}
+.field--name-field-separator-size::before {
+  content: 'Separator: ';
+}
+
+/*------------------------------------------------------------------------------
+ * Styling of the Photo Gallery paragraph type - 2 column layout
+ *----------------------------------------------------------------------------*/
+.paragraph--type--photo-gallery.paragraph--view-mode--two-columns .field__items {
+  display: flex;
+  flex-flow: row wrap;
+}
+.paragraph--type--photo-gallery.paragraph--view-mode--two-columns .field__items > .field__item {
+  flex: 1 0 40%;
+  margin: 0 1rem 1rem;
+}

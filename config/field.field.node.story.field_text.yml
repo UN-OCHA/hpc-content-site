@@ -1,0 +1,28 @@
+uuid: 43bcea74-10c5-4d18-a4df-7336bc50b062
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_text
+    - node.type.story
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    limited_html: limited_html
+    plain_text: '0'
+    filtered_html: '0'
+    footnotes: '0'
+id: node.story.field_text
+field_name: field_text
+entity_type: node
+bundle: story
+label: Text
+description: 'Text of the story. To reference footnotes simply add <code>[X]</code> where <code>X</code> is the number of the footnote. Links to the footnotes will be generated automatically when the text is rendered.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

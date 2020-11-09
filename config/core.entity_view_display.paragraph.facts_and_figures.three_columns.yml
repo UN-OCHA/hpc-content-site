@@ -1,0 +1,39 @@
+uuid: b23d41b6-2438-44ad-b6f0-11fb1a3dc5a4
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.three_columns
+    - field.field.paragraph.facts_and_figures.field_paragraphs
+    - field.field.paragraph.facts_and_figures.field_title
+    - paragraphs.paragraphs_type.facts_and_figures
+  module:
+    - entity_reference_revisions
+    - layout_builder
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: paragraph.facts_and_figures.three_columns
+targetEntityType: paragraph
+bundle: facts_and_figures
+mode: three_columns
+content:
+  field_paragraphs:
+    type: entity_reference_revisions_entity_view
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: three_columns
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_title:
+    weight: 0
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

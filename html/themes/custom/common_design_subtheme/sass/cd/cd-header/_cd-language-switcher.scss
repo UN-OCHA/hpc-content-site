@@ -20,3 +20,51 @@
     }
   }
 }
+
+//——————————————————————————————————————————————————————————————————————————————
+// GHO-4: RTL adjustments
+//
+// These need to be sent upstream once we're all happy with them.
+//
+// sass-lint:disable no-mergeable-selectors
+//——————————————————————————————————————————————————————————————————————————————
+.cd-language-switcher__btn {
+  [dir='ltr'] & {
+    padding: 0 0 0 20px;
+  }
+
+  [dir='rtl'] & {
+    padding: 0 10px 0 20px;
+  }
+}
+
+// @see _cd-language-switcher.scss@40
+//
+// I had to take the selector which extends .cd-user-menu__dropdown-link instead
+// of extending it directly. Apparently the drupal markup doesn't have that
+// selector so we have to use the drupal implmentation.
+.cd-user-menu__dropdown li a {
+  &.is-active {
+    padding-right: 0; // unsetting upstream CD
+
+    [dir='ltr'] & {
+      padding-right: 12px;
+    }
+
+    [dir='rtl'] & {
+      padding-left: 12px;
+    }
+
+    &::after {
+      right: auto; // unsetting upstream CD
+
+      [dir='ltr'] & {
+        right: 0;
+      }
+
+      [dir='rtl'] & {
+        left: 0;
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.media.hero_image
+    - field.field.media.image.field_credits
     - field.field.media.image.field_media_image
     - media.type.image
     - responsive_image.styles.hero_image
@@ -30,6 +31,8 @@ content:
     region: content
 hidden:
   created: true
+  field_credits: true
+  langcode: true
   name: true
   thumbnail: true
   uid: true

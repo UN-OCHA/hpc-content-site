@@ -1,0 +1,23 @@
+.gho-footnote-list {
+  border-top: 1px solid #ccc;
+  font-size: 0.85rem;
+}
+.gho-footnote-list__list {
+  margin: 0;
+  padding: 0.5rem 1rem;
+}
+.gho-footnote:target {
+  background-color: #eee;
+}
+.gho-footnote__backlinks {
+  display: inline;
+  vertical-align: super;
+  counter-reset: gho-footnotes-backlinks;
+}
+.gho-footnote-backlink {
+  counter-increment: gho-footnotes-backlinks;
+}
+.gho-footnote-backlink [title]::after {
+  content: counter(gho-footnotes-backlinks, lower-alpha);
+  font-style: italic;
+}

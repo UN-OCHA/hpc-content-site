@@ -1,0 +1,10 @@
+uuid: c5e5598e-d4e8-4eb7-a97a-79a1569b4030
+langcode: en
+status: true
+dependencies: {  }
+id: photo_gallery
+label: 'Photo Gallery'
+icon_uuid: null
+icon_default: null
+description: 'A photo gallery with up to 4 images.'
+behavior_plugins: {  }

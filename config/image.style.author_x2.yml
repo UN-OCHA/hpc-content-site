@@ -1,0 +1,16 @@
+uuid: 8b333b5a-a52d-40db-af86-8d0acfe28e64
+langcode: en
+status: true
+dependencies: {  }
+name: author_x2
+label: 'author x2'
+effects:
+  081c8436-3dac-48b3-b200-e8461023fab9:
+    uuid: 081c8436-3dac-48b3-b200-e8461023fab9
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 200
+      height: 200
+      anchor: center-center
+pipeline: __default__

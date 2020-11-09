@@ -1,0 +1,55 @@
+/**
+ * Base photo gallery.
+ */
+.gho-photo-gallery .field--name-field-photos {
+  /* Compensate for the padding of the photos */
+  margin: 0 -0.5rem;
+}
+.gho-photo-gallery .field--name-field-photos > .field__item {
+  padding: 0.5rem;
+}
+.gho-photo-gallery__location {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+.gho-photo-gallery__caption {
+  margin-top: 0;
+}
+.gho-photo-gallery__credits {
+  font-style: italic;
+}
+
+/**
+ * Single column gallery.
+ *
+ * In this mode, the images (responsive) span the entire width of the pages's
+ * content region.
+ */
+.gho-photo-gallery--single-column {
+  max-width: var(--reading-width);
+}
+
+/**
+ * Two columns gallery.
+ *
+ * In this mode, the images (responsive) span the half of the width the pages's
+ * content region on desktop and the entire width like the single column, on
+ * smaller screens.
+ */
+.gho-photo-gallery--two-columns {
+  max-width: var(--reading-width);
+}
+@media screen and (min-width: 768px) {
+  .gho-photo-gallery--two-columns .field--name-field-photos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .gho-photo-gallery--two-columns .field--name-field-photos > .field__item {
+    /* To maintain IE11 compat, do NOT use shorthand because calc cannot be
+       recognized by IE 10-11 within the `flex` shorthand property */
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: calc(50% - 1rem);
+  }
+}

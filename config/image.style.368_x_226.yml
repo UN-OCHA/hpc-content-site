@@ -1,0 +1,16 @@
+uuid: 1b092aa1-8917-453b-97c0-e76eea28f9b8
+langcode: en
+status: true
+dependencies: {  }
+name: 368_x_226
+label: '368 x 226'
+effects:
+  4d0b05de-51f6-448f-908f-1464b41a9bdb:
+    uuid: 4d0b05de-51f6-448f-908f-1464b41a9bdb
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 368
+      height: 226
+      anchor: center-center
+pipeline: __default__

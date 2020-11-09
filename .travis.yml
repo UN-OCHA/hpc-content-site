@@ -23,14 +23,15 @@ env:
      - CODER_VERSION='dev-8.x-2.x'
      - DB=sqlite
 
-install:
-  ssh-agent -k
+# Disabled as it causes errors and doesn't seem necessary - 2020/10/14
+# install:
+#  - test -n "${SSH_AGENT_PID}" && ssh-agent -k
 
 before_script:
   # Composer.
   - sed -i '1i export PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc
   - source $HOME/.bashrc
-  - composer self-update
+  - composer self-update 1.10.17
 
   # Ensure the PHP environment is ready.
   - phpenv rehash

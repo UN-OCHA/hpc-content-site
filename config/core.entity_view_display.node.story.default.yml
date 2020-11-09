@@ -1,0 +1,64 @@
+uuid: b618e7f1-761c-472c-9d9f-112755372fb2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.story.field_footnotes
+    - field.field.node.story.field_media
+    - field.field.node.story.field_source
+    - field.field.node.story.field_text
+    - field.field.node.story.field_type
+    - node.type.story
+  module:
+    - text
+    - user
+id: node.story.default
+targetEntityType: node
+bundle: story
+mode: default
+content:
+  field_footnotes:
+    weight: 4
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_media:
+    type: entity_reference_entity_view
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: story
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_source:
+    weight: 5
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_text:
+    weight: 3
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_type:
+    weight: 1
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true

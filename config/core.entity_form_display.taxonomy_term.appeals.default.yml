@@ -1,0 +1,38 @@
+uuid: f207c82f-9109-423c-9a66-ed55c7c1d633
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.appeals.field_appeal_extended
+    - taxonomy.vocabulary.appeals
+id: taxonomy_term.appeals.default
+targetEntityType: taxonomy_term
+bundle: appeals
+mode: default
+content:
+  field_appeal_extended:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  description: true
+  langcode: true
+  path: true
+  status: true

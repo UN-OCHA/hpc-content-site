@@ -1,0 +1,54 @@
+uuid: 34baf368-bde9-4b0c-9d68-348acabb6047
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.bottom_figure_row.field_bottom_figures
+    - field.field.paragraph.bottom_figure_row.field_dataset
+    - paragraphs.paragraphs_type.bottom_figure_row
+  module:
+    - double_field
+    - gho_fields
+id: paragraph.bottom_figure_row.default
+targetEntityType: paragraph
+bundle: bottom_figure_row
+mode: default
+content:
+  field_bottom_figures:
+    weight: 0
+    settings:
+      inline: true
+      first:
+        type: textfield
+        label_display: block
+        size: 30
+        placeholder: 'Ex: Population'
+        label: Ok
+        cols: 10
+        rows: 5
+        prefix: ''
+        suffix: ''
+      second:
+        type: textfield
+        label_display: block
+        size: 50
+        placeholder: 'Ex: 10.4 million'
+        label: Ok
+        cols: 10
+        rows: 5
+        prefix: ''
+        suffix: ''
+    third_party_settings: {  }
+    type: double_field
+    region: content
+  field_dataset:
+    weight: 1
+    settings:
+      placeholder_url: 'https://example.com/link-to-data'
+      placeholder_title: 'Ex: Office for the Coordination of Humanitarian Affairs'
+    third_party_settings: {  }
+    type: gho_dataset_link
+    region: content
+hidden:
+  created: true
+  status: true

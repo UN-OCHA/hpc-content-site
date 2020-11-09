@@ -1,0 +1,16 @@
+uuid: b374a075-fd32-4738-8a5d-3d4d05dbc375
+langcode: en
+status: true
+dependencies: {  }
+name: 592_x_364
+label: '592 x 364'
+effects:
+  6744bd62-8d7b-4a0e-9971-3b3b8fd9d9fa:
+    uuid: 6744bd62-8d7b-4a0e-9971-3b3b8fd9d9fa
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 592
+      height: 364
+      anchor: center-center
+pipeline: __default__

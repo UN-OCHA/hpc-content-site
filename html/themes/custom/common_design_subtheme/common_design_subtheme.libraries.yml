@@ -4,7 +4,113 @@ global-styling:
       css/styles.css: {}
 
 # Custom components
+gho-appeals-tags:
+  css:
+    theme:
+      components/gho-appeals-tags/gho-appeals-tags.css: {}
+
+gho-author:
+  css:
+    theme:
+      components/gho-author/gho-author.css: {}
+
+gho-bottom-figure-row:
+  css:
+    theme:
+      components/gho-bottom-figure-row/gho-bottom-figure-row.css: {}
+
 gho-hero-image:
   css:
     theme:
       components/gho-hero-image/gho-hero-image.css: {}
+
+gho-photo-gallery:
+  css:
+    theme:
+      components/gho-photo-gallery/gho-photo-gallery.css: {}
+
+gho-facts-and-figures:
+  css:
+    theme:
+      components/gho-facts-and-figures/gho-facts-and-figures.css: {}
+
+gho-further-reading:
+  css:
+    theme:
+      components/gho-further-reading/gho-further-reading.css: {}
+
+gho-related-articles:
+  css:
+    theme:
+      components/gho-related-articles/gho-related-articles.css: {}
+
+gho-section-index:
+  css:
+    theme:
+      components/gho-section-index/gho-section-index.css: {}
+
+gho-footnotes:
+  css:
+    theme:
+      components/gho-footnotes/gho-footnotes.css: {}
+
+gho-separator:
+  css:
+    theme:
+      components/gho-separator/gho-separator.css: {}
+
+gho-story:
+  css:
+    theme:
+      components/gho-story/gho-story.css: {}
+
+gho-text:
+  css:
+    theme:
+      components/gho-text/gho-text.css: {}
+
+gho-needs-and-requirements:
+  css:
+    theme:
+      components/gho-needs-and-requirements/gho-needs-and-requirements.css: {}
+
+gho-bleed:
+  header: true
+  js:
+    components/gho-bleed/gho-bleed.js: {}
+  css:
+    theme:
+      components/gho-bleed/gho-bleed.css: {}
+
+gho-aside:
+  css:
+    theme:
+      components/gho-aside/gho-aside.css: {}
+  dependencies:
+    - common_design_subtheme/gho-bleed
+
+gho-hero-image:
+   css:
+     theme:
+       components/gho-hero-image/gho-hero-image.css: {}
+   dependencies:
+     - common_design_subtheme/gho-bleed
+
+gho-article:
+   css:
+     theme:
+       components/gho-article/gho-article.css: {}
+   dependencies:
+     - common_design_subtheme/gho-bleed
+
+gho-sub-article:
+   css:
+     theme:
+       components/gho-sub-article/gho-sub-article.css: {}
+   dependencies:
+     - common_design_subtheme/gho-bleed
+
+gho-embed:
+   css:
+     theme:
+       components/gho-embed/gho-embed.css: {}

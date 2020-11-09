@@ -1,0 +1,28 @@
+uuid: 9822380b-7b8f-45c7-8bc7-7fd482bcc849
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_source
+    - node.type.story
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    footnotes: footnotes
+    plain_text: '0'
+    filtered_html: '0'
+    limited_html: '0'
+id: node.story.field_source
+field_name: field_source
+entity_type: node
+bundle: story
+label: Source
+description: 'Source(s) of the story. Enter one per line.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

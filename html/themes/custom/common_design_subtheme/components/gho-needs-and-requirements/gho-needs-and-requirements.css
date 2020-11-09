@@ -1,0 +1,45 @@
+.gho-needs-and-requirements {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+.gho-needs-and-requirements-figure {
+  padding: 1em 0;
+  border-style: solid;
+  border-color: #ccc;
+  border-width: 1px 0 0 0;
+}
+.gho-needs-and-requirements-figure__label {
+  font-weight: bold;
+}
+.gho-needs-and-requirements-figure__label small {
+  font-size: inherit;
+  font-weight: normal;
+}
+.gho-needs-and-requirements-figure__value {
+  font-weight: bold;
+  font-size: 2.25rem;
+  color: #5391cb;
+}
+
+@media (min-width: 768px) {
+  .gho-needs-and-requirements {
+    display: flex;
+    justify-content: space-between;
+  }
+  .gho-needs-and-requirements-figure {
+    display: inline-block;
+    flex: 1 0 33.33%;
+    border-width: 0 0 0 1px;
+    padding: 0 1.5em;
+  }
+  [dir="ltr"] .gho-needs-and-requirements-figure:first-child {
+    border-width: 0;
+    padding-left: 0;
+  }
+  [dir="rtl"] .gho-needs-and-requirements-figure:first-child {
+    padding-right: 0;
+  }
+  [dir="rtl"] .gho-needs-and-requirements-figure:last-child {
+    border-width: 0;
+  }
+}

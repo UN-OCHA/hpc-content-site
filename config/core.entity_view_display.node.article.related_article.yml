@@ -1,0 +1,53 @@
+uuid: 9131a8b9-e2ba-459f-ad34-4584562a63cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.related_article
+    - field.field.node.article.field_appeals
+    - field.field.node.article.field_author
+    - field.field.node.article.field_hero_image
+    - field.field.node.article.field_paragraphs
+    - field.field.node.article.field_report_link
+    - field.field.node.article.field_section
+    - field.field.node.article.field_summary
+    - field.field.node.article.field_thumbnail_image
+    - node.type.article
+  module:
+    - layout_builder
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: node.article.related_article
+targetEntityType: node
+bundle: article
+mode: related_article
+content:
+  field_summary:
+    type: text_default
+    weight: 1
+    region: content
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+  field_thumbnail_image:
+    type: entity_reference_entity_view
+    weight: 0
+    region: content
+    label: hidden
+    settings:
+      view_mode: related_articles
+      link: false
+    third_party_settings: {  }
+hidden:
+  field_appeals: true
+  field_author: true
+  field_hero_image: true
+  field_paragraphs: true
+  field_report_link: true
+  field_section: true
+  langcode: true
+  links: true

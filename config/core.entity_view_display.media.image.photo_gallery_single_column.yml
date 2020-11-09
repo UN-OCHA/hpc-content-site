@@ -1,0 +1,38 @@
+uuid: 93355d91-3a17-477c-ba72-b77bc2c4b2f9
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.photo_gallery_single_column
+    - field.field.media.image.field_credits
+    - field.field.media.image.field_media_image
+    - media.type.image
+    - responsive_image.styles.photo_gallery_single_column
+  module:
+    - layout_builder
+    - responsive_image
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: media.image.photo_gallery_single_column
+targetEntityType: media
+bundle: image
+mode: photo_gallery_single_column
+content:
+  field_media_image:
+    type: responsive_image
+    weight: 0
+    region: content
+    label: hidden
+    settings:
+      responsive_image_style: photo_gallery_single_column
+      image_link: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_credits: true
+  langcode: true
+  name: true
+  thumbnail: true
+  uid: true

@@ -1,0 +1,25 @@
+uuid: c2019d73-83fb-4ef3-bfe2-42f32a6c7f8e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.story.field_story
+    - paragraphs.paragraphs_type.story
+id: paragraph.story.default
+targetEntityType: paragraph
+bundle: story
+mode: default
+content:
+  field_story:
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+hidden:
+  created: true
+  status: true

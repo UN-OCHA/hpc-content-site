@@ -1,0 +1,16 @@
+uuid: e3356414-fbb2-499c-a83c-5e7f39112d0b
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.story_type
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: taxonomy_term.story_type
+target_entity_type_id: taxonomy_term
+target_bundle: story_type
+default_langcode: site_default
+language_alterable: true

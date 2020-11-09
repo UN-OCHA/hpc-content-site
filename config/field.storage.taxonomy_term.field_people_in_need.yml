@@ -1,0 +1,21 @@
+uuid: 16042545-cd3d-4b96-8699-7563c23506cf
+langcode: en
+status: true
+dependencies:
+  module:
+    - bigint
+    - taxonomy
+id: taxonomy_term.field_people_in_need
+field_name: field_people_in_need
+entity_type: taxonomy_term
+type: bigint
+settings:
+  unsigned: true
+  size: big
+module: bigint
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

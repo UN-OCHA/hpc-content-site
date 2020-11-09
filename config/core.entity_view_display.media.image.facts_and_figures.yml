@@ -1,0 +1,38 @@
+uuid: 970d7774-f420-4ed8-a174-825ad8abe6c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.facts_and_figures
+    - field.field.media.image.field_credits
+    - field.field.media.image.field_media_image
+    - media.type.image
+    - responsive_image.styles.facts_and_figures
+  module:
+    - layout_builder
+    - responsive_image
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: media.image.facts_and_figures
+targetEntityType: media
+bundle: image
+mode: facts_and_figures
+content:
+  field_media_image:
+    type: responsive_image
+    weight: 0
+    region: content
+    label: hidden
+    settings:
+      responsive_image_style: facts_and_figures
+      image_link: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_credits: true
+  langcode: true
+  name: true
+  thumbnail: true
+  uid: true

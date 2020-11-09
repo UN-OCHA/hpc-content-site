@@ -1,0 +1,55 @@
+uuid: 897326df-4024-446e-bb6f-e44e606a0ae6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_paragraphs
+    - node.type.article
+    - paragraphs.paragraphs_type.image_with_text
+  module:
+    - entity_reference_revisions
+id: node.article.field_paragraphs
+field_name: field_paragraphs
+entity_type: node
+bundle: article
+label: Paragraphs
+description: 'The paragraphs (text, image gallery etc.) forming the content of the article.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 1
+    target_bundles:
+      image_with_text: image_with_text
+    target_bundles_drag_drop:
+      bottom_figure_row:
+        weight: 8
+        enabled: false
+      facts_and_figures:
+        weight: 9
+        enabled: false
+      image_with_text:
+        enabled: true
+        weight: 12
+      layout:
+        weight: 8
+        enabled: false
+      needs_and_requirements:
+        weight: 14
+        enabled: false
+      photo_gallery:
+        weight: 11
+        enabled: false
+      separator:
+        weight: 15
+        enabled: false
+      story:
+        weight: 10
+        enabled: false
+      text:
+        weight: 10
+        enabled: false
+field_type: entity_reference_revisions

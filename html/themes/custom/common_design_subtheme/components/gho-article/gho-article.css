@@ -1,0 +1,49 @@
+/* Make sure the image is attached to the botton of the header. */
+.gho-article {
+  margin-top: -2rem;
+}
+@media (min-width: 768px) {
+  .gho-article {
+    margin-top: -3rem;
+  }
+}
+
+.gho-article__header {
+  position: relative;
+}
+.gho-article__heading {
+  padding: 2rem 0 0 0;
+}
+@media (min-width: 1200px) {
+  .gho-article--with-hero-image .gho-article__heading {
+    position: absolute;
+    bottom: 0;
+    left: -2rem;
+    right: -2rem;
+    padding: 1rem 2rem;
+    background: white;
+  }
+}
+
+.gho-article__pre-title {
+  max-width: 480px;
+  margin-bottom: 0.5rem;
+  color: #6d6d6d;
+}
+.gho-article .page-title {
+  max-width: 480px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  font-size: 2.625rem;
+  color: black;
+}
+@media (min-width: 768px) {
+  .gho-article .page-title {
+    font-size: 3.25rem;
+  }
+}
+
+.gho-article .gho-article__local_tasks {
+  margin-top: 2rem;
+}

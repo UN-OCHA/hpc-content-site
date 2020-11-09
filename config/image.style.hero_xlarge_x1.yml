@@ -5,12 +5,12 @@ dependencies: {  }
 name: hero_xlarge_x1
 label: 'hero xlarge x1'
 effects:
-  321e376a-e7ae-4bb6-9a5a-cee879e583ba:
-    uuid: 321e376a-e7ae-4bb6-9a5a-cee879e583ba
-    id: image_scale_and_crop
-    weight: 1
+  b16fa3ca-93e8-45d3-bc62-5526d67bd2f8:
+    uuid: b16fa3ca-93e8-45d3-bc62-5526d67bd2f8
+    id: image_scale
+    weight: 2
     data:
       width: 1140
-      height: 312
-      anchor: center-center
+      height: null
+      upscale: true
 pipeline: __default__

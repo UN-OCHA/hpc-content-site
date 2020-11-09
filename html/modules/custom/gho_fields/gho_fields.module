@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * @file
+ * GHO Formatters.
+ */
+
+use Drupal\media\IFrameMarkup;
+use Drupal\Component\Utility\UrlHelper;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function gho_fields_theme() {
+  return [
+    'gho_dataset_link_formatter' => [
+      'variables' => [
+        'url' => NULL,
+        'source' => NULL,
+      ],
+    ],
+    'gho_further_reading_link_formatter' => [
+      'variables' => [
+        'url' => NULL,
+        'title' => NULL,
+        'source' => NULL,
+      ],
+    ],
+    'gho_related_articles_formatter' => [
+      'variables' => [
+        'title' => NULL,
+        'list' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_entity_view_mode_alter().
+ *
+ * Change the view mode of the photo galleries based on the number of images
+ * they contain.
+ */
+function gho_fields_entity_view_mode_alter(&$view_mode, EntityInterface $entity, $context) {
+  if ($entity->getEntityTypeId() === 'paragraph' && $entity->bundle() == 'photo_gallery') {
+    if ($entity->field_photos->count() % 2 === 0) {
+      $view_mode = 'two_columns';
+    }
+    else {
+      $view_mode = 'single_column';
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_media_oembed_iframe().
+ *
+ * Change the youtube URL to https://youtube-nookie.com.
+ *
+ * Unfortunately youtube-nocookie doesn't work with oembed so we need to some
+ * gymnastic and replace the source in the iframe snippet returned by calling
+ * youtube.com/oembed.
+ *
+ * @see https://www.drupal.org/project/drupal/issues/3043821
+ */
+function gho_fields_preprocess_media_oembed_iframe(&$variables) {
+  $html = (string) $variables['media'];
+  if (strpos($html, 'youtube') !== FALSE) {
+    $html = preg_replace_callback('/src="([^"]+)"/', function ($matches) {
+      $parts = UrlHelper::parse($matches[1]);
+      $parts['query']['rel'] = 0;
+      $parts['query']['autoplay'] = 0;
+      $parts['query']['controls'] = 0;
+      $parts['query']['showinfo'] = 0;
+      $url = 'https://www.youtube-nocookie.com/embed' .
+              strrchr($parts['path'], '/') . '?' .
+              rawurldecode(UrlHelper::buildQuery($parts['query']));
+      return 'src="' . $url . '"';
+    }, $html);
+    if ($html !== NULL) {
+      $variables['media'] = IFrameMarkup::create($html);
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_node__story().
+ *
+ * Process the sources field.
+ */
+function gho_fields_preprocess_node__story(&$variables) {
+  if (!isset($variables['content']['field_source'][0]['#text'])) {
+    return;
+  }
+
+  // We render the sources to ensure all the text filters are applied (like
+  // the one ensuring the HTML is correct) instead of using the raw text
+  // so that we can more easily update the sources. Notably the "footnotes"
+  // text format strips the `<p>` tag which makes it easier to extract the
+  // content.
+  $text = \Drupal::service('renderer')->renderPlain($variables['content']['field_source'][0]);
+
+  // The sources are separated by a new line, split them and generate the list.
+  $items = [];
+  foreach (preg_split("/\n+/", $text) as $source) {
+    if (!empty($source)) {
+      // The source is already rendered so we use #markup to avoid double
+      // escaping.
+      $items[] = ['#markup' => $source];
+    }
+  }
+
+  $title = count($items) > 1 ? t('Sources:') : t('Source:');
+  $variables['content']['field_source']['#title'] = $title;
+  $variables['content']['field_source'][0] = [
+    '#theme' => 'item_list',
+    '#items' => $items,
+  ];
+}

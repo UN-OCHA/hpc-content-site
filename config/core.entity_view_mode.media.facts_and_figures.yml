@@ -1,0 +1,10 @@
+uuid: 3bb69876-b5b1-417c-a752-f33e3f54feb6
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.facts_and_figures
+label: 'Facts and figures'
+targetEntityType: media
+cache: true

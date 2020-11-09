@@ -3,7 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.text.field_media_content_text
+    - field.field.paragraph.text.field_footnotes
+    - field.field.paragraph.text.field_text
     - paragraphs.paragraphs_type.text
   module:
     - text
@@ -12,8 +13,15 @@ targetEntityType: paragraph
 bundle: text
 mode: default
 content:
-  field_media_content_text:
-    weight: 0
+  field_footnotes:
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_text:
+    weight: 1
     label: hidden
     settings: {  }
     third_party_settings: {  }

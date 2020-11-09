@@ -1,0 +1,18 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a GHO dataset link formatter.
+ *
+ * Available variables:
+ * - title: Source name.
+ * - url: Dataset url.
+ *
+ * @ingroup themeable
+ */
+#}
+{% set link = link('Download dataset'|t, url, {})|render %}
+<div class="gho-dataset-link">
+{% trans %}
+  Source: {{ source }}. {{ link }}.
+{% endtrans %}
+</div>

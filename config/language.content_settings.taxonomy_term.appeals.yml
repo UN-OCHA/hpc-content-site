@@ -1,0 +1,16 @@
+uuid: f292e02e-093b-4b01-8267-4ec3dc9fff26
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.appeals
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: taxonomy_term.appeals
+target_entity_type_id: taxonomy_term
+target_bundle: appeals
+default_langcode: site_default
+language_alterable: false

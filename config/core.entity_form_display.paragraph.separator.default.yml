@@ -1,0 +1,21 @@
+uuid: e0bdb567-d8dd-446e-9534-30d7a24dd4d7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.separator.field_separator_size
+    - paragraphs.paragraphs_type.separator
+id: paragraph.separator.default
+targetEntityType: paragraph
+bundle: separator
+mode: default
+content:
+  field_separator_size:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,10 @@
+uuid: a4c95ee5-d3f9-4508-86d1-7c1691a3b348
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.facts_and_figures
+label: 'Facts and figures'
+targetEntityType: paragraph
+cache: true

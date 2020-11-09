@@ -1,0 +1,34 @@
+label: المحتوى
+description: 'إيجاد وإدارة المحتوى'
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          submit_button: انتقاء
+          reset_button_label: 'إعادة الضبط'
+          exposed_sorts_label: 'الترتيب حسب'
+          sort_asc_label: تصاعدي
+          sort_desc_label: تنازلي
+      fields:
+        title:
+          label: العنوان
+      filters:
+        title:
+          expose:
+            label: العنوان
+        type:
+          expose:
+            label: 'نوع المحتوى'
+        status:
+          expose:
+            label: الحالة
+          group_info:
+            group_items:
+              1:
+                title: منشور
+      title: المحتوى
+      empty:
+        area_text_custom:
+          content: 'لا يوجد محتوى.'
+    display_title: الرئيسي

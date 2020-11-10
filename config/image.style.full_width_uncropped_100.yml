@@ -1,0 +1,16 @@
+uuid: c6c5279f-ecae-42c2-ba0a-3f77f780ff74
+langcode: en
+status: true
+dependencies: {  }
+name: full_width_uncropped_100
+label: "Full width -\_uncropped -\_100%"
+effects:
+  d27dba55-a16b-42f0-8186-c67e0e919314:
+    uuid: d27dba55-a16b-42f0-8186-c67e0e919314
+    id: image_scale
+    weight: 1
+    data:
+      width: 1140
+      height: null
+      upscale: true
+pipeline: __default__

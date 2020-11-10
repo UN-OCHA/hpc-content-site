@@ -7,6 +7,9 @@
         "drupal/entity_usage": {
             "https://www.drupal.org/project/entity_usage/issues/2955078": "https://www.drupal.org/files/issues/2018-04-06/2955078-5.patch"
         },
+        "drupal/social_auth_hid" : {
+            "Optionally allow HID logins during maintenance" : "https://www.drupal.org/files/issues/2020-11-10/3181583-hid-maintenance-logins-2.patch"
+        },
         "drupal/yaml_content" : {
             "https://www.drupal.org/project/yaml_content/issues/3084161": "https://www.drupal.org/files/issues/2020-04-10/yaml_content-layout-builder-support-3084161-8.patch"
         }

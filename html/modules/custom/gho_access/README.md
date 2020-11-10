@@ -38,3 +38,13 @@ Roles
 
 This module also provides a permission to assign user roles, decoupling it
 from the `administer permissions` permission.
+
+Language
+--------
+
+This module ensures that content in a language is only displayed when the
+homepage in that language is published and "promoted". It also ensures that
+there is no mix of content in different languages due to Drupal's behavior to
+show content in the default language when no translation is available.
+People with the `view untranslated content` permission can always see any
+content even if it doesn't match the current language.

@@ -3,3 +3,7 @@ assign user roles:
   restrict access: true
 permission_callbacks:
   - \Drupal\gho_access\GhoAccessPermissions::buildPermissions
+
+view untranslated content:
+  title: 'View untranslated content'
+  description: "Allow access to content that has not yet been translated in the current language"

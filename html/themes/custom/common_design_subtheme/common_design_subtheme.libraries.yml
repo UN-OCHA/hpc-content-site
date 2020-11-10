@@ -114,3 +114,8 @@ gho-embed:
    css:
      theme:
        components/gho-embed/gho-embed.css: {}
+
+gho-interactive-content:
+   css:
+     theme:
+       components/gho-interactive-content/gho-interactive-content.css: {}

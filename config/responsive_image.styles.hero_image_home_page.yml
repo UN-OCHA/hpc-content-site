@@ -1,59 +1,59 @@
-uuid: 33b38bab-32de-4eb1-9338-74fa516c67fe
+uuid: 958ec9f6-e362-4c2d-b34b-4ca498c14994
 langcode: en
 status: true
 dependencies:
   config:
-    - image.style.full_width_uncropped_100
-    - image.style.full_width_uncropped_150
-    - image.style.full_width_uncropped_180
-    - image.style.full_width_uncropped_200
-    - image.style.full_width_uncropped_50
-    - image.style.full_width_uncropped_66
-    - image.style.full_width_uncropped_75
+    - image.style.full_width_100
+    - image.style.full_width_150
+    - image.style.full_width_180
+    - image.style.full_width_200
+    - image.style.full_width_50
+    - image.style.full_width_66
+    - image.style.full_width_75
   theme:
     - common_design
 id: hero_image_home_page
-label: 'Hero image (home page)'
+label: 'Hero Image - home page'
 image_style_mappings:
   -
     breakpoint_id: common_design.xl
     multiplier: 1x
     image_mapping_type: image_style
-    image_mapping: full_width_uncropped_100
+    image_mapping: full_width_100
   -
     breakpoint_id: common_design.xl
     multiplier: 2x
     image_mapping_type: image_style
-    image_mapping: full_width_uncropped_200
+    image_mapping: full_width_200
   -
     breakpoint_id: common_design.lg
     multiplier: 1x
     image_mapping_type: image_style
-    image_mapping: full_width_uncropped_100
+    image_mapping: full_width_100
   -
     breakpoint_id: common_design.lg
     multiplier: 2x
     image_mapping_type: image_style
-    image_mapping: full_width_uncropped_180
+    image_mapping: full_width_180
   -
     breakpoint_id: common_design.md
     multiplier: 1x
     image_mapping_type: image_style
-    image_mapping: full_width_uncropped_75
+    image_mapping: full_width_75
   -
     breakpoint_id: common_design.md
     multiplier: 2x
     image_mapping_type: image_style
-    image_mapping: full_width_uncropped_150
+    image_mapping: full_width_150
   -
     breakpoint_id: common_design.sm
     multiplier: 1x
     image_mapping_type: image_style
-    image_mapping: full_width_uncropped_66
+    image_mapping: full_width_66
   -
     breakpoint_id: common_design.xs
     multiplier: 2x
     image_mapping_type: image_style
-    image_mapping: full_width_uncropped_100
+    image_mapping: full_width_100
 breakpoint_group: common_design
-fallback_image_style: full_width_uncropped_50
+fallback_image_style: full_width_50

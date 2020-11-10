@@ -53,6 +53,18 @@ gho_general.add_story_type:
   # https://www.drupal.org/project/drupal/issues/1344902 is solved.
   class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
 
+gho_general.add_interactive_content_type:
+  title: 'Add interactive content type'
+  route_name: entity.taxonomy_term.add_form
+  route_parameters:
+    taxonomy_vocabulary: interactive_content_type
+  appears_on:
+    - view.content_taxonomy_terms.page_admin_content_terms
+  # Temporary solution to ensure redirection to the origin page until
+  # https://www.drupal.org/project/drupal/issues/1344902 is solved.
+  class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
+
+
 gho_general.add_document:
   title: 'Add document'
   route_name: entity.media.add_form

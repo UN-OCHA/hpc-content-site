@@ -1,0 +1,58 @@
+uuid: 4596d554-b9c0-4c8a-b7ef-88d459429ec2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.interactive_content.field_dataset
+    - field.field.paragraph.interactive_content.field_image
+    - field.field.paragraph.interactive_content.field_link
+    - field.field.paragraph.interactive_content.field_title
+    - field.field.paragraph.interactive_content.field_type
+    - paragraphs.paragraphs_type.interactive_content
+    - responsive_image.styles.interactive_content
+  module:
+    - gho_fields
+    - linked_responsive_image_media_formatter
+id: paragraph.interactive_content.default
+targetEntityType: paragraph
+bundle: interactive_content
+mode: default
+content:
+  field_dataset:
+    weight: 3
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: gho_dataset_link
+    region: content
+  field_image:
+    weight: 2
+    label: hidden
+    settings:
+      responsive_image_style: interactive_content
+      image_link: custom
+      image_link_url: '[paragraph:field_link]'
+      image_alt: custom
+      image_alt_value: '[paragraph:field_title]'
+      image_as_background: false
+    third_party_settings: {  }
+    type: linked_responsive_image_media_formatter
+    region: content
+  field_title:
+    weight: 1
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_type:
+    weight: 0
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+hidden:
+  field_link: true

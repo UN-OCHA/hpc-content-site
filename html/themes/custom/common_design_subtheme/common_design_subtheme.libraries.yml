@@ -119,3 +119,8 @@ gho-home-page:
   css:
     theme:
       components/gho-home-page/gho-home-page.css: {}
+
+gho-interactive-content:
+  css:
+    theme:
+      components/gho-interactive-content/gho-interactive-content.css: {}

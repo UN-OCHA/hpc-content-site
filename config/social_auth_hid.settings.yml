@@ -8,3 +8,4 @@ client_secret: HID_CLIENT_SECRET_DO_NOT_COMMIT_TO_REPOSITORY
 disable_password_fields: true
 disable_email_field: true
 disable_user_field: true
+maintenance_access: true

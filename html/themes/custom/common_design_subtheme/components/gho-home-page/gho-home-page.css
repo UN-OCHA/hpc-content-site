@@ -1,5 +1,6 @@
 .gho-home-page {
   margin-top: -3rem; /* cancel out the CD layout padding */
+  margin-bottom: -4rem; /* cancel out the CD layout padding */
 }
 
 .gho-home-page .node__content {
@@ -7,19 +8,47 @@
   position: relative; /* for summary/link */
 }
 
+/* if we want a much more gradual font-size increase, use the two commented props
+   in this rule (font-size/max-width) and then comment all media queries. */
 .gho-home-page__msg {
-  width: 40%;
+  width: 100%;
+  max-width: 285px;
+  /*max-width: 15ch;*/
+
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
   color: white;
-  font-size: 3em;
+  font-size: 1.2em;
+  /*font-size: calc(.8em + 3vw);*/
   line-height: 1;
   font-weight: 700;
   text-align: center;
   text-transform: uppercase;
 }
+
+/* only need to change max-width when changing font-size */
+@media screen and (min-width: 576px) {
+  .gho-home-page__msg {
+    max-width: 300px;
+    font-size: 1.8em;
+  }
+}
+@media screen and (min-width: 768px) {
+  .gho-home-page__msg {
+    max-width: 420px;
+    font-size: 2.5em;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .gho-home-page__msg {
+    max-width: 460px;
+    font-size: 3em;
+  }
+}
+
 
 .gho-home-page__link {
   display: inline-block;

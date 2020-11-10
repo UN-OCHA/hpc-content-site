@@ -54,7 +54,6 @@ permissions:
   - 'revert all revisions'
   - 'revert article revisions'
   - 'revert story revisions'
-  - 'translate any entity'
   - 'update any media'
   - 'update media'
   - 'use text format filtered_html'
@@ -67,3 +66,4 @@ permissions:
   - 'view published document media'
   - 'view story revisions'
   - 'view the administration theme'
+  - 'view untranslated content'

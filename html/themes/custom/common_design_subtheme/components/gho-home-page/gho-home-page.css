@@ -1,2 +1,42 @@
 .gho-home-page {
+  margin-top: -3rem; /* cancel out the CD layout padding */
+}
+
+.gho-home-page .node__content {
+  margin: 0; /* work with gho-bleed */
+  position: relative; /* for summary/link */
+}
+
+.gho-home-page__msg {
+  width: 40%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 3em;
+  line-height: 1;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.gho-home-page__link {
+  display: inline-block;
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  border: 1px solid white;
+  padding: .5rem;
+  font-size: .75em;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.gho-home-page__link:hover {
+  color: white;
+  text-decoration: underline;
 }

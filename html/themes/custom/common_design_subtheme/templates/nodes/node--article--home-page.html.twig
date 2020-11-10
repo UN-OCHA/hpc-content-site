@@ -72,6 +72,7 @@
  *   in different view modes.
  */
 #}
+{{ attach_library('common_design_subtheme/gho-bleed') }}
 {{ attach_library('common_design_subtheme/gho-home-page') }}
 {%
   set classes = [
@@ -86,6 +87,14 @@
 %}
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content') }}>
+    {{ content.field_hero_image }}
+    <div class="gho-home-page__msg">{{ content.field_summary }}</div>
+    <a class="gho-home-page__link" href="{{ content.field_report_link|render|striptags|trim }}">{{ 'Download Report'|t }}</a>
+
+    {#
+      In case we output any more content, exclude the fields we're giving
+      special treatment.
+    #}
     {{ content|without('field_hero_image')|without('field_summary')|without('field_report_link') }}
   </div>
 </article>

@@ -5,8 +5,8 @@ dependencies:
   config:
     - image.style.full_width_16_9_100
     - image.style.full_width_16_9_133
+    - image.style.full_width_16_9_180
     - image.style.full_width_16_9_200
-    - image.style.full_width_16_9_45
     - image.style.full_width_16_9_50
     - image.style.full_width_16_9_66
     - image.style.full_width_16_9_90
@@ -34,7 +34,7 @@ image_style_mappings:
     breakpoint_id: common_design.md
     multiplier: 2x
     image_mapping_type: image_style
-    image_mapping: full_width_16_9_45
+    image_mapping: full_width_16_9_180
   -
     breakpoint_id: common_design.sm
     multiplier: 1x

@@ -1,0 +1,10 @@
+uuid: 4a2a8d48-022d-4e1e-b656-42e5ef1738bd
+langcode: en
+status: true
+dependencies: {  }
+id: interactive_content
+label: 'Interactive content'
+icon_uuid: null
+icon_default: null
+description: 'Interactive content like an infographic, a map or a table.'
+behavior_plugins: {  }

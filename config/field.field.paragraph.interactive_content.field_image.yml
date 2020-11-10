@@ -1,0 +1,28 @@
+uuid: f2f99051-34fb-4f44-a66c-fcc6c9356de6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_image
+    - media.type.image
+    - paragraphs.paragraphs_type.interactive_content
+id: paragraph.interactive_content.field_image
+field_name: field_image
+entity_type: paragraph
+bundle: interactive_content
+label: Thumbnail
+description: 'Image representing the content. When clicked it will redirect to the interactive content''s page.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

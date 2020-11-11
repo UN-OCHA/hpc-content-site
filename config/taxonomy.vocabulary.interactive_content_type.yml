@@ -1,0 +1,8 @@
+uuid: 67e0b1fc-38fe-4ebd-9dfb-dc7438815156
+langcode: en
+status: true
+dependencies: {  }
+name: 'Interactive content type'
+vid: interactive_content_type
+description: 'Type of an interactive content (ex: infographic)'
+weight: 0

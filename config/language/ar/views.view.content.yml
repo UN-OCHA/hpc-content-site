@@ -13,6 +13,8 @@ display:
       fields:
         title:
           label: العنوان
+        type:
+          label: 'نوع المحتوى'
       filters:
         title:
           expose:
@@ -27,6 +29,9 @@ display:
             group_items:
               1:
                 title: منشور
+        langcode:
+          expose:
+            label: Language
       title: المحتوى
       empty:
         area_text_custom:

@@ -1,0 +1,29 @@
+uuid: d12a2494-3954-4743-ac92-10d395b2e90b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_type
+    - paragraphs.paragraphs_type.interactive_content
+    - taxonomy.vocabulary.interactive_content_type
+id: paragraph.interactive_content.field_type
+field_name: field_type
+entity_type: paragraph
+bundle: interactive_content
+label: Type
+description: 'Type of the interactive content. Ex: Map.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      interactive_content_type: interactive_content_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

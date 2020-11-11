@@ -66,3 +66,4 @@ permissions:
   - 'view published document media'
   - 'view story revisions'
   - 'view the administration theme'
+  - 'view untranslated content'

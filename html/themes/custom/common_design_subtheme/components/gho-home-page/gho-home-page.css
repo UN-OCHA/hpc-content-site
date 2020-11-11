@@ -110,7 +110,16 @@
   border-top: 0;
 }
 .gho-home-page .field--name-field-paragraphs > :first-child .gho-sub-article__title {
-  max-width: none;
   margin-bottom: 0.5rem;
   font-size: 1.5rem;
+}
+/**
+ * Try to have the content on the homepage have the same width.
+ * @todo review if it's ok for the text paragraphs.
+ */
+.gho-home-page .gho-sub-article__title {
+  max-width: var(--content-width);
+}
+.gho-home-page .paragraph--type--text {
+  max-width: var(--content-width);
 }

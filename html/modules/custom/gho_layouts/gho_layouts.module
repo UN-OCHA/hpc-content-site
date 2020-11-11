@@ -4,3 +4,13 @@
  * @file
  * GHO Layouts module file.
  */
+
+/**
+ * Implements hook_entity_view_mode_alter().
+ */
+function gho_layouts_entity_view_mode_alter(&$view_mode, $entity, $context) {
+  // We know homepage is node/1 so we get to cut a corner!
+  if ($entity->getEntityTypeId() == 'node' && $entity->id() == 1) {
+    $view_mode = 'home_page';
+  }
+}

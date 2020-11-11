@@ -1,0 +1,60 @@
+uuid: 39428b73-cb1d-4f07-bb53-201cf088327c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.interactive_content.field_dataset
+    - field.field.paragraph.interactive_content.field_image
+    - field.field.paragraph.interactive_content.field_link
+    - field.field.paragraph.interactive_content.field_title
+    - field.field.paragraph.interactive_content.field_type
+    - paragraphs.paragraphs_type.interactive_content
+  module:
+    - gho_fields
+    - link
+    - media_library
+id: paragraph.interactive_content.default
+targetEntityType: paragraph
+bundle: interactive_content
+mode: default
+content:
+  field_dataset:
+    weight: 4
+    settings:
+      placeholder_url: 'Ex: https://humdata.org/dataset'
+      placeholder_title: 'Ex: Office for Coordination of Humanitarian Affairs'
+    third_party_settings: {  }
+    type: gho_dataset_link
+    region: content
+  field_image:
+    weight: 3
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+    type: media_library_widget
+    region: content
+  field_link:
+    weight: 2
+    settings:
+      placeholder_url: 'Ex: https://datawrapper.de/content-page'
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_title:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_type:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+hidden:
+  created: true
+  status: true

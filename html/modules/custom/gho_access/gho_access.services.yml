@@ -1,0 +1,10 @@
+services:
+  gho_access.route_subscriber:
+    class: Drupal\gho_access\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+  access_check.gho_language_visibility:
+    class: Drupal\gho_access\Access\GhoLanguageVisibilityAccessCheck
+    arguments: ['@current_route_match', '@language_manager']
+    tags:
+      - { name: access_check, applies_to: '_access_check_gho_language_visibility' }

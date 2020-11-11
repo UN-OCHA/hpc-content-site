@@ -8,8 +8,11 @@
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\block\BlockInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\media\MediaInterface;
 use Drupal\node\NodeInterface;
+use Drupal\taxonomy\TermInterface;
 
 /**
  * Implements hook_node_access().
@@ -26,6 +29,8 @@ function gho_access_node_access(NodeInterface $node, $operation, AccountInterfac
       if ($published && !$account->hasPermission("view published {$type} content")) {
         return AccessResult::forbidden()->cachePerPermissions();
       }
+      // Check the access to the translation.
+      return gho_access_check_node_language_access($node, $account);
   }
   // No opinion, let other modules handle the permissions.
   return AccessResult::neutral();
@@ -46,6 +51,26 @@ function gho_access_media_access(MediaInterface $media, $operation, AccountInter
       if ($published && !$account->hasPermission("view published {$type} media")) {
         return AccessResult::forbidden()->cachePerPermissions();
       }
+      // Check the access to the translation.
+      return gho_access_check_media_language_access($media, $account);
+  }
+  // No opinion, let other modules handle the permissions.
+  return AccessResult::neutral();
+}
+
+/**
+ * Implements hook_taxonomy_term_access().
+ *
+ * Deny view access to users without the view published 'media bundle' content
+ * permission.
+ */
+function gho_access_taxonomy_term_access(TermInterface $term, $operation, AccountInterface $account) {
+  switch ($operation) {
+    case 'view':
+      if ($term->bundle() !== 'needs_and_requirements') {
+        // Check the access to the translation.
+        return gho_access_check_language_access($term, $account);
+      }
   }
   // No opinion, let other modules handle the permissions.
   return AccessResult::neutral();
@@ -64,4 +89,153 @@ function gho_access_form_user_form_alter(&$form, FormStateInterface $form_state,
   $roles_access = !empty($form['account']['roles']['#options']) &&
                   \Drupal::currentUser()->hasPermission('assign user roles');
   $form['account']['roles']['#access'] = $roles_access;
+}
+
+/**
+ * Implements  hook_block_access().
+ *
+ * Hide the main menu if the language visibility for the current language is
+ * not enabled.
+ */
+function gho_access_block_access(BlockInterface $block, $operation, AccountInterface $account) {
+  if ($operation === 'view' && $block->id() === 'mainnavigation') {
+    return gho_access_check_language_access(NULL, $account);
+  }
+
+  // No opinion, let other modules handle the permissions.
+  return AccessResult::neutral();
+}
+
+/**
+ * Check if an account is allowed to view a node in the current language.
+ *
+ * @param \Drupal\node\NodeInterface $node
+ *   Node to check access for.
+ * @param \Drupal\Core\Session\AccountInterface $account
+ *   User account.
+ *
+ * @return \Drupal\Core\Access\AccessResult
+ *   Access result: either neutral if the account is allowed to access the
+ *   content or forbidden otherwise.
+ */
+function gho_access_check_node_language_access(NodeInterface $node, AccountInterface $account) {
+  // Skip access for the homepage or the node corresponding to the current
+  // request because its access is checked at the route level.
+  //
+  // @see Drupal\gho_access\Access\GhoLanguageVisibilityAccessCheck::access()
+  $nid = \Drupal::service('current_route_match')->getRawParameter('node');
+  if ($nid === NULL || $nid == 1 || $nid == $node->id()) {
+    // Let other module decide the access to the node.
+    return AccessResult::neutral();
+  }
+
+  return gho_access_check_language_access($node, $account);
+}
+
+/**
+ * Check if an account is allowed to view a node in the current language.
+ *
+ * @param \Drupal\media\MediaInterface $media
+ *   Media to check access for.
+ * @param \Drupal\Core\Session\AccountInterface $account
+ *   User account.
+ *
+ * @return \Drupal\Core\Access\AccessResult
+ *   Access result: either neutral if the account is allowed to access the
+ *   content or forbidden otherwise.
+ */
+function gho_access_check_media_language_access(MediaInterface $media, AccountInterface $account) {
+  $route_match = \Drupal::service('current_route_match');
+
+  // We want to show the hero image on the homepage even if it's not promoted.
+  $skip_homepage_check = FALSE;
+  if ($route_match->getRawParameter('node') == 1) {
+    $node = $route_match->getParameter('node');
+    $skip_homepage_check = $node->field_hero_image->target_id == $media->id();
+  }
+
+  return gho_access_check_language_access($media, $account, $skip_homepage_check);
+}
+
+/**
+ * Check if an account is allowed to view content in the current language.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface|null $entity
+ *   Optional entity to check access for.
+ * @param \Drupal\Core\Session\AccountInterface $account
+ *   User account.
+ * @param bool $skip_homepage_check
+ *   Skip the homepage check.
+ *
+ * @return \Drupal\Core\Access\AccessResult
+ *   Access result: either neutral if the account is allowed to access the
+ *   content or forbidden otherwise.
+ */
+function gho_access_check_language_access(?EntityInterface $entity, AccountInterface $account, $skip_homepage_check = FALSE) {
+  // Get the current language.
+  $langcode = \Drupal::service('language_manager')->getCurrentLanguage()->getId();
+
+  // Do not deny access if the user has the permission to view any content
+  // regardless of the status if its translation.
+  if ($account->hasPermission('view untranslated content')) {
+    // We let other modules decide the access to the entity.
+    $access = AccessResult::neutral();
+  }
+  // If there is a mismatch between the current language and the entity language
+  // we deny access.
+  elseif (isset($entity) && $entity->language()->getId() !== $langcode) {
+    $access = AccessResult::forbidden();
+  }
+  // If we don't need to check the homepage then simply let the other modules
+  // decide the access to the entity.
+  elseif ($skip_homepage_check === TRUE) {
+    $access = AccessResult::neutral();
+  }
+  // Otherwise we check if the visibility for the language is enabled by
+  // looking at the status of the homepage in that language.
+  elseif (gho_access_check_language_visibility($langcode)) {
+    // We let other modules decide the access to the entity but we also make
+    // sure to clear the cache when the homepage is changed.
+    $access = AccessResult::neutral()->addCacheTags(['node:1']);
+  }
+  // If the homepage in the language doesn't exist or doesn't match the
+  // criteria, then we disallow access.
+  else {
+    // We deny access but we also make sure to clear the cache when the homepage
+    // is changed.
+    $access = AccessResult::forbidden()->addCacheTags(['node:1']);
+  }
+
+  // Ensure the cache is cleared when the permissions change.
+  return $access->cachePerPermissions();
+}
+
+/**
+ * Determine the language visibility from the homepage status.
+ *
+ * @param string $langcode
+ *   Language code to check.
+ *
+ * @return bool
+ *   Whether the homepage in the given language matches the conditions
+ *   (exists, published and promoted) to allow visibility of the language to
+ *   anonymous users.
+ */
+function gho_access_check_language_visibility($langcode) {
+  static $allowed = [];
+
+  // Check if there is homepage matching the conditions and store the result
+  // to avoid excessive queries as this can be called elsewhere.
+  if (!isset($allowed[$langcode])) {
+    $storage = \Drupal::service('entity_type.manager')->getStorage('node');
+    $ids = $storage->getQuery()
+      ->condition('nid', 1)
+      ->condition('langcode', $langcode)
+      ->condition('status', NodeInterface::PUBLISHED)
+      ->condition('promote', NodeInterface::PROMOTED)
+      ->execute();
+    $allowed[$langcode] = !empty($ids);
+  }
+
+  return $allowed[$langcode];
 }

@@ -1,0 +1,6 @@
+.gho-interactive-content .field--name-field-image {
+  max-width: var(--content-width);
+}
+.gho-interactive-content .gho-dataset-link {
+  margin-top: 1rem;
+}

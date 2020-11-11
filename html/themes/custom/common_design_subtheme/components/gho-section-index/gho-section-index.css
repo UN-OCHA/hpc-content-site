@@ -1,3 +1,6 @@
+.gho-section-index {
+  max-width: var(--content-width);
+}
 /* This is similar to the sub-article styling */
 .gho-section-index__header {
   margin: 2rem 0 1rem 0;

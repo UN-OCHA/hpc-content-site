@@ -120,26 +120,15 @@ function gho_general_entity_form_display_alter(EntityFormDisplayInterface &$form
 }
 
 /**
- * Implements hook_form_node_article_edit_form_alter().
+ * Implements hook_form_node_form_alter().
  *
- * Form when editing an existing node.
- *
- * Alter the promote for the homepage to indicate it controls the global
+ * Alter the promote option for the homepage to indicate it controls the global
  * visibility of the content for a given language.
  */
-function gho_general_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  gho_general_alter_homepage_promote_checkbox($form, $form_state);
-}
+function gho_general_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Ensure editors can publish/unpublish content.
+  $form['status']['#access'] = TRUE;
 
-/**
- * Implements hook_form_node_article_form_alter().
- *
- * Form when creating a new node.
- *
- * Alter the promote for the homepage to indicate it controls the global
- * visibility of the content for a given language.
- */
-function gho_general_form_node_article_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   gho_general_alter_homepage_promote_checkbox($form, $form_state);
 }
 
@@ -161,6 +150,7 @@ function gho_general_alter_homepage_promote_checkbox(array &$form, FormStateInte
         ->getLanguage($storage['langcode'])
         ->getName(),
     ]);
+    $form['promote']['#access'] = TRUE;
     $form['promote']['#group'] = 'footer';
     $form['promote']['widget']['#title'] = $promote_title;
     $form['promote']['widget']['value']['#title'] = $promote_title;

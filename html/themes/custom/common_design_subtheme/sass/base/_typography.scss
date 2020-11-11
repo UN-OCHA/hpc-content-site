@@ -11,13 +11,14 @@ h5 {
 }
 
 h1 {
-  font-family: 'DM Serif Display', serif;
+  font-family: Roboto, sans-serif;
   color: #000;
 }
 
 .page-title {
   border-bottom: 1px solid $cd-mid-bluey-grey;
   color: $cd-default-text-color;
+  font-weight: 900; /* 900 weight does indeed exist via google fonts */
 }
 
 a {

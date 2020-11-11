@@ -22,6 +22,18 @@
 }
 
 /*------------------------------------------------------------------------------
+ * Styling of the Text paragraph type
+ *----------------------------------------------------------------------------*/
+.paragraph--type--text {
+  max-width: 720px;
+}
+
+/* this is inside other stuff like Story */
+.field--type-text-long {
+  max-width: 720px;
+}
+
+/*------------------------------------------------------------------------------
  * Styling of the Bottom Figures Row paragraph type
  *----------------------------------------------------------------------------*/
 .paragraph--type--bottom-figure-row.paragraph--view-mode--default .field__items {
@@ -53,6 +65,30 @@
 .paragraph--type--facts-and-figures .field--name-field-paragraphs > .field__item {
   flex: 0 0 32%;
   padding: 0 .5em;
+}
+
+/*------------------------------------------------------------------------------
+ * Styling of the Story paragraph type
+ *----------------------------------------------------------------------------*/
+.paragraph--type--story {
+  background: #222;
+  color: white;
+  padding: 1em;
+}
+.paragraph--type--story .field--name-title {
+  color: white;
+}
+.paragraph--type--story .media--type-image {
+  max-width: 720px;
+}
+
+/*------------------------------------------------------------------------------
+ * Styling of the Interactive paragraph type
+ *----------------------------------------------------------------------------*/
+.paragraph--type--interactive-content {
+  background: #222;
+  color: white;
+  padding: 1em;
 }
 
 /*------------------------------------------------------------------------------

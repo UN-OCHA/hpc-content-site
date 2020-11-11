@@ -8,8 +8,6 @@ display:
           submit_button: Filtro
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
       pager:
         options:
           tags:
@@ -20,6 +18,8 @@ display:
       fields:
         title:
           label: Título
+        type:
+          label: 'Tipo de contenido'
       filters:
         title:
           expose:
@@ -37,6 +37,9 @@ display:
                 title: Publicado
               2:
                 title: 'Sin publicar'
+        langcode:
+          expose:
+            label: Language
       title: Contenido
       empty:
         area_text_custom:

@@ -120,12 +120,29 @@ function gho_general_entity_form_display_alter(EntityFormDisplayInterface &$form
 }
 
 /**
- * Implements hook_form_node_article_edit_form_alter().
+ * Implements hook_form_node_form_alter().
  *
- * Alter the promote for the homepage to indicate it controls the global
+ * Alter the promote option for the homepage to indicate it controls the global
  * visibility of the content for a given language.
  */
-function gho_general_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+function gho_general_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Ensure editors can publish/unpublish content.
+  $form['status']['#access'] = TRUE;
+
+  gho_general_alter_homepage_promote_checkbox($form, $form_state);
+}
+
+/**
+ * Alter the promote checkbox on the homepage.
+ *
+ * Make it more visible in the form and show it controls language visibility.
+ *
+ * @param array $form
+ *   Form element.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form state.
+ */
+function gho_general_alter_homepage_promote_checkbox(array &$form, FormStateInterface $form_state) {
   $storage = $form_state->getStorage();
   if (isset($storage['form_display'], $storage['langcode']) && $storage['form_display']->getMode() === 'home_page') {
     $promote_title = t("Enable global visibility of @language content", [
@@ -133,6 +150,7 @@ function gho_general_form_node_article_edit_form_alter(&$form, FormStateInterfac
         ->getLanguage($storage['langcode'])
         ->getName(),
     ]);
+    $form['promote']['#access'] = TRUE;
     $form['promote']['#group'] = 'footer';
     $form['promote']['widget']['#title'] = $promote_title;
     $form['promote']['widget']['value']['#title'] = $promote_title;

@@ -1,4 +1,5 @@
 .gho-needs-and-requirements {
+  max-width: var(--content-width);
   margin-top: 2em;
   margin-bottom: 2em;
 }
@@ -25,6 +26,8 @@
   .gho-needs-and-requirements {
     display: flex;
     justify-content: space-between;
+    border-top: 1px solid #ccc;
+    padding-top: 1.5rem;
   }
   .gho-needs-and-requirements-figure {
     display: inline-block;

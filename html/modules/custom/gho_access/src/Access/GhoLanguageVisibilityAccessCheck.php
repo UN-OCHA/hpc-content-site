@@ -43,16 +43,16 @@ class GhoLanguageVisibilityAccessCheck implements AccessInterface {
    *   The access result.
    */
   public function access(AccountInterface $account, NodeInterface $node) {
-    // Only check the route for the node matching the current request and also
-    // skip for the homepage and let other module handle the access checks and
-    // caching.
+    // Only check the route for the node matching the current request.
     $nid = $this->routeMatch->getRawParameter('node');
-    if ($nid === NULL || $nid == 1 || $nid != $node->id()) {
+    if ($nid === NULL || $nid != $node->id()) {
+      // Let other modules decide the access to the node.
       return AccessResult::allowed();
     }
 
-    // Check the node access for the current language.
-    $access = gho_access_check_language_access($node, $account);
+    // Check the node access for the current language. Skip the check on the
+    // homepage if the current page is the homepage.
+    $access = gho_access_check_language_access($node, $account, $nid == 1);
 
     // Ensure the cache gets cleared when the permissions or the node change.
     $access->cachePerPermissions()->addCacheableDependency($node);

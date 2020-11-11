@@ -83,18 +83,38 @@
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
     'gho-home-page',
+    not node.isPromoted() ? 'gho-home-page--no-content'
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
-  <div{{ content_attributes.addClass('node__content') }}>
+  <header class="gho-home-page__header">
+    {#
+      The title is visually hidden on the homepage.
+      @see templates/content/page-title.html.twig
+    #}
+    {{ title }}
     {{ content.field_hero_image }}
-    <div class="gho-home-page__msg">{{ content.field_summary }}</div>
-    <a class="gho-home-page__link" href="{{ content.field_report_link|render|striptags|trim }}">{{ 'Download Report'|t }}</a>
+    <div class="gho-home-page__header__content">
+      <div class="gho-home-page__msg">{{ content.field_summary }}</div>
+      <a class="gho-home-page__link" href="{{ content.field_report_link|render|striptags|trim }}">{{ 'Download Report'|t }}</a>
+    </div>
+  </header>
 
+  {% if local_tasks %}
+  <div class="gho-story__local_tasks clearfix">{{ local_tasks }}</div>
+  {% endif %}
+
+  {#
+    Only show the content when the node is promoted, which means visibility of
+    content in the language of the homepage is enabled.
+  #}
+  {% if node.isPromoted() %}
+  <div{{ content_attributes.addClass('node__content') }}>
     {#
       In case we output any more content, exclude the fields we're giving
       special treatment.
     #}
-    {{ content|without('field_hero_image')|without('field_summary')|without('field_report_link') }}
+    {{ content|without(['field_hero_image', 'field_summary', 'field_report_link']) }}
   </div>
+  {% endif %}
 </article>

@@ -125,7 +125,7 @@ function gho_general_entity_form_display_alter(EntityFormDisplayInterface &$form
  * Alter the promote for the homepage to indicate it controls the global
  * visibility of the content for a given language.
  */
-function gho_general_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+function gho_general_form_node_article_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $storage = $form_state->getStorage();
   if (isset($storage['form_display'], $storage['langcode']) && $storage['form_display']->getMode() === 'home_page') {
     $promote_title = t("Enable global visibility of @language content", [

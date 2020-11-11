@@ -67,8 +67,10 @@ function gho_access_media_access(MediaInterface $media, $operation, AccountInter
 function gho_access_taxonomy_term_access(TermInterface $term, $operation, AccountInterface $account) {
   switch ($operation) {
     case 'view':
-      // Check the access to the translation.
-      return gho_access_check_language_access($term, $account);
+      if ($term->bundle() !== 'needs_and_requirements') {
+        // Check the access to the translation.
+        return gho_access_check_language_access($term, $account);
+      }
   }
   // No opinion, let other modules handle the permissions.
   return AccessResult::neutral();

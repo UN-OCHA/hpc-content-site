@@ -146,7 +146,10 @@ function common_design_subtheme_preprocess_node(&$variables) {
     ]);
   }
 
-  if (isset($variables['view_mode']) && $variables['view_mode'] === 'full') {
+  // Prepare the title and local tasks so we have better control over where
+  // to display them for content in full mode or for the home page.
+  $view_mode = $variables['view_mode'] ?? '';
+  if ($view_mode === 'full' || $view_mode === 'home_page') {
     $variables['title'] = common_design_subtheme_get_block_render_array('page_title_block');
     $variables['local_tasks'] = common_design_subtheme_get_block_render_array('local_tasks_block', FALSE);
   }

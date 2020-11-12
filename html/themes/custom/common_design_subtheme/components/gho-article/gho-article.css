@@ -47,3 +47,24 @@
 .gho-article .gho-article__local_tasks {
   margin-top: 2rem;
 }
+
+/* @todo Move that in a `gho-caption` component? */
+/* Bonus: the styles below apply to the sub-articles as well. */
+.gho-article .gho-caption {
+  max-width: var(--reading-width);
+  /* @todo adjust margin-top after reviewing title's margins. */
+  margin: 2rem 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #6d6d6d;
+}
+.gho-article .gho-caption__location {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+.gho-article .gho-caption__caption {
+  margin-top: 0;
+}
+.gho-article .gho-caption__credits {
+  font-style: italic;
+}

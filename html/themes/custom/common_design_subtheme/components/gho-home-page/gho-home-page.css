@@ -96,9 +96,12 @@
   text-transform: uppercase;
 }
 
-.gho-home-page__link:hover {
+.gho-home-page__link:hover,
+.gho-home-page__link:focus {
   color: white;
   text-decoration: underline;
+  outline: 3px solid white;
+  outline-offset: 0;
 }
 
 /**

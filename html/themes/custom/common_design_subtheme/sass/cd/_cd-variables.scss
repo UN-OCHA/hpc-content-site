@@ -62,7 +62,7 @@ $cd-mid-bluey-grey: #e6ecf1;
 $cd-light-bluey-grey: #f2f5f8;
 $cd-highlight-red: #eb5c6d;
 $cd-white: #fff;
-$cd-black: #000;
+$cd-black: #1f1f1f;
 
 // This shade of red has been selected based on WCAG AAA requirements for contrast.
 $cd-contrast-red: #e00000;
@@ -93,19 +93,21 @@ $cd-bright-blue-text-color: $cd-bright-blue;
 // Implementation colours
 //——————————————————————————————————————————————————————————————————————————————
 
-$implementation-primary: $cd-ocha-blue;
+$implementation-primary: #d8d8d8;
 $implementation-primary-dark: $cd-ocha-blue;
-$implementation-secondary: $cd-bright-blue;
-$implementation-highlight: $cd-highlight-red;
+$implementation-secondary: #1a344a;
+$implementation-highlight: $implementation-secondary;
+
+
 
 //——————————————————————————————————————————————————————————————————————————————
 // CSS Custom Properties
 //——————————————————————————————————————————————————————————————————————————————
 :root {
   /* Color palette */
-  --cd-ocha-blue: #{$cd-ocha-blue};
-  --cd-dark-blue: #{$cd-dark-blue};
-  --cd-bright-blue: #{$cd-bright-blue};
+  --cd-ocha-blue: #{$implementation-primary};
+  --cd-dark-blue: #{$implementation-primary-dark};
+  --cd-bright-blue: #{$implementation-secondary};
   --cd-highlight-red: #{$cd-highlight-red};
   --cd-white: #{$cd-white};
   --cd-light-grey: #{$cd-light-grey};

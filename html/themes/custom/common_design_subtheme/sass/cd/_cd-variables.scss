@@ -48,22 +48,6 @@ $cd-site-header-height: 60px;
 //——————————————————————————————————————————————————————————————————————————————
 // Colours
 //——————————————————————————————————————————————————————————————————————————————
-:root {
-  /* Color palette */
-  --cd-ocha-blue: #026cb6;
-  --cd-dark-blue: #025995;
-  --cd-bright-blue: #80cbff;
-  --cd-highlight-red: #eb5c6d;
-  --cd-white: #fff;
-  --cd-light-grey: #f2f2f2;
-  --cd-mid-grey: #595959;
-  --cd-dark-grey: #4a4a4a;
-  --cd-black: #000;
-  --cd-site-bg-color: #e6ecf1;
-  --cd-site-bg-color--light: #ebf0f4;
-}
-
-// Colour palette
 $cd-ocha-blue: #026cb6;
 $cd-dark-blue: #025995;
 $cd-bright-blue: #80cbff;
@@ -113,6 +97,25 @@ $implementation-primary: $cd-ocha-blue;
 $implementation-primary-dark: $cd-ocha-blue;
 $implementation-secondary: $cd-bright-blue;
 $implementation-highlight: $cd-highlight-red;
+
+//——————————————————————————————————————————————————————————————————————————————
+// CSS Custom Properties
+//——————————————————————————————————————————————————————————————————————————————
+:root {
+  /* Color palette */
+  --cd-ocha-blue: #{$cd-ocha-blue};
+  --cd-dark-blue: #{$cd-dark-blue};
+  --cd-bright-blue: #{$cd-bright-blue};
+  --cd-highlight-red: #{$cd-highlight-red};
+  --cd-white: #{$cd-white};
+  --cd-light-grey: #{$cd-light-grey};
+  --cd-mid-grey: #{$cd-mid-grey};
+  --cd-dark-grey: #{$cd-dark-grey};
+  --cd-black: #{$cd-black};
+  --cd-site-bg-color: #{$cd-mid-bluey-grey};
+  --cd-site-bg-color--light: #ebf0f4;
+}
+
 
 //——————————————————————————————————————————————————————————————————————————————
 // Fonts

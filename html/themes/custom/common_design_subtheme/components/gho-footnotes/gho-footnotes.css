@@ -67,6 +67,10 @@
   overflow-y: auto;
   z-index: 100;
 }
+[dir="rtl"] .gho-footnote-list__wrapper[data-visible] {
+  transform: translateX(130px);
+  padding: 0.5rem 130px 0.5rem 0;
+}
 /* Visually hidden to perserve the numbering and keep the footnotes and their
  * backlinks in the accessiblity tree. */
 .gho-footnote-list__wrapper[data-visible] .gho-footnote:not([data-visible]),

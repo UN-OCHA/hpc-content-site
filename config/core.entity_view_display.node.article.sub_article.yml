@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.node.sub_article
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
+    - field.field.node.article.field_caption
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_report_link
@@ -14,6 +15,7 @@ dependencies:
     - field.field.node.article.field_thumbnail_image
     - node.type.article
   module:
+    - gho_fields
     - layout_builder
     - layout_paragraphs
     - user
@@ -37,13 +39,20 @@ content:
     region: content
   field_author:
     type: entity_reference_entity_view
-    weight: 2
+    weight: 3
     label: hidden
     settings:
       view_mode: default
       link: false
     third_party_settings: {  }
     region: content
+  field_caption:
+    type: gho_caption
+    weight: 2
+    region: content
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
   field_hero_image:
     type: entity_reference_entity_view
     weight: 0
@@ -54,7 +63,7 @@ content:
     third_party_settings: {  }
     region: content
   field_paragraphs:
-    weight: 3
+    weight: 4
     label: hidden
     settings:
       view_mode: default

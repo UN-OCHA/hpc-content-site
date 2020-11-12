@@ -165,6 +165,12 @@ function common_design_subtheme_preprocess_node__story(&$variables) {
     $credits = $variables['content']['field_media'][0]['#media']->field_credits->value;
     $variables['content']['credits'] = ['#markup' => $credits];
   }
+
+  // Show the references at the bottom of the story page.
+  if (isset($variables['view_mode']) && $variables['view_mode'] === 'full') {
+    $variables['content']['footnotes'] = gho_footnotes_build_footnotes();
+    $variables['content']['footnotes']['#weight'] = 998;
+  }
 }
 
 /**
@@ -176,6 +182,11 @@ function common_design_subtheme_preprocess_node__article(&$variables) {
   if (isset($variables['view_mode']) && $variables['view_mode'] === 'full') {
     $node_id = $variables['node']->id();
     $node_uri = 'entity:node/' . $node_id;
+
+    // Show the footnotes at the bottom of the article page, before the
+    // related articles.
+    $variables['content']['footnotes'] = gho_footnotes_build_footnotes();
+    $variables['content']['footnotes']['#weight'] = 998;
 
     // Load the menu link associated with the node.
     $storage = \Drupal::service('entity_type.manager')->getStorage('menu_link_content');

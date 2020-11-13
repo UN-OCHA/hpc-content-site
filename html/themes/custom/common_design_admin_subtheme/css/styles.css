@@ -33,6 +33,12 @@
   max-width: 720px;
 }
 
+.field--name-field-text .highlight {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 2.25rem;
+}
+
 /*------------------------------------------------------------------------------
  * Styling of the Bottom Figures Row paragraph type
  *----------------------------------------------------------------------------*/

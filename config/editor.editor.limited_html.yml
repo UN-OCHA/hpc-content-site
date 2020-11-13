@@ -17,6 +17,7 @@ settings:
           items:
             - Bold
             - Italic
+            - Styles
         -
           name: Links
           items:
@@ -42,9 +43,11 @@ settings:
             - Source
   plugins:
     stylescombo:
-      styles: ''
+      styles: p.highlight|Highlight
     language:
       language_list: un
+    customconfig:
+      ckeditor_custom_config: ''
 image_upload:
   status: false
   scheme: private

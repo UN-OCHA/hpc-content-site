@@ -6,6 +6,7 @@ dependencies:
     - core.entity_form_mode.node.home_page
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
+    - field.field.node.article.field_caption
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_report_link
@@ -87,6 +88,7 @@ hidden:
   created: true
   field_appeals: true
   field_author: true
+  field_caption: true
   field_thumbnail_image: true
   langcode: true
   path: true

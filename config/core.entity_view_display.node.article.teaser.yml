@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
+    - field.field.node.article.field_caption
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_report_link
@@ -40,6 +41,7 @@ content:
 hidden:
   field_appeals: true
   field_author: true
+  field_caption: true
   field_hero_image: true
   field_paragraphs: true
   field_report_link: true

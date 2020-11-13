@@ -52,7 +52,7 @@ class GhoLanguageVisibilityAccessCheck implements AccessInterface {
 
     // Check the node access for the current language. Skip the check on the
     // homepage if the current page is the homepage.
-    $access = gho_access_check_language_access($node, $account, $nid == 1);
+    $access = gho_access_check_language_access($account, $node->language()->getId(), $nid == 1);
 
     // Ensure the cache gets cleared when the permissions or the node change.
     $access->cachePerPermissions()->addCacheableDependency($node);

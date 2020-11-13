@@ -14,7 +14,7 @@ filters:
     status: true
     weight: -10
     settings:
-      allowed_html: '<a href target> <em> <strong> <cite> <blockquote cite> <ul type> <ol start type 1 a i''''> <li> <dl> <dt> <dd> <p> <br>'
+      allowed_html: '<a href target> <em> <strong> <cite> <blockquote cite> <ul type> <ol start type 1 a i''''> <li> <dl> <dt> <dd> <br> <p class="highlight">'
       filter_html_help: false
       filter_html_nofollow: false
   filter_htmlcorrector:

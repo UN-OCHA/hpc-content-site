@@ -1,0 +1,29 @@
+uuid: 81b3ae3a-7b35-4e2c-84b8-4e8611bf26a2
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.preview
+    - field.field.paragraph.sub_article.field_article
+    - paragraphs.paragraphs_type.sub_article
+  module:
+    - layout_builder
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: paragraph.sub_article.preview
+targetEntityType: paragraph
+bundle: sub_article
+mode: preview
+content:
+  field_article:
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: preview
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+hidden: {  }

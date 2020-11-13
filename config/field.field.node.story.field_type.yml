@@ -12,7 +12,7 @@ entity_type: node
 bundle: story
 label: Type
 description: 'Type of the story (ex: Story from the field).'
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''

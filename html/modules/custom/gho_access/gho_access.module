@@ -9,7 +9,6 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\block\BlockInterface;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\media\MediaInterface;
 use Drupal\node\NodeInterface;
 use Drupal\taxonomy\TermInterface;
@@ -67,9 +66,12 @@ function gho_access_media_access(MediaInterface $media, $operation, AccountInter
 function gho_access_taxonomy_term_access(TermInterface $term, $operation, AccountInterface $account) {
   switch ($operation) {
     case 'view':
+      // Skip the needs and requirements because they are not translatable
+      // and the figures are automatically translated by the GhoNumberFormatter
+      // provided in gho_fields.
       if ($term->bundle() !== 'needs_and_requirements') {
         // Check the access to the translation.
-        return gho_access_check_language_access($term, $account);
+        return gho_access_check_language_access($account, $term->language()->getId());
       }
   }
   // No opinion, let other modules handle the permissions.
@@ -99,7 +101,7 @@ function gho_access_form_user_form_alter(&$form, FormStateInterface $form_state,
  */
 function gho_access_block_access(BlockInterface $block, $operation, AccountInterface $account) {
   if ($operation === 'view' && $block->id() === 'mainnavigation') {
-    return gho_access_check_language_access(NULL, $account);
+    return gho_access_check_language_access($account);
   }
 
   // No opinion, let other modules handle the permissions.
@@ -129,7 +131,7 @@ function gho_access_check_node_language_access(NodeInterface $node, AccountInter
     return AccessResult::neutral();
   }
 
-  return gho_access_check_language_access($node, $account);
+  return gho_access_check_language_access($account, $node->language()->getId());
 }
 
 /**
@@ -154,16 +156,16 @@ function gho_access_check_media_language_access(MediaInterface $media, AccountIn
     $skip_homepage_check = $node->field_hero_image->target_id == $media->id();
   }
 
-  return gho_access_check_language_access($media, $account, $skip_homepage_check);
+  return gho_access_check_language_access($account, $media->language()->getId(), $skip_homepage_check);
 }
 
 /**
  * Check if an account is allowed to view content in the current language.
  *
- * @param \Drupal\Core\Entity\EntityInterface|null $entity
- *   Optional entity to check access for.
  * @param \Drupal\Core\Session\AccountInterface $account
  *   User account.
+ * @param string|null $entity_langcode
+ *   Optional entity language code to compare with the current language.
  * @param bool $skip_homepage_check
  *   Skip the homepage check.
  *
@@ -171,7 +173,7 @@ function gho_access_check_media_language_access(MediaInterface $media, AccountIn
  *   Access result: either neutral if the account is allowed to access the
  *   content or forbidden otherwise.
  */
-function gho_access_check_language_access(?EntityInterface $entity, AccountInterface $account, $skip_homepage_check = FALSE) {
+function gho_access_check_language_access(AccountInterface $account, $entity_langcode = NULL, $skip_homepage_check = FALSE) {
   // Get the current language.
   $langcode = \Drupal::service('language_manager')->getCurrentLanguage()->getId();
 
@@ -183,7 +185,7 @@ function gho_access_check_language_access(?EntityInterface $entity, AccountInter
   }
   // If there is a mismatch between the current language and the entity language
   // we deny access.
-  elseif (isset($entity) && $entity->language()->getId() !== $langcode) {
+  elseif (isset($entity_langcode) && $entity_langcode !== $langcode) {
     $access = AccessResult::forbidden();
   }
   // If we don't need to check the homepage then simply let the other modules

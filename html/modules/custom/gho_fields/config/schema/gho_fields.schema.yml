@@ -1,4 +1,9 @@
 # Formatters.
+field.formatter.settings.gho_caption:
+  type: mapping
+  label: 'GHO caption formatter settings'
+  mapping:
+    # No settings.
 field.formatter.settings.gho_dataset_link:
   type: mapping
   label: 'GHO dataset link formatter settings'

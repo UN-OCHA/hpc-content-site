@@ -1,27 +1,33 @@
-uuid: da0eac33-c530-4c03-895c-768f4dcaa79f
+uuid: 44dec544-e66c-427d-a51e-19c0809b6054
 langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.paragraph.preview
     - field.field.paragraph.text.field_footnotes
     - field.field.paragraph.text.field_text
     - paragraphs.paragraphs_type.text
   module:
+    - layout_builder
     - text
-id: paragraph.text.default
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: paragraph.text.preview
 targetEntityType: paragraph
 bundle: text
-mode: default
+mode: preview
 content:
   field_footnotes:
-    type: text_default
-    weight: 1
-    region: content
+    weight: 2
     label: above
     settings: {  }
     third_party_settings: {  }
+    type: text_default
+    region: content
   field_text:
-    weight: 0
+    weight: 1
     label: hidden
     settings: {  }
     third_party_settings: {  }

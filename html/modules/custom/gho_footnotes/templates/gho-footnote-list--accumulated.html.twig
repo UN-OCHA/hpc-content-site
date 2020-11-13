@@ -1,15 +1,13 @@
 {#
-  Template implementation for a footnote list.
+  Template implementation for an accumulated footnote list.
 
   Available variables are:
   - id: ID of the list
   - footnotes: list of footnotes (see gho-footnote.html.twig for details)
 #}
 {% if footnotes %}
-<footer id="{{ id }}" class="gho-footnote-list">
-  {# We don't specify a heading level here because paragraphs may not have
-     a heading so we cannot know the hierarchy. #}
-  <p id="{{ id  }}-title" class="gho-footnote-list__title visually-hidden">{{ 'Footnotes'|t }}</p>
+<section id="{{ id }}" class="gho-footnote-list">
+  <h2 id="{{ id  }}-title" class="gho-footnote-list__title">{{ 'Footnotes'|t }}</h2>
   <ol aria-labelledBy="{{ id  }}-title" class="gho-footnote-list__list">
     {% for footnote in footnotes %}
     <li class="gho-footnote-list__list__item">
@@ -17,5 +15,5 @@
     </li>
     {% endfor %}
   </ol>
-</footer>
+</section>
 {% endif %}

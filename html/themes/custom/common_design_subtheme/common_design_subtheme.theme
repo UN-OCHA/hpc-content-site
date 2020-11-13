@@ -7,7 +7,21 @@
 
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Access\AccessResultInterface;
+use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\node\NodeInterface;
+use Drupal\Core\Url;
 use Drupal\gho_fields\Plugin\Field\FieldFormatter\GhoRelatedArticlesFormatter;
+
+/**
+ * Implements hook_menu().
+ */
+function common_design_subtheme_theme() {
+  return [
+    'menu__page_not_found' => [
+      'base hook' => 'menu',
+    ],
+  ];
+}
 
 /**
  * Get the list of components to attach to formatted text fields.
@@ -254,6 +268,113 @@ function common_design_subtheme_preprocess_page(&$variables) {
       unset($variables['page']['content']['common_design_subtheme_local_tasks']);
     }
   }
+}
+
+/**
+ * Implements hook_preprocess_page__404().
+ */
+function common_design_subtheme_preprocess_page__404(&$variables) {
+  // Generate the message to display before the menu.
+  $notfound = t('The page @path was not found.', [
+    '@path' => \Drupal::request()->getPathInfo() ?? '/',
+  ]);
+  $message = [
+    '<strong>' . $notfound . '</strong>',
+    t('Sorry for any inconvenience.'),
+    t('Here are some useful pages to help you get back on track:'),
+  ];
+
+  // Set the page content.
+  $variables['page']['content']['system_main'] = [
+    '#type' => 'container',
+    '#attributes' => [
+      'class' => ['gho-page-404'],
+    ],
+    '#attached' => [
+      'library' => ['common_design_subtheme/gho-page-404'],
+    ],
+    'message' => ['#markup' => '<p>' . implode('</p><p>', $message) . '</p>'],
+    'navigation' => common_design_subtheme_get_navigation_tree(),
+  ];
+}
+
+/**
+ * Get the navigation tree for the 404 page.
+ *
+ * @return array
+ *   Render array with either the main navigation tree or with a link to the
+ *   homepage in English if there is none in the current language.
+ */
+function common_design_subtheme_get_navigation_tree() {
+  $language_manager = \Drupal::service('language_manager');
+  $langcode = $language_manager->getCurrentLanguage()->getId();
+
+  // Check if the homepage in the given language exists.
+  $storage = \Drupal::service('entity_type.manager')->getStorage('node');
+  $ids = $storage->getQuery()
+    ->condition('nid', 1)
+    ->condition('langcode', $langcode)
+    ->condition('status', NodeInterface::PUBLISHED)
+    ->execute();
+
+  // Show a link to the homepage in English if there is no homepage in the
+  // current language.
+  if (empty($ids)) {
+    $default_language = $language_manager->getDefaultLanguage();
+    return [
+      '#theme' => 'menu__page_not_found',
+      '#items' => [
+        'home page' => [
+          'title' => t('Home page in @language', [
+            '@language' => $default_language->getName(),
+          ]),
+          'url' => new Url('<front>', [], [
+            'language' => $default_language,
+          ]),
+        ],
+      ],
+    ];
+  }
+
+  $menu_tree = \Drupal::service('menu.link_tree');
+
+  // Parameter to load the menu children of the given menu.
+  $parameters = new MenuTreeParameters();
+  $parameters->setMaxdepth(2);
+  $parameters->excludeRoot();
+
+  // Load tree.
+  $tree = $menu_tree->load('main', $parameters);
+
+  // Check the access to the nodes in the menu and ensure they are sorted.
+  $manipulators = [
+    ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
+    ['callable' => 'menu.default_tree_manipulators:checkAccess'],
+    ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
+  ];
+
+  // Tree is an associated array with a key for the parent menu entry
+  // and a \Drupal\Core\Menu\MenuLinkTreeElement[] as value.
+  $tree = $menu_tree->transform($tree, $manipulators);
+
+  // Get the render for the tree and use the theme for the page not found.
+  $build = $menu_tree->build($tree);
+  $build['#theme'] = 'menu__page_not_found';
+
+  // Remove the menu items without children.
+  $items = array_filter($build['#items'], function ($item) {
+    return !empty($item['below']);
+  });
+
+  // Add the homepage as first link.
+  $build['#items'] = [
+    'home page' => [
+      'title' => t('Home page'),
+      'url' => new Url('<front>'),
+    ],
+  ] + $items;
+
+  return $build;
 }
 
 /**

@@ -1,7 +1,7 @@
 .paragraph--type--text {
   max-width: var(--reading-width);
 }
-.paragraph--type--text p.highlight {
+.field--name-field-text .highlight {
   font-size: 1.5rem;
   font-weight: 700;
   line-height: 2.25rem;

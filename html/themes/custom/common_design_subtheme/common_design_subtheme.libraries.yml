@@ -50,6 +50,8 @@ gho-section-index:
       components/gho-section-index/gho-section-index.css: {}
 
 gho-footnotes:
+  js:
+    components/gho-footnotes/gho-footnotes.js: {}
   css:
     theme:
       components/gho-footnotes/gho-footnotes.css: {}

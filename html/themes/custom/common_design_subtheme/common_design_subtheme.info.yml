@@ -4,7 +4,14 @@ description: OCHA Common Design sub theme
 core: 8.x
 # Defines the base theme
 base theme: common_design
-logo: 'img/logos/gho-logo-FPO.png'
+
+# We have multilingual logos based on current language. This filename is
+# INTENTIONALLY incomplete to allow the current language to be incorporated
+# into the filename.
+#
+# @see common_design_subtheme_preprocess_block()
+# @see templates/block/block--system-branding-block.html.twig
+logo: 'img/logos/GHO2021-Logo-Web-'
 
 # Defines libraries group in which we can add css/js.
 libraries:

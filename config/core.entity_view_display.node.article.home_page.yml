@@ -14,8 +14,8 @@ dependencies:
     - field.field.node.article.field_thumbnail_image
     - node.type.article
   module:
-    - entity_reference_revisions
     - layout_builder
+    - layout_paragraphs
     - link
     - text
     - user
@@ -38,7 +38,7 @@ content:
     third_party_settings: {  }
     region: content
   field_paragraphs:
-    type: entity_reference_revisions_entity_view
+    type: layout_paragraphs
     weight: 4
     region: content
     label: hidden

@@ -13,7 +13,7 @@ dependencies:
     - field.field.node.article.field_thumbnail_image
     - node.type.article
   module:
-    - entity_reference_revisions
+    - layout_paragraphs
     - link
     - user
 id: node.article.default
@@ -55,7 +55,7 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    type: entity_reference_revisions_entity_view
+    type: layout_paragraphs
     region: content
   field_report_link:
     type: link

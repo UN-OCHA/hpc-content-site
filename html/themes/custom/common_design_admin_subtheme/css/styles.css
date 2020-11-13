@@ -28,15 +28,15 @@
   max-width: 720px;
 }
 
-/* this is inside other stuff like Story */
-.field--type-text-long {
-  max-width: 720px;
-}
-
-.field--name-field-text .highlight {
+.paragraph--type--text .highlight {
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 2.25rem;
+}
+
+/* this is inside other stuff like Story */
+.field--type-text-long {
+  max-width: 720px;
 }
 
 /*------------------------------------------------------------------------------

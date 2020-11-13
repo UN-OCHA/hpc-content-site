@@ -86,7 +86,7 @@ content:
   field_paragraphs:
     weight: 9
     settings:
-      preview_view_mode: default
+      preview_view_mode: preview
       nesting_depth: 4
       require_layouts: 0
     third_party_settings: {  }

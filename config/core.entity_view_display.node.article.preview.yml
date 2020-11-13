@@ -1,0 +1,71 @@
+uuid: 40f0d2aa-230f-4626-a6bf-1edc5fec1023
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.preview
+    - field.field.node.article.field_appeals
+    - field.field.node.article.field_author
+    - field.field.node.article.field_hero_image
+    - field.field.node.article.field_paragraphs
+    - field.field.node.article.field_report_link
+    - field.field.node.article.field_section
+    - field.field.node.article.field_summary
+    - field.field.node.article.field_thumbnail_image
+    - node.type.article
+  module:
+    - entity_reference_revisions
+    - layout_builder
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: node.article.preview
+targetEntityType: node
+bundle: article
+mode: preview
+content:
+  field_appeals:
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+  field_author:
+    type: entity_reference_entity_view
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_hero_image:
+    type: entity_reference_entity_view
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: hero_image
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_paragraphs:
+    weight: 3
+    label: hidden
+    settings:
+      view_mode: preview
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+hidden:
+  field_report_link: true
+  field_section: true
+  field_summary: true
+  field_thumbnail_image: true
+  langcode: true
+  links: true

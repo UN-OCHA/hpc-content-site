@@ -1,13 +1,33 @@
 .gho-footnote-list {
+  margin: 2rem 0;
+  padding: 2rem 0 0 0;
   border-top: 1px solid #ccc;
-  font-size: 0.85rem;
+}
+.gho-footnote-list__title {
+  margin: 0 0 0.5rem 0;
+  color: black;
 }
 .gho-footnote-list__list {
+  max-width: var(--reading-width);
   margin: 0;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.85rem;
+}
+/* @todo check if it's also fine to decorate the number like that in Arabic. */
+.gho-footnote-reference span:before {
+  content: "[";
+}
+.gho-footnote-reference span:after {
+  content: "]";
+}
+.gho-footnote {
+  line-height: 1.2;
 }
 .gho-footnote:target {
   background-color: #eee;
+}
+.gho-footnote + .gho-footnote {
+  margin-top: 0.5rem;
 }
 .gho-footnote__backlinks {
   display: inline;
@@ -20,4 +40,51 @@
 .gho-footnote-backlink [title]::after {
   content: counter(gho-footnotes-backlinks, lower-alpha);
   font-style: italic;
+}
+
+.gho-footnote-list__wrapper[data-visible] {
+  position: fixed;
+  bottom: 0;
+  /**
+   * Ok,so we don't specify a left property so that the list stays at its
+   * current position aligned to the left of the content area. Then we translate
+   * it to the maximum margin of the body (1400px - 1140px) / 2 and limiting its
+   * width to 1400px. We add a padding left of 130px to compensate and to ensure
+   * it always spans to the right border of the body we add 130px to the width
+   * and now we have a list going from left to right of the body, aligned with
+   * the content and fixed to the bottom.
+   * Oh yeah! Nothing better than some magical css soup.
+   */
+  width: calc(100% + 130px);
+  max-width: 1400px;
+  max-height: 50%;
+  transform: translateX(-130px);
+  padding: 0.5rem 0 0.5rem 130px;
+  margin: 0;
+  background: white;
+  border-top: 1px solid #ccc;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 100;
+}
+[dir="rtl"] .gho-footnote-list__wrapper[data-visible] {
+  transform: translateX(130px);
+  padding: 0.5rem 130px 0.5rem 0;
+}
+/* Visually hidden to perserve the numbering and keep the footnotes and their
+ * backlinks in the accessiblity tree. */
+.gho-footnote-list__wrapper[data-visible] .gho-footnote:not([data-visible]),
+.gho-footnote-list__wrapper[data-visible] .gho-footnote__backlinks {
+  position: absolute !important;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  width: 1px;
+  height: 1px;
+  word-wrap: normal;
+}
+.gho-footnote-list__wrapper[data-visible] .gho-footnote[data-visible] {
+  margin-top: 0;
+}
+.gho-footnote-list__wrapper[data-visible] .gho-footnote[data-visible] + .gho-footnote[data-visible] {
+  margin-top: 0.5rem;
 }

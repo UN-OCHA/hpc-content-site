@@ -183,6 +183,12 @@ function common_design_subtheme_preprocess_node__article(&$variables) {
     $node_id = $variables['node']->id();
     $node_uri = 'entity:node/' . $node_id;
 
+    // Copy the hero image credits to the end of the caption field.
+    if (isset($variables['content']['field_hero_image'][0]['#media'])) {
+      $credits = $variables['content']['field_hero_image'][0]['#media']->field_credits->value;
+      $variables['content']['field_caption'][0]['#credits'] = ['#markup' => $credits];
+    }
+    
     // Show the footnotes at the bottom of the article page, before the
     // related articles.
     $variables['content']['footnotes'] = gho_footnotes_build_footnotes();

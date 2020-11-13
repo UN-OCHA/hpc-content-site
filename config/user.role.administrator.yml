@@ -62,6 +62,7 @@ permissions:
   - 'update content translations'
   - 'update media'
   - 'use text format filtered_html'
+  - 'use text format footnotes'
   - 'use text format limited_html'
   - 'view all media revisions'
   - 'view all revisions'

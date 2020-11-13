@@ -1,0 +1,66 @@
+uuid: df6dd3f3-41c9-4a6b-b980-1f2f21c9c74d
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.preview
+    - field.field.node.story.field_footnotes
+    - field.field.node.story.field_media
+    - field.field.node.story.field_source
+    - field.field.node.story.field_text
+    - field.field.node.story.field_type
+    - node.type.story
+  module:
+    - layout_builder
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: node.story.preview
+targetEntityType: node
+bundle: story
+mode: preview
+content:
+  field_footnotes:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_media:
+    type: entity_reference_entity_view
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: story
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_source:
+    weight: 4
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_text:
+    weight: 2
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_type:
+    weight: 0
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+hidden:
+  langcode: true
+  links: true

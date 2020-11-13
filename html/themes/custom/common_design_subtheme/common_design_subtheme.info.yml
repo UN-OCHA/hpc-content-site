@@ -48,3 +48,4 @@ libraries-override:
 # Use the common_design_admin_subtheme styles inside the editor.
 ckeditor_stylesheets:
   - css/ckeditor/footnotes.css
+  - css/ckeditor/styles.css

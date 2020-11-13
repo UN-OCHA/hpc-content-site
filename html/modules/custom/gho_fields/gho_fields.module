@@ -33,6 +33,13 @@ function gho_fields_theme() {
         'list' => NULL,
       ],
     ],
+    'gho_caption_formatter' => [
+      'variables' => [
+        'location' => NULL,
+        'caption' => NULL,
+        'credits' => NULL,
+      ],
+    ],
   ];
 }
 

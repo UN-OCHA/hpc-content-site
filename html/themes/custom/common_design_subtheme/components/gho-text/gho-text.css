@@ -1,3 +1,8 @@
 .paragraph--type--text {
-  max-width: 720px; /* reading-width */
+  max-width: var(--reading-width);
+}
+.paragraph--type--text p.highlight {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 2.25rem;
 }

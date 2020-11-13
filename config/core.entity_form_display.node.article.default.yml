@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
+    - field.field.node.article.field_caption
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_report_link
@@ -13,6 +14,7 @@ dependencies:
     - field.field.node.article.field_thumbnail_image
     - node.type.article
   module:
+    - double_field
     - inline_entity_form
     - layout_paragraphs
     - link
@@ -47,6 +49,33 @@ content:
       allow_duplicate: false
     third_party_settings: {  }
     region: content
+  field_caption:
+    weight: 6
+    settings:
+      first:
+        type: textfield
+        label_display: block
+        size: 60
+        placeholder: 'Ex: Mbuji-Mayi, RDC'
+        label: Ok
+        cols: 10
+        rows: 5
+        prefix: ''
+        suffix: ''
+      second:
+        type: textarea
+        label_display: block
+        size: 10
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+        prefix: ''
+        suffix: ''
+      inline: false
+    third_party_settings: {  }
+    type: double_field
+    region: content
   field_hero_image:
     type: media_library_widget
     weight: 5
@@ -55,9 +84,9 @@ content:
     third_party_settings: {  }
     region: content
   field_paragraphs:
-    weight: 8
+    weight: 9
     settings:
-      preview_view_mode: default
+      preview_view_mode: preview
       nesting_depth: 4
       require_layouts: 0
     third_party_settings: {  }
@@ -78,7 +107,7 @@ content:
     type: options_select
     region: content
   field_summary:
-    weight: 7
+    weight: 8
     settings:
       rows: 5
       placeholder: ''
@@ -87,14 +116,14 @@ content:
     region: content
   field_thumbnail_image:
     type: media_library_widget
-    weight: 6
+    weight: 7
     settings:
       media_types: {  }
     third_party_settings: {  }
     region: content
   path:
     type: path
-    weight: 9
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -102,7 +131,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 10
+    weight: 11
     region: content
     third_party_settings: {  }
   title:

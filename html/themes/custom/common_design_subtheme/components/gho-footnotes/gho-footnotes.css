@@ -7,7 +7,7 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: #1f1f1f;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #d8d8d8;
 }
 @media (min-width: 1024px) {
   .gho-footnote-list__title {
@@ -67,7 +67,7 @@
   padding: 1rem 0 1rem 248px;
   margin: 0;
   background: #fff;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #d8d8d8;
   overflow-x: hidden;
   overflow-y: auto;
   z-index: 100;

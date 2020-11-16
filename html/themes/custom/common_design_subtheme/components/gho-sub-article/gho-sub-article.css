@@ -1,42 +1,51 @@
 /**
  * Base styles
  */
-.gho-sub-article__header {
-  /* The negative bottom margin is to compensate for the one from the title
-   * or the appeals tags. */
-  margin: 2rem 0 -1rem 0;
-  padding: 2rem 0 0 0;
+.gho-sub-article-paragraph--no-hero {
+  margin-top: 6.75rem;
+  padding-top: 4.5rem;
   border-top: 1px solid #ccc;
 }
-.gho-sub-article--with-hero-image .gho-sub-article__header {
-  margin-top: 2rem;
+.gho-sub-article-paragraph--hero {
+  margin-top: 6.75rem;
+}
+.gho-caption--article + .gho-sub-article-paragraph {
+  margin-top: 4.5rem;
   padding-top: 0;
   border-top: none;
 }
-.gho-sub-article--with-hero-image .gho-hero-image {
-  margin-bottom: 2rem;
+.gho-sub-article--hero .gho-hero-image {
+  margin-bottom: 3rem;
+}
+.gho-sub-article__header {
+  margin-bottom: 3rem;
+}
+.gho-sub-article__heading {
+  /* The negative bottom margin is to compensate for the one from the title
+   * or the appeals tags. */
+  margin: 0 0 -1rem 0;
 }
 .gho-sub-article__title {
   display: inline-block;
-  max-width: 720px; /* reading-width */
+  max-width: var(--reading-width);
   /* The bottom margin is to ensure the appeals tag are displayed nicely below
    * the title on smaller screens. */
   margin: 0 0 1rem 0;
   padding: 0;
-  color: black;
+  color: #1f1f1f;
   font-size: 2rem;
   font-weight: 700;
-}
-.gho-sub-article .gho-appeals-tags {
-  display: inline-block;
-  vertical-align: top;
-  margin: 0 0 1rem;
-}
-.gho-sub-article .gho-appeals-tag {
-  vertical-align: top;
 }
 @media (min-width: 768px) {
   .gho-sub-article__title {
     font-size: 2.625rem;
   }
+}
+.gho-sub-article__heading .gho-appeals-tags {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 1rem;
+}
+.gho-sub-article__heading .gho-appeals-tag {
+  vertical-align: top;
 }

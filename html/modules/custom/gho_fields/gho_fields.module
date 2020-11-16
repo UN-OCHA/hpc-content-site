@@ -38,6 +38,7 @@ function gho_fields_theme() {
         'location' => NULL,
         'caption' => NULL,
         'credits' => NULL,
+        'attributes' => NULL,
       ],
     ],
   ];

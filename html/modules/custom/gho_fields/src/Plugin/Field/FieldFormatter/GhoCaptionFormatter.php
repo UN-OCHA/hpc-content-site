@@ -4,6 +4,7 @@ namespace Drupal\gho_fields\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
+use Drupal\Core\Template\Attribute;
 
 /**
  * Plugin implementations for 'gho_caption' formatter.
@@ -30,6 +31,7 @@ class GhoCaptionFormatter extends FormatterBase {
         '#caption' => $item->second,
         // This is needs to be set in a hook_preprocess_gho_caption_formatter().
         '#credits' => NULL,
+        '#attributes' => new Attribute(),
         '#theme' => 'gho_caption_formatter',
       ];
     }

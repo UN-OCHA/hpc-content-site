@@ -76,7 +76,12 @@
  *   in different view modes.
  */
 #}
+{{ attach_library('common_design_subtheme/gho-caption') }}
 {{ attach_library('common_design_subtheme/gho-story') }}
+{# Pre-render the local_tasks so the `if local_tasks` below can work. #}
+{%
+  set local_tasks = local_tasks ? local_tasks|render
+%}
 {%
   set classes = [
     'node',
@@ -97,11 +102,13 @@
   {% if local_tasks %}
   <div class="gho-story__local_tasks clearfix">{{ local_tasks }}</div>
   {% endif %}
-  <div{{ content_attributes.addClass('node__content') }}>
+  <div{{ content_attributes.addClass('node__content').addClass('gho-story__content') }}>
     {{ content.field_media }}
-    <div class="gho-story__caption caption">
-      {{ content.field_text }}
-      <span class="gho-story__credits credits">{{ content.credits }}</span>
+    <div class="gho-story__caption gho-caption gho-caption--formatted">
+      <div class="gho-caption__text">
+        {{ content.field_text }}
+        <span class="gho-caption__credits">{{ content.credits }}</span>
+      </div>
     </div>
     {{ content|without(['field_type', 'field_media', 'field_text', 'credits']) }}
   </div>

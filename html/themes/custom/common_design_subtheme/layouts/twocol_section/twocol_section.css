@@ -8,6 +8,7 @@
 .layout--twocol-section {
   /* Compensate for the padding of the regions. */
   margin: -1rem;
+  max-width: var(--reading-width);
 }
 
 .layout--twocol-section:after {

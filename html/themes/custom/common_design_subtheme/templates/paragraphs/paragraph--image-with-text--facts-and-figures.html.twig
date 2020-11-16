@@ -40,6 +40,7 @@
  * @ingroup themeable
  */
 #}
+{{ attach_library('common_design_subtheme/gho-caption') }}
 {%
   set classes = [
     'paragraph',
@@ -52,9 +53,11 @@
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
     {{ content.field_image }}
-    <div class="gho-facts-and-figures__caption caption">
-      {{ content.field_text }}
-      <span class="gho-facts-and-figures__credits credits">{{ content.credits }}</span>
+    <div class="gho-facts-and-figures__caption gho-caption gho-caption--formatted">
+      <div class="gho-caption__text">
+        {{ content.field_text }}
+        <span class="gho-caption__credits">{{ content.credits }}</span>
+      </div>
     </div>
     {{ content|without(['field_image', 'field_text', 'credits']) }}
     {% endblock %}

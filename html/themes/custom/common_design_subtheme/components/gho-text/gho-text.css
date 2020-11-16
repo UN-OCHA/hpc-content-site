@@ -27,3 +27,9 @@
 .paragraph--type--text .field--name-field-text > :last-child {
   margin-bottom: 0;
 }
+.paragraph--type--text blockquote {
+  margin: 2rem 0;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  color: #707070;
+}

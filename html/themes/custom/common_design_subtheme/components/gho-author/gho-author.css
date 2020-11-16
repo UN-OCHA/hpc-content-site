@@ -2,47 +2,32 @@
  * Base Author field
  */
 .gho-author .media {
-  float: left;
-  display: block;
-  margin: 1em 0;
+  display: flex;
+  align-items: center;
   max-width: 580px;
+  color: #1f1f1f;
+  font-size: 0.875rem;
+  line-height: 1.375rem;
 }
 
-[dir='rtl'] .gho-author .media {
-  float: right;
-  text-align: right;
+.gho-author__image {
+  width: 60px;
+  height: 60px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 60px;
 }
-
-.gho-author .media picture {
-  width: 25%;
-  max-width: 100px;
-  max-height: 100px;
-  margin-bottom: 4em;
-}
-@media screen and (min-width: 550px) {
-  .gho-author .media picture {
-    margin-bottom: 0;
-  }
-}
-
-[dir='ltr'] .gho-author .media picture {
-  float: left;
-  margin-right: 1em;
-}
-[dir='rtl'] .gho-author .media picture {
-  float: right;
-  margin-left: 1em;
-}
-
-.gho-author .media img {
+.gho-author__image img {
   border-radius: 50%;
 }
 
-.gho-author .field--name-name {
-  font-weight: 700;
+[dir='ltr'] .gho-author__content {
+  margin-left: 1.5rem;
 }
-@media screen and (min-width: 550px) {
-  .gho-author .field--name-name {
-    padding-top: 1em;
-  }
+[dir='rtl'] .gho-author__content {
+  margin-right: 1.5rem;
+}
+
+.gho-author__content .field--name-name {
+  font-weight: 700;
 }

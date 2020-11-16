@@ -1,60 +1,65 @@
 /**
  * Base field.
  */
-.gho-bottom-figure-row {
-  /* Same margins as the aside components for consistency. */
+ .gho-bottom-figure-row {
+  padding-top: 2rem;
   margin-top: 2rem;
-  margin-bottom: 2rem;
+  border-top: 1px solid #ccc;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
-.gho-bottom-figure-row .field__items {
+
+.gho-bottom-figure-row__figures {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
   align-content: space-around;
   overflow-x: hidden;
+  /* Compensate for the margins of the fiedl__item.*/
+  margin: -1rem 0 0 0;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #ccc;
 }
 
-.gho-bottom-figure-row .field__items > .field__item {
+.gho-bottom-figure-row__figure {
   flex: 0 1 auto;
   min-width: 140px;
-  margin: 1rem 0;
+  margin: 1rem 0 0 0;
 }
-[dir='ltr'] .gho-bottom-figure-row .field__items > .field__item {
+[dir='ltr'] .gho-bottom-figure-row__figure {
   /* The left margin combined with the overflow-x: hidden of the parent
    * ensures the left border and padding are hidden for the first item of each
    * row. */
   margin-left: calc(-1rem - 1px);
   padding: 0 2rem 0 1rem;
-  border-left: 1px solid #ddd;
+  border-left: 1px solid #ccc;
 }
-[dir='rtl'] .gho-bottom-figure-row .field__items > .field__item {
+[dir='rtl'] .gho-bottom-figure-row__figure {
   /* The right margin combined with the overflow-x: hidden of the parent
    * ensures the right border and padding are hidden for the first item of each
    * row. */
   margin-right: calc(-1rem - 1px);
   padding: 0 1rem 0 2rem;
-  border-right: 1px solid #ddd;
+  border-right: 1px solid #ccc;
 }
 
 @media screen and (min-width: 768px) {
-  [dir='ltr'] .gho-bottom-figure-row .field__items > .field__item:first-child {
+  [dir='ltr'] .gho-bottom-figure-row__figure:first-child {
     border-left: 0;
   }
-  [dir='rtl'] .gho-bottom-figure-row .field__items > .field__item:first-child {
+  [dir='rtl'] .gho-bottom-figure-row__figure:first-child {
     border-right: 0;
   }
 }
 
-.gho-bottom-figure-row .double-field-first,
-.gho-bottom-figure-row .double-field-second {
+.gho-bottom-figure-row__figure .double-field-first,
+.gho-bottom-figure-row__figure .double-field-second {
   display: block;
 }
-
-.gho-bottom-figure-row .double-field-first {
+.gho-bottom-figure-row__figure .double-field-first {
   font-weight: 700;
 }
 
-.gho-bottom-figure-row .gho-dataset-link {
-  padding-top: 1rem;
-  border-top: 1px solid #ddd;
+.gho-bottom-figure-row__source {
+  margin-top: 1rem;
 }

@@ -3,10 +3,13 @@
 //——————————————————————————————————————————————————————————————————————————————
 
 .cd-footer {
+  color: $implementation-secondary;
   background: $implementation-primary;
   font-family: $cd-font;
 
   a {
+    color: $implementation-secondary;
+
     &:focus {
       outline: 3px solid $implementation-highlight;
     }

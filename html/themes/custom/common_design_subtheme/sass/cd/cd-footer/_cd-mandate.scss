@@ -1,4 +1,16 @@
 //——————————————————————————————————————————————————————————————————————————————
+// Common Design: OCHA mandate
+//——————————————————————————————————————————————————————————————————————————————
+
+.cd-mandate__logo {
+  background: url('../img/logos/ocha-lockup.svg') 0 center no-repeat;
+
+  @include desktop {
+    border-right: 1px solid $implementation-secondary;
+  }
+}
+
+//——————————————————————————————————————————————————————————————————————————————
 // GHO-4: RTL adjustments
 //
 // These need to be sent upstream once we're all happy with them.

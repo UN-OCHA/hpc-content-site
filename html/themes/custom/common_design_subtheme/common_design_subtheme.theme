@@ -8,8 +8,9 @@
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
-use Drupal\node\NodeInterface;
+use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
+use Drupal\node\NodeInterface;
 use Drupal\gho_fields\Plugin\Field\FieldFormatter\GhoRelatedArticlesFormatter;
 
 /**
@@ -193,7 +194,9 @@ function common_design_subtheme_preprocess_node__story(&$variables) {
  * Show the related articles at the end of the main articles.
  */
 function common_design_subtheme_preprocess_node__article(&$variables) {
-  if (isset($variables['view_mode']) && $variables['view_mode'] === 'full') {
+  $view_mode = $variables['view_mode'] ?? '';
+  // Main articles.
+  if ($view_mode === 'full') {
     $node_id = $variables['node']->id();
     $node_uri = 'entity:node/' . $node_id;
 
@@ -233,6 +236,19 @@ function common_design_subtheme_preprocess_node__article(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_paragraph__sub_article().
+ *
+ * Add a class to the sub-article paragraph indicating whether the article has
+ * a hero or not as it's difficult to access from within the twig templates.
+ */
+function common_design_subtheme_preprocess_paragraph__sub_article(&$variables) {
+  if (isset($variables['content']['field_article'][0]['#node'])) {
+    $hero = $variables['content']['field_article'][0]['#node']->field_hero_image->target_id;
+    $variables['attributes']['class'][] = 'gho-sub-article-paragraph--' . ($hero ? 'hero' : 'no-hero');
+  }
+}
+
+/**
  * Implements hook_preprocess_paragraph__image_with_text().
  *
  * Extract the media credits to display them after the text.
@@ -242,6 +258,18 @@ function common_design_subtheme_preprocess_paragraph__image_with_text(&$variable
     $credits = $variables['content']['field_image'][0]['#media']->field_credits->value;
     $variables['content']['credits'] = ['#markup' => $credits];
   }
+}
+
+/**
+ * Implements hook_preprocess_field__node__field_caption__article().
+ *
+ * Add a class to identify the article caption.
+ */
+function common_design_subtheme_preprocess_field__node__field_caption__article(&$variables) {
+  if (!isset($variables['items'][0]['content']['#attributes'])) {
+    $variables['items'][0]['content']['#attributes'] = new Attribute();
+  }
+  $variables['items'][0]['content']['#attributes']->addClass('gho-caption--article');
 }
 
 /**

@@ -37,7 +37,7 @@ class GhoFurtherReadingLinkFormatter extends FormatterBase {
       $element[$delta] = [
         '#theme' => 'gho_further_reading_link_formatter',
         '#url' => $url,
-        '#title' => $item->title ?? $url->toString(),
+        '#title' => $item->title ?: $url->toString(),
         '#source' => $source,
       ];
     }

@@ -76,6 +76,11 @@ gho-needs-and-requirements:
     theme:
       components/gho-needs-and-requirements/gho-needs-and-requirements.css: {}
 
+gho-caption:
+  css:
+    theme:
+      components/gho-caption/gho-caption.css: {}
+
 gho-bleed:
   header: true
   js:
@@ -90,6 +95,7 @@ gho-aside:
       components/gho-aside/gho-aside.css: {}
   dependencies:
     - common_design_subtheme/gho-bleed
+    - common_design_subtheme/gho-caption
 
 gho-hero-image:
   css:

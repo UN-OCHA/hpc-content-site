@@ -1,10 +1,10 @@
-<div class="gho-caption">
-  <p class="gho-caption__location location">{{ location }}</p>
+<div{{ attributes.addClass('gho-caption') }}>
+  <p class="gho-caption__location">{{ location }}</p>
   {% spaceless %}
-  <p class="gho-caption__caption caption">
+  <p class="gho-caption__text">
     {{ caption }}
     {% if credits %}
-      <span class="gho-caption__credits credits">{{ credits }}</span>
+      <span class="gho-caption__credits">{{ credits }}</span>
     {% endif %}
   </p>
   {% endspaceless %}

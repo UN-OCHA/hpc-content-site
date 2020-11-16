@@ -1,14 +1,11 @@
 .gho-story--teaser {
   max-width: var(--reading-width);
 }
-.gho-story__caption {
-  margin: 1rem 0;
+.gho-story .field--name-field-media {
+  margin-bottom: 2.5rem;
 }
-.gho-story__caption > p:last-of-type {
-  display: inline;
-}
-.gho-story__credits {
-  font-style: italic;
+.gho-story .gho-caption {
+  margin: 0;
 }
 .gho-story__source {
   border-top: 1px solid #ccc;
@@ -28,4 +25,11 @@
 .gho-story__source .item-list li {
   list-style: none;
   margin: 0;
+}
+
+.gho-story__local_tasks {
+  position: relative;
+  max-width: var(--content-width);
+  margin: 2rem auto;
+  z-index: 1;
 }

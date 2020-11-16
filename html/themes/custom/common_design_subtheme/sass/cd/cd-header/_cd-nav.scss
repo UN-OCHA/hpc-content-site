@@ -2,6 +2,8 @@
 // Common Design: Main Navigation
 //——————————————————————————————————————————————————————————————————————————————
 .cd-nav__btn {
+  height: $cd-site-header-height;
+
   &[aria-expanded] .cd-icon--arrow-down {
     fill: $implementation-highlight;
   }
@@ -61,6 +63,10 @@
   }
 
   @include desktop {
+    .cd-nav {
+      height: $cd-site-header-height;
+    }
+
     .cd-nav > .menu {
       > .menu-item {
         &.menu-item--active-trail a::before,

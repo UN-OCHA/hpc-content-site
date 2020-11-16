@@ -5,7 +5,7 @@
 //——————————————————————————————————————————————————————————————————————————————
 
 .cd-site-logo {
-  width: 52px;
+  height: $cd-site-header-height;
 
   &:focus {
     outline: 3px solid $implementation-highlight;
@@ -20,5 +20,9 @@
   @include tablet {
     // Width of the logo.
     width: 316px;
+  }
+
+  img {
+    height: $cd-site-header-height; // IE11
   }
 }

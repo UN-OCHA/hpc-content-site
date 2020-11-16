@@ -18,6 +18,35 @@
   background: $implementation-primary;
 }
 
+.cd-site-header__nav-holder {
+  .cd-nav {
+    @include max-width(lg) {
+      &[data-cd-hidden='false'] {
+        height: calc(100vh - (#{$cd-global-header-height} + #{$cd-site-header-height} + 3px));
+        top: calc(#{$cd-global-header-height} + #{$cd-site-header-height} + 3px);
+      }
+    }
+  }
+
+  @include desktop {
+    .cd-nav > .menu {
+      > .menu-item {
+        > a,
+        button {
+          height: $cd-site-header-height;
+        }
+      }
+    }
+  }
+
+  // Second level.
+  .cd-nav > .menu > li > .menu {
+    @include desktop {
+      top: calc(#{$cd-site-header-height} + 3px); // border-bottom height
+    }
+  }
+}
+
 .cd-site-header__nav-holder nav > ul {
   > li,
   > .cd-nav__item {
@@ -26,6 +55,16 @@
     }
   }
 }
+
+// sass-lint:disable no-mergeable-selectors
+.cd-site-header__inner {
+  height: $cd-site-header-height;
+
+  @supports(display: grid) {
+    grid-template-rows: $cd-site-header-height;
+  }
+}
+
 
 //——————————————————————————————————————————————————————————————————————————————
 // GHO-4: RTL adjustments
@@ -48,7 +87,7 @@
     grid-template-columns: 52px 1fr;
 
     @include tablet {
-      grid-template-columns: 186px 1fr;
+      grid-template-columns: 316px 1fr;
     }
 
     // unset RTL styles for IE11

@@ -11,15 +11,20 @@
  * Individual tag
  */
 .gho-appeals-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
+  width: 2.5rem;
+  height: 1rem;
   margin: 0 .25rem;
-  min-width: 4em;
-  display: inline-block;
-  text-align: center;
   background: #5090cd;
   color: #fff;
-  font-size: .75em;
+  font-size: .5625em;
   font-weight: 700;
+  letter-spacing: 100;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .gho-appeals-tag--hrp {
@@ -28,12 +33,16 @@
 .gho-appeals-tag--fa {
   background-color: #8869ae;
 }
-.gho-appeals-tag--rrp {
-  background-color: #e66751;
+.gho-appeals-tag--rrp,
+.gho-appeals-tag--3rp {
+  background-color: #d85f49;
 }
-.gho-appeals-tag--rmrp {
-  background-color: #f9a356;
+.gho-appeals-tag--rmrp,
+.gho-appeals-tag--mrp,
+.gho-appeals-tag--jrp {
+  background-color: #f9a456;
 }
-.gho-appeals-tag--other {
-  background-color: #87cfad;
+.gho-appeals-tag--other,
+.gho-appeals-tag--covid {
+  background-color: #65c296;
 }

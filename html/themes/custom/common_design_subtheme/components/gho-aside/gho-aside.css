@@ -1,23 +1,27 @@
 .gho-aside {
-  margin-top: 2em;
-  margin-bottom: 2em;
+  margin-top: 6.75rem;
+  margin-bottom: 4.5rem;
 }
 .gho-aside * {
-  color: #6d6d6d;
+  color: #707070;
 }
 .gho-aside--dark {
+  padding: 2.5rem 0 3rem 0;
   background-color: #1f1f1f;
 }
 .gho-aside--dark * {
-  color: #ddd;
+  color: #fff;
 }
 .gho-aside__pre-title {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5rem;
   display: block;
 }
 .gho-aside__title {
   margin-top: 0;
-  /* 18px. */
-  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
   font-weight: 700;
-  line-height: 1.5;
+  line-height: 1.5rem;
 }

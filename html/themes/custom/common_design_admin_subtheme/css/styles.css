@@ -28,8 +28,20 @@
   max-width: 720px;
 }
 
+.paragraph--type--text .highlight {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 2.25rem;
+}
+.paragraph--type--text blockquote {
+  margin: 1.5rem 0;
+  font-size: 0.75rem;
+  line-height: 1.5rem;
+  color: #707070;
+}
+
 /* this is inside other stuff like Story */
-.field--type-text-long {
+.paragraph .field--type-text-long {
   max-width: 720px;
 }
 

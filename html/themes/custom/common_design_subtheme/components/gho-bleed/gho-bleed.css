@@ -27,9 +27,9 @@
 
 @media screen and (min-width: 1400px) {
   .gho-bleed {
-    /* Limit to the maxium width of the body. */
-    margin-left: -130px;
-    margin-right: -130px;
+    /* Limit to the maxium width of the body: (1400 - 904) / 2*/
+    margin-left: -248px;
+    margin-right: -248px;
   }
 }
 
@@ -39,7 +39,7 @@
 .gho-bleed--background-only {
   position: relative;
   z-index: 1;
-  padding: 1em 0;
+  padding: 0;
 }
 
 .gho-bleed--background-only:before {
@@ -57,9 +57,6 @@
 }
 
 @media screen and (min-width: 1024px) {
-  .gho-bleed--background-only {
-    padding: 2em 0;
-  }
   .gho-bleed--background-only:before {
     /* Include the grey margin. */
     margin-left: calc(50% + 8px - 50vw + var(--gho-bleed-scrollbar-width) / 2);
@@ -69,8 +66,8 @@
 
 @media screen and (min-width: 1400px) {
   .gho-bleed--background-only:before {
-    /* Limit to the maxium width of the body. */
-    margin-left: -130px;
-    margin-right: -130px;
+    /* Limit to the maxium width of the body: (1400 - 904) / 2*/
+    margin-left: -248px;
+    margin-right: -248px;
   }
 }

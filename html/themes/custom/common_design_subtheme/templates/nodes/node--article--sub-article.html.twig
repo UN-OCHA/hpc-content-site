@@ -85,17 +85,19 @@
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
     'gho-sub-article',
-    hero_image ? 'gho-sub-article--with-hero-image',
+    hero_image ? 'gho-sub-article--hero' : 'gho-sub-article--no-hero',
     'clearfix',
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
   <header class="gho-sub-article__header">
     {{ hero_image }}
-    <h2{{ title_attributes.addClass('gho-sub-article__title') }}>{{ label }}</h2>
-    {{ content.field_appeals }}
+    <div class="gho-sub-article__heading">
+      <h2{{ title_attributes.addClass('gho-sub-article__title') }}>{{ label }}</h2>
+      {{ content.field_appeals }}
+    </div>
   </header>
-  <div{{ content_attributes.addClass('node__content') }}>
+  <div{{ content_attributes.addClass('node__content').addClass('gho-sub-article__content') }}>
     {{ content|without(['field_hero_image', 'field_appeals']) }}
   </div>
 </article>

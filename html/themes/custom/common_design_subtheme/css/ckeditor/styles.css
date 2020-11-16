@@ -1,0 +1,12 @@
+p.highlight {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 2.25rem;
+}
+
+blockquote {
+  margin: 2rem 0;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  color: #707070;
+}

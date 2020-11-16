@@ -1,15 +1,17 @@
 .gho-needs-and-requirements {
   max-width: var(--content-width);
-  margin-top: 2em;
-  margin-bottom: 2em;
 }
 .gho-needs-and-requirements-figure {
-  padding: 1em 0;
+  padding: 2rem 0;
   border-style: solid;
   border-color: #ccc;
   border-width: 1px 0 0 0;
 }
+.gho-needs-and-requirements-figure:last-child {
+  padding-bottom: 0;
+}
 .gho-needs-and-requirements-figure__label {
+  font-size: 1rem;
   font-weight: bold;
 }
 .gho-needs-and-requirements-figure__label small {
@@ -17,9 +19,9 @@
   font-weight: normal;
 }
 .gho-needs-and-requirements-figure__value {
-  font-weight: bold;
-  font-size: 2.25rem;
   color: #5391cb;
+  font-size: 1.625rem;
+  font-weight: bold;
 }
 
 @media (min-width: 768px) {
@@ -27,13 +29,15 @@
     display: flex;
     justify-content: space-between;
     border-top: 1px solid #ccc;
-    padding-top: 1.5rem;
+    padding-top: 2rem;
   }
   .gho-needs-and-requirements-figure {
     display: inline-block;
-    flex: 1 0 33.33%;
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 33.33%;
     border-width: 0 0 0 1px;
-    padding: 0 1.5em;
+    padding: 0 1.5rem;
   }
   [dir="ltr"] .gho-needs-and-requirements-figure:first-child {
     border-width: 0;
@@ -44,5 +48,16 @@
   }
   [dir="rtl"] .gho-needs-and-requirements-figure:last-child {
     border-width: 0;
+  }
+  .gho-needs-and-requirements-figure__label {
+    font-size: 1.125rem;
+  }
+  .gho-needs-and-requirements-figure__value {
+    font-size: 2rem;
+  }
+}
+@media (min-width: 1024px) {
+  .gho-needs-and-requirements-figure__value {
+    font-size: 2.25rem;
   }
 }

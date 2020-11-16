@@ -2,23 +2,34 @@
  * Base component styles
  */
 .gho-further-reading {
-  max-width: 720px; /* reading-width */
-  margin-bottom: 2rem;
+  max-width: var(--reading-width);
+  margin: 6.75rem 0;
+  color: #1f1f1f;
 }
 
 /**
  * Title
  */
 .gho-further-reading__title {
-  color: black;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  color: #1f1f1f;
+}
+@media (min-width: 1024px) {
+  .gho-further-reading__title {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
 }
 
 /**
  * Style list of links
  */
 .gho-further-reading__link {
-  border-top: 1px solid #ccc;
   position: relative; /* for SVG @see gho_fields/templates */
+  border-top: 1px solid #ccc;
+  font-size: 0.875rem;
 }
 
 /**
@@ -36,7 +47,9 @@
  */
 .gho-further-reading a {
   display: block;
+  font-size: inherit;
   font-weight: 700;
+  line-height: 1.25rem;
   padding: 1rem 0 3rem;
 }
 
@@ -48,7 +61,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  fill: black;
+  fill: #1f1f1f;
 }
 
 /**

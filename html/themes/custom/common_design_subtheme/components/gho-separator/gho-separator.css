@@ -1,14 +1,21 @@
 .separator {
   border: none;
+  width: 100%;
+  height: 1px;
+  max-width: var(--reading-width);
+  margin: 2rem 0;
+}
+.separator::before {
+  content: "";
+  display: block;
+  width: 100%;
   height: 1px;
   background: #ccc;
-  margin: 2rem auto;
+  margin: 0 auto;
 }
-
-.separator--half {
+.separator--half::before {
   width: 50%;
 }
-
-.separator--full {
+.separator--full::before {
   width: 100%;
 }

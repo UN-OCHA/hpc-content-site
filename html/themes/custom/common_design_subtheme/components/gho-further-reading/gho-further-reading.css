@@ -27,7 +27,7 @@
  */
 .gho-further-reading__link {
   position: relative; /* for SVG @see gho_fields/templates */
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #d8d8d8;
   font-size: 0.875rem;
 }
 
@@ -35,7 +35,7 @@
  * Style last link in list
  */
 .gho-further-reading__link:last-child {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #d8d8d8;
 }
 
 /**

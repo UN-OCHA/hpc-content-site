@@ -10,61 +10,83 @@
 
 .gho-article__header {
   position: relative;
+  z-index: 0;
+}
+/* Article hero image dimensions are based on the full width (1140px) not the
+ * content width (904px). */
+@media (min-width: 1400px) {
+  .gho-article__header .gho-hero-image.gho-bleed {
+    margin-left: -130px;
+    margin-right: -130px;
+  }
 }
 .gho-article__heading {
+  max-width: var(--content-width);
   padding: 2rem 0 0 0;
+  margin: 0 auto;
 }
-@media (min-width: 1200px) {
-  .gho-article--with-hero-image .gho-article__heading {
+/* Take into account the 8px grey margins: 1040px + 2 * 8x. */
+@media (min-width: 1056px) {
+  .gho-article--hero .gho-article__heading {
+    position: relative;
+    margin-top: -190px;
+    z-index: 1;
+  }
+  .gho-article--hero .gho-article__heading::before {
+    content: "";
     position: absolute;
-    bottom: 0;
-    left: -2rem;
-    right: -2rem;
-    padding: 1rem 2rem;
-    background: white;
+    top: 0;
+    left: -68px;
+    width: 1040px;
+    height: 190px;
+    background: #fff;
+    z-index: -1;
   }
 }
 
 .gho-article__pre-title {
-  max-width: 480px;
-  margin-bottom: 0.5rem;
-  color: #6d6d6d;
+  max-width: var(--reading-width);
+  margin-bottom: 1rem;
+  color: #707070;
+  font-size: 0.875rem;
+}
+@media (min-width: 1024px) {
+  .gho-article__pre-title {
+    margin-bottom: 1.5rem;
+  }
 }
 .gho-article .page-title {
-  max-width: 480px;
+  max-width: var(--reading-width);
   padding: 0;
-  margin: 0;
+  margin: 0 0 3rem 0;
   border: none;
-  font-size: 2.625rem;
-  color: black;
+  font-size: 2.25rem;
+  line-height: 2.375rem;
+  color: #1f1f1f;
 }
 @media (min-width: 768px) {
   .gho-article .page-title {
+    font-size: 2.875rem;
+    line-height: 3.125rem;
+  }
+}
+@media (min-width: 1024px) {
+  .gho-article .page-title {
     font-size: 3.25rem;
+    line-height: 3.375rem;
   }
 }
 
-.gho-article .gho-article__local_tasks {
-  margin-top: 2rem;
+.gho-article__content {
+  position: relative;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  z-index: 1;
 }
 
-/* @todo Move that in a `gho-caption` component? */
-/* Bonus: the styles below apply to the sub-articles as well. */
-.gho-article .gho-caption {
-  max-width: var(--reading-width);
-  /* @todo adjust margin-top after reviewing title's margins. */
-  margin: 2rem 0;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: #6d6d6d;
-}
-.gho-article .gho-caption__location {
-  margin-bottom: 0;
-  font-weight: bold;
-}
-.gho-article .gho-caption__caption {
-  margin-top: 0;
-}
-.gho-article .gho-caption__credits {
-  font-style: italic;
+.gho-article__local_tasks {
+  position: relative;
+  max-width: var(--content-width);
+  margin: 2rem auto;
+  z-index: 1;
 }

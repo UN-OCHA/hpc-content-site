@@ -4,7 +4,7 @@
  .gho-bottom-figure-row {
   padding-top: 2rem;
   margin-top: 2rem;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #d8d8d8;
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
@@ -18,7 +18,7 @@
   /* Compensate for the margins of the fiedl__item.*/
   margin: -1rem 0 0 0;
   padding-bottom: 2rem;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #d8d8d8;
 }
 
 .gho-bottom-figure-row__figure {
@@ -32,7 +32,7 @@
    * row. */
   margin-left: calc(-1rem - 1px);
   padding: 0 2rem 0 1rem;
-  border-left: 1px solid #ccc;
+  border-left: 1px solid #d8d8d8;
 }
 [dir='rtl'] .gho-bottom-figure-row__figure {
   /* The right margin combined with the overflow-x: hidden of the parent
@@ -40,7 +40,7 @@
    * row. */
   margin-right: calc(-1rem - 1px);
   padding: 0 1rem 0 2rem;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #d8d8d8;
 }
 
 @media screen and (min-width: 768px) {

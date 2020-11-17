@@ -10,7 +10,7 @@ use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
-use Drupal\Core\Link;
+// use Drupal\Core\Link;
 use Drupal\node\NodeInterface;
 use Drupal\gho_fields\Plugin\Field\FieldFormatter\GhoRelatedArticlesFormatter;
 
@@ -40,8 +40,8 @@ function common_design_subtheme_theme() {
       'variables' => [
         'title' => NULL,
         'description' => NULL,
-        'cerf' => Link::fromTextAndUrl(t('Central Emergency Response Fund'), Url::fromUri('https://cerf.un.org')),
-        'cbpf' => Link::fromTextAndUrl(t('Country-based Pooled Funds'), Url::fromUri('https://pfbi.unocha.org')),
+        // 'cerf' => Link::fromTextAndUrl(t('Central Emergency Response Fund'), Url::fromUri('https://cerf.un.org')),
+        // 'cbpf' => Link::fromTextAndUrl(t('Country-based Pooled Funds'), Url::fromUri('https://pfbi.unocha.org')),
       ],
       'template' => 'block--soft-footer-acknowledgements',
     ],

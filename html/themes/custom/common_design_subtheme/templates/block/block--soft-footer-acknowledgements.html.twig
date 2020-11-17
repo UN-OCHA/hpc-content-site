@@ -36,9 +36,9 @@
 %}
 <div{{ attributes.addClass(classes) }}>
   {% block content %}
-    <img src="{{ base_path ~ directory }}/img/logos/fts-logo.svg" alt="{{ 'Financial Tracking Service'|t }}">
+    <img src="{{ base_path ~ directory }}/img/logos/logo-mobile.svg" alt="{{ 'United Nations'|t }}">
     {% trans %}
-      <p>The United Nations acknowledges the generous contributions of donors who provide unearmarked or core funding to humanitarian partners, the {{ cerf }} and {{ cbpf }}</p>
+      <p>The United Nations acknowledges the generous contributions of donors who provide unearmarked or core funding to humanitarian partners, the <a href="https://cerf.un.org">Central Emergency Response Fund</a> and <a href="https://pfbi.unocha.org">Country-based Pooled Fund</a></p>
     {% endtrans %}
   {% endblock %}
 </div>

@@ -99,9 +99,12 @@
   text-transform: uppercase;
 }
 
-.gho-home-page__link:hover {
+.gho-home-page__link:hover,
+.gho-home-page__link:focus {
   color: #fff;
   text-decoration: underline;
+  outline: 3px solid white;
+  outline-offset: 0;
 }
 .gho-home-page__content {
   max-width: var(--content-width);

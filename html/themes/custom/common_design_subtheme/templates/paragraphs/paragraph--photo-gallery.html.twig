@@ -56,13 +56,13 @@
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-      {{ content|without(['field_location', 'field_caption', 'field_credits']) }}
-      <div class="gho-photo-gallery__caption gho-caption">
+      {{ content|without(['field_location', 'field_text', 'credits']) }}
+      <div class="gho-photo-gallery__caption gho-caption gho-caption--formatted">
         {{ content.field_location }}
-        <p class="field--name-field-caption gho-caption__text">
-          {{ content.field_caption }}
-          {{ content.field_credits }}
-        </p>
+        <div class="gho-caption__text">
+          {{ content.field_text }}
+          <span class="gho-caption__credits">{{ content.credits }}</span>
+        </div>
       </div>
     {% endblock %}
   </div>

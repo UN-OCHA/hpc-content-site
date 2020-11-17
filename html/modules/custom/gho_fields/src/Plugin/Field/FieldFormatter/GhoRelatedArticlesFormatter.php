@@ -87,13 +87,15 @@ class GhoRelatedArticlesFormatter extends EntityReferenceFormatterBase {
         if ($url->isRouted()) {
           $parameters = $url->getRouteParameters();
           $entity_type = key($parameters);
-          $entity_id = $parameters[$entity_type];
+          if (isset($entity_type, $parameters[$entity_type])) {
+            $entity_id = $parameters[$entity_type];
 
-          // Load the node associated with the menu link and it's render
-          // array for the view mode to the list.
-          if ($entity_type === 'node' && !in_array($entity_id, $exclude)) {
-            $node = $storage->load($entity_id);
-            $list[] = $view_builder->view($node, 'related_article');
+            // Load the node associated with the menu link and it's render
+            // array for the view mode to the list.
+            if ($entity_type === 'node' && !in_array($entity_id, $exclude)) {
+              $node = $storage->load($entity_id);
+              $list[] = $view_builder->view($node, 'related_article');
+            }
           }
         }
       }

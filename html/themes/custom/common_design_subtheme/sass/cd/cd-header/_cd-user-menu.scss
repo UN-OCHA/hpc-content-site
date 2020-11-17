@@ -15,10 +15,22 @@
 // Drupal selectors
 //——————————————————————————————————————————————————————————————————————————————
 
+.cd-user-menu__dropdown-link,
 .cd-global-header .menu > li a,
 .cd-global-header .menu > li button {
   @extend .cd-user-menu__item;
+  color: $cd-black;
 }
+
+.cd-global-header .menu > li a::after {
+  width: 1px;
+  background: $cd-black;
+}
+
+.cd-global-header .menu svg {
+  fill: $cd-black;
+}
+
 
 //——————————————————————————————————————————————————————————————————————————————
 // GHO-4: RTL adjustments

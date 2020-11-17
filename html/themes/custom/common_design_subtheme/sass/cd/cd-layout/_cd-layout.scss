@@ -2,6 +2,14 @@
 // Common Design: Layout
 //——————————————————————————————————————————————————————————————————————————————
 
+.cd-layout-container {
+  @supports (display: grid) {
+    @include tablet {
+      grid-template-rows: 108px 1fr auto; // Height of header modified for GHO.
+    }
+  }
+}
+
 // Disable flex attributes that prevents notably hero image to span the full
 // width of the main content area.
 .cd-layout-content {

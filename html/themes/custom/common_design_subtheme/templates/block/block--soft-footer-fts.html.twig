@@ -36,6 +36,8 @@
 %}
 <div{{ attributes.addClass(classes) }}>
   {% block content %}
-    <img src="{{ base_path ~ directory }}/img/logos/fts-logo.svg" alt="{{ 'Financial Tracking Service'|t }}">
+    <a href="https://fts.unocha.org">
+      <img src="{{ base_path ~ directory }}/img/logos/fts-logo.svg" alt="{{ 'Financial Tracking Service'|t }}">
+    </a>
   {% endblock %}
 </div>

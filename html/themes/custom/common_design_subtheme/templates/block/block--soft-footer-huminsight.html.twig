@@ -36,6 +36,8 @@
 %}
 <div{{ attributes.addClass(classes) }}>
   {% block content %}
-    <img src="{{ base_path ~ directory }}/img/logos/hum-insight-logo.svg" alt="{{ 'Humanitarian InSight'|t }}">
+    <a href="https://hum-insight.info">
+      <img src="{{ base_path ~ directory }}/img/logos/hum-insight-logo.svg" alt="{{ 'Humanitarian InSight'|t }}">
+    </a>
   {% endblock %}
 </div>

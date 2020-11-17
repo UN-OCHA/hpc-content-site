@@ -21,6 +21,13 @@ function common_design_subtheme_theme() {
     'menu__page_not_found' => [
       'base hook' => 'menu',
     ],
+    'soft_footer_fts' => [
+      'variables' => [
+        'title' => NULL,
+        'description' => NULL,
+      ],
+      'template' => 'block--soft-footer-fts',
+    ],
   ];
 }
 

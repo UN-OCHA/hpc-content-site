@@ -1,0 +1,20 @@
+uuid: 090e14c1-77f0-4427-955c-24470a1af83c
+langcode: en
+status: true
+dependencies:
+  module:
+    - gho_general
+  theme:
+    - common_design_subtheme
+id: fts
+theme: common_design_subtheme
+region: footer_soft
+weight: 0
+provider: null
+plugin: soft_footer_fts
+settings:
+  id: soft_footer_fts
+  label: FTS
+  provider: gho_general
+  label_display: '0'
+visibility: {  }

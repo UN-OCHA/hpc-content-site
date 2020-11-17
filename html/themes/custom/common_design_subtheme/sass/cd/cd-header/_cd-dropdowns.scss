@@ -16,6 +16,7 @@
   }
 }
 
+
 //——————————————————————————————————————————————————————————————————————————————
 // GHO-4: RTL adjustments
 //
@@ -24,6 +25,7 @@
 button[aria-expanded] {
   .cd-icon--arrow-down {
     margin-left: 0; // unsetting upstream CD
+    fill: $cd-black; // **NOT** RTL-related but our linter is a jerk.
 
     [dir='ltr'] & {
       margin-left: 4px;

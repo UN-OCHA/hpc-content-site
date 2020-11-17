@@ -1,0 +1,20 @@
+uuid: 8b066b9f-fdf0-437a-b1b1-8c84f08edb9b
+langcode: en
+status: true
+dependencies:
+  module:
+    - gho_general
+  theme:
+    - common_design_subtheme
+id: huminsight
+theme: common_design_subtheme
+region: footer_soft
+weight: 0
+provider: null
+plugin: soft_footer_huminsight
+settings:
+  id: soft_footer_huminsight
+  label: HumInsight
+  provider: gho_general
+  label_display: visible
+visibility: {  }

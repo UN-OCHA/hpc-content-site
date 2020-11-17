@@ -28,6 +28,13 @@ function common_design_subtheme_theme() {
       ],
       'template' => 'block--soft-footer-fts',
     ],
+    'soft_footer_huminsight' => [
+      'variables' => [
+        'title' => NULL,
+        'description' => NULL,
+      ],
+      'template' => 'block--soft-footer-huminsight',
+    ],
   ];
 }
 

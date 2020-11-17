@@ -1,4 +1,14 @@
 //——————————————————————————————————————————————————————————————————————————————
+// Common Design: Copyright section
+//——————————————————————————————————————————————————————————————————————————————
+
+.cd-footer-copyright {
+  .cd-icon--cc {
+    fill: $implementation-secondary;
+  }
+}
+
+//——————————————————————————————————————————————————————————————————————————————
 // GHO-4: RTL adjustments
 //
 // These need to be sent upstream once we're all happy with them.

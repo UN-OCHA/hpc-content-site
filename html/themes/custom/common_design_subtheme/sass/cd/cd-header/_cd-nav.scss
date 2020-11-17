@@ -2,6 +2,8 @@
 // Common Design: Main Navigation
 //——————————————————————————————————————————————————————————————————————————————
 .cd-nav__btn {
+  height: $cd-site-header-height;
+
   &[aria-expanded] .cd-icon--arrow-down {
     fill: $implementation-highlight;
   }
@@ -61,6 +63,10 @@
   }
 
   @include desktop {
+    .cd-nav {
+      height: $cd-site-header-height;
+    }
+
     .cd-nav > .menu {
       > .menu-item {
         &.menu-item--active-trail a::before,
@@ -77,6 +83,20 @@
               background: $implementation-highlight;
             }
           }
+        }
+
+        .cd-main-menu__btn-label {
+          // The togglable arrow-icon changes size when this label is too big
+          // so we need to lock it to a specific width. This is a magic number
+          // based on adjusting the text to match the latest design for the
+          // four nav items, observing the biggest size, and using that value.
+          //
+          // Unfortunately we have to manually evaluate each menu for each
+          // language and set these values independently. I'm not proud.
+          html[lang='en'] & { width: 98px; }
+          html[lang='fr'] & { width: 98px; }
+          html[lang='es'] & { width: 98px; }
+          html[lang='ar'] & { width: 98px; }
         }
       }
 

@@ -5,7 +5,9 @@
 //——————————————————————————————————————————————————————————————————————————————
 
 .cd-soft-footer {
-  background: rgba($implementation-primary, 0.9);
+  color: $cd-black;
+  background: $cd-white;
+  border-top: 1px solid $implementation-primary;
 
   a {
     &:focus {
@@ -20,5 +22,13 @@
   &:hover,
   &:focus {
     background: darken($implementation-primary, 5%);
+  }
+}
+
+.cd-soft-footer .block-soft-footer-fts {
+  img {
+    // original dimensions: 438x200
+    width: 200px;
+    height: 91px;
   }
 }

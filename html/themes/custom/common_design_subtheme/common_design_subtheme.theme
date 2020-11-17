@@ -48,6 +48,13 @@ function common_design_subtheme_get_components() {
 }
 
 /**
+ * Implements hook_preprocess().
+ */
+function common_design_subtheme_preprocess(&$variables) {
+  $variables['base_path'] = base_path();
+}
+
+/**
  * Implements hook_preprocess_field().
  *
  * This adds attach component libraries and add necessary classes to filtered

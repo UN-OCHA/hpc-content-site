@@ -3,31 +3,17 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.photo_gallery.field_caption
-    - field.field.paragraph.photo_gallery.field_credits
     - field.field.paragraph.photo_gallery.field_location
     - field.field.paragraph.photo_gallery.field_photos
+    - field.field.paragraph.photo_gallery.field_text
     - paragraphs.paragraphs_type.photo_gallery
+  module:
+    - text
 id: paragraph.photo_gallery.default
 targetEntityType: paragraph
 bundle: photo_gallery
 mode: default
 content:
-  field_caption:
-    weight: 2
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    type: basic_string
-    region: content
-  field_credits:
-    weight: 3
-    label: hidden
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
   field_location:
     weight: 1
     label: hidden
@@ -44,5 +30,12 @@ content:
       view_mode: thumbnail_medium
       link: false
     third_party_settings: {  }
+    region: content
+  field_text:
+    weight: 4
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
     region: content
 hidden: {  }

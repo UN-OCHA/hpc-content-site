@@ -2,7 +2,7 @@
   max-width: var(--content-width);
   margin: 3rem 0;
   padding: 2rem 0 0 0;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #d8d8d8;
 }
 /* This is similar to the sub-article styling */
 .gho-section-index__header {

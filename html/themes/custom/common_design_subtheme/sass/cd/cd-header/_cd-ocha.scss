@@ -1,36 +1,35 @@
 //——————————————————————————————————————————————————————————————————————————————
 // Common Design: Sites Menu ('OCHA Services')
 //——————————————————————————————————————————————————————————————————————————————
+.cd-ocha__btn {
+  color: $cd-black;
+}
+
+.cd-ocha__logo {
+  display: none; // yup, for GHO this won't show.
+}
+
 .cd-ocha-dropdown__heading {
-  color: $cd-white;
+  color: $implementation-secondary;
 }
 
 .cd-ocha-dropdown__link {
   a {
+    color: $implementation-secondary;
+
+    &:hover {
+      color: $implementation-secondary;
+    }
+
     &:focus {
-      outline: 3px solid $implementation-highlight;
+      outline: 3px solid $implementation-secondary;
+      color: $implementation-secondary;
     }
   }
 }
 
-.cd-ocha-dropdown__see-all {
-  background: $implementation-highlight;
-  color: $cd-default-text-color;
-}
-
-//——————————————————————————————————————————————————————————————————————————————
-// GHO-4: RTL adjustments
-//
-// These need to be sent upstream once we're all happy with them.
-//——————————————————————————————————————————————————————————————————————————————
-.cd-ocha__logo {
-  margin-right: 0; // unsetting upstream CD
-
-  [dir='ltr'] & {
-    margin-right: 4px;
-  }
-
-  [dir='rtl'] & {
-    margin-left: 4px;
-  }
+.cd-ocha-dropdown__see-all,
+.cd-ocha-dropdown__see-all:focus {
+  background: $implementation-secondary;
+  color: $cd-white;
 }

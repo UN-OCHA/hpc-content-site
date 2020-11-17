@@ -4,7 +4,7 @@
 .gho-needs-and-requirements-figure {
   padding: 2rem 0;
   border-style: solid;
-  border-color: #ccc;
+  border-color: #d8d8d8;
   border-width: 1px 0 0 0;
 }
 .gho-needs-and-requirements-figure:last-child {
@@ -28,7 +28,7 @@
   .gho-needs-and-requirements {
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #d8d8d8;
     padding-top: 2rem;
   }
   .gho-needs-and-requirements-figure {

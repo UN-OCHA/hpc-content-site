@@ -249,6 +249,18 @@ function common_design_subtheme_preprocess_paragraph__sub_article(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_paragraph__photo_gallery().
+ *
+ * Extract the media credits to display them after the text.
+ */
+function common_design_subtheme_preprocess_paragraph__photo_gallery(&$variables) {
+  if (isset($variables['content']['field_photos'][0]['#media'])) {
+    $credits = $variables['content']['field_photos'][0]['#media']->field_credits->value;
+    $variables['content']['credits'] = ['#markup' => $credits];
+  }
+}
+
+/**
  * Implements hook_preprocess_paragraph__image_with_text().
  *
  * Extract the media credits to display them after the text.
@@ -458,4 +470,15 @@ function common_design_subtheme_get_block_render_array($id, $translate = TRUE) {
   }
 
   return [];
+}
+
+/**
+ * Implements hook_preprocess_block().
+ *
+ * We have four logos for our four languages, so we need to know the language at
+ * the time the block for the site logo is rendered.
+ */
+function common_design_subtheme_preprocess_block(&$variables) {
+  $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $variables['language'] = $language;
 }

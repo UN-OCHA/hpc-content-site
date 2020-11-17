@@ -88,7 +88,7 @@ class GhoFurtherReadingLinkWidget extends LinkWidget {
    *   Form.
    */
   public static function validateSourceElement(array &$element, FormStateInterface $form_state, array $form) {
-    if ($element['uri']['#value'] !== '' && $element['title']['#value'] === '') {
+    if ($element['uri']['#value'] !== '' && $element['source']['#value'] === '') {
       $error = t('The @source field is required if there is @uri input.', [
         '@source' => $element['source']['#title'],
         '@uri' => $element['uri']['#title'],

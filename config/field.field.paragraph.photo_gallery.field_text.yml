@@ -1,0 +1,28 @@
+uuid: bdceed0f-3474-48f9-b867-3d9195a4ac9e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_text
+    - paragraphs.paragraphs_type.photo_gallery
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    limited_html: limited_html
+    plain_text: '0'
+    filtered_html: '0'
+    footnotes: '0'
+id: paragraph.photo_gallery.field_text
+field_name: field_text
+entity_type: paragraph
+bundle: photo_gallery
+label: Caption
+description: 'Text describing the photos.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,4 +1,4 @@
-uuid: 8b066b9f-fdf0-437a-b1b1-8c84f08edb9b
+uuid: 89177d5e-19c6-476e-81b6-9743388bb6b2
 langcode: en
 status: true
 dependencies:
@@ -6,15 +6,15 @@ dependencies:
     - gho_general
   theme:
     - common_design_subtheme
-id: huminsight
+id: ghoacknowledgements
 theme: common_design_subtheme
 region: footer_soft
-weight: -4
+weight: -3
 provider: null
-plugin: soft_footer_huminsight
+plugin: soft_footer_acknowledgements
 settings:
-  id: soft_footer_huminsight
-  label: HumInsight
+  id: soft_footer_acknowledgements
+  label: 'GHO Acknowledgements'
   provider: gho_general
   label_display: '0'
 visibility: {  }

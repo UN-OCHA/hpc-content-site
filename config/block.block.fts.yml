@@ -9,7 +9,7 @@ dependencies:
 id: fts
 theme: common_design_subtheme
 region: footer_soft
-weight: 0
+weight: -5
 provider: null
 plugin: soft_footer_fts
 settings:

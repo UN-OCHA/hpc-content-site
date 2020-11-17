@@ -127,11 +127,41 @@
 // sass-lint:disable no-mergeable-selectors
 //——————————————————————————————————————————————————————————————————————————————
 .cd-site-header__nav-holder {
+  .cd-nav > .menu {
+    > .menu-item {
+      > a,
+      button {
+        [dir='rtl'] & {
+          text-align: right;
+        }
+
+        [dir='ltr'] & .cd-icon {
+          margin-right: 0;
+          margin-left: 4px;
+        }
+
+        [dir='rtl'] & .cd-icon {
+          margin-right: 4px;
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
   @include desktop {
     .cd-nav > .menu {
       > .menu-item {
         [dir='rtl'] &:last-child {
           border-left: 1px solid $cd-border-color;
+        }
+
+        [dir='rtl'] &:first-child {
+          border-left: 0;
+        }
+
+        [dir='rtl'] &:last-child > ul.menu {
+          left: 0;
+          right: auto;
         }
       }
 
@@ -144,7 +174,7 @@
 
           [dir='rtl'] &.is-active {
             border-left: 0;
-            border-right: 3px solid $cd-highlight-red;
+            border-right: 3px solid $implementation-highlight;
           }
         }
 
@@ -153,7 +183,7 @@
           button {
             [dir='rtl'] &.is-active {
               border-left: 0;
-              border-right: 3px solid $cd-highlight-red;
+              border-right: 3px solid $implementation-highlight;
             }
           }
         }

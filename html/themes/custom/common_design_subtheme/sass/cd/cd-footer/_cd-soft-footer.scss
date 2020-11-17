@@ -9,7 +9,15 @@
   background: $cd-white;
   border-top: 1px solid $implementation-primary;
 
+  // CD defaults are good but let's override all for our design
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+
   a {
+    color: inherit;
+
     &:focus {
       outline: 3px solid $implementation-primary;
     }
@@ -25,18 +33,87 @@
   }
 }
 
+.cd-soft-footer .block {
+  height: 60px;
+  position: relative;
+  padding: 0 1rem;
+
+  [dir='ltr'] & {
+    text-align: left;
+  }
+
+  [dir='rtl'] & {
+    text-align: right;
+  }
+}
+
+
+.cd-soft-footer .block:first-child,
+[dir='rtl'] .cd-soft-footer .block:last-child {
+  padding-left: 0;
+}
+
+.cd-soft-footer .block:last-child,
+[dir='rtl'] .cd-soft-footer .block:first-child {
+  padding-right: 0;
+}
+
+.cd-soft-footer .block + .block::before {
+  content: '';
+  width: 1px;
+  background: $implementation-primary;
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+
+  [dir='ltr'] & {
+    left: -1rem;
+  }
+
+  [dir='rtl'] & {
+    right: -1rem;
+  }
+}
+
 .cd-soft-footer .block-soft-footer-fts {
+  flex: 0 1 11%;
+
   img {
     // original dimensions: 438x200
-    width: 200px;
-    height: 91px;
+    width: 100px;
+    height: 60px;
   }
 }
 
 .cd-soft-footer .block-soft-footer-huminsight {
+  flex: 0 1 20%;
+
   img {
     // original dimensions: 382x60
-    width: 200px;
-    height: 31px;
+    width: 382px;
+    height: 60px;
+  }
+}
+
+.cd-soft-footer .block-soft-footer-acknowledgements {
+  // Within soft footer
+  flex: 0 0 60%;
+
+  // Within this component
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  img {
+    // original dimensions: 42x60
+    width: 42px;
+    height: 60px;
+  }
+
+  p {
+    margin: 0; // unset top/bottom to control height of separator
+    margin-left: 1rem;
+    text-align: left;
+    font-size: .7em;
   }
 }

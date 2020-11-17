@@ -53,7 +53,10 @@
   > .cd-nav__item {
     @include desktop {
       max-width: 140px;
-      flex-basis: 140px; // IE11
+      // Necessary in IE11 to have it respect the max-width... but also
+      // useful in Arabic where the text can be quite short and this prevents
+      // the buttons to be too narrow.
+      min-width: 80px;
     }
   }
 }

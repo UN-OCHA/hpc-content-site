@@ -67,6 +67,12 @@
       height: $cd-site-header-height;
     }
 
+    .cd-nav > ul {
+      // @todo This should be put next to the place where the ul has its
+      // display set to flex but I don't know where it is :'-(
+      flex-wrap: nowrap;
+    }
+
     .cd-nav > .menu {
       > .menu-item {
         &.menu-item--active-trail a::before,
@@ -76,6 +82,10 @@
 
         > a,
         button {
+          // @todo This should be put next to the place where the button has
+          // its display set to flex but I don't know where it is :'-(
+          justify-content: space-between;
+
           &.is-active,
           &:focus {
             // sass-lint:disable nesting-depth
@@ -83,20 +93,13 @@
               background: $implementation-highlight;
             }
           }
-        }
 
-        .cd-main-menu__btn-label {
-          // The togglable arrow-icon changes size when this label is too big
-          // so we need to lock it to a specific width. This is a magic number
-          // based on adjusting the text to match the latest design for the
-          // four nav items, observing the biggest size, and using that value.
-          //
-          // Unfortunately we have to manually evaluate each menu for each
-          // language and set these values independently. I'm not proud.
-          html[lang='en'] & { width: 98px; }
-          html[lang='fr'] & { width: 98px; }
-          html[lang='es'] & { width: 98px; }
-          html[lang='ar'] & { width: 98px; }
+          .cd-icon {
+            // Ensure the icons have a fixed width/height regardless of the
+            // length of the button label.
+            flex-grow: 0;
+            flex-shrink: 0;
+          }
         }
       }
 
@@ -124,11 +127,41 @@
 // sass-lint:disable no-mergeable-selectors
 //——————————————————————————————————————————————————————————————————————————————
 .cd-site-header__nav-holder {
+  .cd-nav > .menu {
+    > .menu-item {
+      > a,
+      button {
+        [dir='rtl'] & {
+          text-align: right;
+        }
+
+        [dir='ltr'] & .cd-icon {
+          margin-right: 0;
+          margin-left: 4px;
+        }
+
+        [dir='rtl'] & .cd-icon {
+          margin-right: 4px;
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
   @include desktop {
     .cd-nav > .menu {
       > .menu-item {
         [dir='rtl'] &:last-child {
           border-left: 1px solid $cd-border-color;
+        }
+
+        [dir='rtl'] &:first-child {
+          border-left: 0;
+        }
+
+        [dir='rtl'] &:last-child > ul.menu {
+          left: 0;
+          right: auto;
         }
       }
 
@@ -141,7 +174,7 @@
 
           [dir='rtl'] &.is-active {
             border-left: 0;
-            border-right: 3px solid $cd-highlight-red;
+            border-right: 3px solid $implementation-highlight;
           }
         }
 
@@ -150,7 +183,7 @@
           button {
             [dir='rtl'] &.is-active {
               border-left: 0;
-              border-right: 3px solid $cd-highlight-red;
+              border-right: 3px solid $implementation-highlight;
             }
           }
         }

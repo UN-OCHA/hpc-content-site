@@ -78,7 +78,7 @@
 
 .cd-soft-footer .block-soft-footer-acknowledgements {
   // Within soft footer
-  flex: 0 0 100%;
+  flex: 0 1 100%;
   padding-bottom: 2rem;
   margin-bottom: 2rem;
   position: relative;
@@ -155,7 +155,7 @@
 }
 
 .cd-soft-footer .block-soft-footer-fts {
-  flex: 0 1 50%;
+  flex: 0 1 45%;
 
   [dir='ltr'] & {
     text-align: right;
@@ -188,7 +188,7 @@
 }
 
 .cd-soft-footer .block-soft-footer-huminsight {
-  flex: 0 1 50%;
+  flex: 0 1 45%;
 
   [dir='ltr'] & {
     text-align: left;
@@ -227,7 +227,6 @@
     width: 135px;
     height: 37.1px;
 
-    // This is too small when displayed in a row
     @include desktop {
       width: 218px;
       height: 60px;

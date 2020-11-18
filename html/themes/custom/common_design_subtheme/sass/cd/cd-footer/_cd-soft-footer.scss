@@ -9,18 +9,24 @@
   background: $cd-white;
   border-top: 1px solid $implementation-primary;
 
-  // CD defaults are good but let's override all for our design
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: center;
-
   a {
     color: inherit;
 
     &:focus {
       outline: 3px solid $implementation-primary;
     }
+  }
+}
+
+.cd-soft-footer__inner {
+  // CD defaults are good but let's override all for our design
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+
+  @include desktop {
+    flex-flow: row nowrap;
   }
 }
 
@@ -34,49 +40,120 @@
 }
 
 .cd-soft-footer .block {
-  height: 60px;
   position: relative;
   padding: 0 1rem;
+  text-align: center;
 
-  [dir='ltr'] & {
-    text-align: left;
-  }
+  @include desktop {
+    height: 60px;
 
-  [dir='rtl'] & {
-    text-align: right;
+    [dir='ltr'] & {
+      text-align: left;
+    }
+
+    [dir='rtl'] & {
+      text-align: right;
+    }
   }
 }
 
+@mixin cd-sf-separator {
+  &::before {
+    content: '';
+    width: 1px;
+    background: $implementation-primary;
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
 
-.cd-soft-footer .block:first-child,
-[dir='rtl'] .cd-soft-footer .block:last-child {
-  padding-left: 0;
+    [dir='ltr'] & {
+      left: -1rem;
+    }
+
+    [dir='rtl'] & {
+      right: -1rem;
+    }
+  }
 }
 
-.cd-soft-footer .block:last-child,
-[dir='rtl'] .cd-soft-footer .block:first-child {
-  padding-right: 0;
-}
+.cd-soft-footer .block-soft-footer-acknowledgements {
+  // Within soft footer
+  flex: 0 0 100%;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid $implementation-primary;
 
-.cd-soft-footer .block + .block::before {
-  content: '';
-  width: 1px;
-  background: $implementation-primary;
-  position: absolute;
-  top: 10px;
-  bottom: 10px;
+  // Layout of this component
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
 
-  [dir='ltr'] & {
-    left: -1rem;
+  @include desktop {
+    // Within soft footer
+    flex: 1 0 70%;
+    order: 3;
+
+    // Layout of this component
+    flex-flow: row nowrap;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
   }
 
-  [dir='rtl'] & {
-    right: -1rem;
+  img {
+    // original dimensions: 42x60
+    width: 42px;
+    height: 60px;
+  }
+
+  p {
+    margin: 0;
+    text-align: center;
+    font-size: .875em;
+    font-weight: 900;
+    max-width: 400px;
+
+    @include desktop {
+      max-width: 590px;
+      margin-left: 1rem;
+      text-align: left;
+      font-size: .7em;
+    }
+  }
+
+  a,
+  a:link,
+  a:focus,
+  a:active {
+    color: $cd-ocha-blue;
   }
 }
 
 .cd-soft-footer .block-soft-footer-fts {
-  flex: 0 1 11%;
+  flex: 0 1 50%;
+
+  [dir='ltr'] & {
+    text-align: right;
+    padding-right: 1rem;
+  }
+
+  [dir='rtl'] & {
+    text-align: left;
+    padding-left: 1rem;
+  }
+
+  @include desktop {
+    flex-basis: 15%;
+    padding: 0;
+
+    [dir='ltr'] & {
+      text-align: left;
+    }
+
+    [dir='rtl'] & {
+      text-align: right;
+    }
+  }
 
   img {
     // original dimensions: 438x200
@@ -86,34 +163,33 @@
 }
 
 .cd-soft-footer .block-soft-footer-huminsight {
-  flex: 0 1 20%;
+  flex: 0 1 50%;
 
-  img {
-    // original dimensions: 382x60
-    width: 382px;
-    height: 60px;
-  }
-}
-
-.cd-soft-footer .block-soft-footer-acknowledgements {
-  // Within soft footer
-  flex: 0 0 60%;
-
-  // Within this component
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-
-  img {
-    // original dimensions: 42x60
-    width: 42px;
-    height: 60px;
-  }
-
-  p {
-    margin: 0; // unset top/bottom to control height of separator
-    margin-left: 1rem;
+  [dir='ltr'] & {
     text-align: left;
-    font-size: .7em;
+  }
+
+  [dir='rtl'] & {
+    text-align: right;
+  }
+
+  @include desktop {
+    flex-basis: 20%;
+  }
+
+  img {
+    // original dimensions: 223.24x61.4
+    //
+    // These dimensions selected purely to make it look good, despite the image
+    // heights differing between boxes. It takes the whitespace of the SVG into
+    // account.
+    width: 135px;
+    height: 37.1px;
+
+    // This is too small when displayed in a row
+    @include desktop {
+      width: 218px;
+      height: 60px;
+    }
   }
 }

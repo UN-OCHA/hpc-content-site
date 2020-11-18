@@ -9,7 +9,7 @@ dependencies:
 id: ghoacknowledgements
 theme: common_design_subtheme
 region: footer_soft
-weight: -3
+weight: -5
 provider: null
 plugin: soft_footer_acknowledgements
 settings:

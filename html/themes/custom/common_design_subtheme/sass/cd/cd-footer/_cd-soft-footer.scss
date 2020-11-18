@@ -67,11 +67,11 @@
     bottom: 10px;
 
     [dir='ltr'] & {
-      left: -1rem;
+      left: -.5rem;
     }
 
     [dir='rtl'] & {
-      right: -1rem;
+      right: -.5rem;
     }
   }
 }
@@ -81,12 +81,23 @@
   flex: 0 0 100%;
   padding-bottom: 2rem;
   margin-bottom: 2rem;
-  border-bottom: 1px solid $implementation-primary;
+  position: relative;
 
   // Layout of this component
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
+
+  // Mobile separator
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100vw;
+    height: 1px;
+    background: $implementation-primary;
+    left: -24px;
+    bottom: 0;
+  }
 
   @include desktop {
     // Within soft footer
@@ -98,12 +109,26 @@
     padding-bottom: 0;
     margin-bottom: 0;
     border-bottom: 0;
+
+    // Remove mobile separator
+    &::after {
+      content: none;
+    }
+
+    // Now add the separator back in a totally different way!
+    @include cd-sf-separator;
   }
 
   img {
     // original dimensions: 42x60
     width: 42px;
     height: 60px;
+    //          visual-height - SVG height / 2
+    margin-top: calc((42px - 60px) / 2);
+
+    @include desktop {
+      margin-top: 0;
+    }
   }
 
   p {
@@ -167,14 +192,30 @@
 
   [dir='ltr'] & {
     text-align: left;
+    border-left: 1px solid $implementation-primary;
   }
 
   [dir='rtl'] & {
     text-align: right;
+    border-right: 1px solid $implementation-primary;
   }
 
   @include desktop {
     flex-basis: 20%;
+
+    // Unset the mobile separator and adjust padding for new separator...
+    [dir='ltr'] & {
+      border: 0;
+      padding-right: 2rem;
+    }
+
+    [dir='rtl'] & {
+      border: 0;
+      padding-left: 2rem;
+    }
+
+    // Now add the separator back in a totally different way!
+    @include cd-sf-separator;
   }
 
   img {

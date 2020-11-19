@@ -5,7 +5,7 @@ namespace Drupal\gho_general\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 
 /**
- * Provides a block that displays FTS logo and links to site.
+ * Provides a block that displays HumInsight logo and links to site.
  *
  * @Block(
  *   id = "soft_footer_huminsight",

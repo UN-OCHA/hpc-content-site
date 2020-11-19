@@ -1,0 +1,20 @@
+uuid: 89177d5e-19c6-476e-81b6-9743388bb6b2
+langcode: en
+status: true
+dependencies:
+  module:
+    - gho_general
+  theme:
+    - common_design_subtheme
+id: ghoacknowledgements
+theme: common_design_subtheme
+region: footer_soft
+weight: -5
+provider: null
+plugin: soft_footer_acknowledgements
+settings:
+  id: soft_footer_acknowledgements
+  label: 'GHO Acknowledgements'
+  provider: gho_general
+  label_display: '0'
+visibility: {  }

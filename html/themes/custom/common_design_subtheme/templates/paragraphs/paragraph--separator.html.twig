@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme implementation for a facts and figures paragraph.
+ * Theme implementation for a separator paragraph.
  *
  * Overrides paragraphs/templates/paragraph.html.twig.
  *
@@ -40,18 +40,15 @@
  * @ingroup themeable
  */
 #}
-{{ attach_library('common_design_subtheme/gho-facts-and-figures') }}
-{{ attach_library('common_design_subtheme/gho-aside') }}
+{{ attach_library('common_design_subtheme/gho-separator') }}
 {%
   set classes = [
     'paragraph',
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
-    'gho-facts-and-figures',
-    view_mode ? 'gho-facts-and-figures--' ~ view_mode|clean_class,
-    'gho-aside',
-    'gho-aside--dark',
+    'gho-separator',
+    'content-width',
   ]
 %}
 {% block paragraph %}

@@ -1,0 +1,6 @@
+<div class="gho-separator__content">
+{% for item in items %}
+  {% set type = item.content|render|striptags|clean_class %}
+  <hr class="gho-separator__separator gho-separator__separator--{{ type }}">
+{% endfor %}
+</div>

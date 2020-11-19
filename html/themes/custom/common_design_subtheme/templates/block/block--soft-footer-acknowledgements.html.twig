@@ -34,12 +34,14 @@
     'block-' ~ plugin_id|clean_class,
   ]
 %}
+{% set cerf = link('Central Emergency Response Fund'|t, 'https://cerf.un.org')|render %}
+{% set cbpf = link('Country-based Pooled Funds'|t, 'https://pfbi.unocha.org')|render %}
 <div{{ attributes.addClass(classes) }}>
   {% block content %}
     <img src="{{ base_path ~ directory }}/img/logos/logo-mobile.svg" alt="{{ 'United Nations'|t }}">
     <p>
       {% trans %}
-      The United Nations acknowledges the generous contributions of donors who provide unearmarked or core funding to humanitarian partners, the <a href="https://cerf.un.org">Central Emergency Response Fund</a> and <a href="https://pfbi.unocha.org">Country-based Pooled Fund</a>
+      The United Nations acknowledges the generous contributions of donors who provide unearmarked or core funding to humanitarian partners, the {{ cerf }} and {{ cbpf }}.
       {% endtrans %}
     </p>
   {% endblock %}

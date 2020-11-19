@@ -6,7 +6,8 @@
   color: #707070;
 }
 .gho-aside--dark {
-  padding: 2.5rem 0 3rem 0;
+  padding-top: 2.5rem;
+  padding-bottom: 3rem;
   background-color: #1f1f1f;
 }
 .gho-aside--dark * {

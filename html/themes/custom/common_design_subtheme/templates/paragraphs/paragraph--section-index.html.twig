@@ -41,6 +41,7 @@
  */
 #}
 {{ attach_library('common_design_subtheme/gho-section-index') }}
+{% set pre_title =  content.field_section|render|striptags|trim %}
 {%
   set classes = [
     'paragraph',
@@ -53,13 +54,15 @@
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-      <header class="gho-section-index__header">
-        {% if content.field_section %}
-        <span class="gho-section-index__pre-title">{{- content.field_section -}}</span>
+      <header class="gho-section-index__header content-width">
+        {% if pre_title %}
+        <span class="gho-section-index__pre-title">{{ pre_title }}</span>
         {% endif %}
         <h2 class="gho-section-index__title">{{- content.field_title -}}</h2>
       </header>
+      <div class="gho-section-index__content content-width">
       {{ content|without(['field_section', 'field_title']) }}
+      </div>
     {% endblock %}
   </div>
 {% endblock paragraph %}

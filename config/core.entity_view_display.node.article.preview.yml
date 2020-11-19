@@ -63,6 +63,7 @@ content:
     type: entity_reference_revisions_entity_view
     region: content
 hidden:
+  field_caption: true
   field_report_link: true
   field_section: true
   field_summary: true

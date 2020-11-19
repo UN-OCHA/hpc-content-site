@@ -2,11 +2,17 @@
  * Base field.
  */
 .gho-bottom-figure-row {
-  padding-top: 2rem;
   margin-top: 2rem;
-  border-top: 1px solid #d8d8d8;
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+/* The border is not on the container itself due to eventual left/right padding
+ * values that can interfere. Ex: when it has the `content-width` class. */
+.gho-bottom-figure-row::before {
+  content: "";
+  display: block;
+  padding-bottom: 2rem;
+  border-top: 1px solid #d8d8d8;
 }
 
 .gho-bottom-figure-row__figures {
@@ -15,7 +21,7 @@
   justify-content: flex-start;
   align-content: space-around;
   overflow-x: hidden;
-  /* Compensate for the margins of the fiedl__item.*/
+  /* Compensate for the margins of the figure items. */
   margin: -1rem 0 0 0;
   padding-bottom: 2rem;
   border-bottom: 1px solid #d8d8d8;

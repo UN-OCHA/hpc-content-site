@@ -1,7 +1,7 @@
 .paragraph--type--text {
   max-width: var(--reading-width);
   margin: 4.5rem 0 0 0;
-  font-size: 1;
+  font-size: 1rem;
   line-height: 1.75rem;
 }
 @media (min-width: 768px) {
@@ -27,9 +27,16 @@
 .paragraph--type--text .field--name-field-text > :last-child {
   margin-bottom: 0;
 }
+/* Same styling as caption. @see gho-caption */
 .paragraph--type--text blockquote {
   margin: 2rem 0;
-  font-size: 0.875rem;
-  line-height: 1.5rem;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
   color: #707070;
+}
+@media (min-width: 768px) {
+  .paragraph--type--text blockquote {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
 }

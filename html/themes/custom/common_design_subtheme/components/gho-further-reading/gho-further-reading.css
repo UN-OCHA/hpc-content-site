@@ -14,6 +14,7 @@
   margin: 0 0 1.5rem 0;
   font-size: 1.25rem;
   font-weight: 700;
+  line-height: 1.875rem;
   color: #1f1f1f;
 }
 @media (min-width: 1024px) {
@@ -29,6 +30,7 @@
   position: relative; /* for SVG @see gho_fields/templates */
   border-top: 1px solid #d8d8d8;
   font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
 /**
@@ -48,7 +50,6 @@
   display: block;
   font-size: inherit;
   font-weight: 700;
-  line-height: 1.25rem;
   padding: 1rem 0 3rem;
 }
 
@@ -60,7 +61,8 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  fill: #1f1f1f;
+  /* @todo should this be the same color as the links or use the UN blue? */
+  fill: #3a90d2; /* UN blue */
 }
 
 /**

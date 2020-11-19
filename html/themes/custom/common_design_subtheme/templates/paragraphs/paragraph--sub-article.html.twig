@@ -48,6 +48,8 @@
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
     'gho-sub-article-paragraph',
+    hero ? 'gho-sub-article-paragraph--hero' : 'gho-sub-article-paragraph--no-hero',
+    'full-width',
   ]
 %}
 {% block paragraph %}

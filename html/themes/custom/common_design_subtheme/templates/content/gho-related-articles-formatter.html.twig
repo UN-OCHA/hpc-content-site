@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a GHO related articles formatter.
+ *
+ * Available variables:
+ * - title: Link title
+ * - list: list of related articles.
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="gho-related-articles full-width">
+{% if title %}
+<h2 class="gho-related-articles__title content-width">{{ title }}</h2>
+{% endif %}
+<div  class="gho-related-articles__list content-width">
+{{ list }}
+</div>
+</div>

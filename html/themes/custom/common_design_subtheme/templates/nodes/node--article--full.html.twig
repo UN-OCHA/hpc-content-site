@@ -102,13 +102,13 @@
 <article{{ attributes.addClass(classes) }}>
   <header class="gho-article__header">
     {{ hero_image }}
-    <div class="gho-article__heading">
+    <div class="gho-article__heading content-width">
       {{ content.field_section }}
       {{ title }}
     </div>
   </header>
   {% if local_tasks %}
-  <div class="gho-article__local_tasks clearfix">{{ local_tasks }}</div>
+  <div class="node__local_tasks content-width clearfix">{{ local_tasks }}</div>
   {% endif %}
   <div{{ content_attributes.addClass('node__content').addClass('gho-article__content') }}>
     {{ content|without(['field_hero_image', 'field_section']) }}

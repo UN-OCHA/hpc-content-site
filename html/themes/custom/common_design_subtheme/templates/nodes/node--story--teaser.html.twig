@@ -74,6 +74,7 @@
 #}
 {{ attach_library('common_design_subtheme/gho-caption') }}
 {{ attach_library('common_design_subtheme/gho-story') }}
+{% set pre_title = content.field_type|render|striptags|trim %}
 {%
   set classes = [
     'node',
@@ -88,7 +89,9 @@
 %}
 <article{{ attributes.addClass(classes) }}>
   <header>
-    <span class="gho-aside__pre-title">{{ content.field_type|render }}</span>
+    {% if pre_title %}
+    <span class="gho-aside__pre-title">{{ pre_title }}</span>
+    {% endif %}
     <h2{{ title_attributes.addClass('gho-aside__title') }}>{{ label }}</h2>
   </header>
 

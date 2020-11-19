@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme implementation for a Bottom Figure Row paragraph.
+ * Theme implementation for a further reading paragraph.
  *
  * Overrides paragraphs/templates/paragraph.html.twig.
  *
@@ -40,21 +40,21 @@
  * @ingroup themeable
  */
 #}
-{{ attach_library('common_design_subtheme/gho-bottom-figure-row') }}
+{{ attach_library('common_design_subtheme/gho-further-reading') }}
 {%
   set classes = [
     'paragraph',
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
-    'gho-bottom-figure-row',
-    view_mode ? 'gho-bottom-figure-row--' ~ view_mode|clean_class,
+    'gho-further-reading',
     'content-width',
   ]
 %}
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
+      <h2 class="gho-further-reading__title">{{ 'Further reading'|t }}</h2>
       {{ content }}
     {% endblock %}
   </div>

@@ -1,21 +1,16 @@
-.separator {
+.gho-separator {
+  margin: 2rem 0;
+}
+.gho-separator__content {
+  max-width: var(--reading-width);
+}
+.gho-separator__separator {
   border: none;
   width: 100%;
   height: 1px;
-  max-width: var(--reading-width);
-  margin: 2rem 0;
-}
-.separator::before {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 1px;
-  background: #d8d8d8;
   margin: 0 auto;
+  background: #d8d8d8
 }
-.separator--half::before {
+.gho-separator__separator--half {
   width: 50%;
-}
-.separator--full::before {
-  width: 100%;
 }

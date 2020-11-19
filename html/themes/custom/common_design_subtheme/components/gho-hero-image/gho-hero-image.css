@@ -2,9 +2,6 @@
  * @file
  * Styling for the Hero Image.
  */
-.gho-hero-image.gho-bleed {
-  padding: 0;
-}
 .gho-hero-image img {
   display: block;
   width: 100%;

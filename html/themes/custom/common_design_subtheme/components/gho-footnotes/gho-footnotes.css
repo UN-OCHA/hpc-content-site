@@ -2,10 +2,12 @@
   margin: 6.75rem 0 0 0;
 }
 .gho-footnote-list__title {
+  max-width: var(--reading-width);
   margin: 0 0 1.5rem 0;
   padding: 0 0 1.5rem 0;
   font-size: 1.25rem;
   font-weight: 700;
+  line-height: 1.875rem;
   color: #1f1f1f;
   border-bottom: 1px solid #d8d8d8;
 }

@@ -33,12 +33,14 @@
   margin: 0 0 1rem 0;
   padding: 0;
   color: #1f1f1f;
-  font-size: 2rem;
+  font-size: 1.625rem;
   font-weight: 700;
+  line-height: 1.75rem;
 }
 @media (min-width: 768px) {
   .gho-sub-article__title {
-    font-size: 2.625rem;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
   }
 }
 .gho-sub-article__heading .gho-appeals-tags {

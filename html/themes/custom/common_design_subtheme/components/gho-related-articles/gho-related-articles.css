@@ -2,8 +2,7 @@
  * List styles
  */
 .gho-related-articles {
-  max-width: var(--content-width);
-  margin: 6.75rem 0;
+  margin: 6.75rem 0 2rem 0;
   padding: 4.5rem 0 0 0;
   border-top: 1px solid #d8d8d8;
 }
@@ -14,7 +13,9 @@
 .gho-related-articles__title {
   margin: 0;
   color: #1f1f1f;
+  font-size: 1.5rem;
   font-weight: 700;
+  line-height: 2rem;
 }
 
 /**
@@ -22,6 +23,8 @@
  */
 .gho-related-article {
   margin-top: 2rem;
+  font-size: 1rem;
+  line-height: 1.75rem;
 }
 @media screen and (min-width: 768px) {
   .gho-related-article {
@@ -79,7 +82,8 @@
 .gho-related-article__title {
   font-size: 1.125em;
   font-weight: 700;
-  margin: 1rem 0;
+  line-height: 2rem;
+  margin: 1rem 0 0.625rem 0;
 }
 .gho-related-article__title a {
   color: #1f1f1f;
@@ -114,12 +118,13 @@
 .gho-related-article__read-article {
   display: block;
   padding: 1rem 0 0 0;
-  color: #000;
+  color: #1f1f1f;
   font-weight: 700;
 }
 .gho-related-article__arrow {
   margin: 0 0 0 0.25rem;
-  fill: #699fd3;
+  /* @todo should this be the same color as the links or use the UN blue? */
+  fill: #3a90d2; /* UN blue */
 }
 [dir='rtl'] .gho-related-article__arrow {
   margin: 0 0.25rem 0 0;

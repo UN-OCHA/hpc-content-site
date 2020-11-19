@@ -3,14 +3,15 @@
 //——————————————————————————————————————————————————————————————————————————————
 
 .cd-footer {
-  color: $implementation-secondary;
+  color: $cd-black;
   background: $implementation-primary;
   font-family: $cd-font;
 
   a {
-    color: $implementation-secondary;
+    color: inherit;
 
     &:focus {
+      color: inherit;
       outline: 3px solid $implementation-highlight;
     }
   }

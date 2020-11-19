@@ -5,7 +5,7 @@
   height: $cd-site-header-height;
 
   &[aria-expanded] .cd-icon--arrow-down {
-    fill: $implementation-highlight;
+    fill: $un-blue;
   }
 
   &[aria-expanded='true']  {

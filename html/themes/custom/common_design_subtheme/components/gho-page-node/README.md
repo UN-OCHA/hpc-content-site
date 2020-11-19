@@ -12,3 +12,9 @@ use the full width.
 If a component needs to have some of its children use the full width, then put
 the `content-width` class on the elements that need to be constrained otherwise
 put the `content-width` on the top element of the component.
+
+Example - Facts and figures:
+
+The top element has a black background (`gho-aside--dark`) that uses the full
+width so we don't add the `content-width` class to it and istead add it to the
+children: `gho-facts-and-figures__title` and `gho-facts-and-figures__list`.

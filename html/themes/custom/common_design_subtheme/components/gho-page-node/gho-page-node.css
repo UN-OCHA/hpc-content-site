@@ -1,3 +1,5 @@
+/* Reset the max-width and paddings of the main content area so that it uses the
+ * full width allowing elements like hero images to also use the full width. */
 .page-node-type-article .cd-layout-container main.cd-container {
   max-width: 1400px;
   padding-left: 0;
@@ -15,8 +17,9 @@
   z-index: 1;
 }
 
-/* Ensure all the content respects the content width unless marked as
- * `full-width`. */
+/* Contrain the element with the `content-width` class. The paddings reflect
+ * those that were on the `<main>` element. There is no need to have the 1024px
+ * media query with the 40px padding because 904px + 2 * 40px < 1024px. */
 .content-width {
   max-width: calc(var(--content-width) + 24px);
   margin-left: auto;
@@ -31,6 +34,8 @@
     padding-right: 24px;
   }
 }
+/* For nested elements with the `content-width` class, only the first element
+ * in the hierarchy should have the paddings. */
 .content-width .content-width {
   max-width: var(--content-width);
   padding-left: 0;

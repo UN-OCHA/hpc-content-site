@@ -1,6 +1,14 @@
 /**
  * Base Author field
  */
+/* The border is not on the container itself due to eventual left/right padding
+ * values that can interfere. Ex: when it has the `content-width` class. */
+.gho-author::after {
+  content: "";
+  display: block;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #d8d8d8;
+}
 .gho-author .media {
   display: flex;
   align-items: center;

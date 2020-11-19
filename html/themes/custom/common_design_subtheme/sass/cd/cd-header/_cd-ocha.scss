@@ -9,6 +9,19 @@
   display: none; // yup, for GHO this won't show.
 }
 
+.cd-ocha__btn-label {
+  // The CD sets our label to visually-hidden because normally the icon is there,
+  // but GHO hides the icon so...
+  @include max-width(md) {
+    position: static !important;
+    clip: auto;
+    overflow: visible;
+    height: auto;
+    width: auto;
+    word-wrap: normal;
+  }
+}
+
 .cd-ocha-dropdown__heading {
   color: $implementation-secondary;
 }

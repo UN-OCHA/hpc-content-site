@@ -8,6 +8,11 @@
   color: $cd-black;
   background: $cd-white;
   border-top: 1px solid $implementation-primary;
+  // Set our padding based on design feedback. Value is a magic number based on
+  // the visual border of the logos and separators. If the visual appearance is
+  // not 28px when screenshotting and measuring, then change this until that
+  // outcome is achieved.
+  padding: 18px 0;
 
   a {
     color: inherit;

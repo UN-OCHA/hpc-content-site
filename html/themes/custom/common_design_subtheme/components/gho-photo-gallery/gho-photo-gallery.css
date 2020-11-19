@@ -1,11 +1,11 @@
 /**
  * Base photo gallery.
  */
-.gho-photo-gallery .field--name-field-photos {
+.gho-photo-gallery__photos {
   /* Compensate for the padding of the photos */
   margin: -0.75rem -0.625rem;
 }
-.gho-photo-gallery .field--name-field-photos > .field__item {
+.gho-photo-gallery__photo {
   padding: 0.75rem 0.625rem;
 }
 
@@ -15,7 +15,7 @@
  * In this mode, the images (responsive) span the entire width of the pages's
  * content region.
  */
-.gho-photo-gallery--single-column {
+.gho-photo-gallery--single-column .gho-photo-gallery__photos {
   max-width: var(--reading-width);
 }
 
@@ -26,27 +26,27 @@
  * content region on desktop and the entire width like the single column, on
  * smaller screens.
  */
-.gho-photo-gallery--two-columns {
-  max-width: var(--content-width);
-}
 @media screen and (min-width: 768px) {
-  .gho-photo-gallery--two-columns .field--name-field-photos {
+  .gho-photo-gallery--two-columns .gho-photo-gallery__photos {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
   }
-  .gho-photo-gallery--two-columns .field--name-field-photos > .field__item {
-    /* To maintain IE11 compat, do NOT use shorthand because calc cannot be
-       recognized by IE 10-11 within the `flex` shorthand property */
-    flex-grow: 1;
+  .gho-photo-gallery--two-columns .gho-photo-gallery__photo {
+    flex-grow: 0;
     flex-shrink: 0;
-    flex-basis: calc(50% - 1rem);
+    /* Not using flex-basis to determine the width because it doesn't work well
+     * in IE11 wih the padding and negative margins on the parent. Using the
+     * width works everywhere. */
+    flex-basis: auto;
+    width: 50%;
   }
 }
 
 /**
  * Caption below images.
  */
-.gho-photo-gallery .gho-caption {
+.gho-photo-gallery__caption {
+  max-width: var(--reading-width);
   margin-top: 2rem;
 }

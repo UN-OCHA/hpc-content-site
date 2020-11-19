@@ -35,14 +35,6 @@
   justify-content: center;
   align-items: center;
 }
-/* Home page hero image dimensions are based on the full width (1140px) not the
- * content width (904px). */
-@media (min-width: 1400px) {
-  .gho-home-page__header .gho-hero-image.gho-bleed {
-    margin-left: -130px;
-    margin-right: -130px;
-  }
-}
 
 /* if we want a much more gradual font-size increase, use the two commented props
    in this rule (font-size/max-width) and then comment all media queries. */
@@ -105,17 +97,6 @@
   text-decoration: underline;
   outline: 3px solid white;
   outline-offset: 0;
-}
-.gho-home-page__content {
-  max-width: var(--content-width);
-  margin: 0 auto;
-}
-
-.gho-home_page__local_tasks {
-  position: relative;
-  max-width: var(--content-width);
-  margin: 2rem auto;
-  z-index: 1;
 }
 
 /**

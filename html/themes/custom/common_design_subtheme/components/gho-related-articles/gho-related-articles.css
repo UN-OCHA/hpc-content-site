@@ -2,7 +2,6 @@
  * List styles
  */
 .gho-related-articles {
-  max-width: var(--content-width);
   margin: 6.75rem 0;
   padding: 4.5rem 0 0 0;
   border-top: 1px solid #d8d8d8;

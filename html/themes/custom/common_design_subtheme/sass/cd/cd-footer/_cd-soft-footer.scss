@@ -155,7 +155,10 @@
 }
 
 .cd-soft-footer .block-soft-footer-fts {
-  flex: 0 1 45%;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  width: 45%;
 
   [dir='ltr'] & {
     text-align: right;
@@ -188,7 +191,10 @@
 }
 
 .cd-soft-footer .block-soft-footer-huminsight {
-  flex: 0 1 45%;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  width: 45%;
 
   [dir='ltr'] & {
     text-align: left;

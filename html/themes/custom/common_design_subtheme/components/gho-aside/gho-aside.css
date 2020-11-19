@@ -1,4 +1,5 @@
 .gho-aside {
+  position: relative;
   margin-top: 6.75rem;
   margin-bottom: 4.5rem;
 }
@@ -6,8 +7,20 @@
   color: #707070;
 }
 .gho-aside--dark {
+  position: relative;
+  z-index: 1;
   padding: 2.5rem 0 3rem 0;
   background-color: #1f1f1f;
+}
+.gho-aside--dark:before {
+  content: "";
+  position: absolute;
+  left: -50%;
+  right: -50%;
+  top: 0;
+  bottom: 0;
+  background-color: inherit;
+  z-index: -1;
 }
 .gho-aside--dark * {
   color: #fff;

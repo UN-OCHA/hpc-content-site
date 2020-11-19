@@ -1,0 +1,11 @@
+.gho-signature {
+  margin: 2rem 0 4.5rem;
+}
+.gho-signature__image {
+  max-width: none;
+  width: 272px;
+  height: 105px;
+}
+.gho-signature__name {
+  font-weight: 700;
+}

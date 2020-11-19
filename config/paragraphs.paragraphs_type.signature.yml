@@ -1,0 +1,10 @@
+uuid: 31af831a-0bb6-427d-aeec-e4618b9cf21d
+langcode: en
+status: true
+dependencies: {  }
+id: signature
+label: Signature
+icon_uuid: null
+icon_default: null
+description: 'Mark Lowcock''s signature.'
+behavior_plugins: {  }

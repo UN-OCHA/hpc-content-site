@@ -30,6 +30,12 @@
   line-height: 1.25rem;
   color: #707070;
 }
+@media (min-width: 768px) {
+  .gho-text blockquote {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+}
 .gho-text__text > :first-child {
   margin-top: 0;
 }

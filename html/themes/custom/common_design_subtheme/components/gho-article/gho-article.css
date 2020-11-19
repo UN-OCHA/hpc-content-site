@@ -27,7 +27,8 @@
     content: "";
     position: absolute;
     top: 0;
-    left: -68px;
+    /* (1040px - 904px - 24px * 2) / 2 */
+    left: -44px;
     width: 1040px;
     height: 190px;
     background: #fff;

@@ -1,7 +1,13 @@
 .gho-section-index {
-  margin: 3rem 0;
+  margin: 3rem 0 0 0;
   padding: 3rem 0 0 0;
   border-top: 1px solid #d8d8d8;
+}
+.gho-section-index + .gho-section-index {
+  /* This is to be closer to what is in the design documents as none of the
+   * specs documents contain indication of what should be the spacing between
+   * section areas. */
+  margin: 5rem 0 0 0;
 }
 /* This is similar to the sub-article styling */
 .gho-section-index__header {
@@ -16,8 +22,8 @@
   margin: 0;
   padding: 0;
   font-size: 1.625rem;
-  line-height: 1.75rem;
   font-weight: 700;
+  line-height: 1.75rem;
   color: #1f1f1f;
 }
 @media (min-width: 768px) {
@@ -27,7 +33,7 @@
   }
 }
 .gho-section-index__description {
-  margin-top: 3rem;
+  margin-top: 2rem;
   font-size: 1rem;
   line-height: 1.75rem;
 }

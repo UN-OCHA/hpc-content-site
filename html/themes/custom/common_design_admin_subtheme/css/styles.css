@@ -143,3 +143,22 @@
   flex: 1 0 40%;
   margin: 0 1rem 1rem;
 }
+
+/*------------------------------------------------------------------------------
+ * Styling of the Signature paragraph type
+ *----------------------------------------------------------------------------*/
+.paragraph--type--signature {
+  min-height: 150px;
+  background-image: url('/themes/custom/common_design_subtheme/components/gho-signature/img/mark-lowcock-signature.png');
+  background-position: 0% 50%;
+  background-size: 272px 105px;
+  background-repeat: no-repeat;
+  position: relative; /* for pseudos */
+}
+.paragraph--type--signature::after {
+  content: 'Mark Lowcock';
+  font-weight: 700;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}

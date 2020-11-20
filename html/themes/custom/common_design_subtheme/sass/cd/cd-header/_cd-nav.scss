@@ -16,6 +16,10 @@
 }
 
 .cd-site-header__nav-holder {
+  .cd-nav button {
+    color: $cd-black;
+  }
+
   // Download link.
   // In theory there is not going to be any other link in the main menu.
   // The classes on the ul and li are to have enough spcecificity to override

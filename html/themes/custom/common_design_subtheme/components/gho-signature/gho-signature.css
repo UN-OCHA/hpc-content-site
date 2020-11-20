@@ -1,0 +1,24 @@
+.gho-signature {
+  margin-top: 2.5rem;
+}
+.gho-signature__image {
+  margin: 0;
+}
+.gho-signature__image img {
+  max-width: none;
+  width: 144px;
+  height: 56px;
+}
+/* Same font-size/line-height as gho-text paragraph. */
+.gho-signature__name {
+  margin: 1rem 0 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.75rem;
+}
+@media (min-width: 768px) {
+  .gho-signature__name {
+    font-size: 1.125rem;
+    line-height: 2rem;
+  }
+}

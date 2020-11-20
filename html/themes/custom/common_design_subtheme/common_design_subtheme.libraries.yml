@@ -61,6 +61,11 @@ gho-separator:
     theme:
       components/gho-separator/gho-separator.css: {}
 
+gho-signature:
+  css:
+    theme:
+      components/gho-signature/gho-signature.css: {}
+
 gho-story:
   css:
     theme:

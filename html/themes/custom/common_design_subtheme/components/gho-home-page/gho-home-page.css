@@ -175,3 +175,22 @@ html[lang='ar'] .node--view-mode-home-page .gho-home-page__content .paragraph--t
   background-image: url('img/GHO2021-Logo-Web-AR-large.svg');
 }
 */
+
+/**
+ * Needs and Requirements for Homepage
+ */
+.node--view-mode-home-page .gho-home-page__content .gho-needs-and-requirements {
+  justify-content: center;
+}
+.node--view-mode-home-page .gho-home-page__content .gho-needs-and-requirements-figure {
+  text-align: center;
+  flex-shrink: 1;
+}
+@media (min-width: 768px) {
+  html[dir='ltr'] .node--view-mode-home-page .gho-home-page__content .paragraph--type--needs-and-requirements .gho-needs-and-requirements-figure:last-child {
+    padding-right: 0;
+  }
+  html[dir='rtl'] .node--view-mode-home-page .gho-home-page__content .paragraph--type--needs-and-requirements .gho-needs-and-requirements-figure:last-child {
+    padding-left: 0;
+  }
+}

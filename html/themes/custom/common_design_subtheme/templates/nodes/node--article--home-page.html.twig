@@ -92,6 +92,8 @@
     not node.isPromoted() ? 'gho-home-page--no-content'
   ]
 %}
+{% set tag_line = content.field_summary|render %}
+{% set download_url = content.field_report_link|render|striptags|trim %}
 <article{{ attributes.addClass(classes) }}>
   <header class="gho-home-page__header">
     {#
@@ -100,10 +102,16 @@
     #}
     {{ title }}
     {{ content.field_hero_image }}
+    {% if tag_line or download_url %}
     <div class="gho-home-page__header__content">
-      <div class="gho-home-page__msg">{{ content.field_summary }}</div>
-      <a class="gho-home-page__link" href="{{ content.field_report_link|render|striptags|trim }}">{{ 'Download Report'|t }}</a>
+      {% if tag_line  %}
+      <div class="gho-home-page__msg">{{ tag_line }}</div>
+      {% endif %}
+      {% if download_url  %}
+      <a class="gho-home-page__link" href="{{ download_url }}">{{ 'Download Report'|t }}</a>
+      {% endif %}
     </div>
+    {% endif %}
   </header>
 
   {% if local_tasks %}

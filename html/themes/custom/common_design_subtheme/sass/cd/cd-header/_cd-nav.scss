@@ -16,6 +16,17 @@
 }
 
 .cd-site-header__nav-holder {
+  // Download link.
+  // In theory there is not going to be any other link in the main menu.
+  // The classes on the ul and li are to have enough spcecificity to override
+  // the normal behavior.
+  .cd-nav > ul.menu > li.menu-item > a {
+    &:not(:hover) {
+      background: $implementation-highlight;
+      color: $cd-white-text-color;
+    }
+  }
+
   // Active trail for mobile menu.
   @include max-width(lg) {
     .cd-nav > ul > li {

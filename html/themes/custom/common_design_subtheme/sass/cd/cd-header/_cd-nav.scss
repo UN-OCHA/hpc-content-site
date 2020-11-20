@@ -2,6 +2,7 @@
 // Common Design: Main Navigation
 //——————————————————————————————————————————————————————————————————————————————
 .cd-nav__btn {
+  color: $cd-black;
   height: $cd-site-header-height;
 
   &[aria-expanded] .cd-icon--arrow-down {

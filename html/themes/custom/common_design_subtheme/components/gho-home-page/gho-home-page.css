@@ -102,7 +102,11 @@
 /**
  * Special handling of the first sub-article on the homepage which for some
  * reason has a smaller font-size for its title according to the design doc.
+ *
+ * GHO-131: these styles were commented out because we're changing how the hoem
+ * page looks with several special customizations to existing paragraph types.
  */
+/*
 .gho-home-page__content .gho-sub-article-paragraph:first-child {
   margin-top: 3rem;
   padding-top: 0;
@@ -119,4 +123,27 @@
   .gho-home-page__content .gho-sub-article-paragraph:first-child .gho-sub-article__title {
     font-size: 1.5rem;
   }
+}
+*/
+
+/*------------------------------------------------------------------------------
+ * Homepage customizations to existing paragraph types
+ *
+ * Some declarations are quite specific to ensure they never spill elsewhere and
+ * also override any selectors in the components themselves.
+ *----------------------------------------------------------------------------*/
+
+/**
+ * This represents the Caption that corresponds to the Homepage hero image.
+ */
+.node--view-mode-home-page .gho-home-page__content .paragraph--type--text:first-child {
+  margin-top: 2.25rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3.75rem;
+  text-align: center;
+}
+.node--view-mode-home-page .gho-home-page__content .paragraph--type--text:first-child .gho-text__text {
+  max-width: var(--content-width);
+  margin: 0 auto;
 }

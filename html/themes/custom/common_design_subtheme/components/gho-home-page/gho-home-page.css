@@ -140,10 +140,38 @@
   margin-top: 2.25rem;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 3.75rem;
+  margin-bottom: 0; /* see margin-top for logo */
   text-align: center;
 }
 .node--view-mode-home-page .gho-home-page__content .paragraph--type--text:first-child .gho-text__text {
   max-width: var(--content-width);
   margin: 0 auto;
 }
+
+/**
+ * Homepage logo SVG
+ */
+.node--view-mode-home-page .gho-home-page__content .paragraph--type--text:nth-child(2) {
+  /* margin-collapse means we have to include 36 + 60 for caption + image margins */
+  margin-top: 6rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 6.25rem;
+
+  width: 426px;
+  height: 208px;
+  background-image: url('img/GHO2021-Logo-Web-EN-large.png');
+  background-repeat: no-repeat;
+}
+/* when we get multilingual SVGs with no font-dependency, uncomment this stuff */
+/*
+html[lang='fr'] .node--view-mode-home-page .gho-home-page__content .paragraph--type--text:nth-child(2) {
+  background-image: url('img/GHO2021-Logo-Web-FR-large.svg');
+}
+html[lang='es'] .node--view-mode-home-page .gho-home-page__content .paragraph--type--text:nth-child(2) {
+  background-image: url('img/GHO2021-Logo-Web-ES-large.svg');
+}
+html[lang='ar'] .node--view-mode-home-page .gho-home-page__content .paragraph--type--text:nth-child(2) {
+  background-image: url('img/GHO2021-Logo-Web-AR-large.svg');
+}
+*/

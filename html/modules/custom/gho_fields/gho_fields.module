@@ -41,6 +41,11 @@ function gho_fields_theme() {
         'attributes' => NULL,
       ],
     ],
+    'gho_datawrapper_formatter' => [
+      'variables' => [
+        'attributes' => NULL,
+      ],
+    ],
   ];
 }
 

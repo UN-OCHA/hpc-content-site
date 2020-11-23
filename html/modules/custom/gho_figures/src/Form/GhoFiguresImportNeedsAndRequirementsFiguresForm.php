@@ -67,6 +67,7 @@ class GhoFiguresImportNeedsAndRequirementsFiguresForm extends FormBase {
       ],
     ],
     'people targeted' => [
+      'mandatory' => TRUE,
       'field' => 'field_people_targeted',
       'label' => 'People targeted',
       'preprocess' => [
@@ -77,6 +78,7 @@ class GhoFiguresImportNeedsAndRequirementsFiguresForm extends FormBase {
       ],
     ],
     'requirements (us$)' => [
+      'mandatory' => TRUE,
       'field' => 'field_requirements',
       'label' => 'Requirements (US$)',
       'preprocess' => [
@@ -582,10 +584,13 @@ class GhoFiguresImportNeedsAndRequirementsFiguresForm extends FormBase {
     // Unpublish the terms that are not used.
     $terms = $storage->loadMultiple($ids);
     foreach ($terms as $term) {
-      $term->published = FALSE;
+      // Mark as unpublished.
+      $term->status = 0;
       // Wipe out the values of the figures for the term.
-      foreach (static::$columns as $definition) {
-        if (isset($definition['field'])) {
+      foreach (static::$columns as $field => $definition) {
+        // The term name is a mandatory field that cannot be empty. It's also
+        // the field we use when matching figures before creating a new one.
+        if ($field !== 'name' && isset($definition['field'])) {
           $term->set($definition['field'], NULL);
         }
       }
@@ -631,7 +636,8 @@ class GhoFiguresImportNeedsAndRequirementsFiguresForm extends FormBase {
 
       // Update the term fields.
       static::updateFigureTerm($term, $figure);
-      $term->published = TRUE;
+      // Mark as published.
+      $term->status = 1;
       $term->save();
     }
 

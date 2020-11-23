@@ -48,6 +48,8 @@ settings:
       styles: ''
     language:
       language_list: un
+    customconfig:
+      ckeditor_custom_config: ''
 image_upload:
   status: false
   scheme: private

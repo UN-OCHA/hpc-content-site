@@ -27,7 +27,7 @@ content:
     weight: 0
     label: hidden
     settings:
-      view_mode: thumbnail_medium
+      view_mode: photo_gallery_single_column
       link: false
     third_party_settings: {  }
     region: content

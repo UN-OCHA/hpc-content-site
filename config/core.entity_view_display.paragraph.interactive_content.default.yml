@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.interactive_content.field_dataset
+    - field.field.paragraph.interactive_content.field_embed_code
     - field.field.paragraph.interactive_content.field_image
     - field.field.paragraph.interactive_content.field_link
     - field.field.paragraph.interactive_content.field_title
@@ -19,11 +20,18 @@ bundle: interactive_content
 mode: default
 content:
   field_dataset:
-    weight: 3
+    weight: 4
     label: hidden
     settings: {  }
     third_party_settings: {  }
     type: gho_dataset_link
+    region: content
+  field_embed_code:
+    weight: 3
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: gho_datawrapper
     region: content
   field_image:
     weight: 2

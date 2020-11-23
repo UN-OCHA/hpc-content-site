@@ -41,6 +41,7 @@
     padding-left: 0;
   }
   [dir="rtl"] .gho-needs-and-requirements-figure:first-child {
+    border-width: 0 0 0 1px;
     padding-right: 0;
   }
   [dir="rtl"] .gho-needs-and-requirements-figure:last-child {

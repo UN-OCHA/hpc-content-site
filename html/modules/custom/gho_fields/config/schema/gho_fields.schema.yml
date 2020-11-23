@@ -29,6 +29,13 @@ field.formatter.settings.gho_related_articles:
   label: 'GHO related articles formatter settings'
   mapping:
     # No settings.
+field.formatter.settings.gho_figures:
+  type: mapping
+  label: 'GHO figures formatter settings'
+  mapping:
+    format:
+      type: string
+      label: 'Format'
 
 # Widgets.
 field.widget.settings.gho_dataset_link:

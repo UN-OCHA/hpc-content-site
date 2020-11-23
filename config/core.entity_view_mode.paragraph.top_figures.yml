@@ -1,0 +1,10 @@
+uuid: 4d94586e-dceb-417a-9fcd-adbf6c29fa4b
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.top_figures
+label: 'Top figures'
+targetEntityType: paragraph
+cache: true

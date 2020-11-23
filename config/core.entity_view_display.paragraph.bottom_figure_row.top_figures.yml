@@ -1,31 +1,31 @@
-uuid: 2bca7602-503b-48de-a8c1-ecf4f536fe7d
+uuid: 64a73261-35c2-4277-b5a9-528e0c930939
 langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.paragraph.top_figures
     - field.field.paragraph.bottom_figure_row.field_bottom_figures
     - field.field.paragraph.bottom_figure_row.field_dataset
     - paragraphs.paragraphs_type.bottom_figure_row
   module:
     - gho_fields
-id: paragraph.bottom_figure_row.default
+    - layout_builder
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: paragraph.bottom_figure_row.top_figures
 targetEntityType: paragraph
 bundle: bottom_figure_row
-mode: default
+mode: top_figures
 content:
   field_bottom_figures:
     weight: 0
     label: hidden
     settings:
-      format: small
+      format: large
     third_party_settings: {  }
     type: gho_figures
     region: content
-  field_dataset:
-    weight: 1
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    type: gho_dataset_link
-    region: content
-hidden: {  }
+hidden:
+  field_dataset: true

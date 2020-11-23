@@ -132,6 +132,15 @@
         }
       }
     }
+
+    a,
+    button {
+      text-align: left;
+
+      html[dir='rtl'] & {
+        text-align: right;
+      }
+    }
   }
 }
 

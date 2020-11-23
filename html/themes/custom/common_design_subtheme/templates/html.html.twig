@@ -41,6 +41,35 @@
       https://fonts.google.com/?selection.family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,700&sidebar.open=true
     #}
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+    {% if html_attributes.lang == 'ar' %}
+    <style type="text/css">
+      /**
+       * Noto Kufi Arabic (Arabic) http://www.google.com/fonts/earlyaccess
+       */
+      @font-face {
+        font-family: 'Noto Kufi Arabic';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/ea/notokufiarabic/v2/NotoKufiArabic-Regular.eot);
+        src: url(https://fonts.gstatic.com/ea/notokufiarabic/v2/NotoKufiArabic-Regular.eot?#iefix) format('embedded-opentype'),
+             url(https://fonts.gstatic.com/ea/notokufiarabic/v2/NotoKufiArabic-Regular.woff2) format('woff2'),
+             url(https://fonts.gstatic.com/ea/notokufiarabic/v2/NotoKufiArabic-Regular.woff) format('woff'),
+             url(https://fonts.gstatic.com/ea/notokufiarabic/v2/NotoKufiArabic-Regular.ttf) format('truetype');
+      }
+      @font-face {
+        font-family: 'Noto Kufi Arabic';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/ea/notokufiarabic/v2/NotoKufiArabic-Bold.eot);
+        src: url(https://fonts.gstatic.com/ea/notokufiarabic/v2/NotoKufiArabic-Bold.eot?#iefix) format('embedded-opentype'),
+             url(https://fonts.gstatic.com/ea/notokufiarabic/v2/NotoKufiArabic-Bold.woff2) format('woff2'),
+             url(https://fonts.gstatic.com/ea/notokufiarabic/v2/NotoKufiArabic-Bold.woff) format('woff'),
+             url(https://fonts.gstatic.com/ea/notokufiarabic/v2/NotoKufiArabic-Bold.ttf) format('truetype');
+      }
+    </style>
+    {% endif %}
     <css-placeholder token="{{ placeholder_token }}">
     <js-placeholder token="{{ placeholder_token }}">
   </head>

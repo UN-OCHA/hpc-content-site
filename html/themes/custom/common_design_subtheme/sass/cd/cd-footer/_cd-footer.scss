@@ -7,6 +7,10 @@
   background: $implementation-primary;
   font-family: $cd-font;
 
+  html[lang='ar'] & {
+    font-family: $gho-font--arabic;
+  }
+
   a {
     color: inherit;
 

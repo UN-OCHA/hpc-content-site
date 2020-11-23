@@ -2,6 +2,7 @@
 // Common Design: Main Navigation
 //——————————————————————————————————————————————————————————————————————————————
 .cd-nav__btn {
+  color: $cd-black;
   height: $cd-site-header-height;
 
   &[aria-expanded] .cd-icon--arrow-down {
@@ -16,6 +17,10 @@
 }
 
 .cd-site-header__nav-holder {
+  .cd-nav button {
+    color: $cd-black;
+  }
+
   // Download link.
   // In theory there is not going to be any other link in the main menu.
   // The classes on the ul and li are to have enough spcecificity to override

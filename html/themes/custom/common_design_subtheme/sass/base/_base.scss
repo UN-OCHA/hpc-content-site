@@ -12,6 +12,10 @@ body {
   line-height: 1.5;
 }
 
+html[lang='ar'] body {
+  font-family: $gho-font--arabic;
+}
+
 // Avoid extra space at the bottom of the image.
 picture img {
   display: block;

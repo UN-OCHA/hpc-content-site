@@ -7,12 +7,20 @@
 .cd-soft-footer {
   color: $cd-black;
   background: $cd-white;
+  font-family: $gho-font--arabic;
   border-top: 1px solid $implementation-primary;
+
   // Set our padding based on design feedback. Value is a magic number based on
   // the visual border of the logos and separators. If the visual appearance is
   // not 28px when screenshotting and measuring, then change this until that
   // outcome is achieved.
   padding: 18px 0;
+
+  // Between all our browsers and both reading directions, the separators can't
+  // seem to be placed identically, so occasionally we're making them be wider
+  // than the viewport itself to ensure edge-to-edge coverage. Make sure this
+  // doesn't disrupt the page layout by hiding any overflow.
+  overflow: hidden;
 
   a {
     color: inherit;
@@ -97,11 +105,18 @@
   &::after {
     content: '';
     position: absolute;
-    width: 100vw;
+    width: calc(100vw + 48px);
     height: 1px;
     background: $implementation-primary;
-    left: -24px;
     bottom: 0;
+
+    html[dir='ltr'] & {
+      left: -24px;
+    }
+
+    html[dir='rtl'] & {
+      right: -24px;
+    }
   }
 
   @include desktop {
@@ -145,9 +160,17 @@
 
     @include desktop {
       max-width: 590px;
-      margin-left: 1rem;
-      text-align: left;
       font-size: .7em;
+
+      html[dir='ltr'] & {
+        margin-left: 1rem;
+        text-align: left;
+      }
+
+      html[dir='rtl'] & {
+        margin-right: 1rem;
+        text-align: right;
+      }
     }
   }
 

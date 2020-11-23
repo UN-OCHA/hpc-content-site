@@ -38,13 +38,13 @@
 
   @include desktop {
     float: right;
-    margin: -4px auto 0 $cd-container-padding;
+    margin: -$logo-vert-offset / 2 auto 0 $cd-container-padding;
     padding-left: $cd-container-padding;
     padding-right: 0; // unsetting original
-    border-left: 1px solid $cd-border-color;
+    border-left: 1px solid $cd-black;
     border-right: 0; // unsetting original
     padding-bottom: $logo-vert-offset;
-    background-position: 12px $logo-vert-offset;
+    background-position: 12px $logo-vert-offset / 2;
   }
 }
 

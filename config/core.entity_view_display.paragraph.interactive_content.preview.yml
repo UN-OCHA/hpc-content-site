@@ -1,8 +1,9 @@
-uuid: 39428b73-cb1d-4f07-bb53-201cf088327c
+uuid: 072fe3dd-3c67-4396-b6e7-b144f80cef9e
 langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.paragraph.preview
     - field.field.paragraph.interactive_content.field_dataset
     - field.field.paragraph.interactive_content.field_embed_code
     - field.field.paragraph.interactive_content.field_image
@@ -10,60 +11,62 @@ dependencies:
     - field.field.paragraph.interactive_content.field_title
     - field.field.paragraph.interactive_content.field_type
     - paragraphs.paragraphs_type.interactive_content
+    - responsive_image.styles.interactive_content
   module:
     - gho_fields
-    - link
-    - media_library
-id: paragraph.interactive_content.default
+    - layout_builder
+    - linked_responsive_image_media_formatter
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: paragraph.interactive_content.preview
 targetEntityType: paragraph
 bundle: interactive_content
-mode: default
+mode: preview
 content:
   field_dataset:
-    weight: 5
-    settings:
-      placeholder_url: 'Ex: https://humdata.org/dataset'
-      placeholder_title: 'Ex: Office for Coordination of Humanitarian Affairs'
+    weight: 4
+    label: hidden
+    settings: {  }
     third_party_settings: {  }
     type: gho_dataset_link
     region: content
   field_embed_code:
-    weight: 4
-    settings:
-      rows: 5
-      placeholder: ''
+    weight: 3
+    label: hidden
+    settings: {  }
     third_party_settings: {  }
-    type: gho_datawrapper
+    type: basic_string
     region: content
   field_image:
-    weight: 3
-    settings:
-      media_types: {  }
-    third_party_settings: {  }
-    type: media_library_widget
-    region: content
-  field_link:
     weight: 2
+    label: hidden
     settings:
-      placeholder_url: 'Ex: https://datawrapper.de/content-page'
-      placeholder_title: ''
+      responsive_image_style: interactive_content
+      image_link: custom
+      image_link_url: '[paragraph:field_link]'
+      image_alt: custom
+      image_alt_value: '[paragraph:field_title]'
+      image_as_background: false
     third_party_settings: {  }
-    type: link_default
+    type: linked_responsive_image_media_formatter
     region: content
   field_title:
     weight: 1
+    label: hidden
     settings:
-      size: 60
-      placeholder: ''
+      link_to_entity: false
     third_party_settings: {  }
-    type: string_textfield
+    type: string
     region: content
   field_type:
     weight: 0
-    settings: {  }
+    label: hidden
+    settings:
+      link: false
     third_party_settings: {  }
-    type: options_select
+    type: entity_reference_label
     region: content
 hidden:
-  created: true
-  status: true
+  field_link: true

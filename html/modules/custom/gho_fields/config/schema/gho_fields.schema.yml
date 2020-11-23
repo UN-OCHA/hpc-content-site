@@ -9,6 +9,11 @@ field.formatter.settings.gho_dataset_link:
   label: 'GHO dataset link formatter settings'
   mapping:
     # No settings.
+field.formatter.settings.gho_datawrapper:
+  type: mapping
+  label: 'GHO datawrapper formatter settings'
+  mapping:
+    # No settings.
 field.formatter.settings.gho_further_reading_link:
   type: mapping
   label: 'GHO further reading link formatter settings'
@@ -42,6 +47,10 @@ field.widget.settings.gho_dataset_link:
   # Inherit the settings from the link widget.
   type: field.widget.settings.link_default
   label: 'GHO dataset link widget settings'
+field.widget.settings.gho_datawrapper:
+  # Inherit the settings from the textarea widget.
+  type: field.widget.settings.string_textarea
+  label: 'GHO datawrapper widget settings'
 field.widget.settings.gho_further_reading_link:
   # Inherit the settings from the link widget.
   type: field.widget.settings.link_default

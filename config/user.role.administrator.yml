@@ -60,6 +60,7 @@ permissions:
   - 'edit terms in security_role_area'
   - 'edit terms in story_type'
   - 'edit terms in theme'
+  - 'import needs and requirements figures'
   - 'revert achievement revisions'
   - 'revert all revisions'
   - 'revert article revisions'

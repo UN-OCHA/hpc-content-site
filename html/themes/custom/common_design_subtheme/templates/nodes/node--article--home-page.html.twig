@@ -94,6 +94,7 @@
 %}
 {% set tag_line = content.field_summary|render %}
 {% set download_url = content.field_report_link|render|striptags|trim %}
+{% set logo = base_path ~ directory ~ '/components/gho-home-page/img/GHO2021-Logo-Web-' ~ attributes.offsetGet('lang')|upper ~ '-large.svg' %}
 <article{{ attributes.addClass(classes) }}>
   <header class="gho-home-page__header">
     {#
@@ -123,12 +124,22 @@
     content in the language of the homepage is enabled.
   #}
   {% if node.isPromoted() %}
-  <div{{ content_attributes.addClass('node__content').addClass('gho-home-page__content') }}>
+  <div{{ content_attributes.addClass('node__content').addClass('gho-home-page__content').addClass('content-width') }}>
+    {{ content.field_caption }}
+
+    {#
+      @todo review alt tag and/or hiding that from the accessibility tree as
+      there is already the title above in the header.
+    #}
+    <div class="gho-home-page__logo">
+      <img src="{{ logo }}" alt="{{ 'Global Humanitarian Overview 2021 - Large logo'|t }}">
+    </div>
+
     {#
       In case we output any more content, exclude the fields we're giving
       special treatment.
     #}
-    {{ content|without(['field_hero_image', 'field_summary', 'field_report_link']) }}
+    {{ content|without(['field_hero_image', 'field_summary', 'field_report_link', 'field_caption']) }}
   </div>
   {% endif %}
 </article>

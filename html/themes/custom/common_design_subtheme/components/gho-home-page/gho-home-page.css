@@ -134,63 +134,84 @@
  *----------------------------------------------------------------------------*/
 
 /**
- * This represents the Caption that corresponds to the Homepage hero image.
+ * Homepage hero caption.
  */
-.node--view-mode-home-page .gho-home-page__content .paragraph--type--text:first-child {
+.gho-home-page__content > .gho-caption {
   margin-top: 2.25rem;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 0; /* see margin-top for logo */
+  padding-bottom: 0;
   text-align: center;
 }
-.node--view-mode-home-page .gho-home-page__content .paragraph--type--text:first-child .gho-text__text {
-  max-width: var(--content-width);
+.gho-home-page__content > .gho-caption > * {
+  max-width: none;
+}
+.gho-home-page__content > .gho-caption::after {
+  content: none;
+}
+
+/**
+ * Homepage GHO large logo.
+ */
+.gho-home-page__content > .gho-home-page__logo {
+  margin-top: 3.75rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid #d8d8d8;
+}
+.gho-home-page__content > .gho-home-page__logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 426px;
   margin: 0 auto;
 }
 
 /**
- * Homepage logo SVG
+ * Homepage needs and requirements.
  */
-.node--view-mode-home-page .gho-home-page__content .paragraph--type--text:nth-child(2) {
-  /* margin-collapse means we have to include 36 + 60 for caption + image margins */
-  margin-top: 6rem;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 6.25rem;
-
-  width: 426px;
-  height: 208px;
-  background-image: url('img/GHO2021-Logo-Web-EN-large.png');
-  background-repeat: no-repeat;
-}
-/* when we get multilingual SVGs with no font-dependency, uncomment this stuff */
-/*
-html[lang='fr'] .node--view-mode-home-page .gho-home-page__content .paragraph--type--text:nth-child(2) {
-  background-image: url('img/GHO2021-Logo-Web-FR-large.svg');
-}
-html[lang='es'] .node--view-mode-home-page .gho-home-page__content .paragraph--type--text:nth-child(2) {
-  background-image: url('img/GHO2021-Logo-Web-ES-large.svg');
-}
-html[lang='ar'] .node--view-mode-home-page .gho-home-page__content .paragraph--type--text:nth-child(2) {
-  background-image: url('img/GHO2021-Logo-Web-AR-large.svg');
-}
-*/
-
-/**
- * Needs and Requirements for Homepage
- */
-.node--view-mode-home-page .gho-home-page__content .gho-needs-and-requirements {
-  justify-content: center;
-}
-.node--view-mode-home-page .gho-home-page__content .gho-needs-and-requirements-figure {
+.gho-home-page__content > .gho-needs-and-requirements-paragraph {
+  margin-top: 6.25rem;
   text-align: center;
-  flex-shrink: 1;
 }
 @media (min-width: 768px) {
-  html[dir='ltr'] .node--view-mode-home-page .gho-home-page__content .paragraph--type--needs-and-requirements .gho-needs-and-requirements-figure:last-child {
-    padding-right: 0;
+  .gho-home-page__content > .gho-needs-and-requirements-paragraph .gho-needs-and-requirements-figure {
+    padding: 0 1.5rem;
   }
-  html[dir='rtl'] .node--view-mode-home-page .gho-home-page__content .paragraph--type--needs-and-requirements .gho-needs-and-requirements-figure:last-child {
-    padding-left: 0;
+}
+
+/**
+ * Homepage intro text.
+ */
+.gho-home-page__content > .gho-text {
+  border-top: 1px solid #d8d8d8;
+  /* Equivalent of the padding between the top border and the figures in the
+   * needs and requirements section. */
+  margin-top: 2rem;
+  padding-top: 3.75rem;
+  text-align: center;
+}
+.gho-home-page__content > .gho-text .gho-text__text {
+  max-width: none;
+}
+@media (min-width: 768px) {
+  .gho-home-page__content > .gho-text .gho-text__text {
+    font-size: 1.125rem;
+    line-height: 2rem;
   }
+}
+@media (min-width: 1024px) {
+  .gho-home-page__content > .gho-text .gho-text__text {
+    font-size: 1.3125rem;
+    line-height: 2.25rem;
+  }
+}
+.gho-home-page__content > .gho-text .gho-text__text p {
+  margin: 0;
+}
+
+/**
+ * Homepage interactive table.
+ */
+.gho-home-page__content > .gho-interactive-content {
+  margin-top: 3.75rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid #d8d8d8;
 }

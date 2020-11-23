@@ -12,7 +12,7 @@ entity_type: paragraph
 bundle: interactive_content
 label: Type
 description: 'Type of the interactive content. Ex: Map.'
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''

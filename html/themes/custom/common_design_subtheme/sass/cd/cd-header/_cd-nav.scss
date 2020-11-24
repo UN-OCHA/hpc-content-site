@@ -91,10 +91,6 @@
 
     .cd-nav > .menu {
       > .menu-item {
-        // IE11 doesn't support width: min-content but that emulates it...
-        display: -ms-grid;
-        -ms-grid-columns: min-content;
-
         &.menu-item--active-trail a::before,
         &.menu-item--active-trail button::before {
           background: $implementation-highlight;
@@ -104,7 +100,12 @@
         button {
           display: block;
           max-width: 180px;
-          width: min-content;
+
+          // Where to break the label is controlled when entering the content
+          // by adding line breaks.
+          span {
+            white-space: pre;
+          }
 
           &.is-active,
           &:focus {

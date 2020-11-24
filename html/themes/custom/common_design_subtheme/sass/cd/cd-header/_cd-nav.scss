@@ -91,6 +91,10 @@
 
     .cd-nav > .menu {
       > .menu-item {
+        // IE11 doesn't support width: min-content but that emulates it...
+        display: -ms-grid;
+        -ms-grid-columns: min-content;
+
         &.menu-item--active-trail a::before,
         &.menu-item--active-trail button::before {
           background: $implementation-highlight;
@@ -98,9 +102,9 @@
 
         > a,
         button {
-          // @todo This should be put next to the place where the button has
-          // its display set to flex but I don't know where it is :'-(
-          justify-content: space-between;
+          display: block;
+          max-width: 180px;
+          width: min-content;
 
           &.is-active,
           &:focus {
@@ -116,6 +120,15 @@
             flex-grow: 0;
             flex-shrink: 0;
           }
+        }
+
+        // While buttons keep their content centered vertically in display:block
+        // links don't so we need to center its content another way.
+        > a > span {
+          position: relative;
+          display: block;
+          top: 50%;
+          transform: translateY(-50%);
         }
       }
 
@@ -187,6 +200,35 @@
         [dir='rtl'] &:last-child > ul.menu {
           left: 0;
           right: auto;
+        }
+
+        &.menu-item--expanded > button {
+          [dir='ltr'] & {
+            padding-right: 36px;
+            padding-left: 14px;
+          }
+
+          [dir='rtl'] & {
+            padding-right: 14px;
+            padding-left: 36px;
+          }
+
+          & .cd-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0;
+          }
+
+          [dir='ltr'] & .cd-icon {
+            right: 14px;
+            left: auto;
+          }
+
+          [dir='rtl'] & .cd-icon {
+            right: auto;
+            left: 14px;
+          }
         }
       }
 

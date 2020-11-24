@@ -1,0 +1,25 @@
+uuid: e3fe49cc-35fc-4417-a2cd-657cf1e91da1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.achievement.field_achievement
+    - paragraphs.paragraphs_type.achievement
+id: paragraph.achievement.default
+targetEntityType: paragraph
+bundle: achievement
+mode: default
+content:
+  field_achievement:
+    weight: 0
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+hidden:
+  created: true
+  status: true

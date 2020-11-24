@@ -8421,16 +8421,16 @@
         },
         {
             "name": "unocha/common_design",
-            "version": "v2.8.7",
+            "version": "v2.8.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/UN-OCHA/common_design.git",
-                "reference": "b33e40a1f8fc4bc824fb2eca4804f17261fad538"
+                "reference": "c035ae7f49c236da30d4aafd9a07f1d9e4b83d84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/UN-OCHA/common_design/zipball/b33e40a1f8fc4bc824fb2eca4804f17261fad538",
-                "reference": "b33e40a1f8fc4bc824fb2eca4804f17261fad538",
+                "url": "https://api.github.com/repos/UN-OCHA/common_design/zipball/c035ae7f49c236da30d4aafd9a07f1d9e4b83d84",
+                "reference": "c035ae7f49c236da30d4aafd9a07f1d9e4b83d84",
                 "shasum": ""
             },
             "require": {
@@ -8441,7 +8441,7 @@
             "license": [
                 "GPL-2.0-only"
             ],
-            "time": "2020-11-12T11:31:57+00:00"
+            "time": "2020-11-24T09:45:56+00:00"
         },
         {
             "name": "webflo/drupal-finder",

@@ -26,7 +26,9 @@
     display: flex;
     justify-content: space-between;
     border-top: 1px solid #d8d8d8;
+    border-bottom: 1px solid #d8d8d8;
     padding-top: 2rem;
+    padding-bottom: 2rem;
   }
   .gho-needs-and-requirements-figure {
     display: inline-block;

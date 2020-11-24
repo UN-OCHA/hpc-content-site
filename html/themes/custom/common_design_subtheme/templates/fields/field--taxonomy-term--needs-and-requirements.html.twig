@@ -42,8 +42,8 @@
  */
 #}
 {% spaceless %}
-<div class="gho-needs-and-requirements-figure">
-  <div class="gho-needs-and-requirements-figure__label">
+<div class="gho-needs-and-requirements-figure gho-figure">
+  <div class="gho-needs-and-requirements-figure__label gho-figure__label">
   {% if field_name == 'field_requirements' %}
     {% trans %}Requirements <small>(US$)</small>{% endtrans %}
   {% else %}
@@ -51,7 +51,7 @@
   {% endif %}
   </div>
   {% for item in items %}
-  <div class="gho-needs-and-requirements-figure__value">{{ item.content }}</div>
+  <div class="gho-needs-and-requirements-figure__value gho-figure__value">{{ item.content }}</div>
   {% endfor %}
 </div>
 {% endspaceless %}

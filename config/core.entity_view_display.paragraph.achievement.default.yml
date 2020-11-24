@@ -1,0 +1,22 @@
+uuid: caa31b24-3910-4b3e-aa29-02fc3ac35ec9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.achievement.field_achievement
+    - paragraphs.paragraphs_type.achievement
+id: paragraph.achievement.default
+targetEntityType: paragraph
+bundle: achievement
+mode: default
+content:
+  field_achievement:
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: teaser
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+hidden: {  }

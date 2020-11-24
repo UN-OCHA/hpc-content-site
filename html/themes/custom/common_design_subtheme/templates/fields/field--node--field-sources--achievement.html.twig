@@ -1,0 +1,21 @@
+{%
+  set title_classes = [
+    label_display == 'visually_hidden' ? 'visually-hidden',
+  ]
+%}
+{% if items %}
+{% spaceless %}
+<div class="gho-achievement__sources">
+{% if label_hidden %}
+  {% for item in items %}
+    {{ item.content }}
+  {% endfor %}
+{% else %}
+  <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
+  {% for item in items %}
+    {{ item.content }}
+  {% endfor %}
+{% endif %}
+</div>
+{% endspaceless %}
+{% endif %}

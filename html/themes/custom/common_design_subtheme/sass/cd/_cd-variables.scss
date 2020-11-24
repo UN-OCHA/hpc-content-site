@@ -127,10 +127,8 @@ $implementation-highlight: $implementation-secondary;
 $cd-font: Roboto, helvetica, arial, sans-serif;
 $cd-font--system: system-ui;
 
-// Web fonts.
-//@import url('https://fonts.googleapis.com/css?family=Mali:300,400,500,600,700&display=swap"');
-//$cd-font--webfont: 'Mali', cursive;
-
+// GHO font for arabic language
+$gho-font--arabic: 'Noto Kufi Arabic', sans-serif;
 
 //——————————————————————————————————————————————————————————————————————————————
 // Font sizes

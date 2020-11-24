@@ -1,10 +1,19 @@
 uuid: 6cabcff4-2852-4dba-b37d-9424d37e3910
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - paragraphs_viewmode
 id: bottom_figure_row
 label: 'Bottom figure row'
 icon_uuid: null
 icon_default: null
 description: 'A row of textual figures with custom labels.'
-behavior_plugins: {  }
+behavior_plugins:
+  paragraphs_viewmode_behavior:
+    enabled: true
+    override_mode: default
+    override_available:
+      default: default
+      top_figures: top_figures
+    override_default: default

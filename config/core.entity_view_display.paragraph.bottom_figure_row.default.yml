@@ -7,7 +7,6 @@ dependencies:
     - field.field.paragraph.bottom_figure_row.field_dataset
     - paragraphs.paragraphs_type.bottom_figure_row
   module:
-    - double_field
     - gho_fields
 id: paragraph.bottom_figure_row.default
 targetEntityType: paragraph
@@ -18,27 +17,9 @@ content:
     weight: 0
     label: hidden
     settings:
-      first:
-        prefix: ''
-        suffix: ''
-        link: false
-        format_type: medium
-        hidden: false
-        thousand_separator: ''
-        decimal_separator: .
-        scale: 2
-      second:
-        prefix: ''
-        suffix: ''
-        link: false
-        format_type: medium
-        hidden: false
-        thousand_separator: ''
-        decimal_separator: .
-        scale: 2
-      inline: false
+      format: small
     third_party_settings: {  }
-    type: double_field_unformatted_list
+    type: gho_figures
     region: content
   field_dataset:
     weight: 1

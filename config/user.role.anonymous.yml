@@ -12,6 +12,7 @@ permissions:
   - 'access content'
   - 'view media'
   - 'view own unpublished media'
+  - 'view published achievement content'
   - 'view published article content'
   - 'view published author media'
   - 'view published document media'

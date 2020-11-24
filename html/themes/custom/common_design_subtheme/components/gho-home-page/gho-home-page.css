@@ -102,7 +102,11 @@
 /**
  * Special handling of the first sub-article on the homepage which for some
  * reason has a smaller font-size for its title according to the design doc.
+ *
+ * GHO-131: these styles were commented out because we're changing how the hoem
+ * page looks with several special customizations to existing paragraph types.
  */
+/*
 .gho-home-page__content .gho-sub-article-paragraph:first-child {
   margin-top: 3rem;
   padding-top: 0;
@@ -119,4 +123,95 @@
   .gho-home-page__content .gho-sub-article-paragraph:first-child .gho-sub-article__title {
     font-size: 1.5rem;
   }
+}
+*/
+
+/*------------------------------------------------------------------------------
+ * Homepage customizations to existing paragraph types
+ *
+ * Some declarations are quite specific to ensure they never spill elsewhere and
+ * also override any selectors in the components themselves.
+ *----------------------------------------------------------------------------*/
+
+/**
+ * Homepage hero caption.
+ */
+.gho-home-page__content > .gho-caption {
+  margin-top: 2.25rem;
+  padding-bottom: 0;
+  text-align: center;
+}
+.gho-home-page__content > .gho-caption > * {
+  max-width: none;
+}
+.gho-home-page__content > .gho-caption::after {
+  content: none;
+}
+
+/**
+ * Homepage GHO large logo.
+ */
+.gho-home-page__content > .gho-home-page__logo {
+  margin-top: 3.75rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid #d8d8d8;
+}
+.gho-home-page__content > .gho-home-page__logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 426px;
+  margin: 0 auto;
+}
+
+/**
+ * Homepage needs and requirements.
+ */
+.gho-home-page__content > .gho-needs-and-requirements-paragraph {
+  margin-top: 6.25rem;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .gho-home-page__content > .gho-needs-and-requirements-paragraph .gho-needs-and-requirements-figure {
+    padding: 0 1.5rem;
+  }
+}
+
+/**
+ * Homepage intro text.
+ */
+.gho-home-page__content > .gho-text {
+  border-top: 1px solid #d8d8d8;
+  /* Equivalent of the padding between the top border and the figures in the
+   * needs and requirements section. */
+  margin-top: 2rem;
+  padding-top: 3.75rem;
+  text-align: center;
+}
+.gho-home-page__content > .gho-text .gho-text__text {
+  max-width: none;
+}
+@media (min-width: 768px) {
+  .gho-home-page__content > .gho-text .gho-text__text {
+    font-size: 1.125rem;
+    line-height: 2rem;
+  }
+}
+@media (min-width: 1024px) {
+  .gho-home-page__content > .gho-text .gho-text__text {
+    font-size: 1.3125rem;
+    line-height: 2.25rem;
+  }
+}
+.gho-home-page__content > .gho-text .gho-text__text p {
+  margin: 0;
+}
+
+/**
+ * Homepage interactive table.
+ */
+.gho-home-page__content > .gho-interactive-content {
+  margin-top: 3.75rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid #d8d8d8;
 }

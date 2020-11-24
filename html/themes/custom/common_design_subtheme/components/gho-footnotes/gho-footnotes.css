@@ -30,6 +30,9 @@
 .gho-footnote-reference span:after {
   content: "]";
 }
+.gho-footnote {
+  word-wrap: break-word;
+}
 .gho-footnote:target {
   background-color: #eee;
 }

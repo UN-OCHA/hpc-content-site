@@ -156,3 +156,15 @@ function gho_general_alter_homepage_promote_checkbox(array &$form, FormStateInte
     $form['promote']['widget']['value']['#title'] = $promote_title;
   }
 }
+
+/**
+ * Implements hook_form_menu_link_content_menu_link_content_form_alter().
+ *
+ * Use a textarea for the menu link title so that we can put line breaks to
+ * control where the label breaks when displayed by adding line breaks.
+ */
+function gho_general_form_menu_link_content_menu_link_content_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if (isset($form['title']['widget']['0']['value']['#type'])) {
+    $form['title']['widget']['0']['value']['#type'] = 'textarea';
+  }
+}

@@ -1,7 +1,10 @@
 /**
  * Base Author field
  */
-/* The border is not on the container itself due to eventual left/right padding
+.gho-author {
+  margin-top: 2rem;/* same as pseudo's padding-bottom */
+}
+/* The border is not on the container itself due to potential left/right padding
  * values that can interfere. Ex: when it has the `content-width` class. */
 .gho-author::after {
   content: "";

@@ -4,6 +4,10 @@
   border-color: #d8d8d8;
   border-width: 1px 0 0 0;
 }
+/* hide border-top when NaR immediately follows a Hero image caption */
+.gho-caption--article + .paragraph--type--needs-and-requirements .gho-needs-and-requirements-figure:first-child {
+  border-top: 0;
+}
 .gho-needs-and-requirements-figure:last-child {
   padding-bottom: 0;
 }
@@ -21,6 +25,7 @@
   font-weight: bold;
 }
 
+
 @media (min-width: 768px) {
   .gho-needs-and-requirements {
     display: flex;
@@ -29,6 +34,10 @@
     border-bottom: 1px solid #d8d8d8;
     padding-top: 2rem;
     padding-bottom: 2rem;
+  }
+  /* hide border-top when NaR immediately follows a Hero image caption */
+  .gho-caption--article + .paragraph--type--needs-and-requirements .gho-needs-and-requirements {
+    border-top: 0;
   }
   .gho-needs-and-requirements-figure {
     display: inline-block;

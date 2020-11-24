@@ -43,6 +43,17 @@
 
 .cd-ocha-dropdown__see-all,
 .cd-ocha-dropdown__see-all:focus {
+  border: 2px solid transparent;
+  border-radius: 3px;
   background: $implementation-secondary;
-  color: $cd-white;
+  color: $implementation-primary;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.cd-ocha-dropdown__see-all:focus {
+  outline: 0;
+  border: 2px solid $un-blue;
 }

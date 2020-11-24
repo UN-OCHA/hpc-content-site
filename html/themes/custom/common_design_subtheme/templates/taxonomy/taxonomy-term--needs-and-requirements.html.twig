@@ -28,7 +28,7 @@
   set classes = [
     'taxonomy-term',
     'vocabulary-' ~ term.bundle|clean_class,
-    'gho-needs-and-requirements',
+    'gho-needs-and-requirements gho-figures gho-figures--large',
   ]
 %}
 <div{{ attributes.setAttribute('id', 'taxonomy-term-' ~ term.id).addClass(classes) }}>

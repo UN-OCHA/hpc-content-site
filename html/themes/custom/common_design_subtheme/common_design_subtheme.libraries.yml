@@ -136,3 +136,8 @@ gho-page-404:
   css:
     theme:
       components/gho-page-404/gho-page-404.css: {}
+
+gho-achievement:
+  css:
+    theme:
+      components/gho-achievement/gho-achievement.css: {}

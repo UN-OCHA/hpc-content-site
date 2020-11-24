@@ -20,6 +20,18 @@ gho_general.add_story:
   # https://www.drupal.org/project/drupal/issues/1344902 is solved.
   class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
 
+gho_general.add_achievement:
+  title: 'Add achievement'
+  route_name: node.add
+  route_parameters:
+    node_type: achievement
+  appears_on:
+    - view.content.page_achievements
+  # Temporary solution to ensure redirection to the origin page until
+  # https://www.drupal.org/project/drupal/issues/1344902 is solved.
+  class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
+
+
 gho_general.add_appeal_tag:
   title: 'Add appeal tag'
   route_name: entity.taxonomy_term.add_form

@@ -178,7 +178,7 @@ function common_design_subtheme_preprocess_node(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_node__article().
+ * Implements hook_preprocess_node__story().
  *
  * Extract the media credits to display them after the text.
  */
@@ -196,7 +196,7 @@ function common_design_subtheme_preprocess_node__story(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_node__article().
+ * Implements hook_preprocess_node___achievement().
  *
  * Show the references at the bottom of the achievement page.
  */

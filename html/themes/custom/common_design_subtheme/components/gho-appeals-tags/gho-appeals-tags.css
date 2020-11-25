@@ -20,9 +20,9 @@
   margin: 0 .25rem;
   background: #5090cd;
   color: #fff;
-  font-size: .5625em;
+  font-size: .625em;
   font-weight: 700;
-  letter-spacing: 100;
+  letter-spacing: 0.05em;
   text-align: center;
   text-transform: uppercase;
 }

@@ -68,7 +68,7 @@ class GhoDatawrapperFormatter extends FormatterBase {
     if ($iframe->hasAttribute('id')) {
       $id = preg_replace('/^datawrapper-chart-/', '', $iframe->getAttribute('id'));
       if (!empty($id)) {
-        $attributes['id'] = $id;
+        $attributes['id'] = 'datawrapper-chart-' . $id;
       }
     }
 

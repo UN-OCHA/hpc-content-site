@@ -1,0 +1,20 @@
+uuid: dd76176c-d71c-4e0f-b0c2-90b778e606ba
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - paragraphs
+id: paragraph.field_achievement
+field_name: field_achievement
+entity_type: paragraph
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

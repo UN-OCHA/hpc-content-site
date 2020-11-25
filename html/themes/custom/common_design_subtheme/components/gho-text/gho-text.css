@@ -1,35 +1,45 @@
-.paragraph--type--text {
-  max-width: var(--reading-width);
+.gho-text {
   margin: 4.5rem 0 0 0;
-  font-size: 1;
+  font-size: 1rem;
   line-height: 1.75rem;
 }
 @media (min-width: 768px) {
-  .paragraph--type--text {
+  .gho-text {
     font-size: 1.125rem;
     line-height: 2rem;
   }
 }
-.paragraph--type--text p.highlight {
+.gho-text__text {
+  max-width: var(--reading-width);
+}
+.gho-text p.highlight {
+  color: #1f1f1f;
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 2rem;
 }
 @media (min-width: 1024px) {
-  .paragraph--type--text p.highlight {
+  .gho-text p.highlight {
     font-size: 1.5rem;
     line-height: 2.25rem;
   }
 }
-.paragraph--type--text .field--name-field-text > :first-child {
+/* Same styling as caption. @see gho-caption */
+.gho-text blockquote {
+  margin: 2rem 0;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  color: #707070;
+}
+@media (min-width: 768px) {
+  .gho-text blockquote {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+}
+.gho-text__text > :first-child {
   margin-top: 0;
 }
-.paragraph--type--text .field--name-field-text > :last-child {
+.gho-text__text > :last-child {
   margin-bottom: 0;
-}
-.paragraph--type--text blockquote {
-  margin: 2rem 0;
-  font-size: 0.875rem;
-  line-height: 1.5rem;
-  color: #707070;
 }

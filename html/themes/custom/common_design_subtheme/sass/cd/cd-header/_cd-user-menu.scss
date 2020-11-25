@@ -19,16 +19,16 @@
 .cd-global-header .menu > li a,
 .cd-global-header .menu > li button {
   @extend .cd-user-menu__item;
-  color: $cd-black;
+  color: $implementation-secondary;
 }
 
 .cd-global-header .menu > li a::after {
   width: 1px;
-  background: $cd-black;
+  background: $implementation-secondary;
 }
 
 .cd-global-header .menu svg {
-  fill: $cd-black;
+  fill: $implementation-secondary;
 }
 
 

@@ -61,6 +61,11 @@ gho-separator:
     theme:
       components/gho-separator/gho-separator.css: {}
 
+gho-signature:
+  css:
+    theme:
+      components/gho-signature/gho-signature.css: {}
+
 gho-story:
   css:
     theme:
@@ -81,42 +86,34 @@ gho-caption:
     theme:
       components/gho-caption/gho-caption.css: {}
 
-gho-bleed:
-  header: true
-  js:
-    components/gho-bleed/gho-bleed.js: {}
-  css:
-    theme:
-      components/gho-bleed/gho-bleed.css: {}
-
 gho-aside:
   css:
     theme:
       components/gho-aside/gho-aside.css: {}
   dependencies:
-    - common_design_subtheme/gho-bleed
     - common_design_subtheme/gho-caption
 
 gho-hero-image:
   css:
     theme:
       components/gho-hero-image/gho-hero-image.css: {}
-  dependencies:
-    - common_design_subtheme/gho-bleed
+
+gho-page-node:
+  css:
+    theme:
+      components/gho-page-node/gho-page-node.css: {}
 
 gho-article:
   css:
     theme:
       components/gho-article/gho-article.css: {}
   dependencies:
-    - common_design_subtheme/gho-bleed
+    - common_design_subtheme/gho-page-node
 
 gho-sub-article:
   css:
     theme:
       components/gho-sub-article/gho-sub-article.css: {}
-  dependencies:
-    - common_design_subtheme/gho-bleed
 
 gho-embed:
   css:
@@ -127,6 +124,8 @@ gho-home-page:
   css:
     theme:
       components/gho-home-page/gho-home-page.css: {}
+  dependencies:
+    - common_design_subtheme/gho-page-node
 
 gho-interactive-content:
   css:
@@ -137,3 +136,8 @@ gho-page-404:
   css:
     theme:
       components/gho-page-404/gho-page-404.css: {}
+
+gho-achievement:
+  css:
+    theme:
+      components/gho-achievement/gho-achievement.css: {}

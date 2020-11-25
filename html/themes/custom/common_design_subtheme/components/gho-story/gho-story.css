@@ -2,15 +2,25 @@
   max-width: var(--reading-width);
 }
 .gho-story .field--name-field-media {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 .gho-story .gho-caption {
   margin: 0;
 }
+
+/* Same font-size/line-height as caption. @see gho-caption */
 .gho-story__source {
   border-top: 1px solid #d8d8d8;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
 }
+@media (min-width: 768px) {
+  .gho-story__source {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+}
+
 .gho-story .gho-footnote-list + .gho-story__source {
   margin-top: 0.5rem;
 }
@@ -25,11 +35,4 @@
 .gho-story__source .item-list li {
   list-style: none;
   margin: 0;
-}
-
-.gho-story__local_tasks {
-  position: relative;
-  max-width: var(--content-width);
-  margin: 2rem auto;
-  z-index: 1;
 }

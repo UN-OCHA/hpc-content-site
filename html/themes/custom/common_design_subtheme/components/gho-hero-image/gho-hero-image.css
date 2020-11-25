@@ -2,10 +2,43 @@
  * @file
  * Styling for the Hero Image.
  */
-.gho-hero-image.gho-bleed {
-  padding: 0;
+.gho-hero-image {
+  position: relative;
 }
 .gho-hero-image img {
   display: block;
   width: 100%;
+}
+/**
+ * Scrolldown helper at the botto of the hero image.
+ *
+ * Note: it's only shown on medium/large screen because that covers the hero
+ * image on small screens.
+ */
+.gho-hero-image__scrolldown {
+  display: none;
+}
+@media (min-width: 768px) {
+  .gho-hero-image__scrolldown {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #fff;
+    font-size: 0.5rem;
+    font-weight: bold;
+    letter-spacing: 0.05rem;
+    line-height: 0.5rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .gho-hero-image__scrolldown svg {
+    width: 23px;
+    height: 22px;
+    margin: 0 auto;
+  }
+  .gho-hero-image__scrolldown p {
+    margin: 0.7rem 0 1.4rem 0;
+  }
 }

@@ -5,12 +5,41 @@
 //——————————————————————————————————————————————————————————————————————————————
 
 .cd-soft-footer {
-  background: rgba($implementation-primary, 0.9);
+  color: $cd-black;
+  background: $cd-white;
+  font-family: $gho-font--arabic;
+  border-top: 1px solid $implementation-primary;
+
+  // Set our padding based on design feedback. Value is a magic number based on
+  // the visual border of the logos and separators. If the visual appearance is
+  // not 28px when screenshotting and measuring, then change this until that
+  // outcome is achieved.
+  padding: 18px 0;
+
+  // Between all our browsers and both reading directions, the separators can't
+  // seem to be placed identically, so occasionally we're making them be wider
+  // than the viewport itself to ensure edge-to-edge coverage. Make sure this
+  // doesn't disrupt the page layout by hiding any overflow.
+  overflow: hidden;
 
   a {
+    color: inherit;
+
     &:focus {
       outline: 3px solid $implementation-primary;
     }
+  }
+}
+
+.cd-soft-footer__inner {
+  // CD defaults are good but let's override all for our design
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+
+  @include desktop {
+    flex-flow: row nowrap;
   }
 }
 
@@ -20,5 +49,221 @@
   &:hover,
   &:focus {
     background: darken($implementation-primary, 5%);
+  }
+}
+
+.cd-soft-footer .block {
+  position: relative;
+  padding: 0 1rem;
+  text-align: center;
+
+  @include desktop {
+    height: 60px;
+
+    [dir='ltr'] & {
+      text-align: left;
+    }
+
+    [dir='rtl'] & {
+      text-align: right;
+    }
+  }
+}
+
+@mixin cd-sf-separator {
+  &::before {
+    content: '';
+    width: 1px;
+    background: $implementation-primary;
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+
+    [dir='ltr'] & {
+      left: -.5rem;
+    }
+
+    [dir='rtl'] & {
+      right: -.5rem;
+    }
+  }
+}
+
+.cd-soft-footer .block-soft-footer-acknowledgements {
+  // Within soft footer
+  flex: 0 1 100%;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+
+  // Layout of this component
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+
+  // Mobile separator
+  &::after {
+    content: '';
+    position: absolute;
+    width: calc(100vw + 48px);
+    height: 1px;
+    background: $implementation-primary;
+    bottom: 0;
+
+    html[dir='ltr'] & {
+      left: -24px;
+    }
+
+    html[dir='rtl'] & {
+      right: -24px;
+    }
+  }
+
+  @include desktop {
+    // Within soft footer
+    flex: 1 0 70%;
+    order: 3;
+
+    // Layout of this component
+    flex-flow: row nowrap;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
+
+    // Remove mobile separator
+    &::after {
+      content: none;
+    }
+
+    // Now add the separator back in a totally different way!
+    @include cd-sf-separator;
+  }
+
+  img {
+    // original dimensions: 42x60
+    width: 42px;
+    height: 60px;
+    //          visual-height - SVG height / 2
+    margin-top: calc((42px - 60px) / 2);
+
+    @include desktop {
+      margin-top: 0;
+    }
+  }
+
+  p {
+    margin: 0;
+    text-align: center;
+    font-size: .875em;
+    font-weight: 900;
+    max-width: 400px;
+
+    @include desktop {
+      max-width: 590px;
+      font-size: .7em;
+
+      html[dir='ltr'] & {
+        margin-left: 1rem;
+        text-align: left;
+      }
+
+      html[dir='rtl'] & {
+        margin-right: 1rem;
+        text-align: right;
+      }
+    }
+  }
+
+  a,
+  a:link,
+  a:focus,
+  a:active {
+    color: $cd-ocha-blue;
+  }
+}
+
+.cd-soft-footer .block-soft-footer-fts {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  width: 45%;
+
+  [dir='ltr'] & {
+    text-align: right;
+    padding-right: 1rem;
+  }
+
+  [dir='rtl'] & {
+    text-align: left;
+    padding-left: 1rem;
+  }
+
+  @include desktop {
+    flex-basis: 15%;
+    padding: 0;
+
+    [dir='ltr'] & {
+      text-align: left;
+    }
+
+    [dir='rtl'] & {
+      text-align: right;
+    }
+  }
+
+  img {
+    // original dimensions: 438x200
+    width: 100px;
+    height: 60px;
+  }
+}
+
+.cd-soft-footer .block-soft-footer-huminsight {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  width: 45%;
+
+  [dir='ltr'] & {
+    text-align: left;
+    border-left: 1px solid $implementation-primary;
+  }
+
+  [dir='rtl'] & {
+    text-align: right;
+    border-right: 1px solid $implementation-primary;
+  }
+
+  @include desktop {
+    flex-basis: 20%;
+
+    // Unset the mobile separator and adjust padding for new separator...
+    [dir='ltr'] & {
+      border: 0;
+      padding-right: 2rem;
+    }
+
+    [dir='rtl'] & {
+      border: 0;
+      padding-left: 2rem;
+    }
+
+    // Now add the separator back in a totally different way!
+    @include cd-sf-separator;
+  }
+
+  img {
+    // original dimensions: 223.24x61.4
+    //
+    // These dimensions selected purely to make it look good, despite the image
+    // heights differing between boxes. It takes the whitespace of the SVG into
+    // account.
+    width: 135px;
+    height: 37.1px;
+
+    @include desktop {
+      width: 218px;
+      height: 60px;
+    }
   }
 }

@@ -7,6 +7,16 @@
 .cd-header {
   position: relative;
   font-family: $cd-font;
+
+  html[lang='ar'] & {
+    font-family: $gho-font--arabic;
+  }
+}
+
+.cd-header button {
+  html[lang='ar'] & {
+    font-family: $gho-font--arabic;
+  }
 }
 
 .cd-header button:focus {
@@ -14,7 +24,7 @@
 }
 
 .cd-global-header {
-  color: #111;
+  color: $implementation-secondary;
   background: $implementation-primary;
 }
 

@@ -1,11 +1,16 @@
 .gho-needs-and-requirements {
-  max-width: var(--content-width);
+  border-bottom: 1px solid #d8d8d8;
+  padding-bottom: 2rem;
 }
 .gho-needs-and-requirements-figure {
   padding: 2rem 0;
   border-style: solid;
   border-color: #d8d8d8;
   border-width: 1px 0 0 0;
+}
+/* hide border-top when NaR immediately follows a Hero image caption */
+.gho-caption--article + .paragraph--type--needs-and-requirements .gho-needs-and-requirements-figure:first-child {
+  border-top: 0;
 }
 .gho-needs-and-requirements-figure:last-child {
   padding-bottom: 0;
@@ -31,6 +36,10 @@
     border-top: 1px solid #d8d8d8;
     padding-top: 2rem;
   }
+  /* hide border-top when NaR immediately follows a Hero image caption */
+  .gho-caption--article + .paragraph--type--needs-and-requirements .gho-needs-and-requirements {
+    border-top: 0;
+  }
   .gho-needs-and-requirements-figure {
     display: inline-block;
     flex-grow: 1;
@@ -44,6 +53,7 @@
     padding-left: 0;
   }
   [dir="rtl"] .gho-needs-and-requirements-figure:first-child {
+    border-width: 0 0 0 1px;
     padding-right: 0;
   }
   [dir="rtl"] .gho-needs-and-requirements-figure:last-child {

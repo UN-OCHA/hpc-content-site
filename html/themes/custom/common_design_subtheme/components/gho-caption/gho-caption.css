@@ -12,11 +12,15 @@
     line-height: 1.5rem;
   }
 }
-.gho-caption--article {
+/* The border is not on the container itself due to eventual left/right padding
+ * values that can interfere. Ex: when it has the `content-width` class. */
+.gho-caption--article::after {
+  content: '';
+  display: block;
   padding-bottom: 2rem;
-  margin-bottom: 4.5rem;
   border-bottom: 1px solid #d8d8d8;
 }
+
 /* We don't put the max-width on the container so we can more easily add
  * the border bottom for the article captions.*/
 .gho-caption > * {

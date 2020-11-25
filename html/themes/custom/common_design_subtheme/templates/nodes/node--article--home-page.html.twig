@@ -72,7 +72,6 @@
  *   in different view modes.
  */
 #}
-{{ attach_library('common_design_subtheme/gho-bleed') }}
 {# Bonus: this will allow to have the caption applied for any sub-article,
   photo galleries, stories etc. #}
 {{ attach_library('common_design_subtheme/gho-caption') }}
@@ -93,6 +92,9 @@
     not node.isPromoted() ? 'gho-home-page--no-content'
   ]
 %}
+{% set tag_line = content.field_summary|render %}
+{% set download_url = content.field_report_link|render|striptags|trim %}
+{% set logo = base_path ~ directory ~ '/components/gho-home-page/img/GHO2021-Logo-Web-' ~ attributes.offsetGet('lang')|upper ~ '-large.svg' %}
 <article{{ attributes.addClass(classes) }}>
   <header class="gho-home-page__header">
     {#
@@ -101,14 +103,20 @@
     #}
     {{ title }}
     {{ content.field_hero_image }}
+    {% if tag_line or download_url %}
     <div class="gho-home-page__header__content">
-      <div class="gho-home-page__msg">{{ content.field_summary }}</div>
-      <a class="gho-home-page__link" href="{{ content.field_report_link|render|striptags|trim }}">{{ 'Download Report'|t }}</a>
+      {% if tag_line  %}
+      <div class="gho-home-page__msg">{{ tag_line }}</div>
+      {% endif %}
+      {% if download_url  %}
+      <a class="gho-home-page__link" href="{{ download_url }}">{{ 'Download Report'|t }}</a>
+      {% endif %}
     </div>
+    {% endif %}
   </header>
 
   {% if local_tasks %}
-  <div class="gho-home-page__local_tasks clearfix">{{ local_tasks }}</div>
+  <div class="node__local_tasks content-width clearfix">{{ local_tasks }}</div>
   {% endif %}
 
   {#
@@ -116,12 +124,22 @@
     content in the language of the homepage is enabled.
   #}
   {% if node.isPromoted() %}
-  <div{{ content_attributes.addClass('node__content').addClass('gho-home-page__content') }}>
+  <div{{ content_attributes.addClass('node__content').addClass('gho-home-page__content').addClass('content-width') }}>
+    {{ content.field_caption }}
+
+    {#
+      @todo review alt tag and/or hiding that from the accessibility tree as
+      there is already the title above in the header.
+    #}
+    <div class="gho-home-page__logo">
+      <img src="{{ logo }}" alt="{{ 'Global Humanitarian Overview 2021 - Large logo'|t }}">
+    </div>
+
     {#
       In case we output any more content, exclude the fields we're giving
       special treatment.
     #}
-    {{ content|without(['field_hero_image', 'field_summary', 'field_report_link']) }}
+    {{ content|without(['field_hero_image', 'field_summary', 'field_report_link', 'field_caption']) }}
   </div>
   {% endif %}
 </article>

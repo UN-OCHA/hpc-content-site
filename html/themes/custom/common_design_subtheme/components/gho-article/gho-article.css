@@ -1,4 +1,4 @@
-/* Make sure the image is attached to the botton of the header. */
+/* Make sure the image is attached to the bottom of the header. */
 .gho-article {
   margin-top: -2rem;
 }
@@ -12,17 +12,8 @@
   position: relative;
   z-index: 0;
 }
-/* Article hero image dimensions are based on the full width (1140px) not the
- * content width (904px). */
-@media (min-width: 1400px) {
-  .gho-article__header .gho-hero-image.gho-bleed {
-    margin-left: -130px;
-    margin-right: -130px;
-  }
-}
 .gho-article__heading {
-  max-width: var(--content-width);
-  padding: 2rem 0 0 0;
+  padding-top: 2rem;
   margin: 0 auto;
 }
 /* Take into account the 8px grey margins: 1040px + 2 * 8x. */
@@ -36,7 +27,8 @@
     content: "";
     position: absolute;
     top: 0;
-    left: -68px;
+    /* (1040px - 904px - 24px * 2) / 2 */
+    left: -44px;
     width: 1040px;
     height: 190px;
     background: #fff;
@@ -52,7 +44,7 @@
 }
 @media (min-width: 1024px) {
   .gho-article__pre-title {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
   }
 }
 .gho-article .page-title {
@@ -75,18 +67,4 @@
     font-size: 3.25rem;
     line-height: 3.375rem;
   }
-}
-
-.gho-article__content {
-  position: relative;
-  max-width: var(--content-width);
-  margin: 0 auto;
-  z-index: 1;
-}
-
-.gho-article__local_tasks {
-  position: relative;
-  max-width: var(--content-width);
-  margin: 2rem auto;
-  z-index: 1;
 }

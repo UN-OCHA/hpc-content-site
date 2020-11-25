@@ -38,47 +38,17 @@
  */
 #}
 {{ attach_library('common_design_subtheme/gho-hero-image') }}
-{%
-  set classes = [
-    'field',
-    'field--name-' ~ field_name|clean_class,
-    'field--type-' ~ field_type|clean_class,
-    'field--label-' ~ label_display,
-    label_display == 'inline' ? 'clearfix',
-    'gho-hero-image',
-    'gho-bleed',
-  ]
-%}
-{%
-  set title_classes = [
-    'field__label',
-    label_display == 'visually_hidden' ? 'visually-hidden',
-  ]
-%}
-
-{% if label_hidden %}
-  {% if multiple %}
-    <div{{ attributes.addClass(classes, 'field__items') }}>
-      {% for item in items %}
-        <div{{ item.attributes.addClass('field__item') }}>{{ item.content }}</div>
-      {% endfor %}
-    </div>
-  {% else %}
-    {% for item in items %}
-      <div{{ attributes.addClass(classes, 'field__item') }}>{{ item.content }}</div>
-    {% endfor %}
-  {% endif %}
-{% else %}
-  <div{{ attributes.addClass(classes) }}>
-    <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
-    {% if multiple %}
-      <div class="field__items">
-    {% endif %}
-    {% for item in items %}
-      <div{{ item.attributes.addClass('field__item') }}>{{ item.content }}</div>
-    {% endfor %}
-    {% if multiple %}
-      </div>
-    {% endif %}
+<div class="gho-hero-image">
+{% for item in items %}
+  {{ item.content }}
+{% endfor %}
+{% if is_front %}
+  <div class="gho-hero-image__scrolldown">
+    <svg viewBox="0 0 23 22" width="23" height="22" xmlns="http://www.w3.org/2000/svg" fill="#fff" aria-hidden="true" focusable="false">
+      <path d="M6.991 0A6.99 6.99 0 000 6.991v7.989a6.99 6.99 0 006.991 6.991 6.99 6.99 0 006.991-6.991V6.991A6.99 6.99 0 006.991 0m5.326 14.98c0 2.93-2.397 5.327-5.326 5.327-2.93 0-5.327-2.397-5.327-5.327V6.991c0-2.93 2.397-5.327 5.327-5.327 2.929 0 5.326 2.397 5.326 5.327v7.989z"/>
+      <path d="M6.991 4.461a.824.824 0 00-.832.832v2.431c0 .466.366.832.832.832a.824.824 0 00.832-.832V5.293a.846.846 0 00-.832-.832M21.305 14.945l-1.132 1.132V4.659c0-.266-.233-.5-.499-.5s-.5.234-.5.5V16.11l-1.131-1.131c-.2-.2-.5-.2-.699 0a.48.48 0 000 .699l1.997 1.997c.033.033.1.1.166.1a.366.366 0 00.167.033c.033 0 .133 0 .166-.033.067-.033.1-.067.167-.1l1.997-1.997c.2-.2.2-.5 0-.699-.2-.2-.5-.2-.699-.034"/>
+    </svg>
+    <p>{{ 'Scroll down to explore'|t }}</p>
   </div>
 {% endif %}
+</div>

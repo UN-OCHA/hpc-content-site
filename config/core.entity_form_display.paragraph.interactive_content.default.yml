@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.interactive_content.field_dataset
+    - field.field.paragraph.interactive_content.field_embed_code
     - field.field.paragraph.interactive_content.field_image
     - field.field.paragraph.interactive_content.field_link
     - field.field.paragraph.interactive_content.field_title
@@ -19,12 +20,20 @@ bundle: interactive_content
 mode: default
 content:
   field_dataset:
-    weight: 4
+    weight: 5
     settings:
       placeholder_url: 'Ex: https://humdata.org/dataset'
       placeholder_title: 'Ex: Office for Coordination of Humanitarian Affairs'
     third_party_settings: {  }
     type: gho_dataset_link
+    region: content
+  field_embed_code:
+    weight: 4
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: gho_datawrapper
     region: content
   field_image:
     weight: 3

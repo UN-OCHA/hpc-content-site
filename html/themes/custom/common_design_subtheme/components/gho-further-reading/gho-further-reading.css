@@ -2,8 +2,7 @@
  * Base component styles
  */
 .gho-further-reading {
-  max-width: var(--reading-width);
-  margin: 6.75rem 0;
+  margin: 6.75rem 0 0 0;
   color: #1f1f1f;
 }
 
@@ -11,9 +10,11 @@
  * Title
  */
 .gho-further-reading__title {
+  max-width: var(--reading-width);
   margin: 0 0 1.5rem 0;
   font-size: 1.25rem;
   font-weight: 700;
+  line-height: 1.875rem;
   color: #1f1f1f;
 }
 @media (min-width: 1024px) {
@@ -23,12 +24,20 @@
 }
 
 /**
+ * List.
+ */
+.gho-further-reading__list {
+  max-width: var(--reading-width);
+}
+
+/**
  * Style list of links
  */
 .gho-further-reading__link {
   position: relative; /* for SVG @see gho_fields/templates */
   border-top: 1px solid #d8d8d8;
   font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
 /**
@@ -44,11 +53,10 @@
  * It's styled as a block element to allow all aspects of the component to be
  * clickable: the chevron and authorship line.
  */
-.gho-further-reading a {
+.gho-further-reading__link a {
   display: block;
   font-size: inherit;
   font-weight: 700;
-  line-height: 1.25rem;
   padding: 1rem 0 3rem;
 }
 
@@ -60,7 +68,8 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  fill: #1f1f1f;
+  /* @todo should this be the same color as the links or use the UN blue? */
+  fill: #3a90d2; /* UN blue */
 }
 
 /**
@@ -96,7 +105,7 @@
 /**
  * Author / Source
  */
-.gho-further-reading p {
+.gho-further-reading__link p {
   /* Move the source close to the link text. This puts the source in the
    * clicking area of the link at the cost of making it non selectable.
    * This can be "fixed" by adding `position: relative;` but then it's not

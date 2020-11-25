@@ -1,0 +1,23 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a GHO figures formatter - small format.
+ *
+ * Available variables:
+ * - figures: list of figures with a label and a value.
+ * - format: format of the figures: large or small
+ * - attributes: attributes for the wrapper.
+ *
+ * @ingroup themeable
+ */
+#}
+{% if figures %}
+<div{{ attributes.addClass(['gho-figures', 'gho-figures--small']) }}>
+{% for figure in figures %}
+  <div class="gho-figure">
+    <div class="gho-figure__label">{{ figure.label }}</div>
+    <div class="gho-figure__value">{{ figure.value }}</div>
+  </div>
+{% endfor %}
+</div>
+{% endif %}

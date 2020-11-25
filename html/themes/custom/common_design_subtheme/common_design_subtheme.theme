@@ -41,6 +41,13 @@ function common_design_subtheme_get_components() {
 }
 
 /**
+ * Implements hook_preprocess().
+ */
+function common_design_subtheme_preprocess(&$variables) {
+  $variables['base_path'] = base_path();
+}
+
+/**
  * Implements hook_preprocess_field().
  *
  * This adds attach component libraries and add necessary classes to filtered
@@ -171,7 +178,7 @@ function common_design_subtheme_preprocess_node(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_node__article().
+ * Implements hook_preprocess_node__story().
  *
  * Extract the media credits to display them after the text.
  */
@@ -189,22 +196,38 @@ function common_design_subtheme_preprocess_node__story(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_node___achievement().
+ *
+ * Show the references at the bottom of the achievement page.
+ */
+function common_design_subtheme_preprocess_node__achievement(&$variables) {
+  // Show the references at the bottom of the story page.
+  if (isset($variables['view_mode']) && $variables['view_mode'] === 'full') {
+    $variables['content']['footnotes'] = gho_footnotes_build_footnotes();
+    $variables['content']['footnotes']['#weight'] = 998;
+  }
+}
+
+/**
  * Implements hook_preprocess_node__article().
  *
  * Show the related articles at the end of the main articles.
  */
 function common_design_subtheme_preprocess_node__article(&$variables) {
   $view_mode = $variables['view_mode'] ?? '';
-  // Main articles.
-  if ($view_mode === 'full') {
-    $node_id = $variables['node']->id();
-    $node_uri = 'entity:node/' . $node_id;
 
-    // Copy the hero image credits to the end of the caption field.
+  // Copy the hero image credits to the end of the caption field.
+  if ($view_mode === 'full' || $view_mode === 'home_page') {
     if (isset($variables['content']['field_hero_image'][0]['#media'])) {
       $credits = $variables['content']['field_hero_image'][0]['#media']->field_credits->value;
       $variables['content']['field_caption'][0]['#credits'] = ['#markup' => $credits];
     }
+  }
+
+  // Main articles.
+  if ($view_mode === 'full') {
+    $node_id = $variables['node']->id();
+    $node_uri = 'entity:node/' . $node_id;
 
     // Show the footnotes at the bottom of the article page, before the
     // related articles.
@@ -244,7 +267,7 @@ function common_design_subtheme_preprocess_node__article(&$variables) {
 function common_design_subtheme_preprocess_paragraph__sub_article(&$variables) {
   if (isset($variables['content']['field_article'][0]['#node'])) {
     $hero = $variables['content']['field_article'][0]['#node']->field_hero_image->target_id;
-    $variables['attributes']['class'][] = 'gho-sub-article-paragraph--' . ($hero ? 'hero' : 'no-hero');
+    $variables['hero'] = !empty($hero);
   }
 }
 

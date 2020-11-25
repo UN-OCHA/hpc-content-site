@@ -10,7 +10,10 @@
   padding-bottom: 3rem;
   background-color: #1f1f1f;
 }
-.gho-aside--dark * {
+.gho-aside--dark *,
+.gho-aside--dark a:hover,
+.gho-aside--dark a:focus,
+.gho-aside--dark a:active {
   color: #fff;
 }
 .gho-aside__pre-title {

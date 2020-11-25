@@ -1,4 +1,11 @@
 /**
+ * Override some stuff from gho-aside specifically for Facts and Figures.
+ */
+.gho-facts-and-figures.gho-aside .gho-aside__title {
+  margin-bottom: 1.25rem;
+}
+
+/**
  * Base facts and figures.
  */
 .gho-facts-and-figures__list {
@@ -10,7 +17,7 @@
 }
 
 .gho-facts-and-figures__caption {
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
 }
 
 .gho-facts-and-figures__item + .gho-facts-and-figures__item {

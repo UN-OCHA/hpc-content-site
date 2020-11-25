@@ -13,6 +13,7 @@
   max-width: var(--reading-width);
 }
 .gho-text p.highlight {
+  color: #1f1f1f;
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 2rem;

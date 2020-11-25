@@ -6,7 +6,7 @@
   background: url('../img/logos/ocha-lockup.svg') 0 center no-repeat;
 
   @include desktop {
-    border-right: 1px solid $cd-black;
+    border-right: 1px solid $implementation-highlight;
   }
 }
 

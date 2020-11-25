@@ -1,3 +1,7 @@
+.gho-needs-and-requirements {
+  border-bottom: 1px solid #d8d8d8;
+  padding-bottom: 2rem;
+}
 .gho-needs-and-requirements-figure {
   padding: 2rem 0;
   border-style: solid;
@@ -25,15 +29,12 @@
   font-weight: bold;
 }
 
-
 @media (min-width: 768px) {
   .gho-needs-and-requirements {
     display: flex;
     justify-content: space-between;
     border-top: 1px solid #d8d8d8;
-    border-bottom: 1px solid #d8d8d8;
     padding-top: 2rem;
-    padding-bottom: 2rem;
   }
   /* hide border-top when NaR immediately follows a Hero image caption */
   .gho-caption--article + .paragraph--type--needs-and-requirements .gho-needs-and-requirements {

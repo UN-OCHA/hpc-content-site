@@ -14,6 +14,10 @@
   padding-bottom: 2rem;
   border-top: 1px solid #d8d8d8;
 }
+/* Hide the border when the figures follow a NaR paragraph. */
+.gho-needs-and-requirements-paragraph + .gho-bottom-figure-row::before {
+  content: none;
+}
 
 .gho-bottom-figure-row .gho-figures {
   display: flex;

@@ -181,10 +181,9 @@
  * Homepage intro text.
  */
 .gho-home-page__content > .gho-text {
-  border-top: 1px solid #d8d8d8;
-  /* Equivalent of the padding between the top border and the figures in the
-   * needs and requirements section. */
-  margin-top: 2rem;
+  /* GHO-148: Needs and Requirements now has a border-bottom so we're removing
+     the margin/border here */
+  margin-top: 0;
   padding-top: 3.75rem;
   text-align: center;
 }

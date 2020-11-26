@@ -7,6 +7,7 @@ dependencies:
     - field.field.paragraph.interactive_content.field_embed_code
     - field.field.paragraph.interactive_content.field_image
     - field.field.paragraph.interactive_content.field_link
+    - field.field.paragraph.interactive_content.field_show_datawrapper
     - field.field.paragraph.interactive_content.field_title
     - field.field.paragraph.interactive_content.field_type
     - paragraphs.paragraphs_type.interactive_content
@@ -45,6 +46,16 @@ content:
       image_as_background: false
     third_party_settings: {  }
     type: linked_responsive_image_media_formatter
+    region: content
+  field_show_datawrapper:
+    weight: 5
+    label: hidden
+    settings:
+      format: true-false
+      format_custom_true: ''
+      format_custom_false: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
   field_title:
     weight: 1

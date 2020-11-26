@@ -53,15 +53,6 @@
   border-right: 1px solid #d8d8d8;
 }
 
-@media screen and (min-width: 768px) {
-  [dir='ltr'] .gho-bottom-figure-row .gho-figure:first-child {
-    border-left: 0;
-  }
-  [dir='rtl'] .gho-bottom-figure-row .gho-figure:first-child {
-    border-right: 0;
-  }
-}
-
 .gho-bottom-figure-row .gho-figure__label,
 .gho-bottom-figure-row .gho-figure__value {
   display: block;

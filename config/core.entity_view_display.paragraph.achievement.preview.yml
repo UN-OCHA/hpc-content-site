@@ -1,0 +1,29 @@
+uuid: 8cc03efa-a6cc-4404-8fda-6c0250da662a
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.preview
+    - field.field.paragraph.achievement.field_achievement
+    - paragraphs.paragraphs_type.achievement
+  module:
+    - layout_builder
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: paragraph.achievement.preview
+targetEntityType: paragraph
+bundle: achievement
+mode: preview
+content:
+  field_achievement:
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: preview
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+hidden: {  }

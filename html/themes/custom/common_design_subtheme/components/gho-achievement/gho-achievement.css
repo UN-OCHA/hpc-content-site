@@ -21,7 +21,7 @@
   height: 100%;
 }
 .gho-achievement__icon + .gho-achievement__heading {
-  flex: 0 1 auto;
+  flex: 1 1 auto;
 }
 .gho-achievement__title {
   margin: 0;

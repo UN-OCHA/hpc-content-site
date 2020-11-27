@@ -60,7 +60,12 @@
         <span class="gho-aside__pre-title">{{- content.field_type -}}</span>
         <h2 class="gho-aside__title">{{- content.field_title -}}</h2>
       </header>
-      {{ content|without(['field_type', 'field_title']) }}
+      {% if paragraph.field_show_datawrapper.value %}
+        {{ content.field_embed_code }}
+      {% else %}
+        {{ content.field_image }}
+      {% endif %}
+      {{ content|without(['field_type', 'field_title', 'field_embed_code', 'field_image', 'field_show_datawrapper']) }}
     {% endblock %}
   </div>
 {% endblock paragraph %}

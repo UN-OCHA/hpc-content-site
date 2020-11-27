@@ -21,7 +21,7 @@ bundle: interactive_content
 mode: default
 content:
   field_dataset:
-    weight: 5
+    weight: 6
     settings:
       placeholder_url: 'Ex: https://humdata.org/dataset'
       placeholder_title: 'Ex: Office for Coordination of Humanitarian Affairs'
@@ -52,7 +52,7 @@ content:
     type: link_default
     region: content
   field_show_datawrapper:
-    weight: 6
+    weight: 5
     settings:
       display_label: true
     third_party_settings: {  }

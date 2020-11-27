@@ -373,6 +373,9 @@ class GhoNumberFormatter extends FormatterBase {
     if ($number < 1000) {
       return $number;
     }
+    elseif ($number < 10000) {
+      return $this->formatNumberDecimal($number, $langcode);
+    }
     elseif ($number >= 1e15) {
       return $this->formatNumberDecimal($number, $langcode);
     }
@@ -393,6 +396,16 @@ class GhoNumberFormatter extends FormatterBase {
     $n = abs($number);
     $p = floor(($n ? log($n) : 0) / log(1000));
     $n = $n / pow(1000, $p);
+
+    // GHO-152: Use the "million" for number below 1 million.
+    if ($number < 1e6) {
+      $n = $n / 1000;
+      $p = $p + 1;
+      $precision = 2;
+    }
+    else {
+      $precision = 1;
+    }
 
     // Retrieve the pattern key for the number (ex: 1000000). Skip if Undefined.
     $key = (string) pow(1000, $p);

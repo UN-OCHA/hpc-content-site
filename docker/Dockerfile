@@ -61,3 +61,6 @@ COPY --from=builder /srv/www/composer.json /srv/www/composer.json
 COPY --from=builder /srv/www/composer.patches.json /srv/www/composer.patches.json
 COPY --from=builder /srv/www/composer.lock /srv/www/composer.lock
 COPY --from=builder /srv/www/docker/fastcgi_drupal.conf /etc/nginx/apps/drupal/fastcgi_drupal.conf
+
+# Make sure we have a composer version compatible with the composer.json
+RUN composer selfupdate --1

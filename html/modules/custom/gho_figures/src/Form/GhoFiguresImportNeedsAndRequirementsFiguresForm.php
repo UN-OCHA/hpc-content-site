@@ -237,6 +237,7 @@ class GhoFiguresImportNeedsAndRequirementsFiguresForm extends FormBase {
             </ol>
           </li>
           <li>Make sure all the figures are non formatted numbers (ex: 1200000 not 1.2 million)</li>
+          <li>Use 0, -1, - or TBC to indicate a missing value</li>
         </ul>
       '),
     ];
@@ -1081,8 +1082,14 @@ class GhoFiguresImportNeedsAndRequirementsFiguresForm extends FormBase {
    */
   public static function preprocessNumber($name, array &$data) {
     if (isset($data[$name])) {
-      $options = ['options' => ['min_range' => 0]];
-      $value = filter_var($data[$name], FILTER_VALIDATE_INT, $options);
+      $value = $data[$name];
+      if ($value <= 0 || $value === '-' || strtoupper($value) === 'TBC') {
+        $value = 0;
+      }
+      else {
+        $options = ['options' => ['min_range' => 0]];
+        $value = filter_var($data[$name], FILTER_VALIDATE_INT, $options);
+      }
       // Remove the value if it's not a positive integer so that the row
       // will be removed and an error displayed.
       if ($value === FALSE) {
@@ -1111,6 +1118,9 @@ class GhoFiguresImportNeedsAndRequirementsFiguresForm extends FormBase {
   public static function displayNumber($name, array $data) {
     if (!isset($data[$name])) {
       return '';
+    }
+    if ($data[$name] == 0) {
+      return 'TBC';
     }
     // @todo use the same formatter as the one used to render the figures in
     // the frontend (ex: 1.2 million).

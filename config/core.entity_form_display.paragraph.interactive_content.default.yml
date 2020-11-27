@@ -7,6 +7,7 @@ dependencies:
     - field.field.paragraph.interactive_content.field_embed_code
     - field.field.paragraph.interactive_content.field_image
     - field.field.paragraph.interactive_content.field_link
+    - field.field.paragraph.interactive_content.field_show_datawrapper
     - field.field.paragraph.interactive_content.field_title
     - field.field.paragraph.interactive_content.field_type
     - paragraphs.paragraphs_type.interactive_content
@@ -20,7 +21,7 @@ bundle: interactive_content
 mode: default
 content:
   field_dataset:
-    weight: 5
+    weight: 6
     settings:
       placeholder_url: 'Ex: https://humdata.org/dataset'
       placeholder_title: 'Ex: Office for Coordination of Humanitarian Affairs'
@@ -49,6 +50,13 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
     type: link_default
+    region: content
+  field_show_datawrapper:
+    weight: 5
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   field_title:
     weight: 1

@@ -7,6 +7,8 @@ label: Development
 description: 'Settings for development.'
 folder: ../config-dev
 module:
+  config_filter: 0
+  config_split: 0
   dblog: 0
   devel: 0
   webprofiler: 0

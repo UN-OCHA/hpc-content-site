@@ -1,5 +1,5 @@
 # Build the code.
-FROM unocha/unified-builder:7.3.20-r0-202007-01 as builder
+FROM unocha/unified-builder:7.3-develop as builder
 
 ARG  BRANCH_ENVIRONMENT
 
@@ -14,7 +14,7 @@ WORKDIR /srv/www
 RUN rm -rf ./vendor && \
     # Update composer to avoid issues with missing drupal files.
     # @see https://github.com/drupal-composer/drupal-project/issues/282
-    #composer selfupdate && \
+    composer selfupdate --1 && \
     COMPOSER_MEMORY_LIMIT=-1 composer install --no-interaction --prefer-dist
 
 # Clean up previous npm installation and run new one. Those commands correspond
@@ -31,7 +31,7 @@ RUN cp -a docker/settings.php docker/services.yml docker/redis.services.yml html
 ################################################################################
 
 # Generate the image.
-FROM unocha/php7-k8s:7.3-NR-stable
+FROM unocha/php7-k8s:7.3-NR-develop
 
 ARG VCS_REF
 ARG VCS_URL
@@ -61,3 +61,6 @@ COPY --from=builder /srv/www/composer.json /srv/www/composer.json
 COPY --from=builder /srv/www/composer.patches.json /srv/www/composer.patches.json
 COPY --from=builder /srv/www/composer.lock /srv/www/composer.lock
 COPY --from=builder /srv/www/docker/fastcgi_drupal.conf /etc/nginx/apps/drupal/fastcgi_drupal.conf
+
+# Make sure we have a composer version compatible with the composer.json
+RUN composer selfupdate --1

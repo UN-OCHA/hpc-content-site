@@ -14,6 +14,7 @@ permissions:
   - 'access taxonomy overview'
   - 'access toolbar'
   - 'access user profiles'
+  - 'add datawrapper embed code'
   - 'administer menu'
   - 'administer taxonomy'
   - 'administer users'

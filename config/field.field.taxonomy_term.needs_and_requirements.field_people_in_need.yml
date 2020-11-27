@@ -12,7 +12,7 @@ field_name: field_people_in_need
 entity_type: taxonomy_term
 bundle: needs_and_requirements
 label: 'People in need'
-description: ''
+description: 'Enter `0` to indicate TBC.'
 required: true
 translatable: false
 default_value: {  }

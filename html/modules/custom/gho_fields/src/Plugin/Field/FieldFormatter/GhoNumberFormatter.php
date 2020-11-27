@@ -370,7 +370,10 @@ class GhoNumberFormatter extends FormatterBase {
    * @see http://st.unicode.org/cldr-apps/v#/fr/Compact_Decimal_Formatting
    */
   public function formatNumberCompact($number, $langcode, $type = 'long', $precision = 2) {
-    if ($number < 1000) {
+    if ($number <= 0) {
+      return '-';
+    }
+    elseif ($number < 1000) {
       return $number;
     }
     elseif ($number < 10000) {

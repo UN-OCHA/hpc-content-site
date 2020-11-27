@@ -1,0 +1,16 @@
+uuid: c09f51af-9e97-47f4-ad77-27d9e07f094c
+langcode: en
+status: true
+dependencies: {  }
+id: node__story
+label: 'Content: Story'
+tags:
+  og_description: '[node:field_text]'
+  og_image: '/sites/default/files/styles/social_facebook_og/public/images/[node:field_media:entity]'
+  twitter_cards_creator: '@UNOCHA'
+  twitter_cards_description: '[node:field_text]'
+  twitter_cards_donottrack: 'on'
+  twitter_cards_image: '/sites/default/files/styles/social_twitter_card/public/images/[node:field_media]'
+  twitter_cards_image_height: '1024'
+  twitter_cards_image_width: '536'
+  twitter_cards_type: summary_large_image

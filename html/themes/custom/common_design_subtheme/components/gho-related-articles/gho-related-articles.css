@@ -115,7 +115,9 @@
 /**
  * Link to read article
  */
-.gho-related-article__read-article {
+.gho-related-article__read-article,
+.gho-related-article__read-article:hover,
+.gho-related-article__read-article:active {
   display: block;
   padding: 1rem 0 0 0;
   color: #1f1f1f;

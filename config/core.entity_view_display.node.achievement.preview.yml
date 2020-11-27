@@ -1,0 +1,51 @@
+uuid: 0bf96a6e-b8c2-4b0a-acc1-1218d05d5761
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.preview
+    - field.field.node.achievement.field_icon
+    - field.field.node.achievement.field_paragraphs
+    - field.field.node.achievement.field_sources
+    - node.type.achievement
+  module:
+    - entity_reference_revisions
+    - layout_builder
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: node.achievement.preview
+targetEntityType: node
+bundle: achievement
+mode: preview
+content:
+  field_icon:
+    weight: 0
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_paragraphs:
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: preview
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+  field_sources:
+    weight: 1
+    label: visually_hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  langcode: true
+  links: true

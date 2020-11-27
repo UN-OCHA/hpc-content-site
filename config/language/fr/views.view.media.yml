@@ -24,6 +24,8 @@ display:
           label: Vignette
         name:
           label: 'Nom du média'
+        bundle:
+          label: 'Media type'
         uid:
           label: Auteur
         status:
@@ -39,6 +41,9 @@ display:
         name:
           expose:
             label: 'Nom du média'
+        bundle:
+          expose:
+            label: 'Media type'
         status:
           expose:
             label: Vrai

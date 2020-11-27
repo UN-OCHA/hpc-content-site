@@ -41,25 +41,20 @@
    * ensures the left border and padding are hidden for the first item of each
    * row. */
   margin-left: calc(-1rem - 1px);
+  margin-right: 0;
   padding: 0 2rem 0 1rem;
   border-left: 1px solid #d8d8d8;
+  border-right: none;
 }
 [dir='rtl'] .gho-bottom-figure-row .gho-figure {
   /* The right margin combined with the overflow-x: hidden of the parent
    * ensures the right border and padding are hidden for the first item of each
    * row. */
+  margin-left: 0;
   margin-right: calc(-1rem - 1px);
   padding: 0 1rem 0 2rem;
+  border-left: none;
   border-right: 1px solid #d8d8d8;
-}
-
-@media screen and (min-width: 768px) {
-  [dir='ltr'] .gho-bottom-figure-row .gho-figure:first-child {
-    border-left: 0;
-  }
-  [dir='rtl'] .gho-bottom-figure-row .gho-figure:first-child {
-    border-right: 0;
-  }
 }
 
 .gho-bottom-figure-row .gho-figure__label,

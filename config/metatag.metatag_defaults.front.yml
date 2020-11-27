@@ -9,3 +9,16 @@ label: 'Front page'
 tags:
   canonical_url: '[site:url]'
   shortlink: '[site:url]'
+  og_image: /sites/default/files/styles/social_facebook_og/public/images/MALI_UNOCHA_2020_MCA_0%2073-1.jpg
+  og_image_alt: 'Aicha Dicko, 39, in her tent at an informal camp in Bagoundié, 8km from Gao, Mali, on 16 October 2020.'
+  og_image_height: '630'
+  og_image_width: '1200'
+  og_title: 'Global Humanitarian Overview 2021'
+  twitter_cards_description: '[node:field_summary]'
+  twitter_cards_image: /sites/default/files/styles/social_twitter_card/public/images/MALI_UNOCHA_2020_MCA_0%2073-1.jpg
+  twitter_cards_image_alt: 'Aicha Dicko, 39, in her tent at an informal camp in Bagoundié, 8km from Gao, Mali, on 16 October 2020.'
+  twitter_cards_image_height: '1024'
+  twitter_cards_image_width: '1024'
+  twitter_cards_site: '@UNOCHA'
+  twitter_cards_title: 'Global Humanitarian Overview 2021'
+  twitter_cards_type: summary_large_image

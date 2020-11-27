@@ -22,10 +22,10 @@ h1 {
 }
 
 a {
-  color: $cd-dark-blue;
+  color: $gho-link-color;
 
   &:hover,
   &:focus {
-    color: $cd-ocha-blue;
+    color: $gho-link-color;
   }
 }

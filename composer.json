@@ -47,9 +47,10 @@
         "drupal/redis": "^1.4",
         "drupal/social_auth_hid": "^2.5",
         "drupal/views_field_view": "^1.0-beta3",
-        "drush/drush": "^10.2.2",
+        "drush/drush": "^10.3",
         "oomphinc/composer-installers-extender": "^1.1.2",
         "phpoffice/phpspreadsheet": "^1.14.1",
+        "symfony/flex": "^1.10",
         "unocha/common_design": "^2.8.5",
         "webflo/drupal-finder": "^1.0.0",
         "zaporylie/composer-drupal-optimizations": "^1.1.1"
@@ -66,7 +67,8 @@
         "weitzman/drupal-test-traits": "^1.5"
     },
     "conflict": {
-        "drupal/drupal": "*"
+        "drupal/drupal": "*",
+        "symfony/symfony": "*"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

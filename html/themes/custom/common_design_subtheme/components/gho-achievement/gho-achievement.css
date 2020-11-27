@@ -31,11 +31,13 @@
   line-height: 1.75rem;
   color: #1f1f1f;
 }
-html[dir='ltr'] .gho-achievement__icon + .gho-achievement__heading .gho-achievement__title {
+[dir='ltr'] .gho-achievement__icon + .gho-achievement__heading .gho-achievement__title {
+  padding-left: 0;
   padding-right: 2rem;
 }
-html[dir='rtl'] .gho-achievement__icon + .gho-achievement__heading .gho-achievement__title {
+[dir='rtl'] .gho-achievement__icon + .gho-achievement__heading .gho-achievement__title {
   padding-left: 2rem;
+  padding-right: 0;
 }
 @media (min-width: 768px) {
   .gho-achievement__title {

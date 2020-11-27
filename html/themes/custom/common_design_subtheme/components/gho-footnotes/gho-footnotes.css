@@ -1,10 +1,7 @@
-.gho-footnote-list--accumulated {
+.gho-footnote-list {
   margin: 6.75rem 0 0 0;
 }
 .gho-footnote-list__title {
-  font-weight: 700;
-}
-.gho-footnote-list--accumulated .gho-footnote-list__title {
   max-width: var(--reading-width);
   margin: 0 0 1.5rem 0;
   padding: 0 0 1.5rem 0;
@@ -15,7 +12,7 @@
   border-bottom: 1px solid #d8d8d8;
 }
 @media (min-width: 1024px) {
-.gho-footnote-list--accumulated .gho-footnote-list__title {
+  .gho-footnote-list__title {
     font-size: 1.5rem;
   }
 }

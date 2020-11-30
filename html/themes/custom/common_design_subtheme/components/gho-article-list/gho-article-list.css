@@ -1,0 +1,59 @@
+.gho-article-list {
+  margin-top: 4.5rem;
+}
+
+.gho-article-list__title {
+  margin: 0 0 1.5rem 0;
+  color: #1f1f1f;
+  font-size: 1.3125rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+}
+
+.gho-article-list__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gho-article-list__list__item {
+  margin: 0;
+  padding: 0;
+  border: 1px solid #d8d8d8;
+  border-width: 1px 0 1px 0;
+}
+.gho-article-list__list__item + .gho-article-list__list__item {
+  border-width: 0 0 1px 0;
+}
+
+.gho-article-list-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1.5rem 0;
+  color: #1f1f1f;
+  text-decoration: none;
+}
+.gho-article-list-link:hover,
+.gho-article-list-link:focus,
+.gho-article-list-link:active  {
+  text-decoration: underline;
+}
+
+.gho-article-list-link__title {
+  flex: 1 1 auto;
+}
+
+.gho-article-list-link__arrow.cd-icon {
+  display: none; /* not visible on skinny screens */
+  width: 0.75rem;
+  height: 0.75rem;
+  margin: 0 0.25rem;
+  /* @todo should this be the same color as the links or use the UN blue? */
+  fill: #3a90d2; /* UN blue */
+}
+@media screen and (min-width: 576px) {
+  .gho-article-list-link__arrow.cd-icon {
+    display: block;
+  }
+}

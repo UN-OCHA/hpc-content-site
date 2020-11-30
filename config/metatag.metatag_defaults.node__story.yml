@@ -5,12 +5,13 @@ dependencies: {  }
 id: node__story
 label: 'Content: Story'
 tags:
+  og_image_width: '[node:field_media:entity:field_media_image:social_facebook_og:width]'
+  og_image: '[node:field_media:entity:field_media_image:social_facebook_og:url]'
+  og_image_height: '[node:field_media:entity:field_media_image:social_facebook_og:height]'
+  og_image_alt: '[node:field_media:entity:field_media_image:alt]'
   og_description: '[node:field_text]'
-  og_image: '/sites/default/files/styles/social_facebook_og/public/images/[node:field_media:entity]'
-  twitter_cards_creator: '@UNOCHA'
+  twitter_cards_image: '[node:field_media:entity:field_media_image:social_twitter_card:url]'
+  twitter_cards_image_width: '[node:field_media:entity:field_media_image:social_twitter_card:width]'
   twitter_cards_description: '[node:field_text]'
-  twitter_cards_donottrack: 'on'
-  twitter_cards_image: '/sites/default/files/styles/social_twitter_card/public/images/[node:field_media]'
-  twitter_cards_image_height: '1024'
-  twitter_cards_image_width: '536'
-  twitter_cards_type: summary_large_image
+  twitter_cards_image_alt: '[node:field_media:entity:field_media_image:social_twitter_card:alt]'
+  twitter_cards_image_height: '[node:field_media:entity:field_media_image:social_twitter_card:height]'

@@ -7,16 +7,11 @@ _core:
 id: node
 label: Content
 tags:
+  title: '[node:title] | [site:name]'
   canonical_url: '[node:url]'
   description: '[node:summary]'
-  title: '[node:title] | [site:name]'
-  og_description: '[node:field_summary]'
-  og_image: '/sites/default/files/styles/social_facebook_og/public/images/[node:field_thumbnail_image]'
   og_title: '[node:title]'
-  twitter_cards_description: '[node:field_summary]'
-  twitter_cards_donottrack: 'on'
-  twitter_cards_image: '/sites/default/files/styles/social_twitter_card/public/images/[node:field_thumbnail_image]'
-  twitter_cards_image_alt: '[node:field_caption:second]'
   twitter_cards_site: '@UNOCHA'
-  twitter_cards_title: '[node:title]'
   twitter_cards_type: summary_large_image
+  twitter_cards_title: '[node:title]'
+  twitter_cards_donottrack: 'on'

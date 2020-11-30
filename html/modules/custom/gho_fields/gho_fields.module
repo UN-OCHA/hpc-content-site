@@ -59,6 +59,11 @@ function gho_fields_theme() {
     'gho_figures_formatter__small' => [
       'base hook' => 'gho_figures_formatter',
     ],
+    'gho_article_list_formatter' => [
+      'variables' => [
+        'links' => NULL,
+      ],
+    ],
   ];
 }
 

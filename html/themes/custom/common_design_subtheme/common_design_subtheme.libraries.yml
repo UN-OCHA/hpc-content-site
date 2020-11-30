@@ -141,3 +141,8 @@ gho-achievement:
   css:
     theme:
       components/gho-achievement/gho-achievement.css: {}
+
+gho-article-list:
+  css:
+    theme:
+      components/gho-article-list/gho-article-list.css: {}

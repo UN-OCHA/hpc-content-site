@@ -1,0 +1,31 @@
+uuid: f8292919-324f-4546-83c7-e4aaca9a2c8b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.article_list.field_links
+    - field.field.paragraph.article_list.field_title
+    - paragraphs.paragraphs_type.article_list
+  module:
+    - gho_fields
+id: paragraph.article_list.default
+targetEntityType: paragraph
+bundle: article_list
+mode: default
+content:
+  field_links:
+    weight: 3
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: gho_article_list
+    region: content
+  field_title:
+    weight: 0
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

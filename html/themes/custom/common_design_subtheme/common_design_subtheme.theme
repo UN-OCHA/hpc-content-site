@@ -8,6 +8,7 @@
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\Core\Menu\InaccessibleMenuLink;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
@@ -207,31 +208,75 @@ function common_design_subtheme_preprocess_node__article(&$variables) {
 
   // Main articles.
   if ($view_mode === 'full') {
-    $node_id = $variables['node']->id();
-    $node_uri = 'entity:node/' . $node_id;
+    // Get the next article.
+    $list = common_design_subtheme_get_next_article($variables['node']);
+    if (!empty($list)) {
+      $variables['content']['related_articles'] = [
+        '#theme' => 'gho_related_articles_formatter',
+        '#title' => t('Next article'),
+        '#list' => $list,
+        // Ensure it's displayed at the end.
+        '#weight' => 999,
+      ];
+    }
+  }
+}
 
-    // Load the menu link associated with the node.
-    $storage = \Drupal::service('entity_type.manager')->getStorage('menu_link_content');
-    $links = $storage->loadByProperties(['link__uri' => $node_uri]);
+/**
+ * Get the next article to read after the given one.
+ *
+ * This is determined based on the main navigation.
+ *
+ * @param \Drupal\node\NodeInterface $node
+ *   Article node.
+ *
+ * @return array
+ *   Render array for the next article.
+ */
+function common_design_subtheme_get_next_article(NodeInterface $node) {
+  $node_uri = 'entity:node/' . $node->id();
 
-    if (!empty($links)) {
-      // Get the list of node render arrays for the children of the parent of
-      // the menu link, excluding this node. This will return the related
-      // articles.
-      $menu_id = reset($links)->getParentId();
-      $list = GhoRelatedArticlesFormatter::getNodeListFromMenu($menu_id, [$node_id]);
+  // Load the menu link associated with the node.
+  $storage = \Drupal::service('entity_type.manager')->getStorage('menu_link_content');
+  $links = $storage->loadByProperties(['link__uri' => $node_uri]);
 
-      if (!empty($list)) {
-        $variables['content']['related_articles'] = [
-          '#theme' => 'gho_related_articles_formatter',
-          '#title' => t('More from this section'),
-          '#list' => $list,
-          // Ensure it's displayed at the end.
-          '#weight' => 999,
-        ];
+  if (!empty($links)) {
+    $plugin_id = reset($links)->getPluginId();
+    $menu_tree = \Drupal::service('menu.link_tree');
+
+    // Load the 2 first levels of the main menu.
+    $parameters = new MenuTreeParameters();
+    $parameters->setMaxdepth(2);
+    $tree = $menu_tree->load('main', $parameters);
+
+    // Check the access to the nodes in the menu and ensure they are sorted.
+    $manipulators = [
+      ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
+      ['callable' => 'menu.default_tree_manipulators:checkAccess'],
+      ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
+      // As we only required 2 levels, flattening will result in having all
+      // the level 2 links (so the articles) at the end of the array, in order
+      // so it's really easy to iterate to find the next one.
+      ['callable' => 'menu.default_tree_manipulators:flatten'],
+    ];
+    $tree = $menu_tree->transform($tree, $manipulators);
+
+    // Find the next article in the list.
+    $iterator = new \ArrayIterator($tree);
+    $found = FALSE;
+    while ($iterator->valid()) {
+      if ($iterator->current()->link->getPluginId() === $plugin_id) {
+        $found = TRUE;
+      }
+      $iterator->next();
+      // The next item in the tree may be inaccessible to the current user.
+      // In that case we continue until we find a suitable next article.
+      if ($found && $iterator->valid() && !$iterator->current()->link instanceof InaccessibleMenuLink) {
+        return GhoRelatedArticlesFormatter::getRelatedArticleList([$iterator->current()]);
       }
     }
   }
+  return NULL;
 }
 
 /**

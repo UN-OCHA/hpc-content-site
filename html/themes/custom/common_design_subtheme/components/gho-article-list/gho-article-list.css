@@ -57,3 +57,6 @@
     display: block;
   }
 }
+[dir='rtl'] .gho-article-list-link__arrow {
+  transform: scale(-1, 1);
+}

@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme implementation for a section index paragraph.
+ * Theme implementation for an article list paragraph.
  *
  * Overrides paragraphs/templates/paragraph.html.twig.
  *
@@ -40,35 +40,25 @@
  * @ingroup themeable
  */
 #}
-{{ attach_library('common_design_subtheme/gho-section-index') }}
-{% set pre_title =  content.field_section|render|striptags|trim %}
+{{ attach_library('common_design_subtheme/gho-article-list') }}
 {%
   set classes = [
     'paragraph',
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
-    'gho-section-index',
+    'gho-article-list',
+    'content-width',
   ]
 %}
+{% set title = content.field_title|render %}
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-      <header class="gho-section-index__header">
-        {{ content.field_image }}
-        {% if pre_title %}
-        <div class="gho-section-index__heading">
-          <span class="gho-section-index__pre-title">{{ pre_title }}</span>
-          {% endif %}
-          <h2 class="gho-section-index__title">{{- content.field_title -}}</h2>
-        </div>
-      </header>
-      <div class="gho-section-index__caption">
-        {{ content.field_caption }}
-      </div>
-      <div class="gho-section-index__content content-width">
-        {{ content|without(['field_image', 'field_section', 'field_title', 'field_caption']) }}
-      </div>
+      {% if title %}
+      <h3 class="gho-article-list__title">{{ title }}</h3>
+      {% endif %}
+      {{ content|without('field_title') }}
     {% endblock %}
   </div>
 {% endblock paragraph %}

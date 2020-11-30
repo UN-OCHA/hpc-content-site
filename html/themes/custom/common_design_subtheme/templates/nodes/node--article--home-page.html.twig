@@ -112,14 +112,14 @@
     content in the language of the homepage is enabled.
   #}
   {% if node.isPromoted() %}
-  <div{{ content_attributes.addClass('node__content').addClass('gho-home-page__content').addClass('content-width') }}>
+  <div{{ content_attributes.addClass('node__content').addClass('gho-home-page__content') }}>
     {{ content.field_caption }}
 
     {#
       @todo review alt tag and/or hiding that from the accessibility tree as
       there is already the title above in the header.
     #}
-    <div class="gho-home-page__logo">
+    <div class="gho-home-page__logo content-width">
       <img src="{{ logo }}" alt="{{ 'Global Humanitarian Overview 2021 - Large logo'|t }}">
     </div>
 

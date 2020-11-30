@@ -1,4 +1,9 @@
 # Formatters.
+field.formatter.settings.gho_article_list:
+  type: mapping
+  label: 'GHO article list formatter settings'
+  mapping:
+    # No settings.
 field.formatter.settings.gho_caption:
   type: mapping
   label: 'GHO caption formatter settings'

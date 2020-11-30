@@ -4,10 +4,8 @@ status: true
 dependencies:
   config:
     - field.storage.paragraph.field_paragraphs
-    - paragraphs.paragraphs_type.interactive_content
-    - paragraphs.paragraphs_type.photo_gallery
+    - paragraphs.paragraphs_type.article_list
     - paragraphs.paragraphs_type.section_index
-    - paragraphs.paragraphs_type.text
   module:
     - entity_reference_revisions
 id: paragraph.section_index.field_paragraphs
@@ -15,8 +13,8 @@ field_name: field_paragraphs
 entity_type: paragraph
 bundle: section_index
 label: Paragraphs
-description: 'Extra content like a text, a photo gallery or an interactive content.'
-required: false
+description: 'List of articles.'
+required: true
 translatable: true
 default_value: {  }
 default_value_callback: ''
@@ -25,10 +23,14 @@ settings:
   handler_settings:
     negate: 0
     target_bundles:
-      interactive_content: interactive_content
-      photo_gallery: photo_gallery
-      text: text
+      article_list: article_list
     target_bundles_drag_drop:
+      achievement:
+        weight: 18
+        enabled: false
+      article_list:
+        enabled: true
+        weight: 17
       bottom_figure_row:
         weight: 15
         enabled: false
@@ -42,8 +44,8 @@ settings:
         weight: 18
         enabled: false
       interactive_content:
-        enabled: true
         weight: 19
+        enabled: false
       layout:
         weight: 20
         enabled: false
@@ -51,8 +53,8 @@ settings:
         weight: 21
         enabled: false
       photo_gallery:
-        enabled: true
         weight: 22
+        enabled: false
       section_index:
         weight: 23
         enabled: false
@@ -69,6 +71,6 @@ settings:
         weight: 27
         enabled: false
       text:
-        enabled: true
         weight: 28
+        enabled: false
 field_type: entity_reference_revisions

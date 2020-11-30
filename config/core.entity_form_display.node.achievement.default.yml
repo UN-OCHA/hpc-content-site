@@ -9,6 +9,7 @@ dependencies:
     - node.type.achievement
   module:
     - layout_paragraphs
+    - path
 id: node.achievement.default
 targetEntityType: node
 bundle: achievement
@@ -39,6 +40,12 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  path:
+    type: path
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   status:
     type: boolean_checkbox
     settings:
@@ -57,7 +64,6 @@ content:
 hidden:
   created: true
   langcode: true
-  path: true
   promote: true
   sticky: true
   translation: true

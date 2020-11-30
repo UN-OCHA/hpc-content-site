@@ -54,14 +54,20 @@
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-      <header class="gho-section-index__header content-width">
+      <header class="gho-section-index__header">
+        {{ content.field_image }}
         {% if pre_title %}
-        <span class="gho-section-index__pre-title">{{ pre_title }}</span>
-        {% endif %}
-        <h2 class="gho-section-index__title">{{- content.field_title -}}</h2>
+        <div class="gho-section-index__heading">
+          <span class="gho-section-index__pre-title">{{ pre_title }}</span>
+          {% endif %}
+          <h2 class="gho-section-index__title">{{- content.field_title -}}</h2>
+        </div>
       </header>
+      <div class="gho-section-index__caption">
+        {{ content.field_caption }}
+      </div>
       <div class="gho-section-index__content content-width">
-      {{ content|without(['field_section', 'field_title']) }}
+        {{ content|without(['field_image', 'field_section', 'field_title', 'field_caption']) }}
       </div>
     {% endblock %}
   </div>

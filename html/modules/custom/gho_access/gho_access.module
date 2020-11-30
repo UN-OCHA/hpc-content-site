@@ -241,3 +241,26 @@ function gho_access_check_language_visibility($langcode) {
 
   return $allowed[$langcode];
 }
+
+/**
+ * Implements hook_language_switch_links_alter().
+ *
+ * Remove links from the language switcher for languages whose global visibility
+ * is not enabled. If there is less than 2 enabled languages (ex: only English),
+ * we don't display the language switcher (by unsetting all the links).
+ */
+function gho_access_language_switch_links_alter(?array &$links, $type, $path) {
+  if (isset($links)) {
+    foreach ($links as $langcode => $link) {
+      if (!gho_access_check_language_visibility($langcode)) {
+        unset($links[$langcode]);
+      }
+    }
+    if (count($links) <= 1) {
+      // We need to unset the links for the Language Switcher block to actually
+      // not be displayed.
+      // @see Drupal\language\Plugin\Block\LanguageBlock::build()
+      $links = NULL;
+    }
+  }
+}

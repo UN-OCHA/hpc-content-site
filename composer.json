@@ -40,6 +40,7 @@
         "drupal/inline_entity_form": "^1.0-rc8",
         "drupal/layout_paragraphs": "1.0.x-dev",
         "drupal/maintenance200": "^1.0",
+        "drupal/metatag": "^1.14",
         "drupal/paragraphs": "^1.12",
         "drupal/paragraphs_viewmode": "^1.0-alpha2",
         "drupal/pathauto": "^1.8",

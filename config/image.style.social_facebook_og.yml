@@ -1,0 +1,16 @@
+uuid: d607c255-493e-44b2-bb98-bdf2289f9b87
+langcode: en
+status: true
+dependencies: {  }
+name: social_facebook_og
+label: 'Social: Facebook OG'
+effects:
+  cc9412e6-3798-47b3-85a4-937a30a011b5:
+    uuid: cc9412e6-3798-47b3-85a4-937a30a011b5
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 1200
+      height: 630
+      anchor: center-center
+pipeline: __default__

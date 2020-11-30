@@ -1,0 +1,14 @@
+entity_type_groups:
+  node:
+    achievement:
+      basic: basic
+      open_graph: open_graph
+      twitter_cards: twitter_cards
+    article:
+      basic: basic
+      open_graph: open_graph
+      twitter_cards: twitter_cards
+    story:
+      basic: basic
+      open_graph: open_graph
+      twitter_cards: twitter_cards

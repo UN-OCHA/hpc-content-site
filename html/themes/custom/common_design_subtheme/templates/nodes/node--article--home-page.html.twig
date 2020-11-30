@@ -92,8 +92,6 @@
     not node.isPromoted() ? 'gho-home-page--no-content'
   ]
 %}
-{% set tag_line = content.field_summary|render %}
-{% set download_url = content.field_report_link|render|striptags|trim %}
 {% set logo = base_path ~ directory ~ '/components/gho-home-page/img/GHO2021-Logo-Web-' ~ attributes.offsetGet('lang')|upper ~ '-large.svg' %}
 <article{{ attributes.addClass(classes) }}>
   <header class="gho-home-page__header">
@@ -103,16 +101,6 @@
     #}
     {{ title }}
     {{ content.field_hero_image }}
-    {% if tag_line or download_url %}
-    <div class="gho-home-page__header__content">
-      {% if tag_line  %}
-      <div class="gho-home-page__msg">{{ tag_line }}</div>
-      {% endif %}
-      {% if download_url  %}
-      <a class="gho-home-page__link" href="{{ download_url }}">{{ 'Download Report'|t }}</a>
-      {% endif %}
-    </div>
-    {% endif %}
   </header>
 
   {% if local_tasks %}

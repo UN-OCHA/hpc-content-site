@@ -93,7 +93,7 @@
   <header class="gho-sub-article__header">
     {{ hero_image }}
     <div class="gho-sub-article__heading content-width">
-      <h2{{ title_attributes.addClass('gho-sub-article__title') }}>{{ label }}</h2>
+      <h2{{ title_attributes.addClass('gho-sub-article__title').setAttribute('id', label|render|striptags|clean_class) }}>{{ label }}</h2>
       {{ content.field_appeals }}
     </div>
   </header>

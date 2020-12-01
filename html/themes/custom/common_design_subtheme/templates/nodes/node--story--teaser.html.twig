@@ -107,7 +107,7 @@
     {{ content|without(['field_type', 'field_media', 'field_text', 'credits']) }}
   </div>
 
-  <footer class="gho-story__social-links gho-social-links">
+  <footer class="gho-story__social-links gho-social-links content-width">
     {% set shareMessage = 'Custom share message goes here.' %}
     {% set shareUrlEncoded = 'https%3A%2F%2Fgho.unocha.org' ~ url|url_encode %}
     {% set shareUrl = 'https://gho.unocha.org' ~ url %}

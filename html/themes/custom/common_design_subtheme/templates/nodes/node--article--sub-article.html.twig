@@ -100,7 +100,7 @@
     {{ content|without(['field_hero_image', 'field_appeals']) }}
   </div>
 
-  <footer class="gho-sub-article__social-links gho-social-links">
+  <footer class="gho-sub-article__social-links gho-social-links content-width">
     {% set shareMessage = 'Custom share message goes here.' %}
     {% set shareUrlEncoded = 'https%3A%2F%2Fgho.unocha.org' ~ url|url_encode %}
     {% set shareUrl = 'https://gho.unocha.org' ~ url %}

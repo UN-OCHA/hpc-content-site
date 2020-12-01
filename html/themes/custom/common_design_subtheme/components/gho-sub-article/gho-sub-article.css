@@ -2,10 +2,13 @@
  * Base styles
  */
 .node--view-mode-sub-article {
-  /* Social links appear at the bottom of the Sub-Article in source-order, but
-     we want them to display in the upper corner. pos:rel allows us to
-     facilitate their positioning */
-  position: relative;
+  /* Flex-box so we can hoist our social icons up form their low position in the
+     source-order but display them near the top of the Sub-Article */
+  display: flex;
+  flex-flow: row wrap;
+}
+.node--view-mode-sub-article > * {
+  flex: 1 0 100%;
 }
 .gho-sub-article-paragraph--no-hero {
   margin-top: 6.75rem;
@@ -58,12 +61,6 @@
   vertical-align: top;
 }
 .gho-sub-article__social-links {
-  position: absolute;
-  top: 0;
-}
-html[dir='ltr'] .gho-sub-article__social-links {
-  right: 0;
-}
-html[dir='rtl'] .gho-sub-article__social-links {
-  left: 0;
+  /* display first */
+  order: -1;
 }

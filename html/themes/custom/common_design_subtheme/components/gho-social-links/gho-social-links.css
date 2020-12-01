@@ -1,10 +1,13 @@
 .gho-social-links {
   color: #1f1f1f;
+  width: 100%;
+  margin-bottom: -32px; /* keep in sync with height of the individual flex-items */
+  z-index: 5; /* keep them clickable */
 }
 .gho-social-links ul {
-  width: 160px;
   display: flex;
   flex-flow: row nowrap;
+  justify-content: flex-end;
   margin: 0 -4px;
   padding: 0;
 }

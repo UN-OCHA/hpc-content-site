@@ -1,29 +1,34 @@
 .gho-section-index {
   margin-top: 6.25rem;
-  padding-top: 2.25rem;
-  border-top: 1px solid #d8d8d8;
 }
 .gho-section-index + .gho-section-index {
-  /* This is to be closer to what is in the design documents as none of the
-   * specs documents contain indication of what should be the spacing between
-   * section areas. This corresponds to the section index margin-top (6.25rem) +
-   * the padding of the related articles (2rem). */
-  margin-top: 8.25rem;
-  padding-top: 0;
-  border-top: none;
+  margin-top: 9rem;
 }
+.gho-section-index:last-of-type {
+  margin-bottom: 7rem; /* 9rem - 2rem from the padding bottom of the main... */
+}
+
 /* This is similar to the sub-article styling */
 .gho-section-index__header {
+  position: relative;
   margin-bottom: 1rem;
+}
+.gho-section-index__heading {
+  position: absolute;
+  max-width: var(--reading-width);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 .gho-section-index__pre-title {
   display: block;
   margin-bottom: 0.6rem;
-  font-size: 0.6rem;
-  font-weight: bold;
-  line-height: 0.6rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 0.875rem;
   letter-spacing: 0.05rem;
-  color: #707070;
+  color: #fff;
 }
 .gho-section-index__title {
   margin: 0;
@@ -31,7 +36,7 @@
   font-size: 1.625rem;
   font-weight: 700;
   line-height: 1.75rem;
-  color: #1f1f1f;
+  color: #fff;
 }
 @media (min-width: 768px) {
   .gho-section-index__title {
@@ -41,12 +46,24 @@
 }
 @media (min-width: 1024px) {
   .gho-section-index__title {
-    font-size: 2.5rem;
-    line-height: 2.625rem;
+    font-size: 3.75rem;
+    line-height: 3.25rem;
   }
 }
+
+.gho-section-index__caption {
+  text-align: center;
+  margin-top: 2.25rem;
+  padding-bottom: 2.25rem;
+  border-bottom: 1px solid #d8d8d8;
+}
+.gho-section-index__caption > .gho-caption > * {
+  max-width: none;
+}
+
+
 .gho-section-index__description {
-  margin-top: 2rem;
+  margin-top: 4.5rem;
   font-size: 1rem;
   line-height: 1.75rem;
 }
@@ -62,15 +79,4 @@
 .gho-section-index__description p:last-child {
   margin-bottom: 0;
 }
-.gho-section-index .gho-related-articles {
-  margin-top: 2.25rem;
-  padding-top: 0;
-}
-/* Extra content. */
-.gho-section-index .paragraph {
-  max-width: none;
-  margin-top: 2.25rem;
-}
-.gho-section-index .gho-photo-gallery--single-column .gho-photo-gallery__photos {
-  max-width: none;
-}
+

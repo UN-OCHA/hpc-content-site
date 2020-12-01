@@ -1,0 +1,23 @@
+uuid: 1843964e-872c-4c84-a0df-9e538151b472
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_links
+    - paragraphs.paragraphs_type.article_list
+  module:
+    - link
+id: paragraph.article_list.field_links
+field_name: field_links
+entity_type: paragraph
+bundle: article_list
+label: Articles
+description: 'List of articles. Type the title of an article to select it.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 1
+  title: 0
+field_type: link

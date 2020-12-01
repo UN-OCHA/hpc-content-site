@@ -52,12 +52,7 @@ class GhoRelatedArticlesFormatter extends EntityReferenceFormatterBase {
    *   List of node build arrays for the view mode.
    */
   public static function getNodeListFromMenu($menu_id, array $exclude = []) {
-    $list = [];
-
     $menu_tree = \Drupal::service('menu.link_tree');
-    $entity_type_manager = \Drupal::service('entity_type.manager');
-    $storage = $entity_type_manager->getStorage('node');
-    $view_builder = $entity_type_manager->getViewBuilder('node');
 
     // Parameter to load the menu children of the given menu.
     $parameters = new MenuTreeParameters();
@@ -82,20 +77,42 @@ class GhoRelatedArticlesFormatter extends EntityReferenceFormatterBase {
 
     // Get the nodes associated with the links and their render array.
     if (isset($tree, $tree->subtree)) {
-      foreach ($tree->subtree as $item) {
-        $url = $item->link->getUrlObject();
-        if ($url->isRouted()) {
-          $parameters = $url->getRouteParameters();
-          $entity_type = key($parameters);
-          if (isset($entity_type, $parameters[$entity_type])) {
-            $entity_id = $parameters[$entity_type];
+      return static::getRelatedArticleList($tree->subtree);
+    }
 
-            // Load the node associated with the menu link and it's render
-            // array for the view mode to the list.
-            if ($entity_type === 'node' && !in_array($entity_id, $exclude)) {
-              $node = $storage->load($entity_id);
-              $list[] = $view_builder->view($node, 'related_article');
-            }
+    return [];
+  }
+
+  /**
+   * Render a related article.
+   *
+   * @param \Drupal\Core\Menu\MenuLinkTreeElement[] $items
+   *   List of tree elements.
+   * @param array $exclude
+   *   List of nodes to exclude.
+   *
+   * @return array
+   *   Render array for the related article.
+   */
+  public static function getRelatedArticleList(array $items, array $exclude = []) {
+    $entity_type_manager = \Drupal::service('entity_type.manager');
+    $storage = $entity_type_manager->getStorage('node');
+    $view_builder = $entity_type_manager->getViewBuilder('node');
+
+    $list = [];
+    foreach ($items as $item) {
+      $url = $item->link->getUrlObject();
+      if ($url->isRouted()) {
+        $parameters = $url->getRouteParameters();
+        $entity_type = key($parameters);
+        if (isset($entity_type, $parameters[$entity_type])) {
+          $entity_id = $parameters[$entity_type];
+
+          // Load the node associated with the menu link and it's render
+          // array for the view mode to the list.
+          if ($entity_type === 'node' && !in_array($entity_id, $exclude)) {
+            $node = $storage->load($entity_id);
+            $list[] = $view_builder->view($node, 'related_article');
           }
         }
       }

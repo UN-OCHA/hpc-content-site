@@ -49,6 +49,11 @@ gho-section-index:
     theme:
       components/gho-section-index/gho-section-index.css: {}
 
+gho-social-links:
+  css:
+    theme:
+      components/gho-social-links/gho-social-links.css: {}
+
 gho-footnotes:
   js:
     components/gho-footnotes/gho-footnotes.js: {}

@@ -77,7 +77,7 @@ class GhoRelatedArticlesFormatter extends EntityReferenceFormatterBase {
 
     // Get the nodes associated with the links and their render array.
     if (isset($tree, $tree->subtree)) {
-      return static::getRelatedArticleList($tee->subtree);
+      return static::getRelatedArticleList($tree->subtree);
     }
 
     return [];

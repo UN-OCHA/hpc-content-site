@@ -14,7 +14,7 @@
 }
 .gho-article__heading {
   padding-top: 2rem;
-  margin: 0 auto;
+  margin: 0 auto 3rem;
 }
 /* Take into account the 8px grey margins: 1040px + 2 * 8x. */
 @media (min-width: 1056px) {
@@ -48,9 +48,10 @@
   }
 }
 .gho-article .page-title {
+  display: inline; /* appeals want to sit next to title */
   max-width: var(--reading-width);
   padding: 0;
-  margin: 0 0 3rem 0;
+  margin: 0;
   border: none;
   font-size: 2.25rem;
   line-height: 2.375rem;
@@ -67,4 +68,13 @@
     font-size: 3.25rem;
     line-height: 3.375rem;
   }
+}
+
+.gho-article__heading .gho-appeals-tags {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 1rem;
+}
+.gho-article__heading .gho-appeals-tag {
+  vertical-align: top;
 }

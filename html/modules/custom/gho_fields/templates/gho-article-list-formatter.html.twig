@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a GHO article list formatter.
+ *
+ * Available variables:
+ * - links: list of links to articles.
+ *
+ * @ingroup themeable
+ */
+#}
+{% if links %}
+<ul class="gho-article-list__list">
+{% for link in links %}
+  {% spaceless %}
+  <li class="gho-article-list__list__item">
+    <a href="{{ link.url }}" class="gho-article-list-link">
+      <span class="gho-article-list-link__title">{{ link.title }}</span>
+      <svg class="cd-icon cd-icon--arrow-right gho-article-list-link__arrow" width="16" height="16" aria-hidden="true" focusable="false">
+        <use xlink:href="#cd-icon--arrow-right"></use>
+      </svg>
+    </a>
+  </li>
+  {% endspaceless %}
+{% endfor %}
+</ul>
+{% endif %}

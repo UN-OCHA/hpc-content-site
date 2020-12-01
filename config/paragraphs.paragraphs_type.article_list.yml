@@ -1,0 +1,10 @@
+uuid: 9a3a9b88-c7cc-438f-a641-853ad6a391f8
+langcode: en
+status: true
+dependencies: {  }
+id: article_list
+label: 'Article list'
+icon_uuid: null
+icon_default: null
+description: 'A list of links to articles with an optional title.'
+behavior_plugins: {  }

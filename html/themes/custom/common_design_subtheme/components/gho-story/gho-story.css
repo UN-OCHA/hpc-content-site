@@ -1,3 +1,9 @@
+.gho-story {
+  /* Social links appear at the bottom of the Story in source-order, but
+     we want them to display in the upper corner. pos:rel allows us to
+     facilitate their positioning */
+  position: relative;
+}
 .gho-story--teaser {
   max-width: var(--reading-width);
 }
@@ -35,4 +41,14 @@
 .gho-story__source .item-list li {
   list-style: none;
   margin: 0;
+}
+.gho-story__social-links {
+  position: absolute;
+  top: 0;
+}
+html[dir='ltr'] .gho-story__social-links {
+  right: 0;
+}
+html[dir='rtl'] .gho-story__social-links {
+  left: 0;
 }

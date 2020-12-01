@@ -16,6 +16,10 @@
 .gho-aside--dark a:active {
   color: #fff;
 }
+.gho-aside--dark svg,
+.gho-aside--dark .cls-1 {
+  fill: #fff;
+}
 .gho-aside__pre-title {
   margin: 0;
   font-size: 1rem;

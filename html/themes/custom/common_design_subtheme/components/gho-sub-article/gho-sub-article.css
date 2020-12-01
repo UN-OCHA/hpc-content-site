@@ -1,6 +1,12 @@
 /**
  * Base styles
  */
+.node--view-mode-sub-article {
+  /* Social links appear at the bottom of the Sub-Article in source-order, but
+     we want them to display in the upper corner. pos:rel allows us to
+     facilitate their positioning */
+  position: relative;
+}
 .gho-sub-article-paragraph--no-hero {
   margin-top: 6.75rem;
   padding-top: 4.5rem;
@@ -50,4 +56,14 @@
 }
 .gho-sub-article__heading .gho-appeals-tag {
   vertical-align: top;
+}
+.gho-sub-article__social-links {
+  position: absolute;
+  top: 0;
+}
+html[dir='ltr'] .gho-sub-article__social-links {
+  right: 0;
+}
+html[dir='rtl'] .gho-sub-article__social-links {
+  left: 0;
 }

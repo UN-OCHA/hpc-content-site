@@ -1,7 +1,10 @@
 (function () {
   "use strict";
 
+  // Collect all URL buttons.
   var urlButtons = document.querySelectorAll('.gho-social-links__link--copy');
+
+  // Process links co they copy URL to clipboard.
   urlButtons.forEach(function (el) {
     el.addEventListener('click', function (ev) {
       var tempInput = document.createElement('input');

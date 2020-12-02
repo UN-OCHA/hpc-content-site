@@ -1,17 +1,17 @@
-uuid: 4e70c194-8972-44a3-b7e3-86040df431f5
+uuid: c23fd5fd-f0fe-480b-bf94-23c6ff3b3928
 langcode: en
 status: true
 dependencies:
   module:
-    - taxonomy
+    - media
     - user
-id: term_translations
-label: 'Term translations'
+id: media_translations
+label: 'Media translations'
 module: views
-description: 'Links to create/edit term translations to embed in views.'
+description: 'Links to create/edit media translations to embed in views.'
 tag: ''
-base_table: taxonomy_term_field_data
-base_field: tid
+base_table: media_field_data
+base_field: mid
 display:
   default:
     display_plugin: default
@@ -53,8 +53,7 @@ display:
         options:
           grouping: {  }
           row_class: ''
-          default_row_class: true
-          uses_fields: false
+          default_row_class: false
       row:
         type: fields
         options:
@@ -63,10 +62,10 @@ display:
           separator: ''
           hide_empty: false
       fields:
-        edit_taxonomy_term:
-          id: edit_taxonomy_term
-          table: taxonomy_term_data
-          field: edit_taxonomy_term
+        edit_media:
+          id: edit_media
+          table: media
+          field: edit_media
           relationship: none
           group_type: group
           admin_label: ''
@@ -114,11 +113,11 @@ display:
           text: edit
           output_url_as_text: false
           absolute: false
-          entity_type: taxonomy_term
+          entity_type: media
           plugin_id: entity_link_edit
         status:
           id: status
-          table: taxonomy_term_field_data
+          table: media_field_data
           field: status
           relationship: none
           group_type: group
@@ -180,13 +179,13 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: taxonomy_term
+          entity_type: media
           entity_field: status
           plugin_id: field
       filters:
         langcode:
           id: langcode
-          table: taxonomy_term_field_data
+          table: media_field_data
           field: langcode
           relationship: none
           group_type: group
@@ -223,7 +222,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          entity_type: taxonomy_term
+          entity_type: media
           entity_field: langcode
           plugin_id: language
       sorts: {  }
@@ -234,19 +233,13 @@ display:
           id: area_text_custom
           table: views
           field: area_text_custom
-          relationship: none
-          group_type: group
-          admin_label: ''
-          empty: true
-          tokenize: true
-          content: '<a href="/taxonomy/term/{{ raw_arguments.tid }}/translations/add/en/fr?destination=/admin/content/{{ raw_arguments.null }}">create</a>'
           plugin_id: text_custom
       relationships: {  }
       arguments:
-        tid:
-          id: tid
-          table: taxonomy_term_field_data
-          field: tid
+        mid:
+          id: mid
+          table: media_field_data
+          field: mid
           relationship: none
           group_type: group
           admin_label: ''
@@ -276,9 +269,9 @@ display:
           validate_options: {  }
           break_phrase: false
           not: false
-          entity_type: taxonomy_term
-          entity_field: tid
-          plugin_id: taxonomy
+          entity_type: media
+          entity_field: mid
+          plugin_id: numeric
         'null':
           id: 'null'
           table: views
@@ -315,6 +308,7 @@ display:
           must_not_be: false
           plugin_id: 'null'
       display_extenders: {  }
+      title: ''
       filter_groups:
         operator: AND
         groups:
@@ -357,7 +351,7 @@ display:
       filters:
         langcode:
           id: langcode
-          table: taxonomy_term_field_data
+          table: media_field_data
           field: langcode
           relationship: none
           group_type: group
@@ -394,16 +388,29 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          entity_type: taxonomy_term
+          entity_type: media
           entity_field: langcode
           plugin_id: language
       defaults:
         filters: false
         filter_groups: false
+        empty: false
       filter_groups:
         operator: AND
         groups:
           1: AND
+      empty:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: true
+          tokenize: true
+          content: '<a href="/media/{{ raw_arguments.mid }}/edit/translations/add/en/fr?destination=/admin/content/{{ raw_arguments.null }}">create</a>'
+          plugin_id: text_custom
     cache_metadata:
       max-age: -1
       contexts:
@@ -423,7 +430,7 @@ display:
       filters:
         langcode:
           id: langcode
-          table: taxonomy_term_field_data
+          table: media_field_data
           field: langcode
           relationship: none
           group_type: group
@@ -460,7 +467,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          entity_type: taxonomy_term
+          entity_type: media
           entity_field: langcode
           plugin_id: language
       defaults:
@@ -481,7 +488,7 @@ display:
           admin_label: ''
           empty: true
           tokenize: true
-          content: '<a href="/taxonomy/term/{{ raw_arguments.tid }}/translations/add/en/es?destination=/admin/content/{{ raw_arguments.null }}">create</a>'
+          content: '<a href="/media/{{ raw_arguments.mid }}/edit/translations/add/en/es?destination=/admin/content/{{ raw_arguments.null }}">create</a>'
           plugin_id: text_custom
     cache_metadata:
       max-age: -1
@@ -502,7 +509,7 @@ display:
       filters:
         langcode:
           id: langcode
-          table: taxonomy_term_field_data
+          table: media_field_data
           field: langcode
           relationship: none
           group_type: group
@@ -539,7 +546,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          entity_type: taxonomy_term
+          entity_type: media
           entity_field: langcode
           plugin_id: language
       defaults:
@@ -560,7 +567,7 @@ display:
           admin_label: ''
           empty: true
           tokenize: true
-          content: '<a href="/taxonomy/term/{{ raw_arguments.tid }}/translations/add/en/ar?destination=/admin/content/{{ raw_arguments.null }}">create</a>'
+          content: '<a href="/media/{{ raw_arguments.mid }}/edit/translations/add/en/ar?destination=/admin/content/{{ raw_arguments.null }}">create</a>'
           plugin_id: text_custom
     cache_metadata:
       max-age: -1

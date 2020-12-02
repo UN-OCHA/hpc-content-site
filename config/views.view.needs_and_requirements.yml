@@ -131,6 +131,59 @@ display:
           separator: ''
           hide_empty: false
       fields:
+        edit_taxonomy_term:
+          id: edit_taxonomy_term
+          table: taxonomy_term_field_revision
+          field: edit_taxonomy_term
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          text: edit
+          output_url_as_text: true
+          absolute: false
+          entity_type: taxonomy_term
+          plugin_id: entity_link_edit
         name:
           id: name
           table: taxonomy_term_field_data
@@ -143,8 +196,8 @@ display:
           alter:
             alter_text: false
             text: ''
-            make_link: false
-            path: ''
+            make_link: true
+            path: '{{ edit_taxonomy_term }}?destination=/admin/content/needs-and-requirements'
             absolute: false
             external: false
             replace_spaces: false
@@ -182,7 +235,7 @@ display:
           click_sort_column: value
           type: string
           settings:
-            link_to_entity: true
+            link_to_entity: false
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -608,7 +661,7 @@ display:
       path: admin/content/needs-and-requirements
       menu:
         type: tab
-        title: 'Needs and requirements'
+        title: Needs/Requirements
         description: ''
         expanded: false
         parent: system.admin_content

@@ -37,10 +37,6 @@
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-
-  @include desktop {
-    flex-flow: row nowrap;
-  }
 }
 
 .cd-soft-footer__button {
@@ -56,18 +52,6 @@
   position: relative;
   padding: 0 1rem;
   text-align: center;
-
-  @include desktop {
-    height: 60px;
-
-    [dir='ltr'] & {
-      text-align: left;
-    }
-
-    [dir='rtl'] & {
-      text-align: right;
-    }
-  }
 }
 
 @mixin cd-sf-separator {
@@ -119,36 +103,12 @@
     }
   }
 
-  @include desktop {
-    // Within soft footer
-    flex: 1 0 70%;
-    order: 3;
-
-    // Layout of this component
-    flex-flow: row nowrap;
-    padding-bottom: 0;
-    margin-bottom: 0;
-    border-bottom: 0;
-
-    // Remove mobile separator
-    &::after {
-      content: none;
-    }
-
-    // Now add the separator back in a totally different way!
-    @include cd-sf-separator;
-  }
-
   img {
     // original dimensions: 42x60
     width: 42px;
     height: 60px;
     //          visual-height - SVG height / 2
     margin-top: calc((42px - 60px) / 2);
-
-    @include desktop {
-      margin-top: 0;
-    }
   }
 
   p {
@@ -157,21 +117,6 @@
     font-size: .875em;
     font-weight: 900;
     max-width: 400px;
-
-    @include desktop {
-      max-width: 590px;
-      font-size: .7em;
-
-      html[dir='ltr'] & {
-        margin-left: 1rem;
-        text-align: left;
-      }
-
-      html[dir='rtl'] & {
-        margin-right: 1rem;
-        text-align: right;
-      }
-    }
   }
 
   a,
@@ -198,19 +143,6 @@
     padding-left: 1rem;
   }
 
-  @include desktop {
-    flex-basis: 15%;
-    padding: 0;
-
-    [dir='ltr'] & {
-      text-align: left;
-    }
-
-    [dir='rtl'] & {
-      text-align: right;
-    }
-  }
-
   img {
     // original dimensions: 438x200
     width: 100px;
@@ -234,24 +166,6 @@
     border-right: 1px solid $implementation-primary;
   }
 
-  @include desktop {
-    flex-basis: 20%;
-
-    // Unset the mobile separator and adjust padding for new separator...
-    [dir='ltr'] & {
-      border: 0;
-      padding-right: 2rem;
-    }
-
-    [dir='rtl'] & {
-      border: 0;
-      padding-left: 2rem;
-    }
-
-    // Now add the separator back in a totally different way!
-    @include cd-sf-separator;
-  }
-
   img {
     // original dimensions: 223.24x61.4
     //
@@ -260,10 +174,5 @@
     // account.
     width: 135px;
     height: 37.1px;
-
-    @include desktop {
-      width: 218px;
-      height: 60px;
-    }
   }
 }

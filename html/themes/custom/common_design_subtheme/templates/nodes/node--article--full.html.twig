@@ -108,10 +108,15 @@
       {{ content.field_appeals }}
     </div>
   </header>
+
   {% if local_tasks %}
   <div class="node__local_tasks content-width clearfix">{{ local_tasks }}</div>
   {% endif %}
+
   <div{{ content_attributes.addClass('node__content').addClass('gho-article__content') }}>
     {{ content|without(['field_hero_image', 'field_section', 'field_appeals']) }}
   </div>
+
+  {% set ghoSocialLinksClass = 'gho-article__social-links' %}
+  {% include '@common_design_subtheme/content/gho-social-links.html.twig' %}
 </article>

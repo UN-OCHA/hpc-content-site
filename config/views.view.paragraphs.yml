@@ -1,6 +1,6 @@
 uuid: ea9d706c-04bd-4d28-aaa2-452bef875ab5
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - paragraphs
@@ -227,15 +227,33 @@ display:
         - url.query_args
         - user.permissions
       tags:
-        - 'config:core.entity_view_display.paragraph.image.default'
-        - 'config:core.entity_view_display.paragraph.image.hero_image'
-        - 'config:core.entity_view_display.paragraph.image_link.default'
-        - 'config:core.entity_view_display.paragraph.image_link.linked_image_medium'
-        - 'config:core.entity_view_display.paragraph.image_link.linked_image_small'
-        - 'config:core.entity_view_display.paragraph.image_link.link_with_background_image_medium'
-        - 'config:core.entity_view_display.paragraph.image_link.link_with_background_image_small'
+        - 'config:core.entity_view_display.paragraph.achievement.default'
+        - 'config:core.entity_view_display.paragraph.achievement.preview'
+        - 'config:core.entity_view_display.paragraph.article_list.default'
+        - 'config:core.entity_view_display.paragraph.bottom_figure_row.default'
+        - 'config:core.entity_view_display.paragraph.bottom_figure_row.top_figures'
+        - 'config:core.entity_view_display.paragraph.facts_and_figures.default'
+        - 'config:core.entity_view_display.paragraph.facts_and_figures.single_column'
+        - 'config:core.entity_view_display.paragraph.facts_and_figures.three_columns'
+        - 'config:core.entity_view_display.paragraph.facts_and_figures.two_columns'
+        - 'config:core.entity_view_display.paragraph.further_reading.default'
+        - 'config:core.entity_view_display.paragraph.image_with_text.default'
+        - 'config:core.entity_view_display.paragraph.image_with_text.facts_and_figures'
+        - 'config:core.entity_view_display.paragraph.interactive_content.default'
+        - 'config:core.entity_view_display.paragraph.interactive_content.preview'
         - 'config:core.entity_view_display.paragraph.layout.default'
+        - 'config:core.entity_view_display.paragraph.needs_and_requirements.default'
+        - 'config:core.entity_view_display.paragraph.photo_gallery.default'
+        - 'config:core.entity_view_display.paragraph.photo_gallery.single_column'
+        - 'config:core.entity_view_display.paragraph.photo_gallery.two_columns'
+        - 'config:core.entity_view_display.paragraph.section_index.default'
+        - 'config:core.entity_view_display.paragraph.separator.default'
+        - 'config:core.entity_view_display.paragraph.story.default'
+        - 'config:core.entity_view_display.paragraph.story.preview'
+        - 'config:core.entity_view_display.paragraph.sub_article.default'
+        - 'config:core.entity_view_display.paragraph.sub_article.preview'
         - 'config:core.entity_view_display.paragraph.text.default'
+        - 'config:core.entity_view_display.paragraph.text.preview'
   page_1:
     display_plugin: page
     id: page_1
@@ -261,12 +279,30 @@ display:
         - url.query_args
         - user.permissions
       tags:
-        - 'config:core.entity_view_display.paragraph.image.default'
-        - 'config:core.entity_view_display.paragraph.image.hero_image'
-        - 'config:core.entity_view_display.paragraph.image_link.default'
-        - 'config:core.entity_view_display.paragraph.image_link.linked_image_medium'
-        - 'config:core.entity_view_display.paragraph.image_link.linked_image_small'
-        - 'config:core.entity_view_display.paragraph.image_link.link_with_background_image_medium'
-        - 'config:core.entity_view_display.paragraph.image_link.link_with_background_image_small'
+        - 'config:core.entity_view_display.paragraph.achievement.default'
+        - 'config:core.entity_view_display.paragraph.achievement.preview'
+        - 'config:core.entity_view_display.paragraph.article_list.default'
+        - 'config:core.entity_view_display.paragraph.bottom_figure_row.default'
+        - 'config:core.entity_view_display.paragraph.bottom_figure_row.top_figures'
+        - 'config:core.entity_view_display.paragraph.facts_and_figures.default'
+        - 'config:core.entity_view_display.paragraph.facts_and_figures.single_column'
+        - 'config:core.entity_view_display.paragraph.facts_and_figures.three_columns'
+        - 'config:core.entity_view_display.paragraph.facts_and_figures.two_columns'
+        - 'config:core.entity_view_display.paragraph.further_reading.default'
+        - 'config:core.entity_view_display.paragraph.image_with_text.default'
+        - 'config:core.entity_view_display.paragraph.image_with_text.facts_and_figures'
+        - 'config:core.entity_view_display.paragraph.interactive_content.default'
+        - 'config:core.entity_view_display.paragraph.interactive_content.preview'
         - 'config:core.entity_view_display.paragraph.layout.default'
+        - 'config:core.entity_view_display.paragraph.needs_and_requirements.default'
+        - 'config:core.entity_view_display.paragraph.photo_gallery.default'
+        - 'config:core.entity_view_display.paragraph.photo_gallery.single_column'
+        - 'config:core.entity_view_display.paragraph.photo_gallery.two_columns'
+        - 'config:core.entity_view_display.paragraph.section_index.default'
+        - 'config:core.entity_view_display.paragraph.separator.default'
+        - 'config:core.entity_view_display.paragraph.story.default'
+        - 'config:core.entity_view_display.paragraph.story.preview'
+        - 'config:core.entity_view_display.paragraph.sub_article.default'
+        - 'config:core.entity_view_display.paragraph.sub_article.preview'
         - 'config:core.entity_view_display.paragraph.text.default'
+        - 'config:core.entity_view_display.paragraph.text.preview'

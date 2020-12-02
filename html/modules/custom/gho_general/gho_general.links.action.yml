@@ -76,7 +76,6 @@ gho_general.add_interactive_content_type:
   # https://www.drupal.org/project/drupal/issues/1344902 is solved.
   class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
 
-
 gho_general.add_document:
   title: 'Add document'
   route_name: entity.media.add_form
@@ -88,6 +87,17 @@ gho_general.add_document:
   # https://www.drupal.org/project/drupal/issues/1344902 is solved.
   class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
 
+gho_general.add_author:
+  title: 'Add author'
+  route_name: entity.media.add_form
+  route_parameters:
+    media_type: author
+  appears_on:
+    - view.media.page_media_authors
+  # Temporary solution to ensure redirection to the origin page until
+  # https://www.drupal.org/project/drupal/issues/1344902 is solved.
+  class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
+
 gho_general.add_image:
   title: 'Add image'
   route_name: entity.media.add_form
@@ -95,6 +105,17 @@ gho_general.add_image:
     media_type: image
   appears_on:
     - view.media.page_media_images
+  # Temporary solution to ensure redirection to the origin page until
+  # https://www.drupal.org/project/drupal/issues/1344902 is solved.
+  class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd
+
+gho_general.add_video:
+  title: 'Add video'
+  route_name: entity.media.add_form
+  route_parameters:
+    media_type: video
+  appears_on:
+    - view.media.page_media_videos
   # Temporary solution to ensure redirection to the origin page until
   # https://www.drupal.org/project/drupal/issues/1344902 is solved.
   class: \Drupal\menu_ui\Plugin\Menu\LocalAction\MenuLinkAdd

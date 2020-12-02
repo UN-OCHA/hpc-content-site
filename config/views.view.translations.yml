@@ -278,6 +278,41 @@ display:
           entity_type: node
           entity_field: nid
           plugin_id: node_nid
+        'null':
+          id: 'null'
+          table: views
+          field: 'null'
+          relationship: none
+          group_type: group
+          admin_label: ''
+          default_action: default
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: false
+          title: ''
+          default_argument_type: raw
+          default_argument_options:
+            index: 2
+            use_alias: false
+          default_argument_skip_url: false
+          summary_options:
+            base_path: ''
+            count: true
+            items_per_page: 25
+            override: false
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: true
+          validate:
+            type: none
+            fail: ignore
+          validate_options: {  }
+          must_not_be: false
+          plugin_id: 'null'
       display_extenders: {  }
       filter_groups:
         operator: AND
@@ -310,7 +345,7 @@ display:
           admin_label: ''
           empty: true
           tokenize: true
-          content: '<a href="/node/{{ raw_arguments.nid }}/translations/add/en/fr">create</a>'
+          content: '<a href="/node/{{ raw_arguments.nid }}/translations/add/en/fr?destination=/admin/content/{{ raw_arguments.null }}">create</a>'
           plugin_id: text_custom
       defaults:
         empty: false
@@ -461,7 +496,7 @@ display:
           admin_label: ''
           empty: true
           tokenize: true
-          content: '<a href="/node/{{ raw_arguments.nid }}/translations/add/en/es">create</a>'
+          content: '<a href="/node/{{ raw_arguments.nid }}/translations/add/en/es?destination=/admin/content/{{ raw_arguments.null }}">create</a>'
           plugin_id: text_custom
     cache_metadata:
       max-age: -1
@@ -541,7 +576,7 @@ display:
           admin_label: ''
           empty: true
           tokenize: true
-          content: '<a href="/node/{{ raw_arguments.nid }}/translations/add/en/ar">create</a>'
+          content: '<a href="/node/{{ raw_arguments.nid }}/translations/add/en/ar?destination=/admin/content/{{ raw_arguments.null }}">create</a>'
           plugin_id: text_custom
     cache_metadata:
       max-age: -1

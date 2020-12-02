@@ -24,30 +24,35 @@
 .gho-section-index__pre-title {
   display: block;
   margin-bottom: 0.6rem;
-  font-size: 0.875rem;
+  font-size: 0.675rem;
   font-weight: 700;
-  line-height: 0.875rem;
-  letter-spacing: 0.05rem;
+  line-height: 0.675rem;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
   color: #fff;
 }
 .gho-section-index__title {
   margin: 0;
   padding: 0;
   font-size: 1.625rem;
-  font-weight: 700;
+  font-weight: 900;
   line-height: 1.75rem;
   color: #fff;
 }
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   .gho-section-index__title {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
+    font-size: 2.5rem;
+    line-height: 2.65rem;
   }
 }
 @media (min-width: 1024px) {
+  .gho-section-index__pre-title {
+    font-size: 0.875rem;
+    line-height: 0.875rem;
+  }
   .gho-section-index__title {
     font-size: 3.75rem;
-    line-height: 3.25rem;
+    line-height: 3.75rem;
   }
 }
 
@@ -71,6 +76,12 @@
   .gho-section-index__description {
     font-size: 1.125rem;
     line-height: 2rem;
+  }
+}
+@media (min-width: 1024px) {
+  .gho-section-index__description {
+    font-size: 1.3125rem;
+    line-height: 2.25rem;
   }
 }
 .gho-section-index__description p:first-child {

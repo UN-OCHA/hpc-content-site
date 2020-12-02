@@ -1,7 +1,7 @@
 .gho-social-links {
   color: #1f1f1f;
   width: 100%;
-  margin-bottom: -32px; /* keep in sync with height of the individual flex-items */
+  margin-bottom: -16px; /* keep in sync with height of the individual flex-items */
   z-index: 5; /* keep them clickable */
 }
 .gho-social-links ul {
@@ -12,14 +12,14 @@
   padding: 0;
 }
 .gho-social-links li {
-  flex: 0 0 32px;
+  flex: 0 0 16px;
   list-style-type: none;
   margin: 0 4px;
 }
 .gho-social-links__link {
   display: block;
-  width: 32px;
-  height: 32px;
+  width: 16px;
+  height: 16px;
   margin: 0;
   padding: 0;
 }

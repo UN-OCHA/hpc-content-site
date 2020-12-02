@@ -20,6 +20,9 @@
 .gho-aside--dark .cls-1 {
   fill: #fff;
 }
+.gho-aside--dark .f {
+  fill: #1f1f1f;
+}
 .gho-aside__pre-title {
   margin: 0;
   font-size: 1rem;

@@ -53,6 +53,8 @@ gho-social-links:
   css:
     theme:
       components/gho-social-links/gho-social-links.css: {}
+  js:
+    components/gho-social-links/gho-social-links.js: {}
 
 gho-footnotes:
   js:

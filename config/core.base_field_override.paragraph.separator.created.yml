@@ -1,0 +1,18 @@
+uuid: 88489f68-8b43-4603-af5f-e3b8c362bd2a
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.separator
+id: paragraph.separator.created
+field_name: created
+entity_type: paragraph
+bundle: separator
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

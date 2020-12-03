@@ -20,6 +20,8 @@ display:
           label: Título
         type:
           label: 'Tipo de contenido'
+        changed:
+          label: Changed
       filters:
         title:
           expose:

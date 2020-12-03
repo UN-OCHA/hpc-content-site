@@ -1,0 +1,20 @@
+uuid: b68e30a2-40fe-4714-97e4-88a686220128
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.author
+  module:
+    - path
+id: media.author.path
+field_name: path
+entity_type: media
+bundle: author
+label: 'URL alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

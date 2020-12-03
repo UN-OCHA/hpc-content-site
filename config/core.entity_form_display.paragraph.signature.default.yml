@@ -1,0 +1,21 @@
+uuid: a2c53c3b-c0ec-452b-b3da-ed98d622fae9
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.signature
+id: paragraph.signature.default
+targetEntityType: paragraph
+bundle: signature
+mode: default
+content:
+  status:
+    type: boolean_checkbox
+    weight: 0
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  created: true
+  translation: true

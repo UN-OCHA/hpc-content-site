@@ -1,0 +1,20 @@
+uuid: d6aaae5d-b45c-4042-ab66-ae5416059290
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.achievement
+id: node.achievement.uid
+field_name: uid
+entity_type: node
+bundle: achievement
+label: 'Authored by'
+description: 'The username of the content author.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: 'Drupal\node\Entity\Node::getDefaultEntityOwner'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

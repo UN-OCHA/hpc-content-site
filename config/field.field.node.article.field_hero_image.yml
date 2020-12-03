@@ -13,7 +13,7 @@ bundle: article
 label: 'Hero Image'
 description: 'Large image displayed at the top of the article''s page.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

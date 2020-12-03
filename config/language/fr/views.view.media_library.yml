@@ -14,6 +14,9 @@ display:
             items_per_page_label: 'Éléments par page'
             items_per_page_options_all_label: '- Tout -'
             offset_label: Décalage
+      fields:
+        media_bulk_form:
+          action_title: Action
       filters:
         status:
           expose:
@@ -53,6 +56,8 @@ display:
   page:
     display_options:
       fields:
+        media_bulk_form:
+          action_title: Action
         edit_media:
           alter:
             text: 'Modifier {{ name }}'

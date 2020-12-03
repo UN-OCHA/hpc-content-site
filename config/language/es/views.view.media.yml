@@ -34,7 +34,7 @@ display:
             format_custom_true: Publicado
             format_custom_false: 'Sin publicar'
         changed:
-          label: Actualizado
+          label: Changed
         operations:
           label: Operaciones
       filters:

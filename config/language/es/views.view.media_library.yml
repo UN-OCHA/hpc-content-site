@@ -95,7 +95,7 @@ display:
         uid:
           label: Autor
         changed:
-          label: Actualizado
+          label: Changed
       filters:
         name:
           expose:

@@ -1,0 +1,20 @@
+uuid: 322945fa-a01c-4b21-a832-f704b259b1f8
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.appeals
+  module:
+    - path
+id: taxonomy_term.appeals.path
+field_name: path
+entity_type: taxonomy_term
+bundle: appeals
+label: 'URL alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

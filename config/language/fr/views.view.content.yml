@@ -20,6 +20,8 @@ display:
           label: Titre
         type:
           label: 'Type de contenu'
+        changed:
+          label: 'Mis à jour'
       filters:
         title:
           expose:

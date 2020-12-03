@@ -68,7 +68,7 @@ display:
         uid:
           label: المؤلف
         changed:
-          label: التحديث
+          label: Changed
       filters:
         name:
           expose:

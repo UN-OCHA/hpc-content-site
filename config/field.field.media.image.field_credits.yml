@@ -12,7 +12,7 @@ bundle: image
 label: Credits
 description: 'Image credits in the form <em>Photographer/OCHA</em>. Ex: <em>Jane Doe/OCHA</em>.'
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

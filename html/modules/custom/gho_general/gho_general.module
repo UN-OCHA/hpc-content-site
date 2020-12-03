@@ -7,6 +7,7 @@
 
 use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\Entity\User;
 
 /**
  * Implements hook_element_info_alter().
@@ -14,11 +15,11 @@ use Drupal\Core\Form\FormStateInterface;
  * Add pre and post render callbacks to ensure the contextual links and
  * admin toolbar are always rendered with the site default language.
  */
-function gho_access_element_info_alter(array &$info) {
+function gho_general_element_info_alter(array &$info) {
   $ids = ['contextual_links', 'toolbar'];
   foreach ($ids as $id) {
     if (isset($info[$id])) {
-      gho_access_add_language_switch_callbacks($info[$id]);
+      gho_general_add_language_switch_callbacks($info[$id]);
     }
   }
 }
@@ -29,12 +30,12 @@ function gho_access_element_info_alter(array &$info) {
  * @param array $element
  *   A renderable array.
  */
-function gho_access_add_language_switch_callbacks(array &$element) {
+function gho_general_add_language_switch_callbacks(array &$element) {
   if (!isset($element['#pre_render'])) {
     $element['#pre_render'] = [];
   }
-  array_unshift($element['#pre_render'], 'gho_access_switch_language_pre_render');
-  $element['#post_render'][] = 'gho_access_switch_language_post_render';
+  array_unshift($element['#pre_render'], 'gho_general_switch_language_pre_render');
+  $element['#post_render'][] = 'gho_general_switch_language_post_render';
 }
 
 /**
@@ -46,8 +47,8 @@ function gho_access_add_language_switch_callbacks(array &$element) {
  * @return array
  *   A renderable array.
  */
-function gho_access_switch_language_pre_render(array $element) {
-  $element['#original_langcode'] = gho_access_switch_to_language();
+function gho_general_switch_language_pre_render(array $element) {
+  $element['#original_langcode'] = gho_general_switch_to_language();
   return $element;
 }
 
@@ -62,9 +63,9 @@ function gho_access_switch_language_pre_render(array $element) {
  * @return array
  *   A renderable array.
  */
-function gho_access_switch_language_post_render($content, array $element) {
+function gho_general_switch_language_post_render($content, array $element) {
   if (isset($element['#original_langcode'])) {
-    gho_access_switch_to_language($element['#original_langcode']);
+    gho_general_switch_to_language($element['#original_langcode']);
     unset($element['#original_langcode']);
   }
   return $content;
@@ -79,7 +80,7 @@ function gho_access_switch_language_post_render($content, array $element) {
  * @return string
  *   Current language code before the switch.
  */
-function gho_access_switch_to_language($langcode = '') {
+function gho_general_switch_to_language($langcode = '') {
   $language_manager = \Drupal::service('language_manager');
   $translation_manager = \Drupal::service('string_translation');
 
@@ -121,15 +122,123 @@ function gho_general_entity_form_display_alter(EntityFormDisplayInterface &$form
 
 /**
  * Implements hook_form_node_form_alter().
- *
- * Alter the promote option for the homepage to indicate it controls the global
- * visibility of the content for a given language.
  */
 function gho_general_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // Ensure editors can publish/unpublish content.
   $form['status']['#access'] = TRUE;
 
+  // Alter the promote option for the homepage to indicate it controls the
+  // global visibility of the content for a given language.
   gho_general_alter_homepage_promote_checkbox($form, $form_state);
+
+  // Set the form language direction.
+  gho_general_set_form_language_direction($form, $form_state);
+}
+
+/**
+ * Implements hook_form_media_form_alter().
+ */
+function gho_general_form_media_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Set the form language direction.
+  gho_general_set_form_language_direction($form, $form_state);
+}
+
+/**
+ * Implements hook_form_taxonomy_term_form_alter().
+ */
+function gho_general_form_taxonomy_term_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Set the form language direction.
+  gho_general_set_form_language_direction($form, $form_state);
+}
+
+/**
+ * Set the language direction on the form.
+ *
+ * @param array $form
+ *   Form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form state.
+ */
+function gho_general_set_form_language_direction(array &$form, FormStateInterface $form_state) {
+  $langcode = $form_state->get('langcode');
+  if (isset($langcode)) {
+    $language = gho_general_form_language_static($langcode);
+    $form['#attributes']['lang'] = $language->getId();
+    $form['#attributes']['dir'] = $language->getDirection();
+  }
+}
+
+/**
+ * Store the language direction so we can update ckeditor.
+ *
+ * @param string|null $langcode
+ *   Code of the language for which to get the direction.
+ *
+ * @return string
+ *   Language direction.
+ */
+function gho_general_form_language_static($langcode = NULL) {
+  static $language = NULL;
+  if (!isset($language)) {
+    $language_manager = \Drupal::service('language_manager');
+    if (isset($langcode)) {
+      $language = $language_manager->getLanguage($langcode);
+    }
+    if (empty($language)) {
+      $language = $language_manager->getDefaultLanguage();
+    }
+  }
+  return $language;
+}
+
+/**
+ * Implements hook_editor_js_settings_alter().
+ *
+ * Set the language for the content of the editors but keep UI in English.
+ */
+function gho_general_editor_js_settings_alter(&$settings) {
+  $language = gho_general_form_language_static();
+  if (isset($language)) {
+    foreach ($settings['editor']['formats'] as &$editor) {
+      $editor['editorSettings']['contentsLanguage'] = $language->getId();
+      $editor['editorSettings']['contentsLangDirection'] = $language->getDirection();
+    }
+  }
+}
+
+/**
+ * Switch to the site default language before rendering the given element.
+ *
+ * @param array $element
+ *   A renderable array.
+ *
+ * @return array
+ *   A renderable array.
+ */
+function gho_general_form_switch_language_pre_render(array $element) {
+  if (isset($element['#langcode'])) {
+    $element['#original_langcode'] = gho_general_switch_to_language($element['#langcode'], FALSE);
+  }
+  return $element;
+}
+
+/**
+ * Switch back to the current language after rendering the given element.
+ *
+ * @param string $content
+ *   Rendered element's content.
+ * @param array $element
+ *   A renderable array.
+ *
+ * @return array
+ *   A renderable array.
+ */
+function gho_general_form_switch_language_post_render($content, array $element) {
+  if (isset($element['#original_langcode'])) {
+    gho_general_switch_to_language($element['#original_langcode'], FALSE);
+    unset($element['#original_langcode']);
+  }
+  return $content;
 }
 
 /**
@@ -166,5 +275,50 @@ function gho_general_alter_homepage_promote_checkbox(array &$form, FormStateInte
 function gho_general_form_menu_link_content_menu_link_content_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if (isset($form['title']['widget']['0']['value']['#type'])) {
     $form['title']['widget']['0']['value']['#type'] = 'textarea';
+  }
+}
+
+/**
+ * Implements hook_preprocess_media().
+ */
+function gho_general_preprocess_media(&$variables) {
+  gho_general_flag_untranslated('media', $variables);
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function gho_general_preprocess_node(&$variables) {
+  gho_general_flag_untranslated('node', $variables);
+}
+
+/**
+ * Implements hook_preprocess_taxonomy_term().
+ */
+function gho_general_preprocess_taxonomy_term(&$variables) {
+  gho_general_flag_untranslated('term', $variables);
+}
+
+/**
+ * Flag the entity as not having a translation for the current language.
+ *
+ * @param string $entity_key
+ *   Key to retrieve the entity from the variables array.
+ * @param array $variables
+ *   Variables array as passed to a hook_preprocess().
+ */
+function gho_general_flag_untranslated($entity_key, array &$variables) {
+  static $is_administrator;
+
+  if (!isset($is_administrator)) {
+    $is_administrator = User::load(\Drupal::currentUser()->id())->hasRole('administrator');
+  }
+
+  if (isset($variables[$entity_key]) && $is_administrator) {
+    $langcode = $variables[$entity_key]->language()->getId();
+
+    if ($langcode !== \Drupal::service('language_manager')->getConfigOverrideLanguage()->getId()) {
+      $variables['attributes']['class'][] = $entity_key . '--untranslated';
+    }
   }
 }

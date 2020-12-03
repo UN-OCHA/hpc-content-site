@@ -48,3 +48,7 @@
 .gho-story__social-links {
   order: -1;
 }
+.gho-story--full .gho-story__social-links {
+  position: relative;
+  top: 3px;
+}

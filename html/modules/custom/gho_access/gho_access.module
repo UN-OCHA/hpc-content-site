@@ -264,3 +264,35 @@ function gho_access_language_switch_links_alter(?array &$links, $type, $path) {
     }
   }
 }
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * Ensure our hook_language_fallback_candidates_view_alter() runs last.
+ */
+function gho_access_module_implements_alter(&$implementations, $hook) {
+  if ($hook === 'language_fallback_candidates_entity_view_alter') {
+    $group = $implementations['gho_access'];
+    unset($implementations['gho_access']);
+    $implementations['gho_access'] = $group;
+  }
+}
+
+/**
+ * Implements hook_language_fallback_candidates_entity_view_alter().
+ *
+ * This ensures we always try first the candidate for the current language
+ * even for anonymous users that don't have the `Translate` permissions.
+ *
+ * This means that if a media for example doesn't have a French translation
+ * when viewing a page in French that uses that media, then it will not be
+ * displayed.
+ *
+ * This also means that if a paragraph is "not published" for the translation
+ * in the current language, it will not be displayed to anonymous users.
+ *
+ * @see content_translation_language_fallback_candidates_entity_view_alter()
+ */
+function gho_access_language_fallback_candidates_entity_view_alter(array &$candidates, array $context) {
+  $candidates = [$context['langcode'] => $context['langcode']] + $candidates;
+}

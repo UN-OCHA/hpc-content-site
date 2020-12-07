@@ -42,28 +42,34 @@
         ]
       %}
 
-      <li{{ item.attributes.addClass(classes) }}>
-
-        {% if item.is_expanded %}
-
-          <button{{ attributes.addAttribute('data-cd-toggable', 'true') }}>
-            <span class="cd-main-menu__btn-label">{{ item.title }}</span>
-            <svg class="cd-icon cd-icon--arrow-down" width="16" height="16" aria-hidden="true" focusable="false">
-              <use xlink:href="#cd-icon--arrow-down"></use>
-            </svg>
-          </button>
-
-        {% else %}
-
-          <a href="{{ item.url }}"><span>{{ item.title }}</span></a>
-
-        {% endif %}
+      {% if item.is_expanded %}
 
         {% if item.below %}
-          {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+
+          <li{{ item.attributes.addClass(classes) }}>
+
+              <button{{ attributes.addAttribute('data-cd-toggable', 'true') }}>
+                <span class="cd-main-menu__btn-label">{{ item.title }}</span>
+                <svg class="cd-icon cd-icon--arrow-down" width="16" height="16" aria-hidden="true" focusable="false">
+                  <use xlink:href="#cd-icon--arrow-down"></use>
+                </svg>
+              </button>
+
+              {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+
+          </li>
+
         {% endif %}
 
-      </li>
+      {% else %}
+
+          <li{{ item.attributes.addClass(classes) }}>
+
+            <a href="{{ item.url }}"><span>{{ item.title }}</span></a>
+
+          </li>
+
+      {% endif %}
 
     {% endfor %}
     </ul>

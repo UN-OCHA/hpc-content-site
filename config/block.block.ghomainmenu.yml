@@ -1,0 +1,20 @@
+uuid: d8c28a10-0ac9-47c1-a57f-fadc488d4857
+langcode: en
+status: true
+dependencies:
+  module:
+    - gho_general
+  theme:
+    - common_design_subtheme
+id: ghomainmenu
+theme: common_design_subtheme
+region: header_navigation
+weight: 0
+provider: null
+plugin: gho_main_menu
+settings:
+  id: gho_main_menu
+  label: 'GHO main menu'
+  provider: gho_general
+  label_display: visible
+visibility: {  }

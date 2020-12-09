@@ -158,7 +158,7 @@ function gho_fields_preprocess_node__story(&$variables) {
  */
 function gho_fields_field_formatter_settings_summary_alter(&$summary, $context) {
   if ($context['formatter']->getPluginId() == 'responsive_image') {
-    $summary[] = t('Lazy-loading: ' . $context['formatter']->getThirdPartySetting('gho_fields', 'lazyloading', 'auto'));
+    $summary[] = t('Lazy-loading: @status', ['@status' => $context['formatter']->getThirdPartySetting('gho_fields', 'lazyloading', 'auto')]);
   }
 }
 
@@ -175,12 +175,12 @@ function gho_fields_field_formatter_third_party_settings_form($plugin, $field_de
       'lazy' => 'lazy',
       'eager' => 'eager',
     ];
-    $element['lazyloading'] = array(
+    $element['lazyloading'] = [
       '#type' => 'select',
       '#title' => t('Lazy loading'),
       '#options' => $options,
-      '#default_value' => $plugin->getThirdPartySetting('gho_fields', 'lazyloading' , 'auto'),
-    );
+      '#default_value' => $plugin->getThirdPartySetting('gho_fields', 'lazyloading', 'auto'),
+    ];
   }
   return $element;
 }
@@ -190,17 +190,17 @@ function gho_fields_field_formatter_third_party_settings_form($plugin, $field_de
  */
 function gho_fields_preprocess_field(&$variables) {
   // Provide an extra variable to the field template when the field uses
-  // a formatter of type 'responsive_image'
+  // a formatter of type 'responsive_image'.
   if ($variables['element']['#formatter'] == 'responsive_image') {
     $entity = $variables['element']['#object'];
     $view_mode = $variables['element']['#view_mode'];
     $field_name = $variables['element']['#field_name'];
 
-    // get the field formatter settings...
+    // Get the field formatter settings.
     $entity_display = EntityViewDisplay::collectRenderDisplay($entity, $view_mode);
     $field_display = $entity_display->getComponent($field_name);
 
-    // make the setting available in the field template
+    // Make the setting available in the field template.
     if (isset($field_display['third_party_settings']['gho_fields']['lazyloading'])) {
       $variables['loading'] = $field_display['third_party_settings']['gho_fields']['lazyloading'];
     }

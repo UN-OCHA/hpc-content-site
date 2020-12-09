@@ -158,7 +158,9 @@ function gho_fields_preprocess_node__story(&$variables) {
  */
 function gho_fields_field_formatter_settings_summary_alter(&$summary, $context) {
   if ($context['formatter']->getPluginId() == 'responsive_image') {
-    $summary[] = t('Lazy-loading: @status', ['@status' => $context['formatter']->getThirdPartySetting('gho_fields', 'lazyloading', 'auto')]);
+    $summary[] = t('Lazy-loading: @status', [
+      '@status' => $context['formatter']->getThirdPartySetting('gho_fields', 'lazyloading', 'auto'),
+    ]);
   }
 }
 

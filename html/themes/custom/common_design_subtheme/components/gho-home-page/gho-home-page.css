@@ -153,7 +153,11 @@
  */
 .gho-home-page__content > .gho-home-page__logo {
   margin-top: 3.75rem;
-  padding-top: 2.25rem;
+}
+.gho-home-page__content > .gho-home-page__logo::before {
+  content: "";
+  display: block;
+  padding-bottom: 2.25rem;
   border-top: 1px solid #d8d8d8;
 }
 .gho-home-page__content > .gho-home-page__logo img {
@@ -211,6 +215,10 @@
  */
 .gho-home-page__content > .gho-interactive-content {
   margin-top: 3.75rem;
-  padding-top: 2.25rem;
+}
+.gho-home-page__content > .gho-interactive-content::before {
+  content: "";
+  display: block;
+  padding-bottom: 2.25rem;
   border-top: 1px solid #d8d8d8;
 }

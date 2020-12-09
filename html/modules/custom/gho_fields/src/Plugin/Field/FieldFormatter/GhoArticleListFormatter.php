@@ -2,12 +2,14 @@
 
 namespace Drupal\gho_fields\Plugin\Field\FieldFormatter;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\node\NodeInterface;
+use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\Core\Template\Attribute;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -38,6 +40,13 @@ class GhoArticleListFormatter extends FormatterBase {
   protected $languageManager;
 
   /**
+   * The current user.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
+
+  /**
    * Constructs a FormatterBase object.
    *
    * @param string $plugin_id
@@ -58,12 +67,15 @@ class GhoArticleListFormatter extends FormatterBase {
    *   The entity type manager.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager.
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   The current user.
    */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager) {
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager, AccountProxyInterface $current_user) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
 
     $this->entityTypeManager = $entity_type_manager;
     $this->languageManager = $language_manager;
+    $this->currentUser = $current_user;
   }
 
   /**
@@ -79,7 +91,8 @@ class GhoArticleListFormatter extends FormatterBase {
       $configuration['view_mode'],
       $configuration['third_party_settings'],
       $container->get('entity_type.manager'),
-      $container->get('language_manager')
+      $container->get('language_manager'),
+      $container->get('current_user')
     );
   }
 
@@ -92,6 +105,7 @@ class GhoArticleListFormatter extends FormatterBase {
 
     $storage = $this->entityTypeManager->getStorage('node');
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
+    $cache = new CacheableMetadata();
 
     // Retrieve the node links.
     foreach ($items as $item) {
@@ -113,32 +127,45 @@ class GhoArticleListFormatter extends FormatterBase {
 
     // Generate links for the nodes that are published and accessible.
     if (isset($entity_type) && !empty($entity_ids)) {
-      $ids = $storage
-        ->getQuery()
-        ->condition('nid', array_keys($entity_ids), 'IN')
-        ->condition('status', NodeInterface::PUBLISHED)
-        ->condition('langcode', $langcode)
-        ->accessCheck(TRUE)
-        ->execute();
+      $nodes = $storage->loadMultiple(array_keys($entity_ids));
 
-      if (!empty($ids)) {
-        $nodes = $storage->loadMultiple($ids);
+      foreach ($entity_ids as $id => $url) {
+        if (isset($nodes[$id])) {
+          $node = $nodes[$id];
+          $attributes = new Attribute();
 
-        foreach ($entity_ids as $id => $url) {
-          if (isset($nodes[$id])) {
+          if ($node->hasTranslation($langcode)) {
+            $node = $node->getTranslation($langcode);
+          }
+          else {
+            $attributes->addClass('node--untranslated');
+          }
+
+          if (!$node->isPublished()) {
+            $attributes->addClass('node--unpublished');
+          }
+
+          $access = $node->access('view', $this->currentUser, TRUE);
+
+          if ($access->isAllowed()) {
             $links[] = [
               'url' => $url,
-              'title' => $nodes[$id]->title->value,
+              'title' => $node->title->value,
+              'attributes' => $attributes,
             ];
           }
+
+          $cache = $cache->merge(CacheableMetadata::createFromObject($access));
         }
       }
     }
+
     if (!empty($links)) {
       $element = [
         '#theme' => 'gho_article_list_formatter',
         '#links' => $links,
       ];
+      $cache->applyTo($element);
     }
 
     return $element;

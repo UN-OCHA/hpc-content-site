@@ -12,7 +12,7 @@ dependencies:
     - taxonomy
     - user
 id: needs_and_requirements
-label: 'Needs and requirements'
+label: 'Content - Needs and requirements'
 module: views
 description: 'List overviews and appeals and their needs and requirements'
 tag: ''

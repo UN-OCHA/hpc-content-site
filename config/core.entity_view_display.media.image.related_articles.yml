@@ -9,6 +9,7 @@ dependencies:
     - media.type.image
     - responsive_image.styles.related_articles
   module:
+    - gho_fields
     - layout_builder
     - responsive_image
 third_party_settings:
@@ -28,7 +29,9 @@ content:
     settings:
       responsive_image_style: related_articles
       image_link: ''
-    third_party_settings: {  }
+    third_party_settings:
+      gho_fields:
+        lazyloading: lazy
 hidden:
   created: true
   field_credits: true

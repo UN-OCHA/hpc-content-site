@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "11fcc9128031255a16474edf3f5f0843",
+    "content-hash": "6d81df146af82f2dd03bcec3b580dffa",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3451,7 +3451,7 @@
             "extra": {
                 "drupal": {
                     "version": "8.x-1.4",
-                    "datestamp": "1593179846",
+                    "datestamp": "1591383264",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3672,8 +3672,8 @@
                     "dev-1.0.x": "1.0.x-dev"
                 },
                 "drupal": {
-                    "version": "1.0.0-beta3+29-dev",
-                    "datestamp": "1606779526",
+                    "version": "1.0.0-beta3+30-dev",
+                    "datestamp": "1606840418",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -3726,7 +3726,7 @@
             "extra": {
                 "drupal": {
                     "version": "8.x-1.1",
-                    "datestamp": "1597142482",
+                    "datestamp": "1597142372",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4185,10 +4185,6 @@
                 {
                     "name": "himanshu-dixit",
                     "homepage": "https://www.drupal.org/user/3513954"
-                },
-                {
-                    "name": "wells",
-                    "homepage": "https://www.drupal.org/user/2452278"
                 }
             ],
             "description": "Harmonizes social networking services in Drupal",
@@ -4342,7 +4338,7 @@
                 "shasum": "c7e3a3757282e4c94e3c1fff08d01e22155cb853"
             },
             "require": {
-                "drupal/core": "^8.7.7 || ^9"
+                "drupal/core": "^8.8 || ^9"
             },
             "type": "drupal-module",
             "extra": {
@@ -12390,5 +12386,8 @@
         "php": ">=7.3"
     },
     "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.3"
+    },
     "plugin-api-version": "1.1.0"
 }

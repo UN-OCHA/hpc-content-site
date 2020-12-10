@@ -13,7 +13,7 @@ bundle: article
 label: Section
 description: 'Section the article belongs to. (Ex: Part one: Humanitarian Trends).'
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

@@ -21,6 +21,15 @@ class RouteSubscriber extends RouteSubscriberBase {
       $requirements += $route->getRequirements();
       $route->setRequirements($requirements);
     }
+
+    // Ensure all the admin content pages are considered as admin routes as this
+    // cannot be defined in the views UI...
+    // @see https://www.drupal.org/project/drupal/issues/2719797
+    foreach ($collection->all() as $route) {
+      if (strpos($route->getPath(), '/admin/content') === 0) {
+        $route->setOption('_admin_route', TRUE);
+      }
+    }
   }
 
 }

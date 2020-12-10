@@ -1,0 +1,18 @@
+uuid: dd393f16-cbfd-43bf-b75d-25465dfa49da
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.needs_and_requirements
+id: paragraph.needs_and_requirements.created
+field_name: created
+entity_type: paragraph
+bundle: needs_and_requirements
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

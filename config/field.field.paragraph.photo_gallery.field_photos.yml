@@ -13,7 +13,7 @@ bundle: photo_gallery
 label: Photos
 description: 'Up to 4 photos.'
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

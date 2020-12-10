@@ -1,7 +1,8 @@
 .gho-caption {
   /* Margin top and bottom vary depending on where the caption is used, so
    * we let the components using them to set their margins. */
-  margin: 0;
+  margin-top: 0;
+  margin-bottom: 0;
   font-size: 0.75rem;
   line-height: 1.25rem;
   color: #707070;

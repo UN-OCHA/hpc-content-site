@@ -12,7 +12,7 @@ bundle: section_index
 label: Section
 description: 'Section to be displayed before the title.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

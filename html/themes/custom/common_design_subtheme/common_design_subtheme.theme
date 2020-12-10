@@ -151,24 +151,6 @@ function common_design_subtheme_preprocess_node(&$variables) {
   $variables['attributes']['lang'] = $language->getId();
   $variables['attributes']['dir'] = $language->getDirection();
 
-  // Editorial status for the node to help distinguished if a node is published
-  // and what is the current language.
-  $user = \Drupal::currentUser();
-  if ($user->hasPermission('edit any ' . $node->bundle() . ' content')) {
-    // We don't want to show the translated language name for that so we need
-    // that map because ::getName() returns the translated name.
-    $languages = [
-      'ar' => 'Arabic',
-      'en' => 'English',
-      'es' => 'Spanish',
-      'fr' => 'French',
-    ];
-    $variables['attributes']['data-status'] = implode(' - ', [
-      $languages[$language->getId()] ?? $language->getName(),
-      $node->isPublished() ? 'published' : 'not published',
-    ]);
-  }
-
   // Prepare the title and local tasks so we have better control over where
   // to display them for content in full mode or for the home page.
   $view_mode = $variables['view_mode'] ?? '';
@@ -514,9 +496,9 @@ function common_design_subtheme_get_block_render_array($id, $translate = TRUE) {
     // This can be a boolean or an object implementing AccessResultInterface.
     if ($access === TRUE || ($access instanceof AccessResultInterface && $access->isAllowed())) {
       if ($translate === FALSE) {
-        $current_langcode = gho_access_switch_to_language();
+        $current_langcode = gho_general_switch_to_language();
         $build = $plugin_block->build();
-        gho_access_switch_to_language($current_langcode);
+        gho_general_switch_to_language($current_langcode);
       }
       else {
         $build = $plugin_block->build();

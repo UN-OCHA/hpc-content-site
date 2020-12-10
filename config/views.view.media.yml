@@ -9,14 +9,14 @@ dependencies:
     - media.type.image
     - media.type.video
   module:
+    - gho_fields
     - image
     - media
     - user
-    - views_field_view
 _core:
   default_config_hash: UZP23LgBdE1XbvscbLCdd9uTk5t4qqA1Z56koqbvYP0
 id: media
-label: Media
+label: 'Content - Media'
 module: views
 description: 'Find and manage media.'
 tag: ''
@@ -1163,10 +1163,10 @@ display:
           entity_type: media
           entity_field: changed
           plugin_id: field
-        view:
-          id: view
-          table: views
-          field: view
+        gho_translation_links:
+          id: gho_translation_links
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
@@ -1211,18 +1211,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_1
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
-        view_1:
-          id: view_1
-          table: views
-          field: view
+          text: link
+          langcode: en
+          entity_type: media
+          plugin_id: gho_translation_links
+        gho_translation_links_1:
+          id: gho_translation_links_1
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
-          label: French
+          label: English
           exclude: false
           alter:
             alter_text: false
@@ -1263,18 +1263,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_2
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
-        view_2:
-          id: view_2
-          table: views
-          field: view
+          text: link
+          langcode: fr
+          entity_type: media
+          plugin_id: gho_translation_links
+        gho_translation_links_2:
+          id: gho_translation_links_2
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
-          label: Spanish
+          label: English
           exclude: false
           alter:
             alter_text: false
@@ -1315,18 +1315,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_3
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
-        view_3:
-          id: view_3
-          table: views
-          field: view
+          text: link
+          langcode: es
+          entity_type: media
+          plugin_id: gho_translation_links
+        gho_translation_links_3:
+          id: gho_translation_links_3
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
-          label: Arabic
+          label: English
           exclude: false
           alter:
             alter_text: false
@@ -1367,10 +1367,10 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_4
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
+          text: link
+          langcode: ar
+          entity_type: media
+          plugin_id: gho_translation_links
       filters:
         name:
           id: name
@@ -2045,10 +2045,10 @@ display:
           entity_type: media
           entity_field: changed
           plugin_id: field
-        view:
-          id: view
-          table: views
-          field: view
+        gho_translation_links:
+          id: gho_translation_links
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
@@ -2093,18 +2093,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_1
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
-        view_1:
-          id: view_1
-          table: views
-          field: view
+          text: link
+          langcode: en
+          entity_type: media
+          plugin_id: gho_translation_links
+        gho_translation_links_1:
+          id: gho_translation_links_1
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
-          label: French
+          label: English
           exclude: false
           alter:
             alter_text: false
@@ -2145,18 +2145,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_2
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
-        view_2:
-          id: view_2
-          table: views
-          field: view
+          text: link
+          langcode: fr
+          entity_type: media
+          plugin_id: gho_translation_links
+        gho_translation_links_2:
+          id: gho_translation_links_2
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
-          label: Spanish
+          label: English
           exclude: false
           alter:
             alter_text: false
@@ -2197,18 +2197,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_3
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
-        view_3:
-          id: view_3
-          table: views
-          field: view
+          text: link
+          langcode: es
+          entity_type: media
+          plugin_id: gho_translation_links
+        gho_translation_links_3:
+          id: gho_translation_links_3
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
-          label: Arabic
+          label: English
           exclude: false
           alter:
             alter_text: false
@@ -2249,10 +2249,10 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_4
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
+          text: link
+          langcode: ar
+          entity_type: media
+          plugin_id: gho_translation_links
       sorts: {  }
       enabled: true
     cache_metadata:
@@ -3317,10 +3317,10 @@ display:
           entity_type: media
           entity_field: changed
           plugin_id: field
-        view:
-          id: view
-          table: views
-          field: view
+        gho_translation_links:
+          id: gho_translation_links
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
@@ -3365,18 +3365,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_1
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
-        view_1:
-          id: view_1
-          table: views
-          field: view
+          text: link
+          langcode: en
+          entity_type: media
+          plugin_id: gho_translation_links
+        gho_translation_links_1:
+          id: gho_translation_links_1
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
-          label: French
+          label: English
           exclude: false
           alter:
             alter_text: false
@@ -3417,18 +3417,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_2
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
-        view_2:
-          id: view_2
-          table: views
-          field: view
+          text: link
+          langcode: fr
+          entity_type: media
+          plugin_id: gho_translation_links
+        gho_translation_links_2:
+          id: gho_translation_links_2
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
-          label: Spanish
+          label: English
           exclude: false
           alter:
             alter_text: false
@@ -3469,18 +3469,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_3
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
-        view_3:
-          id: view_3
-          table: views
-          field: view
+          text: link
+          langcode: es
+          entity_type: media
+          plugin_id: gho_translation_links
+        gho_translation_links_3:
+          id: gho_translation_links_3
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
-          label: Arabic
+          label: English
           exclude: false
           alter:
             alter_text: false
@@ -3521,10 +3521,10 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_4
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
+          text: link
+          langcode: ar
+          entity_type: media
+          plugin_id: gho_translation_links
       sorts: {  }
       enabled: true
     cache_metadata:
@@ -4012,10 +4012,10 @@ display:
           entity_type: media
           entity_field: changed
           plugin_id: field
-        view:
-          id: view
-          table: views
-          field: view
+        gho_translation_links:
+          id: gho_translation_links
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
@@ -4060,18 +4060,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_1
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
-        view_1:
-          id: view_1
-          table: views
-          field: view
+          text: link
+          langcode: en
+          entity_type: media
+          plugin_id: gho_translation_links
+        gho_translation_links_1:
+          id: gho_translation_links_1
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
-          label: French
+          label: English
           exclude: false
           alter:
             alter_text: false
@@ -4112,18 +4112,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_2
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
-        view_2:
-          id: view_2
-          table: views
-          field: view
+          text: link
+          langcode: fr
+          entity_type: media
+          plugin_id: gho_translation_links
+        gho_translation_links_2:
+          id: gho_translation_links_2
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
-          label: Spanish
+          label: English
           exclude: false
           alter:
             alter_text: false
@@ -4164,18 +4164,18 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_3
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
-        view_3:
-          id: view_3
-          table: views
-          field: view
+          text: link
+          langcode: es
+          entity_type: media
+          plugin_id: gho_translation_links
+        gho_translation_links_3:
+          id: gho_translation_links_3
+          table: media
+          field: gho_translation_links
           relationship: none
           group_type: group
           admin_label: ''
-          label: Arabic
+          label: English
           exclude: false
           alter:
             alter_text: false
@@ -4216,10 +4216,10 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          view: media_translations
-          display: embed_4
-          arguments: '{{ raw_fields.mid }}'
-          plugin_id: view
+          text: link
+          langcode: ar
+          entity_type: media
+          plugin_id: gho_translation_links
       sorts: {  }
       enabled: true
     cache_metadata:

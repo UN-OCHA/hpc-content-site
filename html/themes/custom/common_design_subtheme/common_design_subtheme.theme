@@ -538,27 +538,3 @@ function common_design_subtheme_preprocess_block(&$variables) {
   $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
   $variables['language'] = $language;
 }
-
-/**
- * Implements template_preprocess_image().
- *
- * Override images to enable native lazy-loading.
- *
- * @see https://web.dev/browser-level-image-lazy-loading/
- *
- * @param array $variables
- *   An associative array containing:
- *   - Everything defined in template_preprocess_image().
- *   - loading: string with three possible values: auto|eager|lazy
- */
-function common_design_subtheme_preprocess_image(&$variables) {
-  if (isset($variables['loading'])) {
-    $variables['attributes']['loading'] = $variables['loading'];
-
-    // IE11 supports a different HTML attribute specifically for lazy-loading
-    // so only set it when loading=lazy.
-    if ($variables['loading'] == 'lazy') {
-      $variables['attributes']['lazyload'] = '1';
-    }
-  }
-}

@@ -1,0 +1,18 @@
+uuid: d755164b-6dc9-44b8-8d84-a8f08e2ceca8
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.story_type
+id: taxonomy_term.story_type.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: story_type
+label: Changed
+description: 'The time that the term was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

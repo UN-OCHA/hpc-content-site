@@ -12,7 +12,7 @@ bundle: achievement
 label: Sources
 description: 'List of sources (short names like UNICEF), separated by a comma. Ex: <em>UNDP, UNICEF</em>.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

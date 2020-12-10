@@ -12,7 +12,7 @@ bundle: interactive_content
 label: 'Embed code'
 description: 'Embed code from datawrapper (responsive image). <strong>Do not include the <em>script</em>, only the <em>iframe</em>.</strong>'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

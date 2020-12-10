@@ -1,0 +1,15 @@
+uuid: 02660d5d-8aec-439f-be50-ed32f183ad16
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.layout
+id: paragraph.layout.default
+targetEntityType: paragraph
+bundle: layout
+mode: default
+content: {  }
+hidden:
+  created: true
+  status: true
+  translation: true

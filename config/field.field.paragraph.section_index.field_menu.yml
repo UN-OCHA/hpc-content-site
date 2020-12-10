@@ -12,7 +12,7 @@ bundle: section_index
 label: Menu
 description: 'Menu containing the list of articles to display.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

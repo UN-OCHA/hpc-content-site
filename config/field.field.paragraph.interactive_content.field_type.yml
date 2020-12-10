@@ -13,7 +13,7 @@ bundle: interactive_content
 label: Type
 description: 'Type of the interactive content. Ex: Map.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

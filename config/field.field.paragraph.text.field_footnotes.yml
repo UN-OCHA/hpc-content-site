@@ -21,7 +21,7 @@ bundle: text
 label: Footnotes
 description: 'Enter one footnote per line. They can be referenced in the text field above via their number in the form <code>[X]</code> where <code>X</code> is the number of the footnote. Links to the footnotes will be generated automatically when rendered.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

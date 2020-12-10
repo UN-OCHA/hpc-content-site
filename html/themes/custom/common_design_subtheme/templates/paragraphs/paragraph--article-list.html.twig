@@ -52,13 +52,16 @@
   ]
 %}
 {% set title = content.field_title|render %}
+{% set content = content|without('field_title')|render %}
+{% if content %}
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
       {% if title %}
       <h3 class="gho-article-list__title">{{ title }}</h3>
       {% endif %}
-      {{ content|without('field_title') }}
+      {{ content }}
     {% endblock %}
   </div>
 {% endblock paragraph %}
+{% endif %}

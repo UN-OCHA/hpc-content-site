@@ -1,0 +1,14 @@
+/*------------------------------------------------------------------------------
+ * Editorial indication for unpublished/untranslated entities.
+ *----------------------------------------------------------------------------*/
+.user-logged-in [class*='--unpublished'] {
+  outline: 4px dashed  #ffc310;
+}
+
+.user-logged-in [class*='--untranslated'] {
+  outline: 4px solid #fd7b1a;
+}
+
+.user-logged-in [class*='--unpublished'][class*='--untranslated'] {
+  outline: 4px solid #c30;
+}

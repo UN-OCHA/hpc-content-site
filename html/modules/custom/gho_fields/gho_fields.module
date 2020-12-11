@@ -8,6 +8,7 @@
 use Drupal\media\IFrameMarkup;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
 
 /**
  * Implements hook_theme().
@@ -148,4 +149,73 @@ function gho_fields_preprocess_node__story(&$variables) {
     '#theme' => 'item_list',
     '#items' => $items,
   ];
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary_alter().
+ *
+ * Indicated whether our custom lazy-loading is enabled on responsive images.
+ */
+function gho_fields_field_formatter_settings_summary_alter(&$summary, $context) {
+  if ($context['formatter']->getPluginId() == 'responsive_image') {
+    $summary[] = t('Lazy-loading: @status', [
+      '@status' => $context['formatter']->getThirdPartySetting('gho_fields', 'lazyloading', 'auto'),
+    ]);
+  }
+}
+
+/**
+ * Implements hook_field_formatter_third_party_settings_form().
+ */
+function gho_fields_field_formatter_third_party_settings_form($plugin, $field_definition, $view_mode, $form, $form_state) {
+  $element = [];
+  if ($plugin->getPluginId() == 'responsive_image') {
+    // These option labels are intentionally un-translated because the labels
+    // represent HTML attribute values found in a W3 spec.
+    $options = [
+      'auto' => 'auto',
+      'lazy' => 'lazy',
+      'eager' => 'eager',
+    ];
+    $element['lazyloading'] = [
+      '#type' => 'select',
+      '#title' => t('Lazy loading'),
+      '#options' => $options,
+      '#default_value' => $plugin->getThirdPartySetting('gho_fields', 'lazyloading', 'auto'),
+    ];
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_preprocess_field().
+ *
+ * Add lazy loading attributes to images for field using a formatter of type
+ * 'responsive_image'.
+ *
+ * @see https://web.dev/browser-level-image-lazy-loading/
+ */
+function gho_fields_preprocess_field(&$variables) {
+  if ($variables['element']['#formatter'] == 'responsive_image') {
+    $entity = $variables['element']['#object'];
+    $view_mode = $variables['element']['#view_mode'];
+    $field_name = $variables['element']['#field_name'];
+
+    // Get the field formatter settings.
+    $entity_display = EntityViewDisplay::collectRenderDisplay($entity, $view_mode);
+    $field_display = $entity_display->getComponent($field_name);
+
+    // Make the setting available in the field template.
+    if (isset($field_display['third_party_settings']['gho_fields']['lazyloading'])) {
+      $loading = $field_display['third_party_settings']['gho_fields']['lazyloading'];
+      foreach ($variables['items'] as &$item) {
+        $item['content']['#item_attributes']['loading'] = $loading;
+        // IE11 supports a different HTML attribute specifically for
+        // lazy-loading so only set it when loading=lazy.
+        if ($loading === 'lazy') {
+          $item['content']['#item_attributes']['lazyload'] = '1';
+        }
+      }
+    }
+  }
 }

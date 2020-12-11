@@ -1,13 +1,13 @@
-uuid: 970d7774-f420-4ed8-a174-825ad8abe6c8
+uuid: ebe6aa66-a885-453f-9429-4b2c0f2e45f0
 langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.media.facts_and_figures
+    - core.entity_view_mode.media.hero_image_sub_article
     - field.field.media.image.field_credits
     - field.field.media.image.field_media_image
     - media.type.image
-    - responsive_image.styles.facts_and_figures
+    - responsive_image.styles.hero_image
   module:
     - gho_fields
     - layout_builder
@@ -16,10 +16,10 @@ third_party_settings:
   layout_builder:
     allow_custom: false
     enabled: false
-id: media.image.facts_and_figures
+id: media.image.hero_image_sub_article
 targetEntityType: media
 bundle: image
-mode: facts_and_figures
+mode: hero_image_sub_article
 content:
   field_media_image:
     type: responsive_image
@@ -27,7 +27,7 @@ content:
     region: content
     label: hidden
     settings:
-      responsive_image_style: facts_and_figures
+      responsive_image_style: hero_image
       image_link: ''
     third_party_settings:
       gho_fields:

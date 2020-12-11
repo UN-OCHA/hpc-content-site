@@ -1,0 +1,10 @@
+uuid: 88f63b03-6960-4e92-bfbe-911de2e5006f
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.hero_image_sub_article
+label: 'Hero image - sub-article'
+targetEntityType: media
+cache: true

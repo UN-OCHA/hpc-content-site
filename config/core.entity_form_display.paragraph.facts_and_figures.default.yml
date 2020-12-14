@@ -15,7 +15,7 @@ mode: default
 content:
   field_paragraphs:
     type: entity_reference_paragraphs
-    weight: 2
+    weight: 1
     settings:
       title: 'Fact and figure'
       title_plural: 'Facts and figures'
@@ -33,6 +33,13 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  status:
+    type: boolean_checkbox
+    weight: 2
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
 hidden:
   created: true
-  status: true
+  translation: true

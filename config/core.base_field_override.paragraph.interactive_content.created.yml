@@ -1,0 +1,18 @@
+uuid: ea27f40a-2e99-4e81-b3e8-34e783a9d215
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.interactive_content
+id: paragraph.interactive_content.created
+field_name: created
+entity_type: paragraph
+bundle: interactive_content
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

@@ -1,0 +1,22 @@
+uuid: 7ff9a4d9-8901-4319-8a3b-c25a0adb72c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.appeals
+id: taxonomy_term.appeals.status
+field_name: status
+entity_type: taxonomy_term
+bundle: appeals
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -13,7 +13,7 @@ bundle: story
 label: Story
 description: 'Type part of the title of the story to include.'
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

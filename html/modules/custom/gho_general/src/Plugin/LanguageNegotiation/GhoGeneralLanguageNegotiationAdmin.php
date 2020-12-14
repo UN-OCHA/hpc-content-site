@@ -115,10 +115,6 @@ class GhoGeneralLanguageNegotiationAdmin extends LanguageNegotiationMethodBase i
    * {@inheritdoc}
    */
   public function getLangcode(Request $request = NULL) {
-    // Force the use of the site's default language for the admin pages.
-    if ($this->isAdminPath($request)) {
-      return $this->languageManager->getDefaultLanguage()->getId();
-    }
     return NULL;
   }
 

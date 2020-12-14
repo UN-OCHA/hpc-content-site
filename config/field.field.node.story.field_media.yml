@@ -14,7 +14,7 @@ bundle: story
 label: Media
 description: 'Media used to illustrate the story. It can be an image, a video or an embedded content (infographic etc.).'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

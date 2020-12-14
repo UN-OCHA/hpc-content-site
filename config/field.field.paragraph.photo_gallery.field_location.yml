@@ -12,7 +12,7 @@ bundle: photo_gallery
 label: Location
 description: 'Location in the form <em>Location, Country</em>. Ex: <em>Mbuji-Mayi, RDC</em>.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

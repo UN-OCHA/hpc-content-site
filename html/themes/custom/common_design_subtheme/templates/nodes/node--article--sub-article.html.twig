@@ -73,9 +73,8 @@
  */
 #}
 {{ attach_library('common_design_subtheme/gho-sub-article') }}
-{%
-  set hero_image = content.field_hero_image|render
-%}
+{{ attach_library('common_design_subtheme/gho-social-links') }}
+{% set hero_image = content.field_hero_image|render %}
 {%
   set classes = [
     'node',
@@ -100,4 +99,9 @@
   <div{{ content_attributes.addClass('node__content').addClass('gho-sub-article__content') }}>
     {{ content|without(['field_hero_image', 'field_appeals']) }}
   </div>
+
+  {%
+    include '@common_design_subtheme/content/gho-social-links.html.twig'
+    with { 'ghoSocialLinksClass': 'gho-sub-article__social-links' }
+  %}
 </article>

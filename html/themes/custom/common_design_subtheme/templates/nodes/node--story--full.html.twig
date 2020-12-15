@@ -78,6 +78,7 @@
 #}
 {{ attach_library('common_design_subtheme/gho-caption') }}
 {{ attach_library('common_design_subtheme/gho-story') }}
+{{ attach_library('common_design_subtheme/gho-social-links') }}
 {% set pre_title = content.field_type|render|striptags|trim %}
 {# Pre-render the local_tasks so the `if local_tasks` below can work. #}
 {%
@@ -102,9 +103,11 @@
     {% endif %}
     {{ title }}
   </header>
+
   {% if local_tasks %}
   <div class="node__local_tasks content-width clearfix">{{ local_tasks }}</div>
   {% endif %}
+
   <div{{ content_attributes.addClass('node__content').addClass('gho-story__content') }}>
     {{ content.field_media }}
     <div class="gho-story__caption gho-caption gho-caption--formatted">
@@ -113,6 +116,12 @@
         <span class="gho-caption__credits">{{ content.credits }}</span>
       </div>
     </div>
+
     {{ content|without(['field_type', 'field_media', 'field_text', 'credits']) }}
   </div>
+
+  {%
+    include '@common_design_subtheme/content/gho-social-links.html.twig'
+    with { 'ghoSocialLinksClass': 'gho-story__social-links' }
+  %}
 </article>

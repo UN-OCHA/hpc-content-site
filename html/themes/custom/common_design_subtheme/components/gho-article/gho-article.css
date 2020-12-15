@@ -68,12 +68,6 @@
   line-height: 2.375rem;
   color: #1f1f1f;
 }
-html[dir='ltr'] .gho-article .page-title {
-  padding: 0 113px 0 0; /* make room for social links */
-}
-html[dir='rtl'] .gho-article .page-title {
-  padding: 0 0 0 113px; /* make room for social links */
-}
 @media (min-width: 768px) {
   .gho-article .page-title {
     font-size: 2.875rem;
@@ -108,23 +102,23 @@ html[dir='rtl'] .gho-article__heading .gho-appeals-tags {
 }
 .gho-article--no-hero .gho-article__social-links {
   position: relative;
-  top: 4.75rem;
+  top: 2rem;
 }
 
 /* When hero is present, we need to offset the social links by a dynamic amount
    that corresponds to the height of the hero image. */
 .gho-article--hero .gho-article__social-links {
   position: relative;
-  top: calc(50vw + 4.65rem); /* 2:1 image is the 50vw */
+  top: calc(50vw + 1.95rem); /* 2:1 image is the 50vw */
 }
 /* adjust for Content that overlays Hero */
 @media (min-width: 1056px) {
   .gho-article--hero .gho-article__social-links {
-    top: calc(50vw + 4.55rem - 190px);
+    top: calc(50vw + 1.85rem - 190px);
   }
 }
 @media (min-width: 1418px) {
   .gho-article--hero .gho-article__social-links {
-    top: calc(700px + 4.7rem - 190px); /* layout stops growing and is fixed to half of 1400px */
+    top: calc(700px + 2rem - 190px); /* layout stops growing and is fixed to half of 1400px */
   }
 }

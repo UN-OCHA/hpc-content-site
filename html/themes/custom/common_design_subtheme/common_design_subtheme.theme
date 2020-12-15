@@ -165,10 +165,12 @@ function common_design_subtheme_preprocess_node(&$variables) {
   $icon_facebook = file_get_contents(drupal_get_path('theme', 'common_design_subtheme') . '/components/gho-social-links/img/icon--facebook.svg');
   $icon_linkedin = file_get_contents(drupal_get_path('theme', 'common_design_subtheme') . '/components/gho-social-links/img/icon--linkedin.svg');
   $icon_copyurl = file_get_contents(drupal_get_path('theme', 'common_design_subtheme') . '/components/gho-social-links/img/icon--copyurl.svg');
+  $icon_pdf = file_get_contents(drupal_get_path('theme', 'common_design_subtheme') . '/components/gho-social-links/img/icon--pdf.svg');
   $variables['icon_twitter'] = $icon_twitter;
   $variables['icon_facebook'] = $icon_facebook;
   $variables['icon_linkedin'] = $icon_linkedin;
   $variables['icon_copyurl'] = $icon_copyurl;
+  $variables['icon_pdf'] = $icon_pdf;
 }
 
 /**

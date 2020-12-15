@@ -1,7 +1,7 @@
 .gho-social-links {
   color: #1f1f1f;
   width: 100%;
-  margin-bottom: -16px; /* keep in sync with height of the individual flex-items */
+  margin-bottom: -14px; /* keep in sync with height of the individual flex-items */
   z-index: 5; /* keep them clickable */
 }
 .gho-social-links ul {
@@ -28,6 +28,10 @@
   fill: #1f1f1f;
   width: 100%;
   height: 100%;
+}
+
+.gho-social-links__link--pdf {
+  width: 19.25px;
 }
 
 /**

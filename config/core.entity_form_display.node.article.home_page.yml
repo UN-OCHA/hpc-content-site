@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.article.field_caption
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
+    - field.field.node.article.field_pdf
     - field.field.node.article.field_report_link
     - field.field.node.article.field_section
     - field.field.node.article.field_summary
@@ -120,6 +121,7 @@ hidden:
   created: true
   field_appeals: true
   field_author: true
+  field_pdf: true
   field_thumbnail_image: true
   langcode: true
   path: true

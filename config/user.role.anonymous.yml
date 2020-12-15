@@ -10,6 +10,7 @@ weight: -10
 is_admin: false
 permissions:
   - 'access content'
+  - 'download article'
   - 'view media'
   - 'view own unpublished media'
   - 'view published achievement content'

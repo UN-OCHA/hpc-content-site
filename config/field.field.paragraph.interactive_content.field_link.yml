@@ -14,7 +14,7 @@ bundle: interactive_content
 label: Link
 description: 'Link to the interactive content.'
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

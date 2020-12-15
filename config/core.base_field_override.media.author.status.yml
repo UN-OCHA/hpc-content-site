@@ -1,0 +1,22 @@
+uuid: 13c4eb87-baf5-427a-9d63-9c96163a8fb3
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.author
+id: media.author.status
+field_name: status
+entity_type: media
+bundle: author
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

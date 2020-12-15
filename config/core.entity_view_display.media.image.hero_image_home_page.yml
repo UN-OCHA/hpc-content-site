@@ -9,6 +9,7 @@ dependencies:
     - media.type.image
     - responsive_image.styles.hero_image_home_page
   module:
+    - gho_fields
     - layout_builder
     - responsive_image
 third_party_settings:
@@ -28,7 +29,9 @@ content:
     settings:
       responsive_image_style: hero_image_home_page
       image_link: ''
-    third_party_settings: {  }
+    third_party_settings:
+      gho_fields:
+        lazyloading: eager
 hidden:
   created: true
   field_credits: true

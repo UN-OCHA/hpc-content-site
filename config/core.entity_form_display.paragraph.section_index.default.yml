@@ -95,7 +95,14 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  status:
+    type: boolean_checkbox
+    weight: 6
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
 hidden:
   created: true
   field_menu: true
-  status: true
+  translation: true

@@ -1,0 +1,18 @@
+uuid: 45bed9fb-8bc4-45fb-aae3-fda8988a438c
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.needs_and_requirements
+id: taxonomy_term.needs_and_requirements.name
+field_name: name
+entity_type: taxonomy_term
+bundle: needs_and_requirements
+label: Name
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

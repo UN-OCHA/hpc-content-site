@@ -30,13 +30,13 @@
         {{ icon_copyurl|raw }}
       </a>
     </li>
-    {#
+    {% if pdf_download_url %}
     <li>
-      <a class="gho-social-links__link gho-social-links__link--pdf" href="###PDF-URL">
+      <a class="gho-social-links__link gho-social-links__link--pdf" href="{{ pdf_download_url }}">
         <span class="visually-hidden">{{ 'Download PDF'|t }}</span>
         {{ icon_pdf|raw }}
       </a>
     </li>
-    #}
+    {% endif %}
   </ul>
 </footer>

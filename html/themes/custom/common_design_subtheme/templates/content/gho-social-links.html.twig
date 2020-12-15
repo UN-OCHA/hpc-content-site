@@ -2,7 +2,8 @@
 {% set socialAttributes = create_attribute() %}
 
 <footer{{ socialAttributes.addClass(classes) }}>
-  {% set shareMessage = 'Custom share message goes here.' %}
+  {% set shareText = label|render|striptags|default(title|render|striptags) %}
+  {% set shareMessage = 'Global Humanitarian Overview 2021: '|t ~ shareText %}
   {% set shareUrl = 'https://gho.unocha.org' ~ url %}
   <ul>
     <li>

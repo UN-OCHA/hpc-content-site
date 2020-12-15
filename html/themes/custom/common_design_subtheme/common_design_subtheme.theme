@@ -159,8 +159,8 @@ function common_design_subtheme_preprocess_node(&$variables) {
     $variables['local_tasks'] = common_design_subtheme_get_block_render_array('local_tasks_block', FALSE);
   }
 
-  // Add the SVGs for gho-social-links so we can output them in multiple templates
-  // without having to keep them up to date.
+  // Add the SVGs for gho-social-links so we can output them in multiple
+  // templates without having to keep them up to date.
   $icon_twitter = file_get_contents(drupal_get_path('theme', 'common_design_subtheme') . '/components/gho-social-links/img/icon--twitter.svg');
   $icon_facebook = file_get_contents(drupal_get_path('theme', 'common_design_subtheme') . '/components/gho-social-links/img/icon--facebook.svg');
   $icon_linkedin = file_get_contents(drupal_get_path('theme', 'common_design_subtheme') . '/components/gho-social-links/img/icon--linkedin.svg');
@@ -171,6 +171,14 @@ function common_design_subtheme_preprocess_node(&$variables) {
   $variables['icon_linkedin'] = $icon_linkedin;
   $variables['icon_copyurl'] = $icon_copyurl;
   $variables['icon_pdf'] = $icon_pdf;
+
+  // Add a link to download the PDF version of an article if any.
+  if ($node->bundle() === 'article' && $node->hasField('field_pdf')) {
+    $fid = $node->field_pdf->target_id;
+    if (!empty($fid)) {
+      $variables['pdf_download_url'] = '/node/' . $node->id() . '/download';
+    }
+  }
 }
 
 /**

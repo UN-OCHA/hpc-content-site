@@ -12,6 +12,7 @@ permissions:
   - 'access content'
   - 'cancel account'
   - 'change own username'
+  - 'download article'
   - 'use text format footnotes'
   - 'use text format limited_html'
   - 'view media'

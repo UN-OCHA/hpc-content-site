@@ -1,0 +1,8 @@
+gho_download.download:
+  path: '/node/{node}/download'
+  defaults:
+    _controller: '\Drupal\gho_download\Controller\GhoDownloadController::download'
+    _title: 'Download Article'
+  requirements:
+    _permission: 'download article'
+    _entity_access: node.view

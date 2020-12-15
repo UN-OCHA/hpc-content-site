@@ -1,3 +1,14 @@
+.gho-article.node--view-mode-full {
+  /* Flex-box so we can hoist our social icons up form their low position in the
+     source-order but display them near the top of the Sub-Article */
+  display: flex;
+  flex-flow: row wrap;
+}
+.gho-article.node--view-mode-full > * {
+  flex: 1 0 100%;
+}
+
+
 /* Make sure the image is attached to the bottom of the header. */
 .gho-article {
   margin-top: -2rem;
@@ -14,7 +25,7 @@
 }
 .gho-article__heading {
   padding-top: 2rem;
-  margin: 0 auto;
+  margin: 0 auto 3rem;
 }
 /* Take into account the 8px grey margins: 1040px + 2 * 8x. */
 @media (min-width: 1056px) {
@@ -48,9 +59,10 @@
   }
 }
 .gho-article .page-title {
+  display: inline-block; /* appeals want to sit next to title */
   max-width: var(--reading-width);
   padding: 0;
-  margin: 0 0 3rem 0;
+  margin: 0;
   border: none;
   font-size: 2.25rem;
   line-height: 2.375rem;
@@ -66,5 +78,47 @@
   .gho-article .page-title {
     font-size: 3.25rem;
     line-height: 3.375rem;
+  }
+}
+
+.gho-article__heading .gho-appeals-tags {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 1rem;
+}
+html[dir='ltr'] .gho-article__heading .gho-appeals-tags {
+  margin-left: -84px;
+}
+html[dir='rtl'] .gho-article__heading .gho-appeals-tags {
+  margin-right: -84px;
+}
+.gho-article__heading .gho-appeals-tag {
+  vertical-align: top;
+}
+
+.gho-article__social-links {
+  /* display first */
+  order: -1;
+}
+.gho-article--no-hero .gho-article__social-links {
+  position: relative;
+  top: 2rem;
+}
+
+/* When hero is present, we need to offset the social links by a dynamic amount
+   that corresponds to the height of the hero image. */
+.gho-article--hero .gho-article__social-links {
+  position: relative;
+  top: calc(50vw + 1.95rem); /* 2:1 image is the 50vw */
+}
+/* adjust for Content that overlays Hero */
+@media (min-width: 1056px) {
+  .gho-article--hero .gho-article__social-links {
+    top: calc(50vw + 1.85rem - 190px);
+  }
+}
+@media (min-width: 1418px) {
+  .gho-article--hero .gho-article__social-links {
+    top: calc(700px + 2rem - 190px); /* layout stops growing and is fixed to half of 1400px */
   }
 }

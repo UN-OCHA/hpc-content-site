@@ -47,7 +47,7 @@
   {% if field_name == 'field_requirements' %}
     {% trans %}Requirements <small>(US$)</small>{% endtrans %}
   {% else %}
-    {{ label }}
+    {{ label|t }}
   {% endif %}
   </div>
   {% for item in items %}

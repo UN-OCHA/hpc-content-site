@@ -12,7 +12,7 @@ dependencies:
     - image.style.full_width_2_1_246
     - image.style.full_width_2_1_50
     - image.style.full_width_2_1_66
-    - image.style.full_width_90
+    - image.style.full_width_2_1_90
   theme:
     - common_design
 id: hero_image
@@ -42,7 +42,7 @@ image_style_mappings:
     breakpoint_id: common_design.md
     multiplier: 1x
     image_mapping_type: image_style
-    image_mapping: full_width_90
+    image_mapping: full_width_2_1_90
   -
     breakpoint_id: common_design.md
     multiplier: 2x

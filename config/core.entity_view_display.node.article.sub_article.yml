@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.article.field_caption
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
+    - field.field.node.article.field_pdf
     - field.field.node.article.field_report_link
     - field.field.node.article.field_section
     - field.field.node.article.field_summary
@@ -72,6 +73,7 @@ content:
     type: layout_paragraphs
     region: content
 hidden:
+  field_pdf: true
   field_report_link: true
   field_section: true
   field_summary: true

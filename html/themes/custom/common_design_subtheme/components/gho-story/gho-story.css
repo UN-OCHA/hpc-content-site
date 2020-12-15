@@ -1,3 +1,12 @@
+.gho-story {
+  /* Flex-box so we can hoist our social icons up form their low position in the
+     source-order but display them near the top of the Story */
+  display: flex;
+  flex-flow: row wrap;
+}
+.gho-story > * {
+  flex: 1 0 100%;
+}
 .gho-story--teaser {
   max-width: var(--reading-width);
 }
@@ -35,4 +44,11 @@
 .gho-story__source .item-list li {
   list-style: none;
   margin: 0;
+}
+.gho-story__social-links {
+  order: -1;
+}
+.gho-story--full .gho-story__social-links {
+  position: relative;
+  top: 3px;
 }

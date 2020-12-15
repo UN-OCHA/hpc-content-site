@@ -1,6 +1,15 @@
 /**
  * Base styles
  */
+.node--view-mode-sub-article {
+  /* Flex-box so we can hoist our social icons up form their low position in the
+     source-order but display them near the top of the Sub-Article */
+  display: flex;
+  flex-flow: row wrap;
+}
+.node--view-mode-sub-article > * {
+  flex: 1 0 100%;
+}
 .gho-sub-article-paragraph--no-hero {
   margin-top: 6.75rem;
   padding-top: 4.5rem;
@@ -50,4 +59,8 @@
 }
 .gho-sub-article__heading .gho-appeals-tag {
   vertical-align: top;
+}
+.gho-sub-article__social-links {
+  /* display first */
+  order: -1;
 }

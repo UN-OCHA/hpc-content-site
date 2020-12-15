@@ -1,0 +1,8 @@
+type: module
+name: GHO Download
+description: 'Provides a way to download a PDF version of an article.'
+package: gho
+core_version_requirement: ^8.9 || ^9
+dependencies:
+  - drupal:node
+

@@ -107,11 +107,6 @@
   <div class="node__local_tasks content-width clearfix">{{ local_tasks }}</div>
   {% endif %}
 
-  {#
-    Only show the content when the node is promoted, which means visibility of
-    content in the language of the homepage is enabled.
-  #}
-  {% if node.isPromoted() %}
   <div{{ content_attributes.addClass('node__content').addClass('gho-home-page__content') }}>
     {{ content.field_caption }}
 
@@ -129,5 +124,4 @@
     #}
     {{ content|without(['field_hero_image', 'field_summary', 'field_report_link', 'field_caption']) }}
   </div>
-  {% endif %}
 </article>

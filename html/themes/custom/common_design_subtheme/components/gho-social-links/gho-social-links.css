@@ -12,16 +12,22 @@
   padding: 0;
 }
 .gho-social-links li {
-  flex: 0 0 16px;
+  flex: 0 0 14px;
   list-style-type: none;
   margin: 0 4px;
 }
 .gho-social-links__link {
   display: block;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   margin: 0;
   padding: 0;
+}
+.gho-social-links__link--twitter {
+  width: 17.2px;
+}
+.gho-social-links__link--pdf {
+  width: 19.25px;
 }
 .gho-social-links svg,
 .gho-social-links .cls-1 {

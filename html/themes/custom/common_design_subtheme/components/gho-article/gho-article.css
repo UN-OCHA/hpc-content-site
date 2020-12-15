@@ -69,10 +69,10 @@
   color: #1f1f1f;
 }
 html[dir='ltr'] .gho-article .page-title {
-  padding: 0 94px 0 0; /* make room for social links */
+  padding: 0 113px 0 0; /* make room for social links */
 }
 html[dir='rtl'] .gho-article .page-title {
-  padding: 0 0 0 94px; /* make room for social links */
+  padding: 0 0 0 113px; /* make room for social links */
 }
 @media (min-width: 768px) {
   .gho-article .page-title {

@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.article.field_caption
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
+    - field.field.node.article.field_pdf
     - field.field.node.article.field_report_link
     - field.field.node.article.field_section
     - field.field.node.article.field_summary
@@ -16,9 +17,9 @@ dependencies:
   module:
     - allowed_formats
     - double_field
+    - file
     - inline_entity_form
     - layout_paragraphs
-    - link
     - media_library
     - path
     - text
@@ -93,13 +94,12 @@ content:
     third_party_settings: {  }
     type: layout_paragraphs
     region: content
-  field_report_link:
+  field_pdf:
     weight: 4
     settings:
-      placeholder_url: 'Ex: https://reliefweb.int/gho-2020.pdf'
-      placeholder_title: ''
+      progress_indicator: throbber
     third_party_settings: {  }
-    type: link_default
+    type: file_generic
     region: content
   field_section:
     weight: 0
@@ -148,6 +148,7 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_report_link: true
   langcode: true
   promote: true
   sticky: true

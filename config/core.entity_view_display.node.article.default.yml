@@ -8,16 +8,15 @@ dependencies:
     - field.field.node.article.field_caption
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
+    - field.field.node.article.field_pdf
     - field.field.node.article.field_report_link
     - field.field.node.article.field_section
     - field.field.node.article.field_summary
     - field.field.node.article.field_thumbnail_image
     - node.type.article
   module:
-    - entity_reference_revisions
     - gho_fields
     - layout_paragraphs
-    - link
     - user
 id: node.article.default
 targetEntityType: node
@@ -67,18 +66,6 @@ content:
     third_party_settings: {  }
     type: layout_paragraphs
     region: content
-  field_report_link:
-    type: link
-    weight: 7
-    region: content
-    label: hidden
-    settings:
-      trim_length: null
-      url_only: false
-      url_plain: false
-      rel: '0'
-      target: '0'
-    third_party_settings: {  }
   field_section:
     weight: 1
     label: hidden
@@ -93,6 +80,8 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_pdf: true
+  field_report_link: true
   field_summary: true
   field_thumbnail_image: true
   langcode: true

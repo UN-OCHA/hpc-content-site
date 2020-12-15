@@ -100,6 +100,8 @@
     {{ content|without(['field_hero_image', 'field_appeals']) }}
   </div>
 
-  {% set ghoSocialLinksClass = 'gho-sub-article__social-links' %}
-  {% include '@common_design_subtheme/content/gho-social-links.html.twig' %}
+  {%
+    include '@common_design_subtheme/content/gho-social-links.html.twig'
+    with { 'ghoSocialLinksClass': 'gho-sub-article__social-links' }
+  %}
 </article>

@@ -120,6 +120,8 @@
     {{ content|without(['field_type', 'field_media', 'field_text', 'credits']) }}
   </div>
 
-  {% set ghoSocialLinksClass = 'gho-story__social-links' %}
-  {% include '@common_design_subtheme/content/gho-social-links.html.twig' %}
+  {%
+    include '@common_design_subtheme/content/gho-social-links.html.twig'
+    with { 'ghoSocialLinksClass': 'gho-story__social-links' }
+  %}
 </article>

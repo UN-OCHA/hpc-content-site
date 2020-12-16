@@ -9,15 +9,9 @@
 .gho-social-links ul {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin: 0;
   padding: 0;
-}
-html[dir='ltr'] .gho-social-links ul  {
-  justify-content: flex-start;
-}
-html[dir='rtl'] .gho-social-links ul  {
-  justify-content: flex-end;
 }
 @media (min-width: 576px) {
   .gho-social-links ul {

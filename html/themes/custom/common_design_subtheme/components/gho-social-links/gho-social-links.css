@@ -61,6 +61,8 @@ html[dir='rtl'] .gho-social-links li + li {
  * Copy URL to Clipboard
  *
  * When the button is used, it has a little tooltip for user feedback.
+ *  - :before is the message bubble containing text
+ *  - :after is the little triangle below the message bubble
  */
 .gho-social-links__link--copy {
   position: relative;
@@ -86,12 +88,22 @@ html[dir='rtl'] .gho-social-links li + li {
   border-radius: 5px;
 }
 [dir="ltr"] .gho-social-links__link--copy::before {
-  transform: translateX(-89%);
+  transform: translateX(-40%);
   left: 7px;
 }
 [dir="rtl"] .gho-social-links__link--copy::before {
-  transform: translateX(89%);
+  transform: translateX(40%);
   right: 7px;
+}
+@media screen and (min-width: 576px) {
+  [dir="ltr"] .gho-social-links__link--copy::before {
+    transform: translateX(-89%);
+    left: 7px;
+  }
+  [dir="rtl"] .gho-social-links__link--copy::before {
+    transform: translateX(89%);
+    right: 7px;
+  }
 }
 @media screen and (min-width: 768px) {
   [dir="ltr"] .gho-social-links__link--copy::before {
@@ -126,10 +138,18 @@ html[dir='rtl'] .gho-social-links li + li {
   opacity: 1;
 }
 [dir="ltr"] .gho-social-links__link--copy.is--showing-message::before {
-  transform: translateX(-89%) translateY(-10px);
+  transform: translateX(-40%) translateY(-10px);
 }
 [dir="rtl"] .gho-social-links__link--copy.is--showing-message::before {
-  transform: translateX(89%) translateY(-10px);
+  transform: translateX(40%) translateY(-10px);
+}
+@media screen and (min-width: 576px) {
+  [dir="ltr"] .gho-social-links__link--copy.is--showing-message::before {
+    transform: translateX(-89%) translateY(-10px);
+  }
+  [dir="rtl"] .gho-social-links__link--copy.is--showing-message::before {
+    transform: translateX(89%) translateY(-10px);
+  }
 }
 [dir="ltr"] .gho-social-links__link--copy.is--showing-message::after {
   transform: translateX(-50%) translateY(-10px);

@@ -78,6 +78,7 @@
 #}
 {{ attach_library('common_design_subtheme/gho-caption') }}
 {{ attach_library('common_design_subtheme/gho-story') }}
+{{ attach_library('common_design_subtheme/gho-page-node') }}
 {{ attach_library('common_design_subtheme/gho-social-links') }}
 {% set pre_title = content.field_type|render|striptags|trim %}
 {# Pre-render the local_tasks so the `if local_tasks` below can work. #}
@@ -97,7 +98,7 @@
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
-  <header>
+  <header class="gho-story__header content-width">
     {% if pre_title %}
     <span class="gho-aside__pre-title">{{ pre_title }}</span>
     {% endif %}
@@ -108,7 +109,7 @@
   <div class="node__local_tasks content-width clearfix">{{ local_tasks }}</div>
   {% endif %}
 
-  <div{{ content_attributes.addClass('node__content').addClass('gho-story__content') }}>
+  <div{{ content_attributes.addClass('node__content').addClass('gho-story__content').addClass('content-width') }}>
     {{ content.field_media }}
     <div class="gho-story__caption gho-caption gho-caption--formatted">
       <div class="gho-caption__text">

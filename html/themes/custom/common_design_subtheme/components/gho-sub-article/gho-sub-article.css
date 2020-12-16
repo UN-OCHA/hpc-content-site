@@ -1,14 +1,15 @@
 /**
  * Base styles
  */
-.node--view-mode-sub-article {
+.gho-sub-article {
+  position: relative;
   /* Flex-box so we can hoist our social icons up form their low position in the
      source-order but display them near the top of the Sub-Article */
   display: flex;
-  flex-flow: row wrap;
+  flex-direction: column;
 }
-.node--view-mode-sub-article > * {
-  flex: 1 0 100%;
+.gho-sub-article > * {
+  flex: 0 0 auto;
 }
 .gho-sub-article-paragraph--no-hero {
   margin-top: 6.75rem;
@@ -28,18 +29,12 @@
 }
 .gho-sub-article__header {
   margin-bottom: 3rem;
-}
-.gho-sub-article__heading {
-  /* The negative bottom margin is to compensate for the one from the title
-   * or the appeals tags. */
-  margin: 0 0 -1rem 0;
+  /* This is to be able to display the social links between the header and the
+   * the content on small screens. */
+  order: 0;
 }
 .gho-sub-article__title {
-  display: inline-block;
-  max-width: var(--reading-width);
-  /* The bottom margin is to ensure the appeals tag are displayed nicely below
-   * the title on smaller screens. */
-  margin: 0 0 1rem 0;
+  display: inline;
   padding: 0;
   color: #1f1f1f;
   font-size: 1.625rem;
@@ -52,15 +47,32 @@
     line-height: 2.5rem;
   }
 }
-.gho-sub-article__heading .gho-appeals-tags {
-  display: inline-block;
-  vertical-align: top;
-  margin: 0 0 1rem;
+
+.gho-sub-article__content {
+  /* This is to be able to display the social links between the header and the
+   * the content on small screens. */
+  order: 2;
 }
-.gho-sub-article__heading .gho-appeals-tag {
-  vertical-align: top;
-}
+
+/**
+ * Social links.
+ */
 .gho-sub-article__social-links {
-  /* display first */
-  order: -1;
+  /* This is to be able to display the social links between the header and the
+   * the content on small screens. */
+  order: 1;
+  margin: -2rem 0 3rem 0;
+}
+@media (min-width: 576px) {
+  .gho-sub-article__social-links {
+    position: absolute;
+    top: 0;
+    padding-top: 0;
+    margin: 0;
+  }
+  .gho-sub-article--hero .gho-sub-article__social-links {
+    /* This includes the height of the hero image which has a ratio of 2:1 and
+     * it works because the padding-top is based on the width of the parent. */
+    padding-top: calc(50% + 2rem);
+  }
 }

@@ -260,7 +260,7 @@ Design.
 
 - [Site main navigation - block](templates/block/block--gho-main-menu.html.twig):
 
-  GHO uses a custom block defined in the `gho-general` custom module for the
+  GHO uses a custom block defined in the `gho_general` custom module for the
   main navigation shown in the header to enable node access check. Though the
   name of the template is different, it's basically a copy of the
   `block--system-menu-block--main.html.twig` from the main theme.

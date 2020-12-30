@@ -82,19 +82,19 @@ for the header and footer.
 
 ### Components
 
-- [components/gho-achievements](components/gho-achievements):
+- [components/gho-achievement](components/gho-achievement):
 
   Styling for the `achievement` nodes and paragraphs in articles. This includes
   notably the display of an icon next to the achievement title using the
   Humanitarian Icons set.
 
-- [components/gho-appeal-tags](components/gho-achievements):
+- [components/gho-appeal-tags](components/gho-appeal-tags):
 
   Styling for the `appeal tags` displayed next to the title of appeal articles.
   They are like tiny vignettes attached to the title with a 3-4 letters tags
   like `3RP`. Each tag has its own background color.
 
-- [components/gho-articles](components/gho-articles):
+- [components/gho-article](components/gho-article):
 
   Styling for the main `articles` (not sub-articles), mostly for the header that
   includes hero image, pre-title and title.

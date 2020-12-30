@@ -1,5 +1,5 @@
-OCHA Common Design sub theme for the Drupal 8 Global Humanitarian Oerview site
-==============================================================================
+OCHA Common Design sub theme for the Drupal 8 Global Humanitarian Overview site
+===============================================================================
 
 See below for [generic information](#ocha-common-design-sub-theme-for-drupal-8)
 about the OCHA Common Design sub theme.
@@ -40,48 +40,192 @@ As described in https://www.drupal.org/project/drupal/issues/2887071, using
 the visibility options on the page title for example to hide it on some node
 pages will cause the page title on views pages and maybe other places to be
 hidden as well... So instead we remove the page title block in a
-hook_preproprecess_page() if it was already rendered by a page title paragraph.
+hook_preproprecess_page() if it was already rendered otherwise.
 
 Customizations
 --------------
 
 The list below contains additions to the default common design subtheme:
 
-**Base styling**
+### Base styling
 
-- [CD header](sass/cd/cd-header/_cd-header.css)
+**TODO**: add more info about the CD files that were changed to override rules
+for the header and footer.
+
+- [CD header](sass/cd/cd-header/_cd-header.scss)
 
   Added `position: relative;` to `.cd-header` to fix position of the main menu
   dropdown. This could/should be added to the `common_design` theme.
 
-- [CD layout](sass/cd/cd-layout/_cd-layout.css)
+- [CD layout](sass/cd/cd-layout/_cd-layout.scss)
 
   Changed the `flex-basis` and `flex-grow` of the `.cd-layout-content` to
   ensure content spans the entire width of the main content area.
 
-- [Forms](sass/components/_forms.css)
+- [CD variables](sass/cd/_cd-variables.scss)
+
+  Various changes to colors. Definition of the `--reading-width` and
+  `--content-width` variables used to restrict the width of the content like
+  texts, stories etc.
+
+- [Editorial](sass/components/_editorial.scss)
+
+  Editorial flags to show unpublished/untranslated entities.
+
+- [Forms](sass/components/_forms.scss)
 
   Styling for the drupal inline forms.
 
-- [Page title](sass/components/_page_title.css)
+- [Page title](sass/components/_page_title.scss)
 
   Styling for the drupal page title.
 
-**Components**
+### Components
+
+- [components/gho-achievements](components/gho-achievements):
+
+  Styling for the `achievement` nodes and paragraphs in articles. This includes
+  notably the display of an icon next to the achievement title using the
+  Humanitarian Icons set.
+
+- [components/gho-appeal-tags](components/gho-achievements):
+
+  Styling for the `appeal tags` displayed next to the title of appeal articles.
+  They are like tiny vignettes attached to the title with a 3-4 letters tags
+  like `3RP`. Each tag has its own background color.
+
+- [components/gho-articles](components/gho-articles):
+
+  Styling for the main `articles` (not sub-articles), mostly for the header that
+  includes hero image, pre-title and title.
+
+- [components/gho-article-list](components/gho-article-list):
+
+  Styling for the `article lists` displayed in `Section index` paragraphs on the
+  home page. Those are simple list of links to articles with an optional title.
+
+- [components/gho-aside](components/gho-aside):
+
+  Base styling for other components: `stories`, `interactive content` and
+  `photo galleries`. This includes pre-title, title and background.
+
+- [components/gho-author](components/gho-author):
+
+  Styling for the `authorship` section (author's image, name and title). This is
+  currently only used on the Foreword page by the USG.
+
+- [components/gho-bottom-figure-row](components/gho-bottom-figure-row):
+
+  Styling for the `"bottom" figures` which are free form figures with a label and
+  a value. They appear mostly below the `needs and requirements` figures.
+
+- [components/gho-caption](components/gho-caption):
+
+  Base styling for the caption texts on `stories`, `photo galleries` and below
+  `hero images`.
+
+- [components/gho-embed](components/gho-embed):
+
+  Styling to make embedded content (youtube videos) responsive.
 
 - [components/gho-facts-and-figures](components/gho-facts-and-figures):
 
-  Styling for the facts and figures paragraphs in articles.
+  Styling for the `facts and figures` paragraphs in articles. This uses the
+  `gho-aside` for the base styling and then styles the image + text in a 3
+  columns manner on desktop.
+
+- [components/gho-footnotes](components/gho-footnotes):
+
+  Styling for the footnotes that can accompany `text` paragraphs or `stories`.
+  This component includes a **js** script to display the footnotes at the
+  bottom of the screen when thare are references visibile in the upper half.
+
+- [components/gho-further-reading](components/gho-further-reading):
+
+  Styling for the `further reading` paragraphs that contain a list of external
+  links with their source.
 
 - [components/gho-hero-image](components/gho-hero-image):
 
-  Styling for the hero image (paragraph) displayed on public and private pages.
+  Styling for the "scroll down" icon/message on top of the homepage hero image.
+
+- [components/gho-home-page](components/gho-home-page):
+
+  Styling for the home page particularities (center alignment, large GHO logo
+  etc.).
+
+- [components/gho-interactive-content](components/gho-interactive-content):
+
+  Styling for the `interactive content` paragraphs (datawrapper embeds or
+  placeholder images).
+
+- [components/gho-needs-and-requirements](components/gho-needs-and-requirements):
+
+  Styling for the `needs and requirements` figures.
+
+- [components/gho-page-404](components/gho-page-404):
+
+  Styling for the 404 Not Found page which can contain notably the main
+  navigation links.
+
+- [components/gho-page-node](components/gho-page-node):
+
+  Styling for the node pages. It handles "bleeding" by removing the max-width
+  and padding of the `<main>` so that by default content spans the entire width
+  of the `<body>` and instead provides styling for a `content-width` class that
+  can be added to components or part of components that need to be contained in
+  a specific width (see `--content-width` css variables in the
+  [cd-variables](sass/cs/_cd-variable.scss) sass file).
 
 - [components/gho-photo-gallery](components/gho-photo-gallery):
 
-  Styling for the photo gallery paragraphs in articles.
+  Styling for the `photo gallery` paragraphs that can have images in displayed
+  in 1 column or 2 columns depeneding on the number of images in addition to
+  a short caption text.
 
-**Layouts**
+- [components/gho-related-articles](components/gho-related-articles):
+
+  Styling for the `next article` displayed at the bottom of articles with a
+  an image, title and summary.
+
+- [components/gho-section-index](components/gho-section-index):
+
+  Styling for the `section index` paragraphs on the homepage that have a
+  "hero image", caption, description and some `article lists`.
+
+- [components/gho-separator](components/gho-separator):
+
+  Styling for the `separator` paragraphs which are displayed as a simple line
+  using the full `reading-width` or half of it (see the `--reading-width` in the
+  [cd-variables](sass/cs/_cd-variable.scss) sass file).
+
+- [components/gho-signature](components/gho-signature):
+
+  Styling for the USG signature.
+
+- [components/gho-social-links](components/gho-social-links):
+
+  Styling for the sharing icons displayed on articles and stories.
+
+- [components/gho-story](components/gho-story):
+
+  Styling for the `story` nodes in "full" mode (individual page) or "teaser"
+  mode (when included in an article).
+
+- [components/gho-sub-article](components/gho-sub-article):
+
+  Styling for `articles` that appear inside another `article`. This mostly
+  focuses on the header with or without a hero image.
+
+- [components/gho-text](components/gho-text):
+
+  Styling for the `text` paragraphs, notably to limit their width to the
+  `reading-width` (see the `--reading-width` in the
+  [cd-variables](sass/cs/_cd-variable.scss) sass file).
+
+### Layouts
+
+Note: those are not used on GHO.
 
 - [layouts/twocol_section](layouts/twocol_section):
 
@@ -98,7 +242,13 @@ The list below contains additions to the default common design subtheme:
   Overrides the layout builder four columns section to add margins and use the
   common_design breakpoints.
 
-**Templates**
+### Templates
+
+The GHO sites uses a lots of template overrides to use the css components
+described above and to enable customized styling of elements from the Common
+Design.
+
+#### Common design overrides
 
 - [Site logo block (system branding)](templates/block/block--system-branding-block.html.twig)
 
@@ -108,51 +258,79 @@ The list below contains additions to the default common design subtheme:
   don't need to have a `h1` there. Other non-node pages use the `page-title`
   block which uses a `h1` tag as well. So that should be fairly consistent.
 
-- [Paragraph - Hero image](templates/paragraphs/paragraph--image--hero-image.html.twig):
+- [Site main navigation - block](templates/block/block--gho-main-menu.html.twig):
 
-  Override of the paragraph template to use the `gho-hero-image` component for
-  the Hero images. This is applied when an **image** paragraph has its
-  **view mode** set to `Hero image`.
+  GHO uses a custom block defined in the `gho_general` custom module for the
+  main navigation shown in the header to enable node access check. Though the
+  name of the template is different, it's basically a copy of the
+  `block--system-menu-block--main.html.twig` from the main theme.
 
-- [Paragraph - Facts and figures - Single column](templates/paragraphs/paragraph--facts-and-figures--single-column.html.twig):
+- [Site main navigation - menu](templates/navigation/menu--main.html.twig):
 
-  Override of the paragraph template to use the `gho-facts-and-figures`
-  component for facts and figures sections. This is applied when an
-  **facts and figures** paragraph has its **view mode** set to `Single Column`.
+  The template for the main navigation menu is also overridden to only display
+  top items when they have children (article links) and also to handle the
+  the "download report" link.
 
-- [Paragraph - Facts and figures - Two columns](templates/paragraphs/paragraph--facts-and-figures--two-columns.html.twig):
+- [Header](templates/header):
 
-  Override of the paragraph template to use the `gho-facts-and-figures`
-  component for facts and figures sections. This is applied when an
-  **facts and figures** paragraph has its **view mode** set to `Two Columns`.
+  Various overrides to enable translations and RTL support.
 
-- [Fields - Facts and figures title](templates/fields/field--paragraph--field-title--facts-and-figures.html.twig)
+- [Footer](templates/footer):
 
-  Override the field template to ensure the facts and figures titles use a
-  heading appropriate to the page hierarchy (`h2`).
-  **TODO**: review if `h2` is ok or if `h3` should be used.
+  Various overrides to enable translations and RTL support.
 
-**Preprocessors**
+- [Soft footer](templates/blocks/):
+
+  Not an override per se, but there are templates for the blocks used in the
+  soft footer (that differs from the soft footer as defined in the base common
+  design theme).
+
+#### HTML/page overrides
+
+- [HTML](templates/html.html.twig):
+
+  The `html` template is overridden to load the Arabic font as soon as possible
+  via an `<style>` instead of a linked stylesheet.
+
+- [Page](templates/page.html.twig):
+
+  The `page` template is overridden to include the header and footer from the
+  `common_design_subtheme` instead of the base theme ones.
+
+#### Content
+
+- [Nodes](templates/nodes):
+
+  There are templates for the `article`, `story` and `achievement` nodes in
+  various **view modes** to use the css components described above and often
+  to display the node header elements like the "hero image", "pre title",
+  "title" etc. outside of the `content`.
+
+- [Paragraphs](templates/paragraphs):
+
+  There are templates for each `paragraph type` to use the css components
+  described above.
+
+- [Fields](templates/fields):
+
+  Many fields have overridden templates to simplify the markup and add relevant
+  classes to use with the css components.
+
+- [Media](templates/media):
+
+  The base media template is overridden to simplify the markum. There is also
+  a template for the `author` media to help with the styling of the author
+  image.
+
+- [Taxonomy terms](templates/taxonomy):
+
+  There are templates for the `appeal tags` and `needs and reuirements` figures
+  to use the corresponding css components.
+
+### Preprocessors
 
 - The [common_design_subtheme.theme](common_design_subtheme.theme) file contains
-  a few preprocess hooks to work with the new components and page styling.
-
-  It also contains a preprocessor to parse formatted texts and attach the
-  `cd-table` component and add the relevant classes when they contain a table.
-
-  This ensures display consistency for the tables and avoid adding the
-  `cd-table` classes in the content stored in the database which is preferable
-  in case it is decided to use a different component or theme.
-
-  There are also other preprocess and helper functions to ensure the local tasks
-  (edit etc.) are displayed on node pages that use a page title paragraph to
-  display their title.
-
-**Overrides**
-
-- Header: [Logos](img/logos)
-- Header: [OCHA services](templates/cd/cd-header/cd-ocha.html.twig)
-- Footer: [Social menu](templates/cd/cd-footer/cd-social-menu.html.twig)
+  several preprocess hooks to work with the new components and page styling.
 
 Translations
 ------------

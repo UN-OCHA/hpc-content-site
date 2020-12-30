@@ -48,3 +48,10 @@ there is no mix of content in different languages due to Drupal's behavior to
 show content in the default language when no translation is available.
 People with the `view untranslated content` permission can always see any
 content even if it doesn't match the current language.
+
+Menu tree manipulator
+---------------------
+
+This module overrides the menu tree manipulator mostly to ensure the
+`nodeAccessCheck` manipulation respects the global language visibility as
+described above.

@@ -8,6 +8,12 @@ paragraph that has references to them. This is similar in concept to the print
 version where footnotes are at the bottom of the page with references to them as
 opposed to have them grouped at the end of the document.
 
+There is also an "accumulated" mode that groups all the footnotes at the bottom
+of the page. This is done in 2 steps: first by altering the rendering of the
+text + footnote fields and then parsing the resulting HTML (that could come from
+the cache, thus the first step) to extract the footnotes, update the references
+and add the footnote list at the bottom.
+
 This attempts to provide accessible markup as much as possible while also
 ensuring translations can work. Further improvements can be made with CSS and
 javascript if necessary.
@@ -18,11 +24,15 @@ for the ckeditor present in the `common_design_subtheme`.
 
 **Notes**
 
-- The footnotes processing is in a separate module and not in the
-  `common_design_subtheme` so that the processing is also done for text paragraphs
-  in the edit forms.
-- The processing could be altered to group all the footnotes together and add
-  them a the bottom of the page at least when rendering a full article vis some
-  kind of accumulator and index incrementor. That would probably not work well
-  with the edit forms but it's probably better to display the footnotes with
-  their associated text in the forms anyway.
+The footnotes processing is in a separate module and not in the
+`common_design_subtheme` so that the processing is also done for text paragraphs
+in the edit forms.
+
+See the [gho-footnotes](../../themes/custom/common_design_subtheme/components/gho-footnotes)
+for the styling.
+
+Templates
+---------
+
+This module provides several templates for the references, footnotes, backlinks
+etc.

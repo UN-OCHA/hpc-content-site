@@ -267,7 +267,7 @@ Design.
 
 - [Site main navigation - menu](templates/navigation/menu--main.html.twig):
 
-  The template for the main navigation menu is also overrident to only display
+  The template for the main navigation menu is also overridden to only display
   top items when they have children (article links) and also to handle the
   the "download report" link.
 

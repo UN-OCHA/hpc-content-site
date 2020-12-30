@@ -53,7 +53,7 @@ and **media** types:
 - `Video`: A youtube video with credits
 
 Paragraphs are arranged inside an article using the [*layout paragraphs*](https://www.drupal.org/project/layout_paragraphs) module which provides a more intuitive interface than the
-default paragraph in addition to it's core layout selection feature which is not
+default paragraph widget, in addition to its core layout selection feature which is, however, not
 used in GHO.
 
 Languages

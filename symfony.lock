@@ -218,9 +218,6 @@
     "drupal/token": {
         "version": "1.7.0"
     },
-    "drupal/views_field_view": {
-        "version": "1.0.0-beta3"
-    },
     "drupal/yaml_content": {
         "version": "1.0.0-alpha7"
     },
@@ -232,6 +229,9 @@
     },
     "egulias/email-validator": {
         "version": "2.1.17"
+    },
+    "ezyang/htmlpurifier": {
+        "version": "v4.13.0"
     },
     "fabpot/goutte": {
         "version": "v3.2.3"

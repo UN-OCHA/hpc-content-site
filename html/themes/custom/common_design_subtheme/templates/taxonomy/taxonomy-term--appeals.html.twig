@@ -30,7 +30,8 @@
     'gho-appeals-tag',
   ]
 %}
-{% set tagname = name|render|striptags|trim %}
-<div{{ attributes.addClass(classes, ('gho-appeals-tag--' ~ tagname)|clean_class) }} title="{{ content.field_appeal_extended|render|striptags|trim }}">
+{% set tagname = name|render|striptags|trim|t %}
+{% set extended = content.field_appeal_extended|render|striptags|trim|t %}
+<div{{ attributes.addClass(classes, ('gho-appeals-tag--' ~ tagname)|clean_class) }} title="{{ extended }}">
   {{- tagname -}}
 </div>

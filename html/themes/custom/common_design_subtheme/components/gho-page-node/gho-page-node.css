@@ -1,5 +1,6 @@
 /* Reset the max-width and paddings of the main content area so that it uses the
  * full width allowing elements like hero images to also use the full width. */
+.path-frontpage .cd-layout-container main.cd-container,
 .path-node .cd-layout-container main.cd-container {
   max-width: 1400px;
   padding-left: 0;

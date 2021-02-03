@@ -57,3 +57,28 @@
   outline: 0;
   border: 2px solid $un-blue;
 }
+
+
+//——————————————————————————————————————————————————————————————————————————————
+// CD Footer overrides
+//
+// Before JS gets initialized, the OCHA Services menu is rendered in the Footer.
+// These styles ensure it is visible and on-brand.
+//——————————————————————————————————————————————————————————————————————————————
+.no-js .cd-footer .cd-ocha {
+  h2 {
+    color: inherit;
+  }
+
+  .cd-ocha-dropdown__inner {
+    padding: 0;
+  }
+
+  .cd-ocha-dropdown__link a {
+    color: $implementation-secondary;
+  }
+
+  .cd-ocha-dropdown__see-all {
+    color: $cd-white;
+  }
+}

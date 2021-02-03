@@ -48,7 +48,6 @@
         "drupal/redirect": "^1.6",
         "drupal/redis": "^1.4",
         "drupal/social_auth_hid": "^2.5",
-        "drupal/views_field_view": "^1.0-beta3",
         "drush/drush": "^10.3",
         "oomphinc/composer-installers-extender": "^1.1.2",
         "phpoffice/phpspreadsheet": "^1.14.1",

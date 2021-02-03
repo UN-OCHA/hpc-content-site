@@ -1,4 +1,4 @@
 Global Humanitarian Overview - Embed Component
 ==============================================
 
-Styling of embedding content.
+Styling to make embedded content (youtube videos) responsive.

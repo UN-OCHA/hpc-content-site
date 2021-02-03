@@ -1,17 +1,14 @@
-.gho-article.node--view-mode-full {
+.gho-article {
+  position: relative;
   /* Flex-box so we can hoist our social icons up form their low position in the
      source-order but display them near the top of the Sub-Article */
   display: flex;
-  flex-flow: row wrap;
-}
-.gho-article.node--view-mode-full > * {
-  flex: 1 0 100%;
-}
-
-
-/* Make sure the image is attached to the bottom of the header. */
-.gho-article {
+  flex-direction: column;
+  /* Make sure the image is attached to the bottom of the header. */
   margin-top: -2rem;
+}
+.gho-article > * {
+  flex: 0 0 auto;
 }
 @media (min-width: 768px) {
   .gho-article {
@@ -22,10 +19,13 @@
 .gho-article__header {
   position: relative;
   z-index: 0;
+  /* This is to be able to display the social links between the header and the
+   * the content on small screens. */
+  order: 0;
 }
 .gho-article__heading {
   padding-top: 2rem;
-  margin: 0 auto 3rem;
+  margin-bottom: 3rem;
 }
 /* Take into account the 8px grey margins: 1040px + 2 * 8x. */
 @media (min-width: 1056px) {
@@ -48,7 +48,6 @@
 }
 
 .gho-article__pre-title {
-  max-width: var(--reading-width);
   margin-bottom: 1rem;
   color: #707070;
   font-size: 0.875rem;
@@ -59,8 +58,7 @@
   }
 }
 .gho-article .page-title {
-  display: inline-block; /* appeals want to sit next to title */
-  max-width: var(--reading-width);
+  display: inline; /* appeals want to sit next to title */
   padding: 0;
   margin: 0;
   border: none;
@@ -81,44 +79,35 @@
   }
 }
 
-.gho-article__heading .gho-appeals-tags {
-  display: inline-block;
-  vertical-align: top;
-  margin: 0 0 1rem;
-}
-html[dir='ltr'] .gho-article__heading .gho-appeals-tags {
-  margin-left: -84px;
-}
-html[dir='rtl'] .gho-article__heading .gho-appeals-tags {
-  margin-right: -84px;
-}
-.gho-article__heading .gho-appeals-tag {
-  vertical-align: top;
+.gho-article__content {
+  /* This is to be able to display the social links between the header and the
+   * the content on small screens. */
+  order: 2;
 }
 
+/**
+ * Social links.
+ */
 .gho-article__social-links {
-  /* display first */
-  order: -1;
+  /* This is to be able to display the social links between the header and the
+   * the content on small screens. */
+  order: 1;
+  margin: -2rem 0 3rem;
 }
-.gho-article--no-hero .gho-article__social-links {
-  position: relative;
-  top: 2rem;
-}
-
-/* When hero is present, we need to offset the social links by a dynamic amount
-   that corresponds to the height of the hero image. */
-.gho-article--hero .gho-article__social-links {
-  position: relative;
-  top: calc(50vw + 1.95rem); /* 2:1 image is the 50vw */
-}
-/* adjust for Content that overlays Hero */
-@media (min-width: 1056px) {
+@media (min-width: 576px) {
+  .gho-article__social-links {
+    position: absolute;
+    top: 0;
+    padding-top: 2rem;
+    margin: 0;
+  }
   .gho-article--hero .gho-article__social-links {
-    top: calc(50vw + 1.85rem - 190px);
+    padding-top: calc(50% + 2rem);
   }
 }
-@media (min-width: 1418px) {
+/* Take into account the 8px grey margins: 1040px + 2 * 8x. */
+@media (min-width: 1056px) {
   .gho-article--hero .gho-article__social-links {
-    top: calc(700px + 2rem - 190px); /* layout stops growing and is fixed to half of 1400px */
+    padding-top: calc(50% - 190px + 2rem);
   }
 }

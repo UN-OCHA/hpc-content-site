@@ -8,7 +8,7 @@ Visit `/admin/config/regional/translate/import` and upload the file of your choi
 
 ## Exporting translations
 
-Visit `/admin/config/regional/translate/export` and download the file of your choice.
+Visit `/admin/config/regional/translate/export` and download the file of your choice. Select all three configuration options when exporting your file.
 
 ## Creating translations
 

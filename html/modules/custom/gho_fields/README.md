@@ -1,10 +1,35 @@
 Global Humanitarian Overview - Fields Module
 ============================================
 
-This module provides some field formatters, widgets and templates.
+This module provides some field formatters, widgets and templates as well as
+**views** field plugins.
 
-Dataset links
--------------
+Formatters and widgets
+----------------------
+
+### Article List
+
+- [Formatter](src/Plugin/Field/FieldFormatter/GhoArticleListFormatter.php)
+
+  Handles the list of links displayed in the `section index` paragraphs in the
+  homepage, ensuring only node access is respected.
+
+
+### Compact Numbers
+
+- [Formatter](src/Plugin/Field/FieldFormatter/GhoNumberFormatter.php)
+
+  Handles the language aware display of compact numbers (ex: 1.2 million).
+
+### Caption
+
+- [Formatter](src/Plugin/Field/FieldFormatter/GhoCaptionFormatter.php)
+
+  Simple formatter for `caption` "double fields" (location + text) used for
+  example for the caption text of hero image of articles.
+  See https://www.drupal.org/project/double_field
+
+### Dataset links
 
 - [Formatter](src/Plugin/Field/FieldFormatter/GhoDatasetLinkFormatter.php)
 
@@ -14,9 +39,26 @@ Dataset links
 
   Simply renames the `title` field to "Source".
 
+### Datawrapper
 
-Further reading links
----------------------
+- [Formatter](src/Plugin/Field/FieldFormatter/GhoDatawrapperFormatter.php)
+
+  Uses the [gho-datawrapper-formatter.html.twig](templates/gho-datawrapper-formatter.html.twig) template with the extracted and validated attributes from the datawrapper iframe
+  snippet (url, width, title, aria-label etc.).
+
+- [Widget](src/Plugin/Field/FieldWidget/GhoDatawrapperWidget.php)
+
+  Extends the textarea widget with validation and sanitation of datawrapper
+  iframe snippets.
+
+### Figures
+
+- [Formatter](src/Plugin/Field/FieldFormatter/GhoFiguresFormatter.php)
+
+  Formatter to select how to display figures (label + text): either `small`
+  like the "botton figures row" or `large` like the "needs and requirements".
+
+### Further reading links
 
 - [Formatter](src/Plugin/Field/FieldFormatter/GhoFurtherReadingLinkFormatter.php)
 
@@ -27,23 +69,24 @@ Further reading links
 
   Add a mandatory `source` field in addition to the `uri` and `title`.
 
+### Related Articles
 
-Compact Numbers
----------------
-
-- [Formatter](src/Plugin/Field/FieldFormatter/GhoNumberFormatter.php)
-
-  Handles the language aware display of compact numbers (ex: 1.2 milliom).
-
-
-Related Articles
-----------------
+**Note:** This is not used anymore as the homepage uses `article lists` now.
 
 - [Formatter](src/Plugin/Field/FieldFormatter/GhoRelatedArticlesFormatter.php)
 
   Uses the [gho-related-articles-formatter.html.twig](templates/gho-related-articles-formatter.html.twig) template with the `title` and `list`
   (of related articles) variables.
 
-- [Widget](src/Plugin/Field/FieldWidget/GhoMenuWidget.php)
+- [Widget](src/Plugin/Field/FieldWidget/GhoMenuSelectWidget.php)
 
   Allow the selection of a direct child of the `main` navigation menu.
+
+Views
+-----
+
+### Translation links
+
+This module provides a [translation links](src/Plugin/views/field/GhoTranslationLinks.php)
+views field plugin that provides links to create, edit or view entities in the
+different languages enabled on the site.

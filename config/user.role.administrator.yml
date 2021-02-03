@@ -56,6 +56,7 @@ permissions:
   - 'edit any achievement content'
   - 'edit any article content'
   - 'edit any story content'
+  - 'edit behavior plugin settings'
   - 'edit own achievement content'
   - 'edit own article content'
   - 'edit own story content'

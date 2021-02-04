@@ -3686,6 +3686,9 @@
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
                     }
+                },
+                "patches_applied": {
+                    "Use proper language when previewing paragraphs in forms": "patches/module--layout-paragraphs--display-proper-language-in-preview.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",

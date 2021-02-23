@@ -32,8 +32,8 @@
   .cd-nav {
     @include max-width(lg) {
       &[data-cd-hidden='false'] {
-        height: calc(100vh - (#{$cd-global-header-height} + #{$cd-site-header-height} + 3px));
-        top: calc(#{$cd-global-header-height} + #{$cd-site-header-height} + 3px);
+        height: calc(100vh - (#{$cd-global-header-height} + #{$cd-site-header-height} + 6px));
+        top: calc(#{$cd-global-header-height} + #{$cd-site-header-height} + 6px);
       }
     }
   }

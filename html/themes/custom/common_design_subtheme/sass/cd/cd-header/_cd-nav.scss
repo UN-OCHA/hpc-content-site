@@ -28,7 +28,7 @@
   .cd-nav > ul.menu > li.menu-item > a {
     &:not(:hover) {
       background: $implementation-highlight;
-      color: $cd-white-text-color;
+      color: $cd-white;
     }
   }
 
@@ -191,7 +191,7 @@
     .cd-nav > .menu {
       > .menu-item {
         [dir='rtl'] &:last-child {
-          border-left: 1px solid $cd-border-color;
+          border-left: 1px solid $cd-blue-grey;
         }
 
         [dir='rtl'] &:first-child {
@@ -236,23 +236,20 @@
       > li > ul {
         a,
         button {
-          &:hover {
-            background: $cd-mid-bg-color;
-          }
+          &.menu-item--active-trail {
+            border-left: 6px solid $implementation-highlight;
 
-          [dir='rtl'] &.is-active {
-            border-left: 0;
-            border-right: 3px solid $implementation-highlight;
+            [dir='rtl'] & {
+              border-right: 6px solid $implementation-highlight;
+            }
           }
         }
 
         > li.menu-item--active-trail {
-          a,
-          button {
-            [dir='rtl'] &.is-active {
-              border-left: 0;
-              border-right: 3px solid $implementation-highlight;
-            }
+          border-left: 6px solid $implementation-highlight;
+
+          [dir='rtl'] & {
+            border-right: 6px solid $implementation-highlight;
           }
         }
       }

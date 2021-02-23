@@ -5,7 +5,7 @@
 .cd-layout-container {
   @supports (display: grid) {
     @include tablet {
-      grid-template-rows: 108px 1fr auto; // Height of header modified for GHO.
+      grid-template-rows: 111px 1fr auto; // Height of header modified for GHO.
     }
   }
 }

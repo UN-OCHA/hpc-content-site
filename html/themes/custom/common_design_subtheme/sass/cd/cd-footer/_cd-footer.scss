@@ -14,8 +14,12 @@
   a {
     color: inherit;
 
+    &:hover,
     &:focus {
       color: inherit;
+    }
+
+    &:focus {
       outline: 3px solid $implementation-highlight;
     }
   }

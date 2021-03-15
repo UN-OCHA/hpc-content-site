@@ -17,7 +17,9 @@
   --cd-white: #fff;
   --cd-grey--light: #f2f2f2;
   --cd-grey--mid: #595959;
-  --cd-grey--dark: #4a4a4a;
+  //--cd-grey--dark: #4a4a4a;
+  // GHO specific.
+  --cd-grey--dark: #1f1f1f;
   --cd-default-text-color: var(--cd-grey--dark);
   --cd-black: #000;
   --cd-blue-grey: #e6ecf1;
@@ -214,7 +216,6 @@ $implementation-primary: #f1f1f1;
 $implementation-primary-dark: $cd-ocha-blue;
 $implementation-secondary: #1a344a;
 $implementation-highlight: $implementation-secondary;
-
 $cd-site-header-height: 70px;
 
 //——————————————————————————————————————————————————————————————————————————————

@@ -10,7 +10,7 @@
 .gho-article > * {
   flex: 0 0 auto;
 }
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .gho-article {
     margin-top: -3rem;
   }

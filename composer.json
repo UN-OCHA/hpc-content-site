@@ -28,7 +28,7 @@
         "drupal/allowed_formats": "^1.2",
         "drupal/bigint": "^1.1",
         "drupal/ckeditor_config": "^3.0",
-        "drupal/components": "^2.0-beta3",
+        "drupal/components": "^2.4",
         "drupal/config_split": "^1.4",
         "drupal/core-dev": "^8.9",
         "drupal/core-recommended": "^8.9",
@@ -52,7 +52,7 @@
         "oomphinc/composer-installers-extender": "^1.1.2",
         "phpoffice/phpspreadsheet": "^1.14.1",
         "symfony/flex": "^1.10",
-        "unocha/common_design": "^3.0.0",
+        "unocha/common_design": "^3.1.2",
         "webflo/drupal-finder": "^1.0.0",
         "zaporylie/composer-drupal-optimizations": "^1.1.1"
     },

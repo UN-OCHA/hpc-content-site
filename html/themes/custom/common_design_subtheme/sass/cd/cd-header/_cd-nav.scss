@@ -108,7 +108,6 @@
 
           &.is-active,
           &:focus {
-            // sass-lint:disable nesting-depth
             &::before {
               background: $implementation-highlight;
             }
@@ -162,8 +161,8 @@
 //
 // These need to be sent upstream once we're all happy with them.
 //
-// sass-lint:disable no-mergeable-selectors
-//——————————————————————————————————————————————————————————————————————————————
+/* stylelint-disable no-duplicate-selectors */
+// ——————————————————————————————————————————————————————————————————————————————
 .cd-site-header__nav-holder {
   .cd-nav > .menu {
     > .menu-item {

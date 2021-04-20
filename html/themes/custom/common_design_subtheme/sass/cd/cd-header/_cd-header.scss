@@ -8,13 +8,13 @@
   position: relative;
   font-family: $cd-font;
 
-  html[lang='ar'] & {
+  html[lang="ar"] & {
     font-family: $gho-font--arabic;
   }
 }
 
 .cd-header button {
-  html[lang='ar'] & {
+  html[lang="ar"] & {
     font-family: $gho-font--arabic;
   }
 }
@@ -31,10 +31,17 @@
 .cd-site-header__nav-holder {
   .cd-nav {
     @include max-width(lg) {
-      &[data-cd-hidden='false'] {
-        height: calc(100vh - (#{$cd-global-header-height} + #{$cd-site-header-height} + 6px));
+      &[data-cd-hidden="false"] {
         top: calc(#{$cd-global-header-height} + #{$cd-site-header-height} + 6px);
+        height: calc(100vh - (#{$cd-global-header-height} + #{$cd-site-header-height} + 6px));
       }
+    }
+  }
+
+  // Second level.
+  .cd-nav > .menu > li > .menu {
+    @include desktop {
+      top: calc(#{$cd-site-header-height} + 6px); // border-bottom height
     }
   }
 
@@ -49,24 +56,17 @@
       }
     }
   }
-
-  // Second level.
-  .cd-nav > .menu > li > .menu {
-    @include desktop {
-      top: calc(#{$cd-site-header-height} + 6px); // border-bottom height
-    }
-  }
 }
 
 .cd-site-header__nav-holder nav > ul {
   > li,
   > .cd-nav__item {
     @include desktop {
-      max-width: 180px;
       // Necessary in IE11 to have it respect the max-width... but also
       // useful in Arabic where the text can be quite short and this prevents
       // the buttons to be too narrow.
       min-width: 80px;
+      max-width: 180px;
     }
   }
 }
@@ -74,7 +74,7 @@
 .cd-site-header__inner {
   height: $cd-site-header-height;
 
-  @supports(display: grid) {
+  @supports (display: grid) {
     grid-template-rows: $cd-site-header-height;
     grid-template-columns: 52px 1fr;
 
@@ -83,7 +83,6 @@
     }
   }
 }
-
 
 //——————————————————————————————————————————————————————————————————————————————
 // GHO-4: RTL adjustments
@@ -94,7 +93,7 @@
 //——————————————————————————————————————————————————————————————————————————————
 .cd-site-header__inner {
   // IE11 can't do RTL grid
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     .cd-site-logo {
       float: right;
     }
@@ -104,7 +103,7 @@
     }
   }
 
-  @supports(display: grid) {
+  @supports (display: grid) {
     // unset RTL styles for IE11
     .cd-site-logo,
     .cd-site-header__actions {

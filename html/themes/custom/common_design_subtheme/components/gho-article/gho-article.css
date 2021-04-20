@@ -10,6 +10,7 @@
 .gho-article > * {
   flex: 0 0 auto;
 }
+
 @media (min-width: 1024px) {
   .gho-article {
     margin-top: -3rem;
@@ -24,26 +25,26 @@
   order: 0;
 }
 .gho-article__heading {
-  padding-top: 2rem;
   margin-bottom: 3rem;
+  padding-top: 2rem;
 }
 /* Take into account the 8px grey margins: 1040px + 2 * 8x. */
 @media (min-width: 1056px) {
   .gho-article--hero .gho-article__heading {
     position: relative;
-    margin-top: -190px;
     z-index: 1;
+    margin-top: -190px;
   }
   .gho-article--hero .gho-article__heading::before {
-    content: "";
     position: absolute;
+    z-index: -1;
     top: 0;
     /* (1040px - 904px - 24px * 2) / 2 */
     left: -44px;
     width: 1040px;
     height: 190px;
+    content: "";
     background: #fff;
-    z-index: -1;
   }
 }
 
@@ -52,6 +53,7 @@
   color: #707070;
   font-size: 0.875rem;
 }
+
 @media (min-width: 1024px) {
   .gho-article__pre-title {
     margin-bottom: 1.25rem;
@@ -59,19 +61,21 @@
 }
 .gho-article .page-title {
   display: inline; /* appeals want to sit next to title */
-  padding: 0;
   margin: 0;
+  padding: 0;
+  color: #1f1f1f;
   border: none;
   font-size: 2.25rem;
   line-height: 2.375rem;
-  color: #1f1f1f;
 }
+
 @media (min-width: 768px) {
   .gho-article .page-title {
     font-size: 2.875rem;
     line-height: 3.125rem;
   }
 }
+
 @media (min-width: 1024px) {
   .gho-article .page-title {
     font-size: 3.25rem;
@@ -94,12 +98,13 @@
   order: 1;
   margin: -2rem 0 3rem;
 }
+
 @media (min-width: 576px) {
   .gho-article__social-links {
     position: absolute;
     top: 0;
-    padding-top: 2rem;
     margin: 0;
+    padding-top: 2rem;
   }
   .gho-article--hero .gho-article__social-links {
     padding-top: calc(50% + 2rem);

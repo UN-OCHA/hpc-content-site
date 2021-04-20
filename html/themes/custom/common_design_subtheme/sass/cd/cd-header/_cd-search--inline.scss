@@ -24,7 +24,7 @@
     }
   }
 
-  &[aria-expanded='true'] {
+  &[aria-expanded="true"] {
     color: $implementation-highlight;
 
     svg {

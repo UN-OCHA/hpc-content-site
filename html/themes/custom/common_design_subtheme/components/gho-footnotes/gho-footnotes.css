@@ -5,12 +5,13 @@
   max-width: var(--reading-width);
   margin: 0 0 1.5rem 0;
   padding: 0 0 1.5rem 0;
+  color: #1f1f1f;
+  border-bottom: 1px solid #d8d8d8;
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.875rem;
-  color: #1f1f1f;
-  border-bottom: 1px solid #d8d8d8;
 }
+
 @media (min-width: 1024px) {
   .gho-footnote-list__title {
     font-size: 1.5rem;
@@ -41,8 +42,8 @@
 }
 .gho-footnote__backlinks {
   display: inline;
-  vertical-align: super;
   counter-reset: gho-footnotes-backlinks;
+  vertical-align: super;
 }
 .gho-footnote-backlink {
   counter-increment: gho-footnotes-backlinks;
@@ -54,7 +55,10 @@
 
 .gho-footnote-list__wrapper[data-visible] {
   position: fixed;
+  z-index: 100;
   bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
   /**
    * Ok,so we don't specify a left property so that the list stays at its
    * current position aligned to the left of the content area. Then we translate
@@ -68,18 +72,15 @@
   width: calc(100% + 248px);
   max-width: 1400px;
   max-height: 50%;
-  transform: translateX(-248px);
-  padding: 1rem 0 1rem 248px;
   margin: 0;
-  background: #fff;
+  padding: 1rem 0 1rem 248px;
+  transform: translateX(-248px);
   border-top: 1px solid #d8d8d8;
-  overflow-x: hidden;
-  overflow-y: auto;
-  z-index: 100;
+  background: #fff;
 }
 [dir="rtl"] .gho-footnote-list__wrapper[data-visible] {
-  transform: translateX(248px);
   padding: 1rem 248px 1rem 0;
+  transform: translateX(248px);
 }
 /* Visually hidden to perserve the numbering and keep the footnotes and their
  * backlinks in the accessiblity tree. */

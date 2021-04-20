@@ -28,10 +28,10 @@
   margin-bottom: 3rem;
 }
 .gho-sub-article__header {
-  margin-bottom: 3rem;
   /* This is to be able to display the social links between the header and the
    * the content on small screens. */
   order: 0;
+  margin-bottom: 3rem;
 }
 .gho-sub-article__title {
   display: inline;
@@ -41,6 +41,7 @@
   font-weight: 700;
   line-height: 1.75rem;
 }
+
 @media (min-width: 768px) {
   .gho-sub-article__title {
     font-size: 2.25rem;
@@ -63,12 +64,13 @@
   order: 1;
   margin: -2rem 0 3rem 0;
 }
+
 @media (min-width: 576px) {
   .gho-sub-article__social-links {
     position: absolute;
     top: 0;
-    padding-top: 0;
     margin: 0;
+    padding-top: 0;
   }
   .gho-sub-article--hero .gho-sub-article__social-links {
     /* This includes the height of the hero image which has a ratio of 2:1 and

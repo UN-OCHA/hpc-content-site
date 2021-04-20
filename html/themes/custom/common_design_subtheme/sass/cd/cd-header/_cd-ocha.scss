@@ -14,10 +14,10 @@
   // but GHO hides the icon so...
   @include max-width(md) {
     position: static !important;
-    clip: auto;
     overflow: visible;
-    height: auto;
+    clip: auto;
     width: auto;
+    height: auto;
     word-wrap: normal;
   }
 }
@@ -35,29 +35,28 @@
     }
 
     &:focus {
-      outline: 3px solid $implementation-secondary;
       color: $implementation-secondary;
+      outline: 3px solid $implementation-secondary;
     }
   }
 }
 
 .cd-ocha-dropdown__see-all,
 .cd-ocha-dropdown__see-all:focus {
-  border: 2px solid transparent;
-  border-radius: 3px;
-  background: $implementation-secondary;
-  color: $implementation-primary;
-  font-weight: 700;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+  color: $implementation-primary;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  background: $implementation-secondary;
+  font-weight: 700;
 }
 
 .cd-ocha-dropdown__see-all:focus {
-  outline: 0;
   border: 2px solid $un-blue;
+  outline: 0;
 }
-
 
 //——————————————————————————————————————————————————————————————————————————————
 // CD Footer overrides

@@ -11,14 +11,14 @@
 //——————————————————————————————————————————————————————————————————————————————
 
 // The second selector has to be supplied to override an @extend in the CD
-[dir='rtl'] .cd-footer-menu,
-[dir='rtl'] .menu--footer .menu {
+[dir="rtl"] .cd-footer-menu,
+[dir="rtl"] .menu--footer .menu {
   padding-right: 0;
 }
 
 // The second selector has to be supplied to override an @extend in the CD
-[dir='rtl'] .cd-footer-menu__item,
-[dir='rtl'] .menu--footer .menu > li {
+[dir="rtl"] .cd-footer-menu__item,
+[dir="rtl"] .menu--footer .menu > li {
   @include desktop {
     margin: 0 0 0 32px;
   }

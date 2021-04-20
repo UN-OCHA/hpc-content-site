@@ -31,12 +31,12 @@
   flex-direction: row;
   align-items: center;
   padding: 1.25rem 0;
-  color: #1f1f1f;
   text-decoration: none;
+  color: #1f1f1f;
 }
 .gho-article-list-link:hover,
 .gho-article-list-link:focus,
-.gho-article-list-link:active  {
+.gho-article-list-link:active {
   text-decoration: underline;
 }
 
@@ -45,6 +45,7 @@
   font-size: 1rem;
   line-height: 1.75rem;
 }
+
 @media (min-width: 768px) {
   .gho-article-list-link__title {
     font-size: 1.125rem;
@@ -62,7 +63,7 @@
   fill: #3a90d2; /* UN blue */
 }
 
-[dir='rtl'] .gho-article-list-link__arrow {
+[dir="rtl"] .gho-article-list-link__arrow {
   margin: 0 1rem 0 0.25rem;
   transform: scale(-1, 1);
 }

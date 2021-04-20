@@ -7,7 +7,7 @@
   background: #f1f1f1;
   font-family: $cd-font;
 
-  html[lang='ar'] & {
+  html[lang="ar"] & {
     font-family: $gho-font--arabic;
   }
 
@@ -25,16 +25,15 @@
   }
 }
 
-
 //——————————————————————————————————————————————————————————————————————————————
 // GHO-4: RTL adjustments
 //
 // These need to be sent upstream once we're all happy with them.
 //——————————————————————————————————————————————————————————————————————————————
-[dir='rtl'] .cd-footer__section--menu {
+[dir="rtl"] .cd-footer__section--menu {
   @include desktop {
-    text-align: right;
     float: right; // IE11 needs this
     width: 70%;
+    text-align: right;
   }
 }

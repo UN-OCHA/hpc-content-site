@@ -5,22 +5,22 @@
 //——————————————————————————————————————————————————————————————————————————————
 
 .cd-soft-footer {
-  color: $cd-black;
-  background: $cd-white;
-  font-family: $gho-font--arabic;
-  border-top: 1px solid $implementation-primary;
-
-  // Set our padding based on design feedback. Value is a magic number based on
-  // the visual border of the logos and separators. If the visual appearance is
-  // not 28px when screenshotting and measuring, then change this until that
-  // outcome is achieved.
-  padding: 18px 0;
 
   // Between all our browsers and both reading directions, the separators can't
   // seem to be placed identically, so occasionally we're making them be wider
   // than the viewport itself to ensure edge-to-edge coverage. Make sure this
   // doesn't disrupt the page layout by hiding any overflow.
   overflow: hidden;
+
+  // Set our padding based on design feedback. Value is a magic number based on
+  // the visual border of the logos and separators. If the visual appearance is
+  // not 28px when screenshotting and measuring, then change this until that
+  // outcome is achieved.
+  padding: 18px 0;
+  color: $cd-black;
+  border-top: 1px solid $implementation-primary;
+  background: $cd-white;
+  font-family: $gho-font--arabic;
 
   a {
     color: inherit;
@@ -35,8 +35,8 @@
   // CD defaults are good but let's override all for our design
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .cd-soft-footer__button {
@@ -56,44 +56,44 @@
 
 @mixin cd-sf-separator {
   &::before {
-    content: '';
-    width: 1px;
-    background: $implementation-primary;
     position: absolute;
     top: 10px;
     bottom: 10px;
+    width: 1px;
+    content: "";
+    background: $implementation-primary;
 
-    [dir='ltr'] & {
-      left: -.5rem;
+    [dir="ltr"] & {
+      left: -0.5rem;
     }
 
-    [dir='rtl'] & {
-      right: -.5rem;
+    [dir="rtl"] & {
+      right: -0.5rem;
     }
   }
 }
 
 .cd-soft-footer .block-soft-footer-acknowledgements {
-  // Within soft footer
-  flex: 0 1 100%;
-  padding-bottom: 2rem;
-  margin-bottom: 2rem;
   position: relative;
 
   // Layout of this component
   display: flex;
+  // Within soft footer
+  flex: 0 1 100%;
   flex-flow: column nowrap;
   align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
 
   // Mobile separator
   &::after {
-    content: '';
     position: absolute;
-    left: -50%;
     right: -50%;
-    height: 1px;
-    background: $implementation-primary;
     bottom: 0;
+    left: -50%;
+    height: 1px;
+    content: "";
+    background: $implementation-primary;
   }
 
   img {
@@ -105,11 +105,11 @@
   }
 
   p {
+    max-width: 400px;
     margin: 0;
     text-align: center;
-    font-size: .875em;
+    font-size: 0.875em;
     font-weight: 900;
-    max-width: 400px;
   }
 
   a,
@@ -121,19 +121,19 @@
 }
 
 .cd-soft-footer .block-soft-footer-fts {
+  flex-basis: auto;
   flex-grow: 0;
   flex-shrink: 1;
-  flex-basis: auto;
   width: 45%;
 
-  [dir='ltr'] & {
-    text-align: right;
+  [dir="ltr"] & {
     padding-right: 1rem;
+    text-align: right;
   }
 
-  [dir='rtl'] & {
-    text-align: left;
+  [dir="rtl"] & {
     padding-left: 1rem;
+    text-align: left;
   }
 
   img {
@@ -144,17 +144,17 @@
 }
 
 .cd-soft-footer .block-soft-footer-huminsight {
+  flex-basis: auto;
   flex-grow: 0;
   flex-shrink: 1;
-  flex-basis: auto;
   width: 45%;
 
-  [dir='ltr'] & {
+  [dir="ltr"] & {
     text-align: left;
     border-left: 1px solid $implementation-primary;
   }
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     text-align: right;
     border-right: 1px solid $implementation-primary;
   }

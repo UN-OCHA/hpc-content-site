@@ -7,5 +7,5 @@
   to this block and we pick an SVG with that variable included.
 #}
 <a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home" class="cd-site-logo">
-  <img src="{{ site_logo }}{{ language|upper }}.svg" alt="{{ site_name }}" aria-label="{{ 'Home'|t }}"/>
+  <img src="{{ site_logo }}{{ language|upper }}.svg" alt="{{ site_name|t }}" aria-label="{{ 'Home'|t }}"/>
 </a>

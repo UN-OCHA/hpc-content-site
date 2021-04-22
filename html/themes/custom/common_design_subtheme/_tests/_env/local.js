@@ -1,6 +1,6 @@
 const env = {
   timeout: 15000,
-  baseUrl: 'https://commondesign.test'
+  baseUrl: 'https://gho.test'
 };
 
 console.log('⚠️  E2E testing', env.baseUrl);

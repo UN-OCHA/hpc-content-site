@@ -1,6 +1,6 @@
 const env = {
   timeout: 5000,
-  baseUrl: 'https://web.brand.unocha.org'
+  baseUrl: 'https://gho.unocha.org'
 };
 
 console.log('⚠️  E2E testing', env.baseUrl);

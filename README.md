@@ -29,7 +29,7 @@ The paragraphs that can be used inside an articles are:
 - `Facts and figures`: A list of images with a short text
 - `Further reading`: A list of external links with their source
 - `Interactive content`: A graph/table/map embed from [datawrapper](https://www.datawrapper.de)
-- `Needs and requirements`: A reference to a `needs and requirements` term.
+- `Needs and requirements`: A reference to a `needs and requirements` term
 - `Photo gallery`: A gallery with up to 4 photos and a description
 - `Section index`: Essentially a table of content with a list of articles
 - `Separator`: A simple line separator

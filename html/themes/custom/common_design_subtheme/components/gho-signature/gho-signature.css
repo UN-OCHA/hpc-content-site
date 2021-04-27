@@ -5,8 +5,8 @@
   margin: 0;
 }
 .gho-signature__image img {
-  max-width: none;
   width: 144px;
+  max-width: none;
   height: 56px;
 }
 /* Same font-size/line-height as gho-text paragraph. */
@@ -16,6 +16,7 @@
   font-weight: 700;
   line-height: 1.75rem;
 }
+
 @media (min-width: 768px) {
   .gho-signature__name {
     font-size: 1.125rem;

@@ -1,7 +1,8 @@
 .gho-home-page {
   margin-top: -2rem; /* cancel out the CD layout padding */
 }
-@media (min-width: 768px) {
+
+@media (min-width: 1024px) {
   .gho-home-page {
     margin-top: -3rem;
   }
@@ -9,6 +10,7 @@
 .gho-home-page--no-content {
   margin-bottom: -2rem; /* cancel out the CD layout padding */
 }
+
 @media (min-width: 1024px) {
   .gho-home-page--no-content {
     margin-bottom: -4rem;
@@ -25,15 +27,15 @@
   position: relative;
 }
 .gho-home-page__header__content {
-  display: flex;
   position: absolute;
   top: 0;
   left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 /* if we want a much more gradual font-size increase, use the two commented props
@@ -41,15 +43,15 @@
 .gho-home-page__msg {
   width: 100%;
   max-width: 285px;
-  /*max-width: 15ch;*/
+  /* max-width: 15ch; */
   margin-bottom: 1rem;
-  color: #fff;
-  font-size: 1.2em;
-  /*font-size: calc(.8em + 3vw);*/
-  line-height: 1;
-  font-weight: 700;
   text-align: center;
   text-transform: uppercase;
+  color: #fff;
+  font-size: 1.2em;
+  font-weight: 700;
+  /* font-size: calc(.8em + 3vw); */
+  line-height: 1;
 }
 .gho-home-page__msg p:first-of-type {
   margin-top: 0;
@@ -65,36 +67,38 @@
     font-size: 1.8em;
   }
 }
+
 @media screen and (min-width: 768px) {
   .gho-home-page__msg {
     max-width: 420px;
-    font-size: 2.5em;
     margin-bottom: 1.5rem;
+    font-size: 2.5em;
   }
 }
+
 @media screen and (min-width: 1024px) {
   .gho-home-page__msg {
     max-width: 460px;
-    font-size: 3.25em;
     margin-bottom: 2rem;
+    font-size: 3.25em;
   }
 }
 
 .gho-home-page__link {
   display: block;
-  color: #fff;
-  border: 1px solid #fff;
-  padding: .5rem;
-  font-size: .75em;
-  font-weight: 700;
+  padding: 0.5rem;
   text-decoration: none;
   text-transform: uppercase;
+  color: #fff;
+  border: 1px solid #fff;
+  font-size: 0.75em;
+  font-weight: 700;
 }
 
 .gho-home-page__link:hover,
 .gho-home-page__link:focus {
-  color: #fff;
   text-decoration: underline;
+  color: #fff;
   outline: 3px solid white;
   outline-offset: 0;
 }
@@ -126,12 +130,12 @@
 }
 */
 
-/*------------------------------------------------------------------------------
+/* ------------------------------------------------------------------------------
  * Homepage customizations to existing paragraph types
  *
  * Some declarations are quite specific to ensure they never spill elsewhere and
  * also override any selectors in the components themselves.
- *----------------------------------------------------------------------------*/
+ *---------------------------------------------------------------------------- */
 
 /**
  * Homepage hero caption.
@@ -155,16 +159,16 @@
   margin-top: 3.75rem;
 }
 .gho-home-page__content > .gho-home-page__logo::before {
-  content: "";
   display: block;
   padding-bottom: 2.25rem;
+  content: "";
   border-top: 1px solid #d8d8d8;
 }
 .gho-home-page__content > .gho-home-page__logo img {
   display: block;
   width: 100%;
-  height: auto;
   max-width: 426px;
+  height: auto;
   margin: 0 auto;
 }
 
@@ -175,6 +179,7 @@
   margin-top: 6.25rem;
   text-align: center;
 }
+
 @media (min-width: 768px) {
   .gho-home-page__content > .gho-needs-and-requirements-paragraph .gho-needs-and-requirements-figure {
     padding: 0 1.5rem;
@@ -194,12 +199,14 @@
 .gho-home-page__content > .gho-text .gho-text__text {
   max-width: none;
 }
+
 @media (min-width: 768px) {
   .gho-home-page__content > .gho-text .gho-text__text {
     font-size: 1.125rem;
     line-height: 2rem;
   }
 }
+
 @media (min-width: 1024px) {
   .gho-home-page__content > .gho-text .gho-text__text {
     font-size: 1.3125rem;
@@ -217,8 +224,8 @@
   margin-top: 3.75rem;
 }
 .gho-home-page__content > .gho-interactive-content::before {
-  content: "";
   display: block;
   padding-bottom: 2.25rem;
+  content: "";
   border-top: 1px solid #d8d8d8;
 }

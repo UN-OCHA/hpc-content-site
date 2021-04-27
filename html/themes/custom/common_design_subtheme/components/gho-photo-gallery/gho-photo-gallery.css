@@ -33,12 +33,12 @@
     justify-content: space-around;
   }
   .gho-photo-gallery--two-columns .gho-photo-gallery__photo {
-    flex-grow: 0;
-    flex-shrink: 0;
     /* Not using flex-basis to determine the width because it doesn't work well
      * in IE11 wih the padding and negative margins on the parent. Using the
      * width works everywhere. */
     flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 0;
     width: 50%;
   }
 }

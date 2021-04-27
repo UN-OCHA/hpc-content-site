@@ -3,6 +3,7 @@
   font-size: 1rem;
   line-height: 1.75rem;
 }
+
 @media (min-width: 768px) {
   .gho-text {
     font-size: 1.125rem;
@@ -18,6 +19,7 @@
   font-weight: 700;
   line-height: 2rem;
 }
+
 @media (min-width: 1024px) {
   .gho-text p.highlight {
     font-size: 1.5rem;
@@ -27,10 +29,11 @@
 /* Same styling as caption. @see gho-caption */
 .gho-text blockquote {
   margin: 2rem 0;
+  color: #707070;
   font-size: 0.75rem;
   line-height: 1.25rem;
-  color: #707070;
 }
+
 @media (min-width: 768px) {
   .gho-text blockquote {
     font-size: 0.875rem;

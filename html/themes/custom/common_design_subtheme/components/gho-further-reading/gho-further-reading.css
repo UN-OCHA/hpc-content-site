@@ -12,11 +12,12 @@
 .gho-further-reading__title {
   max-width: var(--reading-width);
   margin: 0 0 1.5rem 0;
+  color: #1f1f1f;
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.875rem;
-  color: #1f1f1f;
 }
+
 @media (min-width: 1024px) {
   .gho-further-reading__title {
     font-size: 1.5rem;
@@ -55,18 +56,18 @@
  */
 .gho-further-reading__link a {
   display: block;
+  padding: 1rem 0 3rem;
   font-size: inherit;
   font-weight: 700;
-  padding: 1rem 0 3rem;
 }
 
 /**
  * Chevron icon
  */
 .gho-further-reading__arrow {
-  display: none; /* not visible on skinny screens */
   position: absolute;
   top: 50%;
+  display: none; /* not visible on skinny screens */
   transform: translateY(-50%);
   /* @todo should this be the same color as the links or use the UN blue? */
   fill: #3a90d2; /* UN blue */
@@ -84,13 +85,13 @@
 /**
  * LTR/RTL customizations
  */
-[dir='ltr'] .gho-further-reading__arrow {
-  left: auto;
+[dir="ltr"] .gho-further-reading__arrow {
   right: 1rem;
+  left: auto;
 }
-[dir='rtl'] .gho-further-reading__arrow {
-  left: 1rem;
+[dir="rtl"] .gho-further-reading__arrow {
   right: auto;
+  left: 1rem;
   transform: translateY(-50%) scale(-1, 1);
 }
 
@@ -99,7 +100,7 @@
  * of margin-collapse on first link.
  */
 .gho-further-reading__link:first-child .gho-further-reading__arrow {
-  top: calc(50% + .5rem); /* margin-collapse on other links is 1rem so split it in half */
+  top: calc(50% + 0.5rem); /* margin-collapse on other links is 1rem so split it in half */
 }
 
 /**

@@ -2,14 +2,14 @@
 // Common Design: Main Navigation
 //——————————————————————————————————————————————————————————————————————————————
 .cd-nav__btn {
-  color: $cd-black;
   height: $cd-site-header-height;
+  color: $cd-black;
 
   &[aria-expanded] .cd-icon--arrow-down {
     fill: $un-blue;
   }
 
-  &[aria-expanded='true']  {
+  &[aria-expanded="true"] {
     &::before {
       background: $implementation-highlight;
     }
@@ -27,8 +27,8 @@
   // the normal behavior.
   .cd-nav > ul.menu > li.menu-item > a {
     &:not(:hover) {
+      color: $cd-white;
       background: $implementation-highlight;
-      color: $cd-white-text-color;
     }
   }
 
@@ -74,7 +74,6 @@
           background: $implementation-highlight;
         }
       }
-
     }
   }
 
@@ -109,7 +108,6 @@
 
           &.is-active,
           &:focus {
-            // sass-lint:disable nesting-depth
             &::before {
               background: $implementation-highlight;
             }
@@ -127,8 +125,8 @@
         // links don't so we need to center its content another way.
         > a > span {
           position: relative;
-          display: block;
           top: 50%;
+          display: block;
           transform: translateY(-50%);
         }
       }
@@ -151,7 +149,7 @@
     button {
       text-align: left;
 
-      html[dir='rtl'] & {
+      html[dir="rtl"] & {
         text-align: right;
       }
     }
@@ -163,23 +161,23 @@
 //
 // These need to be sent upstream once we're all happy with them.
 //
-// sass-lint:disable no-mergeable-selectors
-//——————————————————————————————————————————————————————————————————————————————
+/* stylelint-disable no-duplicate-selectors */
+// ——————————————————————————————————————————————————————————————————————————————
 .cd-site-header__nav-holder {
   .cd-nav > .menu {
     > .menu-item {
       > a,
       button {
-        [dir='rtl'] & {
+        [dir="rtl"] & {
           text-align: right;
         }
 
-        [dir='ltr'] & .cd-icon {
+        [dir="ltr"] & .cd-icon {
           margin-right: 0;
           margin-left: 4px;
         }
 
-        [dir='rtl'] & .cd-icon {
+        [dir="rtl"] & .cd-icon {
           margin-right: 4px;
           margin-left: 0;
         }
@@ -190,26 +188,26 @@
   @include desktop {
     .cd-nav > .menu {
       > .menu-item {
-        [dir='rtl'] &:last-child {
-          border-left: 1px solid $cd-border-color;
+        [dir="rtl"] &:last-child {
+          border-left: 1px solid $cd-blue-grey;
         }
 
-        [dir='rtl'] &:first-child {
+        [dir="rtl"] &:first-child {
           border-left: 0;
         }
 
-        [dir='rtl'] &:last-child > ul.menu {
-          left: 0;
+        [dir="rtl"] &:last-child > ul.menu {
           right: auto;
+          left: 0;
         }
 
         &.menu-item--expanded > button {
-          [dir='ltr'] & {
+          [dir="ltr"] & {
             padding-right: 36px;
             padding-left: 14px;
           }
 
-          [dir='rtl'] & {
+          [dir="rtl"] & {
             padding-right: 14px;
             padding-left: 36px;
           }
@@ -217,16 +215,16 @@
           & .cd-icon {
             position: absolute;
             top: 50%;
-            transform: translateY(-50%);
             margin: 0;
+            transform: translateY(-50%);
           }
 
-          [dir='ltr'] & .cd-icon {
+          [dir="ltr"] & .cd-icon {
             right: 14px;
             left: auto;
           }
 
-          [dir='rtl'] & .cd-icon {
+          [dir="rtl"] & .cd-icon {
             right: auto;
             left: 14px;
           }
@@ -236,23 +234,20 @@
       > li > ul {
         a,
         button {
-          &:hover {
-            background: $cd-mid-bg-color;
-          }
+          &.menu-item--active-trail {
+            border-left: 6px solid $implementation-highlight;
 
-          [dir='rtl'] &.is-active {
-            border-left: 0;
-            border-right: 3px solid $implementation-highlight;
+            [dir="rtl"] & {
+              border-right: 6px solid $implementation-highlight;
+            }
           }
         }
 
         > li.menu-item--active-trail {
-          a,
-          button {
-            [dir='rtl'] &.is-active {
-              border-left: 0;
-              border-right: 3px solid $implementation-highlight;
-            }
+          border-left: 6px solid $implementation-highlight;
+
+          [dir="rtl"] & {
+            border-right: 6px solid $implementation-highlight;
           }
         }
       }

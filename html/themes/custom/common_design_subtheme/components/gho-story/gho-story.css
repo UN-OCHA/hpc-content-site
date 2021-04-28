@@ -28,6 +28,7 @@
   color: #707070;
   font-size: 0.875rem;
 }
+
 @media (min-width: 1024px) {
   .gho-story--full .gho-aside__pre-title {
     margin-bottom: 1.25rem;
@@ -36,12 +37,13 @@
 .gho-story--full .page-title {
   max-width: var(--reading-width);
   padding: 0;
-  border: none;
   color: #1f1f1f;
+  border: none;
   font-size: 1.625rem;
   font-weight: 700;
   line-height: 1.75rem;
 }
+
 @media (min-width: 768px) {
   .gho-story--full .page-title {
     font-size: 2.25rem;
@@ -62,6 +64,7 @@
   font-size: 0.75rem;
   line-height: 1.25rem;
 }
+
 @media (min-width: 768px) {
   .gho-story__source {
     font-size: 0.875rem;
@@ -81,8 +84,8 @@
   padding: 0;
 }
 .gho-story__source .item-list li {
-  list-style: none;
   margin: 0;
+  list-style: none;
 }
 
 .gho-story__content {
@@ -100,6 +103,7 @@
   order: 1;
   margin: -1rem 0 2rem;
 }
+
 @media (min-width: 576px) {
   .gho-story__social-links {
     position: absolute;

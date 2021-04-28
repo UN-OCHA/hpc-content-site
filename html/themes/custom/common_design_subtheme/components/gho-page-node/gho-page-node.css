@@ -3,14 +3,14 @@
 .path-frontpage .cd-layout-container main.cd-container,
 .path-node .cd-layout-container main.cd-container {
   max-width: 1400px;
-  padding-left: 0;
   padding-right: 0;
+  padding-left: 0;
 }
 
 .node__local_tasks {
   position: relative;
-  margin: 2rem 0;
   z-index: 1;
+  margin: 2rem 0;
 }
 
 .node__content {
@@ -24,16 +24,17 @@
 .content-width {
   width: 100%;
   max-width: calc(var(--content-width) + 24px);
-  margin-left: auto;
   margin-right: auto;
-  padding-left: 12px;
+  margin-left: auto;
   padding-right: 12px;
+  padding-left: 12px;
 }
+
 @media (min-width: 768px) {
   .content-width {
     max-width: calc(var(--content-width) + 48px);
-    padding-left: 24px;
     padding-right: 24px;
+    padding-left: 24px;
   }
 }
 
@@ -42,19 +43,21 @@
  * sub-article headers to allow the appeal tags to be inlined with the title. */
 .content-width--reading {
   max-width: calc(var(--reading-width) + 24px);
-  margin-left: 0;
   margin-right: 0;
+  margin-left: 0;
 }
+
 @media (min-width: 768px) {
   .content-width--reading {
     max-width: calc(var(--reading-width) + 48px);
   }
 }
+
 @media (min-width: 952px) {
   .content-width--reading {
     max-width: calc(var(--content-width) + 48px);
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
   }
   html[dir="ltr"] .content-width--reading {
     padding-right: calc(var(--content-width) - var(--reading-width) + 24px);
@@ -68,6 +71,6 @@
  * in the hierarchy should have the paddings. */
 .content-width .content-width {
   max-width: var(--content-width);
-  padding-left: 0;
   padding-right: 0;
+  padding-left: 0;
 }

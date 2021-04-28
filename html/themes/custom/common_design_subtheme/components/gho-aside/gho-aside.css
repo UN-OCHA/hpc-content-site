@@ -25,10 +25,10 @@
   fill: #1f1f1f;
 }
 .gho-aside__pre-title {
+  display: block;
   margin: 0;
   font-size: 1rem;
   line-height: 1.5rem;
-  display: block;
 }
 .gho-aside__title {
   margin-top: 0;

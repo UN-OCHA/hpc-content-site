@@ -26,6 +26,7 @@
   font-size: 1rem;
   line-height: 1.75rem;
 }
+
 @media screen and (min-width: 768px) {
   .gho-related-article {
     /* Using flex-wrap here to avoid having the design failing due to the
@@ -57,22 +58,22 @@
 /**
  * Content: title, summary and read-more lunk.
  */
- @media screen and (min-width: 768px) {
+@media screen and (min-width: 768px) {
   .gho-related-article__content {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
-    flex-shrink: 0;
     /* Minimum width of the image. */
     flex-basis: 320px;
+    flex-grow: 1;
+    flex-shrink: 0;
   }
-  [dir='ltr'] .gho-related-article__content {
-    padding-left: 2.25rem;
+  [dir="ltr"] .gho-related-article__content {
     padding-right: 0;
+    padding-left: 2.25rem;
   }
-  [dir='rtl'] .gho-related-article__content {
-    padding-left: 0;
+  [dir="rtl"] .gho-related-article__content {
     padding-right: 2.25rem;
+    padding-left: 0;
   }
 }
 
@@ -80,15 +81,16 @@
  * Title
  */
 .gho-related-article__title {
+  margin: 1rem 0 0.625rem 0;
   font-size: 1.125em;
   font-weight: 700;
   line-height: 2rem;
-  margin: 1rem 0 0.625rem 0;
 }
 .gho-related-article__title a {
-  color: #1f1f1f;
   text-decoration: none;
+  color: #1f1f1f;
 }
+
 @media screen and (min-width: 768px) {
   .gho-related-article__title {
     margin-top: -9px; /* @see GHO-144 */
@@ -104,11 +106,12 @@
 .gho-related-article .field--name-field-summary > :last-child {
   margin-bottom: 0;
 }
+
 @media screen and (min-width: 768px) {
   .gho-related-article .field--name-field-summary {
+    flex-basis: auto;
     flex-grow: 1;
     flex-shrink: 0;
-    flex-basis: auto;
   }
 }
 
@@ -128,7 +131,7 @@
   /* @todo should this be the same color as the links or use the UN blue? */
   fill: #3a90d2; /* UN blue */
 }
-[dir='rtl'] .gho-related-article__arrow {
+[dir="rtl"] .gho-related-article__arrow {
   margin: 0 0.25rem 0 0;
   transform: scale(-1, 1);
 }

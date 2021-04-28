@@ -7,9 +7,9 @@
 /* The border is not on the container itself due to potential left/right padding
  * values that can interfere. Ex: when it has the `content-width` class. */
 .gho-author::after {
-  content: "";
   display: block;
   padding-bottom: 2rem;
+  content: "";
   border-bottom: 1px solid #d8d8d8;
 }
 .gho-author .media {
@@ -22,20 +22,20 @@
 }
 
 .gho-author__image {
-  width: 60px;
-  height: 60px;
+  flex-basis: 60px;
   flex-grow: 0;
   flex-shrink: 0;
-  flex-basis: 60px;
+  width: 60px;
+  height: 60px;
 }
 .gho-author__image img {
   border-radius: 50%;
 }
 
-[dir='ltr'] .gho-author__content {
+[dir="ltr"] .gho-author__content {
   margin-left: 1.5rem;
 }
-[dir='rtl'] .gho-author__content {
+[dir="rtl"] .gho-author__content {
   margin-right: 1.5rem;
 }
 

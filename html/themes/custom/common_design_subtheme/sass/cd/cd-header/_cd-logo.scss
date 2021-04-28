@@ -11,18 +11,17 @@
     outline: 3px solid $implementation-highlight;
   }
 
+  img {
+    height: $cd-site-header-height; // IE11
+  }
+
   // Logo for mobile.
-  // sass-lint:disable no-duplicate-properties
   @include max-width(md) {
-    background: url('../img/logos/logo-mobile.svg') center no-repeat;
+    background: url("../img/logos/logo-mobile.svg") center no-repeat;
   }
 
   @include tablet {
     // Width of the logo.
     width: 316px;
-  }
-
-  img {
-    height: $cd-site-header-height; // IE11
   }
 }

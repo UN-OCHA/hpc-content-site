@@ -54,8 +54,7 @@
         "phpoffice/phpspreadsheet": "^1.14.1",
         "symfony/flex": "^1.10",
         "unocha/common_design": "^4.0.0",
-        "webflo/drupal-finder": "^1.0.0",
-        "zaporylie/composer-drupal-optimizations": "^1.1.1"
+        "webflo/drupal-finder": "^1.0.0"
     },
     "require-dev": {
         "drupal/coder": "^8.3.9",

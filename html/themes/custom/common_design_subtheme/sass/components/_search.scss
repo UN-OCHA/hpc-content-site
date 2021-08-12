@@ -58,13 +58,53 @@
     line-height: 2.375rem;
   }
 
-  // Search result headings, or the "No results" heading.
-  h3 {
+  // General override for links
+  a {
     color: $implementation-secondary;
     font-family: var(--cd-font--roboto);
+  }
+
+  #edit-help-link {
+    font-size: var(--cd-font-size--small);
+  }
+
+  // No results heading is an <h3> with text inside
+  h3 {
+    color: $implementation-secondary;
+    font-family: var(--cd-font--roboto-condensed);
 
     html[dir="rtl"] & {
       font-family: $cd-font--noto-kufi;
     }
+  }
+
+  // Search results, main heading
+  h2 {
+    color: $implementation-secondary;
+    font-family: var(--cd-font--roboto-condensed);
+  }
+
+  // Individual search results are <h3> with links inside
+  h3 a {
+    color: inherit;
+    font-family: inherit;
+  }
+
+  // Pagination
+  //
+  // @see common_design/components/cd-pagination/cd-pagination.css
+  .cd-pager__item a:hover,
+  .cd-pager__item a:focus {
+    color: $implementation-secondary;
+    border-color: var(--cd-blue-grey);
+    background-color: var(--cd-blue-grey);
+  }
+
+  .cd-pager__item.is-active a,
+  .cd-pager__item.is-active a:hover {
+    color: white;
+    border-color: $implementation-secondary;
+    background-color: $implementation-secondary;
+    font-weight: 700;
   }
 }

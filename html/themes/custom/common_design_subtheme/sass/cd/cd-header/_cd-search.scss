@@ -2,26 +2,27 @@
 // Common Design: Search
 //——————————————————————————————————————————————————————————————————————————————
 .cd-search__btn {
-  color: $implementation-primary;
+  height: 70px;
+  color: $implementation-secondary;
 
   svg {
-    fill: $implementation-primary;
+    fill: $implementation-secondary;
   }
 
   &:hover,
   &:focus {
-    color: $implementation-primary-dark;
+    color: $implementation-secondary;
 
     svg {
-      fill: $implementation-primary-dark;
+      fill: $implementation-secondary;
     }
   }
 
   &:focus {
-    color: $implementation-highlight;
+    color: $implementation-secondary;
 
     svg {
-      fill: $implementation-highlight;
+      fill: $implementation-secondary;
     }
   }
 
@@ -38,4 +39,9 @@
   &:focus {
     background-color: $implementation-highlight;
   }
+}
+
+/* Override CD Header buttons */
+.cd-header button.cd-search__btn[data-cd-toggler]:hover {
+  background: var(--cd-blue-grey);
 }

@@ -1,0 +1,110 @@
+//——————————————————————————————————————————————————————————————————————————————
+// Search results styles
+//
+// These styles govern the search results page, including the inline widget and
+// the individual results. It does NOT include the search widget inside the top
+// CD Header.
+//
+// @see common_design_subtheme/sass/cd/cd-header/_cd-search.scss
+//——————————————————————————————————————————————————————————————————————————————
+
+//
+// Inline search widget
+//
+#edit-basic {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 1rem;
+
+  // Search input should take up as much space as possible until the screen is
+  // fairly large. Afterwards it's fixed width.
+  .cd-form__item {
+    flex-basis: 100%;
+    max-width: 560px;
+  }
+
+  // Search input fills its parent (which is the flex-item).
+  .form-search {
+    width: 100%;
+    height: 100%;
+  }
+
+  // Search button is a flex-item and is fixed-width.
+  .form-submit {
+    min-width: 100px;
+    text-transform: uppercase;
+    background-color: $implementation-secondary;
+    font-size: $cd-font-size--small;
+    font-weight: 700;
+  }
+
+  // Visually hide the search input's label.
+  label[for="edit-keys"] {
+    @include visually-hidden;
+  }
+}
+
+//
+// Search results
+//
+.path-search .cd-layout-content {
+  .page-title {
+    color: #1f1f1f;
+    border: none;
+    font-family: var(--cd-font--roboto);
+    font-size: 2.25rem;
+    line-height: 2.375rem;
+  }
+
+  // General override for links
+  a {
+    color: $implementation-secondary;
+    font-family: var(--cd-font--roboto);
+  }
+
+  #edit-help-link {
+    font-size: var(--cd-font-size--small);
+  }
+
+  // No results heading is an <h3> with text inside
+  h3 {
+    color: $implementation-secondary;
+    font-family: var(--cd-font--roboto-condensed);
+
+    html[dir="rtl"] & {
+      font-family: $cd-font--noto-kufi;
+    }
+  }
+
+  // Search results, main heading
+  h2 {
+    color: $implementation-secondary;
+    font-family: var(--cd-font--roboto-condensed);
+  }
+
+  // Individual search results are <h3> with links inside
+  h3 a {
+    color: inherit;
+    font-family: inherit;
+  }
+
+  // Pagination
+  //
+  // @see common_design/components/cd-pagination/cd-pagination.css
+  .cd-pager__item a:hover,
+  .cd-pager__item a:focus {
+    color: $implementation-secondary;
+    border-color: var(--cd-blue-grey);
+    background-color: var(--cd-blue-grey);
+  }
+
+  .cd-pager__item.is-active a,
+  .cd-pager__item.is-active a:hover {
+    color: white;
+    border-color: $implementation-secondary;
+    background-color: $implementation-secondary;
+    font-weight: 700;
+  }
+}

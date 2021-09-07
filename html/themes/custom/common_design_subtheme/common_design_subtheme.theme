@@ -71,7 +71,7 @@ function common_design_subtheme_preprocess_field(&$variables) {
     case 'text_trimmed':
     case 'text_default':
       foreach ($variables['items'] as $key => $item) {
-        $variables['items'][$key]['content']['#post_render'][] = 'common_design_subtheme_add_component_classes';
+//        $variables['items'][$key]['content']['#post_render'][] = 'common_design_subtheme_add_component_classes';
       }
       foreach (common_design_subtheme_get_components() as $component => $dummy) {
         $variables['#attached']['library'][] = $component;

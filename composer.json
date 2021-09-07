@@ -21,51 +21,53 @@
     ],
     "require": {
         "php": ">=7.4",
-        "composer/installers": "^1.7",
+        "composer/installers": "^1.10",
         "cweagans/composer-patches": "^1.7",
         "drupal-composer/preserve-paths": "^0.1.6",
-        "drupal/admin_denied": "^1.0",
-        "drupal/allowed_formats": "^1.2",
+        "drupal/admin_denied": "^1.1",
+        "drupal/allowed_formats": "^1.3",
         "drupal/bigint": "^1.1",
         "drupal/ckeditor_config": "^3.0",
         "drupal/components": "^2.4",
-        "drupal/config_split": "^1.4",
-        "drupal/core-composer-scaffold": "^8.9",
-        "drupal/core-dev": "^8.9",
-        "drupal/core-recommended": "^8.9",
+        "drupal/config_split": "^1.7",
+        "drupal/core-composer-scaffold": "^9.2.4",
+        "drupal/core-dev": "^9.2.4",
+        "drupal/core-recommended": "^9.2.4",
         "drupal/ctools": "^3.7",
-        "drupal/double_field": "^3.4",
-        "drupal/editor_advanced_link": "^1.8",
-        "drupal/entity_usage": "^2.0-beta3",
+        "drupal/double_field": "^4.0@RC",
+        "drupal/editor_advanced_link": "^2.0",
+        "drupal/entity_usage": "^2.0@beta",
         "drupal/google_tag": "^1.4",
-        "drupal/imageapi_optimize_binaries": "^1.0-alpha2",
-        "drupal/inline_entity_form": "^1.0-rc8",
-        "drupal/layout_paragraphs": "1.0.x-dev",
-        "drupal/maintenance200": "^1.0",
-        "drupal/metatag": "^1.14",
+        "drupal/imageapi_optimize_binaries": "^1.0@alpha",
+        "drupal/inline_entity_form": "^1.0@RC",
+        "drupal/layout_paragraphs": "^1.0",
+        "drupal/maintenance200": "^1.1",
+        "drupal/metatag": "^1.16",
         "drupal/paragraphs": "^1.12",
-        "drupal/paragraphs_viewmode": "^1.0-alpha2",
+        "drupal/paragraphs_viewmode": "^1.0",
         "drupal/pathauto": "^1.8",
         "drupal/redirect": "^1.6",
-        "drupal/redis": "^1.4",
-        "drupal/social_auth_hid": "^2.5",
-        "drush/drush": "^10.3",
-        "oomphinc/composer-installers-extender": "^2.0",
-        "phpoffice/phpspreadsheet": "^1.14.1",
-        "symfony/flex": "^1.10",
+        "drupal/redis": "^1.5",
+        "drupal/replicate": "^1.0",
+        "drupal/replicate_ui": "^1.0",
+        "drupal/social_auth_hid": "^2.7",
+        "drush/drush": "^10.6",
+        "phpoffice/phpspreadsheet": "^1.18",
+        "symfony/flex": "^1.12",
+        "symfony/uid": "^5.3",
         "unocha/common_design": "^4.0.0",
-        "webflo/drupal-finder": "^1.0.0"
+        "webflo/drupal-finder": "^1.2.2"
     },
     "require-dev": {
-        "drupal/coder": "^8.3.9",
-        "drupal/console": "^1.9.4",
-        "drupal/devel": "^2.1",
-        "drupal/yaml_content": "^1.0@alpha",
+        "drupal/coder": "^8.3.12",
+        "drupal/console": "^1.9.7",
+        "drupal/devel": "^4.1.1",
+        "drupal/devel_php": "^1.3",
+        "drupal/stage_file_proxy": "^1.1",
         "mikey179/vfsstream": "^1.6.8",
         "phpcompatibility/php-compatibility": "^9.3.5",
-        "phpmd/phpmd": "^2.8.2",
-        "phpunit/phpunit": "^7.5.20",
-        "weitzman/drupal-test-traits": "^1.5"
+        "phpmd/phpmd": "^2.9.1",
+        "phpunit/phpunit": "^9.5.4"
     },
     "conflict": {
         "drupal/drupal": "*",
@@ -75,7 +77,7 @@
     "prefer-stable": true,
     "config": {
         "platform": {
-            "php": "7.4"
+            "php": "8.0"
         },
         "bin-dir": "vendor/bin/",
         "sort-packages": true
@@ -95,13 +97,14 @@
         "post-install-cmd": [
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
             "DrupalProject\\composer\\ScriptHandler::removeUnnecessaryFiles",
-            "git config core.hooksPath git-hooks || true"
+            "@git-hooks"
         ],
         "post-update-cmd": [
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
             "DrupalProject\\composer\\ScriptHandler::removeUnnecessaryFiles",
-            "git config core.hooksPath git-hooks || true"
+            "@git-hooks"
         ],
+        "git-hooks": "test -d .git && git config core.hooksPath git-hooks || exit 0",
         "sass-prepare": "cd html/themes/custom/common_design_subtheme && npm install",
         "sass-build": "cd html/themes/custom/common_design_subtheme && ./node_modules/.bin/sass sass:build",
         "sass-cleanup": "cd html/themes/custom/common_design_subtheme && rm -rf ./node_modules",
@@ -114,19 +117,14 @@
     "extra": {
         "enable-patching": true,
         "composer-exit-on-patch-failure": true,
+        "patches-file": "composer.patches.json",
         "patchLevel": {
             "drupal/core": "-p2"
         },
-        "patches-file": "composer.patches.json",
-        "installer-types": ["bower-asset", "npm-asset"],
         "installer-paths": {
             "html/core": ["type:drupal-core"],
             "html/libraries/ckeditor/plugins/{$name}": ["vendor:ckeditor-plugin"],
-            "html/libraries/{$name}": [
-                "type:drupal-library",
-                "type:bower-asset",
-                "type:npm-asset"
-            ],
+            "html/libraries/{$name}": ["type:drupal-library"],
             "html/modules/contrib/{$name}": ["type:drupal-module"],
             "html/profiles/contrib/{$name}": ["type:drupal-profile"],
             "html/themes/contrib/{$name}": ["type:drupal-theme"],

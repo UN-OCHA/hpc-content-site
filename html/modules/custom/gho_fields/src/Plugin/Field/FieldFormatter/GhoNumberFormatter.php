@@ -2,7 +2,6 @@
 
 namespace Drupal\gho_fields\Plugin\Field\FieldFormatter;
 
-use Drupal\Core\Field\AllowedTagsXssTrait;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -26,9 +25,6 @@ use Drupal\Core\Form\FormStateInterface;
  * )
  */
 class GhoNumberFormatter extends FormatterBase {
-
-  // Trait used to filter the prefix/suffix.
-  use AllowedTagsXssTrait;
 
   /**
    * Patterns for the long and short compact number formatting.

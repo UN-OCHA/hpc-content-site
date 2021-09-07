@@ -7,6 +7,7 @@
 
 use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\gho_general\GhoSwitchLanguage;
 use Drupal\user\Entity\User;
 
 /**
@@ -34,41 +35,10 @@ function gho_general_add_language_switch_callbacks(array &$element) {
   if (!isset($element['#pre_render'])) {
     $element['#pre_render'] = [];
   }
-  array_unshift($element['#pre_render'], 'gho_general_switch_language_pre_render');
-  $element['#post_render'][] = 'gho_general_switch_language_post_render';
-}
 
-/**
- * Switch to the site default language before rendering the given element.
- *
- * @param array $element
- *   A renderable array.
- *
- * @return array
- *   A renderable array.
- */
-function gho_general_switch_language_pre_render(array $element) {
-  $element['#original_langcode'] = gho_general_switch_to_language();
-  return $element;
-}
+  array_unshift($element['#pre_render'], [GhoSwitchLanguage::class, 'preRender']);
 
-/**
- * Switch back to the current language after rendering the given element.
- *
- * @param string $content
- *   Rendered element's content.
- * @param array $element
- *   A renderable array.
- *
- * @return array
- *   A renderable array.
- */
-function gho_general_switch_language_post_render($content, array $element) {
-  if (isset($element['#original_langcode'])) {
-    gho_general_switch_to_language($element['#original_langcode']);
-    unset($element['#original_langcode']);
-  }
-  return $content;
+  $element['#post_render'][] = [GhoSwitchLanguage::class, 'postRender'];
 }
 
 /**

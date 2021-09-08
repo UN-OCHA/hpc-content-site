@@ -5,14 +5,14 @@
  * Theme preprocessors.
  */
 
+use Drupal\common_design_subtheme\AddComponentClasses;
 use Drupal\Component\Utility\Html;
-use Drupal\Core\Access\AccessResultInterface;
-use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Menu\InaccessibleMenuLink;
+use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
-use Drupal\node\NodeInterface;
 use Drupal\gho_fields\Plugin\Field\FieldFormatter\GhoRelatedArticlesFormatter;
+use Drupal\node\NodeInterface;
 
 /**
  * Implements hook_menu().
@@ -71,7 +71,7 @@ function common_design_subtheme_preprocess_field(&$variables) {
     case 'text_trimmed':
     case 'text_default':
       foreach ($variables['items'] as $key => $item) {
-//        $variables['items'][$key]['content']['#post_render'][] = 'common_design_subtheme_add_component_classes';
+        $variables['items'][$key]['content']['#post_render'][] = [AddComponentClasses::class, 'add'];
       }
       foreach (common_design_subtheme_get_components() as $component => $dummy) {
         $variables['#attached']['library'][] = $component;

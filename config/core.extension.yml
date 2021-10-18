@@ -57,6 +57,7 @@ module:
   redis: 0
   responsive_image: 0
   search: 0
+  seckit: 0
   social_api: 0
   social_auth: 0
   social_auth_hid: 0

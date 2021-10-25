@@ -19,8 +19,6 @@ permissions:
   - 'administer menu'
   - 'administer taxonomy'
   - 'administer url aliases'
-  - 'administer users'
-  - 'assign user roles'
   - 'bypass node access'
   - 'create achievement content'
   - 'create article content'

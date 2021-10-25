@@ -1,10 +1,10 @@
-uuid: f924f421-3481-4f76-8c2f-1fb0f1869206
+uuid: da1adef1-9f90-4ce3-8fe3-a9139f139aab
 langcode: en
 status: true
 dependencies: {  }
-id: administrator
-label: Administrator
-weight: -7
+id: editor
+label: Editor
+weight: -8
 is_admin: null
 permissions:
   - 'access administration pages'
@@ -19,21 +19,14 @@ permissions:
   - 'administer menu'
   - 'administer taxonomy'
   - 'administer url aliases'
-  - 'administer users'
-  - 'assign user roles'
   - 'bypass node access'
   - 'create achievement content'
   - 'create article content'
   - 'create content translations'
   - 'create media'
   - 'create story content'
-  - 'create terms in agency'
-  - 'create terms in country'
-  - 'create terms in duty_station_region'
   - 'create terms in section'
-  - 'create terms in security_role_area'
   - 'create terms in story_type'
-  - 'create terms in theme'
   - 'create url aliases'
   - 'delete achievement revisions'
   - 'delete all revisions'
@@ -48,13 +41,8 @@ permissions:
   - 'delete own article content'
   - 'delete own story content'
   - 'delete story revisions'
-  - 'delete terms in agency'
-  - 'delete terms in country'
-  - 'delete terms in duty_station_region'
   - 'delete terms in section'
-  - 'delete terms in security_role_area'
   - 'delete terms in story_type'
-  - 'delete terms in theme'
   - 'edit any achievement content'
   - 'edit any article content'
   - 'edit any story content'
@@ -62,13 +50,8 @@ permissions:
   - 'edit own achievement content'
   - 'edit own article content'
   - 'edit own story content'
-  - 'edit terms in agency'
-  - 'edit terms in country'
-  - 'edit terms in duty_station_region'
   - 'edit terms in section'
-  - 'edit terms in security_role_area'
   - 'edit terms in story_type'
-  - 'edit terms in theme'
   - 'import needs and requirements figures'
   - 'revert achievement revisions'
   - 'revert all revisions'
@@ -79,15 +62,11 @@ permissions:
   - 'update content translations'
   - 'update media'
   - 'use text format filtered_html'
-  - 'use text format footnotes'
-  - 'use text format limited_html'
   - 'view achievement revisions'
   - 'view all media revisions'
   - 'view all revisions'
   - 'view article revisions'
   - 'view own unpublished content'
-  - 'view own unpublished media'
-  - 'view published document media'
   - 'view story revisions'
   - 'view the administration theme'
   - 'view untranslated content'

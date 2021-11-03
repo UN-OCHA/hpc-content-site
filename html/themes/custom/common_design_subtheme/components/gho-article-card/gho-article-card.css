@@ -1,0 +1,59 @@
+.gho-article-card {
+  height: 100%;
+  border: 1px solid var(--cd-grey--light);
+}
+
+/* Hide the "scroll down" SVG.
+ *
+ * Since Cards are used extensively on homepage, and our Hero Image template
+ * uses a conditional to show the SVG when `is_front` is true, we hide these
+ * SVGs with display:none in order to also hide them from the a11y tree.
+ *
+ * @see html/themes/custom/common_design_subtheme/templates/fields/field--node--field-hero-image--article.html.twig
+ */
+.gho-article-card .gho-hero-image__scrolldown {
+  display: none;
+}
+
+/* Image */
+.gho-article-card .gho-hero-image {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.gho-article-card img::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left:  0;
+
+  border: 1px solid #ddd;
+  background: var(--cd-grey--light);
+}
+.gho-article-card img::after {
+  content: 'Broken image:  ' attr(alt);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #888;
+}
+
+/* Section name */
+.gho-article-card .gho-article__pre-title {
+  margin: 1rem 0;
+  padding: 0 1rem;
+  color: var(--cd-ocha-blue);
+  font-size: var(--cd-font-size--small);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Text summary */
+.gho-article-card .field--name-field-summary {
+  margin: 1rem 0;
+  padding: 0 1rem;
+}

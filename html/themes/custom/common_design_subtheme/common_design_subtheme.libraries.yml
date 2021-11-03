@@ -148,3 +148,13 @@ gho-article-list:
   css:
     theme:
       components/gho-article-list/gho-article-list.css: {}
+
+gho-article-card-list:
+  css:
+    theme:
+      components/gho-article-card-list/gho-article-card-list.css: {}
+
+gho-article-card:
+  css:
+    theme:
+      components/gho-article-card/gho-article-card.css: {}

@@ -1,0 +1,26 @@
+.gho-article-card-list {
+  margin-top: 4.5rem;
+}
+
+.gho-article-card-list__title {
+  margin: 0 0 1.5rem 0;
+  color: #1f1f1f;
+  font-size: 1.3125rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+}
+
+.gho-article-card-list__list .field__items {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+}
+
+/* Default:  a basic 3-column layout */
+@media screen and (min-width: 606px) {
+  .gho-article-card-list__list .field__items > .field__item {
+    flex: 1 0 30%;
+  }
+}

@@ -1,0 +1,67 @@
+uuid: e3543f02-227e-4016-97d6-2e138c07ed5a
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser_card
+    - field.field.node.article.field_appeals
+    - field.field.node.article.field_author
+    - field.field.node.article.field_caption
+    - field.field.node.article.field_hero_image
+    - field.field.node.article.field_paragraphs
+    - field.field.node.article.field_pdf
+    - field.field.node.article.field_report_link
+    - field.field.node.article.field_section
+    - field.field.node.article.field_summary
+    - field.field.node.article.field_thumbnail_image
+    - image.style.652_x_489
+    - node.type.article
+  module:
+    - layout_builder
+    - media
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: node.article.teaser_card
+targetEntityType: node
+bundle: article
+mode: teaser_card
+content:
+  field_hero_image:
+    type: media_thumbnail
+    weight: 0
+    label: hidden
+    settings:
+      image_style: 652_x_489
+      image_link: ''
+    third_party_settings: {  }
+    region: content
+  field_section:
+    weight: 1
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_summary:
+    type: text_trimmed
+    weight: 2
+    region: content
+    label: hidden
+    settings:
+      trim_length: 220
+    third_party_settings: {  }
+hidden:
+  field_appeals: true
+  field_author: true
+  field_caption: true
+  field_paragraphs: true
+  field_pdf: true
+  field_report_link: true
+  field_thumbnail_image: true
+  langcode: true
+  links: true

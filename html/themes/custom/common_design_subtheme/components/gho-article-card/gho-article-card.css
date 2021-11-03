@@ -52,6 +52,15 @@
   text-transform: uppercase;
 }
 
+/* Article title */
+.gho-article-card .gho-article-card__title {
+  margin: 1em 0;
+  padding: 0 1rem;
+  color: var(--cd-black);
+  font-size: 1em;
+  font-weight: 700;
+}
+
 /* Text summary */
 .gho-article-card .field--name-field-summary {
   margin: 1rem 0;

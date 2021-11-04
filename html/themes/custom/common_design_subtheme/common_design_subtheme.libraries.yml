@@ -56,6 +56,11 @@ gho-social-links:
   js:
     components/gho-social-links/gho-social-links.js: {}
 
+gho-heading:
+  css:
+    theme:
+      components/gho-heading/gho-heading.css: {}
+
 gho-footnotes:
   js:
     components/gho-footnotes/gho-footnotes.js: {}

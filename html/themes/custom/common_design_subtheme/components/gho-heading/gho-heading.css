@@ -1,0 +1,10 @@
+.gho-heading {
+  margin: 4.5rem 0 0 0;
+}
+
+.gho-heading .gho-heading__heading {
+  margin: 0;
+  font-size: var(--cd-font-size--2xlarge);
+  font-weight: 700;
+  color: var(--cd-black);
+}

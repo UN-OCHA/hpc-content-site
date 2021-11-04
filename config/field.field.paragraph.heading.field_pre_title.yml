@@ -1,0 +1,19 @@
+uuid: 5482fab5-b435-4bd0-a135-a0ec68590cb7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_pre_title
+    - paragraphs.paragraphs_type.heading
+id: paragraph.heading.field_pre_title
+field_name: field_pre_title
+entity_type: paragraph
+bundle: heading
+label: Pre-title
+description: 'Adds a small line of text above the heading. e.g. "Chapter One"'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

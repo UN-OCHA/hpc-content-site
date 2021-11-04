@@ -1,6 +1,7 @@
 .gho-article-card {
+  --gho-article-card-border-color: #ddd;
   height: 100%;
-  border: 1px solid var(--cd-grey--light);
+  border: 1px solid var(--gho-article-card-border-color);
 }
 
 /* Hide the "scroll down" SVG.

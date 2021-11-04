@@ -54,7 +54,7 @@
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-      <h2 class="gho-heading__heading">{{ content|render|striptags }}</h2>
+      <h2 class="gho-heading__heading">{{ content }}</h2>
     {% endblock %}
   </div>
 {% endblock paragraph %}

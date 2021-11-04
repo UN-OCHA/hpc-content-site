@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.article_card_list.field_articles
+    - field.field.paragraph.article_card_list.field_emphasize_first_row
     - paragraphs.paragraphs_type.article_card_list
 id: paragraph.article_card_list.default
 targetEntityType: paragraph
@@ -18,5 +19,15 @@ content:
       link: false
     third_party_settings: {  }
     type: entity_reference_entity_view
+    region: content
+  field_emphasize_first_row:
+    weight: 1
+    label: hidden
+    settings:
+      format: custom
+      format_custom_true: show-2col
+      format_custom_false: default
+    third_party_settings: {  }
+    type: boolean
     region: content
 hidden: {  }

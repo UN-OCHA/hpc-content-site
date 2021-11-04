@@ -18,9 +18,21 @@
   gap: 1rem;
 }
 
-/* Default:  a basic 3-column layout */
 @media screen and (min-width: 606px) {
+  /**
+   * Default: a basic 3-column layout
+   */
   .gho-article-card-list__list .field__items > .field__item {
-    flex: 1 0 30%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: calc((100% - 2rem) / 3);
+  }
+
+  /**
+   * When the "Show first row as 2-column" checkbox is enabled, we make the
+   * first row 2-col, then the rest are still 3-col.
+   */
+  .gho-article-card-list--show-2col .field__items > .field__item:nth-child(-n + 2) {
+    flex-basis: calc((100% - 1rem) / 2);
   }
 }

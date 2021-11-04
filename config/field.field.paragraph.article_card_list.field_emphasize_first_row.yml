@@ -1,0 +1,23 @@
+uuid: 384308e1-5674-41a7-9eab-db54ac0a4638
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_emphasize_first_row
+    - paragraphs.paragraphs_type.article_card_list
+id: paragraph.article_card_list.field_emphasize_first_row
+field_name: field_emphasize_first_row
+entity_type: paragraph
+bundle: article_card_list
+label: 'Show first two items in 2-column layout?'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

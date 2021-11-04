@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.article_card_list.field_articles
+    - field.field.paragraph.article_card_list.field_emphasize_first_row
     - paragraphs.paragraphs_type.article_card_list
 id: paragraph.article_card_list.default
 targetEntityType: paragraph
@@ -11,7 +12,7 @@ bundle: article_card_list
 mode: default
 content:
   field_articles:
-    weight: 0
+    weight: 1
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -19,6 +20,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: entity_reference_autocomplete
+    region: content
+  field_emphasize_first_row:
+    weight: 0
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
 hidden:
   created: true

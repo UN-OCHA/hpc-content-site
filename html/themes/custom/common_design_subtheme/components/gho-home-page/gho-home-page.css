@@ -189,7 +189,6 @@
 /**
  * Homepage intro text.
  */
-.gho-home-page__content > .gho-text {}
 .gho-home-page__content > .gho-text .gho-text__text {
   max-width: none;
 }

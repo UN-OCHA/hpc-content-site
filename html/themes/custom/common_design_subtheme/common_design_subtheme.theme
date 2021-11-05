@@ -81,6 +81,18 @@ function common_design_subtheme_preprocess_field(&$variables) {
 }
 
 /**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function common_design_subtheme_theme_suggestions_field(array $variables) {
+  $suggestions = [];
+  $element = $variables['element'];
+
+  $suggestions[] = 'field__' . $element['#entity_type'] . '__' . $element['#field_name'] . '__' . $element['#bundle']  . '__' . $element['#view_mode'];
+
+  return $suggestions;
+}
+
+/**
  * Implements hook_preprocess_node().
  *
  * Use the page title block for the title and display the local tasks below it.

@@ -1,0 +1,29 @@
+uuid: 6f129d5c-cb29-4277-85f5-9cf067003018
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_articles
+    - node.type.article
+    - paragraphs.paragraphs_type.article_card_list
+id: paragraph.article_card_list.field_articles
+field_name: field_articles
+entity_type: paragraph
+bundle: article_card_list
+label: Articles
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      article: article
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

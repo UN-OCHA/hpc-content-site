@@ -1,0 +1,32 @@
+uuid: 401ef48b-db11-4354-81c3-f73411f5b574
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.heading.field_pre_title
+    - field.field.paragraph.heading.field_title
+    - paragraphs.paragraphs_type.heading
+id: paragraph.heading.default
+targetEntityType: paragraph
+bundle: heading
+mode: default
+content:
+  field_pre_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_title:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true

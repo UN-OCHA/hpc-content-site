@@ -1,0 +1,25 @@
+uuid: 89b9143d-21d0-4c45-987a-df77417e9fb0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.download_button.field_link
+    - paragraphs.paragraphs_type.download_button
+  module:
+    - link
+id: paragraph.download_button.default
+targetEntityType: paragraph
+bundle: download_button
+mode: default
+content:
+  field_link:
+    weight: 0
+    settings:
+      placeholder_url: 'https://reliefweb.int/path/to/your-pdf'
+      placeholder_title: 'Download report'
+    third_party_settings: {  }
+    type: link_default
+    region: content
+hidden:
+  created: true
+  status: true

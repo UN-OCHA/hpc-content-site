@@ -1175,7 +1175,7 @@ class GhoFiguresImportNeedsAndRequirementsFiguresForm extends FormBase {
   public static function call(array $arguments, &$data) {
     $callable = array_shift($arguments);
     $arguments[] = &$data;
-    return call_user_func_array($callable, $arguments);
+    return call_user_func_array($callable, array_values($arguments));
   }
 
   /**

@@ -78,7 +78,7 @@
 }
 
 /**
- * We're using an invisble hyperlink that stretches over the top of each card
+ * We're using an invisible hyperlink that stretches over the top of each card
  * so that the entire surface is clickable/tappable.
  */
 .gho-article-card__link {

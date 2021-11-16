@@ -14,7 +14,7 @@ dependencies:
     - field.field.node.article.field_section
     - field.field.node.article.field_summary
     - field.field.node.article.field_thumbnail_image
-    - image.style.652_x_489
+    - image.style.572_x_360
     - node.type.article
   module:
     - layout_builder
@@ -35,7 +35,7 @@ content:
     weight: 0
     label: hidden
     settings:
-      image_style: 652_x_489
+      image_style: 572_x_360
       image_link: ''
     third_party_settings: {  }
     region: content

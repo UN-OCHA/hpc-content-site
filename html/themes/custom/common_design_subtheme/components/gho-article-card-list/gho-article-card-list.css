@@ -1,4 +1,5 @@
 .gho-article-card-list {
+  --gho-article-card-list-gap: 1.25rem;
   margin-top: 4.5rem;
 }
 
@@ -15,7 +16,7 @@
   padding: 0;
   display: flex;
   flex-flow: row wrap;
-  gap: 1rem;
+  gap: var(--gho-article-card-list-gap);
 }
 
 @media screen and (min-width: 606px) {
@@ -25,7 +26,7 @@
   .gho-article-card-list__list .field__items > .field__item {
     flex-grow: 0;
     flex-shrink: 0;
-    flex-basis: calc((100% - 2rem) / 3);
+    flex-basis: calc((100% - (2 * var(--gho-article-card-list-gap))) / 3);
   }
 
   /**
@@ -33,6 +34,6 @@
    * first row 2-col, then the rest are still 3-col.
    */
   .gho-article-card-list--show-2col .field__items > .field__item:nth-child(-n + 2) {
-    flex-basis: calc((100% - 1rem) / 2);
+    flex-basis: calc((100% - var(--gho-article-card-list-gap)) / 2);
   }
 }

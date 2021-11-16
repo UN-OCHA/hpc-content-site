@@ -74,7 +74,7 @@
 
 /* Text summary */
 .gho-article-card .field--name-field-summary {
-  margin: 1.875rem 0;
+  margin: 1.875rem 0 2.25rem;
   padding: 0 var(--gho-article-card-padding);
 }
 

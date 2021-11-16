@@ -48,12 +48,11 @@ content:
     type: entity_reference_label
     region: content
   field_summary:
-    type: text_trimmed
+    type: text_default
     weight: 2
     region: content
     label: hidden
-    settings:
-      trim_length: 220
+    settings: {  }
     third_party_settings: {  }
 hidden:
   field_appeals: true

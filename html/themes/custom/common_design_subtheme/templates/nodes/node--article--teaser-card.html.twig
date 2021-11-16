@@ -89,12 +89,14 @@
     'clearfix',
   ]
 %}
+{% set text = content.field_summary|render|striptags|trim %}
+{% set summary_trimmed = text|length > 180 ? text|slice(0, 181)|split(' ')|slice(0, -1)|join(' ') ~ '…' : text %}
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content').addClass('gho-article-card__content') }}>
     {{ content.field_hero_image }}
     {{ content.field_section }}
     <h3 class="gho-article-card__title">{{ node.getTitle }}</h3>
-    {{ content.field_summary }}
+    <p class="gho-article-card__summary">{{ summary_trimmed }}</p>
     <a href="{{ url }}" class="gho-article-card__link" title="{{ 'Read this article'|t }}">{{ 'Read this article'|t }}</a>
   </div>
 </article>

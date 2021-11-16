@@ -78,6 +78,30 @@ function common_design_subtheme_preprocess_field(&$variables) {
       }
       break;
   }
+
+  // Add CD Button classes to field_link within download_button Paragraph type.
+  if ($variables['element']['#field_name'] == 'field_link' && $variables['element']['#object']->getType() === 'download_button') {
+    $variables['items'][0]['content']['#options']['attributes']['class'][] = 'cd-button cd-button--bold cd-button--uppercase';
+
+    // If no Link text was supplied, a URL will be in the title. In that case,
+    // we set a default value "Download report"
+    $has_url_in_title = strpos($variables['items'][0]['content']['#title'], 'http');
+    if ($has_url_in_title !== false && $has_url_in_title >= 0) {
+      $variables['items'][0]['content']['#title'] = t('Download report');
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function common_design_subtheme_theme_suggestions_field(array $variables) {
+  $suggestions = [];
+  $element = $variables['element'];
+
+  $suggestions[] = 'field__' . $element['#entity_type'] . '__' . $element['#field_name'] . '__' . $element['#bundle']  . '__' . $element['#view_mode'];
+
+  return $suggestions;
 }
 
 /**

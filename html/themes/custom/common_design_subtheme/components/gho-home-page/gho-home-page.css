@@ -167,7 +167,7 @@
 .gho-home-page__content > .gho-home-page__logo img {
   display: block;
   width: 100%;
-  max-width: 426px;
+  max-width: 450px;
   height: auto;
   margin: 0 auto;
 }
@@ -189,13 +189,6 @@
 /**
  * Homepage intro text.
  */
-.gho-home-page__content > .gho-text {
-  /* GHO-148: Needs and Requirements now has a border-bottom so we're removing
-     the margin/border here */
-  margin-top: 0;
-  padding-top: 3.75rem;
-  text-align: center;
-}
 .gho-home-page__content > .gho-text .gho-text__text {
   max-width: none;
 }
@@ -215,6 +208,13 @@
 }
 .gho-home-page__content > .gho-text .gho-text__text p {
   margin: 0;
+}
+
+/**
+ * Customize margins when Text appears directly after a Heading.
+ */
+.gho-home-page__content > .gho-heading + .gho-text {
+  margin-top: 1rem;
 }
 
 /**

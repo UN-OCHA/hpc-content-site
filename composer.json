@@ -50,6 +50,7 @@
         "drupal/redis": "^1.5",
         "drupal/replicate": "^1.0",
         "drupal/replicate_ui": "^1.0",
+        "drupal/seckit": "^2.0",
         "drupal/social_auth_hid": "^2.7",
         "drush/drush": "^10.6",
         "phpoffice/phpspreadsheet": "^1.18",

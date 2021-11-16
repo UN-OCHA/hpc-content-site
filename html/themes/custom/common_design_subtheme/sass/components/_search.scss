@@ -71,7 +71,7 @@
   // No results heading is an <h3> with text inside
   h3 {
     color: $implementation-secondary;
-    font-family: var(--cd-font--roboto-condensed);
+    font-family: var(--cd-font--roboto);
 
     html[dir="rtl"] & {
       font-family: $cd-font--noto-kufi;
@@ -81,7 +81,7 @@
   // Search results, main heading
   h2 {
     color: $implementation-secondary;
-    font-family: var(--cd-font--roboto-condensed);
+    font-family: var(--cd-font--roboto);
   }
 
   // Individual search results are <h3> with links inside

@@ -1,0 +1,16 @@
+uuid: 49ef166b-540b-4690-92b0-57067eae446e
+langcode: en
+status: true
+dependencies: {  }
+name: 572_x_360
+label: '572 x 360'
+effects:
+  7f8c62c1-4d94-43f5-9076-0121a95c9661:
+    uuid: 7f8c62c1-4d94-43f5-9076-0121a95c9661
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 572
+      height: 360
+      anchor: center-center
+pipeline: __default__

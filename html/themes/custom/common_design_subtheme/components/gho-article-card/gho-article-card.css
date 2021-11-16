@@ -29,7 +29,7 @@
 /* Image */
 .gho-article-card .gho-hero-image {
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: var(--gho-article-card-padding);
 }
 .gho-article-card img::before {
   content: '';

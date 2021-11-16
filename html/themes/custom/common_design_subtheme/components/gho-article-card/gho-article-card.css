@@ -1,5 +1,6 @@
 .gho-article-card {
   --gho-article-card-border-color: #ddd;
+  --gho-article-card-padding: 1.5rem;
   height: 100%;
   border: 1px solid var(--gho-article-card-border-color);
 }
@@ -55,7 +56,7 @@
 /* Section name */
 .gho-article-card .gho-article__pre-title {
   margin: 1rem 0;
-  padding: 0 1rem;
+  padding: 0 var(--gho-article-card-padding);
   color: var(--cd-ocha-blue);
   font-size: var(--cd-font-size--small);
   font-weight: 700;
@@ -65,7 +66,7 @@
 /* Article title */
 .gho-article-card .gho-article-card__title {
   margin: 1em 0;
-  padding: 0 1rem;
+  padding: 0 var(--gho-article-card-padding);
   color: var(--cd-black);
   font-size: 1em;
   font-weight: 700;
@@ -74,7 +75,7 @@
 /* Text summary */
 .gho-article-card .field--name-field-summary {
   margin: 1rem 0;
-  padding: 0 1rem;
+  padding: 0 var(--gho-article-card-padding);
 }
 
 /**

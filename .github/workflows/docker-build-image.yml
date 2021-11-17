@@ -104,5 +104,5 @@ jobs:
       env:
         FLOWDOCK_TOKEN: ${{ secrets.FLOWDOCK_TOKEN }}
         FLOWDOCK_ICON: 'package'
-        FLOWDOCK_MESSAGE: 'Built a new `gho-2022-site` image from ${{ github.ref }} and pushed to [Amazon ECR](https://gallery.ecr.aws/unocha/gho-2022-site). Now pinging [Jenkins](https://jenkins.aws.ahconu.org/view/GHO 2022/job/gho-2022-dev-deploy) to trigger a deploy.'
+        FLOWDOCK_MESSAGE: 'Built a new `gho-2022-site` image from ${{ github.ref }} and pushed to [Amazon ECR](https://gallery.ecr.aws/unocha/gho-2022-site). Now pinging [Jenkins](https://jenkins.aws.ahconu.org/job/gho-2022-dev-deploy) to trigger a deploy.'
         FLOWDOCK_TAGS: 'build,docker,${{ github.actor }}'

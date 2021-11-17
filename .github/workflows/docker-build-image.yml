@@ -89,7 +89,7 @@ jobs:
 
     - name: Flowdock Failure
       id: failure
-      if: steps.build.outputs.exitcode == 1
+      if: failure()
       uses: docker://ghcr.io/un-ocha/actions:flowdock-notify-main
       env:
         FLOWDOCK_TOKEN: ${{ secrets.FLOWDOCK_TOKEN }}
@@ -99,7 +99,7 @@ jobs:
 
     - name: Flowdock Success
       id: success
-      if: steps.build.outputs.exitcode == 0
+      if: success()
       uses: docker://ghcr.io/un-ocha/actions:flowdock-notify-main
       env:
         FLOWDOCK_TOKEN: ${{ secrets.FLOWDOCK_TOKEN }}

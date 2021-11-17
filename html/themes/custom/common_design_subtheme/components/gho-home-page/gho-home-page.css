@@ -199,13 +199,6 @@
     line-height: 2rem;
   }
 }
-
-@media (min-width: 1024px) {
-  .gho-home-page__content > .gho-text .gho-text__text {
-    font-size: 1.3125rem;
-    line-height: 2.25rem;
-  }
-}
 .gho-home-page__content > .gho-text .gho-text__text p {
   margin: 0;
 }

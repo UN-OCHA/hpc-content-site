@@ -209,9 +209,9 @@ function common_design_subtheme_get_next_article(NodeInterface $node) {
     $plugin_id = reset($links)->getPluginId();
     $menu_tree = \Drupal::service('menu.link_tree');
 
-    // Load the 2 first levels of the main menu.
+    // Load all levels of the main menu.
     $parameters = new MenuTreeParameters();
-    $parameters->setMaxdepth(2);
+    $parameters->setMaxdepth(3);
     $tree = $menu_tree->load('main', $parameters);
 
     // Check the access to the nodes in the menu and ensure they are sorted.
@@ -219,9 +219,9 @@ function common_design_subtheme_get_next_article(NodeInterface $node) {
       ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
       ['callable' => 'menu.default_tree_manipulators:checkAccess'],
       ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
-      // As we only required 2 levels, flattening will result in having all
-      // the level 2 links (so the articles) at the end of the array, in order
-      // so it's really easy to iterate to find the next one.
+      // Flattening will result in having all the "invisible" level 3 links
+      // (so the articles) at the end of the array, making it really easy to
+      // iterate to find the next one.
       ['callable' => 'menu.default_tree_manipulators:flatten'],
     ];
     $tree = $menu_tree->transform($tree, $manipulators);

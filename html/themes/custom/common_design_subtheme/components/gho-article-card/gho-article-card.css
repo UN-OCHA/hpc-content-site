@@ -93,8 +93,10 @@
 }
 .gho-article-card__link:hover {
   color: transparent;
+  outline: 3px solid var(--gho-article-card-border-color);
 }
-.gho-article-card__link:focus {
+.gho-article-card__link:focus,
+.gho-article-card__link:active {
   color: transparent;
   outline: 3px solid black;
 }

@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
     - field.field.node.article.field_caption
+    - field.field.node.article.field_card_title
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_pdf
@@ -30,6 +31,14 @@ targetEntityType: node
 bundle: article
 mode: teaser_card
 content:
+  field_card_title:
+    type: string
+    weight: 2
+    region: content
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
   field_hero_image:
     type: media_thumbnail
     weight: 0
@@ -49,7 +58,7 @@ content:
     region: content
   field_summary:
     type: text_default
-    weight: 2
+    weight: 3
     region: content
     label: hidden
     settings: {  }

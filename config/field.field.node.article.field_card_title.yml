@@ -1,0 +1,19 @@
+uuid: b10fc906-4043-4d3c-b534-c79db1c82e80
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_card_title
+    - node.type.article
+id: node.article.field_card_title
+field_name: field_card_title
+entity_type: node
+bundle: article
+label: 'Card Title'
+description: 'Optional: an alternate title to display when the Article appears as a Card. It doesn''t display anywhere else.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

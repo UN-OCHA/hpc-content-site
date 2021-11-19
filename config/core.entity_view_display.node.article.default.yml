@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
     - field.field.node.article.field_caption
+    - field.field.node.article.field_card_title
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_pdf
@@ -80,6 +81,7 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_card_title: true
   field_pdf: true
   field_report_link: true
   field_summary: true

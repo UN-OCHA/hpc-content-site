@@ -12,8 +12,6 @@
 
     /**
      * @see https://stackoverflow.com/a/986977
-     *
-     * @return {int} width in pixels
      */
     setScrollBarWidth: function () {
       // So we can store our final result.

@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.paragraph.preview
     - field.field.paragraph.interactive_content.field_dataset
     - field.field.paragraph.interactive_content.field_embed_code
+    - field.field.paragraph.interactive_content.field_full_width
     - field.field.paragraph.interactive_content.field_image
     - field.field.paragraph.interactive_content.field_link
     - field.field.paragraph.interactive_content.field_show_datawrapper
@@ -70,5 +71,6 @@ content:
     type: entity_reference_label
     region: content
 hidden:
+  field_full_width: true
   field_link: true
   field_show_datawrapper: true

@@ -4,10 +4,10 @@
   Drupal.behaviors.ghoInteractiveContent = {
     attach: function (context, settings) {
       // Measure width of vertical scrollbar.
-      this.getScrollBarWidth();
+      this.setScrollBarWidth();
 
       // Listen for window.resize and recalculate scrollbar width.
-      window.addEventListener('resize', this.getScrollBarWidth);
+      window.addEventListener('resize', this.setScrollBarWidth);
     },
 
     /**
@@ -15,7 +15,7 @@
      *
      * @return {int} width in pixels
      */
-    getScrollBarWidth: function() {
+    setScrollBarWidth: function() {
       // So we can store our final result.
       var scrollBarWidth;
 

@@ -15,7 +15,7 @@
      *
      * @return {int} width in pixels
      */
-    setScrollBarWidth: function() {
+    setScrollBarWidth: function () {
       // So we can store our final result.
       var scrollBarWidth;
 
@@ -51,6 +51,6 @@
 
       // Set on :root so that all components have access to this number.
       document.documentElement.style.setProperty('--scrollbar-width', scrollBarWidth + 'px');
-    },
+    }
   };
-}());
+})();

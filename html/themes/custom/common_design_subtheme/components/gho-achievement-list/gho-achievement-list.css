@@ -22,3 +22,8 @@
     flex: 0 0 calc((100% - 3rem) / 4);
   }
 }
+
+.gho-achievement-list .field--type-text-long {
+  padding: 1rem 2rem 2rem;
+  font-size: var(--cd-font-size--tiny);
+}

@@ -1,0 +1,28 @@
+uuid: 5453c449-3bb2-43bc-890f-3877aa3c4f61
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_text
+    - paragraphs.paragraphs_type.achievement_list
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    limited_html: limited_html
+    plain_text: '0'
+    filtered_html: '0'
+    footnotes: '0'
+id: paragraph.achievement_list.field_text
+field_name: field_text
+entity_type: paragraph
+bundle: achievement_list
+label: Caption
+description: 'Optional: a caption to describe the entire list of Achievements.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

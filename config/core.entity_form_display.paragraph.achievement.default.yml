@@ -3,26 +3,49 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.achievement.field_achievement
+    - field.field.paragraph.achievement.field_icon
+    - field.field.paragraph.achievement.field_source
+    - field.field.paragraph.achievement.field_summary
+    - field.field.paragraph.achievement.field_title
     - paragraphs.paragraphs_type.achievement
 id: paragraph.achievement.default
 targetEntityType: paragraph
 bundle: achievement
 mode: default
 content:
-  field_achievement:
-    weight: 0
+  field_icon:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_source:
+    weight: 3
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
+    type: string_textfield
+    region: content
+  field_summary:
+    weight: 2
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+  field_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   status:
     type: boolean_checkbox
-    weight: 1
+    weight: 4
     region: content
     settings:
       display_label: true

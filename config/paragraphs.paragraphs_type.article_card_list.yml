@@ -6,5 +6,5 @@ id: article_card_list
 label: 'Article Card List'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'A list of Articles rendered as cards with thumbnails.'
 behavior_plugins: {  }

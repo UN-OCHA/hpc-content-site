@@ -1,16 +1,15 @@
-uuid: dd76176c-d71c-4e0f-b0c2-90b778e606ba
+uuid: 81f91d82-5ad4-4011-8d1b-ea1bb796ec49
 langcode: en
 status: true
 dependencies:
   module:
-    - node
     - paragraphs
-id: paragraph.field_achievement
-field_name: field_achievement
+id: paragraph.field_summary
+field_name: field_summary
 entity_type: paragraph
-type: entity_reference
+type: string_long
 settings:
-  target_type: node
+  case_sensitive: false
 module: core
 locked: false
 cardinality: 1

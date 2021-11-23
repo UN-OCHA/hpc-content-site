@@ -45,3 +45,9 @@
 .cd-header button.cd-search__btn[data-cd-toggler]:hover {
   background: var(--cd-blue-grey);
 }
+
+@include desktop {
+  .cd-search__btn-label {
+    @include visually-hidden;
+  }
+}

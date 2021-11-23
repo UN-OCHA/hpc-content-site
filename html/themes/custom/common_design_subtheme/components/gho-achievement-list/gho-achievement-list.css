@@ -1,0 +1,10 @@
+.gho-achievement-list .field__items {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.gho-achievement-list .field__item {
+  flex: 0 0 calc((100% - 3rem) / 4);
+}

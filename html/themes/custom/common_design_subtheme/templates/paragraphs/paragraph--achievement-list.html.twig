@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme implementation for an achievement paragraph.
+ * Theme implementation for an Achievement List paragraph.
  *
  * Overrides paragraphs/templates/paragraph.html.twig.
  *
@@ -40,26 +40,21 @@
  * @ingroup themeable
  */
 #}
-{{ attach_library('common_design_subtheme/gho-achievement') }}
+{{ attach_library('common_design_subtheme/gho-achievement-list') }}
 {%
   set classes = [
     'paragraph',
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
-    'gho-achievement',
+    'content-width',
+    'gho-achievement-list',
   ]
 %}
-{% set icon = content.field_icon.0 %}
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-      <h3 class="gho-achievement__title">{{ content.field_title.0 }}</h3>
-      <div class="gho-achievement__icon">
-        <img src="/themes/custom/common_design_subtheme/components/gho-achievement/img/icons/{{ icon }}.svg">
-      </div>
-      <p class="gho-achievement__summary">{{ content.field_summary.0 }}</p>
-      <cite class="gho-achievement__source">{{ content.field_source.0 }}</cite>
+      {{ content }}
     {% endblock %}
   </div>
 {% endblock paragraph %}

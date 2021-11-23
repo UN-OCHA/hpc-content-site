@@ -5,6 +5,20 @@
   margin-top: 2rem;
 }
 
-.gho-achievement-list .field__item {
-  flex: 0 0 calc((100% - 3rem) / 4);
+@media (min-width: 504px) {
+  .gho-achievement-list .field__item {
+    flex: 0 0 calc((100% - 1rem) / 2);
+  }
+}
+
+@media (min-width: 734px) {
+  .gho-achievement-list .field__item {
+    flex: 0 0 calc((100% - 2rem) / 3);
+  }
+}
+
+@media (min-width: 960px) {
+  .gho-achievement-list .field__item {
+    flex: 0 0 calc((100% - 3rem) / 4);
+  }
 }

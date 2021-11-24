@@ -56,7 +56,7 @@
     {% block content %}
       <h3 class="gho-achievement__title">{{ content.field_title.0 }}</h3>
       <div class="gho-achievement__icon">
-        <img src="/themes/custom/common_design_subtheme/components/gho-achievement/img/icons/{{ icon }}.svg">
+        <img src="{{ base_path ~ directory }}/components/gho-achievement/img/icons/{{ icon }}.svg">
       </div>
       <p class="gho-achievement__summary">{{ content.field_summary.0 }}</p>
       <cite class="gho-achievement__source">{{ content.field_source.0 }}</cite>

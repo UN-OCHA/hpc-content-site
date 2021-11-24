@@ -1,0 +1,19 @@
+uuid: 818c73af-e525-4ff5-9602-2b1915f56c73
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_summary
+    - paragraphs.paragraphs_type.achievement
+id: paragraph.achievement.field_summary
+field_name: field_summary
+entity_type: paragraph
+bundle: achievement
+label: Summary
+description: 'Enter a short paragraph describing the details of the Achievement.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

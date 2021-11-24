@@ -4,7 +4,10 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.paragraph.preview
-    - field.field.paragraph.achievement.field_achievement
+    - field.field.paragraph.achievement.field_icon
+    - field.field.paragraph.achievement.field_source
+    - field.field.paragraph.achievement.field_summary
+    - field.field.paragraph.achievement.field_title
     - paragraphs.paragraphs_type.achievement
   module:
     - layout_builder
@@ -16,14 +19,9 @@ id: paragraph.achievement.preview
 targetEntityType: paragraph
 bundle: achievement
 mode: preview
-content:
-  field_achievement:
-    weight: 0
-    label: hidden
-    settings:
-      view_mode: preview
-      link: false
-    third_party_settings: {  }
-    type: entity_reference_entity_view
-    region: content
-hidden: {  }
+content: {  }
+hidden:
+  field_icon: true
+  field_source: true
+  field_summary: true
+  field_title: true

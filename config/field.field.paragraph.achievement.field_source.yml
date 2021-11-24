@@ -1,0 +1,19 @@
+uuid: d0f37e0c-6053-4e5a-9859-6a0e648ee058
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_source
+    - paragraphs.paragraphs_type.achievement
+id: paragraph.achievement.field_source
+field_name: field_source
+entity_type: paragraph
+bundle: achievement
+label: Source
+description: 'Enter a short name of the data source. No links allowed. Examples: WHO, UNICEF'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

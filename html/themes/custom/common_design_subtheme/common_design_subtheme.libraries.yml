@@ -158,6 +158,13 @@ gho-achievement:
     theme:
       components/gho-achievement/gho-achievement.css: {}
 
+gho-achievement-list:
+  css:
+    theme:
+      components/gho-achievement-list/gho-achievement-list.css: {}
+  dependencies:
+    - common_design_subtheme/gho-achievement
+
 gho-article-list:
   css:
     theme:

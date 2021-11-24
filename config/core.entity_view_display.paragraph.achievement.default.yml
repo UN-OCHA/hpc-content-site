@@ -3,20 +3,46 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.achievement.field_achievement
+    - field.field.paragraph.achievement.field_icon
+    - field.field.paragraph.achievement.field_source
+    - field.field.paragraph.achievement.field_summary
+    - field.field.paragraph.achievement.field_title
     - paragraphs.paragraphs_type.achievement
+  module:
+    - options
 id: paragraph.achievement.default
 targetEntityType: paragraph
 bundle: achievement
 mode: default
 content:
-  field_achievement:
+  field_icon:
+    weight: 1
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: list_key
+    region: content
+  field_source:
+    weight: 3
+    label: visually_hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_summary:
+    weight: 2
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_title:
     weight: 0
     label: hidden
     settings:
-      view_mode: teaser
-      link: false
+      link_to_entity: false
     third_party_settings: {  }
-    type: entity_reference_entity_view
+    type: string
     region: content
 hidden: {  }

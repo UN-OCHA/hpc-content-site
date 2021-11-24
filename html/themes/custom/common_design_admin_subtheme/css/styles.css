@@ -164,6 +164,24 @@
 }
 
 /*------------------------------------------------------------------------------
+ * Styling of the Achievement List paragraph type
+ *----------------------------------------------------------------------------*/
+.paragraph--type--achievement-list .field__items {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+}
+
+.paragraph--type--achievement-list .field__items > .field__item {
+  flex: 0 0 calc((100% - 3rem) / 4);
+  background: #eee;
+  padding: 1rem 0;
+}
+.paragraph--type--achievement-list .field__items > .field__item > * {
+  padding: 0 1rem;
+}
+
+/*------------------------------------------------------------------------------
  * Styling of the footnotes.
  *----------------------------------------------------------------------------*/
 .gho-footnote {

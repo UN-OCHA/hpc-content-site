@@ -1,0 +1,21 @@
+uuid: e3e85b28-7fa6-4a5c-aaae-0892cebdf2b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_icon
+    - paragraphs.paragraphs_type.achievement
+  module:
+    - options
+id: paragraph.achievement.field_icon
+field_name: field_icon
+entity_type: paragraph
+bundle: achievement
+label: Icon
+description: 'Select which icon should display.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

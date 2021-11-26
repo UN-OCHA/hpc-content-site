@@ -199,8 +199,7 @@ function gho_general_flag_untranslated($entity_key, array &$variables) {
  * Implements hook_preprocess_menu().
  */
 function gho_general_preprocess_menu(&$variables) {
-
-  if ($variables['menu_name'] == 'main') {
+  if ($variables['menu_name'] == 'main' || $variables['menu_name'] == 'footer') {
     // Get context language.
     $language = Drupal::languageManager()->getCurrentLanguage()->getId();
 
@@ -219,7 +218,6 @@ function gho_general_preprocess_menu(&$variables) {
  *   The context language.
  */
 function gho_general_menu_item_cleanup(array &$items, $language) {
-
   // Check language for current menu depth.
   foreach ($items as $key => &$item) {
     $menuLinkEntity = gho_general_load_link_entity_by_link($item['original_link']);
@@ -250,5 +248,6 @@ function gho_general_load_link_entity_by_link(MenuLinkInterface $menuLinkContent
     list($entity_type, $uuid) = explode(':', $menuLinkContentPlugin->getPluginId(), 2);
     $entity = \Drupal::service('entity.repository')->loadEntityByUuid($entity_type, $uuid);
   }
+
   return $entity;
 }

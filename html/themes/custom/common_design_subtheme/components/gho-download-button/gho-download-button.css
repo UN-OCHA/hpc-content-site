@@ -1,3 +1,13 @@
 .gho-download-button {
   margin: 1em 0;
 }
+
+/**
+ * Un-commonize the Common Design Button.
+ */
+.gho-download-button .cd-button {
+  border-radius: 20px;
+  padding: 0.5rem 1.125rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.05rem;
+}

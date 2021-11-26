@@ -60,6 +60,7 @@ permissions:
   - 'revert article revisions'
   - 'revert story revisions'
   - 'translate any entity'
+  - 'translate interface'
   - 'update any media'
   - 'update content translations'
   - 'update media'

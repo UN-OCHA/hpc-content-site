@@ -1,0 +1,18 @@
+uuid: f2df80d4-99f1-40a4-a26f-023a43f66a49
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.achievement_list
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: paragraph.achievement_list
+target_entity_type_id: paragraph
+target_bundle: achievement_list
+default_langcode: site_default
+language_alterable: false

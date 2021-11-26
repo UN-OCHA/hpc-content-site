@@ -24,6 +24,12 @@ filters:
     status: true
     weight: 10
     settings: {  }
+  filter_space_corrector:
+    id: filter_space_corrector
+    provider: gho_general
+    status: true
+    weight: 10
+    settings: {  }
   media_embed:
     id: media_embed
     provider: media
@@ -33,9 +39,3 @@ filters:
       default_view_mode: default
       allowed_media_types: {  }
       allowed_view_modes: {  }
-  filter_space_corrector:
-    id: filter_space_corrector
-    provider: gho_general
-    status: true
-    weight: 10
-    settings: {  }

@@ -218,7 +218,7 @@ function gho_general_preprocess_menu(&$variables) {
  * @param string $language
  *   The context language.
  */
-function gho_general_menu_item_cleanup(&$items, $language) {
+function gho_general_menu_item_cleanup(array &$items, $language) {
 
   // Check language for current menu depth.
   foreach ($items as $key => &$item) {

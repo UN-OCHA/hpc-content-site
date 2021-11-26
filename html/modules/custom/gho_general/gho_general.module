@@ -196,8 +196,8 @@ function gho_general_flag_untranslated($entity_key, array &$variables) {
 }
 
 /**
-* Implements hook_preprocess_menu().
-*/
+ * Implements hook_preprocess_menu().
+ */
 function gho_general_preprocess_menu(&$variables) {
 
   if ($variables['menu_name'] == 'main') {
@@ -211,12 +211,11 @@ function gho_general_preprocess_menu(&$variables) {
 }
 
 /**
- * Recursive function to remove menu items with different language
- * than context language.
+ * Recursive function to remove menu items with different language.
  *
- * @param $items
+ * @param array $items
  *   Menu items for current menu depth.
- * @param $language
+ * @param string $language
  *   The context language.
  */
 function gho_general_menu_item_cleanup(&$items, $language) {
@@ -234,13 +233,16 @@ function gho_general_menu_item_cleanup(&$items, $language) {
         unset($items[$key]);
       }
       // Recursive call until no more below items exists.
-      else if (isset($items[$key]['below'])) {
+      elseif (isset($items[$key]['below'])) {
         gho_general_menu_item_cleanup($items[$key]['below'], $language);
       }
     }
   }
 }
 
+/**
+ * Load entity by link.
+ */
 function gho_general_load_link_entity_by_link(MenuLinkInterface $menuLinkContentPlugin) {
   $entity = NULL;
 

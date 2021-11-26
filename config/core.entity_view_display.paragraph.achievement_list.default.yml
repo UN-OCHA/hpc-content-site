@@ -1,0 +1,33 @@
+uuid: 22123956-5d9a-4b02-8f81-7f5ff6ae92a9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.achievement_list.field_achievements
+    - field.field.paragraph.achievement_list.field_text
+    - paragraphs.paragraphs_type.achievement_list
+  module:
+    - layout_paragraphs
+    - text
+id: paragraph.achievement_list.default
+targetEntityType: paragraph
+bundle: achievement_list
+mode: default
+content:
+  field_achievements:
+    type: layout_paragraphs
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_text:
+    weight: 1
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden: {  }

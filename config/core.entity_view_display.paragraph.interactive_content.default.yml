@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.interactive_content.field_dataset
     - field.field.paragraph.interactive_content.field_embed_code
+    - field.field.paragraph.interactive_content.field_full_width
     - field.field.paragraph.interactive_content.field_image
     - field.field.paragraph.interactive_content.field_link
     - field.field.paragraph.interactive_content.field_show_datawrapper
@@ -33,6 +34,16 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: gho_datawrapper
+    region: content
+  field_full_width:
+    weight: 6
+    label: hidden
+    settings:
+      format: custom
+      format_custom_true: 'true'
+      format_custom_false: 'false'
+    third_party_settings: {  }
+    type: boolean
     region: content
   field_image:
     weight: 2

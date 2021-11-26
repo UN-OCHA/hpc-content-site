@@ -47,13 +47,19 @@
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
-    'gho-achievement-paragraph',
+    'gho-achievement',
   ]
 %}
+{% set icon = content.field_icon.0 %}
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-      {{ content }}
+      <h3 class="gho-achievement__title">{{ content.field_title.0 }}</h3>
+      <div class="gho-achievement__icon">
+        <img src="{{ base_path ~ directory }}/components/gho-achievement/img/icons/{{ icon }}.svg">
+      </div>
+      <p class="gho-achievement__summary">{{ content.field_summary.0 }}</p>
+      <cite class="gho-achievement__source">{{ content.field_source.0 }}</cite>
     {% endblock %}
   </div>
 {% endblock paragraph %}

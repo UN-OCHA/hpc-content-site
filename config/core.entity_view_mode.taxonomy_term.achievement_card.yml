@@ -1,0 +1,10 @@
+uuid: c2082fe5-cb9e-4219-ad5c-937587ab4b04
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.achievement_card
+label: 'Achievement card'
+targetEntityType: taxonomy_term
+cache: true

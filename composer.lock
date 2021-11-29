@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "76daa1dec38123dc93ff90431d573b03",
+    "content-hash": "2c377b42052e7bd80e0bcfb9c295fecc",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2985,17 +2985,17 @@
         },
         {
             "name": "drupal/double_field",
-            "version": "4.0.0-rc2",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/double_field.git",
-                "reference": "4.0.0-rc2"
+                "reference": "4.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/double_field-4.0.0-rc2.zip",
-                "reference": "4.0.0-rc2",
-                "shasum": "ac7fdbfd0dce99ab8fd8f40bf8080425f488b46e"
+                "url": "https://ftp.drupal.org/files/projects/double_field-4.0.0.zip",
+                "reference": "4.0.0",
+                "shasum": "c718196256f41b582fae749ff91f84619e3ce155"
             },
             "require": {
                 "drupal/core": "^8.9 || ^9",
@@ -3004,11 +3004,11 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "4.0.0-rc2",
-                    "datestamp": "1626878972",
+                    "version": "4.0.0",
+                    "datestamp": "1631196358",
                     "security-coverage": {
-                        "status": "not-covered",
-                        "message": "RC releases are not covered by Drupal security advisories."
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
                     }
                 }
             },
@@ -14630,7 +14630,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/double_field": 5,
         "drupal/entity_usage": 10,
         "drupal/imageapi_optimize_binaries": 15,
         "drupal/inline_entity_form": 5,

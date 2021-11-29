@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
     - field.field.node.article.field_caption
+    - field.field.node.article.field_card_title
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_pdf
@@ -14,7 +15,7 @@ dependencies:
     - field.field.node.article.field_section
     - field.field.node.article.field_summary
     - field.field.node.article.field_thumbnail_image
-    - image.style.652_x_489
+    - image.style.572_x_360
     - node.type.article
   module:
     - layout_builder
@@ -30,12 +31,20 @@ targetEntityType: node
 bundle: article
 mode: teaser_card
 content:
+  field_card_title:
+    type: string
+    weight: 2
+    region: content
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
   field_hero_image:
     type: media_thumbnail
     weight: 0
     label: hidden
     settings:
-      image_style: 652_x_489
+      image_style: 572_x_360
       image_link: ''
     third_party_settings: {  }
     region: content
@@ -48,12 +57,11 @@ content:
     type: entity_reference_label
     region: content
   field_summary:
-    type: text_trimmed
-    weight: 2
+    type: text_default
+    weight: 3
     region: content
     label: hidden
-    settings:
-      trim_length: 220
+    settings: {  }
     third_party_settings: {  }
 hidden:
   field_appeals: true

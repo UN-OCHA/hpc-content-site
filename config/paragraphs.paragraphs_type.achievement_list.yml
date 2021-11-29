@@ -1,0 +1,10 @@
+uuid: 76c9f755-ec5a-4ab5-81b4-69eb6063fe3d
+langcode: en
+status: true
+dependencies: {  }
+id: achievement_list
+label: 'Achievement list'
+icon_uuid: null
+icon_default: null
+description: 'A list of Achievements with an optional caption.'
+behavior_plugins: {  }

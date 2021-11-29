@@ -1,0 +1,1140 @@
+uuid: b112229a-ea3f-4f50-9659-97927c4172b8
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_icon
+field_name: field_icon
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: Abduction-kidnapping
+      label: 'Abduction kidnapping'
+    -
+      value: About
+      label: About
+    -
+      value: Add-document
+      label: 'Add document'
+    -
+      value: Add
+      label: Add
+    -
+      value: Advocacy
+      label: Advocacy
+    -
+      value: Affected-population
+      label: 'Affected population'
+    -
+      value: Agile
+      label: Agile
+    -
+      value: Agriculture
+      label: Agriculture
+    -
+      value: Airport-affected
+      label: 'Airport affected'
+    -
+      value: Airport-closed
+      label: 'Airport closed'
+    -
+      value: Airport-destroyed
+      label: 'Airport destroyed'
+    -
+      value: Airport-military
+      label: 'Airport military'
+    -
+      value: Airport-not-affected
+      label: 'Airport not affected'
+    -
+      value: Airport
+      label: Airport
+    -
+      value: Alert
+      label: Alert
+    -
+      value: Analysis
+      label: Analysis
+    -
+      value: Apps
+      label: Apps
+    -
+      value: Arrest-detention
+      label: 'Arrest detention'
+    -
+      value: Assault
+      label: Assault
+    -
+      value: Assembly-point
+      label: 'Assembly point'
+    -
+      value: Assessment
+      label: Assessment
+    -
+      value: Attack
+      label: Attack
+    -
+      value: Bacteria
+      label: Bacteria
+    -
+      value: Blanket
+      label: Blanket
+    -
+      value: Blog
+      label: Blog
+    -
+      value: Boat
+      label: Boat
+    -
+      value: Bookmark
+      label: Bookmark
+    -
+      value: Border-closed
+      label: 'Border closed'
+    -
+      value: Border-crossing
+      label: 'Border crossing'
+    -
+      value: Borehole
+      label: Borehole
+    -
+      value: Bottled-water
+      label: 'Bottled water'
+    -
+      value: Bridge-affected
+      label: 'Bridge affected'
+    -
+      value: Bridge-closed
+      label: 'Bridge closed'
+    -
+      value: Bridge-destroyed
+      label: 'Bridge destroyed'
+    -
+      value: Bridge-not-affected
+      label: 'Bridge not affected'
+    -
+      value: Bridge
+      label: Bridge
+    -
+      value: Bucket
+      label: Bucket
+    -
+      value: Buddhist-temple
+      label: 'Buddhist temple'
+    -
+      value: Building-closed
+      label: 'Building closed'
+    -
+      value: Building-facility-affected
+      label: 'Building facility affected'
+    -
+      value: Building-facility-destroyed
+      label: 'Building facility destroyed'
+    -
+      value: Building-facility-not-affected
+      label: 'Building facility not affected'
+    -
+      value: Building
+      label: Building
+    -
+      value: Bus
+      label: Bus
+    -
+      value: COVID-19
+      label: 'COVID 19'
+    -
+      value: CSV-file
+      label: 'CSV file'
+    -
+      value: Calendar
+      label: Calendar
+    -
+      value: Camp-Coordination-and-Camp-Management
+      label: 'Camp Coordination and Camp Management'
+    -
+      value: Car
+      label: Car
+    -
+      value: Carjacking
+      label: Carjacking
+    -
+      value: Case-management
+      label: 'Case management'
+    -
+      value: Cash-transfer
+      label: 'Cash transfer'
+    -
+      value: Cell-tower
+      label: 'Cell tower'
+    -
+      value: Chart
+      label: Chart
+    -
+      value: Chat
+      label: Chat
+    -
+      value: Checked-mail
+      label: 'Checked mail'
+    -
+      value: Checkpoint
+      label: Checkpoint
+    -
+      value: Child-care-child-friendly
+      label: 'Child care child friendly'
+    -
+      value: Child-combatant
+      label: 'Child combatant'
+    -
+      value: Child-protection
+      label: 'Child protection'
+    -
+      value: Children
+      label: Children
+    -
+      value: Church
+      label: Church
+    -
+      value: Civil-military-coordination
+      label: 'Civil military coordination'
+    -
+      value: Clinic
+      label: Clinic
+    -
+      value: Clothing
+      label: Clothing
+    -
+      value: Cold-wave
+      label: 'Cold wave'
+    -
+      value: Communal-latrine
+      label: 'Communal latrine'
+    -
+      value: Community-building
+      label: 'Community building'
+    -
+      value: Community-engagement
+      label: 'Community engagement'
+    -
+      value: Computer
+      label: Computer
+    -
+      value: Confined
+      label: Confined
+    -
+      value: Conflict
+      label: Conflict
+    -
+      value: Coordinated-assessement
+      label: 'Coordinated assessement'
+    -
+      value: Coordination
+      label: Coordination
+    -
+      value: Copy
+      label: Copy
+    -
+      value: Country
+      label: Country
+    -
+      value: Cyclone
+      label: Cyclone
+    -
+      value: DOCX-file
+      label: 'DOCX file'
+    -
+      value: Damaged-Affected
+      label: 'Damaged Affected'
+    -
+      value: Dangerous-area
+      label: 'Dangerous area'
+    -
+      value: Data
+      label: Data
+    -
+      value: Dead
+      label: Dead
+    -
+      value: Debris-management
+      label: 'Debris management'
+    -
+      value: Delete-account
+      label: 'Delete account'
+    -
+      value: Deployment
+      label: Deployment
+    -
+      value: Destroyed
+      label: Destroyed
+    -
+      value: Detergent
+      label: Detergent
+    -
+      value: Diplomatic-mission
+      label: 'Diplomatic mission'
+    -
+      value: Distribution-site
+      label: 'Distribution site'
+    -
+      value: Doctor
+      label: Doctor
+    -
+      value: Document
+      label: Document
+    -
+      value: Down
+      label: Down
+    -
+      value: Download
+      label: Download
+    -
+      value: Drought
+      label: Drought
+    -
+      value: Drowned
+      label: Drowned
+    -
+      value: E-mail
+      label: 'E mail'
+    -
+      value: Early-Recovery
+      label: 'Early Recovery'
+    -
+      value: Earthmound
+      label: Earthmound
+    -
+      value: Earthquake
+      label: Earthquake
+    -
+      value: Edit
+      label: Edit
+    -
+      value: Education
+      label: Education
+    -
+      value: Elderly
+      label: Elderly
+    -
+      value: Emergency-Telecommunications
+      label: 'Emergency Telecommunications'
+    -
+      value: Environment
+      label: Environment
+    -
+      value: Epidemic
+      label: Epidemic
+    -
+      value: Exit-Cancel
+      label: 'Exit Cancel'
+    -
+      value: Expand-down
+      label: 'Expand down'
+    -
+      value: Expand-left
+      label: 'Expand left'
+    -
+      value: Expand-right
+      label: 'Expand right'
+    -
+      value: Expand-up
+      label: 'Expand up'
+    -
+      value: Famine
+      label: Famine
+    -
+      value: Favourite
+      label: Favourite
+    -
+      value: Fax
+      label: Fax
+    -
+      value: Ferry
+      label: Ferry
+    -
+      value: Film
+      label: Film
+    -
+      value: Filter
+      label: Filter
+    -
+      value: Financing
+      label: Financing
+    -
+      value: Fire
+      label: Fire
+    -
+      value: Fishery
+      label: Fishery
+    -
+      value: Flash-flood
+      label: 'Flash flood'
+    -
+      value: Flood
+      label: Flood
+    -
+      value: Flour
+      label: Flour
+    -
+      value: Folder
+      label: Folder
+    -
+      value: Food-Security
+      label: 'Food Security'
+    -
+      value: Food-warehouse
+      label: 'Food warehouse'
+    -
+      value: Food
+      label: Food
+    -
+      value: Forced-entry
+      label: 'Forced entry'
+    -
+      value: Forced-recruitment
+      label: 'Forced recruitment'
+    -
+      value: Fund
+      label: Fund
+    -
+      value: Gap-analysis
+      label: 'Gap analysis'
+    -
+      value: Gas-station
+      label: 'Gas station'
+    -
+      value: Gender-based-violence
+      label: 'Gender based violence'
+    -
+      value: Gender
+      label: Gender
+    -
+      value: Go
+      label: Go
+    -
+      value: Government-office
+      label: 'Government office'
+    -
+      value: Group
+      label: Group
+    -
+      value: Handwashing
+      label: Handwashing
+    -
+      value: Harassment-intimidation
+      label: 'Harassment intimidation'
+    -
+      value: Health-facility-affected
+      label: 'Health facility affected'
+    -
+      value: Health-facility-destroyed
+      label: 'Health facility destroyed'
+    -
+      value: Health-facility-not-affected
+      label: 'Health facility not affected'
+    -
+      value: Health-facility
+      label: 'Health facility'
+    -
+      value: Health-post
+      label: 'Health post'
+    -
+      value: Health-worker
+      label: 'Health worker'
+    -
+      value: Health
+      label: Health
+    -
+      value: Heatwave
+      label: Heatwave
+    -
+      value: Heavy-rain
+      label: 'Heavy rain'
+    -
+      value: Helicopter
+      label: Helicopter
+    -
+      value: Helipad
+      label: Helipad
+    -
+      value: Help
+      label: Help
+    -
+      value: Hidden
+      label: Hidden
+    -
+      value: Hindu-temple
+      label: 'Hindu temple'
+    -
+      value: Hospital-bed
+      label: 'Hospital bed'
+    -
+      value: Hospital
+      label: Hospital
+    -
+      value: Hotel
+      label: Hotel
+    -
+      value: House-affected
+      label: 'House affected'
+    -
+      value: House-burned
+      label: 'House burned'
+    -
+      value: House-destroyed
+      label: 'House destroyed'
+    -
+      value: House-lockdown
+      label: 'House lockdown'
+    -
+      value: House-not-affected
+      label: 'House not affected'
+    -
+      value: House
+      label: House
+    -
+      value: Humanitarian-access
+      label: 'Humanitarian access'
+    -
+      value: Humanitarian-programme-cycle
+      label: 'Humanitarian programme cycle'
+    -
+      value: IDP-refugee-camp
+      label: 'IDP refugee camp'
+    -
+      value: 'Indigenous people'
+      label: 'Indigenous people'
+    -
+      value: Infant
+      label: Infant
+    -
+      value: Infected
+      label: Infected
+    -
+      value: Infection-control
+      label: 'Infection control'
+    -
+      value: Information-management
+      label: 'Information management'
+    -
+      value: Information-technology
+      label: 'Information technology'
+    -
+      value: Infrastructure
+      label: Infrastructure
+    -
+      value: Injured
+      label: Injured
+    -
+      value: Innovation
+      label: Innovation
+    -
+      value: Insect-infestation
+      label: 'Insect infestation'
+    -
+      value: Internally-displaced
+      label: 'Internally displaced'
+    -
+      value: Internet
+      label: Internet
+    -
+      value: Kitchen-set
+      label: 'Kitchen set'
+    -
+      value: Laboratory
+      label: Laboratory
+    -
+      value: Landslide-mudslide
+      label: 'Landslide mudslide'
+    -
+      value: Laptop
+      label: Laptop
+    -
+      value: Latrine-cabin
+      label: 'Latrine cabin'
+    -
+      value: Leadership
+      label: Leadership
+    -
+      value: Learning
+      label: Learning
+    -
+      value: Life-saving
+      label: 'Life saving'
+    -
+      value: Link
+      label: Link
+    -
+      value: Livelihood
+      label: Livelihood
+    -
+      value: Livestock
+      label: Livestock
+    -
+      value: Location-lockdown
+      label: 'Location lockdown'
+    -
+      value: Location
+      label: Location
+    -
+      value: Locust-infestation
+      label: 'Locust infestation'
+    -
+      value: Logistics
+      label: Logistics
+    -
+      value: Map
+      label: Map
+    -
+      value: Market-closed
+      label: 'Market closed'
+    -
+      value: Market
+      label: Market
+    -
+      value: Mask
+      label: Mask
+    -
+      value: Mattress
+      label: Mattress
+    -
+      value: Medical-supply
+      label: 'Medical supply'
+    -
+      value: Medicine
+      label: Medicine
+    -
+      value: Meeting
+      label: Meeting
+    -
+      value: Menu
+      label: Menu
+    -
+      value: Military-gate
+      label: 'Military gate'
+    -
+      value: Mine
+      label: Mine
+    -
+      value: Missing
+      label: Missing
+    -
+      value: Mobile-clinic
+      label: 'Mobile clinic'
+    -
+      value: Mobile-phone
+      label: 'Mobile phone'
+    -
+      value: Monitor
+      label: Monitor
+    -
+      value: Monitoring
+      label: Monitoring
+    -
+      value: More-options
+      label: 'More options'
+    -
+      value: Mosque
+      label: Mosque
+    -
+      value: Mosquito-net
+      label: 'Mosquito net'
+    -
+      value: Multi-cluster-sector
+      label: 'Multi cluster sector'
+    -
+      value: Murder
+      label: Murder
+    -
+      value: NGO-office
+      label: 'NGO office'
+    -
+      value: National-army
+      label: 'National army'
+    -
+      value: Needs-assessment
+      label: 'Needs assessment'
+    -
+      value: Next-item
+      label: 'Next item'
+    -
+      value: Non-food-items-2
+      label: 'Non food items 2'
+    -
+      value: Non-food-items
+      label: 'Non food items'
+    -
+      value: Not-affected
+      label: 'Not affected'
+    -
+      value: Not-infected
+      label: 'Not infected'
+    -
+      value: Not-secured
+      label: 'Not secured'
+    -
+      value: Notification
+      label: Notification
+    -
+      value: Nutrition
+      label: Nutrition
+    -
+      value: Observation-tower
+      label: 'Observation tower'
+    -
+      value: Oil-facility
+      label: 'Oil facility'
+    -
+      value: Oil
+      label: Oil
+    -
+      value: Out-of-platform
+      label: 'Out of platform'
+    -
+      value: PDF-file
+      label: 'PDF file'
+    -
+      value: Partnership
+      label: Partnership
+    -
+      value: Password
+      label: Password
+    -
+      value: Pause
+      label: Pause
+    -
+      value: Peacekeeping-force
+      label: 'Peacekeeping force'
+    -
+      value: People-in-need
+      label: 'People in need'
+    -
+      value: People-targeted
+      label: 'People targeted'
+    -
+      value: People-with-physical-impairments
+      label: 'People with physical impairments'
+    -
+      value: Permanent-camp
+      label: 'Permanent camp'
+    -
+      value: Person-1
+      label: 'Person 1'
+    -
+      value: Person-2
+      label: 'Person 2'
+    -
+      value: Photo
+      label: Photo
+    -
+      value: Physical-closure
+      label: 'Physical closure'
+    -
+      value: Physical-distancing
+      label: 'Physical distancing'
+    -
+      value: Plastic-sheeting
+      label: 'Plastic sheeting'
+    -
+      value: Police-station
+      label: 'Police station'
+    -
+      value: Policy
+      label: Policy
+    -
+      value: Population-growth
+      label: 'Population growth'
+    -
+      value: Population-return
+      label: 'Population return'
+    -
+      value: Port-affected
+      label: 'Port affected'
+    -
+      value: Port-closed
+      label: 'Port closed'
+    -
+      value: Port-destroyed
+      label: 'Port destroyed'
+    -
+      value: Port-not-affected
+      label: 'Port not affected'
+    -
+      value: Port
+      label: Port
+    -
+      value: Potable-water-source
+      label: 'Potable water source'
+    -
+      value: Potable-water
+      label: 'Potable water'
+    -
+      value: Poverty
+      label: Poverty
+    -
+      value: Power-electricity-affected
+      label: 'Power electricity affected'
+    -
+      value: Power-electricity-not-affected
+      label: 'Power electricity not affected'
+    -
+      value: Power-electricity
+      label: 'Power electricity'
+    -
+      value: Power-outage
+      label: 'Power outage'
+    -
+      value: Pregnant
+      label: Pregnant
+    -
+      value: Preparedness
+      label: Preparedness
+    -
+      value: Previous-item
+      label: 'Previous item'
+    -
+      value: Print
+      label: Print
+    -
+      value: Protection
+      label: Protection
+    -
+      value: Public-information
+      label: 'Public information'
+    -
+      value: Radio
+      label: Radio
+    -
+      value: Rebel
+      label: Rebel
+    -
+      value: Reconstruction
+      label: Reconstruction
+    -
+      value: Refugee
+      label: Refugee
+    -
+      value: Registration
+      label: Registration
+    -
+      value: Relief-goods
+      label: 'Relief goods'
+    -
+      value: Remote-support
+      label: 'Remote support'
+    -
+      value: Remove-document
+      label: 'Remove document'
+    -
+      value: Remove
+      label: Remove
+    -
+      value: Report
+      label: Report
+    -
+      value: Reporting
+      label: Reporting
+    -
+      value: Resilience
+      label: Resilience
+    -
+      value: Respiratory
+      label: Respiratory
+    -
+      value: Response
+      label: Response
+    -
+      value: Return
+      label: Return
+    -
+      value: Rice
+      label: Rice
+    -
+      value: Road-affected
+      label: 'Road affected'
+    -
+      value: Road-barrier
+      label: 'Road barrier'
+    -
+      value: Road-closed
+      label: 'Road closed'
+    -
+      value: Road-destroyed
+      label: 'Road destroyed'
+    -
+      value: Road-not-affected
+      label: 'Road not affected'
+    -
+      value: Road
+      label: Road
+    -
+      value: Roadblock
+      label: Roadblock
+    -
+      value: Robbery
+      label: Robbery
+    -
+      value: Rule-of-law-and-justice
+      label: 'Rule of law and justice'
+    -
+      value: Rural-exodus
+      label: 'Rural exodus'
+    -
+      value: Rural
+      label: Rural
+    -
+      value: Safety-and-security
+      label: 'Safety and security'
+    -
+      value: Salt
+      label: Salt
+    -
+      value: Sanitation
+      label: Sanitation
+    -
+      value: Sanitizer
+      label: Sanitizer
+    -
+      value: Satellite-dish
+      label: 'Satellite dish'
+    -
+      value: Save
+      label: Save
+    -
+      value: Scale-down-operation
+      label: 'Scale down operation'
+    -
+      value: Scale-up-operation
+      label: 'Scale up operation'
+    -
+      value: School-affected
+      label: 'School affected'
+    -
+      value: School-closed
+      label: 'School closed'
+    -
+      value: School-destroyed
+      label: 'School destroyed'
+    -
+      value: School-not-affected
+      label: 'School not affected'
+    -
+      value: School
+      label: School
+    -
+      value: Search-and-rescue
+      label: 'Search and rescue'
+    -
+      value: Search
+      label: Search
+    -
+      value: Secured
+      label: Secured
+    -
+      value: Security
+      label: Security
+    -
+      value: See
+      label: See
+    -
+      value: Selected
+      label: Selected
+    -
+      value: Services-and-tools
+      label: 'Services and tools'
+    -
+      value: Settings
+      label: Settings
+    -
+      value: 'Sexual-and-reproductive health'
+      label: 'Sexual and reproductive health'
+    -
+      value: Sexual-violence
+      label: 'Sexual violence'
+    -
+      value: Share
+      label: Share
+    -
+      value: Shelter
+      label: Shelter
+    -
+      value: Ship
+      label: Ship
+    -
+      value: Shower
+      label: Shower
+    -
+      value: Smartphone
+      label: Smartphone
+    -
+      value: Snow-avalanche
+      label: 'Snow avalanche'
+    -
+      value: Snowfall
+      label: Snowfall
+    -
+      value: Soap
+      label: Soap
+    -
+      value: Solid-waste
+      label: 'Solid waste'
+    -
+      value: Spontaneous-site
+      label: 'Spontaneous site'
+    -
+      value: Spring-water
+      label: 'Spring water'
+    -
+      value: Staff-management
+      label: 'Staff management'
+    -
+      value: Stop
+      label: Stop
+    -
+      value: Storm-surge
+      label: 'Storm surge'
+    -
+      value: Storm
+      label: Storm
+    -
+      value: Stove
+      label: Stove
+    -
+      value: Submersible-pump
+      label: 'Submersible pump'
+    -
+      value: Sugar
+      label: Sugar
+    -
+      value: Table
+      label: Table
+    -
+      value: Tarpaulin
+      label: Tarpaulin
+    -
+      value: Technological-disaster
+      label: 'Technological disaster'
+    -
+      value: Temporary-camp
+      label: 'Temporary camp'
+    -
+      value: Tent
+      label: Tent
+    -
+      value: Testing
+      label: Testing
+    -
+      value: Time
+      label: Time
+    -
+      value: Toilet
+      label: Toilet
+    -
+      value: Top-ranking
+      label: 'Top ranking'
+    -
+      value: Tornado
+      label: Tornado
+    -
+      value: Trade-and-market
+      label: 'Trade and market'
+    -
+      value: Train
+      label: Train
+    -
+      value: Training
+      label: Training
+    -
+      value: Transition-site
+      label: 'Transition site'
+    -
+      value: Trending
+      label: Trending
+    -
+      value: Truck
+      label: Truck
+    -
+      value: Tsunami
+      label: Tsunami
+    -
+      value: Tunnel
+      label: Tunnel
+    -
+      value: UN-compound-office
+      label: 'UN compound office'
+    -
+      value: UN-vehicle
+      label: 'UN vehicle'
+    -
+      value: University
+      label: University
+    -
+      value: Up
+      label: Up
+    -
+      value: Upload
+      label: Upload
+    -
+      value: Urban-rural
+      label: 'Urban rural'
+    -
+      value: Urban
+      label: Urban
+    -
+      value: User
+      label: User
+    -
+      value: Users
+      label: Users
+    -
+      value: Vaccine
+      label: Vaccine
+    -
+      value: Validate-account
+      label: 'Validate account'
+    -
+      value: Ventilator
+      label: Ventilator
+    -
+      value: Video-
+      label: Video
+    -
+      value: Violent-wind
+      label: 'Violent wind'
+    -
+      value: Virus
+      label: Virus
+    -
+      value: Volcano
+      label: Volcano
+    -
+      value: Walkie-talkie
+      label: 'Walkie talkie'
+    -
+      value: Warning-Error
+      label: 'Warning Error'
+    -
+      value: Water-Sanitation-and-Hygiene
+      label: 'Water Sanitation and Hygiene'
+    -
+      value: Water-source
+      label: 'Water source'
+    -
+      value: Water-trucking
+      label: 'Water trucking'
+    -
+      value: Work-from-home
+      label: 'Work from home'
+    -
+      value: Worm-infestation
+      label: 'Worm infestation'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

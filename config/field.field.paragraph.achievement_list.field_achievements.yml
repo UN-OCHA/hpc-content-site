@@ -1,0 +1,88 @@
+uuid: 87cc5085-be8a-4cc2-9154-e9e493212a92
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_achievements
+    - paragraphs.paragraphs_type.achievement
+    - paragraphs.paragraphs_type.achievement_list
+  module:
+    - entity_reference_revisions
+id: paragraph.achievement_list.field_achievements
+field_name: field_achievements
+entity_type: paragraph
+bundle: achievement_list
+label: Achievements
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      achievement: achievement
+    target_bundles_drag_drop:
+      achievement:
+        enabled: true
+        weight: 22
+      achievement_list:
+        weight: 21
+        enabled: false
+      article_card_list:
+        weight: 23
+        enabled: false
+      article_list:
+        weight: 24
+        enabled: false
+      bottom_figure_row:
+        weight: 25
+        enabled: false
+      download_button:
+        weight: 26
+        enabled: false
+      facts_and_figures:
+        weight: 27
+        enabled: false
+      further_reading:
+        weight: 28
+        enabled: false
+      heading:
+        weight: 29
+        enabled: false
+      image_with_text:
+        weight: 30
+        enabled: false
+      interactive_content:
+        weight: 31
+        enabled: false
+      layout:
+        weight: 32
+        enabled: false
+      needs_and_requirements:
+        weight: 33
+        enabled: false
+      photo_gallery:
+        weight: 34
+        enabled: false
+      section_index:
+        weight: 35
+        enabled: false
+      separator:
+        weight: 36
+        enabled: false
+      signature:
+        weight: 37
+        enabled: false
+      story:
+        weight: 38
+        enabled: false
+      sub_article:
+        weight: 39
+        enabled: false
+      text:
+        weight: 40
+        enabled: false
+field_type: entity_reference_revisions

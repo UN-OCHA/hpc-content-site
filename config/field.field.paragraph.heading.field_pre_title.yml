@@ -12,7 +12,7 @@ bundle: heading
 label: Pre-title
 description: 'Adds a small line of text above the heading. e.g. "Chapter One"'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

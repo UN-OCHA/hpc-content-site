@@ -1,0 +1,23 @@
+uuid: 8e84007c-901f-4a80-ac21-644328dfd021
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_full_width
+    - paragraphs.paragraphs_type.interactive_content
+id: paragraph.interactive_content.field_full_width
+field_name: field_full_width
+entity_type: paragraph
+bundle: interactive_content
+label: 'Display at full width?'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes, full width'
+  off_label: 'No, align with content'
+field_type: boolean

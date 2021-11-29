@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
     - field.field.node.article.field_caption
+    - field.field.node.article.field_card_title
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_pdf
@@ -48,6 +49,7 @@ hidden:
   field_appeals: true
   field_author: true
   field_caption: true
+  field_card_title: true
   field_hero_image: true
   field_paragraphs: true
   field_pdf: true

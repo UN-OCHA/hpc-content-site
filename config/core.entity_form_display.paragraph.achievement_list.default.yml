@@ -1,0 +1,50 @@
+uuid: 701c8ece-e298-49b8-926b-f71954be5118
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.achievement_list.field_achievements
+    - field.field.paragraph.achievement_list.field_text
+    - paragraphs.paragraphs_type.achievement_list
+  module:
+    - paragraphs
+    - text
+id: paragraph.achievement_list.default
+targetEntityType: paragraph
+bundle: achievement_list
+mode: default
+content:
+  field_achievements:
+    type: entity_reference_paragraphs
+    weight: 0
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  field_text:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  status:
+    type: boolean_checkbox
+    weight: 2
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  translation:
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true

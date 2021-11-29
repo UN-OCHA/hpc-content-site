@@ -25,8 +25,9 @@
 
 .gho-heading__pre-title {
   display: block;
-  color: var(--cd-grey--mid);
-  font-size: var(--cd-font-size--small);
+  margin-bottom: 0.5rem;
+  color: #707070;
+  font-size: var(--cd-font-size--tiny);
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -34,7 +35,7 @@
 .gho-heading__title {
   display: block;
   margin: 0;
-  font-size: var(--cd-font-size--2xlarge);
+  font-size: 2.25rem;
   font-weight: 700;
   color: var(--cd-black);
 }

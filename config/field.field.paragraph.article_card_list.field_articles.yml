@@ -13,7 +13,7 @@ bundle: article_card_list
 label: Articles
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

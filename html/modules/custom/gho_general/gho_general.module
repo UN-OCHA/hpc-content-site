@@ -220,6 +220,10 @@ function gho_general_preprocess_menu(&$variables) {
 function gho_general_menu_item_cleanup(array &$items, $language) {
   // Check language for current menu depth.
   foreach ($items as $key => &$item) {
+    // Do not try to process this item if there is no original link.
+    if (empty($item['original_link'])) {
+      continue;
+    }
     $menuLinkEntity = gho_general_load_link_entity_by_link($item['original_link']);
 
     // Ignore if we don´t have a menu object.

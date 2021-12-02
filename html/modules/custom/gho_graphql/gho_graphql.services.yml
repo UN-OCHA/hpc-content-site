@@ -1,0 +1,8 @@
+services:
+  gho_graphql.buffer.entity:
+    class: Drupal\gho_graphql\GraphQL\Buffers\GhoEntityMatchingBuffer
+    arguments: ['@entity_type.manager']
+  gho_graphql.route_subscriber:
+    class: Drupal\gho_graphql\EventSubscriber\RouteSubscriber
+    tags:
+      - { name: event_subscriber }

@@ -1,0 +1,52 @@
+type ArticleList {
+  count: Int
+  items: [Article]
+}
+
+type Article {
+  id: Int!
+  title: String!
+  language: Language
+  status: Int
+  created: String
+  updated: String
+  heroImage: [HeroImage]
+  caption: Caption
+  author: [Author]
+  content: [Paragraph]
+}
+
+type HeroImage {
+  id: Int
+  credits: String
+  image: Image
+}
+
+type Author {
+  id: Int
+  title: String
+  image: Image
+}
+
+type Paragraph {
+  id: Int
+  type: String
+  typeLabel: String
+  rendered: String
+}
+
+type Caption {
+  title: String
+  body: String
+}
+
+type Image {
+  url: String
+  width: Int
+  height: Int
+}
+
+type Language {
+  id: String
+  name: String
+}

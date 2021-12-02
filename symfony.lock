@@ -218,6 +218,9 @@
     "drupal/google_tag": {
         "version": "1.4.0"
     },
+    "drupal/graphql": {
+        "version": "4.2.0"
+    },
     "drupal/imageapi_optimize": {
         "version": "4.0.0-beta1"
     },
@@ -289,6 +292,9 @@
     },
     "drupal/user_expire": {
         "version": "1.0.0"
+    },
+    "drupal/typed_data": {
+        "version": "1.0.0-beta1"
     },
     "drupal/yaml_content": {
         "version": "1.0.0-alpha7"
@@ -816,6 +822,9 @@
     },
     "webmozart/path-util": {
         "version": "2.3.0"
+    },
+    "webonyx/graphql-php": {
+        "version": "v14.11.0"
     },
     "weitzman/drupal-test-traits": {
         "version": "1.5.0"

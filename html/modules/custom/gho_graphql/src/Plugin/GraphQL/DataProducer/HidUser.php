@@ -4,6 +4,7 @@ namespace Drupal\gho_graphql\Plugin\GraphQL\DataProducer;
 
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\graphql\GraphQL\Execution\FieldContext;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -62,6 +63,7 @@ class HidUser extends DataProducerPluginBase implements ContainerFactoryPluginIn
       $plugin_id,
       $plugin_definition,
       $container->get('request_stack'),
+      $container->get('current_user'),
       $container->get('social_auth.user_manager'),
       $container->get('social_auth.user_authenticator')
     );
@@ -78,14 +80,17 @@ class HidUser extends DataProducerPluginBase implements ContainerFactoryPluginIn
    *   The plugin implementation definition.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   The current request stack.
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   The current user.
    * @param \Drupal\social_auth\User\UserManager $user_manager
    *   The Social Auth user management service.
    * @param \Drupal\social_auth\User\UserAuthenticator $user_authenticator
    *   The Social Auth user authenticator service.
    */
-  public function __construct(array $configuration, string $plugin_id, array $plugin_definition, RequestStack $request_stack, UserManager $user_manager, UserAuthenticator $user_authenticator) {
+  public function __construct(array $configuration, string $plugin_id, array $plugin_definition, RequestStack $request_stack, AccountProxyInterface $current_user, UserManager $user_manager, UserAuthenticator $user_authenticator) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->requestStack = $request_stack;
+    $this->currentUser = $current_user;
     $this->userManager = $user_manager;
     $this->userManager->setPluginId('social_auth_hid');
     $this->userAuthenticator = $user_authenticator;
@@ -104,10 +109,15 @@ class HidUser extends DataProducerPluginBase implements ContainerFactoryPluginIn
     // Get the HID user id from the request.
     /** @var \Symfony\Component\HttpFoundation\HeaderBag $headers */
     $headers = $this->requestStack->getMasterRequest()->headers;
-    $hid_user_id = $headers->get('hid-user');
-    $user_id = $this->userManager->getDrupalUserId($hid_user_id);
-    $drupal_user = $this->userManager->loadUserByProperty('uid', $user_id);
-    return $drupal_user && $drupal_user->isAuthenticated() && $drupal_user->isActive() ? $drupal_user : $this->currentUser;
+    $hid_user_id = $headers->has('hid-user') ? $headers->get('hid-user') : NULL;
+    if (!$hid_user_id) {
+      // None given, so we fallback to the current user, which will be
+      // anonymous.
+      return $this->currentUser;
+    }
+    $user_id = $hid_user_id ? $this->userManager->getDrupalUserId($hid_user_id) : NULL;
+    $drupal_user = $user_id ? $this->userManager->loadUserByProperty('uid', $user_id) : NULL;
+    return $drupal_user && $drupal_user->isAuthenticated() && $drupal_user->isActive() ? $drupal_user : NULL;
   }
 
 }

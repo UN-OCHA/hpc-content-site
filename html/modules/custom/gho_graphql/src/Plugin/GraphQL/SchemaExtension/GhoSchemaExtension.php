@@ -13,7 +13,7 @@ use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
  *   id = "gho_schema_extension",
  *   name = "Schema extension for GHO",
  *   description = "A simple extension that adds node related fields.",
- *   schema = "ghi_schema"
+ *   schema = "gho_schema"
  * )
  */
 class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
@@ -51,7 +51,7 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
           ->map('bundles', $builder->fromValue(['article']))
           ->map('title', $builder->fromArgument('title'))
           ->map('access_user', $builder->fromParent())
-          ->map('access_operation', $builder->fromValue('update'))
+          ->map('access_operation', $builder->fromValue('view'))
       ),
     );
 
@@ -63,7 +63,7 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
           ->map('bundles', $builder->fromValue(['article']))
           ->map('id', $builder->fromArgument('id'))
           ->map('access_user', $builder->fromParent())
-          ->map('access_operation', $builder->fromValue('update'))
+          ->map('access_operation', $builder->fromValue('view'))
       ),
     );
 
@@ -75,7 +75,7 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
           ->map('bundles', $builder->fromValue(['article']))
           ->map('id', $builder->fromArgument('id'))
           ->map('access_user', $builder->fromParent())
-          ->map('access_operation', $builder->fromValue('update')),
+          ->map('access_operation', $builder->fromValue('view')),
         $builder->produce('entity_translations')
           ->map('entity', $builder->fromParent())
       )
@@ -88,7 +88,7 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
           ->map('type', $builder->fromValue('paragraph'))
           ->map('id', $builder->fromArgument('id'))
           ->map('access_user', $builder->fromParent())
-          ->map('access_operation', $builder->fromValue('update'))
+          ->map('access_operation', $builder->fromValue('view'))
       ),
     );
   }

@@ -2,7 +2,9 @@ services:
   gho_graphql.buffer.entity:
     class: Drupal\gho_graphql\GraphQL\Buffers\GhoEntityMatchingBuffer
     arguments: ['@entity_type.manager']
-  gho_graphql.route_subscriber:
-    class: Drupal\gho_graphql\EventSubscriber\RouteSubscriber
-    tags:
-      - { name: event_subscriber }
+  gho_graphql.access_check.graphql.query:
+    class: Drupal\gho_graphql\Access\GhoQueryAccessCheck
+    decorates: access_check.graphql.query
+    decoration_priority: 9
+    public: false
+    arguments: ['@gho_graphql.access_check.graphql.query.inner', '@request_stack', '@social_auth.user_manager']

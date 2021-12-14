@@ -72,7 +72,7 @@ class GhoEntityMatchingBuffer extends GraphQlEntityBuffer {
 
     $title_match_group = $query->orConditionGroup();
     foreach ($titles as $title) {
-      $title_match_group->condition('title', $title . '%', 'LIKE');
+      $title_match_group->condition('title', '%' . $title . '%', 'LIKE');
     }
     $query->condition($title_match_group);
     $entity_ids = $query->execute();
@@ -82,7 +82,7 @@ class GhoEntityMatchingBuffer extends GraphQlEntityBuffer {
 
     return array_map(function ($item) use ($entities) {
       return array_filter($entities, function ($entity) use ($item) {
-        return strpos(strtolower($entity->label()), strtolower($item['title'])) === 0;
+        return strpos(strtolower($entity->label()), strtolower($item['title'])) !== FALSE;
       });
     }, $buffer);
   }

@@ -153,6 +153,7 @@ class EntityLoadMultipleByTitle extends DataProducerPluginBase implements Contai
    *   A promise.
    */
   public function resolve($type, string $title, ?string $language, ?array $bundles, bool $access, ?AccountInterface $accessUser, ?string $accessOperation, FieldContext $context) {
+    d('resolve');
     $resolver = $this->entityBuffer->addTitleString($type, $title);
 
     return new Deferred(function () use ($type, $language, $bundles, $resolver, $context, $accessUser, $accessOperation) {

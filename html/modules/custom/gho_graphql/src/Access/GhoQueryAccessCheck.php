@@ -80,12 +80,14 @@ class GhoQueryAccessCheck implements AccessInterface {
     // First check if an access key has been passed in. This is to generally
     // limit requests to an implementing partner via a shared access key.
     $schema_configuration = $graphql_server->get('schema_configuration')[$graphql_server->schema];
-    if (array_key_exists('access_key', $schema_configuration) && !empty($schema_configuration['access_key'])) {
-      $cookies = $this->requestStack->getCurrentRequest()->cookies;
-      if (!$cookies->has('gho_access') || $cookies->get('gho_access') != $schema_configuration['access_key']) {
-        // Access key is required, but none has been given, or the given one
-        // doesn't match.
-        return AccessResult::forbidden();
+    if (array_key_exists('require_access_key', $schema_configuration) && !empty($schema_configuration['require_access_key'])) {
+      // Access key is required.
+      if (array_key_exists('access_key', $schema_configuration) && !empty($schema_configuration['access_key'])) {
+        $cookies = $this->requestStack->getCurrentRequest()->cookies;
+        if (!$cookies->has('gho_access') || $cookies->get('gho_access') != $schema_configuration['access_key']) {
+          // No access key has been given, or the given one doesn't match.
+          return AccessResult::forbidden();
+        }
       }
     }
 

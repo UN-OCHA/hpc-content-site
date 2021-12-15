@@ -30,8 +30,10 @@ module:
   gho_figures: 0
   gho_footnotes: 0
   gho_general: 0
+  gho_graphql: 0
   gho_layouts: 0
   google_tag: 0
+  graphql: 0
   image: 0
   imageapi_optimize: 0
   imageapi_optimize_binaries: 0
@@ -72,6 +74,7 @@ module:
   text: 0
   token: 0
   toolbar: 0
+  typed_data: 0
   update: 0
   user: 0
   user_expire: 0

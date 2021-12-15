@@ -86,8 +86,12 @@ class GhoQueryAccessCheck implements AccessInterface {
         $cookies = $this->requestStack->getCurrentRequest()->cookies;
         if (!$cookies->has('gho_access') || $cookies->get('gho_access') != $schema_configuration['access_key']) {
           // No access key has been given, or the given one doesn't match.
-          return AccessResult::forbidden();
+          return AccessResult::forbidden('Invalid access key given');
         }
+      }
+      else {
+        // No access key has been given, or the given one doesn't match.
+        return AccessResult::forbidden('No access key set');
       }
     }
 

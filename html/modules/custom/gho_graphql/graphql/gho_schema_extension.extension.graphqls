@@ -1,4 +1,7 @@
 extend type Query {
+  connection: String
+}
+extend type Query {
   article(id: Int!): Article
 }
 extend type Query {

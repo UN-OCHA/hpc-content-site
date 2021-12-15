@@ -43,6 +43,10 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
    */
   private function addQueries(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
 
+    $registry->addFieldResolver('Query', 'connection',
+      $builder->produce('connection_status'),
+    );
+
     $registry->addFieldResolver('Query', 'articleSearch',
       $builder->compose(
         $builder->produce('hid_user'),

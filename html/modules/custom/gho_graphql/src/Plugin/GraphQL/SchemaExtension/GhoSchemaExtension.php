@@ -265,6 +265,12 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('entity_id')
         ->map('entity', $builder->fromParent())
     );
+
+    $registry->addFieldResolver('Paragraph', 'uuid',
+      $builder->produce('entity_uuid')
+        ->map('entity', $builder->fromParent())
+    );
+
     $registry->addFieldResolver('Paragraph', 'type',
       $builder->callback(function ($paragraph) {
         return $paragraph->getParagraphType()->id;

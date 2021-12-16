@@ -30,6 +30,7 @@ type Author {
 
 type Paragraph {
   id: Int
+  uuid: String
   type: String
   typeLabel: String
   rendered: String

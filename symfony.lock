@@ -32,6 +32,9 @@
     "composer/metadata-minifier": {
         "version": "1.0.0"
     },
+    "composer/pcre": {
+        "version": "1.0.0"
+    },
     "composer/semver": {
         "version": "1.5.1"
     },
@@ -319,9 +322,6 @@
     },
     "laminas/laminas-stdlib": {
         "version": "3.2.1"
-    },
-    "laminas/laminas-zendframework-bridge": {
-        "version": "1.0.4"
     },
     "league/container": {
         "version": "2.4.1"

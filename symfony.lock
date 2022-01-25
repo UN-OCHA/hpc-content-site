@@ -176,6 +176,9 @@
     "drupal/core-dev": {
         "version": "8.9.11"
     },
+    "drupal/core-project-message": {
+        "version": "9.3.3"
+    },
     "drupal/core-recommended": {
         "version": "8.9.11"
     },

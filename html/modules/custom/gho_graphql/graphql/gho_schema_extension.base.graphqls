@@ -5,6 +5,7 @@ type ArticleList {
 
 type Article {
   id: Int!
+  uuid: String!
   title: String!
   language: Language
   status: Int
@@ -13,7 +14,9 @@ type Article {
   heroImage: [HeroImage]
   caption: Caption
   author: [Author]
+  content_space: ContentSpace
   content: [Paragraph]
+  tags: [String]
 }
 
 type HeroImage {
@@ -26,6 +29,12 @@ type Author {
   id: Int
   title: String
   image: Image
+}
+
+type ContentSpace {
+  id: Int
+  title: String
+  tags: [String]
 }
 
 type Paragraph {

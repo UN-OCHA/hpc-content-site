@@ -30,6 +30,7 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
     $this->addFieldResolverHeroImage($registry, $builder);
     $this->addFieldResolverCaption($registry, $builder);
     $this->addFieldResolverAuthor($registry, $builder);
+    $this->addFieldResolverContentSpace($registry, $builder);
     $this->addFieldResolverParagraph($registry, $builder);
   }
 
@@ -110,6 +111,10 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('entity_id')
         ->map('entity', $builder->fromParent())
     );
+    $registry->addFieldResolver('Paragraph', 'uuid',
+      $builder->produce('entity_uuid')
+        ->map('entity', $builder->fromParent())
+    );
     $registry->addFieldResolver('Article', 'title',
       $builder->produce('entity_label')
         ->map('entity', $builder->fromParent())
@@ -117,6 +122,24 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
     $registry->addFieldResolver('Article', 'status',
       $builder->produce('entity_published')
         ->map('entity', $builder->fromParent()),
+    );
+    $registry->addFieldResolver('Article', 'content_space',
+      $builder->produce('entity_reference_single')
+        ->map('entity', $builder->fromParent())
+        ->map('field', $builder->fromValue('field_content_space')),
+    );
+    $registry->addFieldResolver('Article', 'tags',
+      $builder->compose(
+        $builder->produce('entity_reference')
+          ->map('entity', $builder->fromParent())
+          ->map('field', $builder->fromValue('field_tags')),
+        $builder->callback(function ($tags) {
+          $tags = array_map(function ($tag) {
+            return $tag->label();
+          }, $tags);
+          return $tags;
+        }),
+      ),
     );
     $registry->addFieldResolver('Article', 'language',
       $builder->compose(
@@ -253,6 +276,38 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
   }
 
   /**
+   * Add field resolvers for content space.
+   *
+   * @param \Drupal\graphql\GraphQL\ResolverRegistryInterface $registry
+   *   The resolver registry.
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
+   */
+  private function addFieldResolverContentSpace(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
+    $registry->addFieldResolver('ContentSpace', 'id',
+      $builder->produce('entity_id')
+        ->map('entity', $builder->fromParent())
+    );
+    $registry->addFieldResolver('ContentSpace', 'title',
+      $builder->produce('entity_label')
+        ->map('entity', $builder->fromParent())
+    );
+    $registry->addFieldResolver('ContentSpace', 'tags',
+      $builder->compose(
+        $builder->produce('entity_reference')
+          ->map('entity', $builder->fromParent())
+          ->map('field', $builder->fromValue('field_major_tags')),
+        $builder->callback(function ($tags) {
+          $tags = array_map(function ($tag) {
+            return $tag->label();
+          }, $tags);
+          return $tags;
+        }),
+      ),
+    );
+  }
+
+  /**
    * Add field resolvers for paragraphs.
    *
    * @param \Drupal\graphql\GraphQL\ResolverRegistryInterface $registry
@@ -284,6 +339,7 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
     $registry->addFieldResolver('Paragraph', 'rendered',
       $builder->produce('entity_rendered')
         ->map('entity', $builder->fromParent())
+        ->map('mode', $builder->fromValue('default'))
     );
   }
 

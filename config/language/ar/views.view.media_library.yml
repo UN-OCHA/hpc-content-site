@@ -4,6 +4,7 @@ display:
     display_options:
       exposed_form:
         options:
+          submit_button: 'Apply filters'
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
           sort_asc_label: Asc
@@ -12,6 +13,7 @@ display:
         options:
           expose:
             items_per_page_options_all_label: '- All -'
+            offset_label: Offset
       fields:
         media_bulk_form:
           action_title: Action
@@ -22,6 +24,8 @@ display:
             group_items:
               1:
                 title: 'تم النشر'
+              2:
+                title: Unpublished
         name:
           expose:
             label: Name
@@ -38,6 +42,8 @@ display:
       fields:
         media_bulk_form:
           action_title: Action
+        name:
+          separator: ', '
         edit_media:
           text: Edit
         delete_media:

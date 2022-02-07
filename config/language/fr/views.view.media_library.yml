@@ -1,4 +1,5 @@
 label: 'Bibliothèque Media'
+description: 'Find and manage media.'
 display:
   default:
     display_title: Master
@@ -8,12 +9,20 @@ display:
           submit_button: 'Apply filters'
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       pager:
         options:
           expose:
             items_per_page_label: 'Items per page'
             items_per_page_options_all_label: '- All -'
             offset_label: Offset
+          tags:
+            previous: ‹‹
+            next: ››
+      fields:
+        media_bulk_form:
+          action_title: Action
       filters:
         status:
           expose:
@@ -51,8 +60,13 @@ display:
         area_text_custom:
           content: 'No [view:title] available.'
   page:
+    display_title: Page
     display_options:
       fields:
+        media_bulk_form:
+          action_title: Action
+        name:
+          separator: ', '
         edit_media:
           alter:
             text: 'Edit {{ name }}'
@@ -64,6 +78,7 @@ display:
             alt: 'Delete {{ name }}'
           text: Delete
   widget:
+    display_title: Widget
     display_options:
       filters:
         name:

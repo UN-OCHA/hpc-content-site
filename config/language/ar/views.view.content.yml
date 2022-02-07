@@ -10,11 +10,17 @@ display:
           exposed_sorts_label: 'Sort by'
           sort_asc_label: Asc
           sort_desc_label: Desc
+      pager:
+        options:
+          tags:
+            previous: '‹ Previous'
+            next: 'Next ›'
       fields:
         title:
           label: Title
         type:
           label: 'Content type'
+          separator: ', '
         changed:
           label: Changed
       filters:
@@ -31,6 +37,8 @@ display:
             group_items:
               1:
                 title: 'تم النشر'
+              2:
+                title: Unpublished
         langcode:
           expose:
             label: Language

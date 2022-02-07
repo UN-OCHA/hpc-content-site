@@ -10,7 +10,7 @@ schema_configuration:
     extensions:
       gho_schema_extension: gho_schema_extension
     require_access_key: 1
-    access_key: ''
+    access_key: '12345'
 persisted_queries_settings: {  }
 endpoint: /ncms
 debug_flag: 3

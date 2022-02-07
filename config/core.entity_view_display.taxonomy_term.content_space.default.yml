@@ -1,0 +1,31 @@
+uuid: a939a626-391c-4a2a-a668-dd17a7948cb6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.content_space.field_major_tags
+    - taxonomy.vocabulary.content_space
+  module:
+    - text
+id: taxonomy_term.content_space.default
+targetEntityType: taxonomy_term
+bundle: content_space
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_major_tags:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+hidden:
+  langcode: true

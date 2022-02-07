@@ -5,15 +5,18 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser_card
     - field.field.node.article.field_appeals
+    - field.field.node.article.field_article_type
     - field.field.node.article.field_author
     - field.field.node.article.field_caption
     - field.field.node.article.field_card_title
+    - field.field.node.article.field_content_space
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_pdf
     - field.field.node.article.field_report_link
     - field.field.node.article.field_section
     - field.field.node.article.field_summary
+    - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
     - image.style.572_x_360
     - node.type.article
@@ -65,11 +68,14 @@ content:
     region: content
 hidden:
   field_appeals: true
+  field_article_type: true
   field_author: true
   field_caption: true
+  field_content_space: true
   field_paragraphs: true
   field_pdf: true
   field_report_link: true
+  field_tags: true
   field_thumbnail_image: true
   langcode: true
   links: true

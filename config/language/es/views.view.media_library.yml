@@ -1,4 +1,5 @@
 label: 'Biblioteca de medios'
+description: 'Find and manage media.'
 display:
   default:
     display_title: Master
@@ -8,12 +9,17 @@ display:
           submit_button: 'Apply filters'
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       pager:
         options:
           expose:
             items_per_page_label: 'Items per page'
             items_per_page_options_all_label: '- All -'
             offset_label: Offset
+          tags:
+            previous: ‹‹
+            next: ››
       fields:
         media_bulk_form:
           action_title: Action
@@ -59,6 +65,8 @@ display:
       fields:
         media_bulk_form:
           action_title: Action
+        name:
+          separator: ', '
         edit_media:
           alter:
             text: 'Edit {{ name }}'

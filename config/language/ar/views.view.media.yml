@@ -14,19 +14,31 @@ display:
         options:
           expose:
             items_per_page_options_all_label: '- All -'
+            offset_label: Offset
+          tags:
+            previous: '‹ Previous'
+            next: 'Next ›'
       fields:
         thumbnail__target_id:
           label: Thumbnail
+          separator: ', '
+        name:
+          separator: ', '
         bundle:
           label: 'Media type'
+          separator: ', '
         uid:
           label: Author
+          separator: ', '
         status:
           label: Status
           settings:
             format_custom_true: 'تم النشر'
+            format_custom_false: Unpublished
+          separator: ', '
         changed:
           label: Changed
+          separator: ', '
         operations:
           label: Operations
       filters:
@@ -40,6 +52,8 @@ display:
             group_items:
               1:
                 title: 'تم النشر'
+              2:
+                title: Unpublished
       title: Media
       empty:
         area_text_custom:

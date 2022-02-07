@@ -1,0 +1,29 @@
+uuid: ff2caa32-c7ff-4723-82a3-e8a17eeff96e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tags
+    - node.type.article
+    - taxonomy.vocabulary.major_tags
+id: node.article.field_tags
+field_name: field_tags
+entity_type: node
+bundle: article
+label: Tags
+description: 'Add tags that apply to this content.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      major_tags: major_tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: appeals
+field_type: entity_reference

@@ -1,6 +1,5 @@
 display:
   default:
-    display_title: Master
     display_options:
       exposed_form:
         options:
@@ -14,13 +13,14 @@ display:
           tags:
             previous: '‹ previous'
             next: 'next ›'
-            first: '« first'
             last: 'last »'
           expose:
             items_per_page_options_all_label: '- All -'
+            offset_label: Offset
       fields:
         redirect_source__path:
           label: From
+          separator: ', '
         created:
           label: Created
       filters:

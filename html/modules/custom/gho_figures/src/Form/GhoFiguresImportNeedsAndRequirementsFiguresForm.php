@@ -1012,7 +1012,7 @@ class GhoFiguresImportNeedsAndRequirementsFiguresForm extends FormBase {
     static $values;
 
     if (!isset($references, $values)) {
-      list($references, $values) = static::extractMergedCells($sheet);
+      [$references, $values] = static::extractMergedCells($sheet);
     }
 
     if (isset($references[$reference])) {

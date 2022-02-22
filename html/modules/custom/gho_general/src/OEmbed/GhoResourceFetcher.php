@@ -33,7 +33,7 @@ class GhoResourceFetcher extends ResourceFetcher {
       throw new ResourceException('Could not retrieve the oEmbed resource.', $url, [], $e);
     }
 
-    list($format) = $response->getHeader('Content-Type');
+    [$format] = $response->getHeader('Content-Type');
     $content = (string) $response->getBody();
 
     if (strstr($format, 'text/xml') || strstr($format, 'application/xml')) {

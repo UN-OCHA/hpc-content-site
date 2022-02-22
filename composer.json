@@ -55,6 +55,7 @@
         "drupal/social_auth_hid": "^2.7",
         "drush/drush": "^10.6",
         "phpoffice/phpspreadsheet": "^1.18",
+        "slevomat/coding-standard": "^7.0",
         "symfony/flex": "^1.12",
         "symfony/uid": "^5.3",
         "unocha/common_design": "^4.0.0",
@@ -88,6 +89,7 @@
         "allow-plugins": {
             "composer/installers": true,
             "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
             "drupal-composer/preserve-paths": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
@@ -101,12 +103,6 @@
         ]
     },
     "scripts": {
-        "pre-install-cmd": [
-            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
-        ],
-        "pre-update-cmd": [
-            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
-        ],
         "post-install-cmd": [
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
             "DrupalProject\\composer\\ScriptHandler::removeUnnecessaryFiles",
@@ -128,6 +124,11 @@
         ]
     },
     "extra": {
+        "drush": {
+          "services": {
+            "drush.services.yml": "^10"
+          }
+        },
         "enable-patching": true,
         "composer-exit-on-patch-failure": true,
         "patches-file": "composer.patches.json",

@@ -266,6 +266,9 @@
     "drupal/token": {
         "version": "1.7.0"
     },
+    "drupal/user_expire": {
+        "version": "1.0.0"
+    },
     "drupal/yaml_content": {
         "version": "1.0.0-alpha7"
     },

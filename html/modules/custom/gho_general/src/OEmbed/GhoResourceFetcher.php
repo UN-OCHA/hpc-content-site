@@ -21,7 +21,7 @@ class GhoResourceFetcher extends ResourceFetcher {
   public function fetchResource($url) {
     $cache_id = "media:oembed_resource:$url";
 
-    $cached = $this->cacheGet($cache_id);
+    $cached = $this->cacheBackend->get($cache_id);
     if ($cached) {
       return $this->createResource($cached->data, $url);
     }
@@ -59,7 +59,7 @@ class GhoResourceFetcher extends ResourceFetcher {
       throw new ResourceException('The fetched resource could not be parsed.', $url);
     }
 
-    $this->cacheSet($cache_id, $data);
+    $this->cacheBackend->set($cache_id, $data);
 
     return $this->createResource($data, $url);
   }

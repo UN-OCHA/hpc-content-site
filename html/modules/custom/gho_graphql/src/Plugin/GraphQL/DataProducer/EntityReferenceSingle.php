@@ -17,7 +17,7 @@ use GraphQL\Deferred;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Loads entities from an entity reference field.
+ * Load a single entity from an entity reference field.
  *
  * @DataProducer(
  *   id = "entity_reference_single",

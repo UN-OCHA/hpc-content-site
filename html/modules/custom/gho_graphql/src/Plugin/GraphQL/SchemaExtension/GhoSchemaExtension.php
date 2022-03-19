@@ -28,6 +28,7 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
 
     $this->addFieldResolverArticle($registry, $builder);
     $this->addFieldResolverHeroImage($registry, $builder);
+    $this->addFieldResolverThumbnail($registry, $builder);
     $this->addFieldResolverCaption($registry, $builder);
     $this->addFieldResolverAuthor($registry, $builder);
     $this->addFieldResolverContentSpace($registry, $builder);
@@ -166,6 +167,11 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
         ->map('entity', $builder->fromParent())
         ->map('field', $builder->fromValue('field_hero_image'))
     );
+    $registry->addFieldResolver('Article', 'thumbnail',
+      $builder->produce('entity_reference_single')
+        ->map('entity', $builder->fromParent())
+        ->map('field', $builder->fromValue('field_thumbnail_image'))
+    );
     $registry->addFieldResolver('Article', 'caption',
       $builder->fromParent()
     );
@@ -218,6 +224,42 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
         $builder->produce('image_derivative')
           ->map('entity', $builder->fromParent())
           ->map('style', $builder->fromValue('full_width_2_1_50'))
+      )
+    );
+  }
+
+  /**
+   * Add field resolvers for hero images.
+   *
+   * @param \Drupal\graphql\GraphQL\ResolverRegistryInterface $registry
+   *   The resolver registry.
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
+   */
+  private function addFieldResolverThumbnail(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
+    $registry->addFieldResolver('Thumbnail', 'id',
+      $builder->produce('entity_id')
+        ->map('entity', $builder->fromParent())
+    );
+    $registry->addFieldResolver('Thumbnail', 'image',
+      $builder->compose(
+        $builder->produce('property_path')
+          ->map('type', $builder->fromValue('entity:media'))
+          ->map('value', $builder->fromParent())
+          ->map('path', $builder->fromValue('thumbnail.entity')),
+        $builder->produce('image_derivative')
+          ->map('entity', $builder->fromParent())
+          ->map('style', $builder->fromValue('media_library'))
+      )
+    );
+    $registry->addFieldResolver('Thumbnail', 'imageUrl',
+      $builder->compose(
+        $builder->produce('property_path')
+          ->map('type', $builder->fromValue('entity:media'))
+          ->map('value', $builder->fromParent())
+          ->map('path', $builder->fromValue('thumbnail.entity')),
+        $builder->produce('image_url')
+          ->map('entity', $builder->fromParent())
       )
     );
   }

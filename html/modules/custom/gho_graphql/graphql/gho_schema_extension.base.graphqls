@@ -12,6 +12,7 @@ type Article {
   created: String
   updated: String
   heroImage: [HeroImage]
+  thumbnail: Thumbnail
   caption: Caption
   author: [Author]
   content_space: ContentSpace
@@ -23,6 +24,12 @@ type HeroImage {
   id: Int
   credits: String
   image: Image
+}
+
+type Thumbnail {
+  id: Int
+  image: Image
+  imageUrl: String
 }
 
 type Author {

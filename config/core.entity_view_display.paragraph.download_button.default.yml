@@ -13,7 +13,7 @@ bundle: download_button
 mode: default
 content:
   field_link:
-    weight: 0
+    type: link
     label: hidden
     settings:
       trim_length: null
@@ -22,6 +22,6 @@ content:
       rel: '0'
       target: '0'
     third_party_settings: {  }
-    type: link
+    weight: 0
     region: content
 hidden: {  }

@@ -24,13 +24,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_media_image:
+    type: image_image
     weight: 4
+    region: content
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
-    type: image_image
-    region: content
   langcode:
     type: language_select
     weight: 0
@@ -40,12 +40,12 @@ content:
     third_party_settings: {  }
   name:
     type: string_textfield
+    weight: 2
+    region: content
     settings:
       size: 60
       placeholder: ''
-    weight: 2
     third_party_settings: {  }
-    region: content
   translation:
     weight: 1
     region: content

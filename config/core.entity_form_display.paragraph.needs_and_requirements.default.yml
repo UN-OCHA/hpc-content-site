@@ -11,11 +11,11 @@ bundle: needs_and_requirements
 mode: default
 content:
   field_needs_and_requirements:
+    type: options_select
     weight: 0
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
   status:
     type: boolean_checkbox
     weight: 1

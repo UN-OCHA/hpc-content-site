@@ -20,29 +20,29 @@ dependencies:
     - linked_responsive_image_media_formatter
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 id: paragraph.interactive_content.preview
 targetEntityType: paragraph
 bundle: interactive_content
 mode: preview
 content:
   field_dataset:
-    weight: 4
+    type: gho_dataset_link
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: gho_dataset_link
+    weight: 4
     region: content
   field_embed_code:
-    weight: 3
+    type: basic_string
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 3
     region: content
   field_image:
-    weight: 2
+    type: linked_responsive_image_media_formatter
     label: hidden
     settings:
       responsive_image_style: interactive_content
@@ -52,23 +52,23 @@ content:
       image_alt_value: '[paragraph:field_title]'
       image_as_background: false
     third_party_settings: {  }
-    type: linked_responsive_image_media_formatter
+    weight: 2
     region: content
   field_title:
-    weight: 1
+    type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 1
     region: content
   field_type:
-    weight: 0
+    type: entity_reference_label
     label: hidden
     settings:
       link: false
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 0
     region: content
 hidden:
   field_full_width: true

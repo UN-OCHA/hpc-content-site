@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: uEePITI9tV6WqzmsTb7MfPCi5yPWXSxAN1xeLcYFQbM
 session:
   parameter: language
 url:
@@ -7,11 +9,10 @@ url:
     fr: fr
     ar: ar
     es: es
+    '': null
   domains:
     en: ''
     fr: ''
     ar: ''
     es: ''
 selected_langcode: site_default
-_core:
-  default_config_hash: uEePITI9tV6WqzmsTb7MfPCi5yPWXSxAN1xeLcYFQbM

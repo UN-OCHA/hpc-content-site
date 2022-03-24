@@ -1,0 +1,157 @@
+<?php
+
+namespace Drupal\gho_graphql\Plugin\GraphQL\DataProducer;
+
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\TranslatableInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\graphql\GraphQL\Execution\FieldContext;
+use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
+use Drupal\node\NodeInterface;
+use GraphQL\Deferred;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+/**
+ * Load all exportable articles.
+ *
+ * @DataProducer(
+ *   id = "article_export",
+ *   name = @Translation("Load all exportable articles"),
+ *   description = @Translation("Loads all exportable articles."),
+ *   produces = @ContextDefinition("entities",
+ *     label = @Translation("Entities")
+ *   ),
+ * )
+ */
+class ArticleExport extends DataProducerPluginBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * {@inheritdoc}
+   *
+   * @codeCoverageIgnore
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager')
+    );
+  }
+
+  /**
+   * EntityLoad constructor.
+   *
+   * @param array $configuration
+   *   The plugin configuration array.
+   * @param string $pluginId
+   *   The plugin id.
+   * @param array $pluginDefinition
+   *   The plugin definition array.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager service.
+   *
+   * @codeCoverageIgnore
+   */
+  public function __construct(
+    array $configuration,
+    $pluginId,
+    array $pluginDefinition,
+    EntityTypeManagerInterface $entityTypeManager
+  ) {
+    parent::__construct($configuration, $pluginId, $pluginDefinition);
+    $this->entityTypeManager = $entityTypeManager;
+  }
+
+  /**
+   * Resolver.
+   *
+   * @param \Drupal\graphql\GraphQL\Execution\FieldContext $context
+   *   A context object.
+   *
+   * @return \GraphQL\Deferred
+   *   A promise.
+   */
+  public function resolve(FieldContext $context) {
+
+    return new Deferred(function () use ($context) {
+      $type = 'node';
+      // Load the buffered entities.
+      $query = $this->entityTypeManager
+        ->getStorage($type)
+        ->getQuery();
+      $query->condition('type', 'article');
+      $query->condition('status', NodeInterface::PUBLISHED);
+      $query->sort('changed', 'DESC');
+      $entity_ids = $query->execute();
+
+      $entities = $entity_ids ? $this->entityTypeManager
+        ->getStorage($type)
+        ->loadMultiple($entity_ids) : [];
+
+      if (!$entities) {
+        // If there is no entity with this id, add the list cache tags so that
+        // the cache entry is purged whenever a new entity of this type is
+        // saved.
+        $type = $this->entityTypeManager->getDefinition($type);
+        /** @var \Drupal\Core\Entity\EntityTypeInterface $type */
+        $tags = $type->getListCacheTags();
+        $context->addCacheTags($tags);
+        return [];
+      }
+
+      foreach ($entities as $id => $entity) {
+        $context->addCacheableDependency($entities[$id]);
+        if (isset($bundles) && !in_array($entities[$id]->bundle(), $bundles)) {
+          // If the entity is not among the allowed bundles, don't return it.
+          unset($entities[$id]);
+          continue;
+        }
+
+        if (isset($language) && $language !== $entities[$id]->language()->getId() && $entities[$id] instanceof TranslatableInterface) {
+          $entities[$id] = $entities[$id]->getTranslation($language);
+          $entities[$id]->addCacheContexts(["static:language:{$language}"]);
+        }
+
+        /** @var \Drupal\Core\Access\AccessResultInterface $accessResult */
+        $accessResult = $entities[$id]->access('view', NULL, TRUE);
+        $context->addCacheableDependency($accessResult);
+        // We need to call isAllowed() because isForbidden() returns FALSE
+        // for neutral access results, which is dangerous. Only an explicitly
+        // allowed result means that the user has access.
+        if (!$accessResult->isAllowed()) {
+          unset($entities[$id]);
+          continue;
+        }
+
+        // Filter out articles that are not tagged yet.
+        if ($entities[$id]->get('field_tags')->isEmpty()) {
+          unset($entities[$id]);
+          continue;
+        }
+
+        // Filter out articles that are not associated to a content space.
+        if ($entities[$id]->get('field_content_space')->isEmpty()) {
+          unset($entities[$id]);
+          continue;
+        }
+
+        // @todo Filter out articles that are associated to a content space
+        // which has no tags. See if this is necessary.
+      }
+
+      return (object) [
+        'count' => count($entities),
+        'items' => $entities,
+      ];
+    });
+  }
+
+}

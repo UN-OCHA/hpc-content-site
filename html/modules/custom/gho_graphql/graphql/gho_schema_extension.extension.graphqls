@@ -8,6 +8,9 @@ extend type Query {
   articleSearch(title: String): ArticleList
 }
 extend type Query {
+  articleExport: ArticleList
+}
+extend type Query {
   articleTranslations(id: Int!): [Article]
 }
 extend type Query {

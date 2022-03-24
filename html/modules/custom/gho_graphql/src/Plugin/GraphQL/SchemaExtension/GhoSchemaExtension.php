@@ -49,6 +49,10 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('connection_status'),
     );
 
+    $registry->addFieldResolver('Query', 'articleExport',
+      $builder->produce('article_export')
+    );
+
     $registry->addFieldResolver('Query', 'articleSearch',
       $builder->compose(
         $builder->produce('hid_user'),
@@ -112,7 +116,7 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('entity_id')
         ->map('entity', $builder->fromParent())
     );
-    $registry->addFieldResolver('Paragraph', 'uuid',
+    $registry->addFieldResolver('Article', 'uuid',
       $builder->produce('entity_uuid')
         ->map('entity', $builder->fromParent())
     );

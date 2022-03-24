@@ -15,6 +15,6 @@ plugin: soft_footer_fts
 settings:
   id: soft_footer_fts
   label: FTS
-  provider: gho_general
   label_display: '0'
+  provider: gho_general
 visibility: {  }

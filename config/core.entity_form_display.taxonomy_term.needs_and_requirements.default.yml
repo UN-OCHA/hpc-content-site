@@ -28,26 +28,26 @@ content:
         hide_help: '1'
         hide_guidelines: '1'
   field_people_in_need:
+    type: bigint
     weight: 2
+    region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
-    type: bigint
-    region: content
   field_people_targeted:
+    type: bigint
     weight: 3
+    region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
-    type: bigint
-    region: content
   field_requirements:
+    type: bigint
     weight: 4
+    region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
-    type: bigint
-    region: content
   name:
     type: string_textfield
     weight: 0
@@ -58,10 +58,10 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    settings:
-      display_label: true
     weight: 5
     region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
 hidden:
   langcode: true

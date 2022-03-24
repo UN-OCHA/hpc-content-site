@@ -13,13 +13,13 @@ bundle: download_button
 mode: default
 content:
   field_link:
+    type: link_default
     weight: 0
+    region: content
     settings:
       placeholder_url: 'https://reliefweb.int/path/to/your-pdf'
       placeholder_title: 'Download report'
     third_party_settings: {  }
-    type: link_default
-    region: content
   status:
     type: boolean_checkbox
     weight: 1

@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       image_with_text: image_with_text
+    negate: 0
     target_bundles_drag_drop:
       facts_and_figures:
         weight: 9
@@ -35,8 +35,8 @@ settings:
         weight: 11
         enabled: false
       image_with_text:
-        enabled: true
         weight: 12
+        enabled: true
       layout:
         weight: 13
         enabled: false

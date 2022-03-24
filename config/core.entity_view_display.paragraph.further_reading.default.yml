@@ -13,10 +13,10 @@ bundle: further_reading
 mode: default
 content:
   field_links:
-    weight: 0
+    type: gho_further_reading_link
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: gho_further_reading_link
+    weight: 0
     region: content
 hidden: {  }

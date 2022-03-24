@@ -11,12 +11,12 @@ pattern: 'achievement/[node:title]'
 selection_criteria:
   7e5c405b-eed6-42c3-b1df-356ba0e56146:
     id: node_type
-    bundles:
-      achievement: achievement
     negate: false
+    uuid: 7e5c405b-eed6-42c3-b1df-356ba0e56146
     context_mapping:
       node: node
-    uuid: 7e5c405b-eed6-42c3-b1df-356ba0e56146
+    bundles:
+      achievement: achievement
 selection_logic: and
 weight: -5
 relationships: {  }

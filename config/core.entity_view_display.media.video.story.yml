@@ -12,8 +12,8 @@ dependencies:
     - media
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 id: media.video.story
 targetEntityType: media
 bundle: video
@@ -22,11 +22,11 @@ content:
   field_media_oembed_video:
     type: oembed
     label: visually_hidden
-    weight: 0
     settings:
       max_width: 1140
       max_height: 641
     third_party_settings: {  }
+    weight: 0
     region: content
 hidden:
   created: true

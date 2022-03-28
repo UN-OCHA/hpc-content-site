@@ -15,6 +15,6 @@ plugin: gho_main_menu
 settings:
   id: gho_main_menu
   label: 'GHO main menu'
-  provider: gho_general
   label_display: visible
+  provider: gho_general
 visibility: {  }

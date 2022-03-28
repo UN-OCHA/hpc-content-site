@@ -14,34 +14,34 @@ id: half_width_cropped
 label: 'Half Width - Cropped'
 image_style_mappings:
   -
-    breakpoint_id: common_design.md
-    multiplier: 1x
     image_mapping_type: image_style
     image_mapping: desktop_cropped_x1
+    breakpoint_id: common_design.md
+    multiplier: 1x
   -
+    image_mapping_type: image_style
+    image_mapping: desktop_cropped_x2
     breakpoint_id: common_design.md
     multiplier: 2x
-    image_mapping_type: image_style
-    image_mapping: desktop_cropped_x2
   -
-    breakpoint_id: common_design.sm
-    multiplier: 1x
     image_mapping_type: image_style
     image_mapping: tablet_cropped_x1
-  -
     breakpoint_id: common_design.sm
-    multiplier: 2x
+    multiplier: 1x
+  -
     image_mapping_type: image_style
     image_mapping: desktop_cropped_x2
+    breakpoint_id: common_design.sm
+    multiplier: 2x
   -
-    breakpoint_id: common_design.xs
-    multiplier: 1x
     image_mapping_type: image_style
     image_mapping: mobile_cropped_x1
-  -
     breakpoint_id: common_design.xs
-    multiplier: 2x
+    multiplier: 1x
+  -
     image_mapping_type: image_style
     image_mapping: mobile_cropped_x2
+    breakpoint_id: common_design.xs
+    multiplier: 2x
 breakpoint_group: common_design
 fallback_image_style: mobile_cropped_x1

@@ -22,8 +22,8 @@ dependencies:
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 id: node.article.related_article
 targetEntityType: node
 bundle: article
@@ -31,20 +31,20 @@ mode: related_article
 content:
   field_summary:
     type: text_default
-    weight: 1
-    region: content
     label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 1
+    region: content
   field_thumbnail_image:
     type: entity_reference_entity_view
-    weight: 0
-    region: content
     label: hidden
     settings:
       view_mode: related_articles
       link: false
     third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   field_appeals: true
   field_author: true

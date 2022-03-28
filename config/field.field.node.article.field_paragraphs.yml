@@ -22,14 +22,14 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 1
     target_bundles:
       image_with_text: image_with_text
       achievement: achievement
+    negate: 1
     target_bundles_drag_drop:
       achievement:
-        enabled: true
         weight: 22
+        enabled: true
       achievement_list:
         weight: 21
         enabled: false
@@ -55,8 +55,8 @@ settings:
         weight: 29
         enabled: false
       image_with_text:
-        enabled: true
         weight: 12
+        enabled: true
       interactive_content:
         weight: 31
         enabled: false

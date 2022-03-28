@@ -35,12 +35,12 @@ filters:
     weight: 100
     settings:
       default_view_mode: thumbnail_small
-      allowed_media_types:
-        image: image
       allowed_view_modes:
         full_width: full_width
         thumbnail_medium: thumbnail_medium
         thumbnail_small: thumbnail_small
+      allowed_media_types:
+        image: image
   filter_html_image_secure:
     id: filter_html_image_secure
     provider: filter

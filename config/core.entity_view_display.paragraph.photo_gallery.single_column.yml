@@ -13,35 +13,35 @@ dependencies:
     - text
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 id: paragraph.photo_gallery.single_column
 targetEntityType: paragraph
 bundle: photo_gallery
 mode: single_column
 content:
   field_location:
-    weight: 1
+    type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 1
     region: content
   field_photos:
     type: entity_reference_entity_view
-    weight: 0
     label: hidden
     settings:
       view_mode: photo_gallery_single_column
       link: false
     third_party_settings: {  }
+    weight: 0
     region: content
   field_text:
     type: text_default
-    weight: 2
-    region: content
     label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 2
+    region: content
 hidden: {  }

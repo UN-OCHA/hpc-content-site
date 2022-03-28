@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
   admin_denied: 0
   allowed_formats: 0
@@ -19,6 +21,7 @@ module:
   field: 0
   field_ui: 0
   file: 0
+  file_mdm: 0
   filter: 0
   gho_access: 0
   gho_download: 0
@@ -31,6 +34,7 @@ module:
   image: 0
   imageapi_optimize: 0
   imageapi_optimize_binaries: 0
+  imagemagick: 0
   inline_entity_form: 0
   language: 0
   layout_builder: 0
@@ -61,6 +65,7 @@ module:
   social_api: 0
   social_auth: 0
   social_auth_hid: 0
+  sophron: 0
   syslog: 0
   system: 0
   taxonomy: 0
@@ -83,5 +88,3 @@ theme:
   seven: 0
   common_design_admin_subtheme: 0
 profile: minimal
-_core:
-  default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc

@@ -14,8 +14,8 @@ dependencies:
     - responsive_image
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 id: media.image.facts_and_figures
 targetEntityType: media
 bundle: image
@@ -23,8 +23,6 @@ mode: facts_and_figures
 content:
   field_media_image:
     type: responsive_image
-    weight: 0
-    region: content
     label: hidden
     settings:
       responsive_image_style: facts_and_figures
@@ -32,6 +30,8 @@ content:
     third_party_settings:
       gho_fields:
         lazyloading: lazy
+    weight: 0
+    region: content
 hidden:
   created: true
   field_credits: true

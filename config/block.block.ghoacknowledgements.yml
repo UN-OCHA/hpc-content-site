@@ -15,6 +15,6 @@ plugin: soft_footer_acknowledgements
 settings:
   id: soft_footer_acknowledgements
   label: 'GHO Acknowledgements'
-  provider: gho_general
   label_display: '0'
+  provider: gho_general
 visibility: {  }

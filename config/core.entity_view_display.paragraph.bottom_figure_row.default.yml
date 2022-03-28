@@ -14,18 +14,18 @@ bundle: bottom_figure_row
 mode: default
 content:
   field_bottom_figures:
-    weight: 0
+    type: gho_figures
     label: hidden
     settings:
       format: small
     third_party_settings: {  }
-    type: gho_figures
+    weight: 0
     region: content
   field_dataset:
-    weight: 1
+    type: gho_dataset_link
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: gho_dataset_link
+    weight: 1
     region: content
 hidden: {  }

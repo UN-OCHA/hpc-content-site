@@ -22,31 +22,31 @@ bundle: interactive_content
 mode: default
 content:
   field_dataset:
-    weight: 4
+    type: gho_dataset_link
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: gho_dataset_link
+    weight: 4
     region: content
   field_embed_code:
-    weight: 3
+    type: gho_datawrapper
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: gho_datawrapper
+    weight: 3
     region: content
   field_full_width:
-    weight: 6
+    type: boolean
     label: hidden
     settings:
       format: custom
-      format_custom_true: 'true'
       format_custom_false: 'false'
+      format_custom_true: 'true'
     third_party_settings: {  }
-    type: boolean
+    weight: 6
     region: content
   field_image:
-    weight: 2
+    type: linked_responsive_image_media_formatter
     label: hidden
     settings:
       responsive_image_style: interactive_content
@@ -56,33 +56,33 @@ content:
       image_alt_value: '[paragraph:field_title]'
       image_as_background: false
     third_party_settings: {  }
-    type: linked_responsive_image_media_formatter
+    weight: 2
     region: content
   field_show_datawrapper:
-    weight: 5
+    type: boolean
     label: hidden
     settings:
       format: true-false
-      format_custom_true: ''
       format_custom_false: ''
+      format_custom_true: ''
     third_party_settings: {  }
-    type: boolean
+    weight: 5
     region: content
   field_title:
-    weight: 1
+    type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 1
     region: content
   field_type:
-    weight: 0
+    type: entity_reference_label
     label: hidden
     settings:
       link: false
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 0
     region: content
 hidden:
   field_link: true

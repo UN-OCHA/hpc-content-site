@@ -16,33 +16,33 @@ bundle: achievement
 mode: default
 content:
   field_icon:
-    weight: 1
+    type: list_key
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: list_key
+    weight: 1
     region: content
   field_source:
-    weight: 3
+    type: string
     label: visually_hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 3
     region: content
   field_summary:
-    weight: 2
+    type: basic_string
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 2
     region: content
   field_title:
-    weight: 0
+    type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 0
     region: content
 hidden: {  }

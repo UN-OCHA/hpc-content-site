@@ -25,61 +25,61 @@ bundle: article
 mode: default
 content:
   field_appeals:
-    weight: 2
+    type: entity_reference_entity_view
     label: hidden
     settings:
       view_mode: default
       link: false
     third_party_settings: {  }
-    type: entity_reference_entity_view
+    weight: 2
     region: content
   field_author:
     type: entity_reference_entity_view
-    weight: 5
     label: hidden
     settings:
       view_mode: default
       link: false
     third_party_settings: {  }
+    weight: 5
     region: content
   field_caption:
-    weight: 4
+    type: gho_caption
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: gho_caption
+    weight: 4
     region: content
   field_hero_image:
     type: entity_reference_entity_view
-    weight: 3
     label: hidden
     settings:
       view_mode: hero_image
       link: false
     third_party_settings: {  }
+    weight: 3
     region: content
   field_paragraphs:
-    weight: 6
+    type: layout_paragraphs
     label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    type: layout_paragraphs
+    weight: 6
     region: content
   field_section:
-    weight: 1
+    type: entity_reference_label
     label: hidden
     settings:
       link: false
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 1
     region: content
   links:
-    weight: 0
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   field_card_title: true
   field_pdf: true

@@ -11,12 +11,12 @@ pattern: 'story/[node:title]'
 selection_criteria:
   aabb9b41-2e40-40b0-8c40-4706a47b7465:
     id: node_type
-    bundles:
-      story: story
     negate: false
+    uuid: aabb9b41-2e40-40b0-8c40-4706a47b7465
     context_mapping:
       node: node
-    uuid: aabb9b41-2e40-40b0-8c40-4706a47b7465
+    bundles:
+      story: story
 selection_logic: and
 weight: -5
 relationships: {  }

@@ -15,31 +15,31 @@ bundle: needs_and_requirements
 mode: default
 content:
   field_people_in_need:
-    weight: -4
+    type: gho_number
     label: above
     settings:
       format: long
       precision: 2
     third_party_settings: {  }
-    type: gho_number
+    weight: -4
     region: content
   field_people_targeted:
-    weight: -3
+    type: gho_number
     label: above
     settings:
       format: long
       precision: 2
     third_party_settings: {  }
-    type: gho_number
+    weight: -3
     region: content
   field_requirements:
-    weight: -2
+    type: gho_number
     label: above
     settings:
       format: long
       precision: 1
     third_party_settings: {  }
-    type: gho_number
+    weight: -2
     region: content
 hidden:
   description: true

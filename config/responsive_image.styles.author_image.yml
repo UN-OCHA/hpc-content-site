@@ -11,14 +11,14 @@ id: author_image
 label: 'Author Image'
 image_style_mappings:
   -
-    breakpoint_id: common_design.xs
-    multiplier: 1x
     image_mapping_type: image_style
     image_mapping: author_x1
-  -
     breakpoint_id: common_design.xs
-    multiplier: 2x
+    multiplier: 1x
+  -
     image_mapping_type: image_style
     image_mapping: author_x2
+    breakpoint_id: common_design.xs
+    multiplier: 2x
 breakpoint_group: common_design
 fallback_image_style: author_x1

@@ -13,13 +13,13 @@ bundle: further_reading
 mode: default
 content:
   field_links:
+    type: gho_further_reading_link
     weight: 0
+    region: content
     settings:
       placeholder_url: 'https://example.com'
       placeholder_title: 'Example URL Title'
     third_party_settings: {  }
-    type: gho_further_reading_link
-    region: content
   status:
     type: boolean_checkbox
     weight: 1

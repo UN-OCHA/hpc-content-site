@@ -12,8 +12,8 @@ dependencies:
     - layout_builder
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 id: paragraph.facts_and_figures.two_columns
 targetEntityType: paragraph
 bundle: facts_and_figures
@@ -21,19 +21,19 @@ mode: two_columns
 content:
   field_paragraphs:
     type: entity_reference_revisions_entity_view
-    weight: 1
-    region: content
     label: hidden
     settings:
       view_mode: half_width
       link: ''
     third_party_settings: {  }
+    weight: 1
+    region: content
   field_title:
-    weight: 0
+    type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 0
     region: content
 hidden: {  }

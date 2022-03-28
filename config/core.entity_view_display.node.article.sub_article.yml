@@ -23,55 +23,55 @@ dependencies:
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 id: node.article.sub_article
 targetEntityType: node
 bundle: article
 mode: sub_article
 content:
   field_appeals:
-    weight: 1
+    type: entity_reference_entity_view
     label: hidden
     settings:
       view_mode: default
       link: false
     third_party_settings: {  }
-    type: entity_reference_entity_view
+    weight: 1
     region: content
   field_author:
     type: entity_reference_entity_view
-    weight: 3
     label: hidden
     settings:
       view_mode: default
       link: false
     third_party_settings: {  }
+    weight: 3
     region: content
   field_caption:
     type: gho_caption
-    weight: 2
-    region: content
     label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 2
+    region: content
   field_hero_image:
     type: entity_reference_entity_view
-    weight: 0
     label: hidden
     settings:
       view_mode: hero_image_sub_article
       link: false
     third_party_settings: {  }
+    weight: 0
     region: content
   field_paragraphs:
-    weight: 4
+    type: layout_paragraphs
     label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    type: layout_paragraphs
+    weight: 4
     region: content
 hidden:
   field_card_title: true

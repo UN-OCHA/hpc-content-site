@@ -40,6 +40,7 @@
         "drupal/entity_usage": "^2.0@beta",
         "drupal/google_tag": "^1.4",
         "drupal/imageapi_optimize_binaries": "^1.0@alpha",
+        "drupal/imagemagick": "^3.3",
         "drupal/inline_entity_form": "^1.0@RC",
         "drupal/layout_paragraphs": "^1.0",
         "drupal/maintenance200": "^1.1",

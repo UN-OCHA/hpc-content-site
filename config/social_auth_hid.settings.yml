@@ -9,3 +9,4 @@ disable_password_fields: true
 disable_email_field: true
 disable_user_field: true
 maintenance_access: true
+disable_user_create: 1

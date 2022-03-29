@@ -8,7 +8,7 @@ extend type Query {
   articleSearch(title: String): ArticleList
 }
 extend type Query {
-  articleExport: ArticleList
+  articleExport(tags: [String]): ArticleList
 }
 extend type Query {
   articleTranslations(id: Int!): [Article]

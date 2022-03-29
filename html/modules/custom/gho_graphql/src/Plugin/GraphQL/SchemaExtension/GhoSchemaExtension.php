@@ -51,6 +51,7 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
 
     $registry->addFieldResolver('Query', 'articleExport',
       $builder->produce('article_export')
+        ->map('tags', $builder->fromArgument('tags'))
     );
 
     $registry->addFieldResolver('Query', 'articleSearch',

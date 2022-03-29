@@ -21,6 +21,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   produces = @ContextDefinition("entities",
  *     label = @Translation("Entities")
  *   ),
+ *   consumes = {
+ *     "tags" = @ContextDefinition("string",
+ *       label = @Translation("Tags"),
+ *       multiple = TRUE,
+ *       required = FALSE
+ *     ),
+ *   }
  * )
  */
 class ArticleExport extends DataProducerPluginBase implements ContainerFactoryPluginInterface {
@@ -73,15 +80,17 @@ class ArticleExport extends DataProducerPluginBase implements ContainerFactoryPl
   /**
    * Resolver.
    *
+   * @param array $tags
+   *   The tags to search for.
    * @param \Drupal\graphql\GraphQL\Execution\FieldContext $context
    *   A context object.
    *
    * @return \GraphQL\Deferred
    *   A promise.
    */
-  public function resolve(FieldContext $context) {
+  public function resolve(array $tags = NULL, FieldContext $context) {
 
-    return new Deferred(function () use ($context) {
+    return new Deferred(function () use ($tags, $context) {
       $type = 'node';
       // Load the buffered entities.
       $query = $this->entityTypeManager
@@ -90,6 +99,24 @@ class ArticleExport extends DataProducerPluginBase implements ContainerFactoryPl
       $query->condition('type', 'article');
       $query->condition('status', NodeInterface::PUBLISHED);
       $query->sort('changed', 'DESC');
+
+      if (!empty($tags)) {
+        // Add conditions to limit to specific tags, either on the article
+        // itself or on the referenced content space.
+        $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+          'vid' => 'major_tags',
+          'name' => $tags,
+        ]);
+        $tag_ids = array_keys($terms);
+        foreach ($tag_ids as $tag_id) {
+          $and_condition = $query->andConditionGroup();
+          $or_condition = $query->orConditionGroup();
+          $or_condition->condition('field_content_space.entity.field_major_tags', $tag_id);
+          $or_condition->condition('field_tags', $tag_id);
+          $and_condition->condition($or_condition);
+          $query->condition($and_condition);
+        }
+      }
       $entity_ids = $query->execute();
 
       $entities = $entity_ids ? $this->entityTypeManager

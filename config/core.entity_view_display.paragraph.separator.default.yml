@@ -13,10 +13,10 @@ bundle: separator
 mode: default
 content:
   field_separator_size:
-    weight: 0
+    type: list_key
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: list_key
+    weight: 0
     region: content
 hidden: {  }

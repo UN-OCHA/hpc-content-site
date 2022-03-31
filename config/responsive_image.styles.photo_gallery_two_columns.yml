@@ -15,44 +15,44 @@ id: photo_gallery_two_columns
 label: 'Photo gallery - Two columns'
 image_style_mappings:
   -
-    breakpoint_id: common_design.lg
-    multiplier: 1x
     image_mapping_type: image_style
     image_mapping: full_width_16_9_50
-  -
     breakpoint_id: common_design.lg
-    multiplier: 2x
+    multiplier: 1x
+  -
     image_mapping_type: image_style
     image_mapping: full_width_16_9_100
+    breakpoint_id: common_design.lg
+    multiplier: 2x
   -
-    breakpoint_id: common_design.md
-    multiplier: 1x
     image_mapping_type: image_style
     image_mapping: full_width_16_9_45
-  -
     breakpoint_id: common_design.md
-    multiplier: 2x
+    multiplier: 1x
+  -
     image_mapping_type: image_style
     image_mapping: full_width_16_9_90
+    breakpoint_id: common_design.md
+    multiplier: 2x
   -
-    breakpoint_id: common_design.sm
-    multiplier: 1x
     image_mapping_type: image_style
     image_mapping: full_width_16_9_66
-  -
     breakpoint_id: common_design.sm
-    multiplier: 2x
+    multiplier: 1x
+  -
     image_mapping_type: image_style
     image_mapping: full_width_16_9_133
+    breakpoint_id: common_design.sm
+    multiplier: 2x
   -
-    breakpoint_id: common_design.xs
-    multiplier: 1x
     image_mapping_type: image_style
     image_mapping: full_width_16_9_50
-  -
     breakpoint_id: common_design.xs
-    multiplier: 2x
+    multiplier: 1x
+  -
     image_mapping_type: image_style
     image_mapping: full_width_16_9_100
+    breakpoint_id: common_design.xs
+    multiplier: 2x
 breakpoint_group: common_design
 fallback_image_style: full_width_16_9_50

@@ -24,8 +24,8 @@ dependencies:
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 id: node.article.teaser_card
 targetEntityType: node
 bundle: article
@@ -33,36 +33,36 @@ mode: teaser_card
 content:
   field_card_title:
     type: string
-    weight: 2
-    region: content
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    weight: 2
+    region: content
   field_hero_image:
     type: media_thumbnail
-    weight: 0
     label: hidden
     settings:
-      image_style: 572_x_360
       image_link: ''
+      image_style: 572_x_360
     third_party_settings: {  }
+    weight: 0
     region: content
   field_section:
-    weight: 1
+    type: entity_reference_label
     label: hidden
     settings:
       link: false
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 1
     region: content
   field_summary:
     type: text_default
-    weight: 3
-    region: content
     label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 3
+    region: content
 hidden:
   field_appeals: true
   field_author: true

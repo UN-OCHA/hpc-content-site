@@ -25,8 +25,8 @@ dependencies:
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 id: node.article.home_page
 targetEntityType: node
 bundle: article
@@ -34,31 +34,31 @@ mode: home_page
 content:
   field_caption:
     type: gho_caption
-    weight: 4
-    region: content
     label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 4
+    region: content
   field_hero_image:
     type: entity_reference_entity_view
-    weight: 1
     label: hidden
     settings:
       view_mode: hero_image_home_page
       link: false
     third_party_settings: {  }
+    weight: 1
     region: content
   field_paragraphs:
     type: layout_paragraphs
-    weight: 5
-    region: content
     label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 5
+    region: content
   field_report_link:
-    weight: 3
+    type: link
     label: hidden
     settings:
       trim_length: null
@@ -67,20 +67,20 @@ content:
       rel: '0'
       target: '0'
     third_party_settings: {  }
-    type: link
+    weight: 3
     region: content
   field_summary:
     type: text_default
-    weight: 2
-    region: content
     label: hidden
     settings: {  }
     third_party_settings: {  }
-  links:
-    weight: 0
+    weight: 2
     region: content
+  links:
     settings: {  }
     third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   field_appeals: true
   field_author: true

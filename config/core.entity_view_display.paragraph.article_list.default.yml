@@ -14,18 +14,18 @@ bundle: article_list
 mode: default
 content:
   field_links:
-    weight: 3
+    type: gho_article_list
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: gho_article_list
+    weight: 3
     region: content
   field_title:
-    weight: 0
+    type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 0
     region: content
 hidden: {  }

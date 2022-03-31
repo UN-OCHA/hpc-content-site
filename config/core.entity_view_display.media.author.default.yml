@@ -15,29 +15,29 @@ bundle: author
 mode: default
 content:
   field_author_title:
-    weight: 2
+    type: basic_string
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 2
     region: content
   field_media_image:
+    type: responsive_image
     label: visually_hidden
-    weight: 0
     settings:
       responsive_image_style: author_image
       image_link: ''
     third_party_settings: {  }
-    type: responsive_image
+    weight: 0
     region: content
   name:
     type: string
-    weight: 1
-    region: content
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    weight: 1
+    region: content
 hidden:
   created: true
   langcode: true

@@ -12,20 +12,20 @@ dependencies:
     - layout_builder
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 id: paragraph.bottom_figure_row.top_figures
 targetEntityType: paragraph
 bundle: bottom_figure_row
 mode: top_figures
 content:
   field_bottom_figures:
-    weight: 0
+    type: gho_figures
     label: hidden
     settings:
       format: large
     third_party_settings: {  }
-    type: gho_figures
+    weight: 0
     region: content
 hidden:
   field_dataset: true

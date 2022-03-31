@@ -14,8 +14,8 @@ dependencies:
     - responsive_image
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 id: media.image.hero_image_home_page
 targetEntityType: media
 bundle: image
@@ -23,8 +23,6 @@ mode: hero_image_home_page
 content:
   field_media_image:
     type: responsive_image
-    weight: 0
-    region: content
     label: hidden
     settings:
       responsive_image_style: hero_image_home_page
@@ -32,6 +30,8 @@ content:
     third_party_settings:
       gho_fields:
         lazyloading: eager
+    weight: 0
+    region: content
 hidden:
   created: true
   field_credits: true

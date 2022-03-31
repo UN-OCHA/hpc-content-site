@@ -15,6 +15,6 @@ plugin: soft_footer_huminsight
 settings:
   id: soft_footer_huminsight
   label: HumInsight
-  provider: gho_general
   label_display: '0'
+  provider: gho_general
 visibility: {  }

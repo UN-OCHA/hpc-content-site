@@ -16,18 +16,18 @@ mode: default
 content:
   field_achievements:
     type: layout_paragraphs
-    weight: 0
     label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 0
     region: content
   field_text:
-    weight: 1
+    type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 1
     region: content
 hidden: {  }

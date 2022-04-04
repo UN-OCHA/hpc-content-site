@@ -4,7 +4,11 @@ status: true
 dependencies: {  }
 name: gho
 label: GHO
+endpoint: /ncms
+debug_flag: 3
 schema: gho_schema
+caching: false
+batching: true
 schema_configuration:
   gho_schema:
     extensions:
@@ -12,7 +16,3 @@ schema_configuration:
     require_access_key: 1
     access_key: '12345'
 persisted_queries_settings: {  }
-endpoint: /ncms
-debug_flag: 3
-caching: false
-batching: true

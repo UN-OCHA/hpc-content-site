@@ -125,6 +125,12 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('entity_label')
         ->map('entity', $builder->fromParent())
     );
+    $registry->addFieldResolver('Article', 'summary',
+      $builder->produce('property_path')
+        ->map('type', $builder->fromValue('entity:node'))
+        ->map('value', $builder->fromParent())
+        ->map('path', $builder->fromValue('field_summary.value')),
+    );
     $registry->addFieldResolver('Article', 'status',
       $builder->produce('entity_published')
         ->map('entity', $builder->fromParent()),

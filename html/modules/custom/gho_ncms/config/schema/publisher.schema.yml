@@ -1,0 +1,15 @@
+gho_ncms.publisher.*:
+  type: config_entity
+  label: 'Publisher config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    known_hosts:
+      type: text
+      label: 'ID'
+    uuid:
+      type: string

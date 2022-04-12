@@ -36,6 +36,8 @@ function gho_ncms_node_article_edit_form_submit($form, FormStateInterface $form_
     if ($publisher && $host && $publisher->isKnownHost($host)) {
       $response = new TrustedRedirectResponse($query->get('publisher_destination'));
       $form_state->setResponse($response);
+      // Cleanup messages.
+      \Drupal::messenger()->deleteAll();
     }
   }
 }

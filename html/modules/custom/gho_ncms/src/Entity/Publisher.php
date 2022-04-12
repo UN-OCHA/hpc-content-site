@@ -63,7 +63,9 @@ class Publisher extends ConfigEntityBase implements PublisherInterface {
    * {@inheritdoc}
    */
   public function getKnownHosts() {
-    return explode("\n", $this->get('known_hosts') ?? '');
+    return array_map(function ($host) {
+      return trim($host);
+    }, explode("\n", $this->get('known_hosts') ?? ''));
   }
 
   /**

@@ -328,6 +328,11 @@ function common_design_subtheme_preprocess_page__404(&$variables) {
     '#attached' => [
       'library' => ['common_design_subtheme/gho-page-404'],
     ],
+    '#cache' => [
+      'contexts' => [
+        'url.path',
+      ],
+    ],
     'message' => ['#markup' => '<p>' . implode('</p><p>', $message) . '</p>'],
     'navigation' => common_design_subtheme_get_navigation_tree(),
   ];

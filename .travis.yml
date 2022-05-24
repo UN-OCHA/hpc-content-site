@@ -6,6 +6,9 @@ cache:
 php:
   - 8.0
 
+env:
+  - NODE_VERSION="16.14"
+
 # Make sure we have a recent version of docker-compose and chrome.
 addons:
   apt:
@@ -21,8 +24,10 @@ mysql:
   username: root
   encoding: utf8
 
+install:
+  - nvm install $NODE_VERSION
+  - nvm use $NODE_VERSION
 # Disabled as it causes errors and doesn't seem necessary - 2020/10/14
-# install:
 #  - test -n "${SSH_AGENT_PID}" && ssh-agent -k
 
 before_script:

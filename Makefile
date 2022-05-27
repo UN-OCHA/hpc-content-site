@@ -12,8 +12,10 @@ build:  clean
 				--build-arg GITHUB_ACTOR=`whoami` \
 				--build-arg GITHUB_REPOSITORY=`git config --get remote.origin.url` \
 				--build-arg GITHUB_SHA=`git rev-parse --short HEAD` \
-		. --file docker/Dockerfile --tag unocha/gho-2022-site:local \
+		. --file docker/Dockerfile --tag public.ecr.aws/unocha/gho-2022-site:local \
 		2>&1 | tee buildlog.txt
+
+	@echo "Built a shiny new public.ecr.aws/unocha/gho-2022-site:local for you."
 
 clean:
 	# This is done in the builder step, preventing breaking some local setups.

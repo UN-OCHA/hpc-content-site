@@ -49,7 +49,6 @@
         "drupal/paragraphs_viewmode": "^1.0",
         "drupal/pathauto": "^1.8",
         "drupal/redirect": "^1.6",
-        "drupal/redis": "^1.5",
         "drupal/replicate": "^1.0",
         "drupal/replicate_ui": "^1.0",
         "drupal/seckit": "^2.0",

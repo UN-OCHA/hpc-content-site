@@ -38,7 +38,7 @@
 
   @include desktop {
     float: right;
-    margin: calc(-$logo-vert-offset / 2) auto 0 $cd-container-padding;
+    margin: -calc($logo-vert-offset / 2) auto 0 $cd-container-padding;
     padding-right: 0; // unsetting original
     padding-bottom: $logo-vert-offset;
     padding-left: $cd-container-padding;

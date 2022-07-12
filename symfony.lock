@@ -257,9 +257,6 @@
     "drupal/redirect": {
         "version": "1.6.0"
     },
-    "drupal/redis": {
-        "version": "1.4.0"
-    },
     "drupal/replicate": {
         "version": "1.0.0"
     },

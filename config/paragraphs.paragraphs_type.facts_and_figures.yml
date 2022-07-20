@@ -1,10 +1,14 @@
 uuid: 9227cd77-7831-4ef9-9f6c-f8100b5ee4dd
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - gho_ncms
 id: facts_and_figures
 label: 'Facts and figures'
 icon_uuid: null
 icon_default: null
 description: 'A list of facts and figures composed of images with a text.'
-behavior_plugins: {  }
+behavior_plugins:
+  promoted_behavior:
+    enabled: true

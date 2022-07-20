@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - gho_ncms
     - paragraphs_viewmode
 id: bottom_figure_row
 label: 'Bottom figure row'
@@ -17,3 +18,5 @@ behavior_plugins:
       default: default
       top_figures: top_figures
     override_default: default
+  promoted_behavior:
+    enabled: true

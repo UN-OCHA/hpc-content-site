@@ -50,6 +50,7 @@ type Paragraph {
   uuid: String
   type: String
   typeLabel: String
+  promoted: Boolean
   rendered: String
 }
 

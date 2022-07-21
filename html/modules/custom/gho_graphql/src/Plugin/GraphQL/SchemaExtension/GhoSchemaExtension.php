@@ -5,6 +5,7 @@ namespace Drupal\gho_graphql\Plugin\GraphQL\SchemaExtension;
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
+use Drupal\paragraphs\Entity\Paragraph;
 
 /**
  * Defines a schema extension for GHO.
@@ -196,7 +197,7 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
         $builder->produce('entity_reference_revisions')
           ->map('entity', $builder->fromParent())
           ->map('field', $builder->fromValue('field_paragraphs')),
-        $builder->callback(function ($paragraphs) {
+        $builder->callback(function (array $paragraphs) {
           $exclude_types = ['story'];
           $paragraphs = array_filter($paragraphs, function ($paragraph) use ($exclude_types) {
             return !in_array($paragraph->getParagraphType()->id(), $exclude_types) ? $paragraph : NULL;
@@ -380,13 +381,18 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
     );
 
     $registry->addFieldResolver('Paragraph', 'type',
-      $builder->callback(function ($paragraph) {
+      $builder->callback(function (Paragraph $paragraph) {
         return $paragraph->getParagraphType()->id;
       })
     );
     $registry->addFieldResolver('Paragraph', 'typeLabel',
-      $builder->callback(function ($paragraph) {
+      $builder->callback(function (Paragraph $paragraph) {
         return $paragraph->getParagraphType()->label();
+      })
+    );
+    $registry->addFieldResolver('Paragraph', 'promoted',
+      $builder->callback(function (Paragraph $paragraph) {
+        return $paragraph->getBehaviorSetting('promoted_behavior', 'promoted', FALSE);
       })
     );
     $registry->addFieldResolver('Paragraph', 'rendered',

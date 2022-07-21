@@ -25,7 +25,8 @@ class PromoteBehavior extends ParagraphsBehaviorBase {
   public function view(array &$build, Paragraph $paragraph, EntityViewDisplayInterface $display, $view_mode) {
     $promoted = $paragraph->getBehaviorSetting($this->getPluginId(), 'promoted', FALSE);
     if ($promoted) {
-      $build['#attributes']['class'][] = 'paragraph-promoted';
+      $build['#attributes']['class'][] = 'gho-paragraph-promoted';
+      $build['#attached']['library'][] = 'common_design_subtheme/gho-promoted-paragraph';
     }
   }
 

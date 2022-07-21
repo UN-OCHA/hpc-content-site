@@ -179,3 +179,8 @@ gho-article-card:
   css:
     theme:
       components/gho-article-card/gho-article-card.css: {}
+
+gho-promoted-paragraph:
+  css:
+    theme:
+      components/gho-promoted-paragraph/gho-promoted-paragraph.css: {}

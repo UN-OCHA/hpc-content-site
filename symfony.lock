@@ -263,9 +263,6 @@
     "drupal/replicate_ui": {
         "version": "1.0.0"
     },
-    "drupal/seckit": {
-        "version": "2.0.0"
-    },
     "drupal/social_api": {
         "version": "2.0.0-rc3"
     },

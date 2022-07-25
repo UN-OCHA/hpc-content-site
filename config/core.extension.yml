@@ -12,6 +12,7 @@ module:
   config: 0
   config_translation: 0
   contextual: 0
+  csp: 0
   ctools: 0
   double_field: 0
   dynamic_page_cache: 0
@@ -61,7 +62,6 @@ module:
   redirect: 0
   responsive_image: 0
   search: 0
-  seckit: 0
   social_api: 0
   social_auth: 0
   social_auth_hid: 0

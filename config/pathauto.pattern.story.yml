@@ -10,7 +10,7 @@ type: 'canonical_entities:node'
 pattern: 'story/[node:title]'
 selection_criteria:
   aabb9b41-2e40-40b0-8c40-4706a47b7465:
-    id: node_type
+    id: entity_bundle:node
     negate: false
     uuid: aabb9b41-2e40-40b0-8c40-4706a47b7465
     context_mapping:

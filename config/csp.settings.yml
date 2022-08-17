@@ -39,12 +39,16 @@ report-only:
       base: self
     script-src-elem:
       base: self
+      flags:
+        - unsafe-inline
     style-src:
       base: self
       sources:
         - translate.googleapis.com
     style-src-attr:
       base: self
+      flags:
+        - unsafe-inline
     style-src-elem:
       base: self
     frame-ancestors:

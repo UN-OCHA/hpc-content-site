@@ -400,6 +400,11 @@ class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
         ->map('entity', $builder->fromParent())
         ->map('mode', $builder->fromValue('default'))
     );
+    $registry->addFieldResolver('Paragraph', 'configuration',
+      $builder->produce('entity_configuration')
+        ->map('entity', $builder->fromParent())
+    );
+
   }
 
 }

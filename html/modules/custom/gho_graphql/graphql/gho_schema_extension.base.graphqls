@@ -52,6 +52,7 @@ type Paragraph {
   typeLabel: String
   promoted: Boolean
   rendered: String
+  configuration: String
 }
 
 type Caption {

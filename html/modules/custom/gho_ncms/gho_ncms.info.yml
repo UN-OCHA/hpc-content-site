@@ -1,5 +1,0 @@
-name: NCMS based on GHO
-type: module
-description: 'Provides Narrative Content Management System (NCMS) features based on the GHO website.'
-package: GHO NCMS
-core_version_requirement: ^8 || ^9

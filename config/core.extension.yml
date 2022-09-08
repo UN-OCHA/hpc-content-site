@@ -36,8 +36,6 @@ module:
   gho_general: 0
   gho_graphql: 0
   gho_layouts: 0
-  gho_ncms: 0
-  gho_ncms_ui: 0
   google_tag: 0
   graphql: 0
   image: 0

@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
-    - gho_ncms
+    - ncms_publisher
 id: story
 label: Story
 icon_uuid: null

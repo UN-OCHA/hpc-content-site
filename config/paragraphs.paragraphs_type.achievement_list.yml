@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
-    - gho_ncms
+    - ncms_publisher
 id: achievement_list
 label: 'Achievement list'
 icon_uuid: null

@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
-    - gho_ncms
+    - ncms_publisher
     - paragraphs_viewmode
 id: bottom_figure_row
 label: 'Bottom figure row'

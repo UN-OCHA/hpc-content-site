@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
-    - gho_ncms
+    - ncms_publisher
 id: interactive_content
 label: 'Interactive content'
 icon_uuid: null

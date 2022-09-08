@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
-    - gho_ncms
+    - ncms_publisher
 id: photo_gallery
 label: 'Photo Gallery'
 icon_uuid: null

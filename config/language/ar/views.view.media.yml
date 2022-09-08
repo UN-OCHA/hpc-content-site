@@ -3,21 +3,7 @@ display:
   default:
     display_title: Master
     display_options:
-      exposed_form:
-        options:
-          submit_button: Filter
-          reset_button_label: Reset
-          exposed_sorts_label: 'Sort by'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
-      pager:
-        options:
-          expose:
-            items_per_page_options_all_label: '- All -'
-            offset_label: Offset
-          tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
+      title: Media
       fields:
         thumbnail__target_id:
           label: Thumbnail
@@ -33,14 +19,32 @@ display:
         status:
           label: Status
           settings:
-            format_custom_true: 'تم النشر'
             format_custom_false: Unpublished
+            format_custom_true: 'تم النشر'
           separator: ', '
         changed:
           label: Changed
           separator: ', '
         operations:
           label: Operations
+      pager:
+        options:
+          tags:
+            next: 'Next ›'
+            previous: '‹ Previous'
+          expose:
+            items_per_page_options_all_label: '- All -'
+            offset_label: Offset
+      exposed_form:
+        options:
+          submit_button: Filter
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      empty:
+        area_text_custom:
+          content: 'No [view:title] available.'
       filters:
         bundle:
           expose:
@@ -54,10 +58,6 @@ display:
                 title: 'تم النشر'
               2:
                 title: Unpublished
-      title: Media
-      empty:
-        area_text_custom:
-          content: 'No [view:title] available.'
   media_page_list:
     display_title: Media
     display_options:

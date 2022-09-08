@@ -1,0 +1,5 @@
+_core:
+  default_config_hash: ZKVq7lpyGFQf-SCuj_Ng2yLPD24rKHxz-TzGQxBjLl4
+paths: "*\r\n~user/login\r\n~user/login/*\r\n~ncms\r\n~ncms/login"
+login_path: /ncms/login
+message: ''

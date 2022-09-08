@@ -1,4 +1,4 @@
 services:
   gho_ncms.publisher.manager:
     class: Drupal\gho_ncms\PublisherManager
-    arguments: ['@entity_type.manager']
+    arguments: ['@entity_type.manager', '@request_stack']

@@ -6,6 +6,7 @@ module:
   admin_toolbar_links_access_filter: 0
   admin_toolbar_tools: 0
   allowed_formats: 0
+  anonymous_login: 0
   bigint: 0
   block: 0
   breakpoint: 0
@@ -36,6 +37,7 @@ module:
   gho_graphql: 0
   gho_layouts: 0
   gho_ncms: 0
+  gho_ncms_ui: 0
   google_tag: 0
   graphql: 0
   image: 0

@@ -2,6 +2,7 @@ display:
   default:
     display_title: Master
     display_options:
+      title: 'Who''s online'
       exposed_form:
         options:
           submit_button: Apply
@@ -14,7 +15,6 @@ display:
           expose:
             label: 'Last access'
             description: 'A user is considered online for this long after they have last viewed a page.'
-      title: 'Who''s online'
   who_s_online_block:
     display_title: 'Who''s online'
     display_options:

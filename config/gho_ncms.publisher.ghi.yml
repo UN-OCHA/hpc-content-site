@@ -4,4 +4,4 @@ status: true
 dependencies: {  }
 id: ghi
 label: GHI
-known_hosts: "dev.ghi-unocha-org.ahconu.org\r\nghi-site.docksal"
+known_hosts: "dev.ghi-unocha-org.ahconu.org\r\nghi-site.docksal.site"

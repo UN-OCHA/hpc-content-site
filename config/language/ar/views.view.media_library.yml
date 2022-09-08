@@ -2,6 +2,15 @@ display:
   default:
     display_title: Master
     display_options:
+      title: Media
+      fields:
+        media_bulk_form:
+          action_title: Action
+      pager:
+        options:
+          expose:
+            items_per_page_options_all_label: '- All -'
+            offset_label: Offset
       exposed_form:
         options:
           submit_button: 'Apply filters'
@@ -9,14 +18,9 @@ display:
           exposed_sorts_label: 'Sort by'
           sort_asc_label: Asc
           sort_desc_label: Desc
-      pager:
-        options:
-          expose:
-            items_per_page_options_all_label: '- All -'
-            offset_label: Offset
-      fields:
-        media_bulk_form:
-          action_title: Action
+      empty:
+        area_text_custom:
+          content: 'No [view:title] available.'
       filters:
         status:
           group_info:
@@ -32,10 +36,6 @@ display:
         langcode:
           expose:
             label: Language
-      title: Media
-      empty:
-        area_text_custom:
-          content: 'No [view:title] available.'
   page:
     display_title: Page
     display_options:
@@ -51,14 +51,14 @@ display:
   widget:
     display_title: Widget
     display_options:
-      filters:
-        name:
-          expose:
-            label: Name
       arguments:
         bundle:
           exception:
             title: All
+      filters:
+        name:
+          expose:
+            label: Name
       header:
         display_link_grid:
           label: Grid
@@ -75,14 +75,14 @@ display:
           label: Author
         changed:
           label: Changed
-      filters:
-        name:
-          expose:
-            label: Name
       arguments:
         bundle:
           exception:
             title: All
+      filters:
+        name:
+          expose:
+            label: Name
       header:
         display_link_grid:
           label: Grid

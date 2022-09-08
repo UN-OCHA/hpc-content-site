@@ -6,12 +6,11 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Routing\TrustedRedirectResponse;
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function gho_ncms_form_node_article_edit_form_alter(&$form, $form_state) {
+function gho_ncms_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state) {
   $form['status']['widget']['value']['#title'] = t('Publicly available over API');
   foreach (array_keys($form['actions']) as $action) {
     if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
@@ -27,17 +26,12 @@ function gho_ncms_form_node_article_edit_form_alter(&$form, $form_state) {
  * to it if requested.
  */
 function gho_ncms_node_article_edit_form_submit($form, FormStateInterface $form_state) {
-  $query = \Drupal::request()->query;
-  if ($query->has('publisher') && $query->has('publisher_destination')) {
-    /** @var \Drupal\gho_ncms\PublisherManager $publisher_manager */
-    $publisher_manager = \Drupal::service('gho_ncms.publisher.manager');
-    $publisher = $publisher_manager->getPublisher($query->get('publisher'));
-    $host = parse_url($query->get('publisher_destination'), PHP_URL_HOST);
-    if ($publisher && $host && $publisher->isKnownHost($host)) {
-      $response = new TrustedRedirectResponse($query->get('publisher_destination'));
-      $form_state->setResponse($response);
-      // Cleanup messages.
-      \Drupal::messenger()->deleteAll();
-    }
+  /** @var \Drupal\gho_ncms\PublisherManager $publisher_manager */
+  $publisher_manager = \Drupal::service('gho_ncms.publisher.manager');
+  $response = $publisher_manager->getCurrentRedirectResponse();
+  if ($response) {
+    $form_state->setResponse($response);
+    // Cleanup messages.
+    \Drupal::messenger()->deleteAll();
   }
 }

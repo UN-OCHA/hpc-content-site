@@ -1,0 +1,33 @@
+gho_ncms_ui.login_proxy_page:
+  path: '/ncms/login'
+  defaults:
+    _controller: '\Drupal\gho_ncms_ui\Controller\LoginProxyPageController::page'
+    _title: 'NCMS Login'
+  requirements:
+    _user_is_logged_in: 'FALSE'
+
+entity.node.iframe:
+  path: '/node/{node}/iframe'
+  defaults:
+    _controller: '\Drupal\gho_ncms_ui\Controller\ViewController::viewIframe'
+    _title_callback: '\Drupal\gho_ncms_ui\Controller\ViewController::previewTitle'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    node: \d+
+  options:
+    parameters:
+      node:
+        type: entity:node
+
+entity.node.standalone:
+  path: '/node/{node}/standalone'
+  defaults:
+    _controller: '\Drupal\node\Controller\NodeViewController::view'
+    _title_callback: '\Drupal\node\Controller\NodeViewController::title'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    node: \d+
+  options:
+    parameters:
+      node:
+        type: entity:node

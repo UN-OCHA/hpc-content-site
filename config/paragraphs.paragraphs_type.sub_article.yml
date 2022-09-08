@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
-    - gho_ncms
+    - ncms_publisher
 id: sub_article
 label: Sub-article
 icon_uuid: null

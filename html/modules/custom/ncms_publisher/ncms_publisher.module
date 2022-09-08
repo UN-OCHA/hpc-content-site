@@ -2,7 +2,7 @@
 
 /**
  * @file
- * GHO NCMS module file.
+ * NCMS module file.
  */
 
 use Drupal\Core\Form\FormStateInterface;
@@ -10,11 +10,11 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function gho_ncms_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state) {
+function ncms_publisher_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state) {
   $form['status']['widget']['value']['#title'] = t('Publicly available over API');
   foreach (array_keys($form['actions']) as $action) {
     if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
-      $form['actions'][$action]['#submit'][] = 'gho_ncms_node_article_edit_form_submit';
+      $form['actions'][$action]['#submit'][] = 'ncms_publisher_node_article_edit_form_submit';
     }
   }
 }
@@ -25,9 +25,9 @@ function gho_ncms_form_node_article_edit_form_alter(&$form, FormStateInterface $
  * Checks if the edit request came from a trusted publisher and redirects back
  * to it if requested.
  */
-function gho_ncms_node_article_edit_form_submit($form, FormStateInterface $form_state) {
-  /** @var \Drupal\gho_ncms\PublisherManager $publisher_manager */
-  $publisher_manager = \Drupal::service('gho_ncms.publisher.manager');
+function ncms_publisher_node_article_edit_form_submit($form, FormStateInterface $form_state) {
+  /** @var \Drupal\ncms_publisher\PublisherManager $publisher_manager */
+  $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
   $response = $publisher_manager->getCurrentRedirectResponse();
   if ($response) {
     $form_state->setResponse($response);

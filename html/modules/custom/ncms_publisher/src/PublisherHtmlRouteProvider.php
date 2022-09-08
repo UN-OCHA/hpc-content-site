@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_ncms;
+namespace Drupal\ncms_publisher;
 
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\Routing\AdminHtmlRouteProvider;

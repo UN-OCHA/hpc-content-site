@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_ncms;
+namespace Drupal\ncms_publisher;
 
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;

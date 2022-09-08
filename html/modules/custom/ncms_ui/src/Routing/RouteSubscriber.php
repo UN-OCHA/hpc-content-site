@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_ncms_ui\Routing;
+namespace Drupal\ncms_ui\Routing;
 
 use Drupal\Core\Routing\RouteSubscriberBase;
 use Symfony\Component\Routing\RouteCollection;

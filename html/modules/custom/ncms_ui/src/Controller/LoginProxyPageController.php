@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_ncms_ui\Controller;
+namespace Drupal\ncms_ui\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;

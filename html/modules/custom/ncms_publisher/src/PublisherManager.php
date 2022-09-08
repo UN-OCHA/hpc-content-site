@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_ncms;
+namespace Drupal\ncms_publisher;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
@@ -46,7 +46,7 @@ class PublisherManager {
    * @param string $id
    *   The id of the publisher.
    *
-   * @return \Drupal\gho_ncms\Entity\PublisherInterface|null
+   * @return \Drupal\ncms_publisher\Entity\PublisherInterface|null
    *   The publisher entity if found.
    */
   public function getPublisher($id) {
@@ -57,7 +57,7 @@ class PublisherManager {
   /**
    * Get the current publisher from the request.
    *
-   * @return \Drupal\gho_ncms\Entity\PublisherInterface|null
+   * @return \Drupal\ncms_publisher\Entity\PublisherInterface|null
    *   The publisher entity if available.
    */
   public function getCurrentPublisher() {

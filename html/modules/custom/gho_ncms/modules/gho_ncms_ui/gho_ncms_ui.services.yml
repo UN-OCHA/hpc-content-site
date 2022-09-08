@@ -1,5 +1,0 @@
-services:
-  gho_ncms_ui.route_subscriber:
-    class: Drupal\gho_ncms_ui\Routing\RouteSubscriber
-    tags:
-      - { name: event_subscriber }

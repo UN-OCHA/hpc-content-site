@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_ncms\Form;
+namespace Drupal\ncms_publisher\Form;
 
 use Drupal\Core\Entity\EntityConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;

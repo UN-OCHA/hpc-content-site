@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_ncms\Entity;
+namespace Drupal\ncms_publisher\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 
@@ -12,14 +12,14 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *   label = @Translation("Publisher"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\gho_ncms\PublisherListBuilder",
+ *     "list_builder" = "Drupal\ncms_publisher\PublisherListBuilder",
  *     "form" = {
- *       "add" = "Drupal\gho_ncms\Form\PublisherForm",
- *       "edit" = "Drupal\gho_ncms\Form\PublisherForm",
- *       "delete" = "Drupal\gho_ncms\Form\PublisherDeleteForm"
+ *       "add" = "Drupal\ncms_publisher\Form\PublisherForm",
+ *       "edit" = "Drupal\ncms_publisher\Form\PublisherForm",
+ *       "delete" = "Drupal\ncms_publisher\Form\PublisherDeleteForm"
  *     },
  *     "route_provider" = {
- *       "html" = "Drupal\gho_ncms\PublisherHtmlRouteProvider",
+ *       "html" = "Drupal\ncms_publisher\PublisherHtmlRouteProvider",
  *     },
  *   },
  *   config_prefix = "publisher",

@@ -1,0 +1,7 @@
+uuid: 69545b25-48a4-4c8f-9640-097289d9bb1a
+langcode: en
+status: true
+dependencies: {  }
+id: ghi
+label: GHI
+known_hosts: "dev.ghi-unocha-org.ahconu.org\r\nghi-site.docksal.site"

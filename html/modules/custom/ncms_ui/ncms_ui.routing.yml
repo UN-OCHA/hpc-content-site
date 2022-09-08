@@ -1,7 +1,7 @@
-gho_ncms_ui.login_proxy_page:
+ncms_ui.login_proxy_page:
   path: '/ncms/login'
   defaults:
-    _controller: '\Drupal\gho_ncms_ui\Controller\LoginProxyPageController::page'
+    _controller: '\Drupal\ncms_ui\Controller\LoginProxyPageController::page'
     _title: 'NCMS Login'
   requirements:
     _user_is_logged_in: 'FALSE'
@@ -9,8 +9,8 @@ gho_ncms_ui.login_proxy_page:
 entity.node.iframe:
   path: '/node/{node}/iframe'
   defaults:
-    _controller: '\Drupal\gho_ncms_ui\Controller\ViewController::viewIframe'
-    _title_callback: '\Drupal\gho_ncms_ui\Controller\ViewController::previewTitle'
+    _controller: '\Drupal\ncms_ui\Controller\ViewController::viewIframe'
+    _title_callback: '\Drupal\ncms_ui\Controller\ViewController::previewTitle'
   requirements:
     _user_is_logged_in: 'TRUE'
     node: \d+

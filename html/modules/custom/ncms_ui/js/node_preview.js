@@ -1,11 +1,11 @@
 (function ($, Drupal, drupalSettings) {
 
-  Drupal.ghoNodePreview = {};
-  Drupal.ghoNodePreview.updater = null;
-  Drupal.ghoNodePreview.resize = function ($iframe) {
+  Drupal.NcmsNodePreview = {};
+  Drupal.NcmsNodePreview.updater = null;
+  Drupal.NcmsNodePreview.resize = function ($iframe) {
     var iframe = $iframe.get(0);
     if (!iframe || !iframe.contentWindow) {
-      clearInterval(Drupal.ghoNodePreview.updater);
+      clearInterval(Drupal.NcmsNodePreview.updater);
       return;
     }
     iframe.style.height = iframe.contentWindow.document.documentElement.scrollHeight + "px";
@@ -14,13 +14,13 @@
   /**
    * Attaches the behavior.
    */
-  Drupal.behaviors.ghoNodePreview = {
+  Drupal.behaviors.NcmsNodePreview = {
     attach: function (context, settings) {
       let $iframe = $('iframe#node-preview');
       if ($iframe.length > 0) {
         // Periodically auto-resize iframe as contents may change height.
-        Drupal.ghoNodePreview.updater = setInterval(function () {
-          Drupal.ghoNodePreview.resize($iframe);
+        Drupal.NcmsNodePreview.updater = setInterval(function () {
+          Drupal.NcmsNodePreview.resize($iframe);
         }, 1000);
       };
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_ncms_ui\Controller;
+namespace Drupal\ncms_ui\Controller;
 
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
@@ -67,7 +67,7 @@ class ViewController extends NodeViewController {
       ],
       '#attached' => [
         'library' => [
-          'gho_ncms_ui/node_preview',
+          'ncms_ui/node_preview',
         ],
       ],
     ];

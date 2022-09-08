@@ -1,0 +1,5 @@
+services:
+  ncms_ui.route_subscriber:
+    class: Drupal\ncms_ui\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }

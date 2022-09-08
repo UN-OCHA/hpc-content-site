@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_ncms\Form;
+namespace Drupal\ncms_publisher\Form;
 
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
@@ -16,7 +16,7 @@ class PublisherForm extends EntityForm {
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
 
-    /** @var \Drupal\gho_ncms\Entity\PublisherInterface $publisher */
+    /** @var \Drupal\ncms_publisher\Entity\PublisherInterface $publisher */
     $publisher = $this->entity;
     $form['label'] = [
       '#type' => 'textfield',
@@ -31,7 +31,7 @@ class PublisherForm extends EntityForm {
       '#type' => 'machine_name',
       '#default_value' => $publisher->id(),
       '#machine_name' => [
-        'exists' => '\Drupal\gho_ncms\Entity\Publisher::load',
+        'exists' => '\Drupal\ncms_publisher\Entity\Publisher::load',
       ],
       '#disabled' => !$publisher->isNew(),
     ];
@@ -51,7 +51,7 @@ class PublisherForm extends EntityForm {
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    /** @var \Drupal\gho_ncms\Entity\PublisherInterface $publisher */
+    /** @var \Drupal\ncms_publisher\Entity\PublisherInterface $publisher */
     $publisher = $this->entity;
     $publisher->set('known_hosts', $form_state->getValue('known_hosts'));
     $status = $publisher->save();

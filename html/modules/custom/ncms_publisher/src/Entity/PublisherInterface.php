@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_ncms\Entity;
+namespace Drupal\ncms_publisher\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
 

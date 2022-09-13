@@ -13,7 +13,6 @@ dependencies:
     - taxonomy.vocabulary.story_type
   module:
     - content_translation
-    - contextual
     - filter
     - gho_access
     - gho_fields
@@ -33,7 +32,6 @@ is_admin: null
 permissions:
   - 'access administration pages'
   - 'access content overview'
-  - 'access contextual links'
   - 'access media overview'
   - 'access site in maintenance mode'
   - 'access taxonomy overview'

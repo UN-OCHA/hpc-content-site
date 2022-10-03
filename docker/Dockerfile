@@ -26,12 +26,12 @@ RUN cd html/themes/custom/common_design_subtheme && \
     rm -rf ./node_modules
 
 # Copy settings to default site location.
-RUN cp -a docker/settings.php docker/services.yml html/sites/default
+RUN cp -a docker/settings.php docker/services.yml docker/memcache.services.yml html/sites/default
 
 ################################################################################
 
 # Generate the image.
-FROM public.ecr.aws/unocha/php-k8s:8.0-NR-stable
+FROM public.ecr.aws/unocha/php-k8s:8.0-table
 
 ARG VCS_REF
 ARG VCS_URL
@@ -41,7 +41,7 @@ ARG GITHUB_REPOSITORY
 ARG GITHUB_SHA
 ARG GITHUB_REF
 
-ENV  NGINX_SERVERNAME=gho.unocha.org \
+ENV  NGINX_SERVERNAME=content.hpc.tools \
      PHP_ENVIRONMENT=production \
      PHP_MEMORY_LIMIT=256M \
      PHP_MAX_CHILDREN=16 \

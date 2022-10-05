@@ -4,7 +4,7 @@ ncms_ui.login_proxy_page:
     _controller: '\Drupal\ncms_ui\Controller\LoginProxyPageController::page'
     _title: 'NCMS Login'
   requirements:
-    _user_is_logged_in: 'FALSE'
+    _access: 'TRUE'
 
 entity.node.iframe:
   path: '/node/{node}/iframe'

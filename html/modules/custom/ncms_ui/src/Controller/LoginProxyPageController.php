@@ -4,6 +4,8 @@ namespace Drupal\ncms_ui\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
+use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implementation of the LoginProxyPageController class.
@@ -16,6 +18,9 @@ class LoginProxyPageController extends ControllerBase {
    * What we need is a message and a link to the login.
    */
   public function page() {
+    if ($this->currentUser()->isAuthenticated()) {
+      return new RedirectResponse(Url::fromRoute('<front>')->toString());
+    }
 
     $message = [
       '#markup' => $this->t('This site is backend-only and you need to login in order to use it.'),

@@ -18,7 +18,9 @@ class LoginProxyPageController extends ControllerBase {
    * What we need is a message and a link to the login.
    */
   public function page() {
-    if ($this->currentUser()->isAuthenticated()) {
+
+    // If the user is already logged-in, redirect to the front page.
+    if ($this->currentUser->isAuthenticated()) {
       return new RedirectResponse(Url::fromRoute('<front>')->toString());
     }
 

@@ -2,26 +2,34 @@ label: Content
 description: 'Find and manage content.'
 display:
   default:
+    display_title: Master
     display_options:
-      exposed_form:
-        options:
-          submit_button: Filter
-          reset_button_label: Reset
-          exposed_sorts_label: 'Sort by'
-      pager:
-        options:
-          tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
-            first: '« First'
-            last: 'Last »'
+      title: Content
       fields:
         title:
           label: Title
         type:
           label: 'Content type'
+          separator: ', '
         changed:
           label: Changed
+      pager:
+        options:
+          tags:
+            next: 'Next ›'
+            previous: '‹ Previous'
+            first: '« First'
+            last: 'Last »'
+      exposed_form:
+        options:
+          submit_button: Filter
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      empty:
+        area_text_custom:
+          content: 'No content available.'
       filters:
         title:
           expose:
@@ -42,8 +50,3 @@ display:
         langcode:
           expose:
             label: Language
-      title: Content
-      empty:
-        area_text_custom:
-          content: 'No content available.'
-    display_title: Master

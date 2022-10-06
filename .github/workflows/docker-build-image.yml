@@ -6,6 +6,7 @@ on:
       - develop
       - feature/**
       - main
+      - hpc/ncms
   release:
     types: [published]
 

@@ -4,12 +4,17 @@ display:
   default:
     display_title: Master
     display_options:
+      title: 'Recent content'
+      fields:
+        changed:
+          separator: ', '
       exposed_form:
         options:
           submit_button: Apply
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
-      title: 'Recent content'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       empty:
         area_text_custom:
           content: 'No content available.'

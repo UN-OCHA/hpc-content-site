@@ -2,7 +2,22 @@ label: Content
 description: 'Find and manage content.'
 display:
   default:
+    display_title: Master
     display_options:
+      title: Content
+      fields:
+        title:
+          label: Title
+        type:
+          label: 'Content type'
+          separator: ', '
+        changed:
+          label: Changed
+      pager:
+        options:
+          tags:
+            next: 'Next ›'
+            previous: '‹ Previous'
       exposed_form:
         options:
           submit_button: Filter
@@ -10,13 +25,9 @@ display:
           exposed_sorts_label: 'Sort by'
           sort_asc_label: Asc
           sort_desc_label: Desc
-      fields:
-        title:
-          label: Title
-        type:
-          label: 'Content type'
-        changed:
-          label: Changed
+      empty:
+        area_text_custom:
+          content: 'No content available.'
       filters:
         title:
           expose:
@@ -31,11 +42,8 @@ display:
             group_items:
               1:
                 title: 'تم النشر'
+              2:
+                title: Unpublished
         langcode:
           expose:
             label: Language
-      title: Content
-      empty:
-        area_text_custom:
-          content: 'No content available.'
-    display_title: Master

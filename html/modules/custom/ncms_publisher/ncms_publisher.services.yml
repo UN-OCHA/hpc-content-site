@@ -1,0 +1,4 @@
+services:
+  ncms_publisher.publisher.manager:
+    class: Drupal\ncms_publisher\PublisherManager
+    arguments: ['@entity_type.manager', '@request_stack']

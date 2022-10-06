@@ -1,0 +1,18 @@
+uuid: 58b72755-d1a1-4092-9d64-d5761055c5cb
+langcode: en
+status: true
+dependencies: {  }
+name: gho
+label: GHO
+endpoint: /ncms
+debug_flag: 3
+schema: gho_schema
+caching: false
+batching: true
+schema_configuration:
+  gho_schema:
+    extensions:
+      gho_schema_extension: gho_schema_extension
+    require_access_key: 1
+    access_key: '12345'
+persisted_queries_settings: {  }

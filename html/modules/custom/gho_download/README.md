@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Download module
+HPC Content Module - Download module
 ==============================================
 
 This module provides a route to have permanent download URLs for the PDF version

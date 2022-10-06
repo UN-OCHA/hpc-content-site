@@ -20,7 +20,7 @@ class LoginProxyPageController extends ControllerBase {
   public function page() {
 
     // If the user is already logged-in, redirect to the front page.
-    if ($this->currentUser->isAuthenticated()) {
+    if ($this->currentUser()->isAuthenticated()) {
       return new RedirectResponse(Url::fromRoute('<front>')->toString());
     }
 

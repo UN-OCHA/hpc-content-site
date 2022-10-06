@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\gho_general\ExistingSite;
+namespace Drupal\Tests\ncms_ui\ExistingSite;
 
 use weitzman\DrupalTestTraits\ExistingSiteBase;
 

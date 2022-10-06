@@ -1,4 +1,4 @@
-Global Humanitarian Overview - General module
+HPC Content Module - General module
 =============================================
 
 This module contains general customizations and tests for the Global

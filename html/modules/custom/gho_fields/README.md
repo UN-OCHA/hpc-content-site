@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Fields Module
+HPC Content Module - Fields Module
 ============================================
 
 This module provides some field formatters, widgets and templates as well as

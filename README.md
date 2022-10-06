@@ -1,16 +1,13 @@
-[![Develop - build Status](https://travis-ci.com/UN-OCHA/gho-site.svg?token=q5DydpJDYUBJoayLktvd&branch=develop)](https://travis-ci.com/UN-OCHA/gho-site)
-[![Main - build Status](https://travis-ci.com/UN-OCHA/gho-site.svg?token=q5DydpJDYUBJoayLktvd&branch=main)](https://travis-ci.com/UN-OCHA/gho-site)
-![Build docker image](https://github.com/UN-OCHA/gho-site/workflows/Build%20docker%20image/badge.svg)
+[![Develop - build Status](https://app.travis-ci.com/UN-OCHA/hpc-content-site.svg?branch=develop)](https://app.travis-ci.com/github/UN-OCHA/hpc-content-site)
+[![Main - build Status](https://app.travis-ci.com/UN-OCHA/hpc-content-site.svg?branch=main)](https://app.travis-ci.com/github/UN-OCHA/hpc-content-site)
+![Build docker image](https://github.com/UN-OCHA/hpc-content-site/workflows/Build%20docker%20image/badge.svg)
 
-Global Humanitarian Overview (GHO) site - Drupal 8 version
+HPC Content Module
 ==========================================================
 
-This is the drupal 8 codebase for the [Global Humanitarian Overview](https://gho.unocha.org) site.
+This is the drupal 9 codebase for the [HPC Content Module](https://content.hpc.tools) site.
 
-> The Global Humanitarian Overview (GHO) is the world’s most comprehensive,
-authoritative and evidence-based assessment of humanitarian need. Through plans
-that prioritize those most in need, it aims to fight hunger, killer diseases,
-gender-based violence and displacement.
+> HPC Content Module is the content backend for the [Humanitarian Actions site](https://humanitarianaction.info).
 
 Content
 -------
@@ -54,7 +51,7 @@ and **media** types:
 
 Paragraphs are arranged inside an article using the [*layout paragraphs*](https://www.drupal.org/project/layout_paragraphs) module which provides a more intuitive interface than the
 default paragraph widget, in addition to its core layout selection feature which is, however, not
-used in GHO.
+used.
 
 Languages
 ---------
@@ -87,7 +84,10 @@ Modules
 The main contrib modules for this site are the [paragraphs](https://www.drupal.org/project/paragraphs) related ones (see
 [composer file](composer.json).
 
-In addition, the site has several custom modules:
+In addition, the site has several custom modules. Most of the modules prefixed
+with `gho_` have been inherited from the former GHO site, of which this site
+has been forked. The modules prefixed with `ncms_` are specific to the
+functioning of this site as a content backend.
 
 - [**GHO Access**](html/modules/custom/gho_access)
 
@@ -126,16 +126,32 @@ In addition, the site has several custom modules:
   UI in English, blocks for the header and footer and handling of youtube videos
   embeds.
 
+- [**GHO GraphQL**](html/modules/custom/gho_graphql)
+
+  The gho_graphql module provides a GraphQL API that allows external access to
+  published content.
+
 - [**GHO Layouts**](html/modules/custom/gho_layouts)
 
   The gho_layouts module provides addition layouts to use with modules relying
   on the Layout API to arrange display (ex: layout builder module or
   [layout_paragraphs](https://www.drupal.org/project/layout_paragraphs) in the
   case of GHO). This module provides notably a layout plugin to handle
-  configurable grids with any number of areas. **Note:** This not really used
-  in GHO.
+  configurable grids with any number of areas. **Note:** This not really used.
 
-The site has 1 more custom module that could/should be separated from the GHO
+- [**NCMS Publisher**](html/modules/custom/ncms_publisher)
+
+  The ncms_publisher module provides a "publisher" entity that allows the
+  definition of external content consumers. Defining a "publisher" allows this
+  external service to better integrate its workflow with this site.
+
+- [**NCMS UI**](html/modules/custom/ncms_ui)
+
+  The ncms_ui module provides UI additions that allow this site to function as
+  a backend-only site. Full page node views are disabled and replaced with
+  modal previews. Login is required for any interaction with the site.
+
+The site has 1 more custom module that could/should be separated from this site
 codebase to be independent module that other sites could use:
 
 - [**Linked Responsive Image Media Formatter**](html/modules/custom/linked_responsive_image_media_formatter)
@@ -148,7 +164,7 @@ codebase to be independent module that other sites could use:
   custom `alt` text using `tokens` as well and an option to display the image
   as background for the link, using the `alt` text as text for the link.
 
-  In the case of GHO, this formatter is used to link placeholder images to
+  In the case of this site, this formatter is used to link placeholder images to
   `datawrapper` pages.
 
 Notes
@@ -161,35 +177,35 @@ the [notes.md](notes.md) file.
 Local development
 -----------------
 
-The site is docker based. See https://github.com/UN-OCHA/gho-stack for instructions.
+The site is docker based. See https://github.com/UN-OCHA/hpc-content-stack for instructions.
 
-To build an image run `make`. This will create a `gho-site:local` image usable
-with the local setup described in the `gho-stack` repository.
+To build an image run `make`. This will create a `hpc-content-site:local` image usable
+with the local setup described in the `hpc-content-stack` repository.
 
 Local testing
 -------------
 
 **With Docksal**
 
-Note: Replace `test.gho-site.docksal` below with the appriate hostname for
-your local site (ex: `gho.test`).
+Note: Replace `test.hpc-content-site.docksal.site` below with the appriate hostname for
+your local site (ex: `hpc-content-site.test`).
 
 ```bash
 mkdir -p ./html/sites/test
 cp ./.travis/local/* ./html/sites/test/
 
 fin db create test
-fin drush --uri=test.gho-site.docksal si minimal -y
-fin drush --uri=test.gho-site.docksal cset system.site uuid $(grep uuid ./config/system.site.yml | awk '{print $2}') -y
-fin drush --uri=test.gho-site.docksal cim -y
-fin drush --uri=test.gho-site.docksal cr
+fin drush --uri=test.hpc-content-site.docksal.site si minimal -y
+fin drush --uri=test.hpc-content-site.docksal.site cset system.site uuid $(grep uuid ./config/system.site.yml | awk '{print $2}') -y
+fin drush --uri=test.hpc-content-site.docksal.site cim -y
+fin drush --uri=test.hpc-content-site.docksal.site cr
 
-fin drush --uri=test.gho-site.docksal en yaml_content -y
-fin drush --uri=test.gho-site.docksal yaml-content-import /var/www/.travis/
+fin drush --uri=test.hpc-content-site.docksal.site en yaml_content -y
+fin drush --uri=test.hpc-content-site.docksal.site yaml-content-import /var/www/.travis/
 ```
 
 Run tests using docksal
 
 ```bash
-fin exec DTT_BASE_URL=http://test.gho-site.docksal/ ./vendor/bin/phpunit --debug --colors --testsuite=existing-site,existing-site-javascript --printer '\Drupal\Tests\Listeners\HtmlOutputPrinter'
+fin exec DTT_BASE_URL=http://test.hpc-content-site.docksal.site/ ./vendor/bin/phpunit --debug --colors --testsuite=existing-site,existing-site-javascript --printer '\Drupal\Tests\Listeners\HtmlOutputPrinter'
 ```

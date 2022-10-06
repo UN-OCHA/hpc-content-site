@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Aside Component
+HPC Content Module - Aside Component
 ==============================================
 
 Styling for "aside" sections. Ex: Facts and Figures, Field stories, Interactive

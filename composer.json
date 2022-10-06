@@ -1,6 +1,6 @@
 {
-    "name": "unocha/gho-2022-site",
-    "description": "Global Humanitarian Overview (GHO) - Drupal 9 version",
+    "name": "unocha/hpc-content-site",
+    "description": "HPC Content Module - Drupal 9 version",
     "type": "project",
     "license": "GPL-2.0-or-later",
     "authors": [

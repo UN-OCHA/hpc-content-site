@@ -1,4 +1,4 @@
-OCHA Common Design sub theme for the Drupal 8 Global Humanitarian Overview site
+OCHA Common Design sub theme for the Drupal 9 HPC Content Module site
 ===============================================================================
 
 See below for [generic information](#ocha-common-design-sub-theme-for-drupal-8)

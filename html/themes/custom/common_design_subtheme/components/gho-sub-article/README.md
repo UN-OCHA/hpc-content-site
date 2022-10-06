@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Sub-Article Component
+HPC Content Module - Sub-Article Component
 ====================================================
 
 When several Articles are nested onto one URL, we render them as Sub-Articles

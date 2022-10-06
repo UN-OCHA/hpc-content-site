@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Photo Gallery Component
+HPC Content Module - Photo Gallery Component
 ======================================================
 
 Styling for the photo gallery component which can be a single column or a two

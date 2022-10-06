@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Caption Component
+HPC Content Module - Caption Component
 ================================================
 
 Styling of the text caption found in `photo galleries`, `stories` or under

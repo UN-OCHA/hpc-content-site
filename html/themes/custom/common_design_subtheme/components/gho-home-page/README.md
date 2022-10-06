@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Home Page Component
+HPC Content Module - Home Page Component
 ==================================================
 
 It's not a component, but better to load the styles conditionally than put them

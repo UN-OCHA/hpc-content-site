@@ -10,7 +10,7 @@ Run `COMPOSER_MEMORY_LIMIT=-1 composer install`
 
 **Fist installation with drush or drupal console**
 
-Run `drush site:install minimal --site-name="Global Humanitarian Overview" --site-mail="admin@gho.unocha.org"`
+Run `drush site:install minimal --site-name="HPC Content Module" --site-mail="admin@content.hpc.tools"`
 
 This will add the database settings and hash_salt to the `html/sites/default/settings.php` and should probably be removed and added to `/srv/www/shared/settings/settings.local.php` instead.
 

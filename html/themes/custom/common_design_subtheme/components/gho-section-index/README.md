@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Section index Component
+HPC Content Module - Section index Component
 ======================================================
 
 This component displays a list of articles belonging to the same section with

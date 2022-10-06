@@ -1,6 +1,6 @@
 {
     "name": "unocha/gho_figures",
-    "description": "Global Humanitarian Overview Figures Import.",
+    "description": "HPC Content Module Figures Import.",
     "type": "drupal-module",
     "authors": [
         {

@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Story Component
+HPC Content Module - Story Component
 ==============================================
 
 Often appearing as "Stories from the field" this component largely inherits

@@ -1,7 +1,7 @@
-name: UI additions for an NCMS based on GHO
+name: UI additions for the HPC Content Module
 type: module
 description: 'Provides additional UI logic to streamline UX.'
-package: NCMS
+package: HPC Content Module
 core_version_requirement: ^8 || ^9
 dependencies:
   - anonymous_login:anonymous_login

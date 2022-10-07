@@ -1,7 +1,7 @@
 HPC Content Module - GraphQL Module
 ===============================================
 
-The gho_graphql module provides a GraphQL API that allows external access to
+The ncms_graphql module provides a GraphQL API that allows external access to
 published content.
 
 Examples

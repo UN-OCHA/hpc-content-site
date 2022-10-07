@@ -2,7 +2,7 @@
 
 /**
  * @file
- * GHO GraphQL module file.
+ * NCMS GraphQL module file.
  */
 
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
@@ -11,31 +11,31 @@ use Drupal\Core\Entity\EntityInterface;
 /**
  * Implements hook_node_view_alter().
  */
-function gho_graphql_node_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
-  gho_graphql_partial_revert_of_footnotes_processing($build);
+function ncms_graphql_node_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
+  ncms_graphql_partial_revert_of_footnotes_processing($build);
 }
 
 /**
  * Implements hook_paragraph_view_alter().
  */
-function gho_graphql_paragraph_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
+function ncms_graphql_paragraph_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
   if ($entity->bundle() === 'text') {
-    gho_graphql_partial_revert_of_footnotes_processing($build);
+    ncms_graphql_partial_revert_of_footnotes_processing($build);
   }
 }
 
 /**
  * Partially revert the footnote processing from gho_footnotes_prepare_build().
  */
-function gho_graphql_partial_revert_of_footnotes_processing(&$build) {
-  /** @var Drupal\graphql\Entity\ServerInterface $gho_server */
+function ncms_graphql_partial_revert_of_footnotes_processing(&$build) {
+  /** @var Drupal\graphql\Entity\ServerInterface $graphql_server */
   $graphql_server = \Drupal::routeMatch()->getParameter('graphql_server');
   if (!$graphql_server) {
     // Skip if this is not a graphql request.
     return;
   }
 
-  if ($graphql_server->schema != 'gho_schema' || \Drupal::request()->getRequestUri() != $graphql_server->endpoint) {
+  if ($graphql_server->schema != 'ncms_schema' || \Drupal::request()->getRequestUri() != $graphql_server->endpoint) {
     // Skip if this request is not against a schema provided by us.
     return;
   }

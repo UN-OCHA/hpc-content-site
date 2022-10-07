@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_graphql\Plugin\GraphQL\DataProducer;
+namespace Drupal\ncms_graphql\Plugin\GraphQL\DataProducer;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;

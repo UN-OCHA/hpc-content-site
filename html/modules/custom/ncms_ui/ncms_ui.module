@@ -2,7 +2,7 @@
 
 /**
  * @file
- * GHO NCMS UI module file.
+ * NCMS UI module file.
  */
 
 use Drupal\Component\Serialization\Json;

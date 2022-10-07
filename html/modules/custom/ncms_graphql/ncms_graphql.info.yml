@@ -1,0 +1,8 @@
+name: GraphQL for the HPC Content Module
+type: module
+description: 'GraphQL schema and plugins for the HPC Content Module.'
+package: HPC Content Module
+dependencies:
+  - graphql:graphql
+  - node:node
+core_version_requirement: ^8 || ^9

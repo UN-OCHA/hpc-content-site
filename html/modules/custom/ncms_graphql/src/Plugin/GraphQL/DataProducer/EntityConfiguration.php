@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_graphql\Plugin\GraphQL\DataProducer;
+namespace Drupal\ncms_graphql\Plugin\GraphQL\DataProducer;
 
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Cache\RefinableCacheableDependencyInterface;

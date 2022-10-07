@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_graphql\GraphQL\Buffers;
+namespace Drupal\ncms_graphql\GraphQL\Buffers;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\graphql\GraphQL\Buffers\EntityBuffer as GraphQlEntityBuffer;
@@ -8,7 +8,7 @@ use Drupal\graphql\GraphQL\Buffers\EntityBuffer as GraphQlEntityBuffer;
 /**
  * Collects all exportable articles.
  */
-class GhoArticleExportBuffer extends GraphQlEntityBuffer {
+class ArticleExportBuffer extends GraphQlEntityBuffer {
 
   /**
    * The entity type manager service.

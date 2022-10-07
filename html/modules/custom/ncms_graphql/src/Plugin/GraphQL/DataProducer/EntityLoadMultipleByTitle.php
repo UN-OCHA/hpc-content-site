@@ -1,13 +1,13 @@
 <?php
 
-namespace Drupal\gho_graphql\Plugin\GraphQL\DataProducer;
+namespace Drupal\ncms_graphql\Plugin\GraphQL\DataProducer;
 
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\TranslatableInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\gho_graphql\GraphQL\Buffers\GhoEntityMatchingBuffer;
+use Drupal\ncms_graphql\GraphQL\Buffers\EntityMatchingBuffer;
 use Drupal\graphql\GraphQL\Execution\FieldContext;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 use GraphQL\Deferred;
@@ -77,7 +77,7 @@ class EntityLoadMultipleByTitle extends DataProducerPluginBase implements Contai
   /**
    * The entity buffer service.
    *
-   * @var \Drupal\gho_graphql\GraphQL\Buffers\GhoEntityMatchingBuffer
+   * @var \Drupal\ncms_graphql\GraphQL\Buffers\EntityMatchingBuffer
    */
   protected $entityBuffer;
 
@@ -93,7 +93,7 @@ class EntityLoadMultipleByTitle extends DataProducerPluginBase implements Contai
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('entity.repository'),
-      $container->get('gho_graphql.buffer.entity')
+      $container->get('ncms_graphql.buffer.entity')
     );
   }
 
@@ -110,7 +110,7 @@ class EntityLoadMultipleByTitle extends DataProducerPluginBase implements Contai
    *   The entity type manager service.
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entityRepository
    *   The entity repository service.
-   * @param \Drupal\gho_graphql\GraphQL\Buffers\GhoEntityMatchingBuffer $entityBuffer
+   * @param \Drupal\ncms_graphql\GraphQL\Buffers\EntityMatchingBuffer $entityBuffer
    *   The entity buffer service.
    *
    * @codeCoverageIgnore
@@ -121,7 +121,7 @@ class EntityLoadMultipleByTitle extends DataProducerPluginBase implements Contai
     array $pluginDefinition,
     EntityTypeManagerInterface $entityTypeManager,
     EntityRepositoryInterface $entityRepository,
-    GhoEntityMatchingBuffer $entityBuffer
+    EntityMatchingBuffer $entityBuffer
   ) {
     parent::__construct($configuration, $pluginId, $pluginDefinition);
     $this->entityTypeManager = $entityTypeManager;

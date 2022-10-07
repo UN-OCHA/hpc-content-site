@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_graphql\Plugin\GraphQL\SchemaExtension;
+namespace Drupal\ncms_graphql\Plugin\GraphQL\SchemaExtension;
 
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
@@ -8,16 +8,16 @@ use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
 use Drupal\paragraphs\Entity\Paragraph;
 
 /**
- * Defines a schema extension for GHO.
+ * Defines a schema extension for the HPC Content Module schema.
  *
  * @SchemaExtension(
- *   id = "gho_schema_extension",
- *   name = "Schema extension for GHO",
+ *   id = "ncms_schema_extension",
+ *   name = "Schema extension for the HPC Content Module schema",
  *   description = "A simple extension that adds node related fields.",
- *   schema = "gho_schema"
+ *   schema = "ncms_schema"
  * )
  */
-class GhoSchemaExtension extends SdlSchemaExtensionPluginBase {
+class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
 
   /**
    * {@inheritdoc}

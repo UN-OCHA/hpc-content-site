@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_graphql\GraphQL\Buffers;
+namespace Drupal\ncms_graphql\GraphQL\Buffers;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\graphql\GraphQL\Buffers\EntityBuffer as GraphQlEntityBuffer;
@@ -8,7 +8,7 @@ use Drupal\graphql\GraphQL\Buffers\EntityBuffer as GraphQlEntityBuffer;
 /**
  * Collects entity titles per type and matches them all at once in the end.
  */
-class GhoEntityMatchingBuffer extends GraphQlEntityBuffer {
+class EntityMatchingBuffer extends GraphQlEntityBuffer {
 
   /**
    * The entity type manager service.

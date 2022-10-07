@@ -1,20 +1,20 @@
 <?php
 
-namespace Drupal\gho_graphql\Plugin\GraphQL\Schema;
+namespace Drupal\ncms_graphql\Plugin\GraphQL\Schema;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\graphql\Plugin\GraphQL\Schema\ComposableSchema;
 
 /**
- * Defines a composable schema for GHO.
+ * Defines a composable schema for the HPC Content Module.
  *
  * @Schema(
- *   id = "gho_schema",
- *   name = "GHO Schema",
- *   extensions = "gho_schema_extension",
+ *   id = "ncms_schema",
+ *   name = "HPC Content Module Schema",
+ *   extensions = "ncms_schema_extension",
  * )
  */
-class GhoSchema extends ComposableSchema {
+class NcmsSchema extends ComposableSchema {
 
   /**
    * {@inheritdoc}
@@ -36,7 +36,7 @@ class GhoSchema extends ComposableSchema {
       '#default_value' => $this->configuration['access_key'] ?? NULL,
       '#states' => [
         'visible' => [
-          ':input[name="schema_configuration[gho_schema][require_access_key]"]' => ['checked' => TRUE],
+          ':input[name="schema_configuration[ncms_schema][require_access_key]"]' => ['checked' => TRUE],
         ],
       ],
     ];
@@ -58,12 +58,12 @@ class GhoSchema extends ComposableSchema {
     $form_object = $form_state->getFormObject();
 
     // Reload the server entity to get it's original configuration.
-    $gho_server = \Drupal::entityTypeManager()->getStorage('graphql_server')->load($form_object->getEntity()->id());
-    $gho_schema_configuration = $gho_server ? $gho_server->get('schema_configuration')['gho_schema'] : [];
-    if (empty($access_key) && !empty($gho_schema_configuration['access_key'])) {
+    $graphql_server = \Drupal::entityTypeManager()->getStorage('graphql_server')->load($form_object->getEntity()->id());
+    $ncms_schema_configuration = $graphql_server ? $graphql_server->get('schema_configuration')['ncms_schema'] : [];
+    if (empty($access_key) && !empty($ncms_schema_configuration['access_key'])) {
       // If no access key has been submitted, but one is currently set in the
       // configuration, make sure to keep that.
-      $form_state->setValue('access_key', $gho_schema_configuration['access_key']);
+      $form_state->setValue('access_key', $ncms_schema_configuration['access_key']);
     }
     parent::validateConfigurationForm($form, $form_state);
   }

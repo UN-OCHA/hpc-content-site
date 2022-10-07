@@ -1,0 +1,10 @@
+services:
+  ncms_graphql.buffer.entity:
+    class: Drupal\ncms_graphql\GraphQL\Buffers\EntityMatchingBuffer
+    arguments: ['@entity_type.manager']
+  ncms_graphql.access_check.graphql.query:
+    class: Drupal\ncms_graphql\Access\NcmsQueryAccessCheck
+    decorates: access_check.graphql.query
+    decoration_priority: 9
+    public: false
+    arguments: ['@ncms_graphql.access_check.graphql.query.inner', '@request_stack', '@social_auth.user_manager']

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gho_graphql\Access;
+namespace Drupal\ncms_graphql\Access;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Routing\Access\AccessInterface;
@@ -11,9 +11,9 @@ use Drupal\social_api\User\UserManager;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * An GHO specific access check for graphql queries.
+ * An NCMS specific access check for graphql queries.
  */
-class GhoQueryAccessCheck implements AccessInterface {
+class NcmsQueryAccessCheck implements AccessInterface {
 
   /**
    * Original service object.
@@ -70,10 +70,10 @@ class GhoQueryAccessCheck implements AccessInterface {
     }
 
     // First, if the original access check allows access, or if the request is
-    // against a server that does not use the GHO Schema, we accept whatever
+    // against a server that does not use the NCMS Schema, we accept whatever
     // the original service concludes.
     $access_result = $this->queryAccessCheck->access($account, $graphql_server);
-    if ($graphql_server->schema != 'gho_schema' || $access_result->isAllowed()) {
+    if ($graphql_server->schema != 'ncms_schema' || $access_result->isAllowed()) {
       return $access_result;
     }
 
@@ -84,7 +84,7 @@ class GhoQueryAccessCheck implements AccessInterface {
       // Access key is required.
       if (array_key_exists('access_key', $schema_configuration) && !empty($schema_configuration['access_key'])) {
         $cookies = $this->requestStack->getCurrentRequest()->cookies;
-        if (!$cookies->has('gho_access') || $cookies->get('gho_access') != $schema_configuration['access_key']) {
+        if (!$cookies->has('access_key') || $cookies->get('access_key') != $schema_configuration['access_key']) {
           // No access key has been given, or the given one doesn't match.
           return AccessResult::forbidden('Invalid access key given');
         }

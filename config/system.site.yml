@@ -2,7 +2,7 @@ _core:
   default_config_hash: yXadRE77Va-G6dxhd2kPYapAvbnSvTF6hO4oXiOEynI
 langcode: en
 uuid: e5583f2f-7993-43cd-9d5c-895547809715
-name: NCMS
+name: HPC Content Module
 mail: admin@gho.unocha.org
 slogan: 'Narrative Content Management System for HPC'
 page:

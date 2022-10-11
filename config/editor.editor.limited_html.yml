@@ -44,8 +44,6 @@ settings:
   plugins:
     stylescombo:
       styles: p.highlight|Highlight
-    language:
-      language_list: un
     customconfig:
       ckeditor_custom_config: ''
 image_upload:

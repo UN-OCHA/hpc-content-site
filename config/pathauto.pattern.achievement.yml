@@ -10,7 +10,7 @@ type: 'canonical_entities:node'
 pattern: 'achievement/[node:title]'
 selection_criteria:
   7e5c405b-eed6-42c3-b1df-356ba0e56146:
-    id: entity_bundle:node
+    id: 'entity_bundle:node'
     negate: false
     uuid: 7e5c405b-eed6-42c3-b1df-356ba0e56146
     context_mapping:

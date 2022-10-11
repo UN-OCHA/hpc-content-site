@@ -4,12 +4,14 @@ display:
   default:
     display_title: Master
     display_options:
+      title: 'Who''s new'
       exposed_form:
         options:
           submit_button: Apply
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
-      title: 'Who''s new'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
   block_1:
     display_title: 'Who''s new'
     display_options:

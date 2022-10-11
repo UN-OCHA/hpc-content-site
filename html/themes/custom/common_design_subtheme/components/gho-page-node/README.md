@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Page Node Component
+HPC Content Module - Page Node Component
 ==================================================
 
 This is not a component per se but is used a dependency to the article and

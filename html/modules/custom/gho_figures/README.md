@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Figures Module
+HPC Content Module - Figures Module
 =============================================
 
 This module provides a form (/admin/content/needs-and-requirements/import) to

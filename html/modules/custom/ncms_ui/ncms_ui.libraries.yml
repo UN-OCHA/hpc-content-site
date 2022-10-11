@@ -1,0 +1,4 @@
+node_preview:
+  header: true
+  js:
+    js/node_preview.js: {}

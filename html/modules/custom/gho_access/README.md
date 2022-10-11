@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Access module
+HPC Content Module - Access module
 ============================================
 
 This module defines various permissions.

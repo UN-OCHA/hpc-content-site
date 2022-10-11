@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Footnotes Component
+HPC Content Module - Footnotes Component
 ==================================================
 
 Styling for the footnotes and their references in text paragraphs.
@@ -15,4 +15,3 @@ in the upper half of the viewport.
   notably it looks like the references are not rendered as "super" but normal
   height in italic (`[lang="ar"] .gho-footnote-reference`).
 - The hit area is really small. This [site](https://wet-boew.github.io/v4.0-ci/demos/footnotes/footnotes-en.html) has nice large references that work well on mobile.
-

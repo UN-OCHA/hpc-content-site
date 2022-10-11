@@ -1,0 +1,8 @@
+uuid: 1491ecda-c47b-4b05-9a0d-2cbd5888ba56
+langcode: en
+status: true
+dependencies: {  }
+name: 'Minor tags'
+vid: minor_tags
+description: 'Minor content tags'
+weight: 0

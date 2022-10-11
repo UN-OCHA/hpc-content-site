@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Article Component
+HPC Content Module - Article Component
 ================================================
 
 Styling for the articles when viewed in full mode for example (but not when

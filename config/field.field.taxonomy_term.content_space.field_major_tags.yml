@@ -1,0 +1,29 @@
+uuid: 59949c89-b994-444b-bda3-b764685c42ab
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_major_tags
+    - taxonomy.vocabulary.content_space
+    - taxonomy.vocabulary.major_tags
+id: taxonomy_term.content_space.field_major_tags
+field_name: field_major_tags
+entity_type: taxonomy_term
+bundle: content_space
+label: 'Major tags'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      major_tags: major_tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Footnotes module
+HPC Content Module - Footnotes module
 ===============================================
 
 This module processes text paragraph footnotes.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\gho_general\ExistingSite;
+namespace Drupal\Tests\ncms_ui\ExistingSite;
 
 use weitzman\DrupalTestTraits\ExistingSiteBase;
 
@@ -18,7 +18,7 @@ class HomePageTest extends ExistingSiteBase {
     $this->drupalGet('<front>');
     // Disabled until we have content to test.
     /* $this->assertSession()->statusCodeEquals(200); */
-    $this->assertSession()->pageTextContains('Global Humanitarian Overview');
+    $this->assertSession()->pageTextContains('NCMS Login');
   }
 
 }

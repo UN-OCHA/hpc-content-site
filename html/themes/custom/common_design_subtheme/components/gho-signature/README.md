@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Signature Component
+HPC Content Module - Signature Component
 ==================================================
 
 Martin's signature on for the Intro.

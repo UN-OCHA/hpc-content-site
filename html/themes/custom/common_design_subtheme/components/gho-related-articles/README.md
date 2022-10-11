@@ -1,4 +1,4 @@
-Global Humanitarian Overview - Related Articles Component
+HPC Content Module - Related Articles Component
 =========================================================
 
 Styling of the "Next article" section displayed at the botton of articles with

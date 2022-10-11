@@ -1,10 +1,14 @@
 uuid: fbe84756-25b4-41fe-a604-00e8221b391a
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - ncms_publisher
 id: needs_and_requirements
 label: 'Needs and requirements'
 icon_uuid: null
 icon_default: null
 description: 'A paragraph showing needs and requirements figures (people in need, people targeted and requirements (US$)).'
-behavior_plugins: {  }
+behavior_plugins:
+  promoted_behavior:
+    enabled: true

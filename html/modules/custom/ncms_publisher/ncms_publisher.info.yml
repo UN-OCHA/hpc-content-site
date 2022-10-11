@@ -1,0 +1,5 @@
+name: HPC Content Module Publishers
+type: module
+description: 'Manage publishers that integrate with the HPC Content Module.'
+package: HPC Content Module
+core_version_requirement: ^8 || ^9

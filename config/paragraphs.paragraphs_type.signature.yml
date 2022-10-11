@@ -1,10 +1,14 @@
 uuid: 31af831a-0bb6-427d-aeec-e4618b9cf21d
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - ncms_publisher
 id: signature
 label: Signature
 icon_uuid: null
 icon_default: null
 description: 'Signature of the USG. Martin Griffiths as of 2022.'
-behavior_plugins: {  }
+behavior_plugins:
+  promoted_behavior:
+    enabled: true

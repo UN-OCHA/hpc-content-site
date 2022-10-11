@@ -1,0 +1,8 @@
+name: UI additions for the HPC Content Module
+type: module
+description: 'Provides additional UI logic to streamline UX.'
+package: HPC Content Module
+core_version_requirement: ^8 || ^9
+dependencies:
+  - anonymous_login:anonymous_login
+  - social_auth_hid:social_auth_hid

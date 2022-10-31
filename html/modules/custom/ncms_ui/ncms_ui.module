@@ -64,6 +64,9 @@ function ncms_ui_form_node_preview_form_select_alter(&$form, FormStateInterface 
  * Implements hook_form_FORM_ID_alter().
  */
 function ncms_ui_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state) {
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $form_state->getFormObject()->getEntity();
+
   foreach (array_keys($form['actions']) as $action) {
     // Add our own submit handlers to redirect to the front page after saving a
     // node, which is set to be /admin/content.
@@ -78,6 +81,35 @@ function ncms_ui_form_node_article_edit_form_alter(&$form, FormStateInterface $f
     'callback' => [ViewController::class, 'previewModal'],
     'event' => 'click',
   ];
+
+  // Add a cancel link. This either redirects to the publisher site if this
+  // request came from an external publisher, or to a url given in the
+  // destination query argument, or, as a fallback, to the main content
+  // overview page.
+  /** @var \Drupal\ncms_publisher\PublisherManager $publisher_manager */
+  $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
+  $publisher_redirect = $publisher_manager->getCurrentRedirectUrl();
+
+  // Take the destination only if it's not pointing to the current edit page.
+  $current_destination = \Drupal::destination()->get();
+  $destination_redirect = $current_destination != $node->toUrl('edit-form')->toString() ? $current_destination : NULL;
+
+  // Set the redirect url. Publishers have priority, otherwise take the
+  // destination if it's available.
+  $redirect_url = $publisher_redirect ? Url::fromUri($publisher_redirect) : NULL;
+  if (!$redirect_url && $destination_redirect) {
+    $redirect_url = url::fromUserInput($destination_redirect);
+  }
+  // And if we still don't have a valid redirect, use the fallback.
+  if (!$redirect_url) {
+    $redirect_url = Url::fromRoute('view.content.page_all_content');
+  }
+  $form['actions']['cancel'] = [
+    '#type' => 'link',
+    '#title' => t('Cancel'),
+    '#url' => $redirect_url,
+    '#weight' => 20,
+  ];
 }
 
 /**
@@ -87,7 +119,7 @@ function ncms_ui_form_node_article_edit_form_alter(&$form, FormStateInterface $f
  * will be redirected to the front page.
  */
 function ncms_ui_node_article_edit_form_submit($form, FormStateInterface $form_state) {
-  /** @var \Drupal\ncms\PublisherManager $publisher_manager */
+  /** @var \Drupal\ncms_publisher\PublisherManager $publisher_manager */
   $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
   if (!$publisher_manager->getCurrentPublisher()) {
     $form_state->setRedirectUrl(Url::fromUserInput('/'));

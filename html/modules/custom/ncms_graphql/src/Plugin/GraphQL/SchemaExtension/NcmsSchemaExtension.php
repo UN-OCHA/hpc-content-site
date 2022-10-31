@@ -174,18 +174,18 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('entity_changed')
         ->map('entity', $builder->fromParent()),
     );
-    $registry->addFieldResolver('Article', 'heroImage',
-      $builder->produce('entity_reference')
+    $registry->addFieldResolver('Article', 'image',
+      $builder->produce('entity_reference_single')
         ->map('entity', $builder->fromParent())
         ->map('field', $builder->fromValue('field_hero_image'))
+    );
+    $registry->addFieldResolver('Article', 'imageCaption',
+      $builder->fromParent()
     );
     $registry->addFieldResolver('Article', 'thumbnail',
       $builder->produce('entity_reference_single')
         ->map('entity', $builder->fromParent())
         ->map('field', $builder->fromValue('field_thumbnail_image'))
-    );
-    $registry->addFieldResolver('Article', 'caption',
-      $builder->fromParent()
     );
     $registry->addFieldResolver('Article', 'author',
       $builder->produce('entity_reference')
@@ -238,6 +238,16 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
           ->map('style', $builder->fromValue('full_width_2_1_50'))
       )
     );
+    $registry->addFieldResolver('HeroImage', 'imageUrl',
+      $builder->compose(
+        $builder->produce('property_path')
+          ->map('type', $builder->fromValue('entity:media'))
+          ->map('value', $builder->fromParent())
+          ->map('path', $builder->fromValue('thumbnail.entity')),
+        $builder->produce('image_url')
+          ->map('entity', $builder->fromParent())
+      )
+    );
   }
 
   /**
@@ -285,13 +295,13 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
    *   The resolver builder.
    */
   private function addFieldResolverCaption(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
-    $registry->addFieldResolver('Caption', 'title',
+    $registry->addFieldResolver('Caption', 'location',
       $builder->produce('property_path')
         ->map('type', $builder->fromValue('entity:node'))
         ->map('value', $builder->fromParent())
         ->map('path', $builder->fromValue('field_caption.first')),
     );
-    $registry->addFieldResolver('Caption', 'body',
+    $registry->addFieldResolver('Caption', 'text',
       $builder->produce('property_path')
         ->map('type', $builder->fromValue('entity:node'))
         ->map('value', $builder->fromParent())

@@ -69,14 +69,14 @@ class PublisherManager {
   }
 
   /**
-   * Get the current publisher redirect response.
+   * Get the current publisher redirect url.
    *
-   * @return \Drupal\Core\Routing\TrustedRedirectResponse
-   *   The redirect response as given by the publisher in the query arguments.
+   * @return string
+   *   The redirect url as given by the publisher in the query arguments.
    *   Before returning, the destination is validated against a whitelist of
    *   known hosts.
    */
-  public function getCurrentRedirectResponse() {
+  public function getCurrentRedirectUrl() {
     $publisher = $this->getCurrentPublisher();
     if (!$publisher) {
       return NULL;
@@ -93,6 +93,22 @@ class PublisherManager {
     if (!$publisher->isKnownHost($host)) {
       return NULL;
     };
+    return $publisher_destination;
+  }
+
+  /**
+   * Get the current publisher redirect response.
+   *
+   * @return \Drupal\Core\Routing\TrustedRedirectResponse
+   *   The redirect response as given by the publisher in the query arguments.
+   *   Before returning, the destination is validated against a whitelist of
+   *   known hosts.
+   */
+  public function getCurrentRedirectResponse() {
+    $publisher_destination = $this->getCurrentRedirectUrl();
+    if (!$publisher_destination) {
+      return NULL;
+    }
     return new TrustedRedirectResponse($publisher_destination);
   }
 

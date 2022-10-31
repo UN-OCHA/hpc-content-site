@@ -18,7 +18,7 @@ class HomePageTest extends ExistingSiteBase {
     $this->drupalGet('<front>');
     // Disabled until we have content to test.
     /* $this->assertSession()->statusCodeEquals(200); */
-    $this->assertSession()->pageTextContains('NCMS Login');
+    $this->assertSession()->pageTextContains('HPC Content Module');
   }
 
 }

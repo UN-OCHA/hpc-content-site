@@ -20,6 +20,7 @@ dependencies:
     - node
     - paragraphs
     - path
+    - replicate_ui
     - system
     - taxonomy
     - toolbar
@@ -75,6 +76,7 @@ permissions:
   - 'edit terms in section'
   - 'edit terms in story_type'
   - 'import needs and requirements figures'
+  - 'replicate entities'
   - 'revert achievement revisions'
   - 'revert all revisions'
   - 'revert article revisions'

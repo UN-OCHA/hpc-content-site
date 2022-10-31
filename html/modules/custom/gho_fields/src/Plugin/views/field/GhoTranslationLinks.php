@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\views\Plugin\views\field\LinkBase;
 use Drupal\views\ResultRow;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Field handler to present links to edit, view or create an entity translation.
@@ -16,6 +17,22 @@ use Drupal\views\ResultRow;
  * @ViewsField("gho_translation_links")
  */
 class GhoTranslationLinks extends LinkBase {
+
+  /**
+   * The redirect destination helper.
+   *
+   * @var \Drupal\Core\Routing\RedirectDestinationInterface
+   */
+  private $destination;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition);
+    $instance->destination = $container->get('redirect.destination');
+    return $instance;
+  }
 
   /**
    * {@inheritdoc}
@@ -45,7 +62,7 @@ class GhoTranslationLinks extends LinkBase {
 
       // Only nodes have individual pages so only add the view link for them.
       if ($entity->getEntityTypeId() === 'node') {
-        $build['edit'] = $this->getLink($this->t('edit'), $entity->toUrl('edit-form'));
+        $build['edit'] = $this->getLink($this->t('edit'), $entity->toUrl('edit-form'), $status);
         $build['view'] = $this->getLink($this->t('view'), $entity->toUrl('canonical'), $status);
       }
       else {
@@ -79,6 +96,7 @@ class GhoTranslationLinks extends LinkBase {
 
     $language = $this->languageManager->getLanguage($this->options['langcode']);
     $url->setOption('language', $language);
+    $url->setOption('query', $this->destination->getAsArray());
 
     if ($url->access()) {
       return [

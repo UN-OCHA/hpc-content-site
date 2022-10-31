@@ -11,9 +11,9 @@ type Article {
   status: Int
   created: String
   updated: String
-  heroImage: [HeroImage]
+  image: HeroImage
+  imageCaption: Caption
   thumbnail: Thumbnail
-  caption: Caption
   summary: String
   author: [Author]
   content_space: ContentSpace
@@ -23,8 +23,9 @@ type Article {
 
 type HeroImage {
   id: Int
-  credits: String
   image: Image
+  imageUrl: String
+  credits: String
 }
 
 type Thumbnail {
@@ -56,8 +57,8 @@ type Paragraph {
 }
 
 type Caption {
-  title: String
-  body: String
+  location: String
+  text: String
 }
 
 type Image {

@@ -1,6 +1,4 @@
 global-styling:
-  js:
-    js/login_destination.js: {}
   css:
     theme:
       css/styles.css: {}

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a80a1752baca13accfa55457bf3a0bf",
+    "content-hash": "7c476ea7e64f25ffc6ee58da8e3af5d6",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4483,6 +4483,58 @@
             "homepage": "https://www.drupal.org/project/replicate",
             "support": {
                 "source": "https://git.drupalcode.org/project/replicate"
+            }
+        },
+        {
+            "name": "drupal/replicate_actions",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/replicate_actions.git",
+                "reference": "8.x-1.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/replicate_actions-8.x-1.2.zip",
+                "reference": "8.x-1.2",
+                "shasum": "d16ea61db0a777c0295ff9ab8ff02fe9a30654d3"
+            },
+            "require": {
+                "drupal/core": "^8.7.7 || ^9 || ^10",
+                "drupal/replicate": "^1.0",
+                "drupal/replicate_ui": "^1.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.2",
+                    "datestamp": "1665383999",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Ruslan Piskarev",
+                    "homepage": "http://makedrupaleasy.com",
+                    "email": "ruslan.piskarev@gmail.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Provides some additional actions for Replicate.",
+            "homepage": "https://www.drupal.org/project/replicate_actions",
+            "keywords": [
+                "entity"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/replicate_actions",
+                "issues": "https://www.drupal.org/project/issues/replicate_actions"
             }
         },
         {

@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies: {  }
 name: ncms
-label: HPC Content Module
+label: 'HPC Content Module'
 endpoint: /ncms
 debug_flag: 3
 schema: ncms_schema

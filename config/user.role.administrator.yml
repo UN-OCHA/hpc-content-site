@@ -21,7 +21,6 @@ dependencies:
     - media
     - node
     - paragraphs
-    - path
     - replicate_ui
     - system
     - taxonomy
@@ -39,9 +38,7 @@ permissions:
   - 'access toolbar'
   - 'access user profiles'
   - 'add datawrapper embed code'
-  - 'administer menu'
   - 'administer taxonomy'
-  - 'administer url aliases'
   - 'administer users'
   - 'assign user roles'
   - 'bypass node access'
@@ -57,7 +54,6 @@ permissions:
   - 'create terms in security_role_area'
   - 'create terms in story_type'
   - 'create terms in theme'
-  - 'create url aliases'
   - 'delete achievement revisions'
   - 'delete all revisions'
   - 'delete any achievement content'

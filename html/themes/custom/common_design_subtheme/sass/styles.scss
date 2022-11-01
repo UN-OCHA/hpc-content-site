@@ -24,3 +24,28 @@
 @import "components/forms";
 @import "components/page_title";
 @import "components/search";
+
+@media print {
+  .cd-layout-container,
+  .cd-layout-container .cd-layout-content-wrapper {
+    position: relative;
+    display: block;
+  }
+  article.gho-article {
+    position: relative;
+    display: block;
+    zoom: 0.65;
+  }
+  div.paragraph.gho-text p {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  div.paragraph p.highlight {
+    page-break-after: avoid;
+  }
+
+  div.paragraph .gho-caption__text {
+    line-height: 0.95rem;
+  }
+}

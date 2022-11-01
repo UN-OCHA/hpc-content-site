@@ -146,5 +146,6 @@ function ncms_ui_link_alter(&$variables) {
       'dialogClass' => 'node-preview',
     ]);
     $variables['url'] = Url::fromRoute('entity.node.iframe', ['node' => $node->id()]);
+    $variables['#attached']['library'] = ['ncms_ui/node_preview'];
   }
 }

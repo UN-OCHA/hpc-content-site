@@ -1,6 +1,8 @@
 (function ($, Drupal, drupalSettings) {
 
-  Drupal.NcmsNodePreview = {};
+  Drupal.NcmsNodePreview = {
+    originalTitle: null
+  };
   Drupal.NcmsNodePreview.updater = null;
   Drupal.NcmsNodePreview.resize = function ($iframe) {
     var iframe = $iframe.get(0);
@@ -22,7 +24,20 @@
         Drupal.NcmsNodePreview.updater = setInterval(function () {
           Drupal.NcmsNodePreview.resize($iframe);
         }, 1000);
+
+        // Set the page title, this might also be used to create file names
+        // when printing to PDF using default browser features.
+        Drupal.NcmsNodePreview.originalTitle = document.title;
+        document.title = $iframe.data('page-title');
+
+        // And make sure that the original title is set again when the preview
+        // modal closes.
+        $(window).on('dialog:afterclose', (e) => {
+          document.title = Drupal.NcmsNodePreview.originalTitle;
+        });
       };
+
+
     }
   }
 })(jQuery, Drupal, drupalSettings);

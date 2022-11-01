@@ -1,6 +1,7 @@
 .gho-article-card-list {
   --gho-article-card-list-gap-row: 2.25rem;
   --gho-article-card-list-gap-col: 1.25rem;
+
   margin-top: 4.5rem;
 }
 
@@ -13,12 +14,12 @@
 }
 
 .gho-article-card-list__list .field__items {
-  margin: 0;
-  padding: 0;
   display: flex;
   flex-flow: row wrap;
-  row-gap: var(--gho-article-card-list-gap-row);
+  margin: 0;
+  padding: 0;
   column-gap: var(--gho-article-card-list-gap-col);
+  row-gap: var(--gho-article-card-list-gap-row);
 }
 
 @media screen and (min-width: 606px) {
@@ -26,9 +27,9 @@
    * Default: a basic 3-column layout
    */
   .gho-article-card-list__list .field__items > .field__item {
+    flex-basis: calc((100% - (2 * var(--gho-article-card-list-gap-col))) / 3);
     flex-grow: 0;
     flex-shrink: 0;
-    flex-basis: calc((100% - (2 * var(--gho-article-card-list-gap-col))) / 3);
   }
 
   /**

@@ -236,3 +236,31 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
+
+
+@media print {
+  body > *:not([role="dialog"]),
+  body > .dialog-off-canvas-main-canvas {
+    display: none !important;
+  }
+  body > [role="dialog"] {
+    position: static !important;
+    height: auto !important;
+    width: auto !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+  iframe {
+    display: block;
+    border: 0;
+    width: 100%;
+    min-height: 500px
+  }
+
+  .ui-dialog-titlebar-close,
+
+  #drupal-modal {
+    border: none !important;
+    overflow: unset !important;
+  }
+}

@@ -63,6 +63,12 @@ class ViewController extends NodeViewController {
           'height' => $max_height,
           'class' => [],
           'id' => 'node-preview',
+          // Add the page title, so that it can be set for the DOM document
+          // via javascript once the iframe get's included.
+          'data-page-title' => $node->type->entity->label() . ' preview: ' . $node->label(),
+          // Adding this onload fixing formatting issues when printing from
+          // Safari.
+          'onload' => 'this.contentWindow.focus()',
         ],
       ],
       '#attached' => [

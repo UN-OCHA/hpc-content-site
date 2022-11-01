@@ -88,7 +88,6 @@ module:
   user: 0
   user_expire: 0
   views_ui: 0
-  pathauto: 1
   content_translation: 10
   views: 10
   paragraphs: 11

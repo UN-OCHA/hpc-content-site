@@ -5,7 +5,9 @@ namespace Drupal\ncms_graphql\Plugin\GraphQL\SchemaExtension;
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
+use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Defines a schema extension for the HPC Content Module schema.
@@ -18,6 +20,24 @@ use Drupal\paragraphs\Entity\Paragraph;
  * )
  */
 class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
+
+  /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * {@inheritdoc}
+   *
+   * @codeCoverageIgnore
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition);
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    return $instance;
+  }
 
   /**
    * {@inheritdoc}
@@ -198,10 +218,19 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
           ->map('entity', $builder->fromParent())
           ->map('field', $builder->fromValue('field_paragraphs')),
         $builder->callback(function (array $paragraphs) {
-          $exclude_types = ['story'];
+          $exclude_types = [];
           $paragraphs = array_filter($paragraphs, function ($paragraph) use ($exclude_types) {
-            return !in_array($paragraph->getParagraphType()->id(), $exclude_types) ? $paragraph : NULL;
+            if (!empty($exclude_types) && in_array($paragraph->getParagraphType()->id(), $exclude_types)) {
+              return NULL;
+            }
+            if ($paragraph->getParagraphType()->id() == 'story') {
+              // Check if the referenced item is published.
+              $story = $this->entityTypeManager->getStorage('node')->load($paragraph->get('field_story')->target_id);
+              return $story && $story instanceof NodeInterface && $story->isPublished();
+            }
+            return $paragraph;
           });
+
           return $paragraphs;
         }),
       )

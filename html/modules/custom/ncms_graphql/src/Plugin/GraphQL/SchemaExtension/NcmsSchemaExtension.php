@@ -146,6 +146,15 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('entity_label')
         ->map('entity', $builder->fromParent())
     );
+    $registry->addFieldResolver('Article', 'section',
+      $builder->compose(
+        $builder->produce('entity_reference_single')
+          ->map('entity', $builder->fromParent())
+          ->map('field', $builder->fromValue('field_section')),
+        $builder->produce('entity_label')
+          ->map('entity', $builder->fromParent())
+      )
+    );
     $registry->addFieldResolver('Article', 'summary',
       $builder->produce('property_path')
         ->map('type', $builder->fromValue('entity:node'))

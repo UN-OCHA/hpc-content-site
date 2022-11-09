@@ -63,7 +63,7 @@ function ncms_ui_form_node_preview_form_select_alter(&$form, FormStateInterface 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function ncms_ui_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state) {
+function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   /** @var \Drupal\node\NodeInterface $node */
   $node = $form_state->getFormObject()->getEntity();
 
@@ -92,7 +92,7 @@ function ncms_ui_form_node_article_edit_form_alter(&$form, FormStateInterface $f
 
   // Take the destination only if it's not pointing to the current edit page.
   $current_destination = \Drupal::destination()->get();
-  $destination_redirect = $current_destination != $node->toUrl('edit-form')->toString() ? $current_destination : NULL;
+  $destination_redirect = $node->id() && $current_destination != $node->toUrl('edit-form')->toString() ? $current_destination : NULL;
 
   // Set the redirect url. Publishers have priority, otherwise take the
   // destination if it's available.

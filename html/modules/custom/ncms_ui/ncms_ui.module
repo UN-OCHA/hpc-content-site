@@ -63,7 +63,7 @@ function ncms_ui_form_node_preview_form_select_alter(&$form, FormStateInterface 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function ncms_ui_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state) {
+function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   /** @var \Drupal\node\NodeInterface $node */
   $node = $form_state->getFormObject()->getEntity();
 
@@ -71,7 +71,7 @@ function ncms_ui_form_node_article_edit_form_alter(&$form, FormStateInterface $f
     // Add our own submit handlers to redirect to the front page after saving a
     // node, which is set to be /admin/content.
     if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
-      $form['actions'][$action]['#submit'][] = 'ncms_ui_node_article_edit_form_submit';
+      $form['actions'][$action]['#submit'][] = 'ncms_ui_node_form_submit';
     }
   }
   // Change the behavior of the preview button to show the node preview in a
@@ -92,7 +92,7 @@ function ncms_ui_form_node_article_edit_form_alter(&$form, FormStateInterface $f
 
   // Take the destination only if it's not pointing to the current edit page.
   $current_destination = \Drupal::destination()->get();
-  $destination_redirect = $current_destination != $node->toUrl('edit-form')->toString() ? $current_destination : NULL;
+  $destination_redirect = $node->id() && $current_destination != $node->toUrl('edit-form')->toString() ? $current_destination : NULL;
 
   // Set the redirect url. Publishers have priority, otherwise take the
   // destination if it's available.
@@ -118,7 +118,7 @@ function ncms_ui_form_node_article_edit_form_alter(&$form, FormStateInterface $f
  * Checks if the edit request came from a trusted publisher, if not the user
  * will be redirected to the front page.
  */
-function ncms_ui_node_article_edit_form_submit($form, FormStateInterface $form_state) {
+function ncms_ui_node_form_submit($form, FormStateInterface $form_state) {
   /** @var \Drupal\ncms_publisher\PublisherManager $publisher_manager */
   $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
   if (!$publisher_manager->getCurrentPublisher()) {

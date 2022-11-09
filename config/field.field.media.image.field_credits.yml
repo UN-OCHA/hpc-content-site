@@ -10,7 +10,7 @@ field_name: field_credits
 entity_type: media
 bundle: image
 label: Credits
-description: 'Image credits in the form <em>Photographer/OCHA</em>. Ex: <em>Jane Doe/OCHA</em>.'
+description: 'Image credits in the form <em>OCHA/Photographer</em>. Ex: <em>OCHA/Jane Doe</em>.'
 required: true
 translatable: true
 default_value: {  }

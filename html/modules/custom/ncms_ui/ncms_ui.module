@@ -71,7 +71,7 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
     // Add our own submit handlers to redirect to the front page after saving a
     // node, which is set to be /admin/content.
     if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
-      $form['actions'][$action]['#submit'][] = 'ncms_ui_node_article_edit_form_submit';
+      $form['actions'][$action]['#submit'][] = 'ncms_ui_node_form_submit';
     }
   }
   // Change the behavior of the preview button to show the node preview in a
@@ -118,7 +118,7 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
  * Checks if the edit request came from a trusted publisher, if not the user
  * will be redirected to the front page.
  */
-function ncms_ui_node_article_edit_form_submit($form, FormStateInterface $form_state) {
+function ncms_ui_node_form_submit($form, FormStateInterface $form_state) {
   /** @var \Drupal\ncms_publisher\PublisherManager $publisher_manager */
   $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
   if (!$publisher_manager->getCurrentPublisher()) {

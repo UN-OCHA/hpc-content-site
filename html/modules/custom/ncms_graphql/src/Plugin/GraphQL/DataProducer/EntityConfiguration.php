@@ -110,8 +110,13 @@ class EntityConfiguration extends DataProducerPluginBase implements ContainerFac
         if ($entity->getType() == 'article_list') {
           $config['links'] = [];
           foreach ($entity->get('field_links') as $item) {
+            /** @var \Drupal\link\Plugin\Field\FieldType\LinkItem $item */
             /** @var \Drupal\core\Url $url */
             $url = $item->getUrl();
+            if (!$url->isRouted()) {
+              // If there is no route, there is nothing that we can export.
+              continue;
+            }
             $config['links'][] = $item->getValue() + [
               'route_name' => $url->getRouteName(),
               'route_parameters' => $url->getRouteParameters(),

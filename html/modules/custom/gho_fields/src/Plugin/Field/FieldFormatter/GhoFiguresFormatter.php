@@ -66,8 +66,8 @@ class GhoFiguresFormatter extends FormatterBase {
 
     $figures = [];
     foreach ($items as $delta => $item) {
-      $label = trim($item->first);
-      $value = trim($item->second);
+      $label = trim($item->first ?? '');
+      $value = trim($item->second ?? '');
       if (!empty($label) && !empty($value)) {
         $figures[$delta] = [
           'label' => $item->first,

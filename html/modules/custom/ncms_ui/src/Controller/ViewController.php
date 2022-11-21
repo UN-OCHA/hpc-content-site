@@ -2,9 +2,11 @@
 
 namespace Drupal\ncms_ui\Controller;
 
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\node\Controller\NodeViewController;
@@ -103,6 +105,22 @@ class ViewController extends NodeViewController {
       'dialogClass' => 'node-preview',
     ]));
     return $response;
+  }
+
+  /**
+   * Custom access callback for canoncial node routes.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   The node object.
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The account that tries to access.
+   *
+   * @return \Drupal\Core\Access\AccessResult
+   *   If $condition is TRUE, isAllowed() will be TRUE, otherwise isNeutral()
+   *   will be TRUE.
+   */
+  public function nodeCanonicalRouteAccess(NodeInterface $node, AccountInterface $account) {
+    return AccessResult::allowedIf($account && $account->isAuthenticated() && $node->access('update', $account));
   }
 
 }

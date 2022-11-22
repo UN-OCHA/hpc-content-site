@@ -38,6 +38,7 @@ permissions:
   - 'access toolbar'
   - 'access user profiles'
   - 'add datawrapper embed code'
+  - 'administer nodes'
   - 'administer taxonomy'
   - 'administer users'
   - 'assign user roles'

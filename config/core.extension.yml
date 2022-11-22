@@ -63,6 +63,7 @@ module:
   ncms_ui: 0
   node: 0
   options: 0
+  override_node_options: 0
   page_cache: 0
   paragraphs_viewmode: 0
   path: 0

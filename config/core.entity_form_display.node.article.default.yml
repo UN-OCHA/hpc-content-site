@@ -31,6 +31,12 @@ targetEntityType: node
 bundle: article
 mode: default
 content:
+  created:
+    type: datetime_timestamp
+    weight: 14
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_appeals:
     type: options_buttons
     weight: 5
@@ -171,7 +177,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
 hidden:
-  created: true
   field_report_link: true
   field_thumbnail_image: true
   langcode: true

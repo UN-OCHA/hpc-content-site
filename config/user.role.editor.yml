@@ -37,8 +37,6 @@ permissions:
   - 'access user profiles'
   - 'add datawrapper embed code'
   - 'administer taxonomy'
-  - 'administer users'
-  - 'assign user roles'
   - 'bypass node access'
   - 'create achievement content'
   - 'create article content'

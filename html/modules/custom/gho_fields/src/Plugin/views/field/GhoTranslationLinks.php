@@ -96,7 +96,6 @@ class GhoTranslationLinks extends LinkBase {
 
     $language = $this->languageManager->getLanguage($this->options['langcode']);
     $url->setOption('language', $language);
-    $url->setOption('query', $this->destination->getAsArray());
 
     if ($url->access()) {
       return [

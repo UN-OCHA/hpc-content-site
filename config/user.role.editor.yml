@@ -10,7 +10,6 @@ dependencies:
     - taxonomy.vocabulary.section
     - taxonomy.vocabulary.story_type
   module:
-    - content_translation
     - filter
     - gho_access
     - gho_fields
@@ -18,6 +17,7 @@ dependencies:
     - locale
     - media
     - node
+    - override_node_options
     - paragraphs
     - replicate_ui
     - system
@@ -40,7 +40,6 @@ permissions:
   - 'bypass node access'
   - 'create achievement content'
   - 'create article content'
-  - 'create content translations'
   - 'create media'
   - 'create story content'
   - 'create terms in section'
@@ -52,7 +51,6 @@ permissions:
   - 'delete any media'
   - 'delete any story content'
   - 'delete article revisions'
-  - 'delete content translations'
   - 'delete media'
   - 'delete own achievement content'
   - 'delete own article content'
@@ -69,16 +67,17 @@ permissions:
   - 'edit own story content'
   - 'edit terms in section'
   - 'edit terms in story_type'
+  - 'enter article revision log entry'
+  - 'enter story revision log entry'
   - 'import needs and requirements figures'
+  - 'override article authored on option'
   - 'replicate entities'
   - 'revert achievement revisions'
   - 'revert all revisions'
   - 'revert article revisions'
   - 'revert story revisions'
-  - 'translate any entity'
   - 'translate interface'
   - 'update any media'
-  - 'update content translations'
   - 'update media'
   - 'use text format filtered_html'
   - 'view achievement revisions'

@@ -20,6 +20,7 @@ dependencies:
     - locale
     - media
     - node
+    - override_node_options
     - paragraphs
     - replicate_ui
     - system
@@ -45,7 +46,6 @@ permissions:
   - 'bypass node access'
   - 'create achievement content'
   - 'create article content'
-  - 'create content translations'
   - 'create media'
   - 'create story content'
   - 'create terms in agency'
@@ -89,13 +89,15 @@ permissions:
   - 'edit terms in security_role_area'
   - 'edit terms in story_type'
   - 'edit terms in theme'
+  - 'enter article revision log entry'
+  - 'enter story revision log entry'
   - 'import needs and requirements figures'
+  - 'override article authored on option'
   - 'replicate entities'
   - 'revert achievement revisions'
   - 'revert all revisions'
   - 'revert article revisions'
   - 'revert story revisions'
-  - 'translate any entity'
   - 'translate interface'
   - 'update any media'
   - 'update content translations'

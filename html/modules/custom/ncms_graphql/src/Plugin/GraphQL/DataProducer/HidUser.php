@@ -117,7 +117,7 @@ class HidUser extends DataProducerPluginBase implements ContainerFactoryPluginIn
     }
     $user_id = $hid_user_id ? $this->userManager->getDrupalUserId($hid_user_id) : NULL;
     $drupal_user = $user_id ? $this->userManager->loadUserByProperty('uid', $user_id) : NULL;
-    return $drupal_user && $drupal_user->isAuthenticated() && $drupal_user->isActive() ? $drupal_user : NULL;
+    return $drupal_user && $drupal_user->isAuthenticated() && $drupal_user->isActive() ? $drupal_user : $this->currentUser;
   }
 
 }

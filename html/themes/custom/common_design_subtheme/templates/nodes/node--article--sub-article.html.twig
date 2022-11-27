@@ -74,7 +74,6 @@
 #}
 {{ attach_library('common_design_subtheme/gho-sub-article') }}
 {{ attach_library('common_design_subtheme/gho-social-links') }}
-{% set hero_image = content.field_hero_image|render %}
 {%
   set classes = [
     'node',
@@ -84,7 +83,7 @@
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
     'gho-sub-article',
-    hero_image ? 'gho-sub-article--hero' : 'gho-sub-article--no-hero',
+    'gho-sub-article--no-hero',
     'clearfix',
   ]
 %}

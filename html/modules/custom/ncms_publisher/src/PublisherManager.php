@@ -55,6 +55,19 @@ class PublisherManager {
   }
 
   /**
+   * Get all known publisher hosts.
+   */
+  public function getKnownHosts() {
+    $hosts = [];
+    /** @var \Drupal\ncms_publisher\Entity\PublisherInterface[] $publishers */
+    $publishers = $this->entityTypeManager->getStorage('publisher')->loadMultiple();
+    foreach ($publishers as $publisher) {
+      $hosts = array_merge($hosts, $publisher->getKnownHosts());
+    }
+    return array_unique($hosts);
+  }
+
+  /**
    * Get the current publisher from the request.
    *
    * @return \Drupal\ncms_publisher\Entity\PublisherInterface|null

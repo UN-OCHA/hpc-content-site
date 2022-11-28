@@ -2,3 +2,8 @@ services:
   ncms_publisher.publisher.manager:
     class: Drupal\ncms_publisher\PublisherManager
     arguments: ['@entity_type.manager', '@request_stack']
+  ncms_publisher.csp_subscriber:
+    class: Drupal\ncms_publisher\EventSubscriber\CspSubscriber
+    arguments: ['@ncms_publisher.publisher.manager']
+    tags:
+      - { name: event_subscriber }

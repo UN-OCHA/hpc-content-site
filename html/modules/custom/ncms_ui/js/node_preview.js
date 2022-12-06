@@ -18,6 +18,7 @@
    */
   Drupal.behaviors.NcmsNodePreview = {
     attach: function (context, settings) {
+      console.log('attach');
       let $iframe = $('iframe#node-preview');
       if ($iframe.length > 0) {
         // Periodically auto-resize iframe as contents may change height.
@@ -41,3 +42,8 @@
     }
   }
 })(jQuery, Drupal, drupalSettings);
+
+// Create a scroll function that can be called from the preview iframe.
+function ncmsPreviewScrollToPoint(top) {
+  jQuery('#drupal-modal').animate({ scrollTop: top }, 'fast')
+}

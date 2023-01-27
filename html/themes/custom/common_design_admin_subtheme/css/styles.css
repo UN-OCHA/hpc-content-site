@@ -11,6 +11,15 @@
   z-index: 10000;
 }
 
+/* Accomodate the new UI elements from Layout Paragraphs 2.0.x. */
+.js-lpb-component-list > .js-lpb-component.paragraph {
+  padding: 2.5rem;
+}
+/* Make sure the control label colors are not overwritten */
+.js-lpb-component-list > .js-lpb-component.paragraph .lpb-controls-label {
+  color: initial !important;
+}
+
 /*------------------------------------------------------------------------------
  * Styling of the tabs navigation when collapsed (ex: /admin/content)
  *----------------------------------------------------------------------------*/
@@ -24,7 +33,7 @@
 /*------------------------------------------------------------------------------
  * Styling of the Text paragraph type
  *----------------------------------------------------------------------------*/
-.paragraph--type--text {
+.paragraph--type--text:not(.paragraph--view-mode--preview) {
   max-width: 720px;
 }
 

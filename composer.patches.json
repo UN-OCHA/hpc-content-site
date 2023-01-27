@@ -7,9 +7,6 @@
         "drupal/csp": {
             "Simplify log format": "PATCHES/csp-log-format.patch"
         },
-        "drupal/layout_paragraphs": {
-          "Use proper language when previewing paragraphs in forms": "PATCHES/module--layout-paragraphs--display-proper-language-in-preview.patch"
-        },
         "drupal/user_expire": {
             "Allow the notification email to be customised": "https://git.drupalcode.org/project/user_expire/-/merge_requests/5.patch",
             "Issue #2855005: Reset expiration when user is reactivated": "https://www.drupal.org/files/issues/2022-11-22/2855005-13.patch"

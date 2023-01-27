@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe4328e3c97bba071cce874d9f319872",
+    "content-hash": "3377694db87df1e1bc38ec56e0e53585",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3949,27 +3949,32 @@
         },
         {
             "name": "drupal/layout_paragraphs",
-            "version": "1.0.0",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/layout_paragraphs.git",
-                "reference": "1.0.0"
+                "reference": "2.0.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/layout_paragraphs-1.0.0.zip",
-                "reference": "1.0.0",
-                "shasum": "6b4bbb8fc50f70092d1c1ed720076be9f8904218"
+                "url": "https://ftp.drupal.org/files/projects/layout_paragraphs-2.0.2.zip",
+                "reference": "2.0.2",
+                "shasum": "5157a05120d81f0978093ddbdf92c3ead2e11010"
             },
             "require": {
-                "drupal/core": "^8 || ^9",
+                "drupal/core": "^9.1 || ^10",
                 "drupal/paragraphs": "^1.6"
+            },
+            "require-dev": {
+                "drupal/block_field": "~1.0",
+                "drupal/entity_usage": "2.x-dev",
+                "drupal/paragraphs-paragraphs_library": "*"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.0.0",
-                    "datestamp": "1660594254",
+                    "version": "2.0.2",
+                    "datestamp": "1671393681",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"

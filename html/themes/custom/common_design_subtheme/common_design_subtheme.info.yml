@@ -47,11 +47,7 @@ libraries-override:
       theme:
         layouts/fourcol_section/fourcol_section.css: layouts/fourcol_section/fourcol_section.css
 
-# Use the common_design_subtheme styles inside the editor.
-# ckeditor_stylesheets:
-#   - css/styles.css
-
 # Use the common_design_admin_subtheme styles inside the editor.
-ckeditor_stylesheets:
+ckeditor5-stylesheets::
   - css/ckeditor/footnotes.css
   - css/ckeditor/styles.css

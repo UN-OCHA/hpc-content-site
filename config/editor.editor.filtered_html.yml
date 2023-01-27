@@ -1,51 +1,67 @@
-uuid: b7315b45-f2b2-4969-b266-3ba20b5cc900
+uuid: fa45435d-20cb-4f7f-b9e7-25809383f3e2
 langcode: en
 status: true
 dependencies:
   config:
     - filter.format.filtered_html
   module:
-    - ckeditor
+    - ckeditor5
 format: filtered_html
-editor: ckeditor
+editor: ckeditor5
 settings:
   toolbar:
-    rows:
-      -
-        -
-          name: Formatting
-          items:
-            - Bold
-            - Italic
-            - Format
-        -
-          name: Links
-          items:
-            - DrupalLink
-            - DrupalUnlink
-        -
-          name: 'Lists and Tables'
-          items:
-            - BulletedList
-            - NumberedList
-            - Outdent
-            - Indent
-            - Table
-        -
-          name: Media
-          items:
-            - Blockquote
-            - DrupalMediaLibrary
-        -
-          name: Tools
-          items:
-            - Undo
-            - Redo
-            - RemoveFormat
-            - Source
+    items:
+      - bold
+      - italic
+      - heading
+      - '|'
+      - link
+      - '|'
+      - bulletedList
+      - numberedList
+      - outdent
+      - indent
+      - insertTable
+      - '|'
+      - blockQuote
+      - drupalMedia
+      - '|'
+      - undo
+      - redo
+      - removeFormat
+      - sourceEditing
   plugins:
-    customconfig:
-      ckeditor_custom_config: ''
+    ckeditor5_heading:
+      enabled_headings:
+        - heading2
+        - heading3
+        - heading4
+        - heading5
+        - heading6
+    ckeditor5_sourceEditing:
+      allowed_tags:
+        - '<cite>'
+        - '<dl>'
+        - '<dt>'
+        - '<dd>'
+        - '<a target>'
+        - '<blockquote cite>'
+        - '<ul type>'
+        - '<ol type a i>'
+        - '<h2 id jump-*>'
+        - '<h3 id jump-*>'
+        - '<h4 id jump-*>'
+        - '<h5 id jump-*>'
+        - '<h6 id jump-*>'
+        - '<drupal-media data-caption title>'
+    ckeditor5_list:
+      reversed: false
+      startIndex: true
+    media_media:
+      allow_view_mode_override: true
+    editor_advanced_link_link:
+      enabled_attributes:
+        - target
 image_upload:
   status: false
   scheme: private

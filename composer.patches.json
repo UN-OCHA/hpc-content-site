@@ -1,13 +1,11 @@
 {
     "patches": {
         "drupal/core" : {
+            "Issue #3222107: jQuery UI library order is incorrect when a large number of javascript files is loaded between two jQuery UI libraries": "https://www.drupal.org/files/issues/2021-07-19/3222107-jquery_ui_weight_fix-11.diff",
             "https://www.drupal.org/project/drupal/issues/2544110": "https://www.drupal.org/files/issues/2022-07-22/2544110-125.patch"
         },
         "drupal/csp": {
             "Simplify log format": "PATCHES/csp-log-format.patch"
-        },
-        "drupal/entity_usage": {
-            "https://www.drupal.org/project/entity_usage/issues/2955078": "https://www.drupal.org/files/issues/2018-04-06/2955078-5.patch"
         },
         "drupal/layout_paragraphs": {
           "Use proper language when previewing paragraphs in forms": "PATCHES/module--layout-paragraphs--display-proper-language-in-preview.patch"

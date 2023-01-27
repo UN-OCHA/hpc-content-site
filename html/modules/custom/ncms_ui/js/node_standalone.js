@@ -7,7 +7,6 @@
    */
   Drupal.behaviors.NcmsNodeStandalone = {
     attach: function (context, settings) {
-      console.log('yihaa');
       $('a.gho-footnote-backlink').on('click', function(e) {
         if (self !== top) {
           e.preventDefault();

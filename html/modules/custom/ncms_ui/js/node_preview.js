@@ -18,7 +18,6 @@
    */
   Drupal.behaviors.NcmsNodePreview = {
     attach: function (context, settings) {
-      console.log('attach');
       let $iframe = $('iframe#node-preview');
       if ($iframe.length > 0) {
         // Periodically auto-resize iframe as contents may change height.

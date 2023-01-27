@@ -10,3 +10,9 @@ node_standalone:
     - core/drupal
     - core/drupalSettings
     - core/jquery
+ncms_gin:
+  css:
+    component:
+      css/ncms_gin.css: {}
+  js:
+    js/ncms_gin.js: {}

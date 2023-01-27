@@ -1,7 +1,7 @@
 {
     "patches": {
         "drupal/core" : {
-            "https://www.drupal.org/project/drupal/issues/2544110": "https://www.drupal.org/files/issues/2021-02-11/2544110-100.patch"
+            "https://www.drupal.org/project/drupal/issues/2544110": "https://www.drupal.org/files/issues/2022-07-22/2544110-125.patch"
         },
         "drupal/csp": {
             "Simplify log format": "PATCHES/csp-log-format.patch"

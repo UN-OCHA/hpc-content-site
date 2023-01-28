@@ -14,5 +14,6 @@ ncms_gin:
   css:
     component:
       css/ncms_gin.css: {}
+      css/frontend_styles.css: {}
   js:
     js/ncms_gin.js: {}

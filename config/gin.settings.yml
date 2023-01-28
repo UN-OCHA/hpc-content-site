@@ -12,7 +12,7 @@ logo:
 third_party_settings:
   shortcut:
     module_link: true
-preset_accent_color: yellow
+preset_accent_color: blue
 preset_focus_color: accent
 enable_darkmode: '0'
 classic_toolbar: horizontal

@@ -24,3 +24,10 @@
 .toolbar .toolbar-bar .toolbar-menu-administration .level-2 .toolbar-handle:focus {
   background-color: white;
 }
+
+table {
+  background-color: white;
+}
+table.sticky-header {
+  width: auto;
+}

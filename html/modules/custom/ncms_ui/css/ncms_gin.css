@@ -1,9 +1,12 @@
 .gin--horizontal-toolbar #toolbar-item-administration-tray > nav,
 .gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu,
-.gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li {
+.gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li,
+.gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li > .toolbar-box > .toolbar-handle:focus {
   background-color: rgb(5, 80, 230) !important;
 }
-.gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li > a.toolbar-icon {
+
+.gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li > a.toolbar-icon,
+.gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li > .toolbar-box > a.toolbar-icon {
   color: white;
 }
 .gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li > a.toolbar-icon::before {
@@ -14,4 +17,10 @@
   -webkit-mask-image: url(../assets/toolbar-logo.svg) !important;
   background-color: white !important;
   width: 28px;
+}
+
+.toolbar .toolbar-bar .toolbar-menu-administration > .toolbar-menu > .menu-item > .toolbar-icon::before,
+.toolbar .toolbar-bar .toolbar-menu-administration > .toolbar-menu > .menu-item > .toolbar-box > .toolbar-icon::before,
+.toolbar .toolbar-bar .toolbar-menu-administration .level-2 .toolbar-handle:focus {
+  background-color: white;
 }

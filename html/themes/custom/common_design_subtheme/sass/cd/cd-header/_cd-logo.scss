@@ -4,24 +4,36 @@
 // Replace images with your site logo.
 //——————————————————————————————————————————————————————————————————————————————
 
-.cd-site-logo {
-  height: $cd-site-header-height;
+.region-header-logo {
+  display: flex;
+  align-items: center;
 
-  &:focus {
-    outline: 3px solid $implementation-highlight;
+  .cd-site-logo {
+    width: fit-content;
+    height: $cd-site-header-height;
+
+    &:focus {
+      outline: 3px solid $implementation-highlight;
+    }
+
+    img {
+      display: block;
+      height: $cd-site-header-height; // IE11
+      padding: 1rem;
+    }
+
+    // Logo for mobile.
+    @include max-width(md) {
+      padding: 0 1rem;
+      // background: url("../img/logos/ocha-logo-blue@53x37.png") center no-repeat;
+      background: linear-gradient(transparent, transparent), url("../img/logos/logo.svg") center no-repeat;
+    }
   }
 
-  img {
-    height: $cd-site-header-height; // IE11
-  }
-
-  // Logo for mobile.
-  @include max-width(md) {
-    background: url("../img/logos/logo-mobile.svg") center no-repeat;
-  }
-
-  @include tablet {
-    // Width of the logo.
-    width: 240px;
+  .site-name a {
+    white-space: nowrap;
+    text-decoration: none;
+    color: var(--cd-white);
+    font-size: var(--cd-font-size--large);
   }
 }

@@ -31,3 +31,7 @@ table {
 table.sticky-header {
   width: auto;
 }
+
+.ui-dialog .ui-widget-content.ui-dialog-content {
+  padding: 1rem;
+}

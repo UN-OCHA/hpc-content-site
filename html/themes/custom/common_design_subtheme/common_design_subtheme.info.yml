@@ -10,7 +10,7 @@ base theme: common_design
 #
 # @see common_design_subtheme_preprocess_block()
 # @see templates/block/block--system-branding-block.html.twig
-logo: 'img/logos/GHO-Logo-Web-'
+logo: 'img/logos/logo.svg'
 
 # Defines libraries group in which we can add css/js.
 libraries:

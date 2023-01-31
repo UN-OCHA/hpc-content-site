@@ -23,20 +23,27 @@
   color: $implementation-secondary;
 }
 
-.cd-global-header .menu > li a::after {
-  width: 1px;
-  background: $implementation-secondary;
-}
+.cd-global-header {
+  .cd-global-header__actions,
+  .cd-global-header__actions > * {
+    background: transparent;
+  }
 
-.cd-global-header .menu svg {
-  fill: $implementation-secondary;
-}
+  .menu > li a::after {
+    width: 1px;
+    background: $implementation-secondary;
+  }
 
-//——————————————————————————————————————————————————————————————————————————————
-// GHO-4: RTL adjustments
-//
-// These need to be sent upstream once we're all happy with them.
-//——————————————————————————————————————————————————————————————————————————————
-.cd-global-header__user-menu > .menu {
-  padding-right: 0;
+  .menu svg {
+    fill: $implementation-secondary;
+  }
+
+  //——————————————————————————————————————————————————————————————————————————————
+  // GHO-4: RTL adjustments
+  //
+  // These need to be sent upstream once we're all happy with them.
+  //——————————————————————————————————————————————————————————————————————————————
+  .cd-global-header__user-menu > .menu {
+    padding-right: 0;
+  }
 }

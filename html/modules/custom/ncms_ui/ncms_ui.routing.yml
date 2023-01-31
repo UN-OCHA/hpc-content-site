@@ -2,7 +2,7 @@ ncms_ui.login_proxy_page:
   path: '/ncms/login'
   defaults:
     _controller: '\Drupal\ncms_ui\Controller\LoginProxyPageController::page'
-    _title: 'HPC Content Module'
+    _title_callback: '\Drupal\ncms_ui\Controller\LoginProxyPageController::title'
   requirements:
     _access: 'TRUE'
 

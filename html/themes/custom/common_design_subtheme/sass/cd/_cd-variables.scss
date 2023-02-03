@@ -8,18 +8,20 @@
 
 // Multilingual
 // https://brand.unocha.org/d/xEPytAUjC3sH/visual-identity#/basics/fonts/multi-language-typefaces-1
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400%3B500%3B700&display=swap");
+@import "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400%3B500%3B700&display=swap";
 
 // Roboto
 // https://brand.unocha.org/d/xEPytAUjC3sH/visual-identity#/basics/fonts/advanced-users
-@import url("https://fonts.googleapis.com/css?family=Roboto:ital,wght@0,300%3B0,400%3B0,500%3B0,700%3B0,900%3B1,400%3B1,700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400%3B700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400%3B700&display=swap");
+@import "https://fonts.googleapis.com/css?family=Roboto:ital,wght@0,300%3B0,400%3B0,500%3B0,700%3B0,900%3B1,400%3B1,700&display=swap";
+@import "https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400%3B700&display=swap";
+@import "https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400%3B700&display=swap";
 
 //——————————————————————————————————————————————————————————————————————————————
 // Colours
 //——————————————————————————————————————————————————————————————————————————————
 :root {
+  --brand-primary: rgb(5, 80, 230);
+
   /* Color palette */
   /* OCHA blue is one colour ramp darker than brand blue */
   --cd-ocha-blue: #1f69b3;

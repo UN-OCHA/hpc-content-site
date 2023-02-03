@@ -49,6 +49,11 @@ function ncms_ui_preprocess_page(&$variables) {
   // and the node view in modal (coming from the admin content listing).
   $variables['#attached']['library'][] = 'core/jquery.ui.autocomplete';
   $variables['#attached']['library'][] = 'core/drupal.dialog';
+
+  $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
+  if ($is_gin) {
+    $variables['#attached']['library'][] = 'ncms_ui/ncms_gin';
+  }
 }
 
 /**
@@ -90,6 +95,10 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
   $publisher_redirect = $publisher_manager->getCurrentRedirectUrl();
 
+  $redirect_label = $publisher_redirect ? (string) t('Back to @publisher', [
+    '@publisher' => $publisher_manager->getCurrentPublisher()->label(),
+  ]) : NULL;
+
   // Take the destination only if it's not pointing to the current edit page.
   $current_destination = \Drupal::destination()->get();
   $destination_redirect = $node->id() && $current_destination != $node->toUrl('edit-form')->toString() ? $current_destination : NULL;
@@ -104,12 +113,23 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   if (!$redirect_url) {
     $redirect_url = Url::fromRoute('view.content.page_all_content');
   }
-  $form['actions']['cancel'] = [
-    '#type' => 'link',
-    '#title' => t('Cancel'),
-    '#url' => $redirect_url,
-    '#weight' => 20,
-  ];
+
+  $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
+  if ($is_gin) {
+    $form['#attached']['library'][] = 'ncms_ui/ncms_gin';
+    $form['#attached']['drupalSettings']['ncms_gin']['redirect_url'] = $redirect_url->toString();
+    if ($redirect_label) {
+      $form['#attached']['drupalSettings']['ncms_gin']['redirect_label'] = $redirect_label;
+    }
+  }
+  else {
+    $form['actions']['cancel'] = [
+      '#type' => 'link',
+      '#title' => t('Cancel'),
+      '#url' => $redirect_url,
+      '#weight' => 20,
+    ];
+  }
 }
 
 /**

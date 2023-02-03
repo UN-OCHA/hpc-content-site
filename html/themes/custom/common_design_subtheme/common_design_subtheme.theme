@@ -6,11 +6,9 @@
  */
 
 use Drupal\common_design_subtheme\AddComponentClasses;
-use Drupal\Core\Menu\InaccessibleMenuLink;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
-use Drupal\gho_fields\Plugin\Field\FieldFormatter\GhoRelatedArticlesFormatter;
 use Drupal\node\NodeInterface;
 
 /**
@@ -116,7 +114,10 @@ function common_design_subtheme_theme_suggestions_field(array $variables) {
  * @see common_design_subtheme_get_block_render_array()
  */
 function common_design_subtheme_preprocess_node(&$variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+
   $node = $variables['node'];
+
   $language = $node->language();
   $variables['attributes']['lang'] = $language->getId();
   $variables['attributes']['dir'] = $language->getDirection();
@@ -140,6 +141,10 @@ function common_design_subtheme_preprocess_node(&$variables) {
     if (!empty($fid)) {
       $variables['pdf_download_url'] = '/node/' . $node->id() . '/download';
     }
+  }
+
+  if (isset($node) && $route_name == 'entity.node.standalone') {
+    common_design_set_page_title($variables, $node->label(), FALSE);
   }
 }
 
@@ -170,78 +175,6 @@ function common_design_subtheme_preprocess_node__article(&$variables) {
       $variables['content']['field_caption'][0]['#credits'] = ['#markup' => $credits];
     }
   }
-
-  // Main articles.
-  if ($view_mode === 'full') {
-    // Get the next article.
-    $list = common_design_subtheme_get_next_article($variables['node']);
-    if (!empty($list)) {
-      $variables['content']['related_articles'] = [
-        '#theme' => 'gho_related_articles_formatter',
-        '#title' => t('Next article'),
-        '#list' => $list,
-        // Ensure it's displayed at the end.
-        '#weight' => 999,
-      ];
-    }
-  }
-}
-
-/**
- * Get the next article to read after the given one.
- *
- * This is determined based on the main navigation.
- *
- * @param \Drupal\node\NodeInterface $node
- *   Article node.
- *
- * @return array
- *   Render array for the next article.
- */
-function common_design_subtheme_get_next_article(NodeInterface $node) {
-  $node_uri = 'entity:node/' . $node->id();
-
-  // Load the menu link associated with the node.
-  $storage = \Drupal::service('entity_type.manager')->getStorage('menu_link_content');
-  $links = $storage->loadByProperties(['link__uri' => $node_uri]);
-
-  if (!empty($links)) {
-    $plugin_id = reset($links)->getPluginId();
-    $menu_tree = \Drupal::service('menu.link_tree');
-
-    // Load all levels of the main menu.
-    $parameters = new MenuTreeParameters();
-    $parameters->setMaxdepth(3);
-    $tree = $menu_tree->load('main', $parameters);
-
-    // Check the access to the nodes in the menu and ensure they are sorted.
-    $manipulators = [
-      ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
-      ['callable' => 'menu.default_tree_manipulators:checkAccess'],
-      ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
-      // Flattening will result in having all the "invisible" level 3 links
-      // (so the articles) at the end of the array, making it really easy to
-      // iterate to find the next one.
-      ['callable' => 'menu.default_tree_manipulators:flatten'],
-    ];
-    $tree = $menu_tree->transform($tree, $manipulators);
-
-    // Find the next article in the list.
-    $iterator = new \ArrayIterator($tree);
-    $found = FALSE;
-    while ($iterator->valid()) {
-      if ($iterator->current()->link->getPluginId() === $plugin_id) {
-        $found = TRUE;
-      }
-      $iterator->next();
-      // The next item in the tree may be inaccessible to the current user.
-      // In that case we continue until we find a suitable next article.
-      if ($found && $iterator->valid() && !$iterator->current()->link instanceof InaccessibleMenuLink) {
-        return GhoRelatedArticlesFormatter::getRelatedArticleList([$iterator->current()]);
-      }
-    }
-  }
-  return NULL;
 }
 
 /**
@@ -314,7 +247,7 @@ function common_design_subtheme_preprocess_field__node__field_caption__article(&
  */
 function common_design_subtheme_preprocess_page(&$variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
-  if ($route_name == 'entity.node.preview') {
+  if ($route_name == 'entity.node.preview' || $route_name == 'entity.node.standalone') {
     common_design_hide_rendered_blocks_from_page($variables, [
       'page_title_block',
     ]);
@@ -431,15 +364,4 @@ function common_design_subtheme_get_navigation_tree() {
   ] + $items;
 
   return $build;
-}
-
-/**
- * Implements hook_preprocess_block().
- *
- * We have four logos for our four languages, so we need to know the language at
- * the time the block for the site logo is rendered.
- */
-function common_design_subtheme_preprocess_block(&$variables) {
-  $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
-  $variables['language'] = $language;
 }

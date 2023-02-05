@@ -40,6 +40,47 @@ function ncms_ui_local_tasks_alter(&$local_tasks) {
 }
 
 /**
+ * Implements hook_page_attachments_alter().
+ */
+function ncms_ui_page_attachments_alter(array &$attachments) {
+  /** @var \Drupal\Core\Extension\ExtensionPathResolver $extension_resolver */
+  $extension_resolver = \Drupal::service('extension.path.resolver');
+  $modules_path = $extension_resolver->getPath('module', 'ncms_ui');
+
+  // Remove the default favicon.
+  foreach ($attachments['#attached']['html_head_link'] as $key => $link) {
+    if (!array_key_exists(0, $link) || !array_key_exists('rel', $link[0])) {
+      continue;
+    }
+    if ($link[0]['rel'] == 'icon') {
+      unset($attachments['#attached']['html_head_link'][$key]);
+    }
+  }
+
+  // Set the new favicons.
+  $attachments['#attached']['html_head_link'][][] = [
+    'rel' => 'apple-touch-icon',
+    'href' => '/' . $modules_path . '/assets/favicons/apple-touch-icon.png',
+    'sizes' => '180x180',
+    'type' => 'image/png',
+  ];
+  $attachments['#attached']['html_head_link'][][] = [
+    'rel' => 'icon',
+    'href' => '/' . $modules_path . '/assets/favicons/favicon-32x32.png',
+    'type' => 'image/png',
+  ];
+  $attachments['#attached']['html_head_link'][][] = [
+    'rel' => 'icon',
+    'href' => '/' . $modules_path . '/assets/favicons/favicon-16x16.png',
+    'type' => 'image/png',
+  ];
+  $attachments['#attached']['html_head_link'][][] = [
+    'rel' => 'manifest',
+    'href' => '/' . $modules_path . '/assets/favicons/site.webmanifest',
+  ];
+}
+
+/**
  * Implements hook_preprocess_page().
  */
 function ncms_ui_preprocess_page(&$variables) {

@@ -40,6 +40,47 @@ function ncms_ui_local_tasks_alter(&$local_tasks) {
 }
 
 /**
+ * Implements hook_page_attachments_alter().
+ */
+function ncms_ui_page_attachments_alter(array &$attachments) {
+  /** @var \Drupal\Core\Extension\ExtensionPathResolver $extension_resolver */
+  $extension_resolver = \Drupal::service('extension.path.resolver');
+  $modules_path = $extension_resolver->getPath('module', 'ncms_ui');
+
+  // Remove the default favicon.
+  foreach ($attachments['#attached']['html_head_link'] as $key => $link) {
+    if (!array_key_exists(0, $link) || !array_key_exists('rel', $link[0])) {
+      continue;
+    }
+    if ($link[0]['rel'] == 'icon') {
+      unset($attachments['#attached']['html_head_link'][$key]);
+    }
+  }
+
+  // Set the new favicons.
+  $attachments['#attached']['html_head_link'][][] = [
+    'rel' => 'apple-touch-icon',
+    'href' => '/' . $modules_path . '/assets/favicons/apple-touch-icon.png',
+    'sizes' => '180x180',
+    'type' => 'image/png',
+  ];
+  $attachments['#attached']['html_head_link'][][] = [
+    'rel' => 'icon',
+    'href' => '/' . $modules_path . '/assets/favicons/favicon-32x32.png',
+    'type' => 'image/png',
+  ];
+  $attachments['#attached']['html_head_link'][][] = [
+    'rel' => 'icon',
+    'href' => '/' . $modules_path . '/assets/favicons/favicon-16x16.png',
+    'type' => 'image/png',
+  ];
+  $attachments['#attached']['html_head_link'][][] = [
+    'rel' => 'manifest',
+    'href' => '/' . $modules_path . '/assets/favicons/site.webmanifest',
+  ];
+}
+
+/**
  * Implements hook_preprocess_page().
  */
 function ncms_ui_preprocess_page(&$variables) {
@@ -49,6 +90,11 @@ function ncms_ui_preprocess_page(&$variables) {
   // and the node view in modal (coming from the admin content listing).
   $variables['#attached']['library'][] = 'core/jquery.ui.autocomplete';
   $variables['#attached']['library'][] = 'core/drupal.dialog';
+
+  $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
+  if ($is_gin) {
+    $variables['#attached']['library'][] = 'ncms_ui/ncms_gin';
+  }
 }
 
 /**
@@ -90,6 +136,10 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
   $publisher_redirect = $publisher_manager->getCurrentRedirectUrl();
 
+  $redirect_label = $publisher_redirect ? (string) t('Back to @publisher', [
+    '@publisher' => $publisher_manager->getCurrentPublisher()->label(),
+  ]) : NULL;
+
   // Take the destination only if it's not pointing to the current edit page.
   $current_destination = \Drupal::destination()->get();
   $destination_redirect = $node->id() && $current_destination != $node->toUrl('edit-form')->toString() ? $current_destination : NULL;
@@ -104,12 +154,23 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   if (!$redirect_url) {
     $redirect_url = Url::fromRoute('view.content.page_all_content');
   }
-  $form['actions']['cancel'] = [
-    '#type' => 'link',
-    '#title' => t('Cancel'),
-    '#url' => $redirect_url,
-    '#weight' => 20,
-  ];
+
+  $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
+  if ($is_gin) {
+    $form['#attached']['library'][] = 'ncms_ui/ncms_gin';
+    $form['#attached']['drupalSettings']['ncms_gin']['redirect_url'] = $redirect_url->toString();
+    if ($redirect_label) {
+      $form['#attached']['drupalSettings']['ncms_gin']['redirect_label'] = $redirect_label;
+    }
+  }
+  else {
+    $form['actions']['cancel'] = [
+      '#type' => 'link',
+      '#title' => t('Cancel'),
+      '#url' => $redirect_url,
+      '#weight' => 20,
+    ];
+  }
 }
 
 /**

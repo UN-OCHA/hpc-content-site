@@ -2,9 +2,9 @@ _core:
   default_config_hash: yXadRE77Va-G6dxhd2kPYapAvbnSvTF6hO4oXiOEynI
 langcode: en
 uuid: e5583f2f-7993-43cd-9d5c-895547809715
-name: 'HPC Content Module'
-mail: admin@gho.unocha.org
-slogan: 'Narrative Content Management System for HPC'
+name: 'Content Module'
+mail: content@hpc.tools
+slogan: 'Humanitarian Program Cycle Content Module'
 page:
   403: ''
   404: ''

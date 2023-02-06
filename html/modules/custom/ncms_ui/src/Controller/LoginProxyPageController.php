@@ -13,6 +13,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class LoginProxyPageController extends ControllerBase {
 
   /**
+   * Build the title of the proxy page.
+   */
+  public function title() {
+    return $this->config('system.site')->get('slogan') ?? '';
+  }
+
+  /**
    * Build the content of the proxy page.
    *
    * What we need is a message and a link to the login.

@@ -31,6 +31,11 @@
   background: $implementation-primary;
 }
 
+.cd-site-header {
+  color: var(--cd-white);
+  background: var(--brand-primary);
+}
+
 .cd-site-header__nav-holder {
   .cd-nav {
     @include max-width(lg) {

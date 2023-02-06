@@ -2,3 +2,18 @@ node_preview:
   header: true
   js:
     js/node_preview.js: {}
+node_standalone:
+  header: true
+  js:
+    js/node_standalone.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
+ncms_gin:
+  css:
+    component:
+      css/ncms_gin.css: {}
+      css/frontend_styles.css: {}
+  js:
+    js/ncms_gin.js: {}

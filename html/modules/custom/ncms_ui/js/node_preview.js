@@ -41,3 +41,8 @@
     }
   }
 })(jQuery, Drupal, drupalSettings);
+
+// Create a scroll function that can be called from the preview iframe.
+function ncmsPreviewScrollToPoint(top) {
+  jQuery('#drupal-modal').animate({ scrollTop: top }, 'fast')
+}

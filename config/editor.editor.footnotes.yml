@@ -1,36 +1,33 @@
-uuid: 89a5b2bb-8143-4278-bee3-91a2f0101997
+uuid: 2db3a2c8-b196-49a7-ac99-e680e6f778b6
 langcode: en
 status: true
 dependencies:
   config:
     - filter.format.footnotes
   module:
-    - ckeditor
+    - ckeditor5
 format: footnotes
-editor: ckeditor
+editor: ckeditor5
 settings:
   toolbar:
-    rows:
-      -
-        -
-          name: Formatting
-          items:
-            - Bold
-            - Italic
-        -
-          name: Links
-          items:
-            - DrupalLink
-            - DrupalUnlink
-        -
-          name: Tools
-          items:
-            - Undo
-            - Redo
-            - RemoveFormat
+    items:
+      - bold
+      - italic
+      - '|'
+      - link
+      - '|'
+      - undo
+      - redo
+      - removeFormat
+      - sourceEditing
   plugins:
-    customconfig:
-      ckeditor_custom_config: 'bodyClass = "footnotes"'
+    ckeditor5_sourceEditing:
+      allowed_tags:
+        - '<a target>'
+    editor_advanced_link_link:
+      enabled_attributes:
+        - rel
+        - target
 image_upload:
   status: false
   scheme: public

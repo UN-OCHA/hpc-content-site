@@ -79,6 +79,7 @@
 {{ attach_library('common_design_subtheme/gho-article') }}
 {{ attach_library('common_design_subtheme/gho-caption') }}
 {{ attach_library('common_design_subtheme/gho-social-links') }}
+{{ attach_library('ncms_ui/node_standalone') }}
 {# Pre-render hero so we can check for its existence when assigning classes. #}
 {%
   set hero_image = content.field_hero_image|render
@@ -111,7 +112,7 @@
   </header>
 
   {% if local_tasks %}
-  <div class="node__local_tasks content-width clearfix">{{ local_tasks }}</div>
+  <div class="node--local-tasks content-width clearfix">{{ local_tasks }}</div>
   {% endif %}
 
   <div{{ content_attributes.addClass('node__content').addClass('gho-article__content') }}>

@@ -9,7 +9,7 @@
         },
         "drupal/gin": {
             "Issue #3323501: Table sticky-header width causing overlap": "https://git.drupalcode.org/project/gin/-/merge_requests/225.diff",
-            "Issue #3342513: Ajax on action buttons not working except in chrome": "https://www.drupal.org/files/issues/2023-02-16/3342513-entity-edit-form-update-ajax-ids.patch"
+            "Issue #3342513: Ajax on action buttons not working except in chrome": "https://www.drupal.org/files/issues/2023-02-16/3342513-entity-edit-form-update-ajax-ids-3.patch"
         },
         "drupal/user_expire": {
             "Allow the notification email to be customised": "https://git.drupalcode.org/project/user_expire/-/merge_requests/5.patch",

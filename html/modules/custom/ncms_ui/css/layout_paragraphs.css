@@ -1,0 +1,17 @@
+.lpb-controls {
+  right: 0;
+  border-radius: 0;
+  opacity: 0.5;
+}
+.lpb-btn--add {
+  z-index: 91;
+}
+.lp-builder:not(.is-navigating) .js-lpb-component {
+  outline: 1px solid var(--gin-color-focus-border);
+}
+.js-lpb-component-list > .js-lpb-component.paragraph {
+  margin-bottom: 2rem;
+}
+form.node-form .js-lpb-component-list > .js-lpb-component.paragraph {
+  padding: 3.5rem 1.5rem 1.5rem;
+}

@@ -1,9 +1,9 @@
-uuid: e3543f02-227e-4016-97d6-2e138c07ed5a
+uuid: 33363150-ece0-4a83-acb4-85e1762348d0
 langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.node.teaser_card
+    - core.entity_view_mode.node.layout_paragraphs_preview_table
     - field.field.node.article.field_appeals
     - field.field.node.article.field_article_type
     - field.field.node.article.field_author
@@ -18,41 +18,20 @@ dependencies:
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
-    - image.style.572_x_360
     - node.type.article
   module:
     - layout_builder
-    - media
-    - text
+    - ncms_ui
     - user
 third_party_settings:
   layout_builder:
     enabled: false
     allow_custom: false
-id: node.article.teaser_card
+id: node.article.layout_paragraphs_preview_table
 targetEntityType: node
 bundle: article
-mode: teaser_card
+mode: layout_paragraphs_preview_table
 content:
-  field_card_title:
-    type: string
-    label: hidden
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 2
-    region: content
-  field_hero_image:
-    type: media_thumbnail
-    label: hidden
-    settings:
-      image_link: ''
-      image_style: 572_x_360
-      image_loading:
-        attribute: lazy
-    third_party_settings: {  }
-    weight: 0
-    region: content
   field_section:
     type: entity_reference_label
     label: hidden
@@ -61,24 +40,34 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
-  field_summary:
-    type: text_default
+  field_tags:
+    type: entity_reference_label_inline
     label: hidden
-    settings: {  }
+    settings:
+      link: false
     third_party_settings: {  }
-    weight: 3
+    weight: 2
+    region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
     region: content
 hidden:
   field_appeals: true
   field_article_type: true
   field_author: true
   field_caption: true
+  field_card_title: true
   field_content_space: true
+  field_hero_image: true
   field_paragraphs: true
   field_pdf: true
   field_report_link: true
-  field_tags: true
+  field_summary: true
   field_thumbnail_image: true
   langcode: true
   links: true
-  title: true

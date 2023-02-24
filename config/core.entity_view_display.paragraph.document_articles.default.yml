@@ -1,0 +1,21 @@
+uuid: 7188ec4c-3142-4aa1-b1d3-506d271a2a06
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.document_articles.field_articles
+    - paragraphs.paragraphs_type.document_articles
+id: paragraph.document_articles.default
+targetEntityType: paragraph
+bundle: document_articles
+mode: default
+content:
+  field_articles:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

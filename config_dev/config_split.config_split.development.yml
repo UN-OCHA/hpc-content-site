@@ -5,7 +5,7 @@ dependencies: {  }
 id: development
 label: Development
 description: 'Settings for development.'
-folder: ../config-dev
+folder: ../config_dev
 module:
   config_filter: 0
   config_split: 0

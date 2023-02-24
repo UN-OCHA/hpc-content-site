@@ -28,10 +28,23 @@
 table {
   background-color: white;
 }
-table.sticky-header {
-  width: auto;
-}
 
+/* Improvements for the ui dialog (modal). */
+.ui-dialog.lpb-dialog {
+  width: auto !important;
+}
 .ui-dialog .ui-widget-content.ui-dialog-content {
   padding: 1rem;
+}
+.ui-dialog .ui-dialog-buttonpane .form-actions {
+  flex-direction: row-reverse;
+  gap: var(--gin-spacing-xs);
+}
+.ui-dialog .ui-dialog-buttonpane .form-actions > button {
+  margin: 0;
+}
+
+/* Improvements for the horizontal form tabs. */
+.horizontal-tabs ul.horizontal-tabs-list li.horizontal-tab-button a {
+  padding: var(--gin-spacing-m) !important;
 }

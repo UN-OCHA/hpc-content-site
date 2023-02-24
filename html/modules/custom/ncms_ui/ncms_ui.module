@@ -11,6 +11,17 @@ use Drupal\Core\Url;
 use Drupal\ncms_ui\Controller\ViewController;
 
 /**
+ * Implements hook_entity_base_field_info_alter().
+ */
+function ncms_ui_entity_base_field_info_alter(&$fields, $entity_type) {
+  if ($entity_type->id() == 'node') {
+    if (isset($fields['title'])) {
+      $fields['title']->setDisplayConfigurable('view', TRUE);
+    }
+  }
+}
+
+/**
  * Implements template_preprocess_html().
  */
 function ncms_ui_preprocess_html(&$variables) {
@@ -78,6 +89,11 @@ function ncms_ui_page_attachments_alter(array &$attachments) {
     'rel' => 'manifest',
     'href' => '/' . $modules_path . '/assets/favicons/site.webmanifest',
   ];
+
+  $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
+  if ($is_gin) {
+    $attachments['#attached']['library'][] = 'ncms_ui/ncms_gin';
+  }
 }
 
 /**
@@ -90,11 +106,22 @@ function ncms_ui_preprocess_page(&$variables) {
   // and the node view in modal (coming from the admin content listing).
   $variables['#attached']['library'][] = 'core/jquery.ui.autocomplete';
   $variables['#attached']['library'][] = 'core/drupal.dialog';
+}
 
-  $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
-  if ($is_gin) {
-    $variables['#attached']['library'][] = 'ncms_ui/ncms_gin';
+/**
+ * Implements hook_preprocess_page().
+ */
+function ncms_ui_preprocess_node(&$variables) {
+  if (in_array($variables['elements']['#view_mode'], ['teaser', 'teaser_card'])) {
+    $variables['page'] = TRUE;
   }
+}
+
+/**
+ * Implements hook_preprocess_layout_paragraphs_builder().
+ */
+function ncms_ui_preprocess_layout_paragraphs_builder(&$variables) {
+  $variables['#attached']['library'][] = 'ncms_ui/layout_paragraphs';
 }
 
 /**
@@ -104,6 +131,14 @@ function ncms_ui_form_node_preview_form_select_alter(&$form, FormStateInterface 
   // Disable the view mode selection on the node previews. All we want to see
   // is the full page preview.
   $form['#access'] = FALSE;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ncms_ui_form_layout_paragraphs_component_form_alter(&$form, FormStateInterface $form_state) {
+  // Don't trigger "Required" messages when canceling the add/eddit form.
+  $form['actions']['cancel']['#limit_validation_errors'] = [];
 }
 
 /**
@@ -122,11 +157,14 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   }
   // Change the behavior of the preview button to show the node preview in a
   // modal using an iframe.
-  $form['actions']['preview']['#attributes']['class'][] = 'use-ajax';
   $form['actions']['preview']['#ajax'] = [
     'callback' => [ViewController::class, 'previewModal'],
     'event' => 'click',
   ];
+
+  if ($node->getType() == 'document') {
+    $form['#attached']['library'][] = 'ncms_ui/document_edit_form';
+  }
 
   // Add a cancel link. This either redirects to the publisher site if this
   // request came from an external publisher, or to a url given in the
@@ -209,4 +247,21 @@ function ncms_ui_link_alter(&$variables) {
     $variables['url'] = Url::fromRoute('entity.node.iframe', ['node' => $node->id()]);
     $variables['#attached']['library'] = ['ncms_ui/node_preview'];
   }
+}
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function ncms_ui_views_data_alter(&$data) {
+  // New comments are only supported for node table because it requires the
+  // history table.
+  $data['node']['article_document'] = [
+    'title' => t('Document'),
+    'help' => t('Lists the documents in which a node appears.'),
+    'field' => [
+      'id' => 'article_document_field',
+      'no group by' => TRUE,
+      'click sortable' => FALSE,
+    ],
+  ];
 }

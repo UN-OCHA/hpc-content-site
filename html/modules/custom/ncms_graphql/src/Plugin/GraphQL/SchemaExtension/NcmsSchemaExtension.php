@@ -47,6 +47,7 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
 
     $this->addQueries($registry, $builder);
 
+    $this->addFieldResolverDocument($registry, $builder);
     $this->addFieldResolverArticle($registry, $builder);
     $this->addFieldResolverHeroImage($registry, $builder);
     $this->addFieldResolverThumbnail($registry, $builder);
@@ -54,6 +55,8 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
     $this->addFieldResolverAuthor($registry, $builder);
     $this->addFieldResolverContentSpace($registry, $builder);
     $this->addFieldResolverParagraph($registry, $builder);
+    $this->addFieldResolverDocumentParagraph($registry, $builder);
+    $this->addFieldResolverDocumentChapter($registry, $builder);
   }
 
   /**
@@ -68,6 +71,35 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
 
     $registry->addFieldResolver('Query', 'connection',
       $builder->produce('connection_status'),
+    );
+
+    $registry->addFieldResolver('Query', 'documentExport',
+      $builder->produce('document_export')
+        ->map('tags', $builder->fromArgument('tags'))
+    );
+
+    $registry->addFieldResolver('Query', 'documentSearch',
+      $builder->compose(
+        $builder->produce('hid_user'),
+        $builder->produce('entity_search_by_title')
+          ->map('type', $builder->fromValue('node'))
+          ->map('bundles', $builder->fromValue(['document']))
+          ->map('title', $builder->fromArgument('title'))
+          ->map('access_user', $builder->fromParent())
+          ->map('access_operation', $builder->fromValue('view'))
+      ),
+    );
+
+    $registry->addFieldResolver('Query', 'document',
+      $builder->compose(
+        $builder->produce('hid_user'),
+        $builder->produce('entity_load')
+          ->map('type', $builder->fromValue('node'))
+          ->map('bundles', $builder->fromValue(['document']))
+          ->map('id', $builder->fromArgument('id'))
+          ->map('access_user', $builder->fromParent())
+          ->map('access_operation', $builder->fromValue('view'))
+      ),
     );
 
     $registry->addFieldResolver('Query', 'articleExport',
@@ -122,6 +154,93 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
           ->map('access_user', $builder->fromParent())
           ->map('access_operation', $builder->fromValue('view'))
       ),
+    );
+  }
+
+  /**
+   * Add field resolvers for documents.
+   *
+   * @param \Drupal\graphql\GraphQL\ResolverRegistryInterface $registry
+   *   The resolver registry.
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
+   */
+  private function addFieldResolverDocument(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
+    $registry->addFieldResolver('Document', 'id',
+      $builder->produce('entity_id')
+        ->map('entity', $builder->fromParent())
+    );
+    $registry->addFieldResolver('Document', 'uuid',
+      $builder->produce('entity_uuid')
+        ->map('entity', $builder->fromParent())
+    );
+    $registry->addFieldResolver('Document', 'title',
+      $builder->produce('entity_label')
+        ->map('entity', $builder->fromParent())
+    );
+    $registry->addFieldResolver('Document', 'status',
+      $builder->produce('entity_published')
+        ->map('entity', $builder->fromParent()),
+    );
+    $registry->addFieldResolver('Document', 'created',
+      $builder->produce('entity_created')
+        ->map('entity', $builder->fromParent()),
+    );
+    $registry->addFieldResolver('Document', 'updated',
+      $builder->produce('entity_changed')
+        ->map('entity', $builder->fromParent()),
+    );
+    $registry->addFieldResolver('Document', 'image',
+      $builder->produce('entity_reference_single')
+        ->map('entity', $builder->fromParent())
+        ->map('field', $builder->fromValue('field_hero_image'))
+    );
+    $registry->addFieldResolver('Document', 'status',
+      $builder->produce('entity_published')
+        ->map('entity', $builder->fromParent()),
+    );
+    $registry->addFieldResolver('Document', 'content_space',
+      $builder->produce('entity_reference_single')
+        ->map('entity', $builder->fromParent())
+        ->map('field', $builder->fromValue('field_content_space')),
+    );
+    $registry->addFieldResolver('Document', 'tags',
+      $builder->compose(
+        $builder->produce('entity_reference')
+          ->map('entity', $builder->fromParent())
+          ->map('field', $builder->fromValue('field_tags')),
+        $builder->callback(function ($tags) {
+          $tags = array_map(function ($tag) {
+            return $tag->label();
+          }, $tags);
+          return $tags;
+        }),
+      ),
+    );
+    $registry->addFieldResolver('Document', 'language',
+      $builder->compose(
+        $builder->produce('entity_language')
+          ->map('entity', $builder->fromParent()),
+        $builder->callback(function ($language) {
+          return (object) [
+            'id' => $language->getId(),
+            'name' => $language->getName(),
+          ];
+        })
+      )
+    );
+    $registry->addFieldResolver('Document', 'created',
+      $builder->produce('entity_created')
+        ->map('entity', $builder->fromParent()),
+    );
+    $registry->addFieldResolver('Document', 'updated',
+      $builder->produce('entity_changed')
+        ->map('entity', $builder->fromParent()),
+    );
+    $registry->addFieldResolver('Document', 'content',
+      $builder->produce('entity_reference_revisions')
+        ->map('entity', $builder->fromParent())
+        ->map('field', $builder->fromValue('field_paragraphs')),
     );
   }
 
@@ -416,43 +535,107 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
    *   The resolver registry.
    * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
    *   The resolver builder.
+   * @param string $parent
+   *   An identifier for the parent field.
    */
-  private function addFieldResolverParagraph(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
-    $registry->addFieldResolver('Paragraph', 'id',
+  private function addFieldResolverParagraph(ResolverRegistryInterface $registry, ResolverBuilder $builder, $parent = 'Paragraph') {
+    $registry->addFieldResolver($parent, 'id',
       $builder->produce('entity_id')
         ->map('entity', $builder->fromParent())
     );
 
-    $registry->addFieldResolver('Paragraph', 'uuid',
+    $registry->addFieldResolver($parent, 'uuid',
       $builder->produce('entity_uuid')
         ->map('entity', $builder->fromParent())
     );
 
-    $registry->addFieldResolver('Paragraph', 'type',
+    $registry->addFieldResolver($parent, 'type',
       $builder->callback(function (Paragraph $paragraph) {
         return $paragraph->getParagraphType()->id;
       })
     );
-    $registry->addFieldResolver('Paragraph', 'typeLabel',
+    $registry->addFieldResolver($parent, 'typeLabel',
       $builder->callback(function (Paragraph $paragraph) {
         return $paragraph->getParagraphType()->label();
       })
     );
-    $registry->addFieldResolver('Paragraph', 'promoted',
+    $registry->addFieldResolver($parent, 'promoted',
       $builder->callback(function (Paragraph $paragraph) {
         return $paragraph->getBehaviorSetting('promoted_behavior', 'promoted', FALSE);
       })
     );
-    $registry->addFieldResolver('Paragraph', 'rendered',
+    $registry->addFieldResolver($parent, 'rendered',
       $builder->produce('entity_rendered')
         ->map('entity', $builder->fromParent())
         ->map('mode', $builder->fromValue('default'))
     );
-    $registry->addFieldResolver('Paragraph', 'configuration',
+    $registry->addFieldResolver($parent, 'configuration',
       $builder->produce('entity_configuration')
         ->map('entity', $builder->fromParent())
     );
 
+  }
+
+  /**
+   * Add field resolvers for paragraphs.
+   *
+   * @param \Drupal\graphql\GraphQL\ResolverRegistryInterface $registry
+   *   The resolver registry.
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
+   */
+  private function addFieldResolverDocumentParagraph(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
+    $this->addFieldResolverParagraph($registry, $builder, 'DocumentParagraph');
+
+    // Add the two paragraph types that we specifically suppurt.
+    $registry->addFieldResolver('DocumentParagraph', 'articles',
+      $builder->callback(function (Paragraph $paragraph) {
+        if ($paragraph->bundle() != 'document_articles') {
+          return NULL;
+        }
+        return $paragraph->get('field_articles')->referencedEntities();
+      }),
+    );
+
+    $registry->addFieldResolver('DocumentParagraph', 'chapter',
+      $builder->callback(function (Paragraph $paragraph) {
+        if ($paragraph->bundle() != 'document_chapter') {
+          return NULL;
+        }
+        return $paragraph;
+      }),
+
+    );
+  }
+
+  /**
+   * Add field resolvers for paragraphs.
+   *
+   * @param \Drupal\graphql\GraphQL\ResolverRegistryInterface $registry
+   *   The resolver registry.
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
+   */
+  private function addFieldResolverDocumentChapter(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
+    $registry->addFieldResolver('DocumentChapter', 'id',
+      $builder->produce('entity_id')
+        ->map('entity', $builder->fromParent())
+    );
+    $registry->addFieldResolver('DocumentChapter', 'uuid',
+      $builder->produce('entity_uuid')
+        ->map('entity', $builder->fromParent())
+    );
+    $registry->addFieldResolver('DocumentChapter', 'title',
+      $builder->produce('property_path')
+        ->map('type', $builder->fromValue('entity:paragraph'))
+        ->map('value', $builder->fromParent())
+        ->map('path', $builder->fromValue('field_title.value')),
+    );
+    $registry->addFieldResolver('DocumentChapter', 'articles',
+      $builder->produce('entity_reference')
+        ->map('entity', $builder->fromParent())
+        ->map('field', $builder->fromValue('field_articles')),
+    );
   }
 
 }

@@ -10,10 +10,23 @@ node_standalone:
     - core/drupal
     - core/drupalSettings
     - core/jquery
+layout_paragraphs:
+  css:
+    component:
+      css/layout_paragraphs.css: {}
+document_edit_form:
+  css:
+    component:
+      css/document_edit_form.css: {}
 ncms_gin:
   css:
     component:
       css/ncms_gin.css: {}
+      css/gin_entity_browser.css: {}
       css/frontend_styles.css: {}
   js:
     js/ncms_gin.js: {}
+# entity_browser:
+#   css:
+#     component:
+#       css/entity_browser.css: {}

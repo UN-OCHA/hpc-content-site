@@ -11,10 +11,11 @@ bundle: document_articles
 mode: default
 content:
   field_articles:
-    type: entity_reference_label
-    label: above
+    type: entity_reference_entity_view
+    label: hidden
     settings:
-      link: true
+      view_mode: sub_article
+      link: false
     third_party_settings: {  }
     weight: 1
     region: content

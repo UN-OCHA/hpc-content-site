@@ -195,10 +195,6 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
         ->map('entity', $builder->fromParent())
         ->map('field', $builder->fromValue('field_hero_image'))
     );
-    $registry->addFieldResolver('Document', 'status',
-      $builder->produce('entity_published')
-        ->map('entity', $builder->fromParent()),
-    );
     $registry->addFieldResolver('Document', 'content_space',
       $builder->produce('entity_reference_single')
         ->map('entity', $builder->fromParent())
@@ -274,34 +270,6 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
           ->map('entity', $builder->fromParent())
       )
     );
-    $registry->addFieldResolver('Article', 'summary',
-      $builder->produce('property_path')
-        ->map('type', $builder->fromValue('entity:node'))
-        ->map('value', $builder->fromParent())
-        ->map('path', $builder->fromValue('field_summary.value')),
-    );
-    $registry->addFieldResolver('Article', 'status',
-      $builder->produce('entity_published')
-        ->map('entity', $builder->fromParent()),
-    );
-    $registry->addFieldResolver('Article', 'content_space',
-      $builder->produce('entity_reference_single')
-        ->map('entity', $builder->fromParent())
-        ->map('field', $builder->fromValue('field_content_space')),
-    );
-    $registry->addFieldResolver('Article', 'tags',
-      $builder->compose(
-        $builder->produce('entity_reference')
-          ->map('entity', $builder->fromParent())
-          ->map('field', $builder->fromValue('field_tags')),
-        $builder->callback(function ($tags) {
-          $tags = array_map(function ($tag) {
-            return $tag->label();
-          }, $tags);
-          return $tags;
-        }),
-      ),
-    );
     $registry->addFieldResolver('Article', 'language',
       $builder->compose(
         $builder->produce('entity_language')
@@ -313,6 +281,10 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
           ];
         })
       )
+    );
+    $registry->addFieldResolver('Article', 'status',
+      $builder->produce('entity_published')
+        ->map('entity', $builder->fromParent()),
     );
     $registry->addFieldResolver('Article', 'created',
       $builder->produce('entity_created')
@@ -335,10 +307,21 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
         ->map('entity', $builder->fromParent())
         ->map('field', $builder->fromValue('field_thumbnail_image'))
     );
+    $registry->addFieldResolver('Article', 'summary',
+      $builder->produce('property_path')
+        ->map('type', $builder->fromValue('entity:node'))
+        ->map('value', $builder->fromParent())
+        ->map('path', $builder->fromValue('field_summary.value')),
+    );
     $registry->addFieldResolver('Article', 'author',
       $builder->produce('entity_reference')
         ->map('entity', $builder->fromParent())
         ->map('field', $builder->fromValue('field_author'))
+    );
+    $registry->addFieldResolver('Article', 'content_space',
+      $builder->produce('entity_reference_single')
+        ->map('entity', $builder->fromParent())
+        ->map('field', $builder->fromValue('field_content_space')),
     );
     $registry->addFieldResolver('Article', 'content',
       $builder->compose(
@@ -362,6 +345,19 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
           return $paragraphs;
         }),
       )
+    );
+    $registry->addFieldResolver('Article', 'tags',
+      $builder->compose(
+        $builder->produce('entity_reference')
+          ->map('entity', $builder->fromParent())
+          ->map('field', $builder->fromValue('field_tags')),
+        $builder->callback(function ($tags) {
+          $tags = array_map(function ($tag) {
+            return $tag->label();
+          }, $tags);
+          return $tags;
+        }),
+      ),
     );
   }
 

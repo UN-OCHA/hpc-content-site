@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Load all exportable documents.
  *
  * @DataProducer(
- *   id = "article_document",
+ *   id = "document_export",
  *   name = @Translation("Load all exportable documents"),
  *   description = @Translation("Loads all exportable documents."),
  *   produces = @ContextDefinition("entities",

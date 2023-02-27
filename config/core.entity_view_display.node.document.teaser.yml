@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.document.field_content_space
     - field.field.node.document.field_hero_image
     - field.field.node.document.field_paragraphs
+    - field.field.node.document.field_summary
     - field.field.node.document.field_tags
     - node.type.document
   module:
@@ -16,22 +17,19 @@ targetEntityType: node
 bundle: document
 mode: teaser
 content:
-  links:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 100
-    region: content
   title:
     type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: -5
+    weight: 0
     region: content
 hidden:
   field_content_space: true
   field_hero_image: true
   field_paragraphs: true
+  field_summary: true
   field_tags: true
   langcode: true
+  links: true

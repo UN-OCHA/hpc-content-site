@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.document.field_content_space
     - field.field.node.document.field_hero_image
     - field.field.node.document.field_paragraphs
+    - field.field.node.document.field_summary
     - field.field.node.document.field_tags
     - node.type.document
   module:
@@ -13,6 +14,7 @@ dependencies:
     - layout_paragraphs
     - media_library
     - path
+    - text
 third_party_settings:
   field_group:
     group_tabs:
@@ -49,8 +51,9 @@ third_party_settings:
     group_meta_data:
       children:
         - field_content_space
-        - field_tags
         - field_hero_image
+        - field_summary
+        - field_tags
       label: 'Meta data'
       region: content
       parent_name: group_tabs
@@ -76,7 +79,7 @@ content:
     third_party_settings: {  }
   field_content_space:
     type: entity_reference_autocomplete
-    weight: 11
+    weight: 27
     region: content
     settings:
       match_operator: CONTAINS
@@ -86,7 +89,7 @@ content:
     third_party_settings: {  }
   field_hero_image:
     type: media_library_widget
-    weight: 13
+    weight: 28
     region: content
     settings:
       media_types: {  }
@@ -101,9 +104,17 @@ content:
       require_layouts: 0
       empty_message: ''
     third_party_settings: {  }
+  field_summary:
+    type: text_textarea
+    weight: 29
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   field_tags:
     type: entity_reference_autocomplete
-    weight: 12
+    weight: 30
     region: content
     settings:
       match_operator: CONTAINS

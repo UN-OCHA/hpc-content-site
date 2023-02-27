@@ -43,6 +43,9 @@ table {
 .ui-dialog .ui-dialog-buttonpane .form-actions > button {
   margin: 0;
 }
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close {
+  top: var(--gin-spacing-s);
+}
 
 /* Improvements for the horizontal form tabs. */
 .horizontal-tabs ul.horizontal-tabs-list li.horizontal-tab-button a {

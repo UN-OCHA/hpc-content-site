@@ -48,6 +48,8 @@ content:
     settings:
       image_link: ''
       image_style: 572_x_360
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: 0
     region: content
@@ -79,3 +81,4 @@ hidden:
   field_thumbnail_image: true
   langcode: true
   links: true
+  title: true

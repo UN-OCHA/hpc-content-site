@@ -1,0 +1,29 @@
+uuid: fb6619f1-3021-4b93-a0b3-5c6cba272fd3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content_space
+    - node.type.document
+    - taxonomy.vocabulary.content_space
+id: node.document.field_content_space
+field_name: field_content_space
+entity_type: node
+bundle: document
+label: 'Content Space'
+description: 'The content space controls who is allowed to edit this document.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      content_space: content_space
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,18 @@
+uuid: 1be1c5f6-ea9a-4f78-b1d0-6d22406bbc68
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Document
+type: document
+description: 'A document is a structured collection of articles.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

@@ -1,0 +1,11 @@
+form.node-document-form .paragraph--type--document-articles.paragraph--view-mode--preview,
+form.node-document-edit-form .paragraph--type--document-articles.paragraph--view-mode--preview,
+form.node-document-form .paragraph--type--document-chapter.paragraph--view-mode--preview,
+form.node-document-edit-form .paragraph--type--document-chapter.paragraph--view-mode--preview {
+  line-height: 2rem;
+}
+form.node-document-form .paragraph--type--document-chapter.paragraph--view-mode--preview .field--name-field-title,
+form.node-document-edit-form .paragraph--type--document-chapter.paragraph--view-mode--preview .field--name-field-title {
+  font-weight: bold;
+  padding: 1rem 0;
+}

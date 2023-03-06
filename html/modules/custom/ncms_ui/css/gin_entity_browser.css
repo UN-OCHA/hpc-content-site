@@ -1,0 +1,59 @@
+.entity-browser-modal .ui-widget-content {
+  padding: 0 !important;
+  border-radius: 0 0 var(--gin-border-m) var(--gin-border-m);
+}
+.entity-browser-modal .ui-widget-content > .ajax-progress-throbber {
+  display: none;
+}
+.ui-dialog form.layout-paragraphs-component-form div[data-drupal-selector="edit-group-tabs"] {
+  max-height: 65vh;
+}
+#entity-browser-articles-form > .view {
+  padding: var(--gin-spacing-l) var(--gin-spacing-l);
+  margin-bottom: 1rem;
+}
+#entity-browser-articles-form > .form-actions {
+  padding: 0 var(--gin-spacing-l);
+  border-top: 1px solid var(--gin-border-color-layer);
+  background: var(--gin-bg-app);
+}
+#entity-browser-articles-form .entities-list {
+  display: none;
+}
+#entity-browser-articles-form .view-content .gin-table-scroll-wrapper {
+  margin: 0;
+  padding: 0;
+}
+
+.field--widget-entity-reference-browser-table-widget-ncms {
+  min-width: 80%;
+}
+.field--widget-entity-reference-browser-table-widget-ncms > details {
+  border: 0;
+  margin: 0;
+}
+.field--widget-entity-reference-browser-table-widget-ncms > details > summary {
+  display: none;
+}
+.field--widget-entity-reference-browser-table-widget-ncms > details > .details-wrapper {
+  margin: 0;
+}
+.field--widget-entity-reference-browser-table-widget-ncms > details > .details-wrapper .layer-wrapper {
+  padding: 1rem 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.field--widget-entity-reference-browser-table-widget-ncms > details > .details-wrapper > .form-wrapper {
+  position: absolute;
+  bottom: 0;
+}
+.field--widget-entity-reference-browser-table-widget-ncms > details > .details-wrapper > .form-wrapper > input.button {
+  margin: var(--gin-spacing-s) 0;
+}
+.field--widget-entity-reference-browser-table-widget-ncms table th {
+  padding-left: var(--gin-spacing-m);
+}
+.field--widget-entity-reference-browser-table-widget-ncms table th.th__title {
+  width: 100%;
+}

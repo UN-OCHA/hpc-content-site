@@ -1,5 +1,21 @@
 services:
+  ncms_ui.content.manager:
+    class: Drupal\ncms_ui\ContentManager
+    arguments: ['@entity_type.manager', '@current_user']
+  ncms_ui.replicate_form_alter:
+    class: Drupal\ncms_ui\Form\ReplicateFormAlter
+    arguments: ['@entity_type.manager', '@ncms_ui.content.manager']
   ncms_ui.route_subscriber:
     class: Drupal\ncms_ui\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
+  ncms_ui.replicate_subscriber:
+    class: Drupal\ncms_ui\EventSubscriber\ReplicateEventSubscriber
+    arguments: ['@entity_type.manager', '@ncms_ui.content.manager']
+    tags:
+      - { name: event_subscriber }
+  ncms_ui.theme_negotiator.admin_theme:
+    class: Drupal\ncms_ui\Theme\ThemeNegotiator
+    arguments: ['@config.factory', '@entity_type.manager', '@router.admin_context']
+    tags:
+      - { name: theme_negotiator, priority: -40 }

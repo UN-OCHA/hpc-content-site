@@ -1,0 +1,10 @@
+uuid: 10e8be3d-f1d0-4aea-b96a-7718aa7a1ec7
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.layout_paragraphs_preview_table
+label: 'Layout paragraphs preview (table)'
+targetEntityType: node
+cache: true

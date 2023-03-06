@@ -1,0 +1,35 @@
+uuid: 69e0fbf2-f4b3-4775-b07c-b9a78aff6b09
+langcode: en
+status: true
+dependencies:
+  config:
+    - entity_browser.browser.articles
+    - field.field.paragraph.document_articles.field_articles
+    - paragraphs.paragraphs_type.document_articles
+  module:
+    - ncms_ui
+id: paragraph.document_articles.default
+targetEntityType: paragraph
+bundle: document_articles
+mode: default
+content:
+  field_articles:
+    type: entity_reference_browser_table_widget_ncms
+    weight: 1
+    region: content
+    settings:
+      entity_browser: articles
+      field_widget_display: label
+      field_widget_edit: '1'
+      field_widget_remove: '1'
+      open: '1'
+      selection_mode: selection_append
+      additional_fields:
+        options:
+          status: status
+      field_widget_replace: 0
+      field_widget_display_settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

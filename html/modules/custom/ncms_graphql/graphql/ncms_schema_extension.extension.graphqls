@@ -2,6 +2,15 @@ extend type Query {
   connection: String
 }
 extend type Query {
+  document(id: Int!): Document
+}
+extend type Query {
+  documentSearch(title: String): DocumentList
+}
+extend type Query {
+  documentExport(tags: [String]): DocumentList
+}
+extend type Query {
   article(id: Int!): Article
 }
 extend type Query {

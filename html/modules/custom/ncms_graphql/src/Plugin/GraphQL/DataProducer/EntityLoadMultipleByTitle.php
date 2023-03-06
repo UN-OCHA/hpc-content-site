@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @DataProducer(
  *   id = "entity_search_by_title",
  *   name = @Translation("Load multiple entities by title"),
- *   description = @Translation("Loads multiple articles by title."),
+ *   description = @Translation("Loads multiple entities by title."),
  *   produces = @ContextDefinition("entities",
  *     label = @Translation("Entities")
  *   ),

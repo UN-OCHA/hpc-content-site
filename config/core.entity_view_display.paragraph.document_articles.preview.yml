@@ -1,0 +1,32 @@
+uuid: 5dc5aa44-b125-4d7b-b3de-4ddf926d5ba5
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.preview
+    - field.field.paragraph.document_articles.field_articles
+    - paragraphs.paragraphs_type.document_articles
+  module:
+    - layout_builder
+    - reference_table_formatter
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: paragraph.document_articles.preview
+targetEntityType: paragraph
+bundle: document_articles
+mode: preview
+content:
+  field_articles:
+    type: entity_reference_table
+    label: hidden
+    settings:
+      view_mode: layout_paragraphs_preview_table
+      show_entity_label: false
+      empty_cell_value: ''
+      hide_header: '1'
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

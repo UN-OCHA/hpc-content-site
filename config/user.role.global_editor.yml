@@ -1,0 +1,129 @@
+uuid: 8b968490-f3ed-45a9-bdf7-3f8980978b20
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.filtered_html
+    - media.type.author
+    - media.type.image
+    - media.type.video
+    - node.type.achievement
+    - node.type.article
+    - node.type.document
+    - node.type.story
+    - taxonomy.vocabulary.content_space
+    - taxonomy.vocabulary.interactive_content_type
+    - taxonomy.vocabulary.section
+    - taxonomy.vocabulary.story_type
+  module:
+    - content_translation
+    - filter
+    - gho_access
+    - gho_fields
+    - gho_figures
+    - media
+    - node
+    - override_node_options
+    - paragraphs
+    - replicate_ui
+    - system
+    - taxonomy
+    - toolbar
+id: global_editor
+label: 'Global editor'
+weight: -7
+is_admin: null
+permissions:
+  - 'access administration pages'
+  - 'access content overview'
+  - 'access media overview'
+  - 'access site in maintenance mode'
+  - 'access taxonomy overview'
+  - 'access toolbar'
+  - 'access user profiles'
+  - 'add datawrapper embed code'
+  - 'administer media'
+  - 'administer nodes'
+  - 'bypass node access'
+  - 'create achievement content'
+  - 'create article content'
+  - 'create author media'
+  - 'create document content'
+  - 'create image media'
+  - 'create media'
+  - 'create story content'
+  - 'create terms in content_space'
+  - 'create terms in section'
+  - 'create terms in story_type'
+  - 'create video media'
+  - 'delete achievement revisions'
+  - 'delete all revisions'
+  - 'delete any achievement content'
+  - 'delete any article content'
+  - 'delete any author media'
+  - 'delete any document content'
+  - 'delete any image media'
+  - 'delete any media'
+  - 'delete any story content'
+  - 'delete any video media'
+  - 'delete article revisions'
+  - 'delete content translations'
+  - 'delete document revisions'
+  - 'delete media'
+  - 'delete own achievement content'
+  - 'delete own article content'
+  - 'delete own author media'
+  - 'delete own document content'
+  - 'delete own image media'
+  - 'delete own story content'
+  - 'delete own video media'
+  - 'delete story revisions'
+  - 'delete terms in interactive_content_type'
+  - 'edit any achievement content'
+  - 'edit any article content'
+  - 'edit any document content'
+  - 'edit any story content'
+  - 'edit behavior plugin settings'
+  - 'edit own achievement content'
+  - 'edit own article content'
+  - 'edit own author media'
+  - 'edit own document content'
+  - 'edit own image media'
+  - 'edit own story content'
+  - 'edit own video media'
+  - 'edit terms in content_space'
+  - 'enter achievement revision log entry'
+  - 'enter all revision log entry'
+  - 'enter article revision log entry'
+  - 'enter document revision log entry'
+  - 'enter story revision log entry'
+  - 'import needs and requirements figures'
+  - 'override achievement authored by option'
+  - 'override achievement authored on option'
+  - 'override all authored by option'
+  - 'override all authored on option'
+  - 'override article authored by option'
+  - 'override article authored on option'
+  - 'override document authored by option'
+  - 'override document authored on option'
+  - 'override story authored by option'
+  - 'override story authored on option'
+  - 'replicate entities'
+  - 'revert achievement revisions'
+  - 'revert all revisions'
+  - 'revert article revisions'
+  - 'revert document revisions'
+  - 'revert story revisions'
+  - 'update any media'
+  - 'update content translations'
+  - 'update media'
+  - 'use text format filtered_html'
+  - 'view achievement revisions'
+  - 'view all media revisions'
+  - 'view all revisions'
+  - 'view article revisions'
+  - 'view document revisions'
+  - 'view own unpublished content'
+  - 'view story revisions'
+  - 'view the administration theme'
+  - 'view untranslated content'

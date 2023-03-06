@@ -1,0 +1,10 @@
+uuid: 5b0833d5-4614-4f2e-b82d-f674daf775a3
+langcode: en
+status: true
+dependencies: {  }
+id: document_chapter
+label: Chapter
+icon_uuid: null
+icon_default: null
+description: 'Constitutes a chapter of a document, consisting of one or multiple articles.'
+behavior_plugins: {  }

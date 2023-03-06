@@ -1,0 +1,30 @@
+uuid: a393ac5e-4777-493e-9e60-1f11cd91f06a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_content_spaces
+    - taxonomy.vocabulary.content_space
+  module:
+    - user
+id: user.user.field_content_spaces
+field_name: field_content_spaces
+entity_type: user
+bundle: user
+label: 'Content spaces'
+description: 'The content space(s) that a user belongs to. This affects what content can be seen and where content can be created.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      content_space: content_space
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

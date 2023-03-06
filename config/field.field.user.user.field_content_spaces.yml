@@ -1,19 +1,20 @@
-uuid: fb6619f1-3021-4b93-a0b3-5c6cba272fd3
+uuid: a393ac5e-4777-493e-9e60-1f11cd91f06a
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_content_space
-    - node.type.document
+    - field.storage.user.field_content_spaces
     - taxonomy.vocabulary.content_space
-id: node.document.field_content_space
-field_name: field_content_space
-entity_type: node
-bundle: document
-label: 'Content Space'
-description: 'The content space controls who is allowed to edit this document.'
+  module:
+    - user
+id: user.user.field_content_spaces
+field_name: field_content_spaces
+entity_type: user
+bundle: user
+label: 'Content spaces'
+description: 'The content space(s) that a user belongs to. This affects what content can be seen and where content can be created.'
 required: true
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:

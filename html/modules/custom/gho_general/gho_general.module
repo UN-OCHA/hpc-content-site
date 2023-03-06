@@ -5,7 +5,6 @@
  * GHO General module file.
  */
 
-use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Menu\MenuLinkInterface;
 use Drupal\gho_general\GhoSwitchLanguage;
@@ -74,22 +73,6 @@ function gho_general_switch_to_language($langcode = '') {
   $translation_manager->setDefaultLangcode($language->getId());
 
   return $current_langcode;
-}
-
-/**
- * Implements hook_entity_form_display_alter().
- *
- * Use the "homepage" form display mode for the home page.
- */
-function gho_general_entity_form_display_alter(EntityFormDisplayInterface &$form_display, array $context) {
-  if ($context['entity_type'] === 'node' && $context['bundle'] === 'article') {
-    $nid = \Drupal::service('current_route_match')->getRawParameter('node');
-    // The homepage is node 1.
-    if ($nid == 1) {
-      $storage = \Drupal::service('entity_type.manager')->getStorage('entity_form_display');
-      $form_display = $storage->load('node.article.home_page');
-    }
-  }
 }
 
 /**

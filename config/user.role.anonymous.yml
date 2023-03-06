@@ -17,7 +17,6 @@ permissions:
   - 'access content'
   - 'download article'
   - 'view media'
-  - 'view own unpublished media'
   - 'view published achievement content'
   - 'view published article content'
   - 'view published author media'

@@ -8,7 +8,6 @@ dependencies:
     - taxonomy.vocabulary.section
     - taxonomy.vocabulary.story_type
   module:
-    - gho_fields
     - taxonomy
     - user
 id: content_taxonomy_terms
@@ -291,16 +290,16 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        gho_translation_links:
-          id: gho_translation_links
+        operations:
+          id: operations
           table: taxonomy_term_data
-          field: gho_translation_links
+          field: operations
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: taxonomy_term
-          plugin_id: gho_translation_links
-          label: English
+          plugin_id: entity_operations
+          label: Operations
           exclude: false
           alter:
             alter_text: false
@@ -341,164 +340,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          text: link
-          langcode: en
-        gho_translation_links_1:
-          id: gho_translation_links_1
-          table: taxonomy_term_data
-          field: gho_translation_links
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: taxonomy_term
-          plugin_id: gho_translation_links
-          label: English
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          text: link
-          langcode: fr
-        gho_translation_links_2:
-          id: gho_translation_links_2
-          table: taxonomy_term_data
-          field: gho_translation_links
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: taxonomy_term
-          plugin_id: gho_translation_links
-          label: English
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          text: link
-          langcode: es
-        gho_translation_links_3:
-          id: gho_translation_links_3
-          table: taxonomy_term_data
-          field: gho_translation_links
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: taxonomy_term
-          plugin_id: gho_translation_links
-          label: English
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          text: link
-          langcode: ar
+          destination: false
       pager:
         type: full
         options:
@@ -524,7 +366,7 @@ display:
         type: basic
         options:
           submit_button: Apply
-          reset_button: false
+          reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
@@ -533,7 +375,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'access content'
+          perm: 'access content overview'
       cache:
         type: tag
         options: {  }
@@ -689,7 +531,7 @@ display:
             es: es
             ar: ar
           group: 1
-          exposed: true
+          exposed: false
           expose:
             operator_id: langcode_op
             label: Language
@@ -734,10 +576,7 @@ display:
             name: name
             vid: vid
             changed: changed
-            view: view
-            view_1: view_1
-            view_2: view_2
-            view_3: view_3
+            operations: operations
           default: vid
           info:
             tid:
@@ -759,7 +598,7 @@ display:
               default_sort_order: asc
               align: ''
               separator: ''
-              empty_column: false
+              empty_column: true
               responsive: ''
             changed:
               sortable: true
@@ -768,25 +607,10 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            view:
+            operations:
               align: ''
               separator: ''
-              empty_column: false
-              responsive: ''
-            view_1:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            view_2:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            view_3:
-              align: ''
-              separator: ''
-              empty_column: false
+              empty_column: true
               responsive: ''
           override: true
           sticky: false

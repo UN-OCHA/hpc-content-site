@@ -82,6 +82,9 @@ class ArticleDocumentField extends FieldPluginBase {
    *   An array of arrays of document entities, keyed by article node id.
    */
   private function loadDocumentsForArticles(array $node_ids) {
+    if (empty($node_ids)) {
+      return [];
+    }
     /** @var \Drupal\paragraphs\Entity\Paragraph[] $article_paragraphs */
     $article_paragraphs = $this->entityTypeManager->getStorage('paragraph')->loadByProperties([
       'type' => ['article', 'document_chapter'],

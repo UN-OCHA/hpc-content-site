@@ -7,8 +7,24 @@
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\ncms_ui\Controller\ViewController;
+use Drupal\ncms_ui\Entity\Article;
+use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
+use Drupal\ncms_ui\Entity\Document;
+use Drupal\node\NodeInterface;
+use Drupal\user\Entity\User;
+
+/**
+ * Implements hook_entity_bundle_info_alter().
+ */
+function ncms_ui_entity_bundle_info_alter(array &$bundles) {
+  $bundles['node']['article']['class'] = Article::class;
+  $bundles['node']['article']['label'] = t('Article');
+  $bundles['node']['document']['class'] = Document::class;
+  $bundles['node']['document']['label'] = t('Document');
+}
 
 /**
  * Implements hook_entity_base_field_info_alter().
@@ -22,32 +38,13 @@ function ncms_ui_entity_base_field_info_alter(&$fields, $entity_type) {
 }
 
 /**
- * Implements template_preprocess_html().
- */
-function ncms_ui_preprocess_html(&$variables) {
-  // Hide admin toolbar.
-  $route_name = \Drupal::routeMatch()->getRouteName();
-  $routes = [
-    'entity.node.standalone',
-    'entity.node.preview',
-  ];
-  if (in_array($route_name, $routes)) {
-    if (!empty($variables['page_top']['toolbar'])) {
-      unset($variables['page_top']['toolbar']);
-    }
-    if (!empty($variables['attributes']['class'])) {
-      $variables['attributes']['class'] = array_filter($variables['attributes']['class'], function ($value) {
-        return strpos($value, 'toolbar-') !== 0;
-      });
-    }
-  }
-}
-
-/**
  * Implements hook_local_tasks_alter().
  */
 function ncms_ui_local_tasks_alter(&$local_tasks) {
+  // Remove the "View" tab from node edit pages.
   unset($local_tasks['entity.node.canonical']);
+  // Rename the default menu tab on the content overview page to "Articles".
+  $local_tasks['system.admin_content']['title'] = t('Articles');
 }
 
 /**
@@ -93,6 +90,28 @@ function ncms_ui_page_attachments_alter(array &$attachments) {
   $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
   if ($is_gin) {
     $attachments['#attached']['library'][] = 'ncms_ui/ncms_gin';
+  }
+}
+
+/**
+ * Implements template_preprocess_html().
+ */
+function ncms_ui_preprocess_html(&$variables) {
+  // Hide admin toolbar.
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  $routes = [
+    'entity.node.standalone',
+    'entity.node.preview',
+  ];
+  if (in_array($route_name, $routes)) {
+    if (!empty($variables['page_top']['toolbar'])) {
+      unset($variables['page_top']['toolbar']);
+    }
+    if (!empty($variables['attributes']['class'])) {
+      $variables['attributes']['class'] = array_filter($variables['attributes']['class'], function ($value) {
+        return strpos($value, 'toolbar-') !== 0;
+      });
+    }
   }
 }
 
@@ -162,8 +181,31 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
     'event' => 'click',
   ];
 
-  if ($node->getType() == 'document') {
+  if ($node instanceof Document) {
     $form['#attached']['library'][] = 'ncms_ui/document_edit_form';
+  }
+
+  /** @var \Drupal\ncms_ui\ContentManager $content_manager */
+  $content_manager = \Drupal::service('ncms_ui.content.manager');
+
+  // Check if this is a new content space aware node and if the content spaces
+  // should be restricted for the current user.
+  if ($node->isNew() && $node instanceof ContentSpaceAwareInterface && $content_manager->shouldRestrictContentSpaces()) {
+    $content_space_ids = $content_manager->getValidContentSpaceIdsForCurrentUser();
+    if (empty($content_space_ids)) {
+      // This user needs a content space first and is currently not allowed to
+      // create new content.
+      \Drupal::messenger()->addWarning(t('You are currently not allowed to create content. Please contact our support.'));
+      $form['#disabled'] = TRUE;
+    }
+    else {
+      $content_space_widget = &$form['field_content_space']['widget'];
+      $content_space_widget['#options'] = array_intersect_key($content_space_widget['#options'], $content_space_ids + ['_none' => TRUE]);
+      if (count($content_space_ids) == 1) {
+        $content_space_widget['#default_value'] = $content_space_ids;
+        $content_space_widget['#disabled'] = TRUE;
+      }
+    }
   }
 
   // Add a cancel link. This either redirects to the publisher site if this
@@ -190,7 +232,7 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   }
   // And if we still don't have a valid redirect, use the fallback.
   if (!$redirect_url) {
-    $redirect_url = Url::fromRoute('view.content.page_all_content');
+    $redirect_url = Url::fromRoute('system.admin_content');
   }
 
   $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
@@ -208,6 +250,17 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
       '#url' => $redirect_url,
       '#weight' => 20,
     ];
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ncms_ui_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if (strpos($form_id, '_replicate_form')) {
+    /** @var \Drupal\ncms_ui\Form\ReplicateFormAlter $replicate_form_alter */
+    $replicate_form_alter = \Drupal::service('ncms_ui.replicate_form_alter');
+    $replicate_form_alter->alterForm($form, $form_state);
   }
 }
 
@@ -264,4 +317,68 @@ function ncms_ui_views_data_alter(&$data) {
       'click sortable' => FALSE,
     ],
   ];
+}
+
+/**
+ * Implements hook_node_access_records().
+ */
+function ncms_ui_node_access_records(NodeInterface $node) {
+  if (!$node->hasField('field_content_space')) {
+    return [];
+  }
+
+  $grants = [];
+  $grants[] = [
+    'realm' => 'ncms_ui_node_access_by_content_space',
+    'gid' => 0,
+    'grant_view' => $node->isPublished(),
+    'grant_update' => 0,
+    'grant_delete' => 0,
+    'priority' => 0,
+  ];
+
+  // Get the team id from the current node if it's available.
+  $content_space_id = !$node->field_content_space->isEmpty() ? $node->field_content_space->entity->tid->value : NULL;
+  if (!$content_space_id) {
+    return $grants;
+  }
+  $grants[] = [
+    'realm' => 'ncms_ui_node_access_by_content_space',
+    'gid' => $content_space_id,
+    'grant_view' => 1,
+    'grant_update' => 1,
+    'grant_delete' => 1,
+    'priority' => 0,
+  ];
+
+  return $grants;
+}
+
+/**
+ * Implements hook_node_grants().
+ */
+function ncms_ui_node_grants(AccountInterface $account, $op) {
+  $grants = [];
+  $grants['ncms_ui_node_access_by_content_space'] = [0];
+
+  $user = User::load($account->id());
+  if (!$user->hasField('field_content_spaces')) {
+    return $grants;
+  }
+
+  $content_spaces = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
+    'vid' => 'content_space',
+  ]);
+  if ($user->hasPermission('administer nodes') && !empty($content_spaces)) {
+    $grants['ncms_ui_node_access_by_content_space'] = array_merge($grants['ncms_ui_node_access_by_content_space'], array_values(array_map(function ($term) {
+      /** @var \Drupal\taxonomy\Entity\Term $term */
+      return $term->id();
+    }, $content_spaces)));
+  }
+  elseif (!$user->field_content_spaces->isEmpty()) {
+    foreach ($user->field_content_spaces->referencedEntities() as $content_space) {
+      $grants['ncms_ui_node_access_by_content_space'][] = $content_space->tid->value;
+    }
+  }
+  return $grants;
 }

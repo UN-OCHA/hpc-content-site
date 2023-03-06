@@ -1,0 +1,28 @@
+uuid: 37b0458b-9af7-4c50-ae85-b12f2c28cacb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.user.user.field_content_spaces
+  module:
+    - user
+id: user.user.default
+targetEntityType: user
+bundle: user
+mode: default
+content:
+  field_content_spaces:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  member_for:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+hidden:
+  langcode: true

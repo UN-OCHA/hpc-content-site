@@ -61,11 +61,11 @@ class ThemeNegotiator implements ThemeNegotiatorInterface {
    * {@inheritdoc}
    */
   public function applies(RouteMatchInterface $route_match) {
-    $route_match->getRouteObject();
     $route_names = [
       'entity.node.iframe',
       'entity.node.standalone',
       'ncms_ui.login_proxy_page',
+      'graphql.query.ncms',
     ];
     if (in_array($route_match->getRouteName(), $route_names)) {
       return FALSE;

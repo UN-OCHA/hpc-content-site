@@ -11,7 +11,7 @@ field_name: field_content_space
 entity_type: node
 bundle: article
 label: 'Content Space'
-description: ''
+description: 'The content space controls who is allowed to edit this article.'
 required: true
 translatable: false
 default_value: {  }

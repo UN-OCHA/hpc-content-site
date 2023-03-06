@@ -1,0 +1,73 @@
+uuid: 33363150-ece0-4a83-acb4-85e1762348d0
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.layout_paragraphs_preview_table
+    - field.field.node.article.field_appeals
+    - field.field.node.article.field_article_type
+    - field.field.node.article.field_author
+    - field.field.node.article.field_caption
+    - field.field.node.article.field_card_title
+    - field.field.node.article.field_content_space
+    - field.field.node.article.field_hero_image
+    - field.field.node.article.field_paragraphs
+    - field.field.node.article.field_pdf
+    - field.field.node.article.field_report_link
+    - field.field.node.article.field_section
+    - field.field.node.article.field_summary
+    - field.field.node.article.field_tags
+    - field.field.node.article.field_thumbnail_image
+    - node.type.article
+  module:
+    - layout_builder
+    - ncms_ui
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: node.article.layout_paragraphs_preview_table
+targetEntityType: node
+bundle: article
+mode: layout_paragraphs_preview_table
+content:
+  field_section:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_tags:
+    type: entity_reference_label_inline
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_appeals: true
+  field_article_type: true
+  field_author: true
+  field_caption: true
+  field_card_title: true
+  field_content_space: true
+  field_hero_image: true
+  field_paragraphs: true
+  field_pdf: true
+  field_report_link: true
+  field_summary: true
+  field_thumbnail_image: true
+  langcode: true
+  links: true

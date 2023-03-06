@@ -22,6 +22,24 @@ type Article {
   tags: [String]
 }
 
+type Document {
+  id: Int!
+  uuid: String!
+  title: String!
+  status: Int
+  created: String
+  updated: String
+  image: HeroImage
+  content_space: ContentSpace
+  content: [DocumentParagraph]
+  tags: [String]
+}
+
+type DocumentList {
+  count: Int
+  items: [Document]
+}
+
 type HeroImage {
   id: Int
   image: Image
@@ -55,6 +73,26 @@ type Paragraph {
   promoted: Boolean
   rendered: String
   configuration: String
+}
+
+type DocumentParagraph {
+  id: Int
+  uuid: String
+  type: String
+  typeLabel: String
+  promoted: Boolean
+  rendered: String
+  configuration: String
+  articles: [Article]
+  chapter: DocumentChapter
+}
+
+type DocumentChapter {
+  id: Int
+  uuid: String
+  title: String
+  image: HeroImage
+  articles: [Article]
 }
 
 type Caption {

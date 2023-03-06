@@ -1,0 +1,29 @@
+uuid: 90260dcf-c955-4b42-bd04-b2e247c4dba5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tags
+    - node.type.document
+    - taxonomy.vocabulary.major_tags
+id: node.document.field_tags
+field_name: field_tags
+entity_type: node
+bundle: document
+label: Tags
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      major_tags: major_tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

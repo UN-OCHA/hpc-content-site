@@ -1,0 +1,26 @@
+uuid: 7af377ff-4c70-4c66-af1e-b4e7f69ebf90
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_summary
+    - node.type.document
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    allowed_formats:
+      - plain_text
+id: node.document.field_summary
+field_name: field_summary
+entity_type: node
+bundle: document
+label: Summary
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

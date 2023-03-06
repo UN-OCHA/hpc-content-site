@@ -660,7 +660,7 @@ display:
       display_extenders: {  }
       path: admin/content/needs-and-requirements
       menu:
-        type: tab
+        type: none
         title: Needs/Requirements
         description: ''
         weight: 0

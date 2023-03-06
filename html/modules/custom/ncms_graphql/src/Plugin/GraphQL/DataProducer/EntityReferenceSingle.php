@@ -167,7 +167,6 @@ class EntityReferenceSingle extends DataProducerPluginBase implements ContainerF
    *   The referenced entity. Or NULL.
    */
   protected function getReferencedEntity(string $type, ?string $language, ?array $bundles, ?int $delta, ?bool $access, ?AccountInterface $accessUser, string $accessOperation, \Closure $resolver, FieldContext $context): ?EntityInterface {
-
     $entities = $this->getReferencedEntities($type, $language, $bundles, $access, $accessUser, $accessOperation, $resolver, $context);
     $entities = $entities ? array_values($entities) : [];
     $delta = $delta ?? 0;

@@ -14,3 +14,8 @@ services:
     arguments: ['@entity_type.manager', '@ncms_ui.content.manager']
     tags:
       - { name: event_subscriber }
+  ncms_ui.theme_negotiator.admin_theme:
+    class: Drupal\ncms_ui\Theme\ThemeNegotiator
+    arguments: ['@config.factory', '@entity_type.manager', '@router.admin_context']
+    tags:
+      - { name: theme_negotiator, priority: -40 }

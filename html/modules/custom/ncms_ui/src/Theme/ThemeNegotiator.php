@@ -64,6 +64,7 @@ class ThemeNegotiator implements ThemeNegotiatorInterface {
     $route_names = [
       'entity.node.iframe',
       'entity.node.standalone',
+      'entity.node.preview',
       'ncms_ui.login_proxy_page',
       'graphql.query.ncms',
     ];

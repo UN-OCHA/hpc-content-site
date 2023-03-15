@@ -4,6 +4,9 @@ node_preview:
     js/node_preview.js: {}
 node_standalone:
   header: true
+  css:
+    component:
+      css/node_preview.css: {}
   js:
     js/node_standalone.js: {}
   dependencies:

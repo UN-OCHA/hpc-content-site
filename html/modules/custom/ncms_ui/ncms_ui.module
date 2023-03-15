@@ -112,6 +112,7 @@ function ncms_ui_preprocess_html(&$variables) {
         return strpos($value, 'toolbar-') !== 0;
       });
     }
+    $variables['attributes']['class'][] = 'ncms-node-preview';
   }
 }
 

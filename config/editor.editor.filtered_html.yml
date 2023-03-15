@@ -13,6 +13,7 @@ settings:
     items:
       - bold
       - italic
+      - style
       - heading
       - '|'
       - link
@@ -38,6 +39,11 @@ settings:
         - heading4
         - heading5
         - heading6
+    ckeditor5_style:
+      styles:
+        -
+          label: Highlight
+          element: '<p class="highlight">'
     ckeditor5_sourceEditing:
       allowed_tags:
         - '<cite>'

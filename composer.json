@@ -47,7 +47,6 @@
         "drupal/allowed_formats": "^2",
         "drupal/anonymous_login": "^2.0",
         "drupal/bigint": "^1.1",
-        "drupal/ckeditor_config": "^3.1",
         "drupal/components": "^2.4",
         "drupal/config_split": "^1.7",
         "drupal/core-composer-scaffold": "^9.3",

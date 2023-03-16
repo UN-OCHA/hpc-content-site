@@ -146,9 +146,6 @@
     "drupal/bigint": {
         "version": "1.1.0"
     },
-    "drupal/ckeditor_config": {
-        "version": "3.0.0"
-    },
     "drupal/coder": {
         "version": "8.3.11"
     },
@@ -293,11 +290,11 @@
     "drupal/token": {
         "version": "1.7.0"
     },
-    "drupal/user_expire": {
-        "version": "1.0.0"
-    },
     "drupal/typed_data": {
         "version": "1.0.0-beta1"
+    },
+    "drupal/user_expire": {
+        "version": "1.0.0"
     },
     "drupal/yaml_content": {
         "version": "1.0.0-alpha7"

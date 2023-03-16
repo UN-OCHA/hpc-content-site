@@ -19,7 +19,6 @@
             "Issue #2799479: Views doesn't recognize relationship to host": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
         },
         "drupal/gin": {
-            "Issue #3323501: Table sticky-header width causing overlap": "https://git.drupalcode.org/project/gin/-/merge_requests/225.diff",
             "Issue #3342513: Ajax on action buttons not working except in chrome": "https://www.drupal.org/files/issues/2023-02-16/3342513-entity-edit-form-update-ajax-ids-3.patch"
         },
         "drupal/user_expire": {

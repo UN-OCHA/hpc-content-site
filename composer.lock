@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fbcd203c305895625551a0815838a62c",
+    "content-hash": "5ebe212e060f37a366a07c81da1278b3",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1793,6 +1793,49 @@
             "time": "2022-07-02T10:48:51+00:00"
         },
         {
+            "name": "doctrine/deprecations",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/deprecations.git",
+                "reference": "0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de",
+                "reference": "0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1|^8.0"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^9",
+                "phpunit/phpunit": "^7.5|^8.5|^9.5",
+                "psr/log": "^1|^2|^3"
+            },
+            "suggest": {
+                "psr/log": "Allows logging deprecations via PSR-3 logger implementation"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Deprecations\\": "lib/Doctrine/Deprecations"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A small layer on top of trigger_error(E_USER_DEPRECATED) or PSR-3 logging with options to disable all deprecations or selectively for packages.",
+            "homepage": "https://www.doctrine-project.org/",
+            "support": {
+                "issues": "https://github.com/doctrine/deprecations/issues",
+                "source": "https://github.com/doctrine/deprecations/tree/v1.0.0"
+            },
+            "time": "2022-05-02T15:47:09+00:00"
+        },
+        {
             "name": "doctrine/instantiator",
             "version": "1.5.0",
             "source": {
@@ -2607,16 +2650,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "9.5.5",
+            "version": "9.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "eae5e76a8b403cbd42b3465f567313b52d78b0dc"
+                "reference": "bf51aa8ed6ab733fcaf60d0860aefd3918140fe3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/eae5e76a8b403cbd42b3465f567313b52d78b0dc",
-                "reference": "eae5e76a8b403cbd42b3465f567313b52d78b0dc",
+                "url": "https://api.github.com/repos/drupal/core/zipball/bf51aa8ed6ab733fcaf60d0860aefd3918140fe3",
+                "reference": "bf51aa8ed6ab733fcaf60d0860aefd3918140fe3",
                 "shasum": ""
             },
             "require": {
@@ -2768,13 +2811,13 @@
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
             "support": {
-                "source": "https://github.com/drupal/core/tree/9.5.5"
+                "source": "https://github.com/drupal/core/tree/9.5.7"
             },
-            "time": "2023-03-15T14:30:25+00:00"
+            "time": "2023-03-24T16:54:38+00:00"
         },
         {
             "name": "drupal/core-composer-scaffold",
-            "version": "9.5.5",
+            "version": "9.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-composer-scaffold.git",
@@ -2818,13 +2861,13 @@
                 "drupal"
             ],
             "support": {
-                "source": "https://github.com/drupal/core-composer-scaffold/tree/9.5.5"
+                "source": "https://github.com/drupal/core-composer-scaffold/tree/9.5.7"
             },
             "time": "2023-03-09T21:29:23+00:00"
         },
         {
             "name": "drupal/core-dev",
-            "version": "9.5.5",
+            "version": "9.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-dev.git",
@@ -2868,13 +2911,13 @@
             ],
             "description": "require-dev dependencies from drupal/drupal; use in addition to drupal/core-recommended to run tests from drupal/core.",
             "support": {
-                "source": "https://github.com/drupal/core-dev/tree/9.5.5"
+                "source": "https://github.com/drupal/core-dev/tree/9.5.7"
             },
             "time": "2022-07-27T00:23:55+00:00"
         },
         {
             "name": "drupal/core-project-message",
-            "version": "9.5.5",
+            "version": "9.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-project-message.git",
@@ -2909,22 +2952,22 @@
                 "drupal"
             ],
             "support": {
-                "source": "https://github.com/drupal/core-project-message/tree/9.5.5"
+                "source": "https://github.com/drupal/core-project-message/tree/9.5.7"
             },
             "time": "2022-02-24T17:40:53+00:00"
         },
         {
             "name": "drupal/core-recommended",
-            "version": "9.5.5",
+            "version": "9.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-recommended.git",
-                "reference": "3c1d205349407e706cc89f56aa34448742fe81b4"
+                "reference": "4b63b8220b166ad9eca7b5ea05e485cbe1f2b4a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core-recommended/zipball/3c1d205349407e706cc89f56aa34448742fe81b4",
-                "reference": "3c1d205349407e706cc89f56aa34448742fe81b4",
+                "url": "https://api.github.com/repos/drupal/core-recommended/zipball/4b63b8220b166ad9eca7b5ea05e485cbe1f2b4a7",
+                "reference": "4b63b8220b166ad9eca7b5ea05e485cbe1f2b4a7",
                 "shasum": ""
             },
             "require": {
@@ -2933,7 +2976,7 @@
                 "doctrine/annotations": "~1.13.3",
                 "doctrine/lexer": "~1.2.3",
                 "doctrine/reflection": "~1.2.3",
-                "drupal/core": "9.5.5",
+                "drupal/core": "9.5.7",
                 "egulias/email-validator": "~3.2.1",
                 "guzzlehttp/guzzle": "~6.5.8",
                 "guzzlehttp/promises": "~1.5.2",
@@ -2995,9 +3038,9 @@
             ],
             "description": "Core and its dependencies with known-compatible minor versions. Require this project INSTEAD OF drupal/core.",
             "support": {
-                "source": "https://github.com/drupal/core-recommended/tree/9.5.5"
+                "source": "https://github.com/drupal/core-recommended/tree/9.5.7"
             },
-            "time": "2023-03-15T14:30:25+00:00"
+            "time": "2023-03-24T16:54:38+00:00"
         },
         {
             "name": "drupal/csp",
@@ -3331,30 +3374,33 @@
         },
         {
             "name": "drupal/entity_browser_table",
-            "version": "dev-1.x",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/entity_browser_table.git",
-                "reference": "c89282a5620df4535284d7186b0cb04e56675714"
+                "reference": "8.x-1.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/entity_browser_table-8.x-1.4.zip",
+                "reference": "8.x-1.4",
+                "shasum": "9272f52b015f5ca0d532e111926bfd71f826c5cf"
             },
             "require": {
-                "drupal/core": "^8 || ^9",
-                "drupal/entity_browser": "~2.2"
+                "drupal/core": "^8 || ^9 || ^10",
+                "drupal/entity_browser": "~2.9"
             },
             "require-dev": {
                 "drupal/media": "*"
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
-                    "version": "8.x-1.3+2-dev",
-                    "datestamp": "1601391195",
+                    "version": "8.x-1.4",
+                    "datestamp": "1678795945",
                     "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Dev releases are not covered by Drupal security advisories."
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
                     }
                 }
             },
@@ -3773,6 +3819,22 @@
                 "GPL-2.0-or-later"
             ],
             "authors": [
+                {
+                    "name": "acquia",
+                    "homepage": "https://www.drupal.org/user/1231722"
+                },
+                {
+                    "name": "japerry",
+                    "homepage": "https://www.drupal.org/user/45640"
+                },
+                {
+                    "name": "kaynen",
+                    "homepage": "https://www.drupal.org/user/733308"
+                },
+                {
+                    "name": "mglaman",
+                    "homepage": "https://www.drupal.org/user/2416470"
+                },
                 {
                     "name": "solotandem",
                     "homepage": "https://www.drupal.org/user/240748"
@@ -4725,26 +4787,26 @@
         },
         {
             "name": "drupal/replicate",
-            "version": "1.0.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/replicate.git",
-                "reference": "8.x-1.0"
+                "reference": "8.x-1.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/replicate-8.x-1.0.zip",
-                "reference": "8.x-1.0",
-                "shasum": "5d8e82a4792d80bdf495db2026955a14c326598c"
+                "url": "https://ftp.drupal.org/files/projects/replicate-8.x-1.2.zip",
+                "reference": "8.x-1.2",
+                "shasum": "614dcc5c8f1f963f2c0e335c784ee14ed59d5b15"
             },
             "require": {
-                "drupal/core": "^8 || ^9"
+                "drupal/core": "^9 || ^10"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.0",
-                    "datestamp": "1576519385",
+                    "version": "8.x-1.2",
+                    "datestamp": "1680029152",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4761,10 +4823,6 @@
                     "homepage": "https://www.drupal.org/user/214652"
                 },
                 {
-                    "name": "VladimirAus",
-                    "homepage": "https://www.drupal.org/user/673120"
-                },
-                {
                     "name": "dawehner",
                     "homepage": "https://www.drupal.org/user/99340"
                 },
@@ -4779,6 +4837,10 @@
                 {
                     "name": "vbouchet",
                     "homepage": "https://www.drupal.org/user/1671428"
+                },
+                {
+                    "name": "VladimirAus",
+                    "homepage": "https://www.drupal.org/user/673120"
                 }
             ],
             "description": "Replicate provide an API to replicate (duplicate) entities. This modules also provide hooks to control exactly how parts of an entity are duplicated.",
@@ -4841,27 +4903,27 @@
         },
         {
             "name": "drupal/replicate_ui",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/replicate_ui.git",
-                "reference": "8.x-1.0"
+                "reference": "8.x-1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/replicate_ui-8.x-1.0.zip",
-                "reference": "8.x-1.0",
-                "shasum": "ea4dba722f39daa7d936eb950159d4d9112e5ba0"
+                "url": "https://ftp.drupal.org/files/projects/replicate_ui-8.x-1.1.zip",
+                "reference": "8.x-1.1",
+                "shasum": "fade816b12a76df62621c363264e18ae17ee99e2"
             },
             "require": {
-                "drupal/core": "^8 || ^9",
+                "drupal/core": "^9 || ^10",
                 "drupal/replicate": "^1.0"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.0",
-                    "datestamp": "1576520289",
+                    "version": "8.x-1.1",
+                    "datestamp": "1679704077",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -5308,26 +5370,26 @@
         },
         {
             "name": "drupal/typed_data",
-            "version": "1.0.0-beta1",
+            "version": "1.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/typed_data.git",
-                "reference": "8.x-1.0-beta1"
+                "reference": "8.x-1.0-beta2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/typed_data-8.x-1.0-beta1.zip",
-                "reference": "8.x-1.0-beta1",
-                "shasum": "73d079f29c7a5679e0db3e28ae888e8cce2f1335"
+                "url": "https://ftp.drupal.org/files/projects/typed_data-8.x-1.0-beta2.zip",
+                "reference": "8.x-1.0-beta2",
+                "shasum": "e0aa651b129d8dcd765ca49cba8682ebe09e6e73"
             },
             "require": {
-                "drupal/core": "^8.8.2 || ^9"
+                "drupal/core": "^9.1 || ^10"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.0-beta1",
-                    "datestamp": "1635839873",
+                    "version": "8.x-1.0-beta2",
+                    "datestamp": "1679429196",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Beta releases are not covered by Drupal security advisories."
@@ -5335,7 +5397,7 @@
                 },
                 "drush": {
                     "services": {
-                        "drush.services.yml": "^9 || ^10"
+                        "drush.services.yml": ">=9"
                     }
                 }
             },
@@ -8114,24 +8176,27 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "1.6.2",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "48f445a408c131e38cab1c235aa6d2bb7a0bb20d"
+                "reference": "dfc078e8af9c99210337325ff5aa152872c98714"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/48f445a408c131e38cab1c235aa6d2bb7a0bb20d",
-                "reference": "48f445a408c131e38cab1c235aa6d2bb7a0bb20d",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/dfc078e8af9c99210337325ff5aa152872c98714",
+                "reference": "dfc078e8af9c99210337325ff5aa152872c98714",
                 "shasum": ""
             },
             "require": {
+                "doctrine/deprecations": "^1.0",
                 "php": "^7.4 || ^8.0",
-                "phpdocumentor/reflection-common": "^2.0"
+                "phpdocumentor/reflection-common": "^2.0",
+                "phpstan/phpdoc-parser": "^1.13"
             },
             "require-dev": {
                 "ext-tokenizer": "*",
+                "phpbench/phpbench": "^1.2",
                 "phpstan/extension-installer": "^1.1",
                 "phpstan/phpstan": "^1.8",
                 "phpstan/phpstan-phpunit": "^1.1",
@@ -8163,9 +8228,9 @@
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "support": {
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
-                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.6.2"
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.7.1"
             },
-            "time": "2022-10-14T12:47:21+00:00"
+            "time": "2023-03-27T19:02:04+00:00"
         },
         {
             "name": "phpoffice/phpspreadsheet",
@@ -8705,16 +8770,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.5",
+            "version": "9.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "86e761949019ae83f49240b2f2123fb5ab3b2fc5"
+                "reference": "b65d59a059d3004a040c16a82e07bbdf6cfdd115"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/86e761949019ae83f49240b2f2123fb5ab3b2fc5",
-                "reference": "86e761949019ae83f49240b2f2123fb5ab3b2fc5",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b65d59a059d3004a040c16a82e07bbdf6cfdd115",
+                "reference": "b65d59a059d3004a040c16a82e07bbdf6cfdd115",
                 "shasum": ""
             },
             "require": {
@@ -8787,7 +8852,8 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.5"
+                "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.6"
             },
             "funding": [
                 {
@@ -8803,7 +8869,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-09T06:34:10+00:00"
+            "time": "2023-03-27T11:43:46+00:00"
         },
         {
             "name": "psr/cache",
@@ -14838,49 +14904,6 @@
             "time": "2020-06-05T16:46:05+00:00"
         },
         {
-            "name": "doctrine/deprecations",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/deprecations.git",
-                "reference": "0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de",
-                "reference": "0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1|^8.0"
-            },
-            "require-dev": {
-                "doctrine/coding-standard": "^9",
-                "phpunit/phpunit": "^7.5|^8.5|^9.5",
-                "psr/log": "^1|^2|^3"
-            },
-            "suggest": {
-                "psr/log": "Allows logging deprecations via PSR-3 logger implementation"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\Deprecations\\": "lib/Doctrine/Deprecations"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A small layer on top of trigger_error(E_USER_DEPRECATED) or PSR-3 logging with options to disable all deprecations or selectively for packages.",
-            "homepage": "https://www.doctrine-project.org/",
-            "support": {
-                "issues": "https://github.com/doctrine/deprecations/issues",
-                "source": "https://github.com/doctrine/deprecations/tree/v1.0.0"
-            },
-            "time": "2022-05-02T15:47:09+00:00"
-        },
-        {
             "name": "doctrine/event-manager",
             "version": "1.2.0",
             "source": {
@@ -16535,7 +16558,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/entity_browser_table": 20,
         "drupal/entity_usage": 10,
         "drupal/gin": 5,
         "drupal/imageapi_optimize_binaries": 15,

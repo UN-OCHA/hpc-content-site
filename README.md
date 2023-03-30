@@ -177,10 +177,52 @@ the [notes.md](notes.md) file.
 Local development
 -----------------
 
-The site is docker based. See https://github.com/UN-OCHA/hpc-content-stack for instructions.
+HHPC Content Module (CM) uses docksal which is a web-development environment
+based on docker.
 
-To build an image run `make`. This will create a `hpc-content-site:local` image usable
-with the local setup described in the `hpc-content-stack` repository.
+Install docksal: https://docksal.io/installation
+
+You will need to create a local environment file in the _./.docksal_ folder and
+adjust it to match your local requirements.
+
+    touch ./.docksal/docksal-local.env
+
+Refer to _./.docksal/default.docksal-local.env_ for required environment
+variables.
+
+Once the above steps are complete, from the project root, run:
+
+    fin init-site
+
+This will install all required packages via composer and setup the local
+settings files.
+
+For docksal to run, you will need to stop any other webserver or service on
+your system that might bind to port 80.
+
+
+DATABASE SETUP
+--------------
+
+A database has been created automatically as part of the stack setup above.
+
+Pull a database dump from [here](https://snapshots.aws.ahconu.org/hpc-content) to get a
+fresh copy and seed your local database.
+
+
+COMPOSER
+--------
+
+Using docksal, you can run any composer command as **_fin composer {COMMAND}_**.
+
+
+DRUSH
+-----
+
+Drush commands can be run as **_fin drush {COMMAND}_**. Eg:
+
+    fin drush cr
+
 
 Local testing
 -------------

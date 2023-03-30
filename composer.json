@@ -58,7 +58,7 @@
         "drupal/double_field": "^4.0",
         "drupal/editor_advanced_link": "^2.0",
         "drupal/entity_browser": "^2.9",
-        "drupal/entity_browser_table": "1.x-dev",
+        "drupal/entity_browser_table": "^1.4",
         "drupal/entity_usage": "^2.0@beta",
         "drupal/field_group": "^3.4",
         "drupal/gin": "^3.0@RC",

@@ -8,7 +8,7 @@
 namespace DrupalProject\composer;
 
 use Composer\Script\Event;
-use Composer\Semver\Comparator;
+use Drupal\Core\Site\Settings;
 use DrupalFinder\DrupalFinder;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -17,6 +17,7 @@ use Webmozart\PathUtil\Path;
 class ScriptHandler {
 
   public static function createRequiredFiles(Event $event) {
+
     $fs = new Filesystem();
     $drupalFinder = new DrupalFinder();
     $drupalFinder->locateRoot(getcwd());
@@ -41,8 +42,8 @@ class ScriptHandler {
       $fs->copy($drupalRoot . '/sites/default/default.settings.php', $drupalRoot . '/sites/default/settings.php');
       require_once $drupalRoot . '/core/includes/bootstrap.inc';
       require_once $drupalRoot . '/core/includes/install.inc';
-      $settings['config_directories'] = [
-        CONFIG_SYNC_DIRECTORY => (object) [
+      $settings['config_sync_directories'] = [
+        Settings::get('config_sync_directory') => (object) [
           'value' => Path::makeRelative($drupalFinder->getComposerRoot() . '/config/sync', $drupalRoot),
           'required' => TRUE,
         ],
@@ -50,6 +51,13 @@ class ScriptHandler {
       drupal_rewrite_settings($settings, $drupalRoot . '/sites/default/settings.php');
       $fs->chmod($drupalRoot . '/sites/default/settings.php', 0666);
       $event->getIO()->write("Create a sites/default/settings.php file with chmod 0666");
+
+      // Append docksal snippet to settings.php to include settings.local.php.
+      if ($fs->exists($drupalRoot . '/../.docksal/snippets/include_local_settings_file.txt')) {
+        $snippet = file_get_contents($drupalRoot . '/../.docksal/snippets/include_local_settings_file.txt');
+        $fs->appendToFile($drupalRoot . '/sites/default/settings.php', $snippet);
+        $event->getIO()->write("Append ./docksal/snippets/include_local_settings_file.txt to sites/default/settings.php");
+      }
     }
 
     // Create the files directory with chmod 0777

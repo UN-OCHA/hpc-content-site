@@ -38,7 +38,7 @@
         }
     ],
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.1",
         "composer/installers": "^1.10",
         "cweagans/composer-patches": "^1.7",
         "drupal-composer/preserve-paths": "^0.1.6",
@@ -187,29 +187,9 @@
             "html/themes/custom"
         ],
         "drupal-scaffold": {
-            "file-mapping": {
-                "[web-root]/sites/default/services.yml": {
-                    "mode": "replace",
-                    "path": "html/core/assets/scaffold/files/default.services.yml",
-                    "overwrite": false
-                },
-                "[web-root]/sites/default/settings.php": {
-                    "mode": "replace",
-                    "path": "html/core/assets/scaffold/files/default.settings.php",
-                    "overwrite": false
-                }
-            },
             "locations": {
                 "web-root": "html/"
             }
-        },
-        "merge-plugin": {
-            "include": [
-                "html/core/composer.json"
-            ],
-            "recurse": true,
-            "replace": false,
-            "merge-extra": false
         }
     }
 }

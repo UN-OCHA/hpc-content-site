@@ -14,7 +14,6 @@ dependencies:
     - node.type.document
     - node.type.story
     - taxonomy.vocabulary.appeals
-    - taxonomy.vocabulary.article_type
     - taxonomy.vocabulary.content_space
     - taxonomy.vocabulary.interactive_content_type
     - taxonomy.vocabulary.major_tags
@@ -66,7 +65,6 @@ permissions:
   - 'create story content'
   - 'create terms in agency'
   - 'create terms in appeals'
-  - 'create terms in article_type'
   - 'create terms in content_space'
   - 'create terms in country'
   - 'create terms in duty_station_region'
@@ -103,7 +101,6 @@ permissions:
   - 'delete story revisions'
   - 'delete terms in agency'
   - 'delete terms in appeals'
-  - 'delete terms in article_type'
   - 'delete terms in content_space'
   - 'delete terms in country'
   - 'delete terms in duty_station_region'
@@ -132,7 +129,6 @@ permissions:
   - 'edit own video media'
   - 'edit terms in agency'
   - 'edit terms in appeals'
-  - 'edit terms in article_type'
   - 'edit terms in content_space'
   - 'edit terms in country'
   - 'edit terms in duty_station_region'

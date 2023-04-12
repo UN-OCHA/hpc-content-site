@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.node.article.field_appeals
-    - field.field.node.article.field_article_type
     - field.field.node.article.field_author
     - field.field.node.article.field_caption
     - field.field.node.article.field_card_title
@@ -33,7 +32,7 @@ third_party_settings:
       children:
         - field_hero_image
         - field_caption
-      label: Image
+      label: 'Hero image'
       region: content
       parent_name: group_tabs
       weight: 24
@@ -45,8 +44,6 @@ third_party_settings:
         formatter: closed
         description: ''
         required_fields: true
-        direction: horizontal
-        width_breakpoint: 640
     group_meta_data:
       children:
         - field_article_type
@@ -111,12 +108,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_article_type:
-    type: options_select
-    weight: 21
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_author:
     type: inline_entity_form_complex
     weight: 25
@@ -133,6 +124,7 @@ content:
       collapsible: false
       collapsed: true
       revision: false
+      removed_reference: optional
     third_party_settings: {  }
   field_caption:
     type: double_field

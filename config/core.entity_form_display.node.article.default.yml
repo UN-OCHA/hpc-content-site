@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.node.article.field_appeals
-    - field.field.node.article.field_article_type
     - field.field.node.article.field_author
     - field.field.node.article.field_caption
     - field.field.node.article.field_card_title
@@ -106,12 +105,6 @@ content:
   created:
     type: datetime_timestamp
     weight: 2
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_article_type:
-    type: options_select
-    weight: 21
     region: content
     settings: {  }
     third_party_settings: {  }

@@ -1,8 +1,0 @@
-uuid: 9999f39d-61fc-4606-96e3-ce3ecb9d2727
-langcode: en
-status: true
-dependencies: {  }
-name: 'Article type'
-vid: article_type
-description: 'Type of n article (ex: feature or news story)'
-weight: 0

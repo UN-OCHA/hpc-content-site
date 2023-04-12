@@ -113,9 +113,6 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "platform": {
-            "php": "8.0"
-        },
         "bin-dir": "vendor/bin/",
         "sort-packages": true,
         "allow-plugins": {

@@ -183,7 +183,15 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   ];
 
   if ($node instanceof Document) {
+    // Attach custom styles.
     $form['#attached']['library'][] = 'ncms_ui/document_edit_form';
+  }
+
+  if ($node instanceof Article) {
+    // Hide the label of the double field widget.
+    $form['field_caption']['widget'][0]['#title_display'] = FALSE;
+    // Attach custom styles.
+    $form['#attached']['library'][] = 'ncms_ui/article_edit_form';
   }
 
   /** @var \Drupal\ncms_ui\ContentManager $content_manager */

@@ -11,9 +11,6 @@
     "behat/mink-browserkit-driver": {
         "version": "v1.3.4"
     },
-    "behat/mink-goutte-driver": {
-        "version": "v1.2.1"
-    },
     "behat/mink-selenium2-driver": {
         "version": "v1.4.0"
     },
@@ -314,9 +311,6 @@
     "ezyang/htmlpurifier": {
         "version": "v4.13.0"
     },
-    "fabpot/goutte": {
-        "version": "v3.2.3"
-    },
     "fileeye/mimemap": {
         "version": "0.0",
         "recipe": {
@@ -331,9 +325,6 @@
     },
     "grasmash/expander": {
         "version": "1.0.0"
-    },
-    "grasmash/yaml-expander": {
-        "version": "1.4.0"
     },
     "guzzlehttp/guzzle": {
         "version": "6.5.4"

@@ -13,8 +13,11 @@ use Drupal\ncms_ui\Controller\ViewController;
 use Drupal\ncms_ui\Entity\Article;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 use Drupal\ncms_ui\Entity\Document;
+use Drupal\ncms_ui\Form\ContentSpaceSelectForm;
 use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\views\ViewExecutable;
 
 /**
  * Implements hook_entity_bundle_info_alter().
@@ -126,6 +129,17 @@ function ncms_ui_preprocess_page(&$variables) {
   // and the node view in modal (coming from the admin content listing).
   $variables['#attached']['library'][] = 'core/jquery.ui.autocomplete';
   $variables['#attached']['library'][] = 'core/drupal.dialog';
+}
+
+/**
+ * Implements toolbar preprocess.
+ */
+function ncms_ui_preprocess_toolbar__gin__secondary(&$variables) {
+  if ($variables['toolbar_variant'] !== 'classic') {
+    /** @var \Drupal\Core\Form\FormBuilderInterface $form_builder */
+    $form_builder = \Drupal::service('form_builder');
+    $variables['remainder']['content_space'] = $form_builder->getForm(ContentSpaceSelectForm::class);
+  }
 }
 
 /**
@@ -326,6 +340,15 @@ function ncms_ui_views_data_alter(&$data) {
       'click sortable' => FALSE,
     ],
   ];
+}
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function ncms_ui_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  /** @var \Drupal\ncms_ui\ContentManager $content_manager */
+  $content_manager = \Drupal::service('ncms_ui.content.manager');
+  $content_manager->alterViewsQuery($view, $query);
 }
 
 /**

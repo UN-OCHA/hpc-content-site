@@ -83,7 +83,7 @@
         "drupal/social_auth_hid": "^3.1",
         "drupal/stage_file_proxy": "^2",
         "drupal/user_expire": "^1.0",
-        "drush/drush": "^10.6",
+        "drush/drush": "^11",
         "masonry/masonry": "^3.3",
         "oomphinc/composer-installers-extender": "^2.0",
         "phpoffice/phpspreadsheet": "^1.18",
@@ -104,7 +104,7 @@
         "phpmd/phpmd": "^2.9.1",
         "phpspec/prophecy-phpunit": "^2",
         "phpunit/phpunit": "^9.5.4",
-        "weitzman/drupal-test-traits": "^1.5"
+        "weitzman/drupal-test-traits": "^2"
     },
     "conflict": {
         "drupal/drupal": "*",

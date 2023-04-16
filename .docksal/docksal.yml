@@ -9,3 +9,15 @@ services:
       - HID_CLIENT_SECRET
       - GRAPHQL_KEY
       - COMPOSER_MEMORY_LIMIT=-1
+
+  browser:
+    hostname: browser
+    image: selenium/standalone-chrome-debug:3.141.59
+    volumes:
+      # Workaround to avoid the browser crashing inside a docker container
+      # See https://github.com/SeleniumHQ/docker-selenium#quick-start
+      - /tmp:/dev/shm
+    environment:
+      - JAVA_OPTS=-Dwebdriver.chrome.whitelistedIps=
+    ports:
+      - 5900:5900

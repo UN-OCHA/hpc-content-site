@@ -22,6 +22,9 @@
         },
         "drupal/yaml_content": {
             "https://www.drupal.org/project/yaml_content/issues/3084161": "https://www.drupal.org/files/issues/2020-04-10/yaml_content-layout-builder-support-3084161-8.patch"
+        },
+        "guzzlehttp/guzzle": {
+          "Issue https://github.com/guzzle/guzzle/issues/3020:": "./patches/guzzle-3020.patch"
         }
     }
 }

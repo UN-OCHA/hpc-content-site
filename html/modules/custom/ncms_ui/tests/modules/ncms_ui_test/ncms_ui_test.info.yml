@@ -1,0 +1,10 @@
+name: 'NCMS UI tests'
+type: module
+description: 'Helper module for testing the NCMS UI module.'
+package: Testing
+version: VERSION
+dependencies:
+  - ncms_ui:ncms_ui
+  - drupal:field
+  - drupal:taxonomy
+  - drupal:views

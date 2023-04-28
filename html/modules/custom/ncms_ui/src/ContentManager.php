@@ -49,7 +49,7 @@ class ContentManager {
   protected $viewsJoin;
 
   /**
-   * PublisherManager constructor.
+   * ContentManager constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager service.

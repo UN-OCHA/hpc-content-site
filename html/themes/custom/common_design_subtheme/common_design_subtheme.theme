@@ -146,7 +146,8 @@ function common_design_subtheme_preprocess_node(&$variables) {
     }
   }
 
-  if (isset($node) && $route_name == 'entity.node.standalone') {
+  $routes = ['entity.node.standalone', 'entity.node_revision.standalone'];
+  if (isset($node) && in_array($route_name, $routes)) {
     common_design_set_page_title($variables, $node->label(), FALSE);
   }
 }
@@ -250,7 +251,12 @@ function common_design_subtheme_preprocess_field__node__field_caption__article(&
  */
 function common_design_subtheme_preprocess_page(&$variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
-  if ($route_name == 'entity.node.preview' || $route_name == 'entity.node.standalone') {
+  $routes = [
+    'entity.node.preview',
+    'entity.node.standalone',
+    'entity.node_revision.standalone',
+  ];
+  if (in_array($route_name, $routes)) {
     common_design_hide_rendered_blocks_from_page($variables, [
       'page_title_block',
     ]);

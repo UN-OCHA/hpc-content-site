@@ -34,8 +34,7 @@ class ViewController extends NodeViewController {
    * Using an iframe to be able to use the full frontend styling from links in
    * the backend.
    */
-  public function viewIframe(NodeInterface $node, $preview = FALSE) {
-
+  public function viewIframe(NodeInterface $node, NodeInterface $node_revision = NULL, $preview = FALSE) {
     // Iframe dimensions. The height is set initially, but is adjusted in the
     // client.
     $max_width = '100%';
@@ -45,6 +44,12 @@ class ViewController extends NodeViewController {
       $url = Url::fromRoute('entity.node.preview', [
         'node_preview' => $node->uuid(),
         'view_mode_id' => 'full',
+      ]);
+    }
+    elseif ($node_revision !== NULL) {
+      $url = Url::fromRoute('entity.node_revision.standalone', [
+        'node' => $node->id(),
+        'node_revision' => $node_revision->getRevisionId(),
       ]);
     }
     else {
@@ -97,7 +102,7 @@ class ViewController extends NodeViewController {
 
     $node_preview_controller = ViewController::create(\Drupal::getContainer());
     $title = $node_preview_controller->previewTitle($entity);
-    $build = $node_preview_controller->viewIframe($entity, TRUE);
+    $build = $node_preview_controller->viewIframe($entity, NULL, TRUE);
 
     $response = new AjaxResponse();
     $response->addCommand(new OpenModalDialogCommand($title, $build, [

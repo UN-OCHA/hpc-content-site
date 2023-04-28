@@ -1,0 +1,61 @@
+label: 'Contenido moderado'
+description: 'Encuentra y modera contenido.'
+display:
+  default:
+    display_title: Master
+    display_options:
+      title: 'Contenido moderado'
+      fields:
+        title:
+          label: Title
+          separator: ', '
+        type:
+          label: 'Content type'
+          separator: ', '
+        name:
+          label: Author
+          separator: ', '
+        moderation_state:
+          label: 'Estado de moderación'
+          separator: ', '
+        changed:
+          label: Changed
+          separator: ', '
+        operations:
+          label: Operations
+      pager:
+        options:
+          tags:
+            next: 'Next ›'
+            previous: '‹ Previous'
+            first: '« First'
+            last: 'Last »'
+          expose:
+            items_per_page_label: 'Items per page'
+            items_per_page_options_all_label: '- All -'
+            offset_label: Offset
+      exposed_form:
+        options:
+          submit_button: Filter
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      empty:
+        area_text_custom:
+          content: 'No hay contenido moderado disponible. Solo las versiones pendientes de contenido, como los borradores, se enumeran aquí.'
+      filters:
+        title:
+          expose:
+            label: Title
+        type:
+          expose:
+            label: 'Content type'
+        moderation_state:
+          expose:
+            label: 'Estado de moderación'
+        langcode:
+          expose:
+            label: Language
+  moderated_content:
+    display_title: 'Contenido moderado'

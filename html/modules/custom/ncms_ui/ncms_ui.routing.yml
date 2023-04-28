@@ -19,6 +19,22 @@ entity.node.iframe:
       node:
         type: entity:node
 
+entity.node_revision.iframe:
+  path: '/node/{node}/iframe/{node_revision}'
+  defaults:
+    _controller: '\Drupal\ncms_ui\Controller\ViewController::viewIframe'
+    _title_callback: '\Drupal\ncms_ui\Controller\ViewController::previewTitle'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    node: \d+
+    node_revision: \d+
+  options:
+    parameters:
+      node:
+        type: entity:node
+      node_revision:
+        type: entity_revision:node
+
 entity.node.standalone:
   path: '/node/{node}/standalone'
   defaults:
@@ -31,3 +47,18 @@ entity.node.standalone:
     parameters:
       node:
         type: entity:node
+
+entity.node_revision.standalone:
+  path: '/node/{node}/standalone/{node_revision}'
+  defaults:
+    _controller: '\Drupal\node\Controller\NodeController::revisionShow'
+    _title_callback: '\Drupal\node\Controller\NodeController::revisionPageTitle'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    node: \d+
+  options:
+    parameters:
+      node:
+        type: entity:node
+      node_revision:
+        type: entity_revision:node

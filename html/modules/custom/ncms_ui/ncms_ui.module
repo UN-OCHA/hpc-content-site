@@ -48,6 +48,8 @@ function ncms_ui_local_tasks_alter(&$local_tasks) {
   unset($local_tasks['entity.node.canonical']);
   // Rename the default menu tab on the content overview page to "Articles".
   $local_tasks['system.admin_content']['title'] = t('Articles');
+  // Rename the revisions tab.
+  $local_tasks['entity.node.version_history']['title'] = t('Versions');
 }
 
 /**
@@ -111,6 +113,7 @@ function ncms_ui_preprocess_html(&$variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
   $routes = [
     'entity.node.standalone',
+    'entity.node_revision.standalone',
     'entity.node.preview',
   ];
   if (in_array($route_name, $routes)) {
@@ -163,6 +166,18 @@ function ncms_ui_preprocess_node(&$variables) {
  */
 function ncms_ui_preprocess_layout_paragraphs_builder(&$variables) {
   $variables['#attached']['library'][] = 'ncms_ui/layout_paragraphs';
+}
+
+/**
+ * Implements hook_preprocess_table().
+ */
+function ncms_ui_preprocess_table(&$variables) {
+  $id = $variables['attributes']['id'];
+  if ($id == 'edit-node-revisions-table') {
+    /** @var \Drupal\ncms_ui\Revisions\NodeRevisions $node_revisions */
+    $node_revisions = \Drupal::service('ncms_ui.node_revisions');
+    $node_revisions->alterRevisionsOverviewTable($variables);
+  }
 }
 
 /**
@@ -314,7 +329,11 @@ function ncms_ui_node_form_submit($form, FormStateInterface $form_state) {
 function ncms_ui_link_alter(&$variables) {
   /** @var \Drupal\Core\Url $url */
   $url = $variables['url'];
-  if ($url->isRouted() && $url->getRouteName() == 'entity.node.canonical') {
+  $routes = [
+    'entity.node.canonical',
+    'entity.node.revision',
+  ];
+  if ($url->isRouted() && in_array($url->getRouteName(), $routes)) {
     /** @var \Drupal\node\NodeInterface $node */
     $node = \Drupal::entityTypeManager()->getStorage('node')->load($url->getRouteParameters()['node']);
     $variables['options']['attributes']['title'] = t('Show a preview of this @bundle', [
@@ -327,7 +346,16 @@ function ncms_ui_link_alter(&$variables) {
       'title' => t('Preview: @title', ['@title' => $variables['text']]),
       'dialogClass' => 'node-preview',
     ]);
-    $variables['url'] = Url::fromRoute('entity.node.iframe', ['node' => $node->id()]);
+    if ($url->getRouteName() == 'entity.node.canonical') {
+      $variables['url'] = Url::fromRoute('entity.node.iframe', ['node' => $node->id()]);
+    }
+    elseif ($url->getRouteName() == 'entity.node.revision') {
+      $node_revision = $url->getRouteParameters()['node_revision'];
+      $variables['url'] = Url::fromRoute('entity.node_revision.iframe', [
+        'node' => $node->id(),
+        'node_revision' => $node_revision,
+      ]);
+    }
     $variables['#attached']['library'] = ['ncms_ui/node_preview'];
   }
 }

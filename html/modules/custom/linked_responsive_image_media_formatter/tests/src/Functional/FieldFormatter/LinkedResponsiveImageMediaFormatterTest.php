@@ -14,7 +14,7 @@ use Drupal\Tests\media\Traits\MediaTypeCreationTrait;
 use Drupal\Tests\TestFileCreationTrait;
 
 /**
- * @covers \Drupal\linked_responsive_image_media_formatter\Plugin\Field\FieldFormatter\LinkedResponsiveImageMediaFormatterFormatter
+ * Test LinkedResponsiveImageMediaFormatter.
  *
  * @group media
  */

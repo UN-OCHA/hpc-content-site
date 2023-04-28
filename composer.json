@@ -133,6 +133,12 @@
         ]
     },
     "scripts": {
+        "pre-install-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+        ],
+        "pre-update-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+        ],
         "post-install-cmd": [
             "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
             "DrupalProject\\composer\\ScriptHandler::removeUnnecessaryFiles",
@@ -143,6 +149,7 @@
             "DrupalProject\\composer\\ScriptHandler::removeUnnecessaryFiles",
             "@git-hooks"
         ],
+        "sub-theme": "test -d html/themes/custom/common_design_subtheme || (cp -r html/themes/contrib/common_design/common_design_subtheme html/themes/custom/ && mv html/themes/custom/common_design_subtheme/common_design_subtheme.info.yml.example html/themes/custom/common_design_subtheme/common_design_subtheme.info.yml)",
         "git-hooks": "test -d .git && git config core.hooksPath git-hooks || exit 0",
         "sass-prepare": "cd html/themes/custom/common_design_subtheme && npm install",
         "sass-build": "cd html/themes/custom/common_design_subtheme && ./node_modules/.bin/sass sass:build",

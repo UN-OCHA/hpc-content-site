@@ -12,15 +12,12 @@ build:  clean
 				--build-arg GITHUB_ACTOR=`whoami` \
 				--build-arg GITHUB_REPOSITORY=`git config --get remote.origin.url` \
 				--build-arg GITHUB_SHA=`git rev-parse --short HEAD` \
-		. --file docker/Dockerfile --tag public.ecr.aws/unocha/gho-2022-site:local \
+		. --file docker/Dockerfile --rm --force-rm --tag unocha/hpc-content-site:local \
 		2>&1 | tee buildlog.txt
 
-	@echo "Built a shiny new public.ecr.aws/unocha/gho-2022-site:local for you."
+	@echo "Built a shiny new unocha/hpc-content-site:local for you."
 
 clean:
-	# This is done in the builder step, preventing breaking some local setups.
-	# rm -rf ./html/themes/custom/common_design_subtheme/node_modules
-	# rm -rf ./vendor
 	rm -rf ./buildlog.txt
 
 # Always build, never claim cache.

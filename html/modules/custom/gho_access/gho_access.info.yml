@@ -3,3 +3,5 @@ name: GHO Access
 description: 'GHO permissions to access content.'
 package: gho
 core_version_requirement: ^8.9 || ^9
+dependencies:
+  - drupal:media

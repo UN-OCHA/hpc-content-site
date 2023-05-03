@@ -15,7 +15,9 @@ dependencies:
     - taxonomy.vocabulary.interactive_content_type
     - taxonomy.vocabulary.section
     - taxonomy.vocabulary.story_type
+    - workflows.workflow.article
   module:
+    - content_moderation
     - content_translation
     - filter
     - gho_access
@@ -109,6 +111,9 @@ permissions:
   - 'update any media'
   - 'update content translations'
   - 'update media'
+  - 'use article transition archive'
+  - 'use article transition create_new_draft'
+  - 'use article transition publish'
   - 'use text format filtered_html'
   - 'view achievement revisions'
   - 'view all media revisions'

@@ -21,6 +21,11 @@ class ContentManager {
   use StringTranslationTrait;
 
   /**
+   * The realm used for node grants.
+   */
+  const NODE_ACCESS_REALM = 'ncms_ui_node_access_by_content_space';
+
+  /**
    * The entity type manager service.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface

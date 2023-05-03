@@ -11,7 +11,9 @@ dependencies:
     - node.type.article
     - node.type.document
     - node.type.story
+    - workflows.workflow.article
   module:
+    - content_moderation
     - filter
     - gho_access
     - gho_fields
@@ -76,6 +78,9 @@ permissions:
   - 'revert document revisions'
   - 'revert story revisions'
   - 'update media'
+  - 'use article transition archive'
+  - 'use article transition create_new_draft'
+  - 'use article transition publish'
   - 'use text format filtered_html'
   - 'view achievement revisions'
   - 'view all media revisions'

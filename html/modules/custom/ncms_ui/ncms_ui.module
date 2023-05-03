@@ -9,6 +9,7 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
+use Drupal\ncms_ui\ContentManager;
 use Drupal\ncms_ui\Controller\ViewController;
 use Drupal\ncms_ui\Entity\Article;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
@@ -398,7 +399,7 @@ function ncms_ui_node_access_records(NodeInterface $node) {
 
   $grants = [];
   $grants[] = [
-    'realm' => 'ncms_ui_node_access_by_content_space',
+    'realm' => ContentManager::NODE_ACCESS_REALM,
     'gid' => 0,
     'grant_view' => $node->isPublished(),
     'grant_update' => 0,
@@ -406,13 +407,13 @@ function ncms_ui_node_access_records(NodeInterface $node) {
     'priority' => 0,
   ];
 
-  // Get the team id from the current node if it's available.
+  // Get the content space id from the current node if it's available.
   $content_space_id = !$node->field_content_space->isEmpty() ? $node->field_content_space->entity->tid->value : NULL;
   if (!$content_space_id) {
     return $grants;
   }
   $grants[] = [
-    'realm' => 'ncms_ui_node_access_by_content_space',
+    'realm' => ContentManager::NODE_ACCESS_REALM,
     'gid' => $content_space_id,
     'grant_view' => 1,
     'grant_update' => 1,
@@ -428,7 +429,7 @@ function ncms_ui_node_access_records(NodeInterface $node) {
  */
 function ncms_ui_node_grants(AccountInterface $account, $op) {
   $grants = [];
-  $grants['ncms_ui_node_access_by_content_space'] = [0];
+  $grants[ContentManager::NODE_ACCESS_REALM] = [0];
 
   $user = User::load($account->id());
   if (!$user->hasField('field_content_spaces')) {
@@ -439,14 +440,14 @@ function ncms_ui_node_grants(AccountInterface $account, $op) {
     'vid' => 'content_space',
   ]);
   if ($user->hasPermission('administer nodes') && !empty($content_spaces)) {
-    $grants['ncms_ui_node_access_by_content_space'] = array_merge($grants['ncms_ui_node_access_by_content_space'], array_values(array_map(function ($term) {
+    $grants[ContentManager::NODE_ACCESS_REALM] = array_merge($grants[ContentManager::NODE_ACCESS_REALM], array_values(array_map(function ($term) {
       /** @var \Drupal\taxonomy\Entity\Term $term */
-      return $term->id();
+      return (int) $term->id();
     }, $content_spaces)));
   }
   elseif (!$user->field_content_spaces->isEmpty()) {
     foreach ($user->field_content_spaces->referencedEntities() as $content_space) {
-      $grants['ncms_ui_node_access_by_content_space'][] = $content_space->tid->value;
+      $grants[ContentManager::NODE_ACCESS_REALM][] = (int) $content_space->tid->value;
     }
   }
   return $grants;

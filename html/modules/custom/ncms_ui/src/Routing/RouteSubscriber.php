@@ -16,9 +16,9 @@ class RouteSubscriber extends RouteSubscriberBase {
   protected function alterRoutes(RouteCollection $collection) {
     // Deny access to the default node view.
     if ($route = $collection->get('entity.node.canonical')) {
-      // Instead denying all access, we cet a custom access callback that can
+      // Instead denying all access, we set a custom access callback that can
       // be a bit more fine-grained, even though at the moment it only checks
-      // if the user is logged-in.
+      // if the user has edit rights.
       $route->setRequirement('_custom_access', '\Drupal\ncms_ui\Controller\ViewController::nodeCanonicalRouteAccess');
     }
     // Add dynamic titles to the "Add term" local actions.

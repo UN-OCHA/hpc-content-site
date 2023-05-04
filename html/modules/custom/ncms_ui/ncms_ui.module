@@ -173,7 +173,7 @@ function ncms_ui_preprocess_layout_paragraphs_builder(&$variables) {
  * Implements hook_preprocess_table().
  */
 function ncms_ui_preprocess_table(&$variables) {
-  $id = $variables['attributes']['id'];
+  $id = $variables['attributes']['id'] ?? NULL;
   if ($id == 'edit-node-revisions-table') {
     /** @var \Drupal\ncms_ui\Revisions\NodeRevisions $node_revisions */
     $node_revisions = \Drupal::service('ncms_ui.node_revisions');

@@ -68,7 +68,7 @@ class ContentSpaceAccessTest extends BrowserTestBase {
     $node_2_2 = $this->createArticleInContentSpace('Article 2 for Content space 2', $content_space_2->id());
     $node_3_2 = $this->createArticleInContentSpace('Article 3 for Content space 2', $content_space_2->id());
 
-    // Create a user with permission to view the actions administration pages.
+    // Create a user with permission to manage content from content space 1.
     $this->drupalLogin($this->drupalCreateUser([
       'administer nodes',
       'access administration pages',
@@ -87,7 +87,7 @@ class ContentSpaceAccessTest extends BrowserTestBase {
     $this->assertSession()->pageTextNotContains($node_2_2->label());
     $this->assertSession()->pageTextNotContains($node_3_2->label());
 
-    // Create a user with permission to view the actions administration pages.
+    // Create a user with permission to manage content from content space 2.
     $this->drupalLogin($this->drupalCreateUser([
       'administer nodes',
       'access administration pages',
@@ -105,6 +105,47 @@ class ContentSpaceAccessTest extends BrowserTestBase {
     $this->assertSession()->pageTextContains($node_1_2->label());
     $this->assertSession()->pageTextContains($node_2_2->label());
     $this->assertSession()->pageTextContains($node_3_2->label());
+  }
+
+  /**
+   * Tests revision access.
+   */
+  public function testNodeRevisionAccess() {
+    $content_space_1 = $this->createContentSpace();
+    $node_1_1 = $this->createArticleInContentSpace('Article 1 for Content space 1', $content_space_1->id());
+
+    $content_space_2 = $this->createContentSpace();
+    $node_1_2 = $this->createArticleInContentSpace('Article 1 for Content space 2', $content_space_2->id());
+
+    // Create a user with permission to manage content from content space 1.
+    $this->drupalLogin($this->drupalCreateUser([
+      'access content overview',
+      'access administration pages',
+      'view the administration theme',
+      'create article content',
+      'edit own article content',
+      'view article revisions',
+      'revert article revisions',
+    ], NULL, NULL, [
+      'field_content_spaces' => [
+        'target_id' => $content_space_1->id(),
+      ],
+    ]));
+
+    // Check that editable nodes have the expected tabs and that a link to the
+    // version history is there.
+    $this->drupalGet($node_1_1->toUrl('edit-form'));
+    $this->assertSession()->pageTextContains($node_1_1->label());
+    $this->assertSession()->elementExists('css', '.block-local-tasks-block a[data-drupal-link-system-path="node/' . $node_1_1->id() . '/edit"]');
+    $this->assertSession()->elementExists('css', '.block-local-tasks-block a[data-drupal-link-system-path="node/' . $node_1_1->id() . '/revisions"]');
+    $this->assertSession()->linkExists('Versions');
+
+    $this->drupalGet($node_1_1->toUrl('version-history'));
+    $this->assertSession()->pageTextContains($node_1_1->label());
+
+    // Check that the version history of non-editable nodes can't be accessed.
+    $this->drupalGet($node_1_2->toUrl('version-history'));
+    $this->assertSession()->pageTextContains('Access denied');
   }
 
   /**

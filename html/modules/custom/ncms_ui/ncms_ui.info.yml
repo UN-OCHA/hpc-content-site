@@ -4,5 +4,6 @@ description: 'Provides additional UI logic to streamline UX.'
 package: HPC Content Module
 core_version_requirement: ^9.3 || ^10
 dependencies:
+  - ncms_publisher:ncms_publisher
   - anonymous_login:anonymous_login
   - social_auth_hid:social_auth_hid

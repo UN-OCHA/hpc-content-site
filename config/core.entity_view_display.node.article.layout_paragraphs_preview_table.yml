@@ -31,6 +31,11 @@ targetEntityType: node
 bundle: article
 mode: layout_paragraphs_preview_table
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   field_section:
     type: entity_reference_label
     label: hidden

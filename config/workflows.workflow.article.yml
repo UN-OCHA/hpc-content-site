@@ -2,9 +2,6 @@ uuid: 8f47f646-db61-4f4f-a26d-58e843ae70ad
 langcode: en
 status: true
 dependencies:
-  config:
-    - node.type.article
-    - node.type.document
   module:
     - content_moderation
 id: article
@@ -27,6 +24,11 @@ type_settings:
       weight: 1
       published: true
       default_revision: true
+    published_with_newer_draft:
+      label: 'Published with newer draft'
+      weight: 3
+      published: false
+      default_revision: true
   transitions:
     archive:
       label: Archive
@@ -38,19 +40,28 @@ type_settings:
     create_new_draft:
       label: 'Create New Draft'
       from:
-        - draft
+        - archived
         - published
       to: draft
       weight: 0
     publish:
       label: Publish
       from:
+        - archived
         - draft
-        - published
       to: published
       weight: 1
-  entity_types:
-    node:
-      - article
-      - document
+    save:
+      label: 'Save draft'
+      from:
+        - draft
+      to: draft
+      weight: 3
+    save_and_keep_published:
+      label: 'Save and keep published'
+      from:
+        - published
+      to: published
+      weight: 4
+  entity_types: {  }
   default_moderation_state: draft

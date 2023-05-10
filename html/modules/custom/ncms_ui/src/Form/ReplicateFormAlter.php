@@ -8,7 +8,7 @@ use Drupal\ncms_ui\ContentManager;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 
 /**
- * Form alter class for the replicate cofirm form.
+ * Form alter class for the replicate confirm form.
  */
 class ReplicateFormAlter {
 

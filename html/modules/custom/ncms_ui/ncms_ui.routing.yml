@@ -62,3 +62,31 @@ entity.node_revision.standalone:
         type: entity:node
       node_revision:
         type: entity_revision:node
+
+entity.node.revision.publish:
+  path: '/node/{node}/revisions/{node_revision}/publish'
+  defaults:
+    _controller: '\Drupal\ncms_ui\Controller\RevisionController::publish'
+  requirements:
+    _entity_access: 'node_revision.view revision'
+    node: \d+
+  options:
+    parameters:
+      node:
+        type: entity:node
+      node_revision:
+        type: entity_revision:node
+
+entity.node.revision.unpublish:
+  path: '/node/{node}/revisions/{node_revision}/unpublish'
+  defaults:
+    _controller: '\Drupal\ncms_ui\Controller\RevisionController::unpublish'
+  requirements:
+    _entity_access: 'node_revision.view revision'
+    node: \d+
+  options:
+    parameters:
+      node:
+        type: entity:node
+      node_revision:
+        type: entity_revision:node

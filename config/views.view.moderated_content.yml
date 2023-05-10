@@ -2,7 +2,10 @@ uuid: 6df54c04-ae81-4ba6-918d-07b113ac2c75
 langcode: en
 status: true
 dependencies:
+  config:
+    - workflows.workflow.article
   module:
+    - content_moderation
     - node
     - user
   enforced:
@@ -590,8 +593,8 @@ display:
           plugin_id: moderation_state_filter
           operator: in
           value:
-            editorial-draft: editorial-draft
-            editorial-archived: editorial-archived
+            article-draft: article-draft
+            article-archived: article-archived
           group: 1
           exposed: true
           expose:
@@ -610,6 +613,8 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
+              global_editor: '0'
+              editor: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -677,7 +682,7 @@ display:
           plugin_id: moderation_state_filter
           operator: 'not in'
           value:
-            editorial-published: editorial-published
+            article-published: article-published
           group: 1
           exposed: false
           expose:
@@ -811,13 +816,15 @@ display:
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:workflow_list'
   moderated_content:
     id: moderated_content
     display_title: 'Moderated content'
     display_plugin: page
     position: 1
     display_options:
+      enabled: true
       display_description: ''
       display_extenders: {  }
       path: admin/content/moderated
@@ -830,4 +837,5 @@ display:
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:workflow_list'

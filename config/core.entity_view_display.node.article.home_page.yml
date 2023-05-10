@@ -34,6 +34,11 @@ targetEntityType: node
 bundle: article
 mode: home_page
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   field_caption:
     type: gho_caption
     label: hidden

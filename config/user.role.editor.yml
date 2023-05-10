@@ -12,6 +12,7 @@ dependencies:
     - node.type.document
     - node.type.story
     - workflows.workflow.article
+    - workflows.workflow.workflow_buttons_trash_publishing
   module:
     - content_moderation
     - filter
@@ -44,12 +45,8 @@ permissions:
   - 'create story content'
   - 'create video media'
   - 'delete media'
-  - 'delete own achievement content'
-  - 'delete own article content'
   - 'delete own author media'
-  - 'delete own document content'
   - 'delete own image media'
-  - 'delete own story content'
   - 'delete own video media'
   - 'edit behavior plugin settings'
   - 'edit own achievement content'
@@ -81,11 +78,23 @@ permissions:
   - 'use article transition archive'
   - 'use article transition create_new_draft'
   - 'use article transition publish'
+  - 'use article transition save'
+  - 'use article transition save_and_keep_published'
   - 'use text format filtered_html'
+  - 'use workflow_buttons_trash_publishing transition create_new_draft'
+  - 'use workflow_buttons_trash_publishing transition delete'
+  - 'use workflow_buttons_trash_publishing transition publish'
+  - 'use workflow_buttons_trash_publishing transition restore_draft'
+  - 'use workflow_buttons_trash_publishing transition restore_publish'
+  - 'use workflow_buttons_trash_publishing transition save_draft_leave_current_published'
+  - 'use workflow_buttons_trash_publishing transition save_unpublished'
+  - 'use workflow_buttons_trash_publishing transition unpublish'
+  - 'use workflow_buttons_trash_publishing transition update'
   - 'view achievement revisions'
   - 'view all media revisions'
   - 'view article revisions'
   - 'view document revisions'
+  - 'view latest version'
   - 'view own unpublished content'
   - 'view story revisions'
   - 'view the administration theme'

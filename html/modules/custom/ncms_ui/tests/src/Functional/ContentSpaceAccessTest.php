@@ -70,7 +70,7 @@ class ContentSpaceAccessTest extends BrowserTestBase {
 
     // Create a user with permission to manage content from content space 1.
     $this->drupalLogin($this->drupalCreateUser([
-      'administer nodes',
+      'access content overview',
       'access administration pages',
       'view the administration theme',
     ], NULL, NULL, [
@@ -79,7 +79,7 @@ class ContentSpaceAccessTest extends BrowserTestBase {
       ],
     ]));
 
-    $this->drupalGet('/admin/articles');
+    $this->drupalGet('/admin/content');
     $this->assertSession()->pageTextContains($node_1_1->label());
     $this->assertSession()->pageTextContains($node_2_1->label());
     $this->assertSession()->pageTextContains($node_3_1->label());
@@ -89,7 +89,7 @@ class ContentSpaceAccessTest extends BrowserTestBase {
 
     // Create a user with permission to manage content from content space 2.
     $this->drupalLogin($this->drupalCreateUser([
-      'administer nodes',
+      'access content overview',
       'access administration pages',
       'view the administration theme',
     ], NULL, NULL, [
@@ -98,7 +98,7 @@ class ContentSpaceAccessTest extends BrowserTestBase {
       ],
     ]));
 
-    $this->drupalGet('/admin/articles');
+    $this->drupalGet('/admin/content');
     $this->assertSession()->pageTextNotContains($node_1_1->label());
     $this->assertSession()->pageTextNotContains($node_2_1->label());
     $this->assertSession()->pageTextNotContains($node_3_1->label());
@@ -119,9 +119,6 @@ class ContentSpaceAccessTest extends BrowserTestBase {
 
     // Create a user with permission to manage content from content space 1.
     $this->drupalLogin($this->drupalCreateUser([
-      'access content overview',
-      'access administration pages',
-      'view the administration theme',
       'create article content',
       'edit own article content',
       'view article revisions',
@@ -146,6 +143,89 @@ class ContentSpaceAccessTest extends BrowserTestBase {
     // Check that the version history of non-editable nodes can't be accessed.
     $this->drupalGet($node_1_2->toUrl('version-history'));
     $this->assertSession()->pageTextContains('Access denied');
+  }
+
+  /**
+   * Tests content space switching.
+   *
+   * It would be preferrable to test the actual frontend functionality using
+   * the content space selector from ContentSpaceSelectForm. Unfortunately,
+   * that form is added to the Gin sidebar in ncms_ui.module and it's not easy
+   * to mock that here. So the less preferrable way to test this is to manually
+   * do what ContentSpaceSelectForm::buildForm does when the selector is used:
+   * Set the new content space and clear the render cache.
+   */
+  public function testContentSpaceSwitching() {
+    $content_space_1 = $this->createContentSpace();
+    $node_1_1 = $this->createArticleInContentSpace('Article 1 for Content space 1', $content_space_1->id());
+    $node_2_1 = $this->createArticleInContentSpace('Article 2 for Content space 1', $content_space_1->id());
+    $node_3_1 = $this->createArticleInContentSpace('Article 3 for Content space 1', $content_space_1->id());
+
+    $content_space_2 = $this->createContentSpace();
+    $node_1_2 = $this->createArticleInContentSpace('Article 1 for Content space 2', $content_space_2->id());
+    $node_2_2 = $this->createArticleInContentSpace('Article 2 for Content space 2', $content_space_2->id());
+    $node_3_2 = $this->createArticleInContentSpace('Article 3 for Content space 2', $content_space_2->id());
+
+    // Create a user with permission to manage content from content space 1.
+    $this->drupalLogin($this->drupalCreateUser([
+      'access content overview',
+      'access administration pages',
+      'view the administration theme',
+      'create article content',
+      'edit own article content',
+      'replicate entities',
+    ], NULL, NULL, [
+      'field_content_spaces' => [
+        'target_id' => $content_space_1->id(),
+      ],
+    ]));
+
+    // Confirm we see what we should.
+    $this->drupalGet('/admin/content');
+    $this->assertSession()->pageTextContains($node_1_1->label());
+    $this->assertSession()->pageTextContains($node_2_1->label());
+    $this->assertSession()->pageTextContains($node_3_1->label());
+    $this->assertSession()->pageTextNotContains($node_1_2->label());
+    $this->assertSession()->pageTextNotContains($node_2_2->label());
+    $this->assertSession()->pageTextNotContains($node_3_2->label());
+    // Edit links.
+    $this->assertSession()->elementExists('css', '.dropbutton a[href="/node/' . $node_1_1->id() . '/edit?destination=/admin/content"]');
+    $this->assertSession()->elementExists('css', '.dropbutton a[href="/node/' . $node_2_1->id() . '/edit?destination=/admin/content"]');
+    $this->assertSession()->elementExists('css', '.dropbutton a[href="/node/' . $node_3_1->id() . '/edit?destination=/admin/content"]');
+    // Replicate links.
+    $this->assertSession()->elementExists('css', '.dropbutton a[href="/node/' . $node_1_1->id() . '/replicate?destination"]');
+    $this->assertSession()->elementExists('css', '.dropbutton a[href="/node/' . $node_2_1->id() . '/replicate?destination"]');
+    $this->assertSession()->elementExists('css', '.dropbutton a[href="/node/' . $node_3_1->id() . '/replicate?destination"]');
+    // Add content link.
+    $this->assertSession()->elementExists('css', 'a[href="/node/add/article"]');
+
+    /** @var \Drupal\ncms_ui\ContentManager $content_manager */
+    $content_manager = $this->container->get('ncms_ui.content.manager');
+    $content_manager->setCurrentContentSpace($content_space_2->id());
+
+    /** @var \Drupal\Core\Path\CurrentPathStack $render_cache */
+    $render_cache = $this->container->get('cache.render');
+    $render_cache->invalidateAll();
+
+    // Confirm we see what we should.
+    $this->drupalGet('/admin/content');
+    $this->assertSession()->pageTextNotContains($node_1_1->label());
+    $this->assertSession()->pageTextNotContains($node_2_1->label());
+    $this->assertSession()->pageTextNotContains($node_3_1->label());
+    $this->assertSession()->pageTextContains($node_1_2->label());
+    $this->assertSession()->pageTextContains($node_2_2->label());
+    $this->assertSession()->pageTextContains($node_3_2->label());
+    // Edit links.
+    $this->assertSession()->elementNotExists('css', '.dropbutton a[href="/node/' . $node_1_2->id() . '/edit?destination=/admin/content"]');
+    $this->assertSession()->elementNotExists('css', '.dropbutton a[href="/node/' . $node_2_2->id() . '/edit?destination=/admin/content"]');
+    $this->assertSession()->elementNotExists('css', '.dropbutton a[href="/node/' . $node_3_2->id() . '/edit?destination=/admin/content"]');
+    // Replicate links.
+    $this->assertSession()->elementExists('css', '.dropbutton a[href="/node/' . $node_1_2->id() . '/replicate?destination"]');
+    $this->assertSession()->elementExists('css', '.dropbutton a[href="/node/' . $node_2_2->id() . '/replicate?destination"]');
+    $this->assertSession()->elementExists('css', '.dropbutton a[href="/node/' . $node_3_2->id() . '/replicate?destination"]');
+    // Add content link.
+    $this->assertSession()->elementNotExists('css', 'a[href="/node/add/article"]');
+
   }
 
   /**
@@ -208,6 +288,11 @@ class ContentSpaceAccessTest extends BrowserTestBase {
       ],
     ];
     $this->createEntityReferenceField('user', 'user', 'field_content_spaces', 'Content spaces', 'taxonomy_term', 'default', $handler_settings, FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
+
+    // Make content be replicatable.
+    $this->drupalLogin($this->drupalCreateUser(['administer site configuration']));
+    $this->drupalGet('/admin/config/content/replicate');
+    $this->submitForm(['entity_types[node]' => 'node'], 'Save configuration');
 
     node_access_rebuild(TRUE);
   }

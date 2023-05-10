@@ -9,6 +9,9 @@
         "drupal/csp": {
             "Simplify log format": "./patches/csp-log-format.patch"
         },
+        "drupal/diff": {
+            "Issue #3183380: Add 'compare revisions' button on top for long form.": "https://www.drupal.org/files/issues/2023-05-10/3183380-add-compare-revisions-9.patch"
+        },
         "drupal/entity_browser": {
             "Issue #3056057: Position the main form actions to the bottom of IFrame": "https://www.drupal.org/files/issues/2019-05-23/position-main-form-actins-on-bottom-3056057-10.patch"
         },

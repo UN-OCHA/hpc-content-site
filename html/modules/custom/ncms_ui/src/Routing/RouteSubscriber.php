@@ -30,6 +30,12 @@ class RouteSubscriber extends RouteSubscriberBase {
     if ($route = $collection->get('entity.node.version_history')) {
       $route->setRequirement('_entity_access', 'node.update');
     }
+    if ($route = $collection->get('node.add')) {
+      $route->setRequirement('_custom_access', '\Drupal\ncms_ui\Controller\ContentController::nodeCreateAccess');
+    }
+    if ($route = $collection->get('node.add_page')) {
+      $route->setRequirement('_custom_access', '\Drupal\ncms_ui\Controller\ContentController::nodeCreateAccess');
+    }
   }
 
 }

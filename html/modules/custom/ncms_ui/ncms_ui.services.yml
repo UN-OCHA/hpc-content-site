@@ -2,9 +2,12 @@ services:
   ncms_ui.content.manager:
     class: Drupal\ncms_ui\ContentManager
     arguments: ['@entity_type.manager', '@current_user', '@tempstore.private', '@plugin.manager.views.join']
-  ncms_ui.node_revisions:
-    class: Drupal\ncms_ui\Revisions\NodeRevisions
-    arguments: ['@renderer']
+  ncms_ui.content_base_form_alter:
+    class: Drupal\ncms_ui\Form\ContentBaseFormAlter
+    arguments: ['@entity_type.manager', '@ncms_ui.content.manager', '@messenger']
+  ncms_ui.revision_overview_form_alter:
+    class: Drupal\ncms_ui\Form\RevisionOverviewFormAlter
+    arguments: ['@entity_type.manager', '@current_route_match', '@renderer', '@date.formatter', '@pager.manager']
   ncms_ui.replicate_form_alter:
     class: Drupal\ncms_ui\Form\ReplicateFormAlter
     arguments: ['@entity_type.manager', '@ncms_ui.content.manager']
@@ -26,7 +29,6 @@ services:
     class: Drupal\ncms_ui\Autocomplete\AutocompleteRouteSubscriber
     tags:
       - { name: event_subscriber }
-
   ncms_ui.autocomplete_matcher:
     class: Drupal\ncms_ui\Autocomplete\EntityAutocompleteMatcher
     arguments: ['@plugin.manager.entity_reference_selection', '@ncms_ui.content.manager', '@date.formatter', '@entity_type.manager', '@entity.repository']

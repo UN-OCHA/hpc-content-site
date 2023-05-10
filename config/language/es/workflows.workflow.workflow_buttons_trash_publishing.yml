@@ -1,0 +1,11 @@
+type_settings:
+  states:
+    draft:
+      label: Borrador
+    published:
+      label: Publicado
+  transitions:
+    publish:
+      label: Publicar
+    restore_draft:
+      label: 'Restaurar a Borrador'

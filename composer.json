@@ -85,6 +85,7 @@
         "drupal/stage_file_proxy": "^2",
         "drupal/upgrade_status": "^4.0",
         "drupal/user_expire": "^1.0",
+        "drupal/workflow_buttons": "1.x-dev",
         "drush/drush": "^11",
         "masonry/masonry": "^3.3",
         "mglaman/composer-drupal-lenient": "^1.0",
@@ -197,7 +198,12 @@
             }
         },
         "drupal-lenient": {
-            "allowed-list": ["drupal/bigint", "drupal/bigint", "drupal/maintenance200"]
+            "allowed-list": [
+              "drupal/bigint",
+              "drupal/bigint",
+              "drupal/maintenance200",
+              "drupal/workflow_buttons"
+            ]
         }
     }
 }

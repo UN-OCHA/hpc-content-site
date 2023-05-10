@@ -6,12 +6,20 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\ncms_ui\Entity\ContentBase;
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function ncms_publisher_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state) {
-  $form['status']['widget']['value']['#title'] = t('Publicly available over API');
+function ncms_publisher_form_node_form_alter(&$form, FormStateInterface $form_state) {
+  /** @var \Drupal\node\NodeForm $form_object */
+  $form_object = $form_state->getFormObject();
+  $entity = $form_object->getEntity();
+  if (!$entity instanceof ContentBase) {
+    return;
+  }
+
   foreach (array_keys($form['actions']) as $action) {
     if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
       $form['actions'][$action]['#submit'][] = 'ncms_publisher_node_article_edit_form_submit';
@@ -33,5 +41,9 @@ function ncms_publisher_node_article_edit_form_submit($form, FormStateInterface 
     $form_state->setResponse($response);
     // Cleanup messages.
     \Drupal::messenger()->deleteAll();
+  }
+  else {
+    // Redirect to the front page.
+    $form_state->setRedirectUrl(Url::fromUserInput('/'));
   }
 }

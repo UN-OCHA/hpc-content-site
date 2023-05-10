@@ -6,13 +6,15 @@
  */
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\ncms_ui\ContentManager;
 use Drupal\ncms_ui\Controller\ViewController;
 use Drupal\ncms_ui\Entity\Article;
-use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
+use Drupal\ncms_ui\Entity\ContentBase;
 use Drupal\ncms_ui\Entity\Document;
 use Drupal\ncms_ui\Form\ContentSpaceSelectForm;
 use Drupal\node\NodeInterface;
@@ -28,6 +30,16 @@ function ncms_ui_entity_bundle_info_alter(array &$bundles) {
   $bundles['node']['article']['label'] = t('Article');
   $bundles['node']['document']['class'] = Document::class;
   $bundles['node']['document']['label'] = t('Document');
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function ncms_ui_entity_type_alter(array &$entity_types) {
+  /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
+  // Set the controller class for nodes to an alternate implementation of the
+  // Drupal\Core\Entity\EntityStorageInterface interface.
+  $entity_types['node']->setStorageClass('Drupal\ncms_ui\Entity\ContentStorage');
 }
 
 /**
@@ -58,6 +70,9 @@ function ncms_ui_local_tasks_alter(&$local_tasks) {
  */
 function ncms_ui_menu_local_actions_alter(&$local_actions) {
   $local_actions['entity.taxonomy_term.add_form']['class'] = 'Drupal\ncms_ui\LocalAction\LocalActionTaxonomy';
+  $local_actions['node.add_page']['title'] = t('Add article');
+  $local_actions['node.add_page']['route_name'] = 'node.add';
+  $local_actions['node.add_page']['route_parameters']['node_type'] = 'article';
 }
 
 /**
@@ -103,6 +118,18 @@ function ncms_ui_page_attachments_alter(array &$attachments) {
   $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
   if ($is_gin) {
     $attachments['#attached']['library'][] = 'ncms_ui/ncms_gin';
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view_alter().
+ */
+function ncms_ui_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
+  if ($build['#view_mode'] === 'full' && $display->getComponent('workflow_buttons')) {
+    unset($build['workflow_buttons']);
+  }
+  if ($build['#view_mode'] === 'full' && $display->getComponent('content_moderation_control')) {
+    unset($build['content_moderation_control']);
   }
 }
 
@@ -170,18 +197,6 @@ function ncms_ui_preprocess_layout_paragraphs_builder(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_table().
- */
-function ncms_ui_preprocess_table(&$variables) {
-  $id = $variables['attributes']['id'] ?? NULL;
-  if ($id == 'edit-node-revisions-table') {
-    /** @var \Drupal\ncms_ui\Revisions\NodeRevisions $node_revisions */
-    $node_revisions = \Drupal::service('ncms_ui.node_revisions');
-    $node_revisions->alterRevisionsOverviewTable($variables);
-  }
-}
-
-/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ncms_ui_form_node_preview_form_select_alter(&$form, FormStateInterface $form_state) {
@@ -205,13 +220,6 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   /** @var \Drupal\node\NodeInterface $node */
   $node = $form_state->getFormObject()->getEntity();
 
-  foreach (array_keys($form['actions']) as $action) {
-    // Add our own submit handlers to redirect to the front page after saving a
-    // node, which is set to be /admin/content.
-    if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
-      $form['actions'][$action]['#submit'][] = 'ncms_ui_node_form_submit';
-    }
-  }
   // Change the behavior of the preview button to show the node preview in a
   // modal using an iframe.
   $form['actions']['preview']['#ajax'] = [
@@ -231,27 +239,10 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
     $form['#attached']['library'][] = 'ncms_ui/article_edit_form';
   }
 
-  /** @var \Drupal\ncms_ui\ContentManager $content_manager */
-  $content_manager = \Drupal::service('ncms_ui.content.manager');
-
-  // Check if this is a new content space aware node and if the content spaces
-  // should be restricted for the current user.
-  if ($node->isNew() && $node instanceof ContentSpaceAwareInterface && $content_manager->shouldRestrictContentSpaces()) {
-    $content_space_ids = $content_manager->getValidContentSpaceIdsForCurrentUser();
-    if (empty($content_space_ids)) {
-      // This user needs a content space first and is currently not allowed to
-      // create new content.
-      \Drupal::messenger()->addWarning(t('You are currently not allowed to create content. Please contact our support.'));
-      $form['#disabled'] = TRUE;
-    }
-    else {
-      $content_space_widget = &$form['field_content_space']['widget'];
-      $content_space_widget['#options'] = array_intersect_key($content_space_widget['#options'], $content_space_ids + ['_none' => TRUE]);
-      if (count($content_space_ids) == 1) {
-        $content_space_widget['#default_value'] = $content_space_ids;
-        $content_space_widget['#disabled'] = TRUE;
-      }
-    }
+  if ($node instanceof ContentBase) {
+    /** @var \Drupal\ncms_ui\Form\ContentBaseFormAlter $content_base_form_alter */
+    $content_base_form_alter = \Drupal::service('ncms_ui.content_base_form_alter');
+    $content_base_form_alter->alterForm($form, $form_state);
   }
 
   // Add a cancel link. This either redirects to the publisher site if this
@@ -300,6 +291,15 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ncms_ui_form_revision_overview_form_alter(&$form, FormStateInterface $form_state) {
+  /** @var \Drupal\ncms_ui\Form\RevisionOverviewFormAlter $replicate_form_alter */
+  $replicate_form_alter = \Drupal::service('ncms_ui.revision_overview_form_alter');
+  $replicate_form_alter->alterForm($form, $form_state);
+}
+
+/**
  * Implements hook_form_alter().
  */
 function ncms_ui_form_alter(&$form, FormStateInterface $form_state, $form_id) {
@@ -307,20 +307,6 @@ function ncms_ui_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     /** @var \Drupal\ncms_ui\Form\ReplicateFormAlter $replicate_form_alter */
     $replicate_form_alter = \Drupal::service('ncms_ui.replicate_form_alter');
     $replicate_form_alter->alterForm($form, $form_state);
-  }
-}
-
-/**
- * Custom submit function for the node article edit form.
- *
- * Checks if the edit request came from a trusted publisher, if not the user
- * will be redirected to the front page.
- */
-function ncms_ui_node_form_submit($form, FormStateInterface $form_state) {
-  /** @var \Drupal\ncms_publisher\PublisherManager $publisher_manager */
-  $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
-  if (!$publisher_manager->getCurrentPublisher()) {
-    $form_state->setRedirectUrl(Url::fromUserInput('/'));
   }
 }
 
@@ -376,6 +362,24 @@ function ncms_ui_views_data_alter(&$data) {
       'click sortable' => FALSE,
     ],
   ];
+  $data['node']['latest_version'] = [
+    'title' => t('Latest version'),
+    'help' => t('Shows the latest version for a node.'),
+    'field' => [
+      'id' => 'latest_version_field',
+      'no group by' => TRUE,
+      'click sortable' => FALSE,
+    ],
+  ];
+  $data['node']['content_status'] = [
+    'title' => t('Content status'),
+    'help' => t('Shows the content status.'),
+    'field' => [
+      'id' => 'content_status_field',
+      'no group by' => TRUE,
+      'click sortable' => FALSE,
+    ],
+  ];
 }
 
 /**
@@ -415,7 +419,7 @@ function ncms_ui_node_access_records(NodeInterface $node) {
     'gid' => $content_space_id,
     'grant_view' => 1,
     'grant_update' => 1,
-    'grant_delete' => 1,
+    'grant_delete' => 0,
     'priority' => 0,
   ];
 

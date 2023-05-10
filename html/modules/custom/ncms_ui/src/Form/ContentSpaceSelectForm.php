@@ -7,7 +7,9 @@ use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Path\CurrentPathStack;
 use Drupal\ncms_ui\ContentManager;
+use Drupal\ncms_ui\Entity\ContentBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -23,6 +25,13 @@ class ContentSpaceSelectForm extends FormBase {
   protected $contentManager;
 
   /**
+   * The current path service.
+   *
+   * @var \Drupal\Core\Path\CurrentPathStack
+   */
+  protected $currentPath;
+
+  /**
    * The ncms content manager service.
    *
    * @var \Drupal\Core\Cache\CacheBackendInterface
@@ -34,11 +43,14 @@ class ContentSpaceSelectForm extends FormBase {
    *
    * @param \Drupal\ncms_ui\ContentManager $content_manager
    *   The ncms content manager service.
+   * @param \Drupal\Core\Path\CurrentPathStack $current_path
+   *   The current path service.
    * @param \Drupal\Core\Cache\CacheBackendInterface $render_cache
    *   The render cache service.
    */
-  public function __construct(ContentManager $content_manager, CacheBackendInterface $render_cache) {
+  public function __construct(ContentManager $content_manager, CurrentPathStack $current_path, CacheBackendInterface $render_cache) {
     $this->contentManager = $content_manager;
+    $this->currentPath = $current_path;
     $this->renderCache = $render_cache;
   }
 
@@ -48,6 +60,7 @@ class ContentSpaceSelectForm extends FormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('ncms_ui.content.manager'),
+      $container->get('path.current'),
       $container->get('cache.render'),
     );
   }
@@ -81,6 +94,11 @@ class ContentSpaceSelectForm extends FormBase {
       $this->contentManager->setCurrentContentSpace($form_state->getValue('content_space'));
       $this->renderCache->invalidateAll();
     }
+    $input = $form_state->getUserInput();
+    $form['current_path'] = [
+      '#type' => 'hidden',
+      '#value' => $input['current_path'] ?? $this->currentPath->getPath(),
+    ];
 
     // Build the content space drop down.
     $form['content_space'] = [

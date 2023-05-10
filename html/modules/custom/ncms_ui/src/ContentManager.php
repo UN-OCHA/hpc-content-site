@@ -84,6 +84,21 @@ class ContentManager {
   }
 
   /**
+   * Check if the current content space matches the account content spaces.
+   *
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The account to check.
+   *
+   * @return bool
+   *   TRUE if the current content space is valid for the given account, FALSE
+   *   otherwise.
+   */
+  public function userIsInValidContentSpace(AccountInterface $account = NULL) {
+    $user = $account !== NULL ? $this->entityTypeManager->getStorage('user')->load($account->id()) : $this->currentUser;
+    return in_array($this->getCurrentContentSpace(), $this->getValidContentSpaceIdsForUser($user));
+  }
+
+  /**
    * Get the valid content spaces for the current user.
    *
    * @return int[]

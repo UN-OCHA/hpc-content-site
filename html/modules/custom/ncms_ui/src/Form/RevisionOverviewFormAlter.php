@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_ui\Form;
 
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Datetime\DateFormatter;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -142,6 +143,13 @@ class RevisionOverviewFormAlter {
         'node_revision' => $revision->getRevisionId(),
       ]));
 
+      $row_classes = [Html::getClass($revision->getVersionStatus())];
+      if (empty($row['#attributes']['class'])) {
+        $row['#attributes']['class'] = $row_classes;
+      }
+      else {
+        $row['#attributes']['class'] += $row_classes;
+      }
       $row = [
         'version' => [
           '#type' => 'markup',
@@ -209,6 +217,8 @@ class RevisionOverviewFormAlter {
         ]);
       }
     }
+
+    $form['#attached']['library'][] = 'ncms_ui/revisions';
   }
 
 }

@@ -1,3 +1,9 @@
+.page-node-type-article.gin--edit-form span.submit-trash {
+  display: none;
+}
+.page-node-type-article.gin--edit-form .submit-trash.button {
+  position: inherit;
+}
 form.node-article-form fieldset[data-drupal-selector="edit-field-hero-image"],
 form.node-article-edit-form fieldset[data-drupal-selector="edit-field-hero-image"] {
   padding: 0;

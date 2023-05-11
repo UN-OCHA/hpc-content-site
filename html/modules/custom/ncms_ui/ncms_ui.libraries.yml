@@ -25,6 +25,10 @@ document_edit_form:
   css:
     component:
       css/document_edit_form.css: {}
+revisions:
+  css:
+    component:
+      css/revisions.css: {}
 ncms_gin:
   css:
     component:

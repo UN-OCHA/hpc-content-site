@@ -24,7 +24,7 @@ class ViewController extends NodeViewController {
    */
   public function previewTitle(NodeInterface $node) {
     return $this->t('Preview: @title', [
-      '@title' => $this->title($node),
+      '@title' => $node->label(),
     ]);
   }
 

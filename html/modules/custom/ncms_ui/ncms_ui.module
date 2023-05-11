@@ -63,6 +63,10 @@ function ncms_ui_local_tasks_alter(&$local_tasks) {
   $local_tasks['system.admin_content']['title'] = t('Articles');
   // Rename the revisions tab.
   $local_tasks['entity.node.version_history']['title'] = t('Versions');
+  // Remove the content moderations latest tab.
+  if (array_key_exists('content_moderation.workflows:node.latest_version_tab', $local_tasks)) {
+    unset($local_tasks['content_moderation.workflows:node.latest_version_tab']);
+  }
 }
 
 /**
@@ -321,8 +325,22 @@ function ncms_ui_link_alter(&$variables) {
     'entity.node.revision',
   ];
   if ($url->isRouted() && in_array($url->getRouteName(), $routes)) {
+    $route_params = $url->getRouteParameters();
+    /** @var \Drupal\node\NodeStorageInterface $node_storage */
+    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
     /** @var \Drupal\node\NodeInterface $node */
-    $node = \Drupal::entityTypeManager()->getStorage('node')->load($url->getRouteParameters()['node']);
+    $node = $node_storage->load($route_params['node']);
+    $node_revision = !empty($route_params['node_revision']) ? $node_storage->loadRevision($route_params['node_revision']) : NULL;
+
+    $title = t('Preview: @title', ['@title' => $variables['text']]);
+    if ($node_revision && $node_revision instanceof ContentBase) {
+      $title = t('Preview: #@version (@status) - @date', [
+        '@version' => $node_revision->getVersionId(),
+        '@status' => $node_revision->getVersionStatus(),
+        '@date' => \Drupal::service('date.formatter')->format($node_revision->getRevisionCreationTime(), 'short'),
+      ]);
+    }
+
     $variables['options']['attributes']['title'] = t('Show a preview of this @bundle', [
       '@bundle' => strtolower(\Drupal::entityTypeManager()->getStorage('node_type')->load($node->bundle())->label()),
     ]);
@@ -330,7 +348,7 @@ function ncms_ui_link_alter(&$variables) {
     $variables['options']['attributes']['data-dialog-type'] = 'modal';
     $variables['options']['attributes']['data-dialog-options'] = Json::encode([
       'width' => '80%',
-      'title' => t('Preview: @title', ['@title' => $variables['text']]),
+      'title' => $title,
       'dialogClass' => 'node-preview',
     ]);
     if ($url->getRouteName() == 'entity.node.canonical') {

@@ -106,9 +106,8 @@ class ContentSpaceSelectForm extends FormBase {
    *   The ajax response.
    */
   public function ajaxCallback() {
-    $path = $this->getRouteMatch()->getRouteObject()->getPath();
     $response = new AjaxResponse();
-    $response->addCommand(new RedirectCommand($path));
+    $response->addCommand(new RedirectCommand('/'));
     return $response;
   }
 

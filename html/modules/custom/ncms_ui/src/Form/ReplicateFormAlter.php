@@ -4,7 +4,7 @@ namespace Drupal\ncms_ui\Form;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\ncms_ui\ContentManager;
+use Drupal\ncms_ui\ContentSpaceManager;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 
 /**
@@ -22,21 +22,21 @@ class ReplicateFormAlter {
   /**
    * The content manager.
    *
-   * @var \Drupal\ncms_ui\ContentManager
+   * @var \Drupal\ncms_ui\ContentSpaceManager
    */
-  protected $contentManager;
+  protected $contentSpaceManager;
 
   /**
    * Constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param \Drupal\ncms_ui\ContentManager $content_manager
+   * @param \Drupal\ncms_ui\ContentSpaceManager $content_manager
    *   The content manager.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, ContentManager $content_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, ContentSpaceManager $content_manager) {
     $this->entityTypeManager = $entity_type_manager;
-    $this->contentManager = $content_manager;
+    $this->contentSpaceManager = $content_manager;
   }
 
   /**
@@ -58,8 +58,8 @@ class ReplicateFormAlter {
     $items->filterEmptyItems();
     $form['field_content_space'] = $widget->form($items, $form, $form_state);
 
-    if ($this->contentManager->shouldRestrictContentSpaces()) {
-      $content_space_ids = $this->contentManager->getValidContentSpaceIdsForCurrentUser();
+    if ($this->contentSpaceManager->shouldRestrictContentSpaces()) {
+      $content_space_ids = $this->contentSpaceManager->getValidContentSpaceIdsForCurrentUser();
       $content_space_widget = &$form['field_content_space']['widget'];
       $content_space_widget['#options'] = array_intersect_key($content_space_widget['#options'], $content_space_ids + ['_none' => TRUE]);
     }

@@ -4,7 +4,11 @@ type_settings:
       label: Brouillon
     published:
       label: Publié
+    trash:
+      label: Archived
   transitions:
+    delete:
+      label: Archive
     publish:
       label: Publier
     restore_draft:

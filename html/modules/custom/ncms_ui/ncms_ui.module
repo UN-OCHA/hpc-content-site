@@ -11,10 +11,11 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
-use Drupal\ncms_ui\ContentManager;
+use Drupal\ncms_ui\ContentSpaceManager;
 use Drupal\ncms_ui\Controller\ViewController;
 use Drupal\ncms_ui\Entity\Article;
 use Drupal\ncms_ui\Entity\ContentBase;
+use Drupal\ncms_ui\Entity\ContentVersionInterface;
 use Drupal\ncms_ui\Entity\Document;
 use Drupal\ncms_ui\Form\ContentSpaceSelectForm;
 use Drupal\node\NodeInterface;
@@ -54,6 +55,23 @@ function ncms_ui_entity_base_field_info_alter(&$fields, $entity_type) {
 }
 
 /**
+ * Implements hook_entity_operation().
+ */
+function ncms_ui_entity_operation(EntityInterface $entity) {
+  $operations = [];
+  if ($entity instanceof ContentVersionInterface) {
+    $operations['versions'] = [
+      'title' => t('Versions'),
+      'url' => Url::fromRoute('entity.node.version_history', [
+        'node' => $entity->id(),
+      ]),
+      'weight' => 50,
+    ];
+  }
+  return $operations;
+}
+
+/**
  * Implements hook_local_tasks_alter().
  */
 function ncms_ui_local_tasks_alter(&$local_tasks) {
@@ -74,9 +92,7 @@ function ncms_ui_local_tasks_alter(&$local_tasks) {
  */
 function ncms_ui_menu_local_actions_alter(&$local_actions) {
   $local_actions['entity.taxonomy_term.add_form']['class'] = 'Drupal\ncms_ui\LocalAction\LocalActionTaxonomy';
-  $local_actions['node.add_page']['title'] = t('Add article');
-  $local_actions['node.add_page']['route_name'] = 'node.add';
-  $local_actions['node.add_page']['route_parameters']['node_type'] = 'article';
+  $local_actions['node.add_page']['class'] = 'Drupal\ncms_ui\LocalAction\LocalActionContent';
 }
 
 /**
@@ -406,7 +422,7 @@ function ncms_ui_views_data_alter(&$data) {
  * Implements hook_views_query_alter().
  */
 function ncms_ui_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
-  /** @var \Drupal\ncms_ui\ContentManager $content_manager */
+  /** @var \Drupal\ncms_ui\ContentSpaceManager $content_manager */
   $content_manager = \Drupal::service('ncms_ui.content.manager');
   $content_manager->alterViewsQuery($view, $query);
 }
@@ -421,7 +437,7 @@ function ncms_ui_node_access_records(NodeInterface $node) {
 
   $grants = [];
   $grants[] = [
-    'realm' => ContentManager::NODE_ACCESS_REALM,
+    'realm' => ContentSpaceManager::NODE_ACCESS_REALM,
     'gid' => 0,
     'grant_view' => $node->isPublished(),
     'grant_update' => 0,
@@ -435,7 +451,7 @@ function ncms_ui_node_access_records(NodeInterface $node) {
     return $grants;
   }
   $grants[] = [
-    'realm' => ContentManager::NODE_ACCESS_REALM,
+    'realm' => ContentSpaceManager::NODE_ACCESS_REALM,
     'gid' => $content_space_id,
     'grant_view' => 1,
     'grant_update' => 1,
@@ -451,7 +467,7 @@ function ncms_ui_node_access_records(NodeInterface $node) {
  */
 function ncms_ui_node_grants(AccountInterface $account, $op) {
   $grants = [];
-  $grants[ContentManager::NODE_ACCESS_REALM] = [0];
+  $grants[ContentSpaceManager::NODE_ACCESS_REALM] = [0];
 
   $user = User::load($account->id());
   if (!$user->hasField('field_content_spaces')) {
@@ -462,14 +478,14 @@ function ncms_ui_node_grants(AccountInterface $account, $op) {
     'vid' => 'content_space',
   ]);
   if ($user->hasPermission('administer nodes') && !empty($content_spaces)) {
-    $grants[ContentManager::NODE_ACCESS_REALM] = array_merge($grants[ContentManager::NODE_ACCESS_REALM], array_values(array_map(function ($term) {
+    $grants[ContentSpaceManager::NODE_ACCESS_REALM] = array_merge($grants[ContentSpaceManager::NODE_ACCESS_REALM], array_values(array_map(function ($term) {
       /** @var \Drupal\taxonomy\Entity\Term $term */
       return (int) $term->id();
     }, $content_spaces)));
   }
   elseif (!$user->field_content_spaces->isEmpty()) {
     foreach ($user->field_content_spaces->referencedEntities() as $content_space) {
-      $grants[ContentManager::NODE_ACCESS_REALM][] = (int) $content_space->tid->value;
+      $grants[ContentSpaceManager::NODE_ACCESS_REALM][] = (int) $content_space->tid->value;
     }
   }
   return $grants;

@@ -16,7 +16,7 @@ use Drupal\views\ViewExecutable;
  *
  * This allows to load publishers from the current request.
  */
-class ContentManager {
+class ContentSpaceManager {
 
   use StringTranslationTrait;
 
@@ -54,7 +54,7 @@ class ContentManager {
   protected $viewsJoin;
 
   /**
-   * ContentManager constructor.
+   * ContentSpaceManager constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager service.

@@ -8,8 +8,7 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Path\CurrentPathStack;
-use Drupal\ncms_ui\ContentManager;
-use Drupal\ncms_ui\Entity\ContentBase;
+use Drupal\ncms_ui\ContentSpaceManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,9 +19,9 @@ class ContentSpaceSelectForm extends FormBase {
   /**
    * The ncms content manager service.
    *
-   * @var \Drupal\ncms_ui\ContentManager
+   * @var \Drupal\ncms_ui\ContentSpaceManager
    */
-  protected $contentManager;
+  protected $contentSpaceManager;
 
   /**
    * The current path service.
@@ -41,15 +40,15 @@ class ContentSpaceSelectForm extends FormBase {
   /**
    * Class constructor.
    *
-   * @param \Drupal\ncms_ui\ContentManager $content_manager
+   * @param \Drupal\ncms_ui\ContentSpaceManager $content_manager
    *   The ncms content manager service.
    * @param \Drupal\Core\Path\CurrentPathStack $current_path
    *   The current path service.
    * @param \Drupal\Core\Cache\CacheBackendInterface $render_cache
    *   The render cache service.
    */
-  public function __construct(ContentManager $content_manager, CurrentPathStack $current_path, CacheBackendInterface $render_cache) {
-    $this->contentManager = $content_manager;
+  public function __construct(ContentSpaceManager $content_manager, CurrentPathStack $current_path, CacheBackendInterface $render_cache) {
+    $this->contentSpaceManager = $content_manager;
     $this->currentPath = $current_path;
     $this->renderCache = $render_cache;
   }
@@ -76,8 +75,8 @@ class ContentSpaceSelectForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $content_spaces = $this->contentManager->getContentSpaces();
-    $content_space_ids_user = $this->contentManager->getValidContentSpaceIdsForCurrentUser();
+    $content_spaces = $this->contentSpaceManager->getContentSpaces();
+    $content_space_ids_user = $this->contentSpaceManager->getValidContentSpaceIdsForCurrentUser();
 
     $options_user = [];
     $options_global = [];
@@ -91,7 +90,7 @@ class ContentSpaceSelectForm extends FormBase {
     }
     if ($form_state->hasValue('content_space')) {
       // If submitted, update the currently selected content space.
-      $this->contentManager->setCurrentContentSpace($form_state->getValue('content_space'));
+      $this->contentSpaceManager->setCurrentContentSpace($form_state->getValue('content_space'));
       $this->renderCache->invalidateAll();
     }
     $input = $form_state->getUserInput();
@@ -108,7 +107,7 @@ class ContentSpaceSelectForm extends FormBase {
         (string) $this->t('My content spaces') => $options_user,
         (string) $this->t('Other content spaces') => $options_global,
       ],
-      '#default_value' => $this->contentManager->getCurrentContentSpace(),
+      '#default_value' => $this->contentSpaceManager->getCurrentContentSpace(),
       '#ajax' => [
         'callback' => [$this, 'ajaxCallback'],
         'wrapper' => 'abc',

@@ -6,7 +6,8 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\ncms_ui\ContentManager;
+use Drupal\ncms_ui\ContentSpaceManager;
+use Drupal\ncms_ui\Entity\ContentBase;
 
 /**
  * Form alter class for node forms of contentbase nodes.
@@ -25,9 +26,9 @@ class ContentBaseFormAlter {
   /**
    * The content manager.
    *
-   * @var \Drupal\ncms_ui\ContentManager
+   * @var \Drupal\ncms_ui\ContentSpaceManager
    */
-  protected $contentManager;
+  protected $contentSpaceManager;
 
   /**
    * Messenger service.
@@ -41,14 +42,14 @@ class ContentBaseFormAlter {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param \Drupal\ncms_ui\ContentManager $content_manager
+   * @param \Drupal\ncms_ui\ContentSpaceManager $content_manager
    *   The content manager.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   Messenger service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, ContentManager $content_manager, MessengerInterface $messenger) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, ContentSpaceManager $content_manager, MessengerInterface $messenger) {
     $this->entityTypeManager = $entity_type_manager;
-    $this->contentManager = $content_manager;
+    $this->contentSpaceManager = $content_manager;
     $this->messenger = $messenger;
   }
 
@@ -62,8 +63,8 @@ class ContentBaseFormAlter {
 
     // Check if this is a new node.
     if ($entity->isNew()) {
-      $content_space_ids = $this->contentManager->getValidContentSpaceIdsForCurrentUser();
-      $current_content_space = $this->contentManager->getCurrentContentSpace();
+      $content_space_ids = $this->contentSpaceManager->getValidContentSpaceIdsForCurrentUser();
+      $current_content_space = $this->contentSpaceManager->getCurrentContentSpace();
       if (empty($content_space_ids)) {
         // This user needs a content space first and is currently not allowed to
         // create new content.
@@ -88,6 +89,14 @@ class ContentBaseFormAlter {
     else {
       // The content space of existing article can't be changed anymore.
       $form['field_content_space']['widget']['#access'] = FALSE;
+
+      // Show the current revision number alongside the status.
+      if ($entity instanceof ContentBase) {
+        $form['meta']['published']['#markup'] = $this->t('#@version @status', [
+          '@version' => $entity->getVersionId(),
+          '@status' => $entity->getVersionStatus(),
+        ]);
+      }
     }
   }
 

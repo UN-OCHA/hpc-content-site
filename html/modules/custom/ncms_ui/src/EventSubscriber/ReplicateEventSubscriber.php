@@ -3,7 +3,7 @@
 namespace Drupal\ncms_ui\EventSubscriber;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\ncms_ui\ContentManager;
+use Drupal\ncms_ui\ContentSpaceManager;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 use Drupal\replicate\Events\ReplicateAlterEvent;
 use Drupal\replicate\Events\ReplicatorEvents;
@@ -24,21 +24,21 @@ class ReplicateEventSubscriber implements EventSubscriberInterface {
   /**
    * The content manager.
    *
-   * @var \Drupal\ncms_ui\ContentManager
+   * @var \Drupal\ncms_ui\ContentSpaceManager
    */
-  protected $contentManager;
+  protected $contentSpaceManager;
 
   /**
    * Constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param \Drupal\ncms_ui\ContentManager $content_manager
+   * @param \Drupal\ncms_ui\ContentSpaceManager $content_manager
    *   The content manager.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, ContentManager $content_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, ContentSpaceManager $content_manager) {
     $this->entityTypeManager = $entity_type_manager;
-    $this->contentManager = $content_manager;
+    $this->contentSpaceManager = $content_manager;
   }
 
   /**
@@ -60,10 +60,10 @@ class ReplicateEventSubscriber implements EventSubscriberInterface {
     if (!$entity instanceof ContentSpaceAwareInterface) {
       return;
     }
-    if (!$this->contentManager->shouldRestrictContentSpaces()) {
+    if (!$this->contentSpaceManager->shouldRestrictContentSpaces()) {
       return;
     }
-    $content_space_ids = $this->contentManager->getValidContentSpaceIdsForCurrentUser();
+    $content_space_ids = $this->contentSpaceManager->getValidContentSpaceIdsForCurrentUser();
     if (in_array($entity->getContentSpace()->id(), $content_space_ids)) {
       return;
     }

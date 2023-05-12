@@ -12,7 +12,7 @@ use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\ncms_ui\ContentManager;
+use Drupal\ncms_ui\ContentSpaceManager;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 
 /**
@@ -25,9 +25,9 @@ class EntityAutocompleteMatcher extends EntityEntityAutocompleteMatcher {
   /**
    * The ncms content manager service.
    *
-   * @var \Drupal\ncms_ui\ContentManager
+   * @var \Drupal\ncms_ui\ContentSpaceManager
    */
-  protected $contentManager;
+  protected $contentSpaceManager;
 
   /**
    * The date formatter service.
@@ -55,7 +55,7 @@ class EntityAutocompleteMatcher extends EntityEntityAutocompleteMatcher {
    *
    * @param \Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface $selection_manager
    *   The entity reference selection handler plugin manager.
-   * @param \Drupal\ncms_ui\ContentManager $content_manager
+   * @param \Drupal\ncms_ui\ContentSpaceManager $content_manager
    *   The ncms content manager service.
    * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
    *   The date formatter service.
@@ -64,9 +64,9 @@ class EntityAutocompleteMatcher extends EntityEntityAutocompleteMatcher {
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
    *   The entity repository service.
    */
-  public function __construct(SelectionPluginManagerInterface $selection_manager, ContentManager $content_manager, DateFormatterInterface $date_formatter, EntityTypeManagerInterface $entity_type_manager, EntityRepositoryInterface $entity_repository) {
+  public function __construct(SelectionPluginManagerInterface $selection_manager, ContentSpaceManager $content_manager, DateFormatterInterface $date_formatter, EntityTypeManagerInterface $entity_type_manager, EntityRepositoryInterface $entity_repository) {
     $this->selectionManager = $selection_manager;
-    $this->contentManager = $content_manager;
+    $this->contentSpaceManager = $content_manager;
     $this->dateFormatter = $date_formatter;
     $this->entityTypeManager = $entity_type_manager;
     $this->entityRepository = $entity_repository;
@@ -101,7 +101,7 @@ class EntityAutocompleteMatcher extends EntityEntityAutocompleteMatcher {
           $content_space_label = NULL;
           if ($entity instanceof ContentSpaceAwareInterface) {
             $content_space = $entity->getContentSpace();
-            if ($content_space && $content_space->id() != $this->contentManager->getCurrentContentSpace()) {
+            if ($content_space && $content_space->id() != $this->contentSpaceManager->getCurrentContentSpace()) {
               $content_space_label = $content_space->label();
             }
           }

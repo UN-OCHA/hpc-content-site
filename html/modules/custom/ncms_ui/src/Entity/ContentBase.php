@@ -106,9 +106,10 @@ class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVer
   public function getLastPublishedRevision() {
     /** @var \Drupal\Node\NodeStorageInterface $node_storage */
     $node_storage = $this->entityTypeManager()->getStorage('node');
-    $revision_ids = $node_storage->revisionIds($this);
+    $revision_ids = array_reverse($node_storage->revisionIds($this));
+
     /** @var \Drupal\node\NodeInterface[] $revisions */
-    $revisions = array_reverse($node_storage->loadMultipleRevisions($revision_ids));
+    $revisions = $node_storage->loadMultipleRevisions($revision_ids);
     foreach ($revisions as $revision) {
       if (!$revision->isPublished()) {
         continue;

@@ -1,13 +1,13 @@
 services:
   ncms_ui.content.manager:
-    class: Drupal\ncms_ui\ContentManager
+    class: Drupal\ncms_ui\ContentSpaceManager
     arguments: ['@entity_type.manager', '@current_user', '@tempstore.private', '@plugin.manager.views.join']
   ncms_ui.content_base_form_alter:
     class: Drupal\ncms_ui\Form\ContentBaseFormAlter
     arguments: ['@entity_type.manager', '@ncms_ui.content.manager', '@messenger']
   ncms_ui.revision_overview_form_alter:
     class: Drupal\ncms_ui\Form\RevisionOverviewFormAlter
-    arguments: ['@entity_type.manager', '@current_route_match', '@renderer', '@date.formatter', '@pager.manager']
+    arguments: ['@entity_type.manager', '@current_user', '@current_route_match', '@renderer', '@date.formatter', '@pager.manager']
   ncms_ui.replicate_form_alter:
     class: Drupal\ncms_ui\Form\ReplicateFormAlter
     arguments: ['@entity_type.manager', '@ncms_ui.content.manager']

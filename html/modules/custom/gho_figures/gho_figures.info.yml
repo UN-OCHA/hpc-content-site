@@ -2,4 +2,4 @@ type: module
 name: GHO Figures
 description: 'Figures import handling (ex: needs and requirements).'
 package: gho
-core_version_requirement: ^8.9 || ^9
+core_version_requirement: ^9.3 || ^10

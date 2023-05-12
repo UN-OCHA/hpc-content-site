@@ -44,7 +44,7 @@ class ArticleExportBuffer extends GraphQlEntityBuffer {
     $query = $this->entityTypeManager
       ->getStorage($type)
       ->getQuery();
-
+    $query->accessCheck(TRUE);
     $entity_ids = $query->execute();
     $entities = $entity_ids ? $this->entityTypeManager
       ->getStorage($type)

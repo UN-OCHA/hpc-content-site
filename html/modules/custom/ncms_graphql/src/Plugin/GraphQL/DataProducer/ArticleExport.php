@@ -96,6 +96,7 @@ class ArticleExport extends DataProducerPluginBase implements ContainerFactoryPl
       $query = $this->entityTypeManager
         ->getStorage($type)
         ->getQuery();
+      $query->accessCheck(TRUE);
       $query->condition('type', 'article');
       $query->condition('status', NodeInterface::PUBLISHED);
       $query->sort('changed', 'DESC');

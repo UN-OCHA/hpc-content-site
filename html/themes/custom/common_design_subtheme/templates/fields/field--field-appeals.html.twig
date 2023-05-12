@@ -43,10 +43,10 @@
     'gho-appeals-tags',
   ]
 %}
-{% spaceless %}
+{% apply spaceless %}
 <div{{ attributes.addClass(classes) }}>
   {% for item in items %}
     {{ item.content }}
   {% endfor %}
 </div>
-{% endspaceless %}
+{% endapply %}

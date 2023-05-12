@@ -227,27 +227,6 @@ Drush commands can be run as **_fin drush {COMMAND}_**. Eg:
 Local testing
 -------------
 
-**With Docksal**
-
-Note: Replace `test.hpc-content-site.docksal.site` below with the appriate hostname for
-your local site (ex: `hpc-content-site.test`).
-
 ```bash
-mkdir -p ./html/sites/test
-cp ./.travis/local/* ./html/sites/test/
-
-fin db create test
-fin drush --uri=test.hpc-content-site.docksal.site si minimal -y
-fin drush --uri=test.hpc-content-site.docksal.site cset system.site uuid $(grep uuid ./config/system.site.yml | awk '{print $2}') -y
-fin drush --uri=test.hpc-content-site.docksal.site cim -y
-fin drush --uri=test.hpc-content-site.docksal.site cr
-
-fin drush --uri=test.hpc-content-site.docksal.site en yaml_content -y
-fin drush --uri=test.hpc-content-site.docksal.site yaml-content-import /var/www/.travis/
-```
-
-Run tests using docksal
-
-```bash
-fin exec DTT_BASE_URL=http://test.hpc-content-site.docksal.site/ ./vendor/bin/phpunit --debug --colors --testsuite=existing-site,existing-site-javascript --printer '\Drupal\Tests\Listeners\HtmlOutputPrinter'
+./.github/tests/test.sh
 ```

@@ -8,7 +8,7 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\graphql\GraphQL\Execution\FieldContext;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\Core\Http\RequestStack;
 use Drupal\social_auth\User\UserManager;
 use Drupal\social_auth\User\UserAuthenticator;
 
@@ -29,7 +29,7 @@ class HidUser extends DataProducerPluginBase implements ContainerFactoryPluginIn
   /**
    * The request stack.
    *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
+   * @var \Drupal\Core\Http\RequestStack
    */
   protected $requestStack;
 
@@ -78,7 +78,7 @@ class HidUser extends DataProducerPluginBase implements ContainerFactoryPluginIn
    *   The plugin_id for the plugin instance.
    * @param array $plugin_definition
    *   The plugin implementation definition.
-   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   * @param \Drupal\Core\Http\RequestStack $request_stack
    *   The current request stack.
    * @param \Drupal\Core\Session\AccountProxyInterface $current_user
    *   The current user.
@@ -108,7 +108,7 @@ class HidUser extends DataProducerPluginBase implements ContainerFactoryPluginIn
   public function resolve(FieldContext $field_context): AccountInterface {
     // Get the HID user id from the request.
     /** @var \Symfony\Component\HttpFoundation\HeaderBag $headers */
-    $headers = $this->requestStack->getMasterRequest()->headers;
+    $headers = $this->requestStack->getMainRequest()->headers;
     $hid_user_id = $headers->has('hid-user') ? $headers->get('hid-user') : NULL;
     if (!$hid_user_id) {
       // None given, so we fallback to the current user, which will be

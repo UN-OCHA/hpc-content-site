@@ -75,6 +75,7 @@ class EntityMatchingBuffer extends GraphQlEntityBuffer {
       $title_match_group->condition('title', '%' . $title . '%', 'LIKE');
     }
     $query->condition($title_match_group);
+    $query->accessCheck(TRUE);
     $entity_ids = $query->execute();
     $entities = $entity_ids ? $this->entityTypeManager
       ->getStorage($type)

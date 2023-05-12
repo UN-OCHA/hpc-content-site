@@ -1,8 +1,10 @@
 {
     "patches": {
         "drupal/core": {
-            "Issue #3222107: jQuery UI library order is incorrect when a large number of javascript files is loaded between two jQuery UI libraries": "https://www.drupal.org/files/issues/2021-07-19/3222107-jquery_ui_weight_fix-11.diff",
-            "https://www.drupal.org/project/drupal/issues/2544110": "https://www.drupal.org/files/issues/2023-03-13/2544110-151.patch"
+            "https://www.drupal.org/project/drupal/issues/2544110": "https://www.drupal.org/files/issues/2023-05-04/2544110-162.patch"
+        },
+        "drupal/bigint": {
+            "Issue #3296640: Automated Drupal 10 compatibility fixes": "https://www.drupal.org/files/issues/2022-07-18/bigint.1.x-dev.rector.patch"
         },
         "drupal/csp": {
             "Simplify log format": "./patches/csp-log-format.patch"
@@ -16,15 +18,15 @@
         "drupal/gin": {
             "Issue #3342513: Ajax on action buttons not working except in chrome": "https://www.drupal.org/files/issues/2023-02-16/3342513-entity-edit-form-update-ajax-ids-3.patch"
         },
+        "drupal/maintenance200": {
+            "Issue #3288424: Automated Drupal 10 compatibility fixes": "./patches/maintenance200-drupal-10-compatibility.patch"
+        },
+        "drupal/paragraphs_viewmode": {
+            "Issue #3345123: entityViewModeAlter throws an exception in php 8.2": "https://www.drupal.org/files/issues/2023-03-01/paragraphs_viewmode-remove-context-parameter-3345123-2.patch"
+        },
         "drupal/user_expire": {
             "Allow the notification email to be customised": "https://git.drupalcode.org/project/user_expire/-/merge_requests/5.patch",
             "Issue #2855005: Reset expiration when user is reactivated": "https://www.drupal.org/files/issues/2022-11-22/2855005-13.patch"
-        },
-        "drupal/yaml_content": {
-            "https://www.drupal.org/project/yaml_content/issues/3084161": "https://www.drupal.org/files/issues/2020-04-10/yaml_content-layout-builder-support-3084161-8.patch"
-        },
-        "guzzlehttp/guzzle": {
-          "Issue https://github.com/guzzle/guzzle/issues/3020:": "./patches/guzzle-3020.patch"
         }
     }
 }

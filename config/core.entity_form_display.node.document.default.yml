@@ -15,6 +15,7 @@ dependencies:
     - media_library
     - path
     - text
+    - workflow_buttons
 third_party_settings:
   field_group:
     group_tabs:
@@ -124,6 +125,13 @@ content:
     region: content
     settings:
       include_locked: true
+    third_party_settings: {  }
+  moderation_state:
+    type: workflow_buttons
+    weight: 5
+    region: content
+    settings:
+      show_current_state: false
     third_party_settings: {  }
   path:
     type: path

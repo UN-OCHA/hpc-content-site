@@ -7,7 +7,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\ncms_ui\ContentManager;
+use Drupal\ncms_ui\ContentSpaceManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,18 +20,18 @@ class ContentController extends ControllerBase implements ContainerInjectionInte
   /**
    * The ncms content manager service.
    *
-   * @var \Drupal\ncms_ui\ContentManager
+   * @var \Drupal\ncms_ui\ContentSpaceManager
    */
-  protected $contentManager;
+  protected $contentSpaceManager;
 
   /**
    * Creates a ContentController object.
    *
-   * @param \Drupal\ncms_ui\ContentManager $content_manager
+   * @param \Drupal\ncms_ui\ContentSpaceManager $content_manager
    *   The content manager.
    */
-  public function __construct(ContentManager $content_manager) {
-    $this->contentManager = $content_manager;
+  public function __construct(ContentSpaceManager $content_manager) {
+    $this->contentSpaceManager = $content_manager;
   }
 
   /**
@@ -54,7 +54,7 @@ class ContentController extends ControllerBase implements ContainerInjectionInte
    *   will be TRUE.
    */
   public function nodeCreateAccess(AccountInterface $account) {
-    return $this->contentManager->userIsInValidContentSpace() ? AccessResult::allowed() : AccessResult::forbidden();
+    return $this->contentSpaceManager->userIsInValidContentSpace() ? AccessResult::allowed() : AccessResult::forbidden();
   }
 
 }

@@ -3,7 +3,6 @@
 namespace Drupal\ncms_ui\Entity;
 
 use Drupal\Core\Entity\EntityStorageException;
-use Drupal\node\NodeInterface;
 use Drupal\node\NodeStorage;
 
 /**
@@ -17,7 +16,7 @@ class ContentStorage extends NodeStorage {
   /**
    * Saves an entity revision.
    *
-   * @param \Drupal\node\NodeInterface $entity
+   * @param \Drupal\ncms_ui\Entity\ContentBase $entity
    *   The entity object.
    * @param int $status
    *   The status of the revision.
@@ -25,7 +24,7 @@ class ContentStorage extends NodeStorage {
    * @return int
    *   The revision id.
    */
-  public function updateRevisionStatus(NodeInterface $entity, $status) {
+  public function updateRevisionStatus(ContentBase $entity, $status) {
     if ($entity->isNewRevision()) {
       throw new EntityStorageException("Can't update new revision {$entity->id()}");
     }
@@ -37,6 +36,15 @@ class ContentStorage extends NodeStorage {
       ])
       ->condition($this->revisionKey, $entity->getRevisionId())
       ->execute();
+
+    if (!empty($result) && $last_published = $entity->getLastPublishedRevision()) {
+      // Revision has been unpublished. Check if there is another published
+      // version available that should be set to be the new default revision.
+      $last_published->isDefaultRevision(TRUE);
+      $last_published->setNewRevision(FALSE);
+      $last_published->setSyncing(TRUE);
+      $last_published->save();
+    }
     return !empty($result);
   }
 

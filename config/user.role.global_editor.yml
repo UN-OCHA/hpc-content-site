@@ -25,7 +25,6 @@ dependencies:
     - paragraphs
     - replicate_ui
     - system
-    - taxonomy
     - toolbar
 id: global_editor
 label: 'Global editor'
@@ -35,11 +34,8 @@ permissions:
   - 'access administration pages'
   - 'access content overview'
   - 'access media overview'
-  - 'access taxonomy overview'
   - 'access toolbar'
-  - 'access user profiles'
   - 'add datawrapper embed code'
-  - 'administer media'
   - 'create achievement content'
   - 'create article content'
   - 'create author media'
@@ -56,10 +52,6 @@ permissions:
   - 'delete own author media'
   - 'delete own image media'
   - 'delete own video media'
-  - 'edit any achievement content'
-  - 'edit any article content'
-  - 'edit any document content'
-  - 'edit any story content'
   - 'edit behavior plugin settings'
   - 'edit own achievement content'
   - 'edit own article content'
@@ -69,15 +61,12 @@ permissions:
   - 'edit own story content'
   - 'edit own video media'
   - 'enter achievement revision log entry'
-  - 'enter all revision log entry'
   - 'enter article revision log entry'
   - 'enter document revision log entry'
   - 'enter story revision log entry'
   - 'import needs and requirements figures'
   - 'override achievement authored by option'
   - 'override achievement authored on option'
-  - 'override all authored by option'
-  - 'override all authored on option'
   - 'override article authored by option'
   - 'override article authored on option'
   - 'override document authored by option'

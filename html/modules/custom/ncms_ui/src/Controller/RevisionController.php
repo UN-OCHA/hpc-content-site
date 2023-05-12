@@ -19,15 +19,22 @@ class RevisionController extends ControllerBase implements ContainerInjectionInt
   /**
    * Publish a node revision.
    *
-   * @param \Drupal\node\NodeInterface $node_revision
+   * @param \Drupal\ncms_ui\Entity\ContentBase $node_revision
    *   The node revision.
    *
    * @return array
    *   An array suitable for \Drupal\Core\Render\RendererInterface::render().
    */
-  public function publish(NodeInterface $node_revision) {
+  public function publish(ContentBase $node_revision) {
     if ($this->setRevisionStatus($node_revision, NodeInterface::PUBLISHED)) {
-      $this->messenger()->addStatus($this->t('The revision has been published'));
+      $this->messenger()->addStatus($this->t('Version #@version has been published', [
+        '@version' => $node_revision->getVersionId(),
+      ]));
+      if ($last_version = $node_revision->getLastPublishedRevision()) {
+        $this->messenger()->addStatus($this->t('New default published version is #@version', [
+          '@version' => $last_version->getVersionId(),
+        ]));
+      }
     }
     return $this->redirect('entity.node.version_history', ['node' => $node_revision->id()]);
   }
@@ -35,7 +42,7 @@ class RevisionController extends ControllerBase implements ContainerInjectionInt
   /**
    * Publish a node revision.
    *
-   * @param \Drupal\node\NodeInterface $node_revision
+   * @param \Drupal\ncms_ui\Entity\ContentBase $node_revision
    *   The node revision.
    *
    * @return array
@@ -43,11 +50,14 @@ class RevisionController extends ControllerBase implements ContainerInjectionInt
    */
   public function unpublish(ContentBase $node_revision) {
     if ($this->setRevisionStatus($node_revision, NodeInterface::NOT_PUBLISHED)) {
-      $this->messenger()->addStatus($this->t('The revision has been unpublished'));
-
-      // Also see if there is the default revision, if so, we need to find a
-      // new default revision.
-      // @todo Implement
+      $this->messenger()->addStatus($this->t('Version #@version has been unpublished', [
+        '@version' => $node_revision->getVersionId(),
+      ]));
+      if ($last_version = $node_revision->getLastPublishedRevision()) {
+        $this->messenger()->addStatus($this->t('New default published version is #@version', [
+          '@version' => $last_version->getVersionId(),
+        ]));
+      }
     }
     return $this->redirect('entity.node.version_history', ['node' => $node_revision->id()]);
   }

@@ -11,6 +11,7 @@ use Drupal\Core\Pager\PagerManagerInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\diff\Form\RevisionOverviewForm;
@@ -29,6 +30,13 @@ class RevisionOverviewFormAlter {
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
+
+  /**
+   * The current user service.
+   *
+   * @var \Drupal\Core\Session\AccountInterface
+   */
+  protected $currentUser;
 
   /**
    * The route matching service.
@@ -63,6 +71,8 @@ class RevisionOverviewFormAlter {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\Core\Session\AccountInterface $current_user
+   *   The current user.
    * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
    *   The route matching service.
    * @param \Drupal\Core\Render\RendererInterface $renderer
@@ -72,8 +82,9 @@ class RevisionOverviewFormAlter {
    * @param \Drupal\Core\Pager\PagerManagerInterface $page_manager
    *   The pager manager service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RouteMatchInterface $route_match, RendererInterface $renderer, DateFormatter $date, PagerManagerInterface $page_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, AccountInterface $current_user, RouteMatchInterface $route_match, RendererInterface $renderer, DateFormatter $date, PagerManagerInterface $page_manager) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->currentUser = $current_user;
     $this->routeMatch = $route_match;
     $this->renderer = $renderer;
     $this->date = $date;
@@ -98,10 +109,18 @@ class RevisionOverviewFormAlter {
     }
 
     // Get the curent node.
+    /** @var \Drupal\node\NodeInterface $node */
     $node = $this->routeMatch->getParameter('node');
     if (!$node instanceof ContentVersionInterface) {
       return;
     }
+
+    $account = $this->currentUser;
+    $type = $node->getType();
+    $rev_delete_perm = $account->hasPermission("delete $type revisions") ||
+      $account->hasPermission('delete all revisions') ||
+      $account->hasPermission('administer nodes');
+    $delete_permission = $rev_delete_perm && $node->access('delete');
 
     /** @var \Drupal\Node\NodeStorageInterface $node_storage */
     $node_storage = $this->entityTypeManager->getStorage('node');
@@ -143,13 +162,15 @@ class RevisionOverviewFormAlter {
         'node_revision' => $revision->getRevisionId(),
       ]));
 
-      $row_classes = [Html::getClass($revision->getVersionStatus())];
-      if (empty($row['#attributes']['class'])) {
-        $row['#attributes']['class'] = $row_classes;
+      $row_classes = array_merge($row['#attributes']['class'] ?? [], [Html::getClass($revision->getVersionStatus())]);
+      if ($revision->isDefaultRevision()) {
+        $row_classes[] = 'revision-current';
       }
-      else {
-        $row['#attributes']['class'] += $row_classes;
+      elseif (in_array('revision-current', $row_classes)) {
+        $row_classes = array_diff($row_classes, ['revision-current']);
       }
+      $row['#attributes']['class'] = $row_classes;
+
       $row = [
         'version' => [
           '#type' => 'markup',
@@ -176,6 +197,7 @@ class RevisionOverviewFormAlter {
       ];
 
       $last_cell = &$row['operations'];
+      unset($last_cell['#links']['delete']);
       if ($revision->isDefaultRevision()) {
         $last_cell = [
           '#type' => 'operations',
@@ -210,10 +232,18 @@ class RevisionOverviewFormAlter {
           ];
         }
 
+        if ($delete_permission) {
+          $last_cell['#links']['delete'] = [
+            'title' => $this->t('Delete'),
+            'url' => Url::fromRoute('node.revision_delete_confirm', $route_params),
+          ];
+        }
+
         $last_cell['#links'] = array_filter([
           $last_cell['#links']['publish'] ?? NULL,
           $last_cell['#links']['unpublish'] ?? NULL,
           $last_cell['#links']['revert'] ?? NULL,
+          $last_cell['#links']['delete'] ?? NULL,
         ]);
       }
     }

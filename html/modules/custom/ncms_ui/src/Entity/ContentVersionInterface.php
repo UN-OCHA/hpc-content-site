@@ -2,10 +2,12 @@
 
 namespace Drupal\ncms_ui\Entity;
 
+use Drupal\node\NodeInterface;
+
 /**
  * Defines an interface for entities with content spaces.
  */
-interface ContentVersionInterface {
+interface ContentVersionInterface extends NodeInterface {
 
   /**
    * Get the version id.
@@ -37,7 +39,7 @@ interface ContentVersionInterface {
   /**
    * Get the latest published revision.
    *
-   * @return \Drupal\node\NodeInterface|null
+   * @return \Drupal\ncms_ui\Entity\ContentVersionInterface|null
    *   The latest published revision if available.
    */
   public function getLastPublishedRevision();

@@ -199,7 +199,7 @@ class ContentSpaceAccessTest extends BrowserTestBase {
     // Add content link.
     $this->assertSession()->elementExists('css', 'a[href="/node/add/article"]');
 
-    /** @var \Drupal\ncms_ui\ContentManager $content_manager */
+    /** @var \Drupal\ncms_ui\ContentSpaceManager $content_manager */
     $content_manager = $this->container->get('ncms_ui.content.manager');
     $content_manager->setCurrentContentSpace($content_space_2->id());
 

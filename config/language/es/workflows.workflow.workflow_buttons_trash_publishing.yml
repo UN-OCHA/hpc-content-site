@@ -4,7 +4,11 @@ type_settings:
       label: Borrador
     published:
       label: Publicado
+    trash:
+      label: Archived
   transitions:
+    delete:
+      label: Archive
     publish:
       label: Publicar
     restore_draft:

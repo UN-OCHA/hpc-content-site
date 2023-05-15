@@ -200,7 +200,6 @@
         "drupal-lenient": {
             "allowed-list": [
               "drupal/bigint",
-              "drupal/bigint",
               "drupal/maintenance200",
               "drupal/workflow_buttons"
             ]

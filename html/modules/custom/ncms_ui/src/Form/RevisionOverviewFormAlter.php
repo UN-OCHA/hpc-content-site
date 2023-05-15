@@ -3,6 +3,8 @@
 namespace Drupal\ncms_ui\Form;
 
 use Drupal\Component\Utility\Html;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Datetime\DateFormatter;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -14,6 +16,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
+use Drupal\diff\DiffLayoutManager;
 use Drupal\diff\Form\RevisionOverviewForm;
 use Drupal\ncms_ui\Entity\ContentVersionInterface;
 
@@ -67,6 +70,13 @@ class RevisionOverviewFormAlter {
   protected $pageManager;
 
   /**
+   * The field diff layout plugin manager service.
+   *
+   * @var \Drupal\diff\DiffLayoutManager
+   */
+  protected $diffLayoutManager;
+
+  /**
    * Constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -81,14 +91,17 @@ class RevisionOverviewFormAlter {
    *   The date service.
    * @param \Drupal\Core\Pager\PagerManagerInterface $page_manager
    *   The pager manager service.
+   * @param \Drupal\diff\DiffLayoutManager $diff_layout_manager
+   *   The diff layout service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, AccountInterface $current_user, RouteMatchInterface $route_match, RendererInterface $renderer, DateFormatter $date, PagerManagerInterface $page_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, AccountInterface $current_user, RouteMatchInterface $route_match, RendererInterface $renderer, DateFormatter $date, PagerManagerInterface $page_manager, DiffLayoutManager $diff_layout_manager) {
     $this->entityTypeManager = $entity_type_manager;
     $this->currentUser = $current_user;
     $this->routeMatch = $route_match;
     $this->renderer = $renderer;
     $this->date = $date;
     $this->pageManager = $page_manager;
+    $this->diffLayoutManager = $diff_layout_manager;
   }
 
   /**
@@ -249,6 +262,96 @@ class RevisionOverviewFormAlter {
     }
 
     $form['#attached']['library'][] = 'ncms_ui/revisions';
+
+    $ajax = [
+      'callback' => [$this, 'openDiffModal'],
+      'event' => 'click',
+    ];
+    $form['submit_top']['#ajax'] = $ajax;
+    $form['submit_bottom']['#ajax'] = $ajax;
+    $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+  }
+
+  /**
+   * Open the diff page in a modal.
+   *
+   * @param array $form
+   *   The form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state object.
+   *
+   * @return \Drupal\Core\Ajax\AjaxResponse
+   *   An ajax response object.
+   */
+  public function openDiffModal(array $form, FormStateInterface $form_state) {
+    $response = new AjaxResponse();
+
+    $input = $form_state->getUserInput();
+    $vid_left = $input['radios_left'];
+    $vid_right = $input['radios_right'];
+    $nid = $input['nid'];
+    $entity = $this->entityTypeManager->getStorage('node')->load($nid);
+
+    // Always place the older revision on the left side of the comparison
+    // and the newer revision on the right side (however revisions can be
+    // compared both ways if we manually change the order of the parameters).
+    if ($vid_left > $vid_right) {
+      $aux = $vid_left;
+      $vid_left = $vid_right;
+      $vid_right = $aux;
+    }
+
+    $url = Url::fromRoute('diff.revisions_diff', [
+      'node' => $nid,
+      'left_revision' => $vid_left,
+      'right_revision' => $vid_right,
+      'filter' => $this->diffLayoutManager->getDefaultLayout(),
+    ], [
+      'query' => [
+        'view_mode' => 'full',
+      ],
+    ]);
+
+    $title = $this->t('Changes to %title', ['%title' => $entity->label()]);
+
+    // Iframe dimensions. The height is set initially, but is adjusted in the
+    // client.
+    $max_width = '100%';
+    $max_height = 800;
+    $build = [
+      '#type' => 'container',
+      'iframe' => [
+        '#type' => 'html_tag',
+        '#tag' => 'iframe',
+        '#attributes' => [
+          'src' => $url->toString(),
+          'frameborder' => 0,
+          'scrolling' => 'no',
+          'allowtransparency' => TRUE,
+          'width' => $max_width,
+          'height' => $max_height,
+          'class' => [],
+          'id' => 'node-preview',
+          // Add the page title, so that it can be set for the DOM document
+          // via javascript once the iframe get's included.
+          'data-page-title' => $title,
+          // Adding this onload fixing formatting issues when printing from
+          // Safari.
+          'onload' => 'this.contentWindow.focus()',
+        ],
+      ],
+      '#attached' => [
+        'library' => [
+          'ncms_ui/node_preview',
+        ],
+      ],
+    ];
+
+    $response->addCommand(new OpenModalDialogCommand($title, $build, [
+      'width' => '80%',
+      'dialogClass' => 'node-revision-diff',
+    ]));
+    return $response;
   }
 
 }

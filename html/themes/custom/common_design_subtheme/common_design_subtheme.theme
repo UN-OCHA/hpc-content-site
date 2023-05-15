@@ -146,9 +146,18 @@ function common_design_subtheme_preprocess_node(&$variables) {
     }
   }
 
-  $routes = ['entity.node.standalone', 'entity.node_revision.standalone'];
+  $routes = [
+    'entity.node.standalone',
+    'entity.node_revision.standalone',
+    'diff.revisions_diff',
+  ];
   if (isset($node) && in_array($route_name, $routes)) {
-    common_design_set_page_title($variables, $node->label(), FALSE);
+    common_design_set_page_title($variables, $variables['label'], FALSE);
+
+    if ($route_name == 'diff.revisions_diff') {
+      // Clear static cache.
+      drupal_static_reset('common_design_get_block_render_array');
+    }
   }
 }
 
@@ -255,6 +264,7 @@ function common_design_subtheme_preprocess_page(&$variables) {
     'entity.node.preview',
     'entity.node.standalone',
     'entity.node_revision.standalone',
+    'diff.revisions_diff',
   ];
   if (in_array($route_name, $routes)) {
     common_design_hide_rendered_blocks_from_page($variables, [

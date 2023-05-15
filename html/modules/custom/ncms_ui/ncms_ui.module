@@ -163,6 +163,7 @@ function ncms_ui_preprocess_html(&$variables) {
     'entity.node.standalone',
     'entity.node_revision.standalone',
     'entity.node.preview',
+    'diff.revisions_diff',
   ];
   if (in_array($route_name, $routes)) {
     if (!empty($variables['page_top']['toolbar'])) {
@@ -174,6 +175,12 @@ function ncms_ui_preprocess_html(&$variables) {
       });
     }
     $variables['attributes']['class'][] = 'ncms-node-preview';
+  }
+
+  if ($route_name == 'diff.revisions_diff') {
+    unset($variables['page']['content']['common_design_subtheme_page_title']);
+    $variables['attributes']['class'][] = 'ncms-node-diff';
+    $variables['page']['content']['system_main']['#attached']['library'][] = 'ncms_ui/diff';
   }
 }
 

@@ -1,0 +1,9 @@
+.ncms-node-diff #main-content {
+  padding-block-start: 0;
+}
+.ncms-node-diff .diff-controls {
+  display: none;
+}
+.ncms-node-diff ins {
+  text-decoration: inherit;
+}

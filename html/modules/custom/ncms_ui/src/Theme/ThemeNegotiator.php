@@ -69,6 +69,7 @@ class ThemeNegotiator implements ThemeNegotiatorInterface {
       'entity.node.preview',
       'ncms_ui.login_proxy_page',
       'graphql.query.ncms',
+      'diff.revisions_diff',
     ];
     if (in_array($route_match->getRouteName(), $route_names)) {
       return FALSE;

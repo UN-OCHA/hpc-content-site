@@ -7,7 +7,7 @@ services:
     arguments: ['@entity_type.manager', '@ncms_ui.content.manager', '@messenger']
   ncms_ui.revision_overview_form_alter:
     class: Drupal\ncms_ui\Form\RevisionOverviewFormAlter
-    arguments: ['@entity_type.manager', '@current_user', '@current_route_match', '@renderer', '@date.formatter', '@pager.manager']
+    arguments: ['@entity_type.manager', '@current_user', '@current_route_match', '@renderer', '@date.formatter', '@pager.manager', '@plugin.manager.diff.layout']
   ncms_ui.replicate_form_alter:
     class: Drupal\ncms_ui\Form\ReplicateFormAlter
     arguments: ['@entity_type.manager', '@ncms_ui.content.manager']

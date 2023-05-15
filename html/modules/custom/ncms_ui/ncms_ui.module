@@ -59,7 +59,7 @@ function ncms_ui_entity_base_field_info_alter(&$fields, $entity_type) {
  */
 function ncms_ui_entity_operation(EntityInterface $entity) {
   $operations = [];
-  if ($entity instanceof ContentVersionInterface) {
+  if ($entity instanceof ContentVersionInterface && $entity->access('update')) {
     $operations['versions'] = [
       'title' => t('Versions'),
       'url' => Url::fromRoute('entity.node.version_history', [

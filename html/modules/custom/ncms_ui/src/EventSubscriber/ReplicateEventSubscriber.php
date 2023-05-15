@@ -64,7 +64,7 @@ class ReplicateEventSubscriber implements EventSubscriberInterface {
       return;
     }
     // Set to the current one.
-    $entity->setContentSpace($this->contentSpaceManager->getCurrentContentSpace());
+    $entity->setContentSpace($this->contentSpaceManager->getCurrentContentSpaceId());
   }
 
 }

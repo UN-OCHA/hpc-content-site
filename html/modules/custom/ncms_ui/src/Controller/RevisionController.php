@@ -5,8 +5,8 @@ namespace Drupal\ncms_ui\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\ncms_ui\Entity\ContentBase;
-use Drupal\ncms_ui\Entity\ContentStorage;
+use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\Storage\ContentStorage;
 use Drupal\node\NodeInterface;
 
 /**
@@ -19,7 +19,7 @@ class RevisionController extends ControllerBase implements ContainerInjectionInt
   /**
    * Publish a node revision.
    *
-   * @param \Drupal\ncms_ui\Entity\ContentBase $node_revision
+   * @param \Drupal\ncms_ui\Entity\Content\ContentBase $node_revision
    *   The node revision.
    *
    * @return array
@@ -42,7 +42,7 @@ class RevisionController extends ControllerBase implements ContainerInjectionInt
   /**
    * Publish a node revision.
    *
-   * @param \Drupal\ncms_ui\Entity\ContentBase $node_revision
+   * @param \Drupal\ncms_ui\Entity\Content\ContentBase $node_revision
    *   The node revision.
    *
    * @return array

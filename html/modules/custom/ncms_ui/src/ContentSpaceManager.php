@@ -6,6 +6,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
+use Drupal\ncms_ui\Entity\Taxonomy\ContentSpace;
 use Drupal\user\UserInterface;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\views\Plugin\ViewsHandlerManager;
@@ -95,7 +96,7 @@ class ContentSpaceManager {
    */
   public function userIsInValidContentSpace(AccountInterface $account = NULL) {
     $user = $account !== NULL ? $this->entityTypeManager->getStorage('user')->load($account->id()) : $this->currentUser;
-    return in_array($this->getCurrentContentSpace(), $this->getValidContentSpaceIdsForUser($user));
+    return in_array($this->getCurrentContentSpaceId(), $this->getValidContentSpaceIdsForUser($user));
   }
 
   /**
@@ -167,7 +168,7 @@ class ContentSpaceManager {
         (string) $this->t('My content spaces') => $options_user,
         (string) $this->t('Other content spaces') => $options_global,
       ],
-      '#default_value' => $this->getCurrentContentSpace(),
+      '#default_value' => $this->getCurrentContentSpaceId(),
       '#ajax' => [
         'callback' => [$this, 'setContentSpace'],
       ],
@@ -176,12 +177,24 @@ class ContentSpaceManager {
   }
 
   /**
+   * Get the currently active content space.
+   *
+   * @return \Drupal\ncms_ui\Entity\Taxonomy\ContentSpace
+   *   The content space term object.
+   */
+  public function getCurrentContentSpace() {
+    $content_space_id = $this->getCurrentContentSpaceId();
+    $content_space = $this->entityTypeManager->getStorage('taxonomy_term')->load($content_space_id);
+    return $content_space instanceof ContentSpace ? $content_space : NULL;
+  }
+
+  /**
    * Get the currently selected content space.
    *
    * @return int
    *   The id of the content space.
    */
-  public function getCurrentContentSpace() {
+  public function getCurrentContentSpaceId() {
     $content_space_id = $this->tempStore->get('content_space');
     if ($content_space_id === NULL) {
       $content_space_ids = $this->getValidContentSpaceIdsForCurrentUser();
@@ -196,7 +209,7 @@ class ContentSpaceManager {
    * @param int $content_space_id
    *   The id of the content space.
    */
-  public function setCurrentContentSpace($content_space_id) {
+  public function setCurrentContentSpaceId($content_space_id) {
     $this->tempStore->set('content_space', $content_space_id);
   }
 
@@ -218,7 +231,7 @@ class ContentSpaceManager {
       ];
       $join = $this->viewsJoin->createInstance('standard', $definition);
       $query->addRelationship('node__field_content_space', $join, 'content_space');
-      $query->addWhere(0, 'node__field_content_space.field_content_space_target_id', $this->getCurrentContentSpace());
+      $query->addWhere(0, 'node__field_content_space.field_content_space_target_id', $this->getCurrentContentSpaceId());
     }
   }
 

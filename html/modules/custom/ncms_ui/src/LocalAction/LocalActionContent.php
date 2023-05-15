@@ -3,6 +3,7 @@
 namespace Drupal\ncms_ui\LocalAction;
 
 use Drupal\Core\Menu\LocalActionDefault;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 class LocalActionContent extends LocalActionDefault {
 
   use StringTranslationTrait;
+
+  const DEFAULT_BUNDLE = 'article';
 
   /**
    * The entity type manager service.
@@ -34,15 +37,28 @@ class LocalActionContent extends LocalActionDefault {
    * {@inheritdoc}
    */
   public function getTitle(Request $request = NULL) {
-    // Subclasses may pull in the request or specific attributes as parameters.
-    // The title from YAML file discovery may be a TranslatableMarkup object.
-    $node_type = $request->attributes->get('node_type') ?? $this->entityTypeManager->getStorage('node_type')->load('article');
+    $node_type = $this->entityTypeManager->getStorage('node_type')->load(self::DEFAULT_BUNDLE);
     if (!$node_type) {
       return parent::getTitle($request);
     }
     return $this->t('Add @type', [
       '@type' => strtolower($node_type->label()),
     ]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRouteName() {
+    return 'node.add';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRouteParameters(RouteMatchInterface $route_match) {
+    $route_parameters['node_type'] = self::DEFAULT_BUNDLE;
+    return $route_parameters;
   }
 
 }

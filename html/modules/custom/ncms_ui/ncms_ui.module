@@ -13,10 +13,11 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\ncms_ui\ContentSpaceManager;
 use Drupal\ncms_ui\Controller\ViewController;
-use Drupal\ncms_ui\Entity\Article;
-use Drupal\ncms_ui\Entity\ContentBase;
 use Drupal\ncms_ui\Entity\ContentVersionInterface;
-use Drupal\ncms_ui\Entity\Document;
+use Drupal\ncms_ui\Entity\Content\Article;
+use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\Content\Document;
+use Drupal\ncms_ui\Entity\Taxonomy\ContentSpace;
 use Drupal\ncms_ui\Form\ContentSpaceSelectForm;
 use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
@@ -27,10 +28,14 @@ use Drupal\views\ViewExecutable;
  * Implements hook_entity_bundle_info_alter().
  */
 function ncms_ui_entity_bundle_info_alter(array &$bundles) {
+  // Content.
   $bundles['node']['article']['class'] = Article::class;
   $bundles['node']['article']['label'] = t('Article');
   $bundles['node']['document']['class'] = Document::class;
   $bundles['node']['document']['label'] = t('Document');
+  // Terms.
+  $bundles['taxonomy_term']['content_space']['class'] = ContentSpace::class;
+  $bundles['taxonomy_term']['content_space']['label'] = t('Content space');
 }
 
 /**
@@ -40,7 +45,7 @@ function ncms_ui_entity_type_alter(array &$entity_types) {
   /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
   // Set the controller class for nodes to an alternate implementation of the
   // Drupal\Core\Entity\EntityStorageInterface interface.
-  $entity_types['node']->setStorageClass('Drupal\ncms_ui\Entity\ContentStorage');
+  $entity_types['node']->setStorageClass('Drupal\ncms_ui\Entity\Storage\ContentStorage');
 }
 
 /**

@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\ncms_ui\ContentSpaceManager;
-use Drupal\ncms_ui\Entity\ContentBase;
+use Drupal\ncms_ui\Entity\Content\ContentBase;
 
 /**
  * Form alter class for node forms of contentbase nodes.
@@ -64,7 +64,7 @@ class ContentBaseFormAlter {
     // Check if this is a new node.
     if ($entity->isNew()) {
       $content_space_ids = $this->contentSpaceManager->getValidContentSpaceIdsForCurrentUser();
-      $current_content_space = $this->contentSpaceManager->getCurrentContentSpace();
+      $current_content_space = $this->contentSpaceManager->getCurrentContentSpaceId();
       if (empty($content_space_ids)) {
         // This user needs a content space first and is currently not allowed to
         // create new content.
@@ -97,6 +97,12 @@ class ContentBaseFormAlter {
           '@status' => $entity->getVersionStatus(),
         ]);
       }
+    }
+    $content_space = $this->contentSpaceManager->getCurrentContentSpace();
+    if ($content_space) {
+      $form['field_tags']['widget']['target_id']['#description'] .= ' ' . $this->t('Tags inherited from the content space: <em>@tags</em>', [
+        '@tags' => implode(', ', $content_space->getTags()),
+      ]);
     }
   }
 

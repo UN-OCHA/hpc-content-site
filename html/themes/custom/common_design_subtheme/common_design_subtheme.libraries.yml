@@ -9,7 +9,17 @@
 global-assets:
   css:
     theme:
+      css/brand.css: {}
       css/styles.css: {}
+  dependencies:
+    - common_design_subtheme/hpc-content-cd-overrides
+
+###
+# HPC Content Module libraries
+hpc-content-cd-overrides:
+  css:
+    theme:
+      components/hpc-content-cd-overrides/hpc-content-brand.css: {}
 
 # Custom components
 gho-appeals-tags:

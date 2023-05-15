@@ -71,6 +71,11 @@ content:
     third_party_settings: {  }
     weight: -5
     region: content
+  workflow_buttons:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   field_caption: true
   field_card_title: true

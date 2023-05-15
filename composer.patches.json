@@ -30,6 +30,13 @@
         "drupal/user_expire": {
             "Allow the notification email to be customised": "https://git.drupalcode.org/project/user_expire/-/merge_requests/5.patch",
             "Issue #2855005: Reset expiration when user is reactivated": "https://www.drupal.org/files/issues/2022-11-22/2855005-13.patch"
+        },
+        "drupal/workflow_buttons": {
+            "Issue #3299516: Automated Drupal 10 compatibility fixes (core version)": "https://www.drupal.org/files/issues/2022-08-24/drupal-10-compatibility-3299516-4.patch",
+            "Issue #3299516: Automated Drupal 10 compatibility fixes": "https://www.drupal.org/files/issues/2022-12-24/workflow_buttons.1.x-dev.rector.patch"
+        },
+        "unocha/common_design": {
+            "Issue #395: Use drupal_static() instead of PHPs static keyword": "https://patch-diff.githubusercontent.com/raw/UN-OCHA/common_design/pull/395.diff"
         }
     }
 }

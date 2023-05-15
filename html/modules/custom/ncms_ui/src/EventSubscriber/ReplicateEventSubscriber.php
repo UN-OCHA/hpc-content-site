@@ -52,6 +52,9 @@ class ReplicateEventSubscriber implements EventSubscriberInterface {
   /**
    * Alter replicated entities before they are saved.
    *
+   * Make sure that entities are always replicated into the currently active
+   * content space.
+   *
    * @param \Drupal\replicate\Events\ReplicateAlterEvent $event
    *   The ReplicateAlterEvent event.
    */
@@ -60,16 +63,8 @@ class ReplicateEventSubscriber implements EventSubscriberInterface {
     if (!$entity instanceof ContentSpaceAwareInterface) {
       return;
     }
-    if (!$this->contentSpaceManager->shouldRestrictContentSpaces()) {
-      return;
-    }
-    $content_space_ids = $this->contentSpaceManager->getValidContentSpaceIdsForCurrentUser();
-    if (in_array($entity->getContentSpace()->id(), $content_space_ids)) {
-      return;
-    }
-
-    // Just take the first one.
-    $entity->setContentSpace(reset($content_space_ids));
+    // Set to the current one.
+    $entity->setContentSpace($this->contentSpaceManager->getCurrentContentSpace());
   }
 
 }

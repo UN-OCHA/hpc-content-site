@@ -101,7 +101,7 @@ class EntityAutocompleteMatcher extends EntityEntityAutocompleteMatcher {
           $content_space_label = NULL;
           if ($entity instanceof ContentSpaceAwareInterface) {
             $content_space = $entity->getContentSpace();
-            if ($content_space && $content_space->id() != $this->contentSpaceManager->getCurrentContentSpace()) {
+            if ($content_space && $content_space->id() != $this->contentSpaceManager->getCurrentContentSpaceId()) {
               $content_space_label = $content_space->label();
             }
           }

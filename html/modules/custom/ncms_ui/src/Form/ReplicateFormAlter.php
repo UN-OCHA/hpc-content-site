@@ -48,6 +48,7 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
     /** @var \Drupal\replicate_ui\Form\ReplicateConfirmForm $form_object */
     $form_object = $form_state->getFormObject();
     $entity = $form_object->getEntity();
+
     if (!$entity instanceof ContentSpaceAwareInterface) {
       return;
     }
@@ -66,7 +67,7 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
       $content_space_ids = $this->contentSpaceManager->getValidContentSpaceIdsForCurrentUser();
       $content_space_widget = &$form['field_content_space']['widget'];
       $content_space_widget['#options'] = array_intersect_key($content_space_widget['#options'], $content_space_ids + ['_none' => TRUE]);
-      $content_space_widget['#default_value'] = $this->contentSpaceManager->getCurrentContentSpace();
+      $content_space_widget['#default_value'] = $this->contentSpaceManager->getCurrentContentSpaceId();
 
       array_unshift($form['actions']['submit']['#submit'], [
         self::class, 'submitNodeFormToContentSpace',
@@ -98,8 +99,8 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
       'target_id',
     ];
     $target_content_space = $form_state->getValue($element_parents);
-    if ($content_space_manager->getCurrentContentSpace() != $target_content_space) {
-      $content_space_manager->setCurrentContentSpace($target_content_space);
+    if ($content_space_manager->getCurrentContentSpaceId() != $target_content_space) {
+      $content_space_manager->setCurrentContentSpaceId($target_content_space);
     }
   }
 

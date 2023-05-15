@@ -1,8 +1,10 @@
 <?php
 
-namespace Drupal\ncms_ui\Entity;
+namespace Drupal\ncms_ui\Entity\Content;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
+use Drupal\ncms_ui\Entity\ContentVersionInterface;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 

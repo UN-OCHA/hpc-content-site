@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ncms_ui\Entity;
+namespace Drupal\ncms_ui\Entity\Storage;
 
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\node\NodeStorage;
@@ -16,7 +16,7 @@ class ContentStorage extends NodeStorage {
   /**
    * Saves an entity revision.
    *
-   * @param \Drupal\ncms_ui\Entity\ContentBase $entity
+   * @param \Drupal\ncms_ui\Entity\Content\ContentBase $entity
    *   The entity object.
    * @param int $status
    *   The status of the revision.

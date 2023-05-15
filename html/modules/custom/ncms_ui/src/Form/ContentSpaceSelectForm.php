@@ -90,7 +90,7 @@ class ContentSpaceSelectForm extends FormBase {
     }
     if ($form_state->hasValue('content_space')) {
       // If submitted, update the currently selected content space.
-      $this->contentSpaceManager->setCurrentContentSpace($form_state->getValue('content_space'));
+      $this->contentSpaceManager->setCurrentContentSpaceId($form_state->getValue('content_space'));
       $this->renderCache->invalidateAll();
     }
     $input = $form_state->getUserInput();
@@ -107,7 +107,7 @@ class ContentSpaceSelectForm extends FormBase {
         (string) $this->t('My content spaces') => $options_user,
         (string) $this->t('Other content spaces') => $options_global,
       ],
-      '#default_value' => $this->contentSpaceManager->getCurrentContentSpace(),
+      '#default_value' => $this->contentSpaceManager->getCurrentContentSpaceId(),
       '#ajax' => [
         'callback' => [$this, 'ajaxCallback'],
         'wrapper' => 'abc',

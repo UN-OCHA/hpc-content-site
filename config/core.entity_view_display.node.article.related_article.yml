@@ -60,6 +60,11 @@ content:
     third_party_settings: {  }
     weight: -5
     region: content
+  workflow_buttons:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   field_appeals: true
   field_author: true

@@ -57,7 +57,7 @@ class ContentBaseFormAlter {
    * Alter the replicate confirm form.
    */
   public function alterForm(&$form, FormStateInterface $form_state) {
-    /** @var \Drupal\replicate_ui\Form\ReplicateConfirmForm $form_object */
+    /** @var \Drupal\Core\Entity\ContentEntityForm $form_object */
     $form_object = $form_state->getFormObject();
     $entity = $form_object->getEntity();
 

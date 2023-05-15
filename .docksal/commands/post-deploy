@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+## Run the typical commands for the post-deployment
+##
+## Usage: fin post-deploy
+
+# Abort if anything fails
+set -e
+
+fin drush cr
+fin drush updatedb -y --no-post-updates
+fin drush cim -y
+fin drush updatedb -y
+fin drush cr

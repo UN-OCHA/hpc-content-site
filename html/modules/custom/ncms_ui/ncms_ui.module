@@ -167,7 +167,8 @@ function ncms_ui_entity_view_alter(array &$build, EntityInterface $entity, Entit
  */
 function ncms_ui_preprocess_html(&$variables) {
   // Hide admin toolbar.
-  $route_name = \Drupal::routeMatch()->getRouteName();
+  $route_match = \Drupal::routeMatch();
+  $route_name = $route_match->getRouteName();
   $routes = [
     'entity.node.standalone',
     'entity.node_revision.standalone',
@@ -190,6 +191,16 @@ function ncms_ui_preprocess_html(&$variables) {
     unset($variables['page']['content']['common_design_subtheme_page_title']);
     $variables['attributes']['class'][] = 'ncms-node-diff';
     $variables['page']['content']['system_main']['#attached']['library'][] = 'ncms_ui/diff';
+  }
+
+  if ($route_name == 'entity.node.edit_form' && $route_match->getParameter('node') instanceof ContentBase) {
+    $variables['attributes']['class'][] = 'node-content-base';
+  }
+  /** @var \Drupal\node\Entity\NodeType $node_type */
+  $node_type = $route_match->getParameter('node_type');
+  $bundle_info = \Drupal::service('entity_type.bundle.info')->getBundleInfo('node');
+  if ($route_name == 'node.add' && is_subclass_of($bundle_info[$node_type->id()]['class'], ContentBase::class)) {
+    $variables['attributes']['class'][] = 'node-content-base';
   }
 }
 

@@ -20,11 +20,13 @@ layout_paragraphs:
 article_edit_form:
   css:
     component:
-      css/article_edit_form.css: {}
+      css/edit-form/content_edit_form.css: {}
+      css/edit-form/article_edit_form.css: {}
 document_edit_form:
   css:
     component:
-      css/document_edit_form.css: {}
+      css/edit-form/content_edit_form.css: {}
+      css/edit-form/document_edit_form.css: {}
 revisions:
   css:
     component:

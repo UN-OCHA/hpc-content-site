@@ -1,0 +1,6 @@
+.node-content-base.gin--edit-form span.submit-trash {
+  display: none;
+}
+.node-content-base.gin--edit-form .submit-trash.button {
+  position: inherit;
+}

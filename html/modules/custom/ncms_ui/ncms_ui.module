@@ -86,6 +86,10 @@ function ncms_ui_local_tasks_alter(&$local_tasks) {
   $local_tasks['system.admin_content']['title'] = t('Articles');
   // Rename the revisions tab.
   $local_tasks['entity.node.version_history']['title'] = t('Versions');
+  // Hide the replicate tab.
+  if (array_key_exists('replicate_ui.local_tasks:entity.node.replicate', $local_tasks)) {
+    unset($local_tasks['replicate_ui.local_tasks:entity.node.replicate']);
+  }
   // Remove the content moderations latest tab.
   if (array_key_exists('content_moderation.workflows:node.latest_version_tab', $local_tasks)) {
     unset($local_tasks['content_moderation.workflows:node.latest_version_tab']);

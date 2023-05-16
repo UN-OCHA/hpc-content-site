@@ -1,0 +1,16 @@
+uuid: d1474a3d-52e7-4b47-b210-c98413c5864c
+langcode: en
+status: true
+dependencies: {  }
+id: replicate
+label: Replicate
+type: ops
+dialog_group: contrib_modules
+dialog_type: modal
+dialog_width: '750'
+selection_criteria:
+  entity_type: node
+  bundles:
+    article: article
+    document: document
+  key: replicate

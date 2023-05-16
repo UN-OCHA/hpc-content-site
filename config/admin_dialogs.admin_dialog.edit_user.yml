@@ -1,0 +1,16 @@
+uuid: 7d855f60-5a16-4f63-ad04-0dc8c8abfd27
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Aj8dZTn71yp2iwgukFPskqNqg0tI7XrSl4FUSiT8DVU
+id: edit_user
+label: 'Edit User'
+type: ops
+dialog_group: administrative
+dialog_type: off_canvas
+dialog_width: '650'
+selection_criteria:
+  entity_type: user
+  bundles: {  }
+  key: edit

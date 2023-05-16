@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0f35b7f420789b636a97e4caa60c972",
+    "content-hash": "848f9ab836706285e423d0960fa5223d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2290,6 +2290,56 @@
             "homepage": "https://www.drupal.org/project/admin_denied",
             "support": {
                 "source": "https://git.drupalcode.org/project/admin_denied"
+            }
+        },
+        {
+            "name": "drupal/admin_dialogs",
+            "version": "1.0.12",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/admin_dialogs.git",
+                "reference": "1.0.12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/admin_dialogs-1.0.12.zip",
+                "reference": "1.0.12",
+                "shasum": "59bd9e72e55ce41d9a353f1c15f96ed9b80bb3dc"
+            },
+            "require": {
+                "drupal/core": "^9 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.0.12",
+                    "datestamp": "1683918393",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Minnur Yunusov (minnur)",
+                    "homepage": "https://www.drupal.org/u/minnur",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Provides UI to configure opening administrative page forms in an interactive modals and off-canvas.",
+            "homepage": "http://drupal.org/project/admin_dialogs",
+            "keywords": [
+                "Dialogs",
+                "Drupal"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/admin_dialogs",
+                "issues": "https://www.drupal.org/project/issues/admin_dialogs"
             }
         },
         {
@@ -5820,7 +5870,7 @@
                 "reference": "2c721806fac6821bac29d324f70cdd997ce12822"
             },
             "require": {
-                "drupal/core": "^8.8 || ^9"
+                "drupal/core": "^8 || ^9 || ^10"
             },
             "type": "drupal-module",
             "extra": {

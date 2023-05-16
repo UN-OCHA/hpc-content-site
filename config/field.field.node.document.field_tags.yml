@@ -11,7 +11,7 @@ field_name: field_tags
 entity_type: node
 bundle: document
 label: Tags
-description: ''
+description: 'Add tags that apply to this document.'
 required: true
 translatable: true
 default_value: {  }
@@ -24,6 +24,6 @@ settings:
     sort:
       field: name
       direction: asc
-    auto_create: false
+    auto_create: true
     auto_create_bundle: ''
 field_type: entity_reference

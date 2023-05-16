@@ -11,7 +11,7 @@ field_name: field_tags
 entity_type: node
 bundle: article
 label: Tags
-description: 'Add tags that apply to this content.'
+description: 'Add tags that apply to this article.'
 required: true
 translatable: true
 default_value: {  }

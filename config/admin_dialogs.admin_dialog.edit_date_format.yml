@@ -1,0 +1,16 @@
+uuid: 84fee2d2-7951-4678-a8f9-027b13e2475a
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: E9_Ozd1X6MI7cGnUglVAvypKKl84D0XCcoFep8Vkv1A
+id: edit_date_format
+label: 'Edit Date Format'
+type: ops
+dialog_group: administrative
+dialog_type: modal
+dialog_width: '550'
+selection_criteria:
+  entity_type: date_format
+  bundles: {  }
+  key: edit

@@ -68,6 +68,9 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
       $content_space_widget = &$form['field_content_space']['widget'];
       $content_space_widget['#options'] = array_intersect_key($content_space_widget['#options'], $content_space_ids + ['_none' => TRUE]);
       $content_space_widget['#default_value'] = $this->contentSpaceManager->getCurrentContentSpaceId();
+      if (count($content_space_widget['#options']) == 1) {
+        $content_space_widget['#disabled'] = TRUE;
+      }
 
       array_unshift($form['actions']['submit']['#submit'], [
         self::class, 'submitNodeFormToContentSpace',

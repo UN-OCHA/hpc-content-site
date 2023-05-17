@@ -11,8 +11,7 @@ dependencies:
     - node.type.article
     - node.type.document
     - node.type.story
-    - workflows.workflow.article
-    - workflows.workflow.workflow_buttons_trash_publishing
+    - workflows.workflow.article_workflow
   module:
     - content_moderation
     - content_translation
@@ -88,16 +87,16 @@ permissions:
   - 'use article transition publish'
   - 'use article transition save'
   - 'use article transition save_and_keep_published'
+  - 'use article_workflow transition create_new_draft'
+  - 'use article_workflow transition delete'
+  - 'use article_workflow transition publish'
+  - 'use article_workflow transition restore_draft'
+  - 'use article_workflow transition restore_publish'
+  - 'use article_workflow transition save_draft_leave_current_published'
+  - 'use article_workflow transition save_unpublished'
+  - 'use article_workflow transition unpublish'
+  - 'use article_workflow transition update'
   - 'use text format filtered_html'
-  - 'use workflow_buttons_trash_publishing transition create_new_draft'
-  - 'use workflow_buttons_trash_publishing transition delete'
-  - 'use workflow_buttons_trash_publishing transition publish'
-  - 'use workflow_buttons_trash_publishing transition restore_draft'
-  - 'use workflow_buttons_trash_publishing transition restore_publish'
-  - 'use workflow_buttons_trash_publishing transition save_draft_leave_current_published'
-  - 'use workflow_buttons_trash_publishing transition save_unpublished'
-  - 'use workflow_buttons_trash_publishing transition unpublish'
-  - 'use workflow_buttons_trash_publishing transition update'
   - 'view achievement revisions'
   - 'view all media revisions'
   - 'view article revisions'

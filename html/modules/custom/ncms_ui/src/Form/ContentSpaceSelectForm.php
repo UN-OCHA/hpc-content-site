@@ -58,7 +58,7 @@ class ContentSpaceSelectForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('ncms_ui.content.manager'),
+      $container->get('ncms_ui.content_space.manager'),
       $container->get('path.current'),
       $container->get('cache.render'),
     );

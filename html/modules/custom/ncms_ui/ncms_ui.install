@@ -16,3 +16,10 @@ function ncms_ui_update_9001(&$sandbox) {
     $term->delete();
   }
 }
+
+/**
+ * Install the diff module.
+ */
+function ncms_ui_update_9002(&$sandbox) {
+  \Drupal::service("module_installer")->install(['diff']);
+}

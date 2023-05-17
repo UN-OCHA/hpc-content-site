@@ -29,7 +29,8 @@ class ContentReplicationTest extends ContentTestBase {
     $this->assertSession()->elementExists('css', 'select[data-drupal-selector="edit-field-content-space"] option[value="' . $content_space_1->id() . '"]');
     $this->assertSession()->elementNotExists('css', 'select[data-drupal-selector="edit-field-content-space"] option[value="' . $content_space_2->id() . '"]');
 
-    // Create a user with permission to manage content from content spaces 1.
+    // Create a user with permission to manage content from both content
+    // spaces.
     $this->drupalLogin($this->createEditorUserWithContentSpaces([
       $content_space_1,
       $content_space_2,
@@ -48,8 +49,8 @@ class ContentReplicationTest extends ContentTestBase {
 
     $content_space_2 = $this->createContentSpace();
 
-    // Create a user with permission to manage content from content spaces 1
-    // and 2.
+    // Create a user with permission to manage content from both content
+    // spaces.
     $this->drupalLogin($this->createEditorUserWithContentSpaces([
       $content_space_1,
       $content_space_2,

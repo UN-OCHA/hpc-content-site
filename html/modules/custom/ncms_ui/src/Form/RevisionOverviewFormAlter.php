@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_ui\Form;
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
@@ -91,16 +92,23 @@ class RevisionOverviewFormAlter {
    *   The date service.
    * @param \Drupal\Core\Pager\PagerManagerInterface $page_manager
    *   The pager manager service.
-   * @param \Drupal\diff\DiffLayoutManager $diff_layout_manager
-   *   The diff layout service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, AccountInterface $current_user, RouteMatchInterface $route_match, RendererInterface $renderer, DateFormatter $date, PagerManagerInterface $page_manager, DiffLayoutManager $diff_layout_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, AccountInterface $current_user, RouteMatchInterface $route_match, RendererInterface $renderer, DateFormatter $date, PagerManagerInterface $page_manager) {
     $this->entityTypeManager = $entity_type_manager;
     $this->currentUser = $current_user;
     $this->routeMatch = $route_match;
     $this->renderer = $renderer;
     $this->date = $date;
     $this->pageManager = $page_manager;
+  }
+
+  /**
+   * Set the diff layout manager service.
+   *
+   * @param \Drupal\diff\DiffLayoutManager $diff_layout_manager
+   *   The diff layout manager service.
+   */
+  public function setDiffLayoutManager(DiffLayoutManager $diff_layout_manager) {
     $this->diffLayoutManager = $diff_layout_manager;
   }
 
@@ -130,6 +138,9 @@ class RevisionOverviewFormAlter {
 
     $account = $this->currentUser;
     $type = $node->getType();
+    $rev_revert_perm = $account->hasPermission("revert $type revisions") ||
+      $account->hasPermission('revert all revisions') ||
+      $account->hasPermission('administer nodes');
     $rev_delete_perm = $account->hasPermission("delete $type revisions") ||
       $account->hasPermission('delete all revisions') ||
       $account->hasPermission('administer nodes');
@@ -204,6 +215,17 @@ class RevisionOverviewFormAlter {
         ],
       ] + $row;
 
+      if ($log_message = $revision->getRevisionLogMessage()) {
+        $row['status'] = [
+          $row['status'],
+          [
+            '#theme' => 'tooltip',
+            '#content' => $log_message,
+            '#icon' => 'info',
+          ],
+        ];
+      }
+
       $route_params = [
         'node' => $revision->id(),
         'node_revision' => $revision->getRevisionId(),
@@ -211,7 +233,7 @@ class RevisionOverviewFormAlter {
 
       $last_cell = &$row['operations'];
       unset($last_cell['#links']['delete']);
-      if ($revision->isDefaultRevision()) {
+      if ($revision->isDefaultRevision() && $rev_revert_perm) {
         $last_cell = [
           '#type' => 'operations',
           '#links' => [],
@@ -253,23 +275,39 @@ class RevisionOverviewFormAlter {
         }
 
         $last_cell['#links'] = array_filter([
-          $last_cell['#links']['publish'] ?? NULL,
-          $last_cell['#links']['unpublish'] ?? NULL,
-          $last_cell['#links']['revert'] ?? NULL,
-          $last_cell['#links']['delete'] ?? NULL,
+          'publish' => $last_cell['#links']['publish'] ?? NULL,
+          'unpublish' => $last_cell['#links']['unpublish'] ?? NULL,
+          'revert' => $last_cell['#links']['revert'] ?? NULL,
+          'delete' => $last_cell['#links']['delete'] ?? NULL,
         ]);
+
+        if (!empty($last_cell['#links']['revert'])) {
+          $attributes = [
+            'class' => ['use-ajax'],
+            'data-dialog-type' => 'modal',
+            'data-dialog-options' => Json::encode([
+              'title' => $this->t('Revert to version #@version', [
+                '@version' => $revision->getVersionId(),
+              ]),
+              'width' => '350px',
+            ]),
+          ];
+          $last_cell['#links']['revert']['attributes'] = $attributes;
+        }
       }
     }
 
     $form['#attached']['library'][] = 'ncms_ui/revisions';
 
-    $ajax = [
-      'callback' => [$this, 'openDiffModal'],
-      'event' => 'click',
-    ];
-    $form['submit_top']['#ajax'] = $ajax;
-    $form['submit_bottom']['#ajax'] = $ajax;
-    $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    if ($this->diffLayoutManager) {
+      $ajax = [
+        'callback' => [$this, 'openDiffModal'],
+        'event' => 'click',
+      ];
+      $form['submit_top']['#ajax'] = $ajax;
+      $form['submit_bottom']['#ajax'] = $ajax;
+      $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    }
   }
 
   /**

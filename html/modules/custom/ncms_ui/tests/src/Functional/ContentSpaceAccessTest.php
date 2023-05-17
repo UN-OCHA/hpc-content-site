@@ -76,6 +76,43 @@ class ContentSpaceAccessTest extends ContentTestBase {
   }
 
   /**
+   * Tests that nodes can be edited by users in the same content space.
+   */
+  public function testNodeEditAccessByContentSpace() {
+    $content_space_1 = $this->createContentSpace();
+    $node_1_1 = $this->createArticleInContentSpace('Article 1 for Content space 1', $content_space_1->id());
+    $node_2_1 = $this->createArticleInContentSpace('Article 2 for Content space 1', $content_space_1->id());
+    $node_3_1 = $this->createArticleInContentSpace('Article 3 for Content space 1', $content_space_1->id());
+
+    $content_space_2 = $this->createContentSpace();
+    $node_1_2 = $this->createArticleInContentSpace('Article 1 for Content space 2', $content_space_2->id());
+    $node_2_2 = $this->createArticleInContentSpace('Article 2 for Content space 2', $content_space_2->id());
+    $node_3_2 = $this->createArticleInContentSpace('Article 3 for Content space 2', $content_space_2->id());
+
+    // Create a user with permission to manage content from content space 1.
+    $this->drupalLogin($this->createEditorUserWithContentSpaces([$content_space_1]));
+    $this->assertEquals($content_space_1->id(), $this->getContentSpace()->id());
+
+    $this->drupalGet('/node/' . $node_1_1->id() . '/edit');
+    $this->assertSession()->pageTextContains($node_1_1->label());
+
+    $this->drupalGet('/node/' . $node_2_1->id() . '/edit');
+    $this->assertSession()->pageTextContains($node_2_1->label());
+
+    $this->drupalGet('/node/' . $node_3_1->id() . '/edit');
+    $this->assertSession()->pageTextContains($node_3_1->label());
+
+    $this->drupalGet('/node/' . $node_1_2->id() . '/edit');
+    $this->assertSession()->pageTextContains('Access denied');
+
+    $this->drupalGet('/node/' . $node_2_2->id() . '/edit');
+    $this->assertSession()->pageTextContains('Access denied');
+
+    $this->drupalGet('/node/' . $node_3_2->id() . '/edit');
+    $this->assertSession()->pageTextContains('Access denied');
+  }
+
+  /**
    * Tests content space switching.
    *
    * It would be preferrable to test the actual frontend functionality using
@@ -98,6 +135,7 @@ class ContentSpaceAccessTest extends ContentTestBase {
 
     // Create a user with permission to manage content from content space 1.
     $this->drupalLogin($this->createEditorUserWithContentSpaces([$content_space_1]));
+    $this->assertEquals($content_space_1->id(), $this->getContentSpace()->id());
 
     // Confirm we see what we should.
     $this->drupalGet('/admin/content');
@@ -120,6 +158,7 @@ class ContentSpaceAccessTest extends ContentTestBase {
 
     // Set the content space 2 as the active one.
     $this->setContentSpace($content_space_2);
+    $this->assertEquals($content_space_2->id(), $this->getContentSpace()->id());
 
     // Confirm we see what we should.
     $this->drupalGet('/admin/content');

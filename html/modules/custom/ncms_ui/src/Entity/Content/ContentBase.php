@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_ui\Entity\Content;
 
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 use Drupal\ncms_ui\Entity\ContentVersionInterface;
@@ -14,6 +15,23 @@ use Drupal\node\NodeInterface;
 class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVersionInterface {
 
   use StringTranslationTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function access($operation = 'view', AccountInterface $account = NULL, $return_as_object = FALSE) {
+    // These operations are used in ncms_ui.routing.yml and should be mapped to
+    // the 'update' operation.
+    $status_operations = [
+      'publish revision',
+      'unpublish revision',
+    ];
+    if (in_array($operation, $status_operations)) {
+      $operation = 'update';
+    }
+    // This override exists to set the operation to the default value "view".
+    return parent::access($operation, $account, $return_as_object);
+  }
 
   /**
    * {@inheritdoc}

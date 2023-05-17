@@ -3,6 +3,8 @@
 namespace Drupal\ncms_ui\Entity\Storage;
 
 use Drupal\Core\Entity\EntityStorageException;
+use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\node\NodeInterface;
 use Drupal\node\NodeStorage;
 
 /**
@@ -37,7 +39,22 @@ class ContentStorage extends NodeStorage {
       ->condition($this->revisionKey, $entity->getRevisionId())
       ->execute();
 
-    if (!empty($result) && $last_published = $entity->getLastPublishedRevision()) {
+    if (empty($result)) {
+      return FALSE;
+    }
+
+    if ($status == NodeInterface::PUBLISHED && !$entity->isPublished()) {
+      $this->database
+        ->update($this->dataTable)
+        ->fields((array) [
+          'status' => $status,
+        ])
+        ->condition($this->revisionKey, $entity->getRevisionId())
+        ->execute();
+    }
+
+    $last_published = $entity->getLastPublishedRevision();
+    if ($status == NodeInterface::NOT_PUBLISHED && $last_published) {
       // Revision has been unpublished. Check if there is another published
       // version available that should be set to be the new default revision.
       $last_published->isDefaultRevision(TRUE);
@@ -45,6 +62,17 @@ class ContentStorage extends NodeStorage {
       $last_published->setSyncing(TRUE);
       $last_published->save();
     }
+    if ($status == NodeInterface::NOT_PUBLISHED && !$last_published) {
+      $this->database
+        ->update($this->dataTable)
+        ->fields((array) [
+          'status' => $status,
+        ])
+        ->condition($this->revisionKey, $entity->getRevisionId())
+        ->execute();
+    }
+
+    $this->resetCache([$entity->id()]);
     return !empty($result);
   }
 

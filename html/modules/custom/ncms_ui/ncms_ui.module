@@ -77,6 +77,23 @@ function ncms_ui_entity_operation(EntityInterface $entity) {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function ncms_ui_theme() {
+  return [
+    'tooltip' => [
+      'variables' => [
+        'icon' => NULL,
+        'content' => NULL,
+        'class' => NULL,
+      ],
+      'file' => 'ncms_ui.theme.inc',
+      'template' => 'tooltip',
+    ],
+  ];
+}
+
+/**
  * Implements hook_local_tasks_alter().
  */
 function ncms_ui_local_tasks_alter(&$local_tasks) {
@@ -349,6 +366,17 @@ function ncms_ui_form_revision_overview_form_alter(&$form, FormStateInterface $f
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Show the question as the description for the revert confirm form.
+ */
+function ncms_ui_form_node_revision_revert_confirm_alter(&$form, FormStateInterface $form_state) {
+  /** @var \Drupal\node\Form\NodeRevisionRevertForm $form_object */
+  $form_object = $form_state->getFormObject();
+  $form['description'] = ['#markup' => $form_object->getQuestion()];
+}
+
+/**
  * Implements hook_form_alter().
  */
 function ncms_ui_form_alter(&$form, FormStateInterface $form_state, $form_id) {
@@ -449,9 +477,9 @@ function ncms_ui_views_data_alter(&$data) {
  * Implements hook_views_query_alter().
  */
 function ncms_ui_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
-  /** @var \Drupal\ncms_ui\ContentSpaceManager $content_manager */
-  $content_manager = \Drupal::service('ncms_ui.content.manager');
-  $content_manager->alterViewsQuery($view, $query);
+  /** @var \Drupal\ncms_ui\ContentSpaceManager $content_space_manager */
+  $content_space_manager = \Drupal::service('ncms_ui.content_space.manager');
+  $content_space_manager->alterViewsQuery($view, $query);
 }
 
 /**

@@ -1,0 +1,30 @@
+.tooltip-wrapper {
+  display: inline-block;
+  vertical-align: middle;
+}
+.tooltip-wrapper > .icon {
+  display: inline-block;
+  white-space: nowrap;
+  letter-spacing: normal;
+  text-transform: none;
+  word-wrap: normal;
+  direction: ltr;
+  font-family: "Material Icons", sans-serif;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}
+.tooltip-wrapper > .tooltip {
+  width: max-content;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: smaller;
+}

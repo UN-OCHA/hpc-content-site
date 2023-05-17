@@ -8,3 +8,6 @@ dependencies:
   - drupal:field
   - drupal:taxonomy
   - drupal:views
+  - drupal:content_moderation
+  - workflows:workflows
+  - workflow_buttons:workflow_buttons

@@ -43,3 +43,30 @@ diff:
   css:
     component:
       css/diff.css: {}
+material_icons:
+  css:
+    theme:
+      css/material-icons.css: {}
+floating_ui:
+  remote: https://github.com/floating-ui/floating-ui
+  license: &floating_ui_license
+    name: MIT
+    url: https://raw.githubusercontent.com/floating-ui/floating-ui/master/LICENSE
+    gpl-compatible: true
+  version: 2
+  js:
+    https://cdn.jsdelivr.net/npm/@floating-ui/core@1.2.6: { type: external, minified: true, attributes: { defer: false, async: false } }
+    https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.2.8: { type: external, minified: true, attributes: { defer: false, async: false } }
+
+tooltip:
+  js:
+    js/tooltip.js: {}
+  css:
+    component:
+      css/tooltip.css: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+    - ncms_ui/floating_ui
+    - ncms_ui/material_icons

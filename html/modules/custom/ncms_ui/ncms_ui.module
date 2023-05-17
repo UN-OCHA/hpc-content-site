@@ -462,6 +462,15 @@ function ncms_ui_views_data_alter(&$data) {
       'click sortable' => FALSE,
     ],
   ];
+  $data['node']['latest_published_version'] = [
+    'title' => t('Latest published version'),
+    'help' => t('Shows the latest published version for a node.'),
+    'field' => [
+      'id' => 'latest_published_version_field',
+      'no group by' => TRUE,
+      'click sortable' => FALSE,
+    ],
+  ];
   $data['node']['content_status'] = [
     'title' => t('Content status'),
     'help' => t('Shows the content status.'),

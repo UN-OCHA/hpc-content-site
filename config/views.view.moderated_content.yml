@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - workflows.workflow.article
+    - workflows.workflow.article_workflow
   module:
     - content_moderation
     - node

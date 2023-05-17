@@ -39,7 +39,7 @@ class ContentController extends ControllerBase implements ContainerInjectionInte
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('ncms_ui.content.manager')
+      $container->get('ncms_ui.content_space.manager')
     );
   }
 

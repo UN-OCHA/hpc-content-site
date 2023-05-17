@@ -114,7 +114,7 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
    *   The content space manager service.
    */
   private static function getContentSpaceManager() {
-    return \Drupal::service('ncms_ui.content.manager');
+    return \Drupal::service('ncms_ui.content_space.manager');
   }
 
   /**

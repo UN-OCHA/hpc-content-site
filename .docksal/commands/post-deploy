@@ -7,8 +7,10 @@
 # Abort if anything fails
 set -e
 
+fin drush sset system.maintenance_mode 1 -y
 fin drush cr
 fin drush updatedb -y --no-post-updates
 fin drush cim -y
 fin drush updatedb -y
+fin drush sset system.maintenance_mode 0 -y
 fin drush cr

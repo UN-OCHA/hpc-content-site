@@ -64,3 +64,16 @@ function ncms_ui_post_update_set_content_spaces_users(&$sandbox) {
 function ncms_ui_post_update_rebuild_node_access_for_content_spaces() {
   node_access_rebuild(TRUE);
 }
+
+/**
+ * Set the moderation state for existing nodes.
+ */
+function ncms_ui_post_update_set_moderation_state(&$sandbox) {
+  /** @var \Drupal\node\NodeInterface[] $nodes */
+  $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple();
+  foreach ($nodes as $node) {
+    $node->setNewRevision(FALSE);
+    $node->setSyncing(TRUE);
+    $node->save();
+  }
+}

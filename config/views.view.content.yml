@@ -15,7 +15,7 @@ dependencies:
     - taxonomy.vocabulary.major_tags
     - taxonomy.vocabulary.section
     - taxonomy.vocabulary.story_type
-    - workflows.workflow.workflow_buttons_trash_publishing
+    - workflows.workflow.article_workflow
   module:
     - content_moderation
     - gho_fields
@@ -2954,10 +2954,10 @@ display:
           operator: in
           value:
             all: all
-            workflow_buttons_trash_publishing-draft: workflow_buttons_trash_publishing-draft
-            workflow_buttons_trash_publishing-published: workflow_buttons_trash_publishing-published
-            workflow_buttons_trash_publishing-trash: workflow_buttons_trash_publishing-trash
-            workflow_buttons_trash_publishing-unpublished: workflow_buttons_trash_publishing-unpublished
+            article_workflow-draft: article_workflow-draft
+            article_workflow-published: article_workflow-published
+            article_workflow-trash: article_workflow-trash
+            article_workflow-unpublished: article_workflow-unpublished
           group: 1
           exposed: true
           expose:

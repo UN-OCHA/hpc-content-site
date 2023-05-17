@@ -68,7 +68,7 @@ entity.node.revision.publish:
   defaults:
     _controller: '\Drupal\ncms_ui\Controller\RevisionController::publish'
   requirements:
-    _entity_access: 'node_revision.view revision'
+    _entity_access: 'node_revision.publish revision'
     node: \d+
   options:
     parameters:
@@ -82,7 +82,7 @@ entity.node.revision.unpublish:
   defaults:
     _controller: '\Drupal\ncms_ui\Controller\RevisionController::unpublish'
   requirements:
-    _entity_access: 'node_revision.view revision'
+    _entity_access: 'node_revision.unpublish revision'
     node: \d+
   options:
     parameters:

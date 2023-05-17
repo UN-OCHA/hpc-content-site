@@ -31,6 +31,7 @@ abstract class ContentTestBase extends BrowserTestBase {
   protected static $modules = [
     'ncms_ui',
     'ncms_ui_test',
+    'workflow_buttons',
   ];
 
   /**
@@ -85,7 +86,14 @@ abstract class ContentTestBase extends BrowserTestBase {
     ];
     $this->createEntityReferenceField('node', 'article', 'field_content_space', 'Content space', 'taxonomy_term', 'default', $handler_settings);
     EntityFormDisplay::load('node.article.default')
-      ->setComponent('field_content_space', ['type' => 'options_select'])
+      ->setComponent('field_content_space', [
+        'type' => 'options_select',
+        'region' => 'content',
+      ])
+      ->setComponent('moderation_state', [
+        'type' => 'workflow_buttons',
+        'region' => 'content',
+      ])
       ->save();
 
     $handler_settings = [
@@ -144,16 +152,21 @@ abstract class ContentTestBase extends BrowserTestBase {
    *   The title of the node.
    * @param int $content_space_id
    *   The id of the content space.
+   * @param int $status
+   *   The published status of the article.
    *
    * @return \Drupal\node\NodeInterface
    *   The created node object.
    */
-  protected function createArticleInContentSpace($title, $content_space_id) {
+  protected function createArticleInContentSpace($title, $content_space_id, $status = NodeInterface::PUBLISHED) {
     $node = Node::create([
       'type' => 'article',
       'title' => $title,
       'field_content_space' => ['target_id' => $content_space_id],
-      'status' => NodeInterface::PUBLISHED,
+      'status' => $status,
+      'moderation_state' => [
+        'value' => $status == NodeInterface::PUBLISHED ? 'published' : 'draft',
+      ],
     ]);
     $result = $node->save();
     $this->assertEquals($result, SAVED_NEW);
@@ -178,6 +191,13 @@ abstract class ContentTestBase extends BrowserTestBase {
       'edit own article content',
       'revert article revisions',
       'replicate entities',
+      'use article_workflow transition create_new_draft',
+      'use article_workflow transition delete',
+      'use article_workflow transition publish',
+      'use article_workflow transition restore_draft',
+      'use article_workflow transition restore_publish',
+      'use article_workflow transition save_draft_leave_current_published',
+      'use article_workflow transition update',
     ], NULL, NULL, [
       'field_content_spaces' => array_map(function ($content_space) {
         return ['target_id' => $content_space->id()];
@@ -193,7 +213,7 @@ abstract class ContentTestBase extends BrowserTestBase {
    */
   protected function setContentSpace($content_space) {
     /** @var \Drupal\ncms_ui\ContentSpaceManager $content_manager */
-    $content_manager = $this->container->get('ncms_ui.content.manager');
+    $content_manager = $this->container->get('ncms_ui.content_space.manager');
     $content_manager->setCurrentContentSpaceId($content_space->id());
 
     /** @var \Drupal\Core\Cache\CacheBackendInterface $render_cache */
@@ -209,7 +229,7 @@ abstract class ContentTestBase extends BrowserTestBase {
    */
   protected function getContentSpace() {
     /** @var \Drupal\ncms_ui\ContentSpaceManager $content_manager */
-    $content_manager = $this->container->get('ncms_ui.content.manager');
+    $content_manager = $this->container->get('ncms_ui.content_space.manager');
     return $content_manager->getCurrentContentSpace();
   }
 

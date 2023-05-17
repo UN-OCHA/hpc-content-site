@@ -1,15 +1,14 @@
-uuid: 8dae388d-8543-4703-a243-5eaf45956340
+uuid: 8f47f646-db61-4f4f-a26d-58e843ae70ad
 langcode: en
 status: true
 dependencies:
   config:
     - node.type.article
-    - node.type.document
   module:
     - content_moderation
 _core:
   default_config_hash: C0jZewM2mDrvz1X6CgI-Z0c5suz-odCZu1SKLKhotjo
-id: workflow_buttons_trash_publishing
+id: article_workflow
 label: 'Publishing (with draft and soft delete)'
 type: content_moderation
 type_settings:
@@ -76,5 +75,4 @@ type_settings:
   entity_types:
     node:
       - article
-      - document
   default_moderation_state: draft

@@ -14,9 +14,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @ingroup views_field_handlers
  *
- * @ViewsField("latest_version_field")
+ * @ViewsField("latest_published_version_field")
  */
-class LatestVersionField extends FieldPluginBase {
+class LatestPublishedVersionField extends FieldPluginBase {
 
   /**
    * The entity typemanager.
@@ -49,12 +49,8 @@ class LatestVersionField extends FieldPluginBase {
    * {@inheritdoc}
    */
   public function preRender(&$rows) {
-    $node_ids = array_map(function (ResultRow $row) {
-      return $row->_entity->id();
-    }, $rows);
-    $revisions = $this->loadLastRevisionsForNodeIds($node_ids);
     foreach ($rows as &$row) {
-      $row->latest_version = $revisions[$row->_entity->id()];
+      $row->latest_published_version = $row->_entity->getLastPublishedRevision();
     }
   }
 
@@ -63,7 +59,10 @@ class LatestVersionField extends FieldPluginBase {
    */
   public function render(ResultRow $row) {
     /** @var \Drupal\node\NodeInterface $revision */
-    $revision = $row->latest_version;
+    $revision = $row->latest_published_version;
+    if (!$revision) {
+      return NULL;
+    }
     $build = [
       '#type' => 'link',
       '#url' => new Url('entity.node.revision', [
@@ -76,32 +75,6 @@ class LatestVersionField extends FieldPluginBase {
       ]),
     ];
     return $build;
-  }
-
-  /**
-   * Load the latest revision for each of the given node ids.
-   *
-   * @param int[] $node_ids
-   *   The node ids.
-   *
-   * @return \Drupal\node\NodeInterface[]
-   *   An array of node revisions, keyed by article node id.
-   */
-  private function loadLastRevisionsForNodeIds(array $node_ids) {
-    if (empty($node_ids)) {
-      return [];
-    }
-    /** @var \Drupal\Node\NodeStorageInterface $node_storage */
-    $node_storage = $this->entityTypeManager->getStorage('node');
-
-    $nodes = $node_storage->loadMultiple($node_ids);
-
-    /** @var \Drupal\paragraphs\Entity\Paragraph[] $article_paragraphs */
-    $revisions = array_map(function ($node) use ($node_storage) {
-      $revision_ids = $node_storage->revisionIds($node);
-      return $node_storage->loadRevision(end($revision_ids));
-    }, $nodes);
-    return $revisions;
   }
 
 }

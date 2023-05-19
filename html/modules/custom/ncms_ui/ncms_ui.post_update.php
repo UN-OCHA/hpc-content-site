@@ -68,12 +68,13 @@ function ncms_ui_post_update_rebuild_node_access_for_content_spaces() {
 /**
  * Set the moderation state for existing nodes.
  */
-function ncms_ui_post_update_set_moderation_state(&$sandbox) {
+function ncms_ui_post_update_set_moderation_state() {
   /** @var \Drupal\node\NodeInterface[] $nodes */
   $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple();
   foreach ($nodes as $node) {
     $node->setNewRevision(FALSE);
     $node->setSyncing(TRUE);
+    $node->moderation_state->value = $node->isPublished() ? 'published' : 'draft';
     $node->save();
   }
 }

@@ -5,6 +5,8 @@
  * Post update functions for NCMS UI.
  */
 
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+
 /**
  * Set the content space for all nodes.
  */
@@ -76,5 +78,51 @@ function ncms_ui_post_update_set_moderation_state() {
     $node->setSyncing(TRUE);
     $node->moderation_state->value = $node->isPublished() ? 'published' : 'draft';
     $node->save();
+  }
+}
+
+/**
+ * Update links in the admin menu.
+ */
+function ncms_ui_post_update_update_admin_menu_3() {
+  /** @var \Drupal\Core\Menu\MenuLinkManager $menu_link_manager */
+  $menu_link_manager = \Drupal::service('plugin.manager.menu.link');
+  $node_types = \Drupal::entityTypeManager()->getStorage('node_type')->loadMultiple(NULL);
+  $links = $menu_link_manager->loadLinksByRoute('node.add_page', [], 'admin');
+  foreach ($node_types as $node_type) {
+    $links = $links + $menu_link_manager->loadLinksByRoute('node.add', ['node_type' => $node_type->id()], 'admin');
+  }
+  foreach ($links as $menu_link) {
+    $menu_link->updateLink([
+      'enabled' => FALSE,
+    ], TRUE);
+  }
+
+  /** @var \Drupal\views\Entity\View $view */
+  $view = \Drupal::entityTypeManager()
+    ->getStorage('view')
+    ->load('content');
+  $displays = $view->get('display');
+  uasort($displays, function ($display_a, $display_b) {
+    return $display_a['position'] - $display_b['position'];
+  });
+
+  foreach (array_values($displays) as $weight => $display) {
+    if ($display['display_plugin'] != 'page') {
+      continue;
+    }
+    $options = $display['display_options'];
+    if (($options['enabled'] ?? NULL) === FALSE) {
+      continue;
+    }
+    MenuLinkContent::create([
+      'title' => $options['menu']['title'],
+      'link' => [
+        'uri' => 'internal:/' . ltrim($options['path'], '/'),
+      ],
+      'menu_name' => 'admin',
+      'parent' => $options['menu']['parent'],
+      'weight' => $weight,
+    ])->save();
   }
 }

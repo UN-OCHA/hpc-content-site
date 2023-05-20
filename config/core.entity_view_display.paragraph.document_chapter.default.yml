@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.document_chapter.field_articles
     - field.field.paragraph.document_chapter.field_image
+    - field.field.paragraph.document_chapter.field_tags
     - field.field.paragraph.document_chapter.field_title
     - paragraphs.paragraphs_type.document_chapter
 id: paragraph.document_chapter.default
@@ -29,6 +30,14 @@ content:
       link: false
     third_party_settings: {  }
     weight: 0
+    region: content
+  field_tags:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
     region: content
   field_title:
     type: string

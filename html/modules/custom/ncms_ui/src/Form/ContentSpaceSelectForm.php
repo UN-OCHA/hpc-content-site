@@ -112,19 +112,40 @@ class ContentSpaceSelectForm extends FormBase {
         'callback' => [$this, 'ajaxCallback'],
         'wrapper' => 'abc',
       ],
+      '#disabled' => !$this->canChangeContentSpace(),
     ];
     return $form;
   }
 
   /**
+   * Check if the content space selector can be used on the current path.
+   *
+   * @return bool
+   *   TRUE if the selector can be used, FALSE otherwise.
+   */
+  private function canChangeContentSpace() {
+    $path = $this->currentPath->getPath();
+    if (strpos($path, '/admin/content') === 0) {
+      return TRUE;
+    }
+    return FALSE;
+  }
+
+  /**
    * Ajax callback that just reloads the current page.
+   *
+   * @param array $form
+   *   The form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
    *
    * @return \Drupal\Core\Ajax\AjaxResponse
    *   The ajax response.
    */
-  public function ajaxCallback() {
+  public function ajaxCallback(array &$form, FormStateInterface $form_state) {
+    $current_path = $form_state->getValue(['current_path']);
     $response = new AjaxResponse();
-    $response->addCommand(new RedirectCommand('/'));
+    $response->addCommand(new RedirectCommand($current_path));
     return $response;
   }
 

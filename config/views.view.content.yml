@@ -840,7 +840,7 @@ display:
     id: page_achievements
     display_title: Achievements
     display_plugin: page
-    position: 5
+    position: 4
     display_options:
       title: Achievements
       fields:
@@ -1575,8 +1575,9 @@ display:
     id: page_all_content
     display_title: 'All content'
     display_plugin: page
-    position: 1
+    position: 5
     display_options:
+      enabled: false
       title: 'All content'
       fields:
         nid:
@@ -2317,7 +2318,7 @@ display:
     id: page_articles
     display_title: Articles
     display_plugin: page
-    position: 2
+    position: 1
     display_options:
       title: Articles
       fields:
@@ -3258,7 +3259,7 @@ display:
     id: page_documents
     display_title: Documents
     display_plugin: page
-    position: 3
+    position: 2
     display_options:
       title: Documents
       fields:
@@ -3833,7 +3834,7 @@ display:
     id: page_stories
     display_title: Stories
     display_plugin: page
-    position: 4
+    position: 3
     display_options:
       title: Stories
       fields:

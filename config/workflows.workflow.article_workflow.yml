@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - node.type.article
+    - node.type.document
   module:
     - content_moderation
 _core:
@@ -75,4 +76,5 @@ type_settings:
   entity_types:
     node:
       - article
+      - document
   default_moderation_state: draft

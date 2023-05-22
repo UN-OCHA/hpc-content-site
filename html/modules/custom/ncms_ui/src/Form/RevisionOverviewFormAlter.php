@@ -220,7 +220,7 @@ class RevisionOverviewFormAlter {
           $row['status'],
           [
             '#theme' => 'tooltip',
-            '#content' => $log_message,
+            '#content' => strip_tags($log_message),
             '#icon' => 'info',
           ],
         ];

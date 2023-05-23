@@ -136,7 +136,6 @@ class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVer
       }
       return $revision;
     };
-
   }
 
 }

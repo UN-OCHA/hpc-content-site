@@ -6,7 +6,10 @@ dependencies:
     - field.storage.node.field_paragraphs
     - node.type.article
     - paragraphs.paragraphs_type.achievement
+    - paragraphs.paragraphs_type.document_articles
+    - paragraphs.paragraphs_type.document_chapter
     - paragraphs.paragraphs_type.image_with_text
+    - paragraphs.paragraphs_type.layout
   module:
     - entity_reference_revisions
 id: node.article.field_paragraphs
@@ -23,8 +26,11 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
+      layout: layout
       image_with_text: image_with_text
       achievement: achievement
+      document_articles: document_articles
+      document_chapter: document_chapter
     negate: 1
     target_bundles_drag_drop:
       achievement:
@@ -42,6 +48,12 @@ settings:
       bottom_figure_row:
         weight: 8
         enabled: false
+      document_articles:
+        weight: 28
+        enabled: true
+      document_chapter:
+        weight: 29
+        enabled: true
       download_button:
         weight: 26
         enabled: false
@@ -62,7 +74,7 @@ settings:
         enabled: false
       layout:
         weight: 8
-        enabled: false
+        enabled: true
       needs_and_requirements:
         weight: 14
         enabled: false

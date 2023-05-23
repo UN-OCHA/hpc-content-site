@@ -1,7 +1,8 @@
 {
     "patches": {
         "drupal/core": {
-            "https://www.drupal.org/project/drupal/issues/2544110": "https://www.drupal.org/files/issues/2023-05-04/2544110-162.patch"
+            "https://www.drupal.org/project/drupal/issues/2544110": "https://www.drupal.org/files/issues/2023-05-04/2544110-162.patch",
+            "Issue #2707291: Disable body-level scrolling when a dialog is open as a modal": "https://www.drupal.org/files/issues/2023-04-27/2707291-96.patch"
         },
         "drupal/bigint": {
             "Issue #3296640: Automated Drupal 10 compatibility fixes": "https://www.drupal.org/files/issues/2022-07-18/bigint.1.x-dev.rector.patch"

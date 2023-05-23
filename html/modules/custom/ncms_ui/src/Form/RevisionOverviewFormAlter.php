@@ -205,8 +205,8 @@ class RevisionOverviewFormAlter {
           '#markup' => $revision->label(),
         ],
         'user' => [
-          '#type' => 'markup',
-          '#markup' => $revision->getRevisionUser()->label(),
+          '#theme' => 'username',
+          '#account' => $revision->getRevisionUser(),
         ],
         'created' => $link->toRenderable(),
         'status' => [

@@ -16,17 +16,19 @@ use Drupal\node\NodeStorage;
 class ContentStorage extends NodeStorage {
 
   /**
-   * Saves an entity revision.
+   * Update the status for an entity revision.
    *
    * @param \Drupal\ncms_ui\Entity\Content\ContentBase $entity
    *   The entity object.
    * @param int $status
    *   The status of the revision.
+   * @param bool $update_moderation_state
+   *   Whether to also update the moderation state.
    *
    * @return int
    *   The revision id.
    */
-  public function updateRevisionStatus(ContentBase $entity, $status) {
+  public function updateRevisionStatus(ContentBase $entity, $status, $update_moderation_state = TRUE) {
     if ($entity->isNewRevision()) {
       throw new EntityStorageException("Can't update new revision {$entity->id()}");
     }
@@ -54,7 +56,7 @@ class ContentStorage extends NodeStorage {
     }
 
     $last_published = $entity->getLastPublishedRevision();
-    if ($status == NodeInterface::NOT_PUBLISHED && $last_published) {
+    if ($status == NodeInterface::NOT_PUBLISHED && $last_published && !$last_published->isDefaultRevision()) {
       // Revision has been unpublished. Check if there is another published
       // version available that should be set to be the new default revision.
       $last_published->isDefaultRevision(TRUE);
@@ -70,6 +72,21 @@ class ContentStorage extends NodeStorage {
         ])
         ->condition($this->revisionKey, $entity->getRevisionId())
         ->execute();
+    }
+
+    if ($update_moderation_state) {
+      if ($status == NodeInterface::NOT_PUBLISHED) {
+        $entity->set('moderation_state', 'draft');
+        $entity->setNewRevision(FALSE);
+        $entity->setSyncing(TRUE);
+        $entity->save();
+      }
+      else {
+        $entity->set('moderation_state', 'published');
+        $entity->setNewRevision(FALSE);
+        $entity->setSyncing(TRUE);
+        $entity->save();
+      }
     }
 
     $this->resetCache([$entity->id()]);

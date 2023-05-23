@@ -13,7 +13,7 @@ use Drupal\node\NodeInterface;
 class ContentVersionTest extends ContentTestBase {
 
   /**
-   * Tests that nodes show up only in their respective content space.
+   * Tests that nodes in the backend show version information.
    */
   public function testVersionOverviewPage() {
     // Create content spaces.
@@ -90,7 +90,7 @@ class ContentVersionTest extends ContentTestBase {
     // Create a third revision.
     $this->drupalGet($edit_url);
     $this->getSession()->getPage()->fillField('edit-body-0-value', 'Test content draft');
-    $this->getSession()->getPage()->pressButton('Save');
+    $this->getSession()->getPage()->pressButton('Create draft (leave current version published)');
 
     // Go back to the versions page. Confirm there are 3 revisions listed now.
     $this->drupalGet($versions_url);
@@ -105,6 +105,57 @@ class ContentVersionTest extends ContentTestBase {
     $assert_session->elementContains('xpath', $tbody_xpath . '/tr[3]/td[5]', 'Archived');
     $assert_session->elementContains('xpath', $tbody_xpath . '/tr[3]/td[8]//a[@href="/node/' . $node_1_1->id() . '/revisions/1/publish"]', 'Publish');
 
+  }
+
+  /**
+   * Tests that the node edit pages are working.
+   */
+  public function testNodeEditPage() {
+    // Create content spaces.
+    $content_space_1 = $this->createContentSpace();
+
+    // Create node for content space 1.
+    $node_1_1 = $this->createArticleInContentSpace('Article 1 for Content space 1', $content_space_1->id(), NodeInterface::NOT_PUBLISHED);
+    $this->assertInstanceOf(ContentBase::class, $node_1_1);
+    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $node_1_1 */
+
+    // Define some urls.
+    $edit_url = '/node/' . $node_1_1->id() . '/edit';
+    $versions_url = '/node/' . $node_1_1->id() . '/revisions';
+
+    // Define some xpath selectors.
+    $tbody_xpath = '//table[contains(@class, "diff-revisions")]/tbody';
+
+    // Create a user with permission to manage content from content spaces 1.
+    $this->drupalLogin($this->createEditorUserWithContentSpaces([
+      $content_space_1,
+    ]));
+    $assert_session = $this->assertSession();
+
+    // Go to the edit form of that node.
+    $this->drupalGet($edit_url);
+    $assert_session->elementTextContains('css', '#edit-meta-published', '#1 Draft');
+    $assert_session->buttonExists('Save');
+    $assert_session->buttonExists('Publish');
+    $assert_session->buttonExists('Preview');
+
+    // Publish the version and go back to the edit page.
+    $this->getSession()->getPage()->pressButton('Publish');
+    $this->drupalGet($edit_url);
+    $assert_session->elementTextContains('css', '#edit-meta-published', '#2 Published');
+    $assert_session->buttonExists('Update');
+    $assert_session->buttonExists('Create draft (leave current version published)');
+    $assert_session->buttonExists('Preview');
+    $assert_session->buttonNotExists('Publish');
+
+    // Go to versions list and unpublish the current version.
+    $this->drupalGet($versions_url);
+    $this->getSession()->getPage()->find('xpath', $tbody_xpath . '/tr[1]/td[8]')->findLink('Unpublish')->click();
+    $this->drupalGet($edit_url);
+    $assert_session->elementTextContains('css', '#edit-meta-published', '#2 Draft');
+    $assert_session->buttonExists('Save');
+    $assert_session->buttonExists('Publish');
+    $assert_session->buttonExists('Preview');
   }
 
 }

@@ -186,7 +186,7 @@ class RevisionOverviewFormAlter {
         'node_revision' => $revision->getRevisionId(),
       ]));
 
-      $row_classes = array_merge($row['#attributes']['class'] ?? [], [Html::getClass($revision->getVersionStatus())]);
+      $row_classes = array_merge($row['#attributes']['class'] ?? [], [Html::getClass($revision->getVersionStatusLabel())]);
       if ($revision->isDefaultRevision()) {
         $row_classes[] = 'revision-current';
       }
@@ -211,7 +211,7 @@ class RevisionOverviewFormAlter {
         'created' => $link->toRenderable(),
         'status' => [
           '#type' => 'markup',
-          '#markup' => $revision->getVersionStatus(),
+          '#markup' => $revision->getVersionStatusLabel(),
         ],
       ] + $row;
 

@@ -17,8 +17,10 @@ dependencies:
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
     - node.type.article
+    - workflows.workflow.article_workflow
   module:
     - allowed_formats
+    - content_moderation
     - double_field
     - field_group
     - file
@@ -26,7 +28,6 @@ dependencies:
     - layout_paragraphs
     - media_library
     - text
-    - workflow_buttons
 third_party_settings:
   field_group:
     group_image:
@@ -211,11 +212,10 @@ content:
       placeholder: 'Article tags'
     third_party_settings: {  }
   moderation_state:
-    type: workflow_buttons
-    weight: 101
+    type: moderation_state_default
+    weight: 102
     region: content
-    settings:
-      show_current_state: false
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

@@ -29,12 +29,20 @@ interface ContentVersionInterface extends NodeInterface {
   public function getModerationStateLabel();
 
   /**
-   * Get the version status.
+   * Get the status of the content entity.
    *
-   * @return string
-   *   The version status.
+   * @return \Drupal\Core\StringTranslation\TranslatableMarkup
+   *   The status.
    */
-  public function getVersionStatus();
+  public function getContentStatusLabel();
+
+  /**
+   * Get the status of the revision.
+   *
+   * @return \Drupal\Core\StringTranslation\TranslatableMarkup
+   *   The status.
+   */
+  public function getVersionStatusLabel();
 
   /**
    * Get the latest published revision.

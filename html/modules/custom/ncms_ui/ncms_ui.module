@@ -386,6 +386,19 @@ function ncms_ui_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 }
 
 /**
+ * Implements hook_gin_content_form_routes().
+ *
+ * Used to prevent Gin from treating AJAX issues confirm dialogs on the node
+ * edit screens as full node edit forms, adding it's bells and whistles like
+ * the sidebar for example.
+ */
+function ncms_ui_gin_content_form_routes_alter(&$routes) {
+  if (\Drupal::request()->isXmlHttpRequest() && \Drupal::routeMatch()->getRouteName() == 'entity.node.edit_form') {
+    $routes = array_diff($routes, ['entity.node.edit_form']);
+  }
+}
+
+/**
  * Implements hook_link_alter().
  */
 function ncms_ui_link_alter(&$variables) {
@@ -407,7 +420,7 @@ function ncms_ui_link_alter(&$variables) {
     if ($node_revision && $node_revision instanceof ContentBase) {
       $title = t('Preview: #@version (@status) - @date', [
         '@version' => $node_revision->getVersionId(),
-        '@status' => $node_revision->getVersionStatus(),
+        '@status' => $node_revision->getVersionStatusLabel(),
         '@date' => \Drupal::service('date.formatter')->format($node_revision->getRevisionCreationTime(), 'short'),
       ]);
     }

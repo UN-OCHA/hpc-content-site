@@ -16,6 +16,10 @@ class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVer
 
   use StringTranslationTrait;
 
+  const CONTENT_STATUS_PUBLISHED = 'published';
+  const CONTENT_STATUS_PUBLISHED_WITH_DRAFT = 'published_with_draft';
+  const CONTENT_STATUS_DRAFT = 'draft';
+
   /**
    * {@inheritdoc}
    */
@@ -31,6 +35,22 @@ class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVer
     }
     // This override exists to set the operation to the default value "view".
     return parent::access($operation, $account, $return_as_object);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setPublished() {
+    parent::setPublished();
+    $this->moderation_state->value = 'published';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUnpublished() {
+    parent::setUnpublished();
+    $this->moderation_state->value = 'draft';
   }
 
   /**
@@ -78,7 +98,7 @@ class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVer
    */
   public function getContentStatus() {
     if ($this->getLatestRevision() && $this->getLatestRevision()->isPublished()) {
-      return $this->t('Published');
+      return self::CONTENT_STATUS_PUBLISHED;
     }
 
     /** @var \Drupal\Node\NodeStorageInterface $node_storage */
@@ -91,16 +111,26 @@ class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVer
     }));
     // If there are no published versions we call it "Draft". If at least one
     // published version exists we call it "Published with newer draft".
-    return !$count_published ? $this->t('Draft') : $this->t('Published with newer draft');
+    return !$count_published ? self::CONTENT_STATUS_DRAFT : self::CONTENT_STATUS_PUBLISHED_WITH_DRAFT;
   }
 
   /**
-   * Get the status of the revision.
-   *
-   * @return \Drupal\Core\StringTranslation\TranslatableMarkup
-   *   The status.
+   * {@inheritdoc}
    */
-  public function getVersionStatus() {
+  public function getContentStatusLabel() {
+    $content_status = $this->getContentStatus();
+    $label_map = [
+      self::CONTENT_STATUS_PUBLISHED => $this->t('Published'),
+      self::CONTENT_STATUS_PUBLISHED_WITH_DRAFT => $this->t('Published with newer draft'),
+      self::CONTENT_STATUS_DRAFT => $this->t('Draft'),
+    ];
+    return $label_map[$content_status];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getVersionStatusLabel() {
     if ($this->isPublished()) {
       return $this->t('Published');
     }

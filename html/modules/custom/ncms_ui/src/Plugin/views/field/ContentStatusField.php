@@ -47,7 +47,7 @@ class ContentStatusField extends FieldPluginBase {
    * {@inheritdoc}
    */
   public function render(ResultRow $row) {
-    $build = $row->_entity instanceof ContentBase ? $row->_entity->getContentStatus() : NULL;
+    $build = $row->_entity instanceof ContentBase ? $row->_entity->getContentStatusLabel() : NULL;
     return $build;
   }
 

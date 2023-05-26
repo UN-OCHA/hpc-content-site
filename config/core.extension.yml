@@ -95,7 +95,6 @@ module:
   user: 0
   user_expire: 0
   views_ui: 0
-  workflow_buttons: 0
   workflows: 0
   content_translation: 10
   views: 10

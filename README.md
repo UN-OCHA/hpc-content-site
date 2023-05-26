@@ -74,10 +74,6 @@ extensively uses **CSS components**. See the [README](html/themes/custom/common_
 for more details.
 
 
-The site also has an administration sub-theme extending the `seven` theme and
-providing a few tweaks to the admin interface like full width node forms:
-[Common design admin subtheme](html/themes/custom/common_design_admin_subtheme).
-
 Modules
 -------
 
@@ -177,7 +173,7 @@ the [notes.md](notes.md) file.
 Local development
 -----------------
 
-HHPC Content Module (CM) uses docksal which is a web-development environment
+HPC Content Module (CM) uses docksal which is a web-development environment
 based on docker.
 
 Install docksal: https://docksal.io/installation
@@ -227,6 +223,16 @@ Drush commands can be run as **_fin drush {COMMAND}_**. Eg:
 Local testing
 -------------
 
+Run local test via docksal
+
+    fin phpunit
+
+You can follow what happens in the selenium controlled browser during
+functional and javascript tests by going to this url
+
+    http://localhost:7901/
+
+Run the tests as they would in GitHub Actions
 ```bash
 ./.github/tests/test.sh
 ```

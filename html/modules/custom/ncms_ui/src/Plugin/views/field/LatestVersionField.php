@@ -72,7 +72,7 @@ class LatestVersionField extends FieldPluginBase {
       ]),
       '#title' => new FormattableMarkup('#@version (@moderation_status)', [
         '@version' => $revision instanceof ContentVersionInterface ? $revision->getVersionId() : $revision->getRevisionId(),
-        '@moderation_status' => $revision instanceof ContentVersionInterface ? $revision->getVersionStatus() : ($revision->isPublished() ? $this->t('Published') : $this->t('Unpublished')),
+        '@moderation_status' => $revision instanceof ContentVersionInterface ? $revision->getVersionStatusLabel() : ($revision->isPublished() ? $this->t('Published') : $this->t('Unpublished')),
       ]),
     ];
     return $build;

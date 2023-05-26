@@ -61,10 +61,10 @@ class ContentOverviewTest extends ContentTestBase {
     $assert_session->elementContains('xpath', $tbody_xpath . '/tr[1]/td[6]//a[@href="/node/' . $node_1_1->id() . '/replicate?destination"]', 'Replicate');
     $assert_session->elementContains('xpath', $tbody_xpath . '/tr[1]/td[6]//a[@href="/node/' . $node_1_1->id() . '/revisions"]', 'Versions');
 
-    // Create a second revision.
+    // Create a second revision and publish it.
     $this->drupalGet($edit_url);
     $this->getSession()->getPage()->fillField('edit-body-0-value', 'Test content');
-    $this->getSession()->getPage()->pressButton('Publish');
+    $this->getSession()->getPage()->pressButton('Save and publish');
 
     // Go back to the versions page.
     $this->drupalGet($overview_url);
@@ -85,7 +85,7 @@ class ContentOverviewTest extends ContentTestBase {
     $this->drupalGet($edit_url);
     $this->getSession()->getPage()->fillField('edit-title-0-value', 'New draft title');
     $this->getSession()->getPage()->fillField('edit-body-0-value', 'Test content draft');
-    $this->getSession()->getPage()->pressButton('Create draft (leave current version published)');
+    $this->getSession()->getPage()->pressButton('Save as draft');
 
     // Go back to the versions page.
     $this->drupalGet($overview_url);

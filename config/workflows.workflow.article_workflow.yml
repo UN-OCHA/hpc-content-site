@@ -25,7 +25,7 @@ type_settings:
       published: true
       default_revision: true
     trash:
-      label: Archived
+      label: Deleted
       weight: 1
       published: false
       default_revision: true
@@ -37,7 +37,7 @@ type_settings:
       to: draft
       weight: -5
     delete:
-      label: Archive
+      label: Delete
       from:
         - draft
         - published

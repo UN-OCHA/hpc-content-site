@@ -10,7 +10,7 @@ dependencies:
 _core:
   default_config_hash: C0jZewM2mDrvz1X6CgI-Z0c5suz-odCZu1SKLKhotjo
 id: article_workflow
-label: 'Publishing (with draft and soft delete)'
+label: 'Publishing workflow'
 type: content_moderation
 type_settings:
   states:

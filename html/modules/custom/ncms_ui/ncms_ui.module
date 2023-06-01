@@ -13,7 +13,6 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\ncms_ui\ContentSpaceManager;
 use Drupal\ncms_ui\Controller\ViewController;
-use Drupal\ncms_ui\Entity\ContentVersionInterface;
 use Drupal\ncms_ui\Entity\Content\Article;
 use Drupal\ncms_ui\Entity\Content\ContentBase;
 use Drupal\ncms_ui\Entity\Content\Document;
@@ -64,14 +63,8 @@ function ncms_ui_entity_base_field_info_alter(&$fields, $entity_type) {
  */
 function ncms_ui_entity_operation(EntityInterface $entity) {
   $operations = [];
-  if ($entity instanceof ContentVersionInterface && $entity->access('update')) {
-    $operations['versions'] = [
-      'title' => t('Versions'),
-      'url' => Url::fromRoute('entity.node.version_history', [
-        'node' => $entity->id(),
-      ]),
-      'weight' => 50,
-    ];
+  if ($entity instanceof ContentBase) {
+    $operations = $entity->getEntityOperations();
   }
   return $operations;
 }
@@ -530,7 +523,7 @@ function ncms_ui_node_access_records(NodeInterface $node) {
     'gid' => $content_space_id,
     'grant_view' => 1,
     'grant_update' => 1,
-    'grant_delete' => 0,
+    'grant_delete' => 1,
     'priority' => 0,
   ];
 

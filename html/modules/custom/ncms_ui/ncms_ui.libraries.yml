@@ -39,6 +39,9 @@ ncms_gin:
       css/frontend_styles.css: {}
   js:
     js/ncms_gin.js: {}
+ajax_commands:
+  js:
+    js/ajax_commands.js: {}
 diff:
   css:
     component:

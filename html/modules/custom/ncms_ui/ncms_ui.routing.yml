@@ -6,6 +6,32 @@ ncms_ui.login_proxy_page:
   requirements:
     _access: 'TRUE'
 
+entity.node.soft_delete:
+  path: '/node/{node}/trash'
+  defaults:
+    _form: '\Drupal\ncms_ui\Form\ContentSoftDeleteForm'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    _entity_access: 'node.soft delete'
+    node: \d+
+  options:
+    parameters:
+      node:
+        type: entity:node
+
+entity.node.restore:
+  path: '/node/{node}/restore'
+  defaults:
+    _form: '\Drupal\ncms_ui\Form\ContentRestoreForm'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    _entity_access: 'node.restore'
+    node: \d+
+  options:
+    parameters:
+      node:
+        type: entity:node
+
 entity.node_edit.submit_confirm:
   path: '/node/{node}/edit/confirm'
   defaults:

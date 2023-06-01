@@ -52,4 +52,12 @@ interface ContentVersionInterface extends NodeInterface {
    */
   public function getLastPublishedRevision();
 
+  /**
+   * Get the previous revision.
+   *
+   * @return \Drupal\ncms_ui\Entity\ContentVersionInterface|null
+   *   The previous revision if available.
+   */
+  public function getPreviousRevision();
+
 }

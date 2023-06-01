@@ -12,7 +12,7 @@ use Drupal\node\NodeInterface;
  */
 class ContentEditModalsTest extends ContentTestBaseJavascript {
 
-  const CONFIRM_SAVE_AND_PUBLISH = 'This will make this content publicly available on the API and will automatically create a page for this content on Humanitarian Action. Are you sure?';
+  const CONFIRM_SAVE_AND_PUBLISH = 'This will make this article publicly available on the API and will automatically create a page for this article on Humanitarian Action. Are you sure?';
   const CONFIRM_PUBLISH_CORRECTION = 'This will publish these changes as a correction to the currently published version, which will be entirely replaced. Are you sure?';
   const CONFIRM_PUBLISH_REVISION = 'This will publish these changes as a new revision to the currently published version, which will remain publicly available as an earlier or original version. Are you sure?';
   const CONFIRM_NO_CHANGES = 'No changes have been made to the already published version. Please make some changes before publishing again.';
@@ -51,7 +51,7 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
     // Click Save as draft without any changes.
     $this->getSession()->getPage()->pressButton('Save as draft');
     $this->waitForAjaxToFinish();
-    $assert_session->pageTextContains('No changes detected for Article 1 for Content space 1. The content has not been updated.');
+    $assert_session->pageTextContains('No changes detected for Article 1 for Content space 1. The article has not been updated.');
 
     // Reopen edit and assert state.
     $this->drupalGet($edit_url);

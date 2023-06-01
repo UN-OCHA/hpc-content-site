@@ -63,6 +63,8 @@ class ContentEditTest extends ContentTestBase {
     $this->assertInstanceOf(ContentBase::class, $node_1_1);
     /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $node_1_1 */
 
+    $this->assertContentModerationTableEntry($node_1_1);
+
     // Define some urls.
     $edit_url = '/node/' . $node_1_1->id() . '/edit';
 
@@ -83,32 +85,44 @@ class ContentEditTest extends ContentTestBase {
 
     // Click Save as draft without any changes.
     $this->getSession()->getPage()->pressButton('Save as draft');
-    $assert_session->pageTextContains('No changes detected for Article 1 for Content space 1. The content has not been updated.');
+    $assert_session->pageTextContains('No changes detected for Article 1 for Content space 1. The article has not been updated.');
+
+    // Go back to the edit form.
+    $this->drupalGet($edit_url);
     $assert_session->elementTextContains('css', '#edit-meta-published', '#1 Draft');
     $assert_session->buttonExists('Save and publish');
     $assert_session->buttonExists('Save as draft');
     $assert_session->buttonExists('Preview');
     $assert_session->buttonNotExists('Publish as correction');
     $assert_session->buttonNotExists('Publish as revision');
+    $this->assertContentModerationTableEntry($node_1_1);
 
     // Click Save as draft with changes.
     $this->getSession()->getPage()->fillField('edit-body-0-value', 'Test content draft');
     $this->getSession()->getPage()->pressButton('Save as draft');
+
+    // Go back to the edit form.
+    $this->drupalGet($edit_url);
     $assert_session->elementTextContains('css', '#edit-meta-published', '#2 Draft');
     $assert_session->buttonExists('Save and publish');
     $assert_session->buttonExists('Save as draft');
     $assert_session->buttonExists('Preview');
     $assert_session->buttonNotExists('Publish as correction');
     $assert_session->buttonNotExists('Publish as revision');
+    $this->assertContentModerationTableEntry($node_1_1);
 
     // Publish the version without any changes and go back to the edit page.
     $this->getSession()->getPage()->pressButton('Save and publish');
+
+    // Go back to the edit form.
+    $this->drupalGet($edit_url);
     $assert_session->elementTextContains('css', '#edit-meta-published', '#2 Published');
     $assert_session->buttonExists('Publish as correction');
     $assert_session->buttonExists('Publish as revision');
     $assert_session->buttonExists('Save as draft');
     $assert_session->buttonExists('Preview');
     $assert_session->buttonNotExists('Save and publish');
+    $this->assertContentModerationTableEntry($node_1_1);
   }
 
 }

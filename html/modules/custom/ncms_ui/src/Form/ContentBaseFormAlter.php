@@ -2,7 +2,10 @@
 
 namespace Drupal\ncms_ui\Form;
 
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Ajax\MessageCommand;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
@@ -12,7 +15,6 @@ use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\Url;
 use Drupal\ncms_ui\ContentSpaceManager;
 use Drupal\ncms_ui\Entity\Content\ContentBase;
 use Drupal\node\NodeInterface;
@@ -113,7 +115,7 @@ class ContentBaseFormAlter {
         $content_space_widget = &$form['field_content_space']['widget'];
         $content_space_widget['#options'] = array_intersect_key($content_space_widget['#options'], [$current_content_space => $current_content_space]);
         $content_space_widget['#default_value'] = [$current_content_space => $current_content_space];
-        $content_space_widget['#disabled'] = TRUE;
+        $content_space_widget['#access'] = FALSE;
       }
     }
     else {
@@ -139,6 +141,7 @@ class ContentBaseFormAlter {
     // publishing/updating logic.
     if ($entity instanceof ContentBase) {
       $form_state->set('original_entity', $entity);
+      $form_state->setRedirectUrl($entity->getOverviewUrl());
       $form['actions']['submit']['#access'] = FALSE;
       $form['actions']['delete']['#access'] = FALSE;
       $form['status']['#access'] = FALSE;
@@ -165,7 +168,7 @@ class ContentBaseFormAlter {
             '#value' => $this->t('Save and publish'),
             '#ajax' => $ajax_confirm + [
               'confirm_question' => $this->t('This will make this @type publicly available on the API and will automatically create a page for this @type on Humanitarian Action. Are you sure?', [
-                '@type' => strtolower($entity->getEntityType()->getLabel()),
+                '@type' => strtolower($entity->type->entity->label()),
               ]),
             ],
           ];
@@ -215,6 +218,27 @@ class ContentBaseFormAlter {
   public function ajaxConfirm(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
 
+    if ($form_state->hasAnyErrors()) {
+      // Manually clear any errors.
+      $response->addCommand(new InvokeCommand('form label.has-error', 'removeClass', ['has-error']));
+      $response->addCommand(new InvokeCommand('form .error', 'removeClass', ['error']));
+      $errors = $form_state->getErrors();
+      foreach ($errors as $key => $error) {
+        // Add the error message.
+        $response->addCommand(new MessageCommand($error, NULL, [
+          'type' => 'error',
+        ], $key === array_key_first($errors)));
+        $name = 'edit-' . Html::getClass($key);
+        // And mark the form elements as having errors.
+        $response->addCommand(new InvokeCommand('label[for="' . $name . '"]', 'addClass', ['has-error']));
+        $response->addCommand(new InvokeCommand('[data-drupal-selector="' . $name . '"]', 'addClass', ['error']));
+      }
+      return $response;
+    }
+
+    // Clear error messages.
+    $this->messenger->deleteByType('error');
+
     /** @var \Drupal\Core\Entity\EntityForm $form_object */
     $form_object = $form_state->getFormObject();
 
@@ -258,7 +282,7 @@ class ContentBaseFormAlter {
         $this->submitForm($form, $form_state, TRUE);
 
         // Go back to the backend listings page.
-        $response->addCommand(new RedirectCommand(Url::fromRoute('<front>')->toString()));
+        $response->addCommand(new RedirectCommand($updated_entity->getOverviewUrl()->toString()));
       }
     }
 
@@ -377,11 +401,13 @@ class ContentBaseFormAlter {
         else {
           $this->messenger->addStatus($this->t('No changes detected for <em>@label</em>. The @type has not been updated.', [
             '@label' => $updated_entity->label(),
-            '@type' => strtolower($updated_entity->getEntityType()->getLabel()),
+            '@type' => strtolower($updated_entity->type->entity->label()),
           ]));
         }
         break;
     }
+
+    $form_state->setRedirectUrl($updated_entity->getOverviewUrl());
   }
 
   /**

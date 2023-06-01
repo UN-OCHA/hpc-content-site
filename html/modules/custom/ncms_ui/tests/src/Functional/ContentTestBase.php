@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\ncms_ui\Functional;
 
+use Drupal\Core\Database\Database;
+use Drupal\node\NodeInterface;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\Tests\ncms_ui\Traits\ContentTestTrait;
 
@@ -37,5 +39,22 @@ abstract class ContentTestBase extends BrowserTestBase {
    * {@inheritdoc}
    */
   protected $defaultTheme = 'stark';
+
+  /**
+   * Assert a table entry in content_moderation_state_field_data.
+   */
+  protected function assertContentModerationTableEntry(NodeInterface $entity) {
+    $result = Database::getConnection()->select('content_moderation_state_field_data')
+      ->fields('content_moderation_state_field_data', [
+        'id',
+        'revision_id',
+        'content_entity_id',
+        'content_entity_revision_id',
+      ])
+      ->condition('content_entity_id', $entity->id())
+      ->execute()
+      ->fetchAll();
+    $this->assertEquals(1, count($result), 'Table content_moderation_state_field_data contains a single record for the entity.');
+  }
 
 }

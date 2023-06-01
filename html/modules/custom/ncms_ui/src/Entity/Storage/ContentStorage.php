@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_ui\Entity\Storage;
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\ncms_ui\Entity\Content\ContentBase;
 use Drupal\node\NodeInterface;
@@ -56,14 +57,6 @@ class ContentStorage extends NodeStorage {
     }
 
     $last_published = $entity->getLastPublishedRevision();
-    if ($status == NodeInterface::NOT_PUBLISHED && $last_published && !$last_published->isDefaultRevision()) {
-      // Revision has been unpublished. Check if there is another published
-      // version available that should be set to be the new default revision.
-      $last_published->isDefaultRevision(TRUE);
-      $last_published->setNewRevision(FALSE);
-      $last_published->setSyncing(TRUE);
-      $last_published->save();
-    }
     if ($status == NodeInterface::NOT_PUBLISHED && !$last_published) {
       $this->database
         ->update($this->dataTable)
@@ -91,6 +84,37 @@ class ContentStorage extends NodeStorage {
 
     $this->resetCache([$entity->id()]);
     return !empty($result);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function doPostSave(EntityInterface $entity, $update) {
+    parent::doPostSave($entity, $update);
+
+    if (!$entity instanceof ContentBase || $entity->isDeleted()) {
+      return;
+    }
+
+    // For entities of type ContentBase, we want to make sure that there is
+    // always a meaningful default revision.
+    $last_published = $entity->getLastPublishedRevision();
+    $latest_revision = $entity->getLatestRevision();
+    if ($last_published && $last_published->getRevisionId() != $entity->getRevisionId() && !$last_published->isDefaultRevision()) {
+      // Set the last published revision to be the default.
+      $last_published->isDefaultRevision(TRUE);
+      $last_published->setNewRevision(FALSE);
+      $last_published->setSyncing(TRUE);
+      $last_published->save();
+    }
+    elseif (!$last_published && $latest_revision && $latest_revision->getRevisionId() != $entity->getRevisionId() && !$latest_revision->isDefaultRevision()) {
+      // If no published revision exists, set the latest revision to be the
+      // default.
+      $latest_revision->isDefaultRevision(TRUE);
+      $latest_revision->setNewRevision(FALSE);
+      $latest_revision->setSyncing(TRUE);
+      $latest_revision->save();
+    }
   }
 
 }

@@ -2,8 +2,12 @@
 
 namespace Drupal\ncms_ui\Entity\Content;
 
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\Url;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 use Drupal\ncms_ui\Entity\ContentVersionInterface;
 use Drupal\node\Entity\Node;
@@ -12,30 +16,60 @@ use Drupal\node\NodeInterface;
 /**
  * Bundle class for organization nodes.
  */
-class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVersionInterface {
+abstract class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVersionInterface {
 
   use StringTranslationTrait;
 
   const CONTENT_STATUS_PUBLISHED = 'published';
   const CONTENT_STATUS_PUBLISHED_WITH_DRAFT = 'published_with_draft';
   const CONTENT_STATUS_DRAFT = 'draft';
+  const CONTENT_STATUS_DELETED = 'trash';
 
   /**
    * {@inheritdoc}
    */
   public function access($operation = 'view', AccountInterface $account = NULL, $return_as_object = FALSE) {
+    $route_match = $this->getRouteMatch();
+    $route_name = $route_match?->getRouteName() ?? NULL;
+    $grant_routes = [
+      'entity.node.standalone',
+    ];
+    if (in_array($route_name, $grant_routes) && $operation == 'view') {
+      // Always allow view operation on specific internal routes.
+      return $return_as_object ? AccessResult::allowed() : TRUE;
+    }
+
+    // These operations are allowed when a node is marked as deleted.
+    $delete_operations = [
+      'restore',
+      'delete',
+    ];
+    if (($this->isDeleted() && !in_array($operation, $delete_operations)) || !$this->isDeleted() && in_array($operation, $delete_operations)) {
+      return $return_as_object ? AccessResult::forbidden() : FALSE;
+    }
+
     // These operations are used in ncms_ui.routing.yml and should be mapped to
     // the 'update' operation.
-    $status_operations = [
+    $update_operations = [
       'publish revision',
       'unpublish revision',
+      'soft delete',
+      'restore',
+      'version history',
     ];
-    if (in_array($operation, $status_operations)) {
+    if (in_array($operation, $update_operations)) {
       $operation = 'update';
     }
-    // This override exists to set the operation to the default value "view".
     return parent::access($operation, $account, $return_as_object);
   }
+
+  /**
+   * Get the URL for the overview backend listing of this content type.
+   *
+   * @return \Drupal\Core\Url
+   *   A url object.
+   */
+  abstract public function getOverviewUrl();
 
   /**
    * {@inheritdoc}
@@ -51,6 +85,27 @@ class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVer
   public function setUnpublished() {
     parent::setUnpublished();
     $this->moderation_state->value = 'draft';
+  }
+
+  /**
+   * Mark this entity as deleted.
+   */
+  public function setDeleted() {
+    parent::setUnpublished();
+    $this->isDefaultRevision(TRUE);
+    $this->setNewRevision(TRUE);
+    $this->setRevisionTranslationAffectedEnforced(TRUE);
+    $this->moderation_state->value = 'trash';
+  }
+
+  /**
+   * See if this entity is deleted.
+   */
+  public function isDeleted() {
+    if ($this->isNew()) {
+      return FALSE;
+    }
+    return $this->getLatestRevision()->moderation_state->value == 'trash';
   }
 
   /**
@@ -97,6 +152,9 @@ class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVer
    * {@inheritdoc}
    */
   public function getContentStatus() {
+    if ($this->isDeleted()) {
+      return self::CONTENT_STATUS_DELETED;
+    }
     if ($this->getLatestRevision() && $this->getLatestRevision()->isPublished()) {
       return self::CONTENT_STATUS_PUBLISHED;
     }
@@ -123,6 +181,7 @@ class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVer
       self::CONTENT_STATUS_PUBLISHED => $this->t('Published'),
       self::CONTENT_STATUS_PUBLISHED_WITH_DRAFT => $this->t('Published with newer draft'),
       self::CONTENT_STATUS_DRAFT => $this->t('Draft'),
+      self::CONTENT_STATUS_DELETED => $this->t('Deleted'),
     ];
     return $label_map[$content_status];
   }
@@ -131,6 +190,9 @@ class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVer
    * {@inheritdoc}
    */
   public function getVersionStatusLabel() {
+    if ($this->getLatestRevision()->isDeleted()) {
+      return $this->t('Deleted');
+    }
     if ($this->isPublished()) {
       return $this->t('Published');
     }
@@ -140,10 +202,10 @@ class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVer
   /**
    * Get the latest revision.
    *
-   * @return \Drupal\node\NodeInterface|null
+   * @return \Drupal\ncms_ui\Entity\Content\ContentBase|null
    *   The latest revision if available.
    */
-  protected function getLatestRevision() {
+  public function getLatestRevision() {
     /** @var \Drupal\Node\NodeStorageInterface $node_storage */
     $node_storage = $this->entityTypeManager()->getStorage('node');
     $revision_id = $node_storage->getLatestRevisionId($this->id());
@@ -166,6 +228,113 @@ class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVer
       }
       return $revision;
     };
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getPreviousRevision() {
+    /** @var \Drupal\Node\NodeStorageInterface $node_storage */
+    $node_storage = $this->entityTypeManager()->getStorage('node');
+    $revision_ids = array_reverse($node_storage->revisionIds($this));
+    array_shift($revision_ids);
+    $previous_revision_id = array_shift($revision_ids);
+
+    /** @var \Drupal\node\NodeInterface[] $revisions */
+    return $node_storage->loadRevision($previous_revision_id);
+  }
+
+  /**
+   * Retrieve entity operations specific to our workflows.
+   *
+   * @return array
+   *   An array of operation links.
+   */
+  public function getEntityOperations() {
+    $operations = [];
+    if (!$this->isDeleted() && $this->access('update')) {
+      if ($this instanceof ContentVersionInterface) {
+        $operations['versions'] = [
+          'title' => $this->t('Versions'),
+          'url' => Url::fromRoute('entity.node.version_history', [
+            'node' => $this->id(),
+          ]),
+          'weight' => 50,
+        ];
+      }
+      $operations['soft_delete'] = [
+        'title' => $this->t('Move to trash'),
+        'url' => Url::fromRoute('entity.node.soft_delete', [
+          'node' => $this->id(),
+        ], [
+          'attributes' => [
+            'class' => ['use-ajax'],
+            'data-dialog-type' => 'modal',
+            'data-dialog-options' => Json::encode([
+              'width' => '80%',
+              'title' => $this->t('Confirm deletion'),
+              'dialogClass' => 'node-confirm',
+            ]),
+          ],
+        ]),
+        'weight' => 50,
+      ];
+    }
+    elseif ($this->isDeleted()) {
+      $operations['restore'] = [
+        'title' => $this->t('Restore'),
+        'url' => Url::fromRoute('entity.node.restore', [
+          'node' => $this->id(),
+        ], [
+          'attributes' => [
+            'class' => ['use-ajax'],
+            'data-dialog-type' => 'modal',
+            'data-dialog-options' => Json::encode([
+              'width' => '80%',
+              'title' => $this->t('Confirm restore'),
+              'dialogClass' => 'node-confirm',
+            ]),
+          ],
+        ]),
+        'weight' => 50,
+      ];
+      $operations['delete'] = [
+        'title' => $this->t('Delete for ever'),
+        'url' => Url::fromRoute('entity.node.delete_form', [
+          'node' => $this->id(),
+        ], [
+          'attributes' => [
+            'class' => ['use-ajax'],
+            'data-dialog-type' => 'modal',
+            'data-dialog-options' => Json::encode([
+              'width' => '80%',
+              'title' => $this->t('Confirm delete'),
+              'dialogClass' => 'node-confirm',
+            ]),
+          ],
+        ]),
+        'weight' => 50,
+      ];
+    }
+    return $operations;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preSave(EntityStorageInterface $storage) {
+    parent::preSave($storage);
+    $this->setRevisionTranslationAffectedEnforced(TRUE);
+  }
+
+  /**
+   * Get the route match service.
+   *
+   * @return \Drupal\Core\Routing\RouteMatchInterface
+   *   The route match service.
+   */
+  public static function getRouteMatch() {
+    return \Drupal::routeMatch();
   }
 
 }

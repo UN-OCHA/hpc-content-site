@@ -30,12 +30,11 @@ class RevisionController extends ControllerBase implements ContainerInjectionInt
       $this->messenger()->addStatus($this->t('Version #@version has been published', [
         '@version' => $node_revision->getVersionId(),
       ]));
-      if ($last_version = $node_revision->getLastPublishedRevision()) {
-        if ($last_version->getVersionId() <= $node_revision->getVersionId()) {
-          $this->messenger()->addStatus($this->t('New default published version is #@version', [
-            '@version' => $last_version->getVersionId(),
-          ]));
-        }
+      $last_version = $node_revision->getLastPublishedRevision();
+      if ($last_version && $last_version->getVersionId() <= $node_revision->getVersionId()) {
+        $this->messenger()->addStatus($this->t('New default published version is #@version', [
+          '@version' => $last_version->getVersionId(),
+        ]));
       }
     }
     return $this->redirect('entity.node.version_history', ['node' => $node_revision->id()]);

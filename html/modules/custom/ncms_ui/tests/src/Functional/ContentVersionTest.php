@@ -57,11 +57,13 @@ class ContentVersionTest extends ContentTestBase {
     $assert_session->elementExists('xpath', $tbody_xpath . '/tr[1]/td[4]/a[@href="' . $preview_url . '" and @class="use-ajax"]');
     $assert_session->elementContains('xpath', $tbody_xpath . '/tr[1]/td[5]', 'Draft');
     $assert_session->elementContains('xpath', $tbody_xpath . '/tr[1]/td[6]//a[@href="/node/' . $node_1_1->id() . '/revisions/1/publish"]', 'Publish');
+    $this->assertContentModerationTableEntry($node_1_1);
 
     // Create a second revision.
     $this->drupalGet($edit_url);
     $this->getSession()->getPage()->fillField('edit-body-0-value', 'Test content');
     $this->getSession()->getPage()->pressButton('Save as draft');
+    $this->assertContentModerationTableEntry($node_1_1);
 
     // Go back to the versions page. Confirm there are 2 revisions listed now.
     // Both are unpublished but their status is labeled "Draft" for the most
@@ -81,6 +83,8 @@ class ContentVersionTest extends ContentTestBase {
 
     // Publish the current revision.
     $this->getSession()->getPage()->find('xpath', $tbody_xpath . '/tr[1]/td[8]')->findLink('Publish')->click();
+    $this->assertContentModerationTableEntry($node_1_1);
+
     $assert_session->elementContains('xpath', '//div[@class="messages__content"]', 'Version #2 has been published');
     $assert_session->elementContains('xpath', $tbody_xpath . '/tr[1]/td[5]', 'Published');
     $assert_session->elementContains('xpath', $tbody_xpath . '/tr[1]/td[8]//a[@href="/node/' . $node_1_1->id() . '/revisions/2/unpublish"]', 'Unpublish');
@@ -91,6 +95,7 @@ class ContentVersionTest extends ContentTestBase {
     $this->drupalGet($edit_url);
     $this->getSession()->getPage()->fillField('edit-body-0-value', 'Test content draft');
     $this->getSession()->getPage()->pressButton('Save as draft');
+    $this->assertContentModerationTableEntry($node_1_1);
 
     // Go back to the versions page. Confirm there are 3 revisions listed now.
     $this->drupalGet($versions_url);

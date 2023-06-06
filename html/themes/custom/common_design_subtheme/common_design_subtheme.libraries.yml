@@ -47,10 +47,20 @@ gho-hero-image:
     theme:
       components/gho-hero-image/gho-hero-image.css: {}
 
+gho-image-with-text:
+  css:
+    theme:
+      components/gho-image-with-text/gho-image-with-text.css: {}
+  dependencies:
+    - common_design_subtheme/gho-aside
+    - common_design_subtheme/gho-caption
+
 gho-photo-gallery:
   css:
     theme:
       components/gho-photo-gallery/gho-photo-gallery.css: {}
+  dependencies:
+    - common_design_subtheme/gho-aside
 
 gho-facts-and-figures:
   css:

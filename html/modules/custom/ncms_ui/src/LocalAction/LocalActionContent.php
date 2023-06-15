@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Provides a taxonomy specific implementation for local action plugins.
+ * Provides a content specific implementation for local action plugins.
  */
 class LocalActionContent extends LocalActionDefault {
 

@@ -13,11 +13,9 @@ jobs:
       id: update-action
       uses: UN-OCHA/actions/composer-update@main
       with:
-        php_version: 8.1
         github_access_token: ${{ secrets.PAT }}
         patch_branch: 'develop'
         patch_packages: 'drupal/*'
-        patch_maintainers: ${{ secrets.DRUPAL_MAINTAINERS }}
+        patch_maintainers: ${{ vars.DRUPAL_MAINTAINERS }}
         slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
-        slack_channel_name: ${{ secrets.SLACK_CHANNEL }}
-        flowdock_token: ${{ secrets.FLOWDOCK_TOKEN }}
+        slack_channel_name: ${{ vars.SLACK_CHANNEL }}

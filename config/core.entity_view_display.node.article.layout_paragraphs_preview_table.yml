@@ -5,7 +5,6 @@ dependencies:
   config:
     - core.entity_view_mode.node.layout_paragraphs_preview_table
     - field.field.node.article.field_appeals
-    - field.field.node.article.field_article_type
     - field.field.node.article.field_author
     - field.field.node.article.field_caption
     - field.field.node.article.field_card_title
@@ -58,7 +57,6 @@ content:
     region: content
 hidden:
   field_appeals: true
-  field_article_type: true
   field_author: true
   field_caption: true
   field_card_title: true

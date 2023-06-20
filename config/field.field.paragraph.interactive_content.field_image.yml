@@ -11,7 +11,7 @@ field_name: field_image
 entity_type: paragraph
 bundle: interactive_content
 label: Thumbnail
-description: 'Image representing the content. When clicked it will redirect to the interactive content''s page.'
+description: "Image representing the content. When clicked it will redirect to the interactive content's page."
 required: false
 translatable: true
 default_value: {  }

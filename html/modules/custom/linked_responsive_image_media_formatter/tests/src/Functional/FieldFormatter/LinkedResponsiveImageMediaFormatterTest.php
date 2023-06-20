@@ -14,7 +14,7 @@ use Drupal\Tests\media\Traits\MediaTypeCreationTrait;
 use Drupal\Tests\TestFileCreationTrait;
 
 /**
- * @covers \Drupal\linked_responsive_image_media_formatter\Plugin\Field\FieldFormatter\LinkedResponsiveImageMediaFormatterFormatter
+ * Test LinkedResponsiveImageMediaFormatter.
  *
  * @group media
  */
@@ -43,7 +43,7 @@ class LinkedResponsiveImageMediaFormatterTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $defaultTheme = 'classy';
+  protected $defaultTheme = 'starterkit_theme';
 
   /**
    * View display for the node type used in the tests.
@@ -76,7 +76,7 @@ class LinkedResponsiveImageMediaFormatterTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     // Create responsive image styles.

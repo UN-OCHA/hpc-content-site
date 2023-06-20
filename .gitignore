@@ -37,6 +37,7 @@ buildlog.txt
 ###> squizlabs/php_codesniffer ###
 /.phpcs-cache
 /phpcs.xml
+logs
 ###< squizlabs/php_codesniffer ###
 
 ###> phpunit/phpunit ###

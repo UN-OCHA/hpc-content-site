@@ -93,6 +93,7 @@ class GhoMenuLinkTreeManipulators extends DefaultMenuLinkTreeManipulators {
         $query->condition('status', NodeInterface::PUBLISHED);
         // This is to prevent language mismatch.
         $query->condition('langcode', $langcode, 'IN');
+        $query->accessCheck(TRUE);
       }
 
       $nids = $query->execute();

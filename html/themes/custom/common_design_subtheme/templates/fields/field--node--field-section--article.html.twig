@@ -37,10 +37,10 @@
  * @see template_preprocess_field()
  */
 #}
-{% spaceless %}
+{% apply spaceless %}
 <div class="gho-article__pre-title">
   {% for item in items %}
   {{ item.content }}
   {% endfor %}
 </div>
-{% endspaceless %}
+{% endapply %}

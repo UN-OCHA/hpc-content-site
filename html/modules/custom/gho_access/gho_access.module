@@ -257,6 +257,7 @@ function gho_access_check_language_visibility($langcode) {
       ->condition('langcode', $langcode)
       ->condition('status', NodeInterface::PUBLISHED)
       ->condition('promote', NodeInterface::PROMOTED)
+      ->accessCheck(TRUE)
       ->execute();
     $allowed[$langcode] = !empty($ids);
   }

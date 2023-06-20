@@ -17,6 +17,10 @@ layout_paragraphs:
   css:
     component:
       css/layout_paragraphs.css: {}
+article_edit_form:
+  css:
+    component:
+      css/article_edit_form.css: {}
 document_edit_form:
   css:
     component:

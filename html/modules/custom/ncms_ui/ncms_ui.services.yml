@@ -1,7 +1,7 @@
 services:
   ncms_ui.content.manager:
     class: Drupal\ncms_ui\ContentManager
-    arguments: ['@entity_type.manager', '@current_user']
+    arguments: ['@entity_type.manager', '@current_user', '@tempstore.private', '@plugin.manager.views.join']
   ncms_ui.replicate_form_alter:
     class: Drupal\ncms_ui\Form\ReplicateFormAlter
     arguments: ['@entity_type.manager', '@ncms_ui.content.manager']
@@ -19,3 +19,11 @@ services:
     arguments: ['@config.factory', '@entity_type.manager', '@router.admin_context']
     tags:
       - { name: theme_negotiator, priority: -40 }
+  ncms_ui.autocomplete_route_subscriber:
+    class: Drupal\ncms_ui\Autocomplete\AutocompleteRouteSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  ncms_ui.autocomplete_matcher:
+    class: Drupal\ncms_ui\Autocomplete\EntityAutocompleteMatcher
+    arguments: ['@plugin.manager.entity_reference_selection', '@ncms_ui.content.manager', '@date.formatter', '@entity_type.manager', '@entity.repository']

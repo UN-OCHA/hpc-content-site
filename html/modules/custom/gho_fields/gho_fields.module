@@ -74,7 +74,7 @@ function gho_fields_theme() {
  * Change the view mode of the photo galleries based on the number of images
  * they contain.
  */
-function gho_fields_entity_view_mode_alter(&$view_mode, EntityInterface $entity, $context) {
+function gho_fields_entity_view_mode_alter(&$view_mode, EntityInterface $entity) {
   if ($entity->getEntityTypeId() === 'paragraph' && $entity->bundle() == 'photo_gallery') {
     if ($entity->field_photos->count() % 2 === 0) {
       $view_mode = 'two_columns';

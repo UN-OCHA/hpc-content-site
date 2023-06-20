@@ -21,6 +21,11 @@ class RouteSubscriber extends RouteSubscriberBase {
       // if the user is logged-in.
       $route->setRequirement('_custom_access', '\Drupal\ncms_ui\Controller\ViewController::nodeCanonicalRouteAccess');
     }
+
+    // Add dynamic titles to the "Add term" local actions.
+    if ($route = $collection->get('entity.taxonomy_term.add_form')) {
+      $route->setDefault('_title_callback', '\Drupal\ncms_ui\Controller\TermController::addFormTitle');
+    }
   }
 
 }

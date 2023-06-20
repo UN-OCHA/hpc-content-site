@@ -1,0 +1,183 @@
+body {
+  color: var(--cd-grey--dark);
+  font-family: roboto, helvetica, arial, sans-serif;
+  font-size: var(--cd-font-size--base);
+  line-height: 1.5;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+html[lang=ar] body {
+  font-family: "Noto Kufi Arabic", roboto, sans-serif;
+}
+
+picture img {
+  display: block;
+}
+
+:root {
+  --content-width: 904px;
+  --reading-width: 720px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: var(--cd-ocha-blue);
+}
+
+h1 {
+  color: #000;
+  font-family: Roboto, sans-serif;
+}
+
+.page-title {
+  color: var(--cd-default-text-color);
+  border-bottom: 1px solid var(--cd-blue-grey);
+  font-weight: 900; /* 900 weight does indeed exist via google fonts */
+}
+
+a {
+  color: #5090cd;
+}
+a:hover, a:focus {
+  color: #5090cd;
+}
+
+/* ------------------------------------------------------------------------------
+ * Editorial indication for unpublished/untranslated entities.
+ *---------------------------------------------------------------------------- */
+.user-logged-in [class*="--unpublished"] {
+  outline: 4px dashed #ffc310;
+}
+
+.user-logged-in [class*="--untranslated"] {
+  outline: 4px solid #fd7b1a;
+}
+
+.user-logged-in [class*="--unpublished"][class*="--untranslated"] {
+  outline: 4px solid #c30;
+}
+
+.form--inline .form-item {
+  float: left;
+  margin-top: 0;
+  margin-right: 0.5em;
+}
+
+.form--inline .form-actions {
+  float: left;
+  margin-top: 0;
+}
+
+.page-title {
+  margin-top: 0;
+  border-bottom: 0;
+}
+
+.page-title ~ .tabs {
+  margin-bottom: 1rem;
+}
+
+#edit-basic {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+#edit-basic .cd-form__item {
+  flex-basis: 100%;
+  max-width: 560px;
+}
+#edit-basic .form-search {
+  width: 100%;
+  height: 100%;
+}
+#edit-basic .form-submit {
+  min-width: 100px;
+  text-transform: uppercase;
+  background-color: var(--cd-implementation-secondary);
+  font-size: var(--cd-font-size--small);
+  font-weight: 700;
+}
+#edit-basic label[for=edit-keys] {
+  position: absolute !important;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  width: 1px;
+  height: 1px;
+  word-wrap: normal;
+}
+
+.path-search .cd-layout-content .page-title {
+  color: #1f1f1f;
+  border: none;
+  font-family: var(--cd-font--roboto);
+  font-size: 2.25rem;
+  line-height: 2.375rem;
+}
+.path-search .cd-layout-content a {
+  color: var(--cd-implementation-secondary);
+  font-family: var(--cd-font--roboto);
+}
+.path-search .cd-layout-content #edit-help-link {
+  font-size: var(--cd-font-size--small);
+}
+.path-search .cd-layout-content h3 {
+  color: var(--cd-implementation-secondary);
+  font-family: var(--cd-font--roboto);
+}
+html[dir=rtl] .path-search .cd-layout-content h3 {
+  font-family: var(--cd-font--noto-kufi);
+}
+.path-search .cd-layout-content h2 {
+  color: var(--cd-implementation-secondary);
+  font-family: var(--cd-font--roboto);
+}
+.path-search .cd-layout-content h3 a {
+  color: inherit;
+  font-family: inherit;
+}
+.path-search .cd-layout-content .cd-pager__item a:hover,
+.path-search .cd-layout-content .cd-pager__item a:focus {
+  color: var(--cd-implementation-secondary);
+  border-color: var(--cd-blue-grey);
+  background-color: var(--cd-blue-grey);
+}
+.path-search .cd-layout-content .cd-pager__item.is-active a,
+.path-search .cd-layout-content .cd-pager__item.is-active a:hover {
+  color: white;
+  border-color: var(--cd-implementation-secondary);
+  background-color: var(--cd-implementation-secondary);
+  font-weight: 700;
+}
+
+@media print {
+  .cd-layout-container,
+  .cd-layout-container .cd-layout-content-wrapper {
+    position: relative;
+    display: block;
+  }
+  article.gho-article {
+    position: relative;
+    display: block;
+    zoom: 0.65;
+  }
+  div.paragraph.gho-text p {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+  div.paragraph p.highlight {
+    page-break-after: avoid;
+  }
+  div.paragraph .gho-caption__text {
+    line-height: 0.95rem;
+  }
+}
+
+/*# sourceMappingURL=styles.css.map */

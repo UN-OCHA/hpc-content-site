@@ -1,0 +1,13 @@
+form.node-article-form fieldset[data-drupal-selector="edit-field-hero-image"],
+form.node-article-edit-form fieldset[data-drupal-selector="edit-field-hero-image"] {
+  padding: 0;
+  border: 0;
+}
+form.node-article-form fieldset[data-drupal-selector="edit-field-hero-image"] legend,
+form.node-article-edit-form fieldset[data-drupal-selector="edit-field-hero-image"] legend {
+  display: none;
+}
+form.node-article-form fieldset[data-drupal-selector="edit-field-hero-image"] .fieldset__wrapper,
+form.node-article-edit-form fieldset[data-drupal-selector="edit-field-hero-image"] .fieldset__wrapper {
+  margin: 0;
+}

@@ -1,0 +1,76 @@
+version: "2.2"
+
+networks:
+  default:
+
+volumes:
+  hpc-content-site-database:
+  hpc-content-site-public:
+  hpc-content-site-private:
+
+services:
+  memcache:
+    restart: always
+    image: public.ecr.aws/unocha/memcache:1.6
+    hostname: hpc-content-test-memcache
+    container_name: hpc-content-test-memcache
+    environment:
+      MEMCACHE_MAX_MEMORY: 64
+    ports:
+      - "11211"
+    networks:
+      - default
+
+  mysql:
+    image: public.ecr.aws/unocha/mysql:10.6
+    hostname: hpc-content-test-mysql
+    container_name: hpc-content-test-mysql
+    environment:
+      - MYSQL_DB=hpc_content
+      - MYSQL_USER=hpc_content
+      - MYSQL_PASS=hpc_content
+    volumes:
+      - "hpc-content-site-database:/var/lib/mysql:rw"
+    networks:
+      - default
+
+  drupal:
+    image: unocha/hpc-content-site:local
+    hostname: hpc-content-test-site
+    container_name: hpc-content-test-site
+    depends_on:
+      # - memcache
+      - mysql
+    volumes:
+      - "./settings:/srv/www/shared/settings:ro"
+      # Mount volumes for the private and public files.
+      - "hpc-content-site-public:/srv/www/html/sites/default/files:rw"
+      - "hpc-content-site-private:/srv/www/html/sites/default/private:rw"
+      # Mount the folders needed for the tests.
+      - "../../phpcs.xml:/srv/www/phpcs.xml:ro"
+      - "../../phpunit.xml:/srv/www/phpunit.xml:ro"
+      - "../../html/sites/simpletest:/srv/www/html/sites/simpletest:rw"
+      # Mount local custom code.
+      #- "../html/modules/custom:/srv/www/html/modules/custom:ro"
+      #- "../html/themes/custom:/srv/www/html/themes/custom:ro"
+    environment:
+      - TERM=xterm
+      - ENVIRONMENT=dev
+      - NGINX_SERVERNAME=hpc-content-test-site,localhost,127.0.0.1
+      - NGINX_OVERRIDE_PROTOCOL=HTTP,hpc-content-test-site,localhost,127.0.0.1
+      - DRUSH_OPTIONS_URI=http://hpc-content-test-site
+      - DRUPAL_DB_DATABASE=hpc_content
+      - DRUPAL_DB_USERNAME=hpc_content
+      - DRUPAL_DB_PASSWORD=hpc_content
+      - DRUPAL_DB_HOST=mysql
+      - DRUPAL_DB_DRIVER=mysql
+      - PHP_ENVIRONMENT=dev
+      - PHP_XDEBUG=true
+      - XDEBUG_MODE=coverage
+      - BROWSERTEST_OUTPUT_DIRECTORY=/srv/www/html/sites/default/files/browser_output
+      - DTT_BASE_URL=http://127.0.0.1
+      - SYMFONY_DEPRECATIONS_HELPER=disabled
+    ports:
+    - "8081:80"
+    networks:
+      - default

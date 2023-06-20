@@ -12,7 +12,7 @@
 {% if links %}
 <ul class="gho-article-list__list">
 {% for link in links %}
-  {% spaceless %}
+  {% apply spaceless %}
   <li class="gho-article-list__list__item">
     <a href="{{ link.url }}" class="gho-article-list-link">
       <span{{ link.attributes.addClass('gho-article-list-link__title') }}>{{ link.title }}</span>
@@ -21,7 +21,7 @@
       </svg>
     </a>
   </li>
-  {% endspaceless %}
+  {% endapply %}
 {% endfor %}
 </ul>
 {% endif %}

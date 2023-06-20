@@ -4,7 +4,7 @@
   ]
 %}
 {% if items %}
-{% spaceless %}
+{% apply spaceless %}
 <div class="gho-achievement__sources">
 {% if label_hidden %}
   {% for item in items %}
@@ -17,5 +17,5 @@
   {% endfor %}
 {% endif %}
 </div>
-{% endspaceless %}
+{% endapply %}
 {% endif %}

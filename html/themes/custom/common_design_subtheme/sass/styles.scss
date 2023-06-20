@@ -1,10 +1,11 @@
 //——————————————————————————————————————————————————————————————————————————————
 // Common Design
 //
-// Imports everything in the `cd` folder and ensures that the templates provided
-// in this theme for the Header/Footer will carry Common Design branding.
+// As of version 8, the Common Design is no longer maintained using Sass. Only
+// the variables which were actively used by this subtheme have been retained here.
 //——————————————————————————————————————————————————————————————————————————————
-@import "cd/cd";
+@import "cd/cd-variables";
+@import "cd/cd-mixins";
 
 //——————————————————————————————————————————————————————————————————————————————
 // Theme extras
@@ -23,7 +24,6 @@
 @import "components/editorial";
 @import "components/forms";
 @import "components/page_title";
-@import "components/search";
 
 @media print {
   .cd-layout-container,

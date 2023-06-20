@@ -124,11 +124,14 @@ function common_design_subtheme_preprocess_node(&$variables) {
 
   // Add the SVGs for gho-social-links so we can output them in multiple
   // templates without having to keep them up to date.
-  $icon_twitter = file_get_contents(drupal_get_path('theme', 'common_design_subtheme') . '/components/gho-social-links/img/icon--twitter.svg');
-  $icon_facebook = file_get_contents(drupal_get_path('theme', 'common_design_subtheme') . '/components/gho-social-links/img/icon--facebook.svg');
-  $icon_linkedin = file_get_contents(drupal_get_path('theme', 'common_design_subtheme') . '/components/gho-social-links/img/icon--linkedin.svg');
-  $icon_copyurl = file_get_contents(drupal_get_path('theme', 'common_design_subtheme') . '/components/gho-social-links/img/icon--copyurl.svg');
-  $icon_pdf = file_get_contents(drupal_get_path('theme', 'common_design_subtheme') . '/components/gho-social-links/img/icon--pdf.svg');
+  /** @var \Drupal\Core\Extension\ExtensionPathResolver $extension_path_resolver */
+  $extension_path_resolver = \Drupal::service('extension.path.resolver');
+  $theme_path = $extension_path_resolver->getPath('theme', 'common_design_subtheme');
+  $icon_twitter = file_get_contents($theme_path . '/components/gho-social-links/img/icon--twitter.svg');
+  $icon_facebook = file_get_contents($theme_path . '/components/gho-social-links/img/icon--facebook.svg');
+  $icon_linkedin = file_get_contents($theme_path . '/components/gho-social-links/img/icon--linkedin.svg');
+  $icon_copyurl = file_get_contents($theme_path . '/components/gho-social-links/img/icon--copyurl.svg');
+  $icon_pdf = file_get_contents($theme_path . '/components/gho-social-links/img/icon--pdf.svg');
   $variables['icon_twitter'] = $icon_twitter;
   $variables['icon_facebook'] = $icon_facebook;
   $variables['icon_linkedin'] = $icon_linkedin;
@@ -301,6 +304,7 @@ function common_design_subtheme_get_navigation_tree() {
   // Check if the homepage in the given language exists.
   $storage = \Drupal::service('entity_type.manager')->getStorage('node');
   $ids = $storage->getQuery()
+    ->accessCheck(TRUE)
     ->condition('nid', 1)
     ->condition('langcode', $langcode)
     ->condition('status', NodeInterface::PUBLISHED)

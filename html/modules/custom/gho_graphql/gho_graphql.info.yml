@@ -1,8 +1,0 @@
-name: GraphQL for GHO
-type: module
-description: 'GraphQL schema and plugins for GHO.'
-package: GraphQL
-dependencies:
-  - graphql:graphql
-  - node:node
-core_version_requirement: ^8 || ^9

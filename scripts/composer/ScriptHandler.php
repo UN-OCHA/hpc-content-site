@@ -9,14 +9,16 @@ namespace DrupalProject\composer;
 
 use Composer\Script\Event;
 use Composer\Semver\Comparator;
+use Drupal\Core\Site\Settings;
 use DrupalFinder\DrupalFinder;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
-use Webmozart\PathUtil\Path;
+use Symfony\Component\Filesystem\Path;
 
 class ScriptHandler {
 
   public static function createRequiredFiles(Event $event) {
+
     $fs = new Filesystem();
     $drupalFinder = new DrupalFinder();
     $drupalFinder->locateRoot(getcwd());
@@ -41,8 +43,8 @@ class ScriptHandler {
       $fs->copy($drupalRoot . '/sites/default/default.settings.php', $drupalRoot . '/sites/default/settings.php');
       require_once $drupalRoot . '/core/includes/bootstrap.inc';
       require_once $drupalRoot . '/core/includes/install.inc';
-      $settings['config_directories'] = [
-        CONFIG_SYNC_DIRECTORY => (object) [
+      $settings['config_sync_directories'] = [
+        Settings::get('config_sync_directory') => (object) [
           'value' => Path::makeRelative($drupalFinder->getComposerRoot() . '/config/sync', $drupalRoot),
           'required' => TRUE,
         ],
@@ -50,6 +52,13 @@ class ScriptHandler {
       drupal_rewrite_settings($settings, $drupalRoot . '/sites/default/settings.php');
       $fs->chmod($drupalRoot . '/sites/default/settings.php', 0666);
       $event->getIO()->write("Create a sites/default/settings.php file with chmod 0666");
+
+      // Append docksal snippet to settings.php to include settings.local.php.
+      if ($fs->exists($drupalRoot . '/../.docksal/snippets/include_local_settings_file.txt')) {
+        $snippet = file_get_contents($drupalRoot . '/../.docksal/snippets/include_local_settings_file.txt');
+        $fs->appendToFile($drupalRoot . '/sites/default/settings.php', $snippet);
+        $event->getIO()->write("Append ./docksal/snippets/include_local_settings_file.txt to sites/default/settings.php");
+      }
     }
 
     // Create the files directory with chmod 0777
@@ -95,6 +104,40 @@ class ScriptHandler {
           $event->getIO()->write("Unable to remove '$file'");
         }
       }
+    }
+  }
+
+  /**
+   * Checks if the installed version of Composer is compatible.
+   *
+   * Composer 1.0.0 and higher consider a `composer install` without having a
+   * lock file present as equal to `composer update`. We do not ship with a lock
+   * file to avoid merge conflicts downstream, meaning that if a project is
+   * installed with an older version of Composer the scaffolding of Drupal will
+   * not be triggered. We check this here instead of in drupal-scaffold to be
+   * able to give immediate feedback to the end user, rather than failing the
+   * installation after going through the lengthy process of compiling and
+   * downloading the Composer dependencies.
+   *
+   * @see https://github.com/composer/composer/pull/5035
+   */
+  public static function checkComposerVersion(Event $event) {
+    $composer = $event->getComposer();
+    $io = $event->getIO();
+    $version = $composer::VERSION;
+    // The dev-channel of composer uses the git revision as version number,
+    // try to the branch alias instead.
+    if (preg_match('/^[0-9a-f]{40}$/i', $version)) {
+      $version = $composer::BRANCH_ALIAS_VERSION;
+    }
+    // If Composer is installed through git we have no easy way to determine if
+    // it is new enough, just display a warning.
+    if ($version === '@package_version@' || $version === '@package_branch_alias_version@') {
+      $io->writeError('<warning>You are running a development version of Composer. If you experience problems, please update Composer to the latest stable version.</warning>');
+    }
+    elseif (Comparator::lessThan($version, '1.0.0')) {
+      $io->writeError('<error>Drupal-project requires Composer version 1.0.0 or higher. Please update your Composer before continuing</error>.');
+      exit(1);
     }
   }
 

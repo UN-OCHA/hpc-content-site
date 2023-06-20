@@ -25,6 +25,30 @@
   background-color: white;
 }
 
+/* The secondary toolbar. */
+.gin-secondary-toolbar .gin-breadcrumb-wrapper {
+  display: none;
+}
+.gin-secondary-toolbar #toolbar-administration-secondary {
+  display: flex;
+  width: 100%;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+}
+.gin-secondary-toolbar #toolbar-administration-secondary .form-item {
+  margin: 0;
+}
+.gin-secondary-toolbar #toolbar-administration-secondary .form-item label {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+.gin-secondary-toolbar #toolbar-administration-secondary .form-item .form-element {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  min-height: auto;
+}
+
 table {
   background-color: white;
 }

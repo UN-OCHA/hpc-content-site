@@ -1,31 +1,10 @@
 uuid: ddf7ec8a-7a21-47c0-870f-6b9a1344099e
 langcode: en
 status: true
-dependencies:
-  module:
-    - paragraphs_viewmode
+dependencies: {  }
 id: image_with_text
 label: 'Image with text'
 icon_uuid: null
 icon_default: null
 description: 'An image with a text.'
-behavior_plugins:
-  paragraphs_viewmode_behavior:
-    enabled: true
-    override_mode: third_width_cropped
-    override_available:
-      third_width_cropped: third_width_cropped
-      default: '0'
-      full_width: '0'
-      half_width: '0'
-      hero_image: '0'
-      link_with_background_image_medium: '0'
-      link_with_background_image_small: '0'
-      linked_image_medium: '0'
-      linked_image_small: '0'
-      preview: '0'
-      single_column: '0'
-      third_width: '0'
-      three_columns: '0'
-      two_columns: '0'
-    override_default: third_width_cropped
+behavior_plugins: {  }

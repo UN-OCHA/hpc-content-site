@@ -96,6 +96,7 @@ class DocumentExport extends DataProducerPluginBase implements ContainerFactoryP
       $query = $this->entityTypeManager
         ->getStorage($type)
         ->getQuery();
+      $query->accessCheck(TRUE);
       $query->condition('type', 'document');
       $query->condition('status', NodeInterface::PUBLISHED);
       $query->sort('changed', 'DESC');

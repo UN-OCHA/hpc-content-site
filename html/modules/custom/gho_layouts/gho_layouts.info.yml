@@ -2,6 +2,6 @@ type: module
 name: GHO Layouts
 description: 'Provides additional layouts.'
 package: gho
-core_version_requirement: ^8.8 || ^9
+core_version_requirement: ^9.3 || ^10
 dependencies:
   - layout_builder:layout_builder

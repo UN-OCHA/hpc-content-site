@@ -108,7 +108,7 @@ class HidUser extends DataProducerPluginBase implements ContainerFactoryPluginIn
   public function resolve(FieldContext $field_context): AccountInterface {
     // Get the HID user id from the request.
     /** @var \Symfony\Component\HttpFoundation\HeaderBag $headers */
-    $headers = $this->requestStack->getMasterRequest()->headers;
+    $headers = $this->requestStack->getMainRequest()->headers;
     $hid_user_id = $headers->has('hid-user') ? $headers->get('hid-user') : NULL;
     if (!$hid_user_id) {
       // None given, so we fallback to the current user, which will be

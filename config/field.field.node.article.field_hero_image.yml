@@ -10,8 +10,8 @@ id: node.article.field_hero_image
 field_name: field_hero_image
 entity_type: node
 bundle: article
-label: 'Main article image'
-description: 'Large image displayed at the top of the article''s page and used as a thumbnail image in article teasers.'
+label: 'Hero image'
+description: "Large image displayed at the top of the article's page and used as a thumbnail image in article teasers."
 required: false
 translatable: true
 default_value: {  }

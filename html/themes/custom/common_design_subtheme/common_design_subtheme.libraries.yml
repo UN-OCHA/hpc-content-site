@@ -1,7 +1,25 @@
-global-styling:
+###
+# Default global styles for the sub-theme.
+#
+# If you want some styles to be included on every page load, either add them in
+# css/styles.css or add your own files to the list under "theme"
+#
+# If you want specific components to apply to your whole site, list them as
+# dependencies to this library. An example dependency appears here as a comment.
+global-assets:
   css:
     theme:
+      css/brand.css: {}
       css/styles.css: {}
+  dependencies:
+    - common_design_subtheme/hpc-content-cd-overrides
+
+###
+# HPC Content Module libraries
+hpc-content-cd-overrides:
+  css:
+    theme:
+      components/hpc-content-cd-overrides/hpc-content-brand.css: {}
 
 # Custom components
 gho-appeals-tags:
@@ -29,10 +47,20 @@ gho-hero-image:
     theme:
       components/gho-hero-image/gho-hero-image.css: {}
 
+gho-image-with-text:
+  css:
+    theme:
+      components/gho-image-with-text/gho-image-with-text.css: {}
+  dependencies:
+    - common_design_subtheme/gho-aside
+    - common_design_subtheme/gho-caption
+
 gho-photo-gallery:
   css:
     theme:
       components/gho-photo-gallery/gho-photo-gallery.css: {}
+  dependencies:
+    - common_design_subtheme/gho-aside
 
 gho-facts-and-figures:
   css:

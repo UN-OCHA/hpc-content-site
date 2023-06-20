@@ -29,19 +29,35 @@
   {% import _self as menus %}
   {% if items %}
 
+    {# When outputting menu level as a class, use the "cosmetic" value so that
+       classnames begin with 1 instead of 0. #}
+    {% set menu_level_cosmetic = menu_level + 1 %}
+    {% set component = 'cd-nav-level-' ~ menu_level_cosmetic %}
+
     {%
+      set menu_classes = [
+        'menu',
+        'cd-nav__menu--level-' ~ menu_level_cosmetic,
+        menu_level > 0 ? component ~ '__dropdown',
+      ]
+    %}
+
+    {% set parent_id = attributes.id ?? (component ~ menu_level) %}
+
+    <ul{{ attributes.addClass(menu_classes).setAttribute('role', 'list') }}>
+
+    {# {%
       set menu_classes = [
         'menu',
         menu_level > 0 ? 'cd-main-menu__dropdown',
       ]
-    %}
-
-    <ul{{ attributes.addClass(menu_classes) }}>
+    %} #}
 
     {% for item in items %}
       {%
         set classes = [
           'menu-item',
+          'cd-nav__menu-item--level-' ~ menu_level_cosmetic,
           item.is_expanded ? 'menu-item--expanded',
           item.is_collapsed ? 'menu-item--collapsed',
           item.in_active_trail ? 'menu-item--active-trail',
@@ -52,7 +68,6 @@
       {% set id = ('cd-main-menu-item-' ~ menu_level ~ '-' ~ loop.index)|clean_id %}
 
       <li{{ item.attributes.addClass(classes) }}>
-
         {#
           Progressive enhancement: make sure there is always a menu entry.
           If the menu item has children and javascript is enabled then this will
@@ -67,7 +82,6 @@
         {# If the menu item has children then we mark it as toggable and we'll
            let the dropdown javascript handle the rest. #}
         {% if item.is_expanded and item.below %}
-
           {%
             set attributes =  create_attribute({
               'data-cd-toggable': item.title,
@@ -78,12 +92,14 @@
             })
           %}
 
+          {# Adding 1 to menu_level here is NOT cosmetic, so the increment is
+             spelled out explicitly to avoid any accidental find/replace or
+             other developer change in the future. This increment powers the
+             recursive macro so that the menu renders its entire depth. #}
           {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
 
         {% endif %}
-
       </li>
-
     {% endfor %}
     </ul>
   {% endif %}

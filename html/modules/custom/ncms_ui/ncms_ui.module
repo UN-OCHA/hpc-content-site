@@ -13,8 +13,11 @@ use Drupal\ncms_ui\Controller\ViewController;
 use Drupal\ncms_ui\Entity\Article;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 use Drupal\ncms_ui\Entity\Document;
+use Drupal\ncms_ui\Form\ContentSpaceSelectForm;
 use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\views\ViewExecutable;
 
 /**
  * Implements hook_entity_bundle_info_alter().
@@ -45,6 +48,13 @@ function ncms_ui_local_tasks_alter(&$local_tasks) {
   unset($local_tasks['entity.node.canonical']);
   // Rename the default menu tab on the content overview page to "Articles".
   $local_tasks['system.admin_content']['title'] = t('Articles');
+}
+
+/**
+ * Implements hook_menu_local_actions_alter().
+ */
+function ncms_ui_menu_local_actions_alter(&$local_actions) {
+  $local_actions['entity.taxonomy_term.add_form']['class'] = 'Drupal\ncms_ui\LocalAction\LocalActionTaxonomy';
 }
 
 /**
@@ -129,6 +139,17 @@ function ncms_ui_preprocess_page(&$variables) {
 }
 
 /**
+ * Implements toolbar preprocess.
+ */
+function ncms_ui_preprocess_toolbar__gin__secondary(&$variables) {
+  if ($variables['toolbar_variant'] !== 'classic') {
+    /** @var \Drupal\Core\Form\FormBuilderInterface $form_builder */
+    $form_builder = \Drupal::service('form_builder');
+    $variables['remainder']['content_space'] = $form_builder->getForm(ContentSpaceSelectForm::class);
+  }
+}
+
+/**
  * Implements hook_preprocess_page().
  */
 function ncms_ui_preprocess_node(&$variables) {
@@ -183,7 +204,15 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   ];
 
   if ($node instanceof Document) {
+    // Attach custom styles.
     $form['#attached']['library'][] = 'ncms_ui/document_edit_form';
+  }
+
+  if ($node instanceof Article) {
+    // Hide the label of the double field widget.
+    $form['field_caption']['widget'][0]['#title_display'] = FALSE;
+    // Attach custom styles.
+    $form['#attached']['library'][] = 'ncms_ui/article_edit_form';
   }
 
   /** @var \Drupal\ncms_ui\ContentManager $content_manager */
@@ -318,6 +347,15 @@ function ncms_ui_views_data_alter(&$data) {
       'click sortable' => FALSE,
     ],
   ];
+}
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function ncms_ui_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  /** @var \Drupal\ncms_ui\ContentManager $content_manager */
+  $content_manager = \Drupal::service('ncms_ui.content.manager');
+  $content_manager->alterViewsQuery($view, $query);
 }
 
 /**

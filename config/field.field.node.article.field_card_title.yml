@@ -10,7 +10,7 @@ field_name: field_card_title
 entity_type: node
 bundle: article
 label: 'Card Title'
-description: 'Optional: an alternate title to display when the Article appears as a Card. It doesn''t display anywhere else.'
+description: "Optional: an alternate title to display when the Article appears as a Card. It doesn't display anywhere else."
 required: false
 translatable: true
 default_value: {  }

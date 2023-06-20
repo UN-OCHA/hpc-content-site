@@ -1,0 +1,101 @@
+.cd-header {
+  font-family: roboto, helvetica, arial, sans-serif;
+  font-weight: 400;
+}
+
+.cd-global-header,
+.cd-footer {
+  font-family: var(--cd-font--roboto);
+  font-weight: 400;
+  color: var(--cd--global-header-text-color);
+  background: var(--brand-secondary);
+}
+
+.cd-global-header svg,
+.cd-footer svg {
+  fill: var(--cd--global-header-text-color) !important;
+}
+
+.cd-global-header__dropdown {
+  background: var(--brand-secondary);
+}
+
+@media (min-width: 768px) {
+  .cd-global-header__dropdown .cd-ocha-dropdown__inner .cd-ocha-dropdown__section  {
+    align-self: flex-start;
+  }
+  .cd-global-header__dropdown .cd-ocha-dropdown__inner .cd-ocha-dropdown__section:last-child {
+    align-self: flex-end;
+  }
+  .cd-ocha-dropdown__see-all {
+    background: var(--cd--global-header-text-color);
+    color: var(--cd-white);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.cd-global-header .cd-ocha-dropdown__heading,
+.cd-global-header .cd-ocha-dropdown__link a,
+.cd-global-header .cd-ocha__btn-label,
+.cd-footer a {
+  color: var(--cd--global-header-text-color);
+}
+
+.cd-global-header .cd-ocha__btn-label {
+  font-weight: 400;
+}
+
+.cd-global-header .cd-global-header__actions,
+.cd-global-header .cd-global-header__actions > * {
+  background: rgba(0, 0, 0, 0);
+}
+
+.cd-user-menu__dropdown-link,
+.cd-global-header .menu > li a,
+.cd-global-header .menu > li button {
+  color: var(--cd--global-header-text-color);
+}
+
+.cd-site-header {
+  color: var(--cd-white);
+  background: var(--brand-primary);
+}
+
+.cd-site-header__inner {
+  display: grid;
+  grid-template-rows: 70px;
+  grid-template-columns: 316px 1fr;
+  grid-column-gap: 1em;
+  height: 70px;
+}
+
+.cd-site-header__inner .region-header-logo {
+  display: flex;
+  align-items: center;
+}
+
+.cd-site-header__inner .region-header-logo .cd-site-logo {
+  width: fit-content;
+  height: 70px;
+  background: none;
+}
+
+.cd-site-header__inner .region-header-logo .cd-site-logo img {
+  display: block;
+  height: 70px;
+  padding: 1rem;
+}
+
+.cd-site-header__inner .region-header-logo .site-name a {
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--cd-white);
+  font-size: var(--cd-font-size--large);
+}
+
+.cd-footer .cd-mandate__logo {
+  background: url(/themes/custom/common_design_subtheme/img/logos/ocha-lockup.svg) 0 center no-repeat;
+}

@@ -23,6 +23,7 @@ dependencies:
     - taxonomy.vocabulary.story_type
   module:
     - content_translation
+    - entity_browser
     - filter
     - gho_access
     - gho_fields
@@ -42,6 +43,7 @@ weight: -8
 is_admin: null
 permissions:
   - 'access administration pages'
+  - 'access articles entity browser pages'
   - 'access content overview'
   - 'access media overview'
   - 'access site in maintenance mode'

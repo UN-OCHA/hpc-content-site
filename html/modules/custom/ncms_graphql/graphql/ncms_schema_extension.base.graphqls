@@ -29,6 +29,7 @@ type Document {
   status: Int
   created: String
   updated: String
+  summary: String
   image: HeroImage
   content_space: ContentSpace
   content: [DocumentParagraph]

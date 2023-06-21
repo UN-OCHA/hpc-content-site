@@ -72,7 +72,7 @@ content:
     region: content
     settings:
       entity_browser: articles
-      field_widget_display: label_status_aware
+      field_widget_display: label
       field_widget_edit: '1'
       field_widget_remove: '1'
       open: '1'

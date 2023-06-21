@@ -12,6 +12,7 @@ dependencies:
     - node.type.document
     - node.type.story
   module:
+    - entity_browser
     - filter
     - gho_access
     - gho_fields
@@ -29,6 +30,7 @@ weight: -6
 is_admin: null
 permissions:
   - 'access administration pages'
+  - 'access articles entity browser pages'
   - 'access content overview'
   - 'access media overview'
   - 'access toolbar'

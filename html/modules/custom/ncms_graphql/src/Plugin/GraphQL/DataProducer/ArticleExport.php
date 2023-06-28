@@ -137,11 +137,6 @@ class ArticleExport extends DataProducerPluginBase implements ContainerFactoryPl
 
       foreach ($entities as $id => $entity) {
         $context->addCacheableDependency($entities[$id]);
-        if (isset($bundles) && !in_array($entities[$id]->bundle(), $bundles)) {
-          // If the entity is not among the allowed bundles, don't return it.
-          unset($entities[$id]);
-          continue;
-        }
 
         if (isset($language) && $language !== $entities[$id]->language()->getId() && $entities[$id] instanceof TranslatableInterface) {
           $entities[$id] = $entities[$id]->getTranslation($language);

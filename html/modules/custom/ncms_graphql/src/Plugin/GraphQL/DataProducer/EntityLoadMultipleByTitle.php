@@ -154,9 +154,9 @@ class EntityLoadMultipleByTitle extends DataProducerPluginBase implements Contai
    */
   public function resolve($type, string $title, ?string $language, ?array $bundles, bool $access, ?AccountInterface $accessUser, ?string $accessOperation, FieldContext $context) {
 
-    $resolver = $this->entityBuffer->addTitleString($type, $title);
+    $resolver = $this->entityBuffer->addTitleString($type, $title, $bundles);
 
-    return new Deferred(function () use ($type, $language, $bundles, $resolver, $context, $accessUser, $accessOperation) {
+    return new Deferred(function () use ($type, $language, $resolver, $context, $accessUser, $accessOperation) {
       /** @var \Drupal\Core\Entity\EntityInterface[] $entities */
       $entities = $resolver();
 
@@ -173,11 +173,6 @@ class EntityLoadMultipleByTitle extends DataProducerPluginBase implements Contai
 
       foreach ($entities as $id => $entity) {
         $context->addCacheableDependency($entities[$id]);
-        if (isset($bundles) && !in_array($entities[$id]->bundle(), $bundles)) {
-          // If the entity is not among the allowed bundles, don't return it.
-          unset($entities[$id]);
-          continue;
-        }
 
         if (isset($language) && $language !== $entities[$id]->language()->getId() && $entities[$id] instanceof TranslatableInterface) {
           $entities[$id] = $entities[$id]->getTranslation($language);
@@ -195,7 +190,6 @@ class EntityLoadMultipleByTitle extends DataProducerPluginBase implements Contai
           continue;
         }
       }
-
       return (object) [
         'count' => count($entities),
         'items' => $entities,

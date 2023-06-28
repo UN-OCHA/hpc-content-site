@@ -1,3 +1,28 @@
 body.ncms-node-preview .node--unpublished {
   background: inherit;
 }
+
+body.ncms-node-preview.page-node-type-document {
+  padding: 1rem;
+}
+
+body.ncms-node-preview.page-node-type-document .gho-article__content {
+  margin-top: 3rem;
+}
+body.ncms-node-preview.page-node-type-document .gho-article__content a {
+  pointer-events: none;
+  cursor: default;
+}
+body.ncms-node-preview.page-node-type-document .field--name-field-title {
+  padding: 3rem 0;
+  font-size: xx-large;
+  font-weight: bold;
+}
+body.ncms-node-preview.page-node-type-document .paragraph--view-mode--three-columns .field--name-field-articles {
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
+}
+body.ncms-node-preview.page-node-type-document .paragraph--view-mode--three-columns .field--name-field-articles .field__item {
+  width: 33%;
+}

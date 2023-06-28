@@ -32,6 +32,13 @@ entity.node.restore:
       node:
         type: entity:node
 
+entity.node_add.submit_confirm:
+  path: '/node/add/confirm'
+  defaults:
+    _form: '\Drupal\ncms_ui\Form\ContentSubmitConfirmForm'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+
 entity.node_edit.submit_confirm:
   path: '/node/{node}/edit/confirm'
   defaults:

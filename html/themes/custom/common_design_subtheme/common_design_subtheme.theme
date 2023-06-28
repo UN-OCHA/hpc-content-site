@@ -151,7 +151,7 @@ function common_design_subtheme_preprocess_node(&$variables) {
     'entity.node_revision.standalone',
     'diff.revisions_diff',
   ];
-  if (isset($node) && in_array($route_name, $routes)) {
+  if (isset($node) && in_array($route_name, $routes) && array_key_exists('label', $variables)) {
     common_design_set_page_title($variables, $variables['label'], FALSE);
 
     if ($route_name == 'diff.revisions_diff') {

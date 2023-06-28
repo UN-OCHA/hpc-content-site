@@ -4,9 +4,11 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.full
+    - field.field.node.document.field_caption
     - field.field.node.document.field_content_space
     - field.field.node.document.field_hero_image
     - field.field.node.document.field_paragraphs
+    - field.field.node.document.field_short_title
     - field.field.node.document.field_summary
     - field.field.node.document.field_tags
     - node.type.document
@@ -41,7 +43,7 @@ content:
     type: entity_reference_revisions_entity_view
     label: hidden
     settings:
-      view_mode: default
+      view_mode: three_columns
       link: ''
     third_party_settings: {  }
     weight: 2
@@ -60,7 +62,9 @@ content:
     weight: 0
     region: content
 hidden:
+  field_caption: true
   field_content_space: true
+  field_short_title: true
   field_summary: true
   field_tags: true
   langcode: true

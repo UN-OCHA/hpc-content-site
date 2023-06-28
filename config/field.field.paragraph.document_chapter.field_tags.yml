@@ -5,7 +5,7 @@ dependencies:
   config:
     - field.storage.paragraph.field_tags
     - paragraphs.paragraphs_type.document_chapter
-    - taxonomy.vocabulary.minor_tags
+    - taxonomy.vocabulary.major_tags
 id: paragraph.document_chapter.field_tags
 field_name: field_tags
 entity_type: paragraph
@@ -20,10 +20,10 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      minor_tags: minor_tags
+      major_tags: major_tags
     sort:
       field: name
       direction: asc
     auto_create: true
-    auto_create_bundle: ''
+    auto_create_bundle: major_tags
 field_type: entity_reference

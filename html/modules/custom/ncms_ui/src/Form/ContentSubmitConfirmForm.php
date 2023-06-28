@@ -62,9 +62,9 @@ class ContentSubmitConfirmForm extends ConfirmFormBase {
     $form['description'] = ['#markup' => $confirm_question];
     $form['actions']['submit']['#ajax'] = [
       'callback' => [$this, 'ajaxCallbackConfirm'],
-      'url' => Url::fromRoute('entity.node_edit.submit_confirm', [
+      'url' => $entity && !$entity->isNew() ? Url::fromRoute('entity.node_edit.submit_confirm', [
         'node' => $entity->id(),
-      ]),
+      ]) : Url::fromRoute('entity.node_add.submit_confirm'),
       'options' => [
         'query' => [
           FormBuilderInterface::AJAX_FORM_REQUEST => TRUE,

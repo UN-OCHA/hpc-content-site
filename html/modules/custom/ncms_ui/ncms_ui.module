@@ -388,8 +388,12 @@ function ncms_ui_form_alter(&$form, FormStateInterface $form_state, $form_id) {
  * the sidebar for example.
  */
 function ncms_ui_gin_content_form_routes_alter(&$routes) {
-  if (\Drupal::request()->isXmlHttpRequest() && \Drupal::routeMatch()->getRouteName() == 'entity.node.edit_form') {
-    $routes = array_diff($routes, ['entity.node.edit_form']);
+  $exclude_routes = [
+    'node.add',
+    'entity.node.edit_form',
+  ];
+  if (\Drupal::request()->isXmlHttpRequest() && in_array(\Drupal::routeMatch()->getRouteName(), $exclude_routes)) {
+    $routes = array_diff($routes, $exclude_routes);
   }
 }
 

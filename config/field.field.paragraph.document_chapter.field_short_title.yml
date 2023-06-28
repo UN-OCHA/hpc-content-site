@@ -1,18 +1,18 @@
-uuid: 4f39ed8b-bce0-4c12-ab93-0055b9e19799
+uuid: 0343e255-9db8-477d-88e4-e04f9c75783c
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_title
+    - field.storage.paragraph.field_short_title
     - paragraphs.paragraphs_type.document_chapter
-id: paragraph.document_chapter.field_title
-field_name: field_title
+id: paragraph.document_chapter.field_short_title
+field_name: field_short_title
 entity_type: paragraph
 bundle: document_chapter
-label: 'Main title'
+label: 'Short title'
 description: ''
 required: true
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }

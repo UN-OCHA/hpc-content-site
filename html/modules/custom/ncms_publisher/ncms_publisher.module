@@ -6,15 +6,20 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\ncms_ui\Entity\ContentBase;
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function ncms_publisher_form_node_article_edit_form_alter(&$form, FormStateInterface $form_state) {
+function ncms_publisher_form_node_form_alter(&$form, FormStateInterface $form_state) {
+  $node = $form_state->getFormObject()->getEntity();
+  if (!$node instanceof ContentBase) {
+    return;
+  }
   $form['status']['widget']['value']['#title'] = t('Publicly available over API');
   foreach (array_keys($form['actions']) as $action) {
     if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
-      $form['actions'][$action]['#submit'][] = 'ncms_publisher_node_article_edit_form_submit';
+      $form['actions'][$action]['#submit'][] = 'ncms_publisher_content_base_edit_form_submit';
     }
   }
 }
@@ -25,7 +30,7 @@ function ncms_publisher_form_node_article_edit_form_alter(&$form, FormStateInter
  * Checks if the edit request came from a trusted publisher and redirects back
  * to it if requested.
  */
-function ncms_publisher_node_article_edit_form_submit($form, FormStateInterface $form_state) {
+function ncms_publisher_content_base_edit_form_submit($form, FormStateInterface $form_state) {
   /** @var \Drupal\ncms_publisher\PublisherManager $publisher_manager */
   $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
   $response = $publisher_manager->getCurrentRedirectResponse();

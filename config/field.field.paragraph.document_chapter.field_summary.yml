@@ -1,19 +1,19 @@
-uuid: 4f39ed8b-bce0-4c12-ab93-0055b9e19799
+uuid: 7edf19fc-7312-4ce9-96ea-eebc0d6c942c
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_title
+    - field.storage.paragraph.field_summary
     - paragraphs.paragraphs_type.document_chapter
-id: paragraph.document_chapter.field_title
-field_name: field_title
+id: paragraph.document_chapter.field_summary
+field_name: field_summary
 entity_type: paragraph
 bundle: document_chapter
-label: 'Main title'
+label: Summary
 description: ''
-required: true
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: string
+field_type: string_long

@@ -9,3 +9,16 @@ form.node-document-edit-form .paragraph--type--document-chapter.paragraph--view-
   font-weight: bold;
   padding: 1rem 0;
 }
+form.node-document-form fieldset[data-drupal-selector="edit-field-hero-image"],
+form.node-document-edit-form fieldset[data-drupal-selector="edit-field-hero-image"] {
+  padding: 0;
+  border: 0;
+}
+form.node-document-form fieldset[data-drupal-selector="edit-field-hero-image"] legend,
+form.node-document-edit-form fieldset[data-drupal-selector="edit-field-hero-image"] legend {
+  display: none;
+}
+form.node-document-form fieldset[data-drupal-selector="edit-field-hero-image"] .fieldset__wrapper,
+form.node-document-edit-form fieldset[data-drupal-selector="edit-field-hero-image"] .fieldset__wrapper {
+  margin: 0;
+}

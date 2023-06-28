@@ -3,13 +3,16 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.document.field_caption
     - field.field.node.document.field_content_space
     - field.field.node.document.field_hero_image
     - field.field.node.document.field_paragraphs
+    - field.field.node.document.field_short_title
     - field.field.node.document.field_summary
     - field.field.node.document.field_tags
     - node.type.document
   module:
+    - double_field
     - entity_reference_revisions
     - user
 id: node.document.default
@@ -17,6 +20,30 @@ targetEntityType: node
 bundle: document
 mode: default
 content:
+  field_caption:
+    type: double_field_unformatted_list
+    label: above
+    settings:
+      first:
+        format_type: medium
+        link: false
+        hidden: false
+        key: false
+        decimal_separator: .
+        thousand_separator: ''
+        scale: 2
+      second:
+        format_type: medium
+        link: false
+        hidden: false
+        key: false
+        decimal_separator: .
+        thousand_separator: ''
+        scale: 2
+      inline: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
   field_hero_image:
     type: entity_reference_entity_view
     label: hidden
@@ -34,6 +61,14 @@ content:
       link: ''
     third_party_settings: {  }
     weight: 2
+    region: content
+  field_short_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
     region: content
   title:
     type: string

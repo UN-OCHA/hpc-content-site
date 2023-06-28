@@ -3,13 +3,16 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.document.field_caption
     - field.field.node.document.field_content_space
     - field.field.node.document.field_hero_image
     - field.field.node.document.field_paragraphs
+    - field.field.node.document.field_short_title
     - field.field.node.document.field_summary
     - field.field.node.document.field_tags
     - node.type.document
   module:
+    - double_field
     - field_group
     - layout_paragraphs
     - media_library
@@ -20,6 +23,7 @@ third_party_settings:
     group_tabs:
       children:
         - group_articles
+        - group_hero_image
         - group_meta_data
       label: Tabs
       region: content
@@ -35,6 +39,7 @@ third_party_settings:
     group_articles:
       children:
         - title
+        - field_short_title
         - field_paragraphs
       label: Document
       region: content
@@ -51,10 +56,25 @@ third_party_settings:
     group_meta_data:
       children:
         - field_content_space
-        - field_hero_image
         - field_summary
         - field_tags
       label: Properties
+      region: content
+      parent_name: group_tabs
+      weight: 16
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_hero_image:
+      children:
+        - field_hero_image
+        - field_caption
+      label: Image
       region: content
       parent_name: group_tabs
       weight: 15
@@ -77,6 +97,29 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_caption:
+    type: double_field
+    weight: 29
+    region: content
+    settings:
+      first:
+        type: textfield
+        label_display: block
+        size: 30
+        placeholder: 'Ex: Mbuji-Mayi, RDC'
+        label: Ok
+        cols: 10
+        rows: 5
+      second:
+        type: textarea
+        label_display: block
+        size: 30
+        placeholder: ''
+        label: Ok
+        cols: 10
+        rows: 5
+      inline: false
+    third_party_settings: {  }
   field_content_space:
     type: options_select
     weight: 27
@@ -92,13 +135,21 @@ content:
     third_party_settings: {  }
   field_paragraphs:
     type: layout_paragraphs
-    weight: 3
+    weight: 4
     region: content
     settings:
       preview_view_mode: preview
       nesting_depth: 0
       require_layouts: 0
       empty_message: ''
+    third_party_settings: {  }
+  field_short_title:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_summary:
     type: text_textarea
@@ -109,14 +160,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_tags:
-    type: entity_reference_autocomplete
+    type: entity_reference_autocomplete_tags
     weight: 30
     region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
       size: 60
-      placeholder: ''
+      placeholder: 'Document tags'
     third_party_settings: {  }
   langcode:
     type: language_select
@@ -159,6 +210,11 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete

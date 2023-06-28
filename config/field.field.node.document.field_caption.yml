@@ -1,0 +1,39 @@
+uuid: 43ef7023-48ed-4470-837b-9efb683b998a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_caption
+    - node.type.document
+  module:
+    - double_field
+id: node.document.field_caption
+field_name: field_caption
+entity_type: node
+bundle: document
+label: Caption
+description: 'When this image is used on Humanitarian Action, it will include a written text comprising the <strong>location</strong> in bold, followed by the <strong>caption</strong>, and then the <strong>image credits</strong>. These credits are defined in the Media Library and not editable here.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  first:
+    label: 'Image location'
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    required: true
+    on_label: 'On'
+    off_label: 'Off'
+  second:
+    label: Caption
+    list: false
+    allowed_values: {  }
+    max: null
+    min: null
+    required: true
+    on_label: 'On'
+    off_label: 'Off'
+field_type: double_field

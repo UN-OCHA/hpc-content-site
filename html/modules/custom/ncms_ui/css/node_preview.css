@@ -21,8 +21,9 @@ body.ncms-node-preview.page-node-type-document .field--name-field-title {
 body.ncms-node-preview.page-node-type-document .paragraph--view-mode--three-columns .field--name-field-articles {
   display: flex;
   flex-direction: row;
-  gap: 3rem;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 body.ncms-node-preview.page-node-type-document .paragraph--view-mode--three-columns .field--name-field-articles .field__item {
-  width: 33%;
+  width: calc(33% - 0.45rem);
 }

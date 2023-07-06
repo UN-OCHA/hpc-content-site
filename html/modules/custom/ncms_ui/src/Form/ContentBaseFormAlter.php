@@ -15,6 +15,7 @@ use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\ncms_publisher\PublisherManager;
 use Drupal\ncms_ui\ContentSpaceManager;
 use Drupal\ncms_ui\Entity\Content\ContentBase;
 use Drupal\node\NodeInterface;
@@ -64,6 +65,13 @@ class ContentBaseFormAlter {
   protected $formBuilder;
 
   /**
+   * The publisher manager service.
+   *
+   * @var \Drupal\ncms_publisher\PublisherManager
+   */
+  protected $publisherManager;
+
+  /**
    * Constructor.
    *
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
@@ -76,13 +84,16 @@ class ContentBaseFormAlter {
    *   The messenger service.
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
    *   The form builder service.
+   * @param \Drupal\ncms_publisher\PublisherManager $publisher_manager
+   *   The publisher manager service.
    */
-  public function __construct(RequestStack $request_stack, EntityTypeManagerInterface $entity_type_manager, ContentSpaceManager $content_manager, MessengerInterface $messenger, FormBuilderInterface $form_builder) {
+  public function __construct(RequestStack $request_stack, EntityTypeManagerInterface $entity_type_manager, ContentSpaceManager $content_manager, MessengerInterface $messenger, FormBuilderInterface $form_builder, PublisherManager $publisher_manager) {
     $this->requestStack = $request_stack;
     $this->entityTypeManager = $entity_type_manager;
     $this->contentSpaceManager = $content_manager;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
+    $this->publisherManager = $publisher_manager;
   }
 
   /**
@@ -281,8 +292,9 @@ class ContentBaseFormAlter {
         // Submit the form.
         $this->submitForm($form, $form_state, TRUE);
 
-        // Go back to the backend listings page.
-        $response->addCommand(new RedirectCommand($updated_entity->getOverviewUrl()->toString()));
+        // Go back to the publisher or to the backend listings page.
+        $redirect_url = $this->publisherManager->getCurrentRedirectUrl() ?? $updated_entity->getOverviewUrl()->toString();
+        $response->addCommand(new RedirectCommand($redirect_url));
       }
     }
 

@@ -4,7 +4,7 @@ services:
     arguments: ['@entity_type.manager', '@current_user', '@tempstore.private', '@plugin.manager.views.join']
   ncms_ui.content_base_form_alter:
     class: Drupal\ncms_ui\Form\ContentBaseFormAlter
-    arguments: ['@request_stack', '@entity_type.manager', '@ncms_ui.content_space.manager', '@messenger', '@form_builder']
+    arguments: ['@request_stack', '@entity_type.manager', '@ncms_ui.content_space.manager', '@messenger', '@form_builder', '@ncms_publisher.publisher.manager']
   ncms_ui.revision_overview_form_alter:
     class: Drupal\ncms_ui\Form\RevisionOverviewFormAlter
     arguments: ['@entity_type.manager', '@current_user', '@current_route_match', '@renderer', '@date.formatter', '@pager.manager']

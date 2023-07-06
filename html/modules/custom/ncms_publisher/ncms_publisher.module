@@ -21,7 +21,8 @@ function ncms_publisher_form_node_form_alter(&$form, FormStateInterface $form_st
   }
 
   foreach (array_keys($form['actions']) as $action) {
-    if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
+    $action_type = $form['actions'][$action]['#type'] ?? NULL;
+    if ($action != 'preview' && $action_type === 'submit') {
       $form['actions'][$action]['#submit'][] = 'ncms_publisher_content_base_edit_form_submit';
     }
   }

@@ -2258,64 +2258,6 @@
             "time": "2022-12-14T08:49:07+00:00"
         },
         {
-            "name": "drupal-composer/preserve-paths",
-            "version": "0.1.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/drupal-composer/preserve-paths.git",
-                "reference": "2f86a503f1f7838f5f7f399a17edd4d16eb95034"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/drupal-composer/preserve-paths/zipball/2f86a503f1f7838f5f7f399a17edd4d16eb95034",
-                "reference": "2f86a503f1f7838f5f7f399a17edd4d16eb95034",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0 || ^2.0"
-            },
-            "require-dev": {
-                "composer/composer": "^2.0",
-                "derhasi/tempdirectory": "0.1.*",
-                "escapestudios/symfony2-coding-standard": "2.*",
-                "phpunit/phpunit": "4.*",
-                "squizlabs/php_codesniffer": "2.*"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "DrupalComposer\\PreservePaths\\Plugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "DrupalComposer\\PreservePaths\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Johannes Haseitl",
-                    "email": "johannes@undpaul.de",
-                    "homepage": "http://www.undpaul.de"
-                }
-            ],
-            "description": "Composer plugin for preserving custom paths and supporting nested packages",
-            "homepage": "https://github.com/drupal-composer/preserve-paths",
-            "keywords": [
-                "composer-plugin",
-                "custom path",
-                "installer",
-                "nested package"
-            ],
-            "support": {
-                "issues": "https://github.com/drupal-composer/preserve-paths/issues",
-                "source": "https://github.com/drupal-composer/preserve-paths/tree/0.1.6"
-            },
-            "time": "2020-11-14T20:28:03+00:00"
-        },
-        {
             "name": "drupal/admin_denied",
             "version": "2.0.0",
             "source": {
@@ -7173,7 +7115,7 @@
         },
         {
             "name": "maennchen/zipstream-php",
-            "version": "v2.4.0",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maennchen/ZipStream-PHP.git",
@@ -7235,7 +7177,7 @@
             ],
             "support": {
                 "issues": "https://github.com/maennchen/ZipStream-PHP/issues",
-                "source": "https://github.com/maennchen/ZipStream-PHP/tree/v2.4.0"
+                "source": "https://github.com/maennchen/ZipStream-PHP/tree/2.4.0"
             },
             "funding": [
                 {

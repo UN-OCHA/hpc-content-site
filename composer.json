@@ -87,7 +87,7 @@
         "drupal/stage_file_proxy": "^2",
         "drupal/upgrade_status": "^4.0",
         "drupal/user_expire": "^1.0",
-        "drush/drush": "^11",
+        "drush/drush": "^12.0",
         "masonry/masonry": "^3.3",
         "mglaman/composer-drupal-lenient": "^1.0",
         "oomphinc/composer-installers-extender": "^2.0",

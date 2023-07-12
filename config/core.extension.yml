@@ -1,6 +1,7 @@
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
+  action: 0
   admin_denied: 0
   admin_dialogs: 0
   admin_toolbar: 0
@@ -11,6 +12,7 @@ module:
   bigint: 0
   block: 0
   breakpoint: 0
+  bulk_update_fields: 0
   ckeditor5: 0
   components: 0
   config: 0

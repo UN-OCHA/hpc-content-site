@@ -3,6 +3,7 @@
 namespace Drupal\ncms_ui\Form;
 
 use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\AppendCommand;
 use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Form\FormBase;
@@ -111,24 +112,27 @@ class ContentSpaceSelectForm extends FormBase {
       '#ajax' => [
         'callback' => [$this, 'ajaxCallback'],
         'wrapper' => 'abc',
+        'progress' => ['type' => 'fullscreen'],
       ],
       '#disabled' => !$this->canChangeContentSpace(),
+      '#attached' => [
+        'library' => ['ncms_ui/throbber'],
+      ],
     ];
     return $form;
   }
 
   /**
-   * Check if the content space selector can be used on the current path.
+   * Check if the content space selector can be used on the current page.
+   *
+   * The content space can be changed on any path that also restricts access.
    *
    * @return bool
    *   TRUE if the selector can be used, FALSE otherwise.
    */
   private function canChangeContentSpace() {
-    $path = $this->currentPath->getPath();
-    if (strpos($path, '/admin/content') === 0) {
-      return TRUE;
-    }
-    return FALSE;
+    $current_path = $this->currentPath->getPath();
+    return $this->contentSpaceManager->isContentSpaceRestrictPath($current_path);
   }
 
   /**
@@ -145,6 +149,7 @@ class ContentSpaceSelectForm extends FormBase {
   public function ajaxCallback(array &$form, FormStateInterface $form_state) {
     $current_path = $form_state->getValue(['current_path']);
     $response = new AjaxResponse();
+    $response->addCommand(new AppendCommand('body', '<div class="ajax-progress ajax-progress--fullscreen"><div class="ajax-progress__throbber ajax-progress__throbber--fullscreen">&nbsp;</div></div>'));
     $response->addCommand(new RedirectCommand($current_path));
     return $response;
   }

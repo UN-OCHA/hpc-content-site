@@ -1,0 +1,11 @@
+uuid: 8220f8da-9062-47ab-b7bc-87d0dc476ec8
+langcode: en
+status: true
+dependencies:
+  module:
+    - bulk_update_fields
+id: bulk_update_fields_on_graphql_server
+label: 'Bulk Update Server Fields'
+type: graphql_server
+plugin: bulk_update_fields_action_base
+configuration: {  }

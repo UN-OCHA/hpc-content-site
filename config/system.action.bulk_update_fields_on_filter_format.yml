@@ -1,0 +1,11 @@
+uuid: 8e628724-4dc2-4772-bdf1-82cc4d8192a4
+langcode: en
+status: true
+dependencies:
+  module:
+    - bulk_update_fields
+id: bulk_update_fields_on_filter_format
+label: 'Bulk Update Text format Fields'
+type: filter_format
+plugin: bulk_update_fields_action_base
+configuration: {  }

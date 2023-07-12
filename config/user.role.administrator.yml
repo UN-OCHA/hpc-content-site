@@ -24,7 +24,6 @@ dependencies:
     - workflows.workflow.article_workflow
   module:
     - content_moderation
-    - content_translation
     - entity_browser
     - filter
     - gho_access
@@ -53,7 +52,6 @@ permissions:
   - 'access toolbar'
   - 'access user profiles'
   - 'add datawrapper embed code'
-  - 'administer taxonomy'
   - 'administer users'
   - 'assign user roles'
   - 'create achievement content'
@@ -81,7 +79,6 @@ permissions:
   - 'delete own image media'
   - 'delete own video media'
   - 'delete terms in appeals'
-  - 'delete terms in content_space'
   - 'delete terms in interactive_content_type'
   - 'delete terms in major_tags'
   - 'delete terms in minor_tags'

@@ -131,7 +131,10 @@ class ContentBaseFormAlter {
     }
     else {
       // The content space of existing article can't be changed anymore.
-      $form['field_content_space']['widget']['#access'] = FALSE;
+      $content_spaces = $entity->get('field_content_space')->referencedEntities();
+      if (!empty($content_spaces)) {
+        $form['field_content_space']['widget']['#access'] = FALSE;
+      }
 
       // Show the current revision number alongside the status.
       if ($entity instanceof ContentBase) {

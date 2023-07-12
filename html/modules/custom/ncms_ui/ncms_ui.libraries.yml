@@ -73,3 +73,12 @@ tooltip:
     - core/once
     - ncms_ui/floating_ui
     - ncms_ui/material_icons
+
+throbber:
+  js:
+    js/throbber.js: {}
+  css:
+    component:
+      css/throbber.css: {}
+  dependencies:
+    - core/once

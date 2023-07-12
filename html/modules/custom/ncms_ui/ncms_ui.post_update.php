@@ -32,6 +32,7 @@ function ncms_ui_post_update_set_content_space_nodes(&$sandbox) {
     $node->get('field_content_space')->setValue([
       'target_id' => $term->id(),
     ]);
+    $node->isSyncing();
     $node->save();
   }
 }
@@ -186,5 +187,35 @@ function ncms_ui_post_update_update_admin_menu() {
       'parent' => $options['menu']['parent'],
       'weight' => $weight,
     ])->save();
+  }
+}
+
+/**
+ * Set the content space for all nodes that reference a deleted term.
+ */
+function ncms_ui_post_update_set_content_space_nodes_orphaned(&$sandbox) {
+  $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
+    'vid' => 'content_space',
+    'name' => 'Global',
+  ]);
+  if (empty($terms)) {
+    return;
+  }
+  $term = reset($terms);
+  /** @var \Drupal\node\NodeInterface[] $nodes */
+  $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple();
+  foreach ($nodes as $node) {
+    if (!$node->hasField('field_content_space')) {
+      continue;
+    }
+    $referenced_terms = $node->get('field_content_space')->referencedEntities();
+    if (!empty($referenced_terms)) {
+      continue;
+    }
+    $node->get('field_content_space')->setValue([
+      'target_id' => $term->id(),
+    ]);
+    $node->isSyncing();
+    $node->save();
   }
 }

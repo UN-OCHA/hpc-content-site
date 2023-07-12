@@ -74,6 +74,30 @@ class ContentSpaceManager {
   }
 
   /**
+   * Check content space restrictions should be applied for the given path.
+   *
+   * @param string $path
+   *   The path to check.
+   *
+   * @return bool
+   *   TRUE if content space restrictions should be applied, FALSE otherwise.
+   */
+  public function isContentSpaceRestrictPath(string $path) {
+    $paths = [
+      '/admin/content',
+      '/admin/content/articles',
+      '/admin/content/documents',
+      '/admin/content/trash',
+    ];
+    foreach ($paths as $_path) {
+      if ($path == $_path) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+
+  /**
    * Check if the content spaces for the current user should be restricted.
    *
    * @return bool
@@ -195,10 +219,11 @@ class ContentSpaceManager {
    *   The id of the content space.
    */
   public function getCurrentContentSpaceId() {
-    $content_space_id = $this->tempStore->get('content_space');
-    if ($content_space_id === NULL) {
-      $content_space_ids = $this->getValidContentSpaceIdsForCurrentUser();
-      $content_space_id = !empty($content_space_ids) ? reset($content_space_ids) : NULL;
+    $content_space_id = $this->tempStore->get('content_space') ?? NULL;
+    $content_spaces = $this->getContentSpaces();
+    if ($content_space_id === NULL || !array_key_exists($content_space_id, $content_spaces)) {
+      $user_content_space_ids = $this->getValidContentSpaceIdsForCurrentUser();
+      $content_space_id = !empty($user_content_space_ids) ? reset($user_content_space_ids) : NULL;
     }
     return $content_space_id;
   }
@@ -222,7 +247,13 @@ class ContentSpaceManager {
    *   The query object.
    */
   public function alterViewsQuery(ViewExecutable $view, QueryPluginBase $query) {
-    if (!empty($query->tables['node_field_data'])) {
+    $content_space = $this->getCurrentContentSpace();
+    if (!$content_space) {
+      return;
+    }
+    $content_space_id = $content_space->id();
+
+    if (!empty($query->tables['node_field_data']) && $content_space_id) {
       $definition = [
         'table' => 'node__field_content_space',
         'field' => 'entity_id',
@@ -231,7 +262,7 @@ class ContentSpaceManager {
       ];
       $join = $this->viewsJoin->createInstance('standard', $definition);
       $query->addRelationship('node__field_content_space', $join, 'content_space');
-      $query->addWhere(0, 'node__field_content_space.field_content_space_target_id', $this->getCurrentContentSpaceId());
+      $query->addWhere(0, 'node__field_content_space.field_content_space_target_id', $content_space_id);
     }
   }
 

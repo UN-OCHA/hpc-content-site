@@ -50,7 +50,9 @@ class LatestPublishedVersionField extends FieldPluginBase {
    */
   public function preRender(&$rows) {
     foreach ($rows as &$row) {
-      $row->latest_published_version = $row->_entity->getLastPublishedRevision();
+      if ($row->_entity instanceof ContentVersionInterface) {
+        $row->latest_published_version = $row->_entity->getLastPublishedRevision();
+      }
     }
   }
 
@@ -59,7 +61,7 @@ class LatestPublishedVersionField extends FieldPluginBase {
    */
   public function render(ResultRow $row) {
     /** @var \Drupal\node\NodeInterface $revision */
-    $revision = $row->latest_published_version;
+    $revision = $row->latest_published_version ?? NULL;
     if (!$revision) {
       return NULL;
     }

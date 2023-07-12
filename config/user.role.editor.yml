@@ -13,7 +13,6 @@ dependencies:
     - node.type.story
     - workflows.workflow.article_workflow
   module:
-    - entity_browser
     - content_moderation
     - entity_browser
     - filter

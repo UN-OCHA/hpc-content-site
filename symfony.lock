@@ -314,15 +314,6 @@
     "league/oauth2-client": {
         "version": "2.6.0"
     },
-    "lsolesen/pel": {
-        "version": "0.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "0.0",
-            "ref": ""
-        }
-    },
     "maennchen/zipstream-php": {
         "version": "2.1.0"
     },

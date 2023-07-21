@@ -36,6 +36,18 @@ class RouteSubscriber extends RouteSubscriberBase {
     if ($route = $collection->get('node.add_page')) {
       $route->setRequirement('_custom_access', '\Drupal\ncms_ui\Controller\ContentController::nodeCreateAccess');
     }
+    if ($route = $collection->get('entity.media.add_form')) {
+      $route->setRequirement('_custom_access', '\Drupal\ncms_ui\Controller\MediaController::mediaCreateAccess');
+    }
+    if ($route = $collection->get('entity.media.add_page')) {
+      $route->setRequirement('_custom_access', '\Drupal\ncms_ui\Controller\MediaController::mediaCreateAccess');
+    }
+    // Allow access to the media collection.
+    if ($route = $collection->get('entity.media.collection')) {
+      $requirements = $route->getRequirements();
+      $requirements['_permission'] = 'access media overview';
+      $route->setRequirements($requirements);
+    }
   }
 
 }

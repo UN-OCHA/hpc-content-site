@@ -177,3 +177,29 @@ function ncms_ui_deploy_set_content_space_nodes_orphaned(&$sandbox) {
     $node->save();
   }
 }
+
+/**
+ * Set the content space for all media items.
+ */
+function ncms_ui_deploy_set_content_space_media(&$sandbox) {
+  $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
+    'vid' => 'content_space',
+    'name' => 'Global',
+  ]);
+  if (empty($terms)) {
+    return;
+  }
+  $term = reset($terms);
+  /** @var \Drupal\media\MediaInterface[] $entities */
+  $entities = \Drupal::entityTypeManager()->getStorage('media')->loadMultiple();
+  foreach ($entities as $entity) {
+    if (!$entity->hasField('field_content_space') || !$entity->get('field_content_space')->isEmpty()) {
+      continue;
+    }
+    $entity->get('field_content_space')->setValue([
+      'target_id' => $term->id(),
+    ]);
+    $entity->isSyncing();
+    $entity->save();
+  }
+}

@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.image.field_content_space
     - field.field.media.image.field_credits
     - field.field.media.image.field_media_image
     - media.type.image
@@ -14,6 +15,14 @@ targetEntityType: media
 bundle: image
 mode: default
 content:
+  field_content_space:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
   field_credits:
     type: string
     label: hidden

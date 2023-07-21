@@ -2,6 +2,8 @@
 
 namespace Drupal\ncms_ui;
 
+use Drupal\Core\Database\Query\AlterableInterface;
+use Drupal\Core\Database\Query\SelectInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -87,6 +89,8 @@ class ContentSpaceManager {
       '/admin/content',
       '/admin/content/articles',
       '/admin/content/documents',
+      '/admin/content/media',
+      '/admin/media/grid',
       '/admin/content/trash',
     ];
     foreach ($paths as $_path) {
@@ -104,8 +108,13 @@ class ContentSpaceManager {
    *   TRUE if the user should be restricted to the content spaces set up for
    *   the account, FALSE if all content spaces can be used.
    */
-  public function shouldRestrictContentSpaces() {
-    return !$this->currentUser->hasPermission('administer nodes');
+  public function shouldRestrictContentSpaces($type = 'node') {
+    if ($type == 'node') {
+      return !$this->currentUser->hasPermission('administer nodes');
+    }
+    if ($type == 'media') {
+      return !$this->currentUser->hasPermission('administer media');
+    }
   }
 
   /**
@@ -264,6 +273,50 @@ class ContentSpaceManager {
       $query->addRelationship('node__field_content_space', $join, 'content_space');
       $query->addWhere(0, 'node__field_content_space.field_content_space_target_id', $content_space_id);
     }
+  }
+
+  /**
+   * Alter a media access query.
+   *
+   * @param \Drupal\Core\Database\Query\AlterableInterface $query
+   *   The alterable query object.
+   */
+  public function alterMediaAccessQuery(AlterableInterface $query) {
+    if (!$this->shouldRestrictContentSpaces('media')) {
+      return;
+    }
+    // We're only interested in applying our media access restrictions to
+    // SELECT queries.
+    if (!($query instanceof SelectInterface)) {
+      return;
+    }
+
+    // The tables in the query. This can include media entity tables and other
+    // tables. Tables might be joined more than once, with aliases.
+    $query_tables = $query->getTables();
+    $base_table = NULL;
+    $valid_tables = ['base_table', 'media_field_data'];
+    foreach ($valid_tables as $valid_table) {
+      if (!empty($query_tables[$valid_table])) {
+        $base_table = $query_tables[$valid_table];
+      }
+    }
+    if (!$base_table) {
+      return;
+    }
+
+    // The tables belonging to media entity storage.
+    /** @var \Drupal\media\MediaStorage  $media_storage */
+    $media_storage = $this->entityTypeManager->getStorage('media');
+    $table_mapping = $media_storage->getTableMapping();
+    $media_tables = $table_mapping->getTableNames();
+    $content_space_table = 'media__field_content_space';
+    if (!in_array($content_space_table, $media_tables)) {
+      return;
+    }
+    // Join in the content space field table and the access condition.
+    $query->join($content_space_table, 'content_space', $base_table['alias'] . '.mid = content_space.entity_id');
+    $query->condition('content_space.field_content_space_target_id', $this->getCurrentContentSpaceId());
   }
 
 }

@@ -102,7 +102,11 @@ class ContentBaseFormAlter {
   public function alterForm(&$form, FormStateInterface $form_state) {
     /** @var \Drupal\Core\Entity\ContentEntityForm $form_object */
     $form_object = $form_state->getFormObject();
+    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $entity */
     $entity = $form_object->getEntity();
+    if (!$entity instanceof ContentBase) {
+      return;
+    }
 
     // Check if this is a new node.
     if ($entity->isNew()) {
@@ -131,18 +135,15 @@ class ContentBaseFormAlter {
     }
     else {
       // The content space of existing article can't be changed anymore.
-      $content_spaces = $entity->get('field_content_space')->referencedEntities();
-      if (!empty($content_spaces)) {
+      $content_space = $entity->getContentSpace();
+      if (!empty($content_space)) {
         $form['field_content_space']['widget']['#access'] = FALSE;
       }
 
-      // Show the current revision number alongside the status.
-      if ($entity instanceof ContentBase) {
-        $form['meta']['published']['#markup'] = $this->t('#@version @status', [
-          '@version' => $entity->getVersionId(),
-          '@status' => $entity->getVersionStatusLabel(),
-        ]);
-      }
+      $form['meta']['published']['#markup'] = $this->t('#@version @status', [
+        '@version' => $entity->getVersionId(),
+        '@status' => $entity->getVersionStatusLabel(),
+      ]);
     }
     $content_space = $this->contentSpaceManager->getCurrentContentSpace();
     if ($content_space) {
@@ -153,69 +154,67 @@ class ContentBaseFormAlter {
 
     // Make modifications to the submit buttons to support our custom
     // publishing/updating logic.
-    if ($entity instanceof ContentBase) {
-      $form_state->set('original_entity', $entity);
-      $form_state->setRedirectUrl($entity->getOverviewUrl());
-      $form['actions']['submit']['#access'] = FALSE;
-      $form['actions']['delete']['#access'] = FALSE;
-      $form['status']['#access'] = FALSE;
-      $form['moderation_state']['#access'] = FALSE;
-      $form['#submit'] = [[$this, 'submitForm']];
-      $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    $form_state->set('original_entity', $entity);
+    $form_state->setRedirectUrl($entity->getOverviewUrl());
+    $form['actions']['submit']['#access'] = FALSE;
+    $form['actions']['delete']['#access'] = FALSE;
+    $form['status']['#access'] = FALSE;
+    $form['moderation_state']['#access'] = FALSE;
+    $form['#submit'] = [[$this, 'submitForm']];
+    $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
 
-      // Add a confirm field. This will be set by ContentSubmitConfirmForm.
-      $form['confirmed'] = [
-        '#type' => 'hidden',
-        '#value' => 0,
-      ];
+    // Add a confirm field. This will be set by ContentSubmitConfirmForm.
+    $form['confirmed'] = [
+      '#type' => 'hidden',
+      '#value' => 0,
+    ];
 
-      $ajax_confirm = [
-        'callback' => [$this, 'ajaxConfirm'],
-        'confirm_field' => 'confirmed',
-      ];
+    $ajax_confirm = [
+      'callback' => [$this, 'ajaxConfirm'],
+      'confirm_field' => 'confirmed',
+    ];
 
-      switch ($entity->getContentStatus()) {
-        case ContentBase::CONTENT_STATUS_DRAFT:
-          $form['actions']['save_and_publish'] = [
-            '#type' => 'submit',
-            '#name' => 'save_and_publish',
-            '#value' => $this->t('Save and publish'),
-            '#ajax' => $ajax_confirm + [
-              'confirm_question' => $this->t('This will make this @type publicly available on the API and will automatically create a page for this @type on Humanitarian Action. Are you sure?', [
-                '@type' => strtolower($entity->type->entity->label()),
-              ]),
-            ],
-          ];
-          break;
+    switch ($entity->getContentStatus()) {
+      case ContentBase::CONTENT_STATUS_DRAFT:
+        $form['actions']['save_and_publish'] = [
+          '#type' => 'submit',
+          '#name' => 'save_and_publish',
+          '#value' => $this->t('Save and publish'),
+          '#ajax' => $ajax_confirm + [
+            'confirm_question' => $this->t('This will make this @type publicly available on the API and will automatically create a page for this @type on Humanitarian Action. Are you sure?', [
+              '@type' => strtolower($entity->type->entity->label()),
+            ]),
+          ],
+        ];
+        break;
 
-        case ContentBase::CONTENT_STATUS_PUBLISHED:
-        case ContentBase::CONTENT_STATUS_PUBLISHED_WITH_DRAFT:
-          $form['actions']['publish_correction'] = [
-            '#type' => 'submit',
-            '#name' => 'publish_correction',
-            '#value' => $this->t('Publish as correction'),
-            '#ajax' => $ajax_confirm + [
-              'confirm_question' => $this->t('This will publish these changes as a correction to the currently published version, which will be entirely replaced. Are you sure?'),
-            ],
-          ];
-          $form['actions']['publish_revision'] = [
-            '#type' => 'submit',
-            '#name' => 'publish_revision',
-            '#value' => $this->t('Publish as revision'),
-            '#ajax' => $ajax_confirm + [
-              'confirm_question' => $this->t('This will publish these changes as a new revision to the currently published version, which will remain publicly available as an earlier or original version. Are you sure?'),
-            ],
-          ];
-          break;
-      }
-
-      $form['actions']['save_draft'] = [
-        '#type' => 'submit',
-        '#name' => 'save_draft',
-        '#value' => $this->t('Save as draft'),
-        '#ajax' => $ajax_confirm,
-      ];
+      case ContentBase::CONTENT_STATUS_PUBLISHED:
+      case ContentBase::CONTENT_STATUS_PUBLISHED_WITH_DRAFT:
+        $form['actions']['publish_correction'] = [
+          '#type' => 'submit',
+          '#name' => 'publish_correction',
+          '#value' => $this->t('Publish as correction'),
+          '#ajax' => $ajax_confirm + [
+            'confirm_question' => $this->t('This will publish these changes as a correction to the currently published version, which will be entirely replaced. Are you sure?'),
+          ],
+        ];
+        $form['actions']['publish_revision'] = [
+          '#type' => 'submit',
+          '#name' => 'publish_revision',
+          '#value' => $this->t('Publish as revision'),
+          '#ajax' => $ajax_confirm + [
+            'confirm_question' => $this->t('This will publish these changes as a new revision to the currently published version, which will remain publicly available as an earlier or original version. Are you sure?'),
+          ],
+        ];
+        break;
     }
+
+    $form['actions']['save_draft'] = [
+      '#type' => 'submit',
+      '#name' => 'save_draft',
+      '#value' => $this->t('Save as draft'),
+      '#ajax' => $ajax_confirm,
+    ];
   }
 
   /**

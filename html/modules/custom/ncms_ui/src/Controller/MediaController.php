@@ -11,9 +11,9 @@ use Drupal\ncms_ui\ContentSpaceManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Implementation of the ContentController class.
+ * Implementation of the MediaController class.
  */
-class ContentController extends ControllerBase implements ContainerInjectionInterface {
+class MediaController extends ControllerBase implements ContainerInjectionInterface {
 
   use StringTranslationTrait;
 
@@ -25,7 +25,7 @@ class ContentController extends ControllerBase implements ContainerInjectionInte
   protected $contentSpaceManager;
 
   /**
-   * Creates a ContentController object.
+   * Creates a MediaController object.
    *
    * @param \Drupal\ncms_ui\ContentSpaceManager $content_manager
    *   The content manager.
@@ -53,7 +53,7 @@ class ContentController extends ControllerBase implements ContainerInjectionInte
    *   If $condition is TRUE, isAllowed() will be TRUE, otherwise isNeutral()
    *   will be TRUE.
    */
-  public function nodeCreateAccess(AccountInterface $account) {
+  public function mediaCreateAccess(AccountInterface $account) {
     return $this->contentSpaceManager->userIsInValidContentSpace() ? AccessResult::allowed() : AccessResult::neutral();
   }
 

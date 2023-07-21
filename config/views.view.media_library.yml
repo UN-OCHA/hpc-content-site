@@ -168,7 +168,7 @@ display:
         options:
           perm: 'access media overview'
       cache:
-        type: tag
+        type: none
         options: {  }
       empty:
         area_text_custom:
@@ -488,8 +488,6 @@ display:
       tags:
         - 'config:core.entity_view_display.media.author.default'
         - 'config:core.entity_view_display.media.author.media_library'
-        - 'config:core.entity_view_display.media.document.default'
-        - 'config:core.entity_view_display.media.document.media_library'
         - 'config:core.entity_view_display.media.image.default'
         - 'config:core.entity_view_display.media.image.facts_and_figures'
         - 'config:core.entity_view_display.media.image.full_width'
@@ -806,8 +804,6 @@ display:
       tags:
         - 'config:core.entity_view_display.media.author.default'
         - 'config:core.entity_view_display.media.author.media_library'
-        - 'config:core.entity_view_display.media.document.default'
-        - 'config:core.entity_view_display.media.document.media_library'
         - 'config:core.entity_view_display.media.image.default'
         - 'config:core.entity_view_display.media.image.facts_and_figures'
         - 'config:core.entity_view_display.media.image.full_width'
@@ -1147,8 +1143,6 @@ display:
       tags:
         - 'config:core.entity_view_display.media.author.default'
         - 'config:core.entity_view_display.media.author.media_library'
-        - 'config:core.entity_view_display.media.document.default'
-        - 'config:core.entity_view_display.media.document.media_library'
         - 'config:core.entity_view_display.media.image.default'
         - 'config:core.entity_view_display.media.image.facts_and_figures'
         - 'config:core.entity_view_display.media.image.full_width'

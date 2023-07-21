@@ -12,9 +12,25 @@ use Drupal\ncms_ui\Entity\Content\ContentBase;
 use Drupal\node\NodeInterface;
 
 /**
+ * Check if an update has already been run.
+ *
+ * @param string $name
+ *   The name of the update.
+ *
+ * @return bool
+ *   TRUE if it has already run, FALSE otherwise.
+ */
+function ncms_ui_update_already_run($name) {
+  return in_array('ncms_ui_post_update_' . $name, \Drupal::keyValue('post_update')->get('existing_updates'));
+}
+
+/**
  * Set the moderation state for existing nodes.
  */
 function ncms_ui_deploy_set_moderation_state() {
+  if (ncms_ui_update_already_run('set_moderation_state')) {
+    return;
+  }
   /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
   $node_storage = \Drupal::entityTypeManager()->getStorage('node');
   /** @var \Drupal\node\NodeInterface[] $nodes */
@@ -87,6 +103,9 @@ function ncms_ui_deploy_set_moderation_state() {
  * Update links in the admin menu.
  */
 function ncms_ui_deploy_update_admin_menu() {
+  if (ncms_ui_update_already_run('update_admin_menu')) {
+    return;
+  }
   /** @var \Drupal\Core\Menu\MenuLinkManager $menu_link_manager */
   $menu_link_manager = \Drupal::service('plugin.manager.menu.link');
   $node_types = \Drupal::entityTypeManager()->getStorage('node_type')->loadMultiple(NULL);

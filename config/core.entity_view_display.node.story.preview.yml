@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.preview
+    - field.field.node.story.field_content_space
     - field.field.node.story.field_footnotes
     - field.field.node.story.field_media
     - field.field.node.story.field_source
@@ -61,6 +62,15 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: -5
+    region: content
 hidden:
+  field_content_space: true
   langcode: true
   links: true

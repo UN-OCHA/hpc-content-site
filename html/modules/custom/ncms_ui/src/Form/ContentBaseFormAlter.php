@@ -108,54 +108,16 @@ class ContentBaseFormAlter {
       return;
     }
 
-    // Check if this is a new node.
-    if ($entity->isNew()) {
-      $content_space_ids = $this->contentSpaceManager->getValidContentSpaceIdsForCurrentUser();
-      $current_content_space = $this->contentSpaceManager->getCurrentContentSpaceId();
-      if (empty($content_space_ids)) {
-        // This user needs a content space first and is currently not allowed to
-        // create new content.
-        $this->messenger->addWarning($this->t('You are currently not allowed to create content. Please contact our support.'));
-        $form['#disabled'] = TRUE;
-        $form['field_content_space']['widget']['#access'] = FALSE;
-      }
-      elseif (!in_array($current_content_space, $content_space_ids)) {
-        // The user can't create content in the currently selected content
-        // space.
-        $this->messenger->addWarning($this->t('You are not allowed to create content in the current content space. Please switch to another content space.'));
-        $form['#disabled'] = TRUE;
-        $form['field_content_space']['widget']['#access'] = FALSE;
-      }
-      else {
-        $content_space_widget = &$form['field_content_space']['widget'];
-        $content_space_widget['#options'] = array_intersect_key($content_space_widget['#options'], [$current_content_space => $current_content_space]);
-        $content_space_widget['#default_value'] = [$current_content_space => $current_content_space];
-        $content_space_widget['#access'] = FALSE;
-      }
-    }
-    else {
-      // The content space of existing article can't be changed anymore.
-      $content_space = $entity->getContentSpace();
-      if (!empty($content_space)) {
-        $form['field_content_space']['widget']['#access'] = FALSE;
-      }
-
+    if (!$entity->isNew()) {
       $form['meta']['published']['#markup'] = $this->t('#@version @status', [
         '@version' => $entity->getVersionId(),
         '@status' => $entity->getVersionStatusLabel(),
-      ]);
-    }
-    $content_space = $this->contentSpaceManager->getCurrentContentSpace();
-    if ($content_space) {
-      $form['field_tags']['widget']['target_id']['#description'] .= ' ' . $this->t('Tags inherited from the content space: <em>@tags</em>', [
-        '@tags' => implode(', ', $content_space->getTags()),
       ]);
     }
 
     // Make modifications to the submit buttons to support our custom
     // publishing/updating logic.
     $form_state->set('original_entity', $entity);
-    $form_state->setRedirectUrl($entity->getOverviewUrl());
     $form['actions']['submit']['#access'] = FALSE;
     $form['actions']['delete']['#access'] = FALSE;
     $form['status']['#access'] = FALSE;

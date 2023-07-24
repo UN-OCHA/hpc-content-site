@@ -100,6 +100,32 @@ function ncms_ui_deploy_set_moderation_state() {
 }
 
 /**
+ * Set the content space for all nodes.
+ */
+function ncms_ui_deploy_set_content_space_nodes(&$sandbox) {
+  $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
+    'vid' => 'content_space',
+    'name' => 'Global',
+  ]);
+  if (empty($terms)) {
+    return;
+  }
+  $term = reset($terms);
+  /** @var \Drupal\node\NodeInterface[] $nodes */
+  $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple();
+  foreach ($nodes as $node) {
+    if (!$node->hasField('field_content_space') || !$node->get('field_content_space')->isEmpty()) {
+      continue;
+    }
+    $node->get('field_content_space')->setValue([
+      'target_id' => $term->id(),
+    ]);
+    $node->isSyncing();
+    $node->save();
+  }
+}
+
+/**
  * Update links in the admin menu.
  */
 function ncms_ui_deploy_update_admin_menu() {
@@ -201,5 +227,19 @@ function ncms_ui_deploy_set_content_space_media(&$sandbox) {
     ]);
     $entity->isSyncing();
     $entity->save();
+  }
+}
+
+/**
+ * Remove obsolete links from the admin menu.
+ */
+function ncms_ui_deploy_remove_obsolete_admin_menu_links() {
+  /** @var \Drupal\menu_link_content\Entity\MenuLinkContent[] $links */
+  $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties([
+    'menu_name' => 'admin',
+    'link__uri' => 'internal:/admin/content/achievements',
+  ]);
+  foreach ($links as $menu_link) {
+    $menu_link->delete();
   }
 }

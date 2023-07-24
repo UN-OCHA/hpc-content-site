@@ -29,6 +29,23 @@
 .gin-secondary-toolbar .gin-breadcrumb-wrapper {
   display: none;
 }
+.gin--edit-form.path-node .gin-secondary-toolbar .gin-breadcrumb-wrapper,
+.user-logged-in.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper {
+  display: block;
+}
+.gin--edit-form.path-node .gin-secondary-toolbar .gin-breadcrumb-wrapper .gin-breadcrumb__list,
+.user-logged-in.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper .gin-breadcrumb__list {
+  width: fit-content;
+  text-overflow: clip;
+}
+.gin--edit-form.path-node .gin-secondary-toolbar .gin-breadcrumb-wrapper li,
+.user-logged-in.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper li {
+  overflow: visible;
+}
+.gin--edit-form.path-node .gin-secondary-toolbar .gin-breadcrumb-wrapper li::before,
+.user-logged-in.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper li::before {
+  border-right: 0;
+}
 .gin-secondary-toolbar #toolbar-administration-secondary {
   display: flex;
   width: 100%;

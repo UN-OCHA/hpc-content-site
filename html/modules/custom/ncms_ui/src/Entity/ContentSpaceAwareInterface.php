@@ -2,12 +2,10 @@
 
 namespace Drupal\ncms_ui\Entity;
 
-use Drupal\node\NodeInterface;
-
 /**
  * Defines an interface for entities with content spaces.
  */
-interface ContentSpaceAwareInterface extends NodeInterface {
+interface ContentSpaceAwareInterface {
 
   /**
    * Get the content space that this content is assigned to.

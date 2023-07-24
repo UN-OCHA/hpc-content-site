@@ -1,6 +1,6 @@
 uuid: 1c530cd0-42bd-41f5-bc79-84b369d7e0c9
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - taxonomy.vocabulary.appeals

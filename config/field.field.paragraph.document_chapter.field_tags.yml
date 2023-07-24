@@ -11,8 +11,8 @@ field_name: field_tags
 entity_type: paragraph
 bundle: document_chapter
 label: Tags
-description: ''
-required: true
+description: 'Add tags that apply to this chapter and all articles within it.'
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''

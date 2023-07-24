@@ -89,6 +89,7 @@ class ContentSpaceManager {
       '/admin/content',
       '/admin/content/articles',
       '/admin/content/documents',
+      '/admin/content/stories',
       '/admin/content/media',
       '/admin/media/grid',
       '/admin/content/trash',

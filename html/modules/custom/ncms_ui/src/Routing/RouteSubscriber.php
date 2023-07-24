@@ -28,7 +28,7 @@ class RouteSubscriber extends RouteSubscriberBase {
     // Allow access to the revisions tab only if the user can also revert
     // revisions.
     if ($route = $collection->get('entity.node.version_history')) {
-      $route->setRequirement('_entity_access', 'node.update');
+      $route->setRequirement('_custom_access', '\Drupal\ncms_ui\Controller\ContentController::versionAccess');
     }
     if ($route = $collection->get('node.add')) {
       $route->setRequirement('_custom_access', '\Drupal\ncms_ui\Controller\ContentController::nodeCreateAccess');

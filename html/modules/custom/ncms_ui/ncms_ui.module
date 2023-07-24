@@ -19,6 +19,9 @@ use Drupal\ncms_ui\Controller\ViewController;
 use Drupal\ncms_ui\Entity\Content\Article;
 use Drupal\ncms_ui\Entity\Content\ContentBase;
 use Drupal\ncms_ui\Entity\Content\Document;
+use Drupal\ncms_ui\Entity\Content\Story;
+use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
+use Drupal\ncms_ui\Entity\EntityOverviewInterface;
 use Drupal\ncms_ui\Entity\Media\Author;
 use Drupal\ncms_ui\Entity\Media\Image;
 use Drupal\ncms_ui\Entity\Media\MediaBase;
@@ -40,6 +43,8 @@ function ncms_ui_entity_bundle_info_alter(array &$bundles) {
   $bundles['node']['article']['label'] = t('Article');
   $bundles['node']['document']['class'] = Document::class;
   $bundles['node']['document']['label'] = t('Document');
+  $bundles['node']['story']['class'] = Story::class;
+  $bundles['node']['story']['label'] = t('Story');
   // Terms.
   $bundles['taxonomy_term']['content_space']['class'] = ContentSpace::class;
   $bundles['taxonomy_term']['content_space']['label'] = t('Content space');
@@ -319,6 +324,18 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
     $content_base_form_alter->alterForm($form, $form_state);
   }
 
+  if ($node instanceof ContentSpaceAwareInterface) {
+    /** @var \Drupal\ncms_ui\Form\ContentSpaceFormAlter $content_space_form_alter */
+    $content_space_form_alter = \Drupal::service('ncms_ui.content_space_form_alter');
+    $content_space_form_alter->alterForm($form, $form_state);
+  }
+
+  if ($node instanceof EntityOverviewInterface) {
+    /** @var \Drupal\ncms_ui\Form\EntityOverviewFormAlter $entity_overview_form_alter */
+    $entity_overview_form_alter = \Drupal::service('ncms_ui.entity_overview_form_alter');
+    $entity_overview_form_alter->alterForm($form, $form_state);
+  }
+
   // Add a cancel link. This either redirects to the publisher site if this
   // request came from an external publisher, or to a url given in the
   // destination query argument, or, as a fallback, to the main content
@@ -340,6 +357,9 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   $redirect_url = $publisher_redirect ? Url::fromUri($publisher_redirect) : NULL;
   if (!$redirect_url && $destination_redirect) {
     $redirect_url = url::fromUserInput($destination_redirect);
+  }
+  if (!$redirect_url && $node instanceof EntityOverviewInterface) {
+    $redirect_url = $node->getOverviewUrl();
   }
   // And if we still don't have a valid redirect, use the fallback.
   if (!$redirect_url) {
@@ -371,11 +391,47 @@ function ncms_ui_form_media_form_alter(&$form, FormStateInterface $form_state) {
   /** @var \Drupal\media\MediaInterface $node */
   $entity = $form_state->getFormObject()->getEntity();
   if ($entity instanceof MediaBase) {
-    /** @var \Drupal\ncms_ui\Form\MediaBaseFormAlter $media_base_form_alter */
-    $media_base_form_alter = \Drupal::service('ncms_ui.media_base_form_alter');
-    $media_base_form_alter->alterForm($form, $form_state);
+    /** @var \Drupal\ncms_ui\Form\ContentSpaceFormAlter $content_space_form_alter */
+    $content_space_form_alter = \Drupal::service('ncms_ui.content_space_form_alter');
+    $content_space_form_alter->alterForm($form, $form_state);
+  }
+  if ($entity instanceof EntityOverviewInterface) {
+    /** @var \Drupal\ncms_ui\Form\EntityOverviewFormAlter $entity_overview_form_alter */
+    $entity_overview_form_alter = \Drupal::service('ncms_ui.entity_overview_form_alter');
+    $entity_overview_form_alter->alterForm($form, $form_state);
   }
 
+  // Take the destination only if it's not pointing to the current edit page.
+  $current_destination = \Drupal::destination()->get();
+  $destination_redirect = $entity->id() && $current_destination != $entity->toUrl('edit-form')->toString() ? $current_destination : NULL;
+
+  // Set the redirect url. Publishers have priority, otherwise take the
+  // destination if it's available.
+  $redirect_url = NULL;
+  if ($destination_redirect) {
+    $redirect_url = url::fromUserInput($destination_redirect);
+  }
+  if (!$redirect_url && $entity instanceof EntityOverviewInterface) {
+    $redirect_url = $entity->getOverviewUrl();
+  }
+  // And if we still don't have a valid redirect, use the fallback.
+  if (!$redirect_url) {
+    $redirect_url = Url::fromRoute('system.admin_content');
+  }
+
+  $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
+  if ($is_gin) {
+    $form['#attached']['library'][] = 'ncms_ui/ncms_gin';
+    $form['#attached']['drupalSettings']['ncms_gin']['redirect_url'] = $redirect_url->toString();
+  }
+  else {
+    $form['actions']['cancel'] = [
+      '#type' => 'link',
+      '#title' => t('Cancel'),
+      '#url' => $redirect_url,
+      '#weight' => 20,
+    ];
+  }
 }
 
 /**

@@ -4,12 +4,16 @@ namespace Drupal\ncms_ui\Entity\Media;
 
 use Drupal\Core\Url;
 use Drupal\media\Entity\Media;
-use Drupal\ncms_ui\Entity\MediaSpaceAwareInterface;
+use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
+use Drupal\ncms_ui\Entity\EntityOverviewInterface;
+use Drupal\ncms_ui\Traits\ContentSpaceEntityTrait;
 
 /**
  * Bundle base class for media entities.
  */
-abstract class MediaBase extends Media implements MediaSpaceAwareInterface {
+abstract class MediaBase extends Media implements ContentSpaceAwareInterface, EntityOverviewInterface {
+
+  use ContentSpaceEntityTrait;
 
   /**
    * {@inheritdoc}
@@ -29,21 +33,8 @@ abstract class MediaBase extends Media implements MediaSpaceAwareInterface {
   /**
    * {@inheritdoc}
    */
-  public function getContentSpace() {
-    if (!$this->hasField('field_content_space')) {
-      return NULL;
-    }
-    return $this->get('field_content_space')->entity ?? NULL;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setContentSpace($content_space_id) {
-    if (!$this->hasField('field_content_space')) {
-      return NULL;
-    }
-    $this->get('field_content_space')->setValue(['target_id' => $content_space_id]);
+  public function getOverviewUrl() {
+    return Url::fromUri('base:/admin/content/media');
   }
 
   /**

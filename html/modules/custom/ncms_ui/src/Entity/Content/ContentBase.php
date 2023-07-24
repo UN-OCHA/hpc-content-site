@@ -10,15 +10,18 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 use Drupal\ncms_ui\Entity\ContentVersionInterface;
+use Drupal\ncms_ui\Entity\EntityOverviewInterface;
+use Drupal\ncms_ui\Traits\ContentSpaceEntityTrait;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 
 /**
  * Bundle class for organization nodes.
  */
-abstract class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVersionInterface {
+abstract class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVersionInterface, EntityOverviewInterface {
 
   use StringTranslationTrait;
+  use ContentSpaceEntityTrait;
 
   const CONTENT_STATUS_PUBLISHED = 'published';
   const CONTENT_STATUS_PUBLISHED_WITH_DRAFT = 'published_with_draft';
@@ -106,26 +109,6 @@ abstract class ContentBase extends Node implements ContentSpaceAwareInterface, C
       return FALSE;
     }
     return $this->getLatestRevision()->moderation_state->value == 'trash';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getContentSpace() {
-    if (!$this->hasField('field_content_space')) {
-      return NULL;
-    }
-    return $this->get('field_content_space')->entity ?? NULL;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setContentSpace($content_space_id) {
-    if (!$this->hasField('field_content_space')) {
-      return NULL;
-    }
-    $this->get('field_content_space')->setValue(['target_id' => $content_space_id]);
   }
 
   /**

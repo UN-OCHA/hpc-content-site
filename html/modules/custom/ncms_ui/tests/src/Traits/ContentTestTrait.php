@@ -157,6 +157,7 @@ trait ContentTestTrait {
       'view the administration theme',
       'create article content',
       'edit own article content',
+      'view article revisions',
       'revert article revisions',
       'replicate entities',
       'use article_workflow transition create_new_draft',

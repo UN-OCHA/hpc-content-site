@@ -3,36 +3,19 @@
 namespace Drupal\ncms_ui\Form;
 
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\ncms_publisher\PublisherManager;
 use Drupal\ncms_ui\ContentSpaceManager;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 
 /**
  * Form alter class for node forms of content base nodes.
  */
-class MediaBaseFormAlter {
+class ContentSpaceFormAlter {
 
   use StringTranslationTrait;
   use DependencySerializationTrait;
-
-  /**
-   * The request stack.
-   *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
-   */
-  protected $requestStack;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
 
   /**
    * The content manager.
@@ -49,42 +32,16 @@ class MediaBaseFormAlter {
   protected $messenger;
 
   /**
-   * The form builder.
-   *
-   * @var \Drupal\Core\Form\FormBuilderInterface
-   */
-  protected $formBuilder;
-
-  /**
-   * The publisher manager service.
-   *
-   * @var \Drupal\ncms_publisher\PublisherManager
-   */
-  protected $publisherManager;
-
-  /**
    * Constructor.
    *
-   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
-   *   The request stack.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager.
    * @param \Drupal\ncms_ui\ContentSpaceManager $content_manager
    *   The content manager.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
-   * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
-   *   The form builder service.
-   * @param \Drupal\ncms_publisher\PublisherManager $publisher_manager
-   *   The publisher manager service.
    */
-  public function __construct(RequestStack $request_stack, EntityTypeManagerInterface $entity_type_manager, ContentSpaceManager $content_manager, MessengerInterface $messenger, FormBuilderInterface $form_builder, PublisherManager $publisher_manager) {
-    $this->requestStack = $request_stack;
-    $this->entityTypeManager = $entity_type_manager;
+  public function __construct(ContentSpaceManager $content_manager, MessengerInterface $messenger) {
     $this->contentSpaceManager = $content_manager;
     $this->messenger = $messenger;
-    $this->formBuilder = $form_builder;
-    $this->publisherManager = $publisher_manager;
   }
 
   /**
@@ -93,8 +50,11 @@ class MediaBaseFormAlter {
   public function alterForm(&$form, FormStateInterface $form_state) {
     /** @var \Drupal\Core\Entity\ContentEntityForm $form_object */
     $form_object = $form_state->getFormObject();
-    /** @var \Drupal\ncms_ui\Entity\Media\MediaBase $entity */
+    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $entity */
     $entity = $form_object->getEntity();
+    if (!$entity instanceof ContentSpaceAwareInterface) {
+      return;
+    }
 
     // Check if this is a new node.
     if ($entity->isNew()) {
@@ -116,6 +76,7 @@ class MediaBaseFormAlter {
       }
       else {
         $content_space_widget = &$form['field_content_space']['widget'];
+        $content_space_widget['#options'] = array_intersect_key($content_space_widget['#options'], [$current_content_space => $current_content_space]);
         $content_space_widget['#default_value'] = [$current_content_space => $current_content_space];
         $content_space_widget['#access'] = FALSE;
       }
@@ -127,6 +88,13 @@ class MediaBaseFormAlter {
         $form['field_content_space']['widget']['#access'] = FALSE;
       }
 
+    }
+    $content_space = $this->contentSpaceManager->getCurrentContentSpace();
+    if ($content_space && !empty($form['field_tags'])) {
+      $content_space_tags = $content_space->getTags() ?: NULL;
+      $form['field_tags']['widget']['target_id']['#description'] .= ' ' . $this->t('Tags inherited from the content space: <em>@tags</em>', [
+        '@tags' => $content_space_tags ? implode(', ', $content_space_tags) : $this->t('none'),
+      ]);
     }
   }
 

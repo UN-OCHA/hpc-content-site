@@ -1,13 +1,14 @@
 <?php
 
-namespace Drupal\ncms_ui\Entity;
-
-use Drupal\node\Entity\Node;
+namespace Drupal\ncms_ui\Traits;
 
 /**
- * Bundle class for organization nodes.
+ * Trait for entities supporting content spaces via ContentSpaceAwareInterface.
+ *
+ * This assumes that the implementing entity bundle has an entity reference
+ * field named 'field_content_space'.
  */
-class ContentBase extends Node implements ContentSpaceAwareInterface {
+trait ContentSpaceEntityTrait {
 
   /**
    * {@inheritdoc}

@@ -1,0 +1,11 @@
+uuid: c8f5176f-28f6-4067-a2e7-c32c675ff83c
+langcode: en
+status: true
+dependencies:
+  module:
+    - bulk_update_fields
+id: bulk_update_fields_on_language_content_settings
+label: 'Bulk Update Content Language Settings Fields'
+type: language_content_settings
+plugin: bulk_update_fields_action_base
+configuration: {  }

@@ -4,5 +4,4 @@ description: 'Manage publishers that integrate with the HPC Content Module.'
 package: HPC Content Module
 core_version_requirement: ^9.3 || ^10
 dependencies:
-  - ncms_ui:ncms_ui
   - csp:csp

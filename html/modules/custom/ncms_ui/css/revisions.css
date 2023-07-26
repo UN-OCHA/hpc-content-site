@@ -1,0 +1,10 @@
+#revision-overview-form tr.revision-current {
+  background-color: var(--gin-color-green-lightest);
+}
+
+#revision-overview-form tr.archived {
+  opacity: 0.5;
+}
+#revision-overview-form tr.archived:hover {
+  opacity: 1;
+}

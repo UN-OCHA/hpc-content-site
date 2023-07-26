@@ -4,6 +4,7 @@ status: false
 dependencies:
   config:
     - core.entity_view_mode.media.full_width
+    - field.field.media.video.field_content_space
     - field.field.media.video.field_credits
     - field.field.media.video.field_media_oembed_video
     - media.type.video
@@ -30,6 +31,7 @@ content:
     region: content
 hidden:
   created: true
+  field_content_space: true
   field_credits: true
   langcode: true
   name: true

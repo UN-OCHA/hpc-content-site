@@ -1,0 +1,80 @@
+uuid: 8f47f646-db61-4f4f-a26d-58e843ae70ad
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.article
+    - node.type.document
+  module:
+    - content_moderation
+_core:
+  default_config_hash: C0jZewM2mDrvz1X6CgI-Z0c5suz-odCZu1SKLKhotjo
+id: article_workflow
+label: 'Publishing workflow'
+type: content_moderation
+type_settings:
+  states:
+    draft:
+      label: Draft
+      weight: -2
+      published: false
+      default_revision: false
+    published:
+      label: Published
+      weight: -1
+      published: true
+      default_revision: true
+    trash:
+      label: Deleted
+      weight: 1
+      published: false
+      default_revision: true
+  transitions:
+    create_new_draft:
+      label: Save
+      from:
+        - draft
+      to: draft
+      weight: -5
+    delete:
+      label: Delete
+      from:
+        - draft
+        - published
+      to: trash
+      weight: 1
+    publish:
+      label: Publish
+      from:
+        - draft
+      to: published
+      weight: -1
+    restore_draft:
+      label: 'Restore to Draft'
+      from:
+        - trash
+      to: draft
+      weight: 2
+    restore_publish:
+      label: 'Restore and Publish'
+      from:
+        - trash
+      to: published
+      weight: 3
+    save_draft_leave_current_published:
+      label: 'Create draft (leave current version published)'
+      from:
+        - published
+      to: draft
+      weight: -2
+    update:
+      label: Update
+      from:
+        - published
+      to: published
+      weight: -3
+  entity_types:
+    node:
+      - article
+      - document
+  default_moderation_state: draft

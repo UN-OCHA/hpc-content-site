@@ -20,11 +20,17 @@ layout_paragraphs:
 article_edit_form:
   css:
     component:
-      css/article_edit_form.css: {}
+      css/edit-form/content_edit_form.css: {}
+      css/edit-form/article_edit_form.css: {}
 document_edit_form:
   css:
     component:
-      css/document_edit_form.css: {}
+      css/edit-form/content_edit_form.css: {}
+      css/edit-form/document_edit_form.css: {}
+revisions:
+  css:
+    component:
+      css/revisions.css: {}
 ncms_gin:
   css:
     component:
@@ -33,7 +39,46 @@ ncms_gin:
       css/frontend_styles.css: {}
   js:
     js/ncms_gin.js: {}
-# entity_browser:
-#   css:
-#     component:
-#       css/entity_browser.css: {}
+ajax_commands:
+  js:
+    js/ajax_commands.js: {}
+diff:
+  css:
+    component:
+      css/diff.css: {}
+material_icons:
+  css:
+    theme:
+      css/material-icons.css: {}
+floating_ui:
+  remote: https://github.com/floating-ui/floating-ui
+  license: &floating_ui_license
+    name: MIT
+    url: https://raw.githubusercontent.com/floating-ui/floating-ui/master/LICENSE
+    gpl-compatible: true
+  version: 2
+  js:
+    https://cdn.jsdelivr.net/npm/@floating-ui/core@1.2.6: { type: external, minified: true, attributes: { defer: false, async: false } }
+    https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.2.8: { type: external, minified: true, attributes: { defer: false, async: false } }
+
+tooltip:
+  js:
+    js/tooltip.js: {}
+  css:
+    component:
+      css/tooltip.css: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+    - ncms_ui/floating_ui
+    - ncms_ui/material_icons
+
+throbber:
+  js:
+    js/throbber.js: {}
+  css:
+    component:
+      css/throbber.css: {}
+  dependencies:
+    - core/once

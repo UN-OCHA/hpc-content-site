@@ -1,0 +1,15 @@
+uuid: c4c30d05-8b90-4d25-bc70-5557e0569505
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: fXmPcj_Syyi7TEs_RBHsE-38FRb30RzQKzsLMcUFKFE
+id: add_custom_block
+label: 'Add Custom Block'
+type: actions
+dialog_group: administrative
+dialog_type: off_canvas
+dialog_width: '650'
+selection_criteria:
+  routes:
+    - block_content_add_action

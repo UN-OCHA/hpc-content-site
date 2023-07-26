@@ -19,6 +19,7 @@
       if (typeof settings.ncms_gin.redirect_label != 'undefined') {
         $breadcrumb_link.html(settings.ncms_gin.redirect_label);
       }
+      $('.gin-breadcrumb__list li:not(:first-child)').remove();
     }
   }
 })(jQuery, Drupal, drupalSettings);

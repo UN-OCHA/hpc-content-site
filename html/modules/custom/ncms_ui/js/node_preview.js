@@ -1,16 +1,26 @@
 (function ($, Drupal, drupalSettings) {
 
   Drupal.NcmsNodePreview = {
-    originalTitle: null
+    originalTitle: null,
+    updater: null,
   };
-  Drupal.NcmsNodePreview.updater = null;
+
   Drupal.NcmsNodePreview.resize = function ($iframe) {
     var iframe = $iframe.get(0);
     if (!iframe || !iframe.contentWindow) {
+      // Stop updating size if the iframe disappears.
       clearInterval(Drupal.NcmsNodePreview.updater);
+      Drupal.NcmsNodePreview.updater = null;
       return;
     }
     iframe.style.height = iframe.contentWindow.document.documentElement.scrollHeight + "px";
+
+    // Periodically auto-resize iframe as contents may change height.
+    if (Drupal.NcmsNodePreview.updater === null) {
+      Drupal.NcmsNodePreview.updater = setInterval(function () {
+        Drupal.NcmsNodePreview.resize($iframe);
+      }, 1000);
+    }
   }
 
   /**
@@ -18,12 +28,12 @@
    */
   Drupal.behaviors.NcmsNodePreview = {
     attach: function (context, settings) {
-      let $iframe = $('iframe#node-preview');
+      let $iframe = $('iframe#node-preview', context);
       if ($iframe.length > 0) {
-        // Periodically auto-resize iframe as contents may change height.
-        Drupal.NcmsNodePreview.updater = setInterval(function () {
+        // Auto-resize iframe to account for the content height.
+        setTimeout(function () {
           Drupal.NcmsNodePreview.resize($iframe);
-        }, 1000);
+        }, 250);
 
         // Set the page title, this might also be used to create file names
         // when printing to PDF using default browser features.

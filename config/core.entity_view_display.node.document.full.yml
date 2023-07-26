@@ -1,0 +1,71 @@
+uuid: 2c2bc7ee-0245-427c-ad23-62f0a0084b81
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.full
+    - field.field.node.document.field_caption
+    - field.field.node.document.field_content_space
+    - field.field.node.document.field_hero_image
+    - field.field.node.document.field_paragraphs
+    - field.field.node.document.field_short_title
+    - field.field.node.document.field_summary
+    - field.field.node.document.field_tags
+    - node.type.document
+  module:
+    - entity_reference_revisions
+    - layout_builder
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: node.document.full
+targetEntityType: node
+bundle: document
+mode: full
+content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  field_hero_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: hero_image
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_paragraphs:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: three_columns
+      link: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  workflow_buttons:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_caption: true
+  field_content_space: true
+  field_short_title: true
+  field_summary: true
+  field_tags: true
+  langcode: true
+  links: true

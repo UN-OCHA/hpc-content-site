@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.media.related_articles
+    - field.field.media.image.field_content_space
     - field.field.media.image.field_credits
     - field.field.media.image.field_media_image
     - media.type.image
@@ -34,6 +35,7 @@ content:
     region: content
 hidden:
   created: true
+  field_content_space: true
   field_credits: true
   langcode: true
   name: true

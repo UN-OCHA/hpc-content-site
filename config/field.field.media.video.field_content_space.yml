@@ -1,0 +1,29 @@
+uuid: e597ccd1-fb5b-4327-b6d3-e2d5415899ef
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_content_space
+    - media.type.video
+    - taxonomy.vocabulary.content_space
+id: media.video.field_content_space
+field_name: field_content_space
+entity_type: media
+bundle: video
+label: 'Content space'
+description: 'The content space that the media belongs to.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      content_space: content_space
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

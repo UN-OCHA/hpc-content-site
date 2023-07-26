@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.video.field_content_space
     - field.field.media.video.field_credits
     - field.field.media.video.field_media_oembed_video
     - media.type.video
@@ -13,6 +14,14 @@ targetEntityType: media
 bundle: video
 mode: default
 content:
+  field_content_space:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
   field_credits:
     type: string
     label: hidden

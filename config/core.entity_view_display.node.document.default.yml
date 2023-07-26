@@ -20,6 +20,11 @@ targetEntityType: node
 bundle: document
 mode: default
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   field_caption:
     type: double_field_unformatted_list
     label: above
@@ -77,6 +82,11 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 1
+    region: content
+  workflow_buttons:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
     region: content
 hidden:
   field_content_space: true

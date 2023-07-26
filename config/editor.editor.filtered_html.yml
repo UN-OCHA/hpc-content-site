@@ -39,11 +39,9 @@ settings:
         - heading4
         - heading5
         - heading6
-    ckeditor5_style:
-      styles:
-        -
-          label: Highlight
-          element: '<p class="highlight">'
+    ckeditor5_list:
+      reversed: false
+      startIndex: true
     ckeditor5_sourceEditing:
       allowed_tags:
         - '<cite>'
@@ -60,14 +58,16 @@ settings:
         - '<h5 id jump-*>'
         - '<h6 id jump-*>'
         - '<drupal-media data-caption title>'
-    ckeditor5_list:
-      reversed: false
-      startIndex: true
-    media_media:
-      allow_view_mode_override: true
+    ckeditor5_style:
+      styles:
+        -
+          label: Highlight
+          element: '<p class="highlight">'
     editor_advanced_link_link:
       enabled_attributes:
         - target
+    media_media:
+      allow_view_mode_override: true
 image_upload:
   status: false
   scheme: private

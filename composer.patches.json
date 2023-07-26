@@ -1,13 +1,18 @@
 {
     "patches": {
         "drupal/core": {
-            "https://www.drupal.org/project/drupal/issues/2544110": "https://www.drupal.org/files/issues/2023-05-04/2544110-162.patch"
+            "https://www.drupal.org/project/drupal/issues/2544110": "https://www.drupal.org/files/issues/2023-05-04/2544110-162.patch",
+            "Issue #2707291: Disable body-level scrolling when a dialog is open as a modal": "https://www.drupal.org/files/issues/2023-04-27/2707291-96.patch"
         },
         "drupal/bigint": {
             "Issue #3296640: Automated Drupal 10 compatibility fixes": "https://www.drupal.org/files/issues/2022-07-18/bigint.1.x-dev.rector.patch"
         },
         "drupal/csp": {
             "Simplify log format": "./patches/csp-log-format.patch"
+        },
+        "drupal/diff": {
+            "Issue #3183380: Add 'compare revisions' button on top for long form.": "https://www.drupal.org/files/issues/2023-05-10/3183380-add-compare-revisions-9.patch",
+            "Issue #3058111: Allow user to choose 'Visual inline' display view mode": "https://www.drupal.org/files/issues/2019-08-29/3058111-add-default-view-mode-setting-3.patch"
         },
         "drupal/entity_browser": {
             "Issue #3056057: Position the main form actions to the bottom of IFrame": "https://www.drupal.org/files/issues/2019-05-23/position-main-form-actins-on-bottom-3056057-10.patch"
@@ -16,7 +21,7 @@
             "Issue #2799479: Views doesn't recognize relationship to host": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
         },
         "drupal/gin": {
-            "Issue #3342513: Ajax on action buttons not working except in chrome": "https://www.drupal.org/files/issues/2023-02-16/3342513-entity-edit-form-update-ajax-ids-3.patch"
+            "Issue #3342513: Ajax behaviour on entity edit form action buttons can break": "https://www.drupal.org/files/issues/2023-02-16/3342513-entity-edit-form-update-ajax-ids-3.patch"
         },
         "drupal/maintenance200": {
             "Issue #3288424: Automated Drupal 10 compatibility fixes": "./patches/maintenance200-drupal-10-compatibility.patch"
@@ -27,6 +32,9 @@
         "drupal/user_expire": {
             "Allow the notification email to be customised": "https://git.drupalcode.org/project/user_expire/-/merge_requests/5.patch",
             "Issue #2855005: Reset expiration when user is reactivated": "https://www.drupal.org/files/issues/2022-11-22/2855005-13.patch"
+        },
+        "unocha/common_design": {
+            "Issue #395: Use drupal_static() instead of PHPs static keyword": "https://patch-diff.githubusercontent.com/raw/UN-OCHA/common_design/pull/395.diff"
         }
     }
 }

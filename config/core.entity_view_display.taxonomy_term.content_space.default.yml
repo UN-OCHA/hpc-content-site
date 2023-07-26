@@ -6,6 +6,7 @@ dependencies:
     - field.field.taxonomy_term.content_space.field_major_tags
     - taxonomy.vocabulary.content_space
   module:
+    - ncms_ui
     - text
 id: taxonomy_term.content_space.default
 targetEntityType: taxonomy_term
@@ -20,10 +21,10 @@ content:
     weight: 0
     region: content
   field_major_tags:
-    type: entity_reference_label
-    label: above
+    type: entity_reference_label_inline
+    label: inline
     settings:
-      link: true
+      link: 0
     third_party_settings: {  }
     weight: 1
     region: content

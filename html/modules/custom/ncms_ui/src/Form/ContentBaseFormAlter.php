@@ -256,6 +256,11 @@ class ContentBaseFormAlter {
         // Submit the form.
         $this->submitForm($form, $form_state, TRUE);
 
+        // Remove any is_changed class just in case to prevent the beforeunload
+        // event set up by layout paragraphs to trigger a browser warning. See
+        // https://git.drupalcode.org/project/layout_paragraphs/-/blame/2.0.x/js/builder.js#L182
+        $response->addCommand(new InvokeCommand('.is_changed', 'removeClass', ['is_changed']));
+
         // Go back to the publisher or to the backend listings page.
         $redirect_url = $this->publisherManager->getCurrentRedirectUrl() ?? $updated_entity->getOverviewUrl()->toString();
         $response->addCommand(new RedirectCommand($redirect_url));

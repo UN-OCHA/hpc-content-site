@@ -88,6 +88,11 @@ class ContentSubmitConfirmForm extends ConfirmFormBase {
       $input = $form_state->getUserInput();
       $confirm_field = $input['confirm_field'];
       $submit_button = $input['submit_button'];
+      // Remove any is_changed class just in case to prevent the beforeunload
+      // event set up by layout paragraphs to trigger a browser warning. See
+      // https://git.drupalcode.org/project/layout_paragraphs/-/blame/2.0.x/js/builder.js#L182
+      $response->addCommand(new InvokeCommand('.is_changed', 'removeClass', ['is_changed']));
+      // Mark as confirmed and submit the original form.
       $response->addCommand(new InvokeCommand('input[name="' . $confirm_field . '"]', 'val', [1]));
       $response->addCommand(new InvokeCommand('input[data-drupal-selector="' . $submit_button . '"]', 'mousedown'));
     }

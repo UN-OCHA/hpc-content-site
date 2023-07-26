@@ -11,7 +11,7 @@ field_name: field_major_tags
 entity_type: taxonomy_term
 bundle: content_space
 label: 'Major tags'
-description: ''
+description: 'Add tags that apply to this content space and all documents and articles within it.'
 required: false
 translatable: false
 default_value: {  }

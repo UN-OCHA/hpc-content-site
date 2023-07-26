@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_paragraphs
     - node.type.document
-    - paragraphs.paragraphs_type.document_articles
     - paragraphs.paragraphs_type.document_chapter
   module:
     - entity_reference_revisions
@@ -23,7 +22,6 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
-      document_articles: document_articles
       document_chapter: document_chapter
     negate: 0
     target_bundles_drag_drop:
@@ -44,7 +42,7 @@ settings:
         enabled: false
       document_articles:
         weight: 25
-        enabled: true
+        enabled: false
       document_chapter:
         weight: 27
         enabled: true

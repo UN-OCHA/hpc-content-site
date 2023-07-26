@@ -1,17 +1,30 @@
 services:
-  ncms_ui.content.manager:
-    class: Drupal\ncms_ui\ContentManager
+  ncms_ui.content_space.manager:
+    class: Drupal\ncms_ui\ContentSpaceManager
     arguments: ['@entity_type.manager', '@current_user', '@tempstore.private', '@plugin.manager.views.join']
+  ncms_ui.content_base_form_alter:
+    class: Drupal\ncms_ui\Form\ContentBaseFormAlter
+    arguments: ['@request_stack', '@entity_type.manager', '@ncms_ui.content_space.manager', '@messenger', '@form_builder', '@ncms_publisher.publisher.manager']
+  ncms_ui.content_space_form_alter:
+    class: Drupal\ncms_ui\Form\ContentSpaceFormAlter
+    arguments: ['@ncms_ui.content_space.manager', '@messenger']
+  ncms_ui.entity_overview_form_alter:
+    class: Drupal\ncms_ui\Form\EntityOverviewFormAlter
+  ncms_ui.revision_overview_form_alter:
+    class: Drupal\ncms_ui\Form\RevisionOverviewFormAlter
+    arguments: ['@entity_type.manager', '@current_user', '@current_route_match', '@renderer', '@date.formatter', '@pager.manager']
+    calls:
+      - [setDiffLayoutManager, ['@?plugin.manager.diff.layout']]
   ncms_ui.replicate_form_alter:
     class: Drupal\ncms_ui\Form\ReplicateFormAlter
-    arguments: ['@entity_type.manager', '@ncms_ui.content.manager']
+    arguments: ['@entity_type.manager', '@ncms_ui.content_space.manager']
   ncms_ui.route_subscriber:
     class: Drupal\ncms_ui\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
   ncms_ui.replicate_subscriber:
     class: Drupal\ncms_ui\EventSubscriber\ReplicateEventSubscriber
-    arguments: ['@entity_type.manager', '@ncms_ui.content.manager']
+    arguments: ['@entity_type.manager', '@ncms_ui.content_space.manager']
     tags:
       - { name: event_subscriber }
   ncms_ui.theme_negotiator.admin_theme:
@@ -23,7 +36,6 @@ services:
     class: Drupal\ncms_ui\Autocomplete\AutocompleteRouteSubscriber
     tags:
       - { name: event_subscriber }
-
   ncms_ui.autocomplete_matcher:
     class: Drupal\ncms_ui\Autocomplete\EntityAutocompleteMatcher
-    arguments: ['@plugin.manager.entity_reference_selection', '@ncms_ui.content.manager', '@date.formatter', '@entity_type.manager', '@entity.repository']
+    arguments: ['@plugin.manager.entity_reference_selection', '@ncms_ui.content_space.manager', '@date.formatter', '@entity_type.manager', '@entity.repository']

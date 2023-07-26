@@ -1,0 +1,11 @@
+uuid: 7c255fb6-8b12-4465-bc48-e64717938223
+langcode: en
+status: true
+dependencies:
+  module:
+    - bulk_update_fields
+id: bulk_update_fields_on_imageapi_optimize_pipeline
+label: 'Bulk Update Image Optimize Pipeline Fields'
+type: imageapi_optimize_pipeline
+plugin: bulk_update_fields_action_base
+configuration: {  }

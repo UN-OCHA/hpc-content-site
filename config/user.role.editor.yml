@@ -11,7 +11,10 @@ dependencies:
     - node.type.article
     - node.type.document
     - node.type.story
+    - workflows.workflow.article_workflow
   module:
+    - content_moderation
+    - entity_browser
     - filter
     - gho_access
     - gho_fields
@@ -29,6 +32,7 @@ weight: -6
 is_admin: null
 permissions:
   - 'access administration pages'
+  - 'access articles entity browser pages'
   - 'access content overview'
   - 'access media overview'
   - 'access toolbar'
@@ -41,18 +45,10 @@ permissions:
   - 'create media'
   - 'create story content'
   - 'create video media'
-  - 'delete achievement revisions'
-  - 'delete article revisions'
-  - 'delete document revisions'
   - 'delete media'
-  - 'delete own achievement content'
-  - 'delete own article content'
   - 'delete own author media'
-  - 'delete own document content'
   - 'delete own image media'
-  - 'delete own story content'
   - 'delete own video media'
-  - 'delete story revisions'
   - 'edit behavior plugin settings'
   - 'edit own achievement content'
   - 'edit own article content'
@@ -78,14 +74,20 @@ permissions:
   - 'revert achievement revisions'
   - 'revert article revisions'
   - 'revert document revisions'
-  - 'revert story revisions'
   - 'update media'
+  - 'use article_workflow transition create_new_draft'
+  - 'use article_workflow transition delete'
+  - 'use article_workflow transition publish'
+  - 'use article_workflow transition restore_draft'
+  - 'use article_workflow transition restore_publish'
+  - 'use article_workflow transition save_draft_leave_current_published'
+  - 'use article_workflow transition update'
   - 'use text format filtered_html'
   - 'view achievement revisions'
   - 'view all media revisions'
   - 'view article revisions'
   - 'view document revisions'
+  - 'view latest version'
   - 'view own unpublished content'
-  - 'view story revisions'
   - 'view the administration theme'
   - 'view untranslated content'

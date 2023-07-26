@@ -29,11 +29,9 @@ settings:
       - removeFormat
       - sourceEditing
   plugins:
-    ckeditor5_style:
-      styles:
-        -
-          label: Highlight
-          element: '<p class="highlight">'
+    ckeditor5_list:
+      reversed: false
+      startIndex: true
     ckeditor5_sourceEditing:
       allowed_tags:
         - '<cite>'
@@ -44,9 +42,11 @@ settings:
         - '<blockquote cite>'
         - '<ul type>'
         - '<ol type a i>'
-    ckeditor5_list:
-      reversed: false
-      startIndex: true
+    ckeditor5_style:
+      styles:
+        -
+          label: Highlight
+          element: '<p class="highlight">'
     editor_advanced_link_link:
       enabled_attributes:
         - target

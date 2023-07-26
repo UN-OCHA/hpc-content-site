@@ -4,9 +4,11 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.document.field_caption
     - field.field.node.document.field_content_space
     - field.field.node.document.field_hero_image
     - field.field.node.document.field_paragraphs
+    - field.field.node.document.field_short_title
     - field.field.node.document.field_summary
     - field.field.node.document.field_tags
     - node.type.document
@@ -17,6 +19,11 @@ targetEntityType: node
 bundle: document
 mode: teaser
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   title:
     type: string
     label: hidden
@@ -25,10 +32,17 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  workflow_buttons:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
+  field_caption: true
   field_content_space: true
   field_hero_image: true
   field_paragraphs: true
+  field_short_title: true
   field_summary: true
   field_tags: true
   langcode: true

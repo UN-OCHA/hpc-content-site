@@ -5,7 +5,9 @@ dependencies:
   config:
     - core.entity_view_mode.paragraph.preview
     - field.field.paragraph.document_chapter.field_articles
-    - field.field.paragraph.document_chapter.field_image
+    - field.field.paragraph.document_chapter.field_short_title
+    - field.field.paragraph.document_chapter.field_summary
+    - field.field.paragraph.document_chapter.field_tags
     - field.field.paragraph.document_chapter.field_title
     - paragraphs.paragraphs_type.document_chapter
   module:
@@ -40,4 +42,6 @@ content:
     weight: 0
     region: content
 hidden:
-  field_image: true
+  field_short_title: true
+  field_summary: true
+  field_tags: true

@@ -34,14 +34,17 @@ class EntityMatchingBuffer extends GraphQlEntityBuffer {
    *   The entity type of the given entity ids.
    * @param array|string $title
    *   The entity titles to match for.
+   * @param array $bundles
+   *   The entity bundles to match for.
    *
    * @return \Closure
    *   The callback to invoke to load the result for this buffer item.
    */
-  public function addTitleString($type, $title) {
+  public function addTitleString($type, $title, $bundles) {
     $item = new \ArrayObject([
       'type' => $type,
       'title' => $title,
+      'bundles' => $bundles,
     ]);
 
     return $this->createBufferResolver($item);
@@ -59,6 +62,7 @@ class EntityMatchingBuffer extends GraphQlEntityBuffer {
    */
   public function resolveBufferArray(array $buffer) {
     $type = reset($buffer)['type'];
+    $bundles = reset($buffer)['bundles'];
     $titles = array_map(function (\ArrayObject $item) {
       return $item['title'];
     }, $buffer);
@@ -73,6 +77,9 @@ class EntityMatchingBuffer extends GraphQlEntityBuffer {
     $title_match_group = $query->orConditionGroup();
     foreach ($titles as $title) {
       $title_match_group->condition('title', '%' . $title . '%', 'LIKE');
+    }
+    if (!empty($bundles)) {
+      $query->condition('type', $bundles);
     }
     $query->condition($title_match_group);
     $query->accessCheck(TRUE);

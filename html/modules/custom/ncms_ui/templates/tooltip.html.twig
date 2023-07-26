@@ -1,0 +1,11 @@
+{{ attach_library('ncms_ui/tooltip') }}
+
+<div class="tooltip-wrapper">
+  <div id="{{ id }}" class="tooltip visually-hidden" data-tooltip-id="{{ id }}">
+    {{ content  }}
+    {# Uncomment next line to display Tooltip's arrow #}
+    <div data-popper-arrow></div>
+  </div>
+
+  <span {{ attributes }} aria-describedby="{{ id }}">{{ icon }}</span>
+</div>

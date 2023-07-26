@@ -21,13 +21,14 @@ dependencies:
     - taxonomy.vocabulary.needs_and_requirements
     - taxonomy.vocabulary.section
     - taxonomy.vocabulary.story_type
+    - workflows.workflow.article_workflow
   module:
-    - content_translation
+    - content_moderation
+    - entity_browser
     - filter
     - gho_access
     - gho_fields
     - gho_figures
-    - locale
     - media
     - node
     - override_node_options
@@ -42,6 +43,7 @@ weight: -8
 is_admin: null
 permissions:
   - 'access administration pages'
+  - 'access articles entity browser pages'
   - 'access content overview'
   - 'access media overview'
   - 'access site in maintenance mode'
@@ -50,9 +52,6 @@ permissions:
   - 'access toolbar'
   - 'access user profiles'
   - 'add datawrapper embed code'
-  - 'administer media'
-  - 'administer nodes'
-  - 'administer taxonomy'
   - 'administer users'
   - 'assign user roles'
   - 'create achievement content'
@@ -71,41 +70,23 @@ permissions:
   - 'create terms in section'
   - 'create terms in story_type'
   - 'create video media'
-  - 'delete achievement revisions'
-  - 'delete any achievement content'
-  - 'delete any article content'
   - 'delete any author media'
-  - 'delete any document content'
   - 'delete any image media'
   - 'delete any media'
-  - 'delete any story content'
   - 'delete any video media'
-  - 'delete article revisions'
-  - 'delete content translations'
-  - 'delete document revisions'
   - 'delete media'
-  - 'delete own achievement content'
-  - 'delete own article content'
   - 'delete own author media'
-  - 'delete own document content'
   - 'delete own image media'
-  - 'delete own story content'
   - 'delete own video media'
-  - 'delete story revisions'
   - 'delete terms in appeals'
-  - 'delete terms in content_space'
   - 'delete terms in interactive_content_type'
   - 'delete terms in major_tags'
   - 'delete terms in minor_tags'
   - 'delete terms in needs_and_requirements'
   - 'delete terms in section'
   - 'delete terms in story_type'
-  - 'edit any achievement content'
-  - 'edit any article content'
   - 'edit any author media'
-  - 'edit any document content'
   - 'edit any image media'
-  - 'edit any story content'
   - 'edit any video media'
   - 'edit behavior plugin settings'
   - 'edit own achievement content'
@@ -124,15 +105,12 @@ permissions:
   - 'edit terms in section'
   - 'edit terms in story_type'
   - 'enter achievement revision log entry'
-  - 'enter all revision log entry'
   - 'enter article revision log entry'
   - 'enter document revision log entry'
   - 'enter story revision log entry'
   - 'import needs and requirements figures'
   - 'override achievement authored by option'
   - 'override achievement authored on option'
-  - 'override all authored by option'
-  - 'override all authored on option'
   - 'override article authored by option'
   - 'override article authored on option'
   - 'override document authored by option'
@@ -143,11 +121,15 @@ permissions:
   - 'revert achievement revisions'
   - 'revert article revisions'
   - 'revert document revisions'
-  - 'revert story revisions'
-  - 'translate interface'
   - 'update any media'
-  - 'update content translations'
   - 'update media'
+  - 'use article_workflow transition create_new_draft'
+  - 'use article_workflow transition delete'
+  - 'use article_workflow transition publish'
+  - 'use article_workflow transition restore_draft'
+  - 'use article_workflow transition restore_publish'
+  - 'use article_workflow transition save_draft_leave_current_published'
+  - 'use article_workflow transition update'
   - 'use text format filtered_html'
   - 'use text format footnotes'
   - 'use text format limited_html'
@@ -155,8 +137,8 @@ permissions:
   - 'view all media revisions'
   - 'view article revisions'
   - 'view document revisions'
+  - 'view latest version'
   - 'view own unpublished content'
   - 'view own unpublished media'
-  - 'view story revisions'
   - 'view the administration theme'
   - 'view untranslated content'

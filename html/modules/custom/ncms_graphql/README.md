@@ -7,28 +7,36 @@ published content.
 Examples
 --------
 
-## Example query for a specific article ##
+## Example query to search documents by title ##
 
 {
-  article(id: 1) {
-    title
-    caption {
-      title
-      body
-    }
-    heroImage {
-      credits
-      image {
-        url
-        width
-        height
-      }
-    }
-    content {
+  documentSearch(title:"Afgha") {
+    count
+    items {
       id
-      type
-      typeLabel
-      rendered
+      title
+    }
+  }
+}
+
+## Example query for a specific document ##
+
+{
+  document(id: 1) {
+    title
+    summary
+    tags
+    image {
+      credits
+      imageUrl
+    }
+    chapters {
+      id
+      title
+      summary
+      articles {
+        id
+      }
     }
   }
 }
@@ -41,6 +49,29 @@ Examples
     items {
       id
       title
+    }
+  }
+}
+
+## Example query for a specific article ##
+
+{
+  article(id: 1) {
+    title
+    tags
+    image {
+      credits
+      image {
+        url
+        width
+        height
+      }
+    }
+    content {
+      id
+      type
+      typeLabel
+      rendered
     }
   }
 }

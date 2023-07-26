@@ -1,0 +1,15 @@
+type_settings:
+  states:
+    draft:
+      label: Brouillon
+    published:
+      label: Publié
+    trash:
+      label: Archived
+  transitions:
+    delete:
+      label: Archive
+    publish:
+      label: Publier
+    restore_draft:
+      label: 'Restaurer à Brouillon'

@@ -26,12 +26,15 @@ type Document {
   id: Int!
   uuid: String!
   title: String!
+  title_short: String!
   status: Int
   created: String
   updated: String
+  summary: String
   image: HeroImage
+  imageCaption: Caption
   content_space: ContentSpace
-  content: [DocumentParagraph]
+  chapters: [DocumentChapter]
   tags: [String]
 }
 
@@ -75,23 +78,12 @@ type Paragraph {
   configuration: String
 }
 
-type DocumentParagraph {
-  id: Int
-  uuid: String
-  type: String
-  typeLabel: String
-  promoted: Boolean
-  rendered: String
-  configuration: String
-  articles: [Article]
-  chapter: DocumentChapter
-}
-
 type DocumentChapter {
   id: Int
   uuid: String
   title: String
-  image: HeroImage
+  title_short: String
+  summary: String
   articles: [Article]
 }
 

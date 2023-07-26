@@ -17,8 +17,10 @@ dependencies:
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
     - node.type.article
+    - workflows.workflow.article_workflow
   module:
     - allowed_formats
+    - content_moderation
     - double_field
     - field_group
     - file
@@ -46,7 +48,6 @@ third_party_settings:
         required_fields: true
     group_meta_data:
       children:
-        - field_article_type
         - field_content_space
         - field_tags
         - field_section
@@ -209,6 +210,12 @@ content:
       match_limit: 0
       size: 60
       placeholder: 'Article tags'
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 102
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

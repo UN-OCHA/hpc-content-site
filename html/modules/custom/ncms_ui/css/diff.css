@@ -1,0 +1,21 @@
+.ncms-node-diff #main-content {
+  padding-block-start: 0;
+}
+.ncms-node-diff .diff-header {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--cd-blue-grey--dark);
+}
+
+.ncms-node-diff .diff-controls {
+  display: none;
+}
+.ncms-node-diff ins {
+  text-decoration: inherit;
+}
+
+.ncms-node-diff div.diff-responsive-table-wrapper:empty::before {
+  content: 'There have been no changes between these two versions';
+  margin: 2rem 0;
+  display: block;
+}

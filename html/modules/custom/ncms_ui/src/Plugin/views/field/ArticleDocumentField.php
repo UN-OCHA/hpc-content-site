@@ -62,7 +62,7 @@ class ArticleDocumentField extends FieldPluginBase {
     $items = [];
     foreach ($row->article_document ?? [] as $document_node) {
       /** @var \Drupal\node\NodeInterface $document_node */
-      $items[] = $document_node->toLink(NULL, 'edit-form')->toRenderable();
+      $items[] = $document_node->toLink()->toRenderable();
     }
     $build = [
       '#type' => 'inline_template',

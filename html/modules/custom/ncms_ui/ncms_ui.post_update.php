@@ -26,6 +26,7 @@ function ncms_ui_post_update_set_content_space_nodes(&$sandbox) {
     $node->get('field_content_space')->setValue([
       'target_id' => $term->id(),
     ]);
+    $node->isSyncing();
     $node->save();
   }
 }
@@ -49,10 +50,6 @@ function ncms_ui_post_update_set_content_spaces_users(&$sandbox) {
       $user->get('field_content_spaces')->setValue([
         'target_id' => $term->id(),
       ]);
-    }
-    if ($user->hasRole('editor')) {
-      $user->removeRole('editor');
-      $user->addRole('global_editor');
     }
     $user->save();
   }

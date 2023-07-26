@@ -1,0 +1,11 @@
+uuid: 6bd0d63e-871f-48e2-b6a7-5ae57913f281
+langcode: en
+status: true
+dependencies:
+  module:
+    - bulk_update_fields
+id: bulk_update_fields_on_publisher
+label: 'Bulk Update Publisher Fields'
+type: publisher
+plugin: bulk_update_fields_action_base
+configuration: {  }

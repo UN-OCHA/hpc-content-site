@@ -620,6 +620,27 @@ function ncms_ui_views_query_alter(ViewExecutable $view, QueryPluginBase $query)
 }
 
 /**
+ * Implements hook_views_pre_render().
+ *
+ * Hide the "Latest version" column when looking at content that is not in one
+ * of the users content spaces.
+ */
+function ncms_ui_views_pre_render(ViewExecutable $view) {
+  $valid_displays = [
+    'page_articles',
+    'page_documents',
+  ];
+  if ($view->id() != 'content' || !in_array($view->current_display, $valid_displays) || !array_key_exists('latest_version', $view->field)) {
+    return;
+  }
+  /** @var \Drupal\ncms_ui\ContentSpaceManager $content_space_manager */
+  $content_space_manager = \Drupal::service('ncms_ui.content_space.manager');
+  if (!$content_space_manager->userIsInValidContentSpace()) {
+    unset($view->field['latest_version']);
+  }
+}
+
+/**
  * Implements hook_node_access_records().
  */
 function ncms_ui_node_access_records(NodeInterface $node) {

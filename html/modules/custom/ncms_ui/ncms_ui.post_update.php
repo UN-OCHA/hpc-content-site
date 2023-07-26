@@ -51,10 +51,6 @@ function ncms_ui_post_update_set_content_spaces_users(&$sandbox) {
         'target_id' => $term->id(),
       ]);
     }
-    if ($user->hasRole('editor')) {
-      $user->removeRole('editor');
-      $user->addRole('global_editor');
-    }
     $user->save();
   }
 }

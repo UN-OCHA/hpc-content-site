@@ -528,6 +528,12 @@ function ncms_ui_link_alter(&$variables) {
     $node_revision = !empty($route_params['node_revision']) ? $node_storage->loadRevision($route_params['node_revision']) : NULL;
 
     $title = t('Preview: @title', ['@title' => $variables['text']]);
+    if ($node && $node instanceof ContentBase) {
+      $title = t('Preview: @title (@status)', [
+        '@title' => $node->label(),
+        '@status' => $node->isPublished() ? t('Latest published') : t('Latest draft'),
+      ]);
+    }
     if ($node_revision && $node_revision instanceof ContentBase) {
       $title = t('Preview: #@version (@status) - @date', [
         '@version' => $node_revision->getVersionId(),

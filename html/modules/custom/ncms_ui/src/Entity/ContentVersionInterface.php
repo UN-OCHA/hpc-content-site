@@ -9,6 +9,11 @@ use Drupal\node\NodeInterface;
  */
 interface ContentVersionInterface extends NodeInterface {
 
+  const CONTENT_STATUS_PUBLISHED = 'published';
+  const CONTENT_STATUS_PUBLISHED_WITH_DRAFT = 'published_with_draft';
+  const CONTENT_STATUS_DRAFT = 'draft';
+  const CONTENT_STATUS_DELETED = 'trash';
+
   /**
    * Get the version id.
    *
@@ -30,6 +35,14 @@ interface ContentVersionInterface extends NodeInterface {
 
   /**
    * Get the status of the content entity.
+   *
+   * @return string
+   *   The status. See the CONTENT_STATUS_* constants.
+   */
+  public function getContentStatus();
+
+  /**
+   * Get the status label of the content entity.
    *
    * @return \Drupal\Core\StringTranslation\TranslatableMarkup
    *   The status.

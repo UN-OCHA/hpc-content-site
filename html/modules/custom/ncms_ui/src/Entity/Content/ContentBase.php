@@ -23,11 +23,6 @@ abstract class ContentBase extends Node implements ContentSpaceAwareInterface, C
   use StringTranslationTrait;
   use ContentSpaceEntityTrait;
 
-  const CONTENT_STATUS_PUBLISHED = 'published';
-  const CONTENT_STATUS_PUBLISHED_WITH_DRAFT = 'published_with_draft';
-  const CONTENT_STATUS_DRAFT = 'draft';
-  const CONTENT_STATUS_DELETED = 'trash';
-
   /**
    * {@inheritdoc}
    */

@@ -10,6 +10,7 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Database\Query\AlterableInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
@@ -104,6 +105,21 @@ function ncms_ui_theme() {
       'template' => 'tooltip',
     ],
   ];
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_create() for media entities.
+ *
+ * Assure that media is always created using the current content space. This is
+ * necessary here to cope with inline-creation of media, e.g. in an entity
+ * browser widget.
+ */
+function ncms_ui_media_create(FieldableEntityInterface $media) {
+  /** @var \Drupal\ncms_ui\ContentSpaceManager $content_space_manager */
+  $content_space_manager = \Drupal::service('ncms_ui.content_space.manager');
+  $media->get('field_content_space')->setValue([
+    'target_id' => $content_space_manager->getCurrentContentSpaceId(),
+  ]);
 }
 
 /**

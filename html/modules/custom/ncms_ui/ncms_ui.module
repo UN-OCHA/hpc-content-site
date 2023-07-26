@@ -544,6 +544,12 @@ function ncms_ui_link_alter(&$variables) {
     $node_revision = !empty($route_params['node_revision']) ? $node_storage->loadRevision($route_params['node_revision']) : NULL;
 
     $title = t('Preview: @title', ['@title' => $variables['text']]);
+    if ($node && $node instanceof ContentBase) {
+      $title = t('Preview: @title (@status)', [
+        '@title' => $node->label(),
+        '@status' => $node->isPublished() ? t('Latest published') : t('Latest draft'),
+      ]);
+    }
     if ($node_revision && $node_revision instanceof ContentBase) {
       $title = t('Preview: #@version (@status) - @date', [
         '@version' => $node_revision->getVersionId(),
@@ -627,6 +633,27 @@ function ncms_ui_views_query_alter(ViewExecutable $view, QueryPluginBase $query)
   /** @var \Drupal\ncms_ui\ContentSpaceManager $content_space_manager */
   $content_space_manager = \Drupal::service('ncms_ui.content_space.manager');
   $content_space_manager->alterViewsQuery($view, $query);
+}
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Hide the "Latest version" column when looking at content that is not in one
+ * of the users content spaces.
+ */
+function ncms_ui_views_pre_render(ViewExecutable $view) {
+  $valid_displays = [
+    'page_articles',
+    'page_documents',
+  ];
+  if ($view->id() != 'content' || !in_array($view->current_display, $valid_displays) || !array_key_exists('latest_version', $view->field)) {
+    return;
+  }
+  /** @var \Drupal\ncms_ui\ContentSpaceManager $content_space_manager */
+  $content_space_manager = \Drupal::service('ncms_ui.content_space.manager');
+  if (!$content_space_manager->userIsInValidContentSpace()) {
+    unset($view->field['latest_version']);
+  }
 }
 
 /**

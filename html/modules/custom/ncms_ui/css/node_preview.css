@@ -1,5 +1,10 @@
+body.ncms-node-preview #main-content {
+  padding: 0.75rem 0;
+}
 body.ncms-node-preview .node--unpublished {
   background: inherit;
+  margin: 4px;
+  padding: 2rem 0;
 }
 
 body.ncms-node-preview.page-node-type-document {

@@ -9,6 +9,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
+use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\ContentVersionInterface;
 use Drupal\node\Controller\NodeViewController;
 use Drupal\node\NodeInterface;
 
@@ -23,9 +25,17 @@ class ViewController extends NodeViewController {
    * Get the title of the preview.
    */
   public function previewTitle(NodeInterface $node) {
-    return $this->t('Preview: @title', [
-      '@title' => $node->label(),
-    ]);
+    if ($node instanceof ContentVersionInterface) {
+      return $this->t('Preview: @title (@version)', [
+        '@title' => $node->label(),
+        '@version' => $node->getContentStatus() == ContentBase::CONTENT_STATUS_PUBLISHED ? $this->t('Latest published') : $this->t('Latest draft'),
+      ]);
+    }
+    else {
+      return $this->t('Preview: @title', [
+        '@title' => $node->label(),
+      ]);
+    }
   }
 
   /**

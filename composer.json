@@ -126,7 +126,8 @@
             "symfony/flex": true,
             "oomphinc/composer-installers-extender": true,
             "mglaman/composer-drupal-lenient": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "drupal-composer/preserve-paths": true
         }
     },
     "autoload": {

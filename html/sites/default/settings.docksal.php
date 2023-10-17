@@ -24,7 +24,7 @@ $settings['skip_permissions_hardening'] = TRUE;
  * @see https://wiki.php.net/rfc/expectations
  */
 assert_options(ASSERT_ACTIVE, TRUE);
-\Drupal\Component\Assertion\Handle::register();
+assert_options(ASSERT_EXCEPTION, TRUE);
 
 // Docksal DB connection settings.
 $databases['default']['default'] = array (

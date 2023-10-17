@@ -115,6 +115,9 @@ function ncms_ui_theme() {
  * browser widget.
  */
 function ncms_ui_media_create(FieldableEntityInterface $media) {
+  if (!$media->hasField('field_content_space')) {
+    return;
+  }
   /** @var \Drupal\ncms_ui\ContentSpaceManager $content_space_manager */
   $content_space_manager = \Drupal::service('ncms_ui.content_space.manager');
   $media->get('field_content_space')->setValue([

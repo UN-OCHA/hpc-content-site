@@ -4,9 +4,6 @@
             "https://www.drupal.org/project/drupal/issues/2544110": "https://www.drupal.org/files/issues/2023-05-04/2544110-162.patch",
             "Issue #2707291: Disable body-level scrolling when a dialog is open as a modal": "https://www.drupal.org/files/issues/2023-04-27/2707291-96.patch"
         },
-        "drupal/bigint": {
-            "Issue #3296640: Automated Drupal 10 compatibility fixes": "https://www.drupal.org/files/issues/2022-07-18/bigint.1.x-dev.rector.patch"
-        },
         "drupal/csp": {
             "Simplify log format": "./patches/csp-log-format.patch"
         },
@@ -32,9 +29,6 @@
         "drupal/user_expire": {
             "Allow the notification email to be customised": "https://git.drupalcode.org/project/user_expire/-/merge_requests/5.patch",
             "Issue #2855005: Reset expiration when user is reactivated": "https://www.drupal.org/files/issues/2022-11-22/2855005-13.patch"
-        },
-        "unocha/common_design": {
-            "Issue #395: Use drupal_static() instead of PHPs static keyword": "https://patch-diff.githubusercontent.com/raw/UN-OCHA/common_design/pull/395.diff"
         }
     }
 }

@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
+    - field.field.node.article.field_automatically_visible
     - field.field.node.article.field_caption
     - field.field.node.article.field_card_title
     - field.field.node.article.field_content_space
@@ -29,7 +30,7 @@ content:
   content_moderation_control:
     settings: {  }
     third_party_settings: {  }
-    weight: -20
+    weight: 0
     region: content
   field_appeals:
     type: entity_reference_entity_view
@@ -38,7 +39,7 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 2
+    weight: 4
     region: content
   field_author:
     type: entity_reference_entity_view
@@ -47,14 +48,14 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 5
+    weight: 7
     region: content
   field_caption:
     type: gho_caption
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 4
+    weight: 6
     region: content
   field_hero_image:
     type: entity_reference_entity_view
@@ -63,7 +64,7 @@ content:
       view_mode: hero_image
       link: false
     third_party_settings: {  }
-    weight: 3
+    weight: 5
     region: content
   field_paragraphs:
     type: layout_paragraphs
@@ -72,7 +73,7 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 6
+    weight: 8
     region: content
   field_section:
     type: entity_reference_label
@@ -80,12 +81,12 @@ content:
     settings:
       link: false
     third_party_settings: {  }
-    weight: 1
+    weight: 3
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 0
+    weight: 2
     region: content
   title:
     type: string
@@ -93,7 +94,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: -5
+    weight: 1
     region: content
   workflow_buttons:
     settings: {  }
@@ -101,6 +102,7 @@ content:
     weight: 0
     region: content
 hidden:
+  field_automatically_visible: true
   field_card_title: true
   field_content_space: true
   field_pdf: true

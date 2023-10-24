@@ -256,6 +256,12 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
         }),
       )
     );
+    $registry->addFieldResolver('Document', 'autoVisible',
+      $builder->produce('property_path')
+        ->map('type', $builder->fromValue('entity:node'))
+        ->map('value', $builder->fromParent())
+        ->map('path', $builder->fromValue('field_automatically_visible.value')),
+    );
   }
 
   /**
@@ -376,6 +382,12 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
           return $tags;
         }),
       ),
+    );
+    $registry->addFieldResolver('Article', 'autoVisible',
+      $builder->produce('property_path')
+        ->map('type', $builder->fromValue('entity:node'))
+        ->map('value', $builder->fromParent())
+        ->map('path', $builder->fromValue('field_automatically_visible.value')),
     );
   }
 

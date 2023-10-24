@@ -1,3 +1,12 @@
+.gin--horizontal-toolbar .region-sticky {
+  display: block;
+}
+.gin--horizontal-toolbar .region-sticky .region-sticky__items {
+  width: auto;
+}
+.gin--horizontal-toolbar nav#toolbar-bar {
+  width: auto;
+}
 .gin--horizontal-toolbar #toolbar-item-administration-tray > nav,
 .gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu,
 .gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li,

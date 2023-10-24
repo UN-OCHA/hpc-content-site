@@ -20,6 +20,7 @@ type Article {
   content_space: ContentSpace
   content: [Paragraph]
   tags: [String]
+  autoVisible: Int!
 }
 
 type Document {
@@ -36,6 +37,7 @@ type Document {
   content_space: ContentSpace
   chapters: [DocumentChapter]
   tags: [String]
+  autoVisible: Int!
 }
 
 type DocumentList {

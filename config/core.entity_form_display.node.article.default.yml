@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
+    - field.field.node.article.field_automatically_visible
     - field.field.node.article.field_caption
     - field.field.node.article.field_card_title
     - field.field.node.article.field_content_space
@@ -53,6 +54,7 @@ third_party_settings:
         - field_section
         - field_author
         - field_pdf
+        - field_automatically_visible
       label: Properties
       region: content
       parent_name: group_tabs
@@ -126,6 +128,13 @@ content:
       collapsed: true
       revision: false
       removed_reference: optional
+    third_party_settings: {  }
+  field_automatically_visible:
+    type: boolean_checkbox
+    weight: 27
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_caption:
     type: double_field

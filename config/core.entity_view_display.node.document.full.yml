@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.full
+    - field.field.node.document.field_automatically_visible
     - field.field.node.document.field_caption
     - field.field.node.document.field_content_space
     - field.field.node.document.field_hero_image
@@ -62,6 +63,7 @@ content:
     weight: 0
     region: content
 hidden:
+  field_automatically_visible: true
   field_caption: true
   field_content_space: true
   field_short_title: true

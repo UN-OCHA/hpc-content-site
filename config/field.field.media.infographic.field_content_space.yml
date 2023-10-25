@@ -1,0 +1,29 @@
+uuid: ce6404b7-360a-4921-aa1a-06d842aeb016
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_content_space
+    - media.type.infographic
+    - taxonomy.vocabulary.content_space
+id: media.infographic.field_content_space
+field_name: field_content_space
+entity_type: media
+bundle: infographic
+label: 'Content space'
+description: 'The content space that the media belongs to.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      content_space: content_space
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

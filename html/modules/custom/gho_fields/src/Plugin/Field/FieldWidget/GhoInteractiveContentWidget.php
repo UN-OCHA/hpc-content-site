@@ -7,21 +7,21 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\Plugin\Field\FieldWidget\StringTextareaWidget;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\gho_fields\Plugin\Field\FieldFormatter\GhoDatawrapperFormatter;
+use Drupal\gho_fields\Plugin\Field\FieldFormatter\GhoInteractiveContentFormatter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Plugin implementation of the 'gho_datawrapper' widget.
+ * Plugin implementation of the 'gho_interactive_content' widget.
  *
  * @FieldWidget(
- *   id = "gho_datawrapper",
- *   label = @Translation("GHO datawrapper embed code"),
+ *   id = "gho_interactive_content",
+ *   label = @Translation("GHO interactive content embed code"),
  *   field_types = {
  *     "string_long"
  *   }
  * )
  */
-class GhoDatawrapperWidget extends StringTextareaWidget {
+class GhoInteractiveContentWidget extends StringTextareaWidget {
 
   /**
    * Current user.
@@ -75,7 +75,7 @@ class GhoDatawrapperWidget extends StringTextareaWidget {
       get_called_class(),
       'validateEmbedCode',
     ];
-    $element['#access'] = $this->account->hasPermission('add datawrapper embed code');
+    $element['#access'] = $this->account->hasPermission('add interactive content embed code');
     return $element;
   }
 
@@ -93,15 +93,15 @@ class GhoDatawrapperWidget extends StringTextareaWidget {
    */
   public static function validateEmbedCode(array &$element, FormStateInterface $form_state, array $form) {
     if ($element['value']['#value'] !== '') {
-      $attributes = GhoDatawrapperFormatter::extractAttributes($element['value']['#value']);
+      $attributes = GhoInteractiveContentFormatter::extractAttributes($element['value']['#value']);
       if (is_null($attributes)) {
-        $error = t("Invalid embed code in the @field field. It must be a datawrapper iframe.", [
+        $error = t("Invalid embed code in the @field field. It must be a Datawrapper or Power BI iframe.", [
           '@field' => $element['value']['#title'],
         ]);
         $form_state->setError($element['value'], $error);
       }
       else {
-        $missing = GhoDatawrapperFormatter::validateMandatoryAttributes($attributes);
+        $missing = GhoInteractiveContentFormatter::validateMandatoryAttributes($attributes);
         foreach ($missing as $attribute) {
           $error = t("The iframe in the @field field doesn't have a valid @attribute attribute.", [
             '@field' => $element['value']['#title'],

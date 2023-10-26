@@ -1,0 +1,18 @@
+uuid: 1e297cee-6720-4694-832d-f10095a9f599
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_show_interactive_content
+field_name: field_show_interactive_content
+entity_type: paragraph
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

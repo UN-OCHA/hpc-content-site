@@ -14,6 +14,7 @@ dependencies:
     - field.field.node.article.field_pdf
     - field.field.node.article.field_report_link
     - field.field.node.article.field_section
+    - field.field.node.article.field_short_title
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
@@ -86,6 +87,7 @@ third_party_settings:
     group_content:
       children:
         - title
+        - field_short_title
         - field_summary
         - field_paragraphs
       label: Content
@@ -178,7 +180,7 @@ content:
     third_party_settings: {  }
   field_paragraphs:
     type: layout_paragraphs
-    weight: 5
+    weight: 7
     region: content
     settings:
       preview_view_mode: preview
@@ -199,9 +201,21 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_short_title:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 45
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: true
   field_summary:
     type: text_textarea
-    weight: 4
+    weight: 6
     region: content
     settings:
       rows: 5
@@ -235,7 +249,7 @@ content:
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 3
+    weight: 4
     region: content
     settings:
       size: 60

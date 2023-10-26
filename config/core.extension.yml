@@ -57,6 +57,7 @@ module:
   linked_responsive_image_media_formatter: 0
   locale: 0
   maintenance200: 0
+  maxlength: 0
   media: 0
   media_library: 0
   menu_link_content: 0

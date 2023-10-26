@@ -8,7 +8,7 @@ dependencies:
     - field.field.paragraph.interactive_content.field_full_width
     - field.field.paragraph.interactive_content.field_image
     - field.field.paragraph.interactive_content.field_link
-    - field.field.paragraph.interactive_content.field_show_datawrapper
+    - field.field.paragraph.interactive_content.field_show_interactive_content
     - field.field.paragraph.interactive_content.field_title
     - field.field.paragraph.interactive_content.field_type
     - paragraphs.paragraphs_type.interactive_content
@@ -30,7 +30,7 @@ content:
       placeholder_title: 'Ex: Office for Coordination of Humanitarian Affairs'
     third_party_settings: {  }
   field_embed_code:
-    type: gho_datawrapper
+    type: gho_interactive_content
     weight: 5
     region: content
     settings:
@@ -59,7 +59,7 @@ content:
       placeholder_url: 'Ex: https://datawrapper.de/content-page'
       placeholder_title: ''
     third_party_settings: {  }
-  field_show_datawrapper:
+  field_show_interactive_content:
     type: boolean_checkbox
     weight: 6
     region: content
@@ -89,4 +89,5 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_show_datawrapper: true
   translation: true

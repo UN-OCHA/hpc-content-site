@@ -39,16 +39,16 @@ Formatters and widgets
 
   Simply renames the `title` field to "Source".
 
-### Datawrapper
+### Interactive content
 
-- [Formatter](src/Plugin/Field/FieldFormatter/GhoDatawrapperFormatter.php)
+- [Formatter](src/Plugin/Field/FieldFormatter/GhoInteractiveContentFormatter.php)
 
-  Uses the [gho-datawrapper-formatter.html.twig](templates/gho-datawrapper-formatter.html.twig) template with the extracted and validated attributes from the datawrapper iframe
+  Uses the [gho-interactive-content-formatter.html.twig](templates/gho-interactive-content-formatter.html.twig) template with the extracted and validated attributes from the embed iframe
   snippet (url, width, title, aria-label etc.).
 
-- [Widget](src/Plugin/Field/FieldWidget/GhoDatawrapperWidget.php)
+- [Widget](src/Plugin/Field/FieldWidget/GhoInteractiveContentWidget.php)
 
-  Extends the textarea widget with validation and sanitation of datawrapper
+  Extends the textarea widget with validation and sanitation of embed
   iframe snippets.
 
 ### Figures

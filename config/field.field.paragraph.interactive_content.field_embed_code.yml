@@ -10,7 +10,7 @@ field_name: field_embed_code
 entity_type: paragraph
 bundle: interactive_content
 label: 'Embed code'
-description: 'Embed code from datawrapper or PowerBi. <strong>Do not include a <em>script</em>, only the <em>iframe</em>.</strong>'
+description: 'Embed code from datawrapper (responsive image). <strong>Do not include the <em>script</em>, only the <em>iframe</em>.</strong>'
 required: false
 translatable: true
 default_value: {  }

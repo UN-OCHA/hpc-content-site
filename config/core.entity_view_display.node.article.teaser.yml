@@ -15,6 +15,7 @@ dependencies:
     - field.field.node.article.field_pdf
     - field.field.node.article.field_report_link
     - field.field.node.article.field_section
+    - field.field.node.article.field_short_title
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
@@ -73,6 +74,7 @@ hidden:
   field_pdf: true
   field_report_link: true
   field_section: true
+  field_short_title: true
   field_tags: true
   langcode: true
   links: true

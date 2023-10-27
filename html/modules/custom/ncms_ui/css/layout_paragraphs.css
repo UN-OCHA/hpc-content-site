@@ -1,12 +1,24 @@
-.lpb-controls {
+.lpb-controls,
+.lpb-controls.is-layout {
   right: 0;
+  left: 0;
   border-radius: 0;
-  opacity: 0.5;
+  opacity: 1;
+
+}
+.lpb-controls.is-layout {
+  background-color: var(--gin-color-focus-border) !important;
+  outline: 1px solid var(--gin-color-focus-border);
 }
 .lpb-btn--add {
   z-index: 91;
 }
-.lp-builder:not(.is-navigating) .js-lpb-component {
+.lp-builder {
+  position: relative;
+  top: 2rem;
+}
+.lp-builder:not(.is-navigating) .js-lpb-component,
+.lp-builder.is-layout .js-lpb-component {
   outline: 1px solid var(--gin-color-focus-border);
 }
 .js-lpb-component-list > .js-lpb-component.paragraph {
@@ -30,14 +42,22 @@ form.node-form .js-lpb-component-list > .js-lpb-component.paragraph {
 .lpb-dialog .ui-dialog-content form {
   margin-top: 1rem;
 }
+.lpb-dialog .lpb-component-list {
+  margin-bottom: -1rem;
+}
 .lpb-dialog .lpb-component-list .lpb-component-list__group {
-  margin-top: 2rem;
+  margin-top: var(--gin-spacing-l);
+  margin-bottom: -1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--gin-color-focus-border);
 }
 .lpb-dialog .lpb-component-list .lpb-component-list__group--content {
-  flex-direction: column;
+  flex-direction: row;
+  gap: 1rem;
 }
 .lpb-dialog .lpb-component-list .lpb-component-list__item {
   width: fit-content;
+  width: calc(33% - 1rem);
 }
 .lpb-dialog .ui-dialog-buttonpane {
   position: absolute;

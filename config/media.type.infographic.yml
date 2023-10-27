@@ -4,10 +4,10 @@ status: true
 dependencies: {  }
 id: infographic
 label: Infographic
-description: ''
+description: 'An <em>Image</em> to be used specifically as an infographic'
 source: image
 queue_thumbnail_downloads: false
-new_revision: false
+new_revision: true
 source_configuration:
   source_field: field_media_image
 field_map:

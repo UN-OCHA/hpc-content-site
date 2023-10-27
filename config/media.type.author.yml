@@ -4,7 +4,7 @@ status: true
 dependencies: {  }
 id: author
 label: Author
-description: 'Authorship information of an article with the author image, name and title.'
+description: 'Authorship information of an article with the author image, name and title'
 source: image
 queue_thumbnail_downloads: false
 new_revision: true

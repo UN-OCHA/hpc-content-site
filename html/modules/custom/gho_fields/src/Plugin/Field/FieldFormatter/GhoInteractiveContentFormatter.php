@@ -137,14 +137,14 @@ class GhoInteractiveContentFormatter extends FormatterBase {
     // Extract width.
     if ($iframe->hasAttribute('width')) {
       $width = trim($iframe->getAttribute('width'));
-      if (static::validateInt($width)) {
+      if (static::validateNumber($width)) {
         $attributes['width'] = $width;
       }
     }
 
     // Extract height.
     $height = trim($iframe->getAttribute('height'));
-    if (static::validateInt($height)) {
+    if (static::validateNumber($height)) {
       $attributes['height'] = $height;
     }
 
@@ -189,16 +189,19 @@ class GhoInteractiveContentFormatter extends FormatterBase {
   }
 
   /**
-   * Validate that a value is a positive integer.
+   * Validate that a value is a positive number.
    *
    * @param int $value
    *   Value to check.
    *
    * @return bool
-   *   TRUE if the value is a positive integer.
+   *   TRUE if the value is a positive number.
    */
-  public static function validateInt($value) {
-    return filter_var($value, FILTER_VALIDATE_INT, [
+  public static function validateNumber($value) {
+    if ((float) $value != $value) {
+      return FALSE;
+    }
+    return filter_var((int) $value, FILTER_VALIDATE_INT, [
       'options' => ['min_range' => 0],
     ]) !== FALSE;
   }

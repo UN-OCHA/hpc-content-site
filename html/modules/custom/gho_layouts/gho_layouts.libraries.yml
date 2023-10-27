@@ -3,3 +3,9 @@ grid:
   css:
     theme:
       layouts/grid/grid.css: {}
+# CSS libraries for Layout plugins.
+twocol:
+  version: VERSION
+  css:
+    theme:
+      layouts/twocol/twocol.css: {}

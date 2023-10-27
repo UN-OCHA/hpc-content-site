@@ -1,10 +1,15 @@
 uuid: bc5d2e8c-83af-47d8-82ad-0f4d60ef7ff9
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - layout_paragraphs
 id: separator
 label: Separator
 icon_uuid: null
 icon_default: null
 description: 'A horizontal rule separating two sections of content.'
-behavior_plugins: {  }
+behavior_plugins:
+  layout_paragraphs:
+    enabled: false
+    available_layouts: {  }

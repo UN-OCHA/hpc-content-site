@@ -69,6 +69,9 @@ settings:
       interactive_content:
         weight: 31
         enabled: false
+      interactive_content_2_columns:
+        weight: 39
+        enabled: false
       layout:
         weight: 8
         enabled: true

@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - layout_paragraphs
     - ncms_publisher
 id: photo_gallery
 label: 'Photo Gallery'
@@ -10,5 +11,8 @@ icon_uuid: null
 icon_default: null
 description: 'A photo gallery with up to 4 images.'
 behavior_plugins:
+  layout_paragraphs:
+    enabled: false
+    available_layouts: {  }
   promoted_behavior:
     enabled: true

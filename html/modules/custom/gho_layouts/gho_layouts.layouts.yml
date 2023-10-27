@@ -39,3 +39,19 @@ layout_image_grid_four_columns:
     # We need a default region to avoid the LayoutPluginManager from crashing.
     region-1:
       label: 'Region 1'
+
+layout_twocol_interactive:
+  label: 'Two column (interactive content)'
+  path: layouts/twocol
+  template: layout--twocol--interactive-content
+  library: gho_layouts/twocol
+  class: '\Drupal\gho_layouts\Plugin\Layout\TwoColumnInteractiveContentLayout'
+  category: 'Columns: 2'
+  default_region: first
+  icon_map:
+    - [first, second]
+  regions:
+    first:
+      label: First
+    second:
+      label: Second

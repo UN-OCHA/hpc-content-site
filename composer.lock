@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b53ef9f1e7366c7dda939df2068350bd",
+    "content-hash": "de1fd2a86aa1cfb4b073e40120869b4d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4632,6 +4632,55 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/layout_paragraphs",
                 "issues": "https://www.drupal.org/project/issues/layout_paragraphs"
+            }
+        },
+        {
+            "name": "drupal/layout_paragraphs_limit",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/layout_paragraphs_limit.git",
+                "reference": "1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/layout_paragraphs_limit-1.0.0.zip",
+                "reference": "1.0.0",
+                "shasum": "0c8959c9e7679d7e1d19540d402bc0a0d86eed13"
+            },
+            "require": {
+                "drupal/core": "^9.2 || ^10",
+                "drupal/layout_paragraphs": "^2.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.0.0",
+                    "datestamp": "1694806836",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "nagy.balint",
+                    "homepage": "https://www.drupal.org/user/1763952"
+                }
+            ],
+            "description": "Layout Paragraphs Limit",
+            "homepage": "https://www.drupal.org/project/layout_paragraphs_limit",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/layout_paragraphs_limit",
+                "issues": "https://www.drupal.org/project/issues/layout_paragraphs_limit"
             }
         },
         {

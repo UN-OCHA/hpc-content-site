@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - layout_paragraphs
     - ncms_publisher
 id: article_list
 label: 'Article list'
@@ -10,5 +11,8 @@ icon_uuid: null
 icon_default: null
 description: 'A list of links to articles with an optional title.'
 behavior_plugins:
+  layout_paragraphs:
+    enabled: false
+    available_layouts: {  }
   promoted_behavior:
     enabled: true

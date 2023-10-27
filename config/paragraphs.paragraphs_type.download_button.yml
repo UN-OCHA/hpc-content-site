@@ -1,10 +1,15 @@
 uuid: 9ced5edc-1dff-4231-88ae-9ad37dd8c32a
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - layout_paragraphs
 id: download_button
 label: 'Download button'
 icon_uuid: null
 icon_default: null
 description: 'A button that points to a document somewhere on the internet.'
-behavior_plugins: {  }
+behavior_plugins:
+  layout_paragraphs:
+    enabled: false
+    available_layouts: {  }

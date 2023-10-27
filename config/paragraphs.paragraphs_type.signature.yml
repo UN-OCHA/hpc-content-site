@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - layout_paragraphs
     - ncms_publisher
 id: signature
 label: Signature
@@ -10,5 +11,8 @@ icon_uuid: null
 icon_default: null
 description: 'Signature of the USG. Martin Griffiths as of 2022.'
 behavior_plugins:
+  layout_paragraphs:
+    enabled: false
+    available_layouts: {  }
   promoted_behavior:
     enabled: true

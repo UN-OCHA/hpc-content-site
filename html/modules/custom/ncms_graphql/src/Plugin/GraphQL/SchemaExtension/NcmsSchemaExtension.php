@@ -360,8 +360,16 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
           ->map('field', $builder->fromValue('field_paragraphs')),
         $builder->callback(function (array $paragraphs) {
           $exclude_types = [];
+          /** @var \Drupal\paragraphs\Entity\Paragraph[] $paragraphs */
           $paragraphs = array_filter($paragraphs, function ($paragraph) use ($exclude_types) {
+            /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
             if (!empty($exclude_types) && in_array($paragraph->getParagraphType()->id(), $exclude_types)) {
+              return NULL;
+            }
+            // Exclude paragraphs that are nested inside another paragraph
+            // using the layout paragraphs behavior.
+            $layout_paragraph_parent = $paragraph->getBehaviorSetting('layout_paragraphs', 'parent_uuid');
+            if ($layout_paragraph_parent) {
               return NULL;
             }
             if ($paragraph->getParagraphType()->id() == 'story') {

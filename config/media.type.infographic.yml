@@ -1,0 +1,14 @@
+uuid: 92fcba3c-b7d3-4276-adf4-0291a0b1200d
+langcode: en
+status: true
+dependencies: {  }
+id: infographic
+label: Infographic
+description: 'An <em>Image</em> to be used specifically as an infographic'
+source: image
+queue_thumbnail_downloads: false
+new_revision: true
+source_configuration:
+  source_field: field_media_image
+field_map:
+  name: name

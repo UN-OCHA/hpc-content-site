@@ -22,5 +22,6 @@ permissions:
   - 'view published author media'
   - 'view published document content'
   - 'view published image media'
+  - 'view published infographic media'
   - 'view published story content'
   - 'view published video media'

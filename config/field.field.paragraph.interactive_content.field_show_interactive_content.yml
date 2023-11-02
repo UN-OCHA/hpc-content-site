@@ -1,0 +1,23 @@
+uuid: 31081dc7-1e7e-4c62-aa24-3a16f57fdd03
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_show_interactive_content
+    - paragraphs.paragraphs_type.interactive_content
+id: paragraph.interactive_content.field_show_interactive_content
+field_name: field_show_interactive_content
+entity_type: paragraph
+bundle: interactive_content
+label: 'Show interactive content'
+description: 'Enable this checkbox to show live, interactive embeds. Disable the checkbox to show the fallback image.'
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

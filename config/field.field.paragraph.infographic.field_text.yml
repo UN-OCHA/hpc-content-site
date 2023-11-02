@@ -1,0 +1,22 @@
+uuid: ca789c6d-d0e0-4a3c-b1dd-b6e6453739cc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_text
+    - paragraphs.paragraphs_type.infographic
+  module:
+    - text
+id: paragraph.infographic.field_text
+field_name: field_text
+entity_type: paragraph
+bundle: infographic
+label: Caption
+description: 'Optional: a caption to describe the entire list of Achievements.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

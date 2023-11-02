@@ -6,6 +6,7 @@
  */
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Component\Utility\SortArray;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Database\Query\AlterableInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
@@ -290,6 +291,18 @@ function ncms_ui_preprocess_node(&$variables) {
  */
 function ncms_ui_preprocess_layout_paragraphs_builder(&$variables) {
   $variables['#attached']['library'][] = 'ncms_ui/layout_paragraphs';
+}
+
+/**
+ * Implements hook_layout_paragraphs_builder_component_menu().
+ */
+function ncms_ui_preprocess_layout_paragraphs_builder_component_menu(&$variables) {
+  $items = array_merge($variables['types']['content'], $variables['types']['layout']);
+  uasort($items, function ($a, $b) {
+    return SortArray::sortByKeyString($a, $b, 'label');
+  });
+  $variables['types']['content'] = $items;
+  $variables['types']['layout'] = [];
 }
 
 /**

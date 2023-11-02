@@ -5,6 +5,8 @@
  * Install and update hoks for NCMS UI.
  */
 
+use Drupal\field\Entity\FieldStorageConfig;
+
 /**
  * Remove existing terms of type article type.
  */
@@ -22,4 +24,52 @@ function ncms_ui_update_9001(&$sandbox) {
  */
 function ncms_ui_update_9002(&$sandbox) {
   \Drupal::service("module_installer")->install(['diff']);
+}
+
+/**
+ * Extend the size of the article and document short title fields.
+ */
+function ncms_ui_update_9003(&$sandbox) {
+  $database = \Drupal::database();
+  $database->query("ALTER TABLE node__field_short_title MODIFY field_short_title_value VARCHAR(255) NOT NULL DEFAULT ''");
+  $database->query("ALTER TABLE node_revision__field_short_title MODIFY field_short_title_value VARCHAR(255) NOT NULL DEFAULT ''");
+
+  $storage_key = 'node.field_schema_data.field_short_title';
+  $storage_schema = \Drupal::keyValue('entity.storage_schema.sql');
+  $field_schema = $storage_schema->get($storage_key);
+  $field_schema['node__field_short_title']['fields']['field_short_title_value']['length'] = 255;
+  $field_schema['node_revision__field_short_title']['fields']['field_short_title_value']['length'] = 255;
+  $storage_schema->set($storage_key, $field_schema);
+
+  // Update field configuration.
+  $config = \Drupal::configFactory()->getEditable('field.storage.node.field_short_title');
+  $config->set('settings.max_length', 255);
+  $config->save(TRUE);
+
+  // Update field storage configuration.
+  FieldStorageConfig::loadByName('node', 'field_short_title')->save();
+}
+
+/**
+ * Extend the size of the chapter paragraph short title fields.
+ */
+function ncms_ui_update_9004(&$sandbox) {
+  $database = \Drupal::database();
+  $database->query("ALTER TABLE paragraph__field_short_title MODIFY field_short_title_value VARCHAR(20) NOT NULL DEFAULT ''");
+  $database->query("ALTER TABLE paragraph_revision__field_short_title MODIFY field_short_title_value VARCHAR(20) NOT NULL DEFAULT ''");
+
+  $storage_key = 'paragraph.field_schema_data.field_short_title';
+  $storage_schema = \Drupal::keyValue('entity.storage_schema.sql');
+  $field_schema = $storage_schema->get($storage_key);
+  $field_schema['paragraph__field_short_title']['fields']['field_short_title_value']['length'] = 20;
+  $field_schema['paragraph_revision__field_short_title']['fields']['field_short_title_value']['length'] = 20;
+  $storage_schema->set($storage_key, $field_schema);
+
+  // Update field configuration.
+  $config = \Drupal::configFactory()->getEditable('field.storage.paragraph.field_short_title');
+  $config->set('settings.max_length', 20);
+  $config->save(TRUE);
+
+  // Update field storage configuration.
+  FieldStorageConfig::loadByName('paragraph', 'field_short_title')->save();
 }

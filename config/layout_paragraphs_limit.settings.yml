@@ -1,0 +1,17 @@
+disallowed_types:
+  layout_twocol_section:
+    first:
+      negate: true
+      paragraph_types: {  }
+    second:
+      negate: true
+      paragraph_types: {  }
+  layout_twocol_interactive:
+    first:
+      negate: true
+      paragraph_types:
+        interactive_content: interactive_content
+    second:
+      negate: true
+      paragraph_types:
+        interactive_content: interactive_content

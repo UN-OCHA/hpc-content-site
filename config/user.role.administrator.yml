@@ -51,7 +51,7 @@ permissions:
   - 'access taxonomy overview'
   - 'access toolbar'
   - 'access user profiles'
-  - 'add datawrapper embed code'
+  - 'add interactive content embed code'
   - 'administer users'
   - 'assign user roles'
   - 'create achievement content'

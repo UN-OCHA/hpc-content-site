@@ -1,10 +1,15 @@
 uuid: 6ea51045-2875-40b5-9b7e-0d3bee94796c
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - layout_paragraphs
 id: section_index
 label: 'Section Index'
 icon_uuid: null
 icon_default: null
 description: 'A paragraph to show an index of a section of the site with a title, description and list of articles belonging to the section.'
-behavior_plugins: {  }
+behavior_plugins:
+  layout_paragraphs:
+    enabled: false
+    available_layouts: {  }

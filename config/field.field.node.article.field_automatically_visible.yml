@@ -1,0 +1,23 @@
+uuid: bdcd780d-bc73-434f-a171-d96b3c89f0e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_automatically_visible
+    - node.type.article
+id: node.article.field_automatically_visible
+field_name: field_automatically_visible
+entity_type: node
+bundle: article
+label: Auto-visible
+description: 'Enable to mark this article as automatically visible on client sites like Humanitarian Action.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

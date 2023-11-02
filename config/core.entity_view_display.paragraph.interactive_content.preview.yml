@@ -9,7 +9,7 @@ dependencies:
     - field.field.paragraph.interactive_content.field_full_width
     - field.field.paragraph.interactive_content.field_image
     - field.field.paragraph.interactive_content.field_link
-    - field.field.paragraph.interactive_content.field_show_datawrapper
+    - field.field.paragraph.interactive_content.field_show_interactive_content
     - field.field.paragraph.interactive_content.field_title
     - field.field.paragraph.interactive_content.field_type
     - paragraphs.paragraphs_type.interactive_content
@@ -74,3 +74,4 @@ hidden:
   field_full_width: true
   field_link: true
   field_show_datawrapper: true
+  field_show_interactive_content: true

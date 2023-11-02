@@ -36,7 +36,7 @@ permissions:
   - 'access content overview'
   - 'access media overview'
   - 'access toolbar'
-  - 'add datawrapper embed code'
+  - 'add interactive content embed code'
   - 'create achievement content'
   - 'create article content'
   - 'create author media'

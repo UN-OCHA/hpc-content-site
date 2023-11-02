@@ -9,10 +9,13 @@
  * @ingroup themeable
  */
 #}
-{{ attach_library('gho_fields/datawrapper-responsive-iframe') }}
-<div class="gho-datawrapper">
+{% if provider == 'datawrapper' %}
+  {{ attach_library('gho_fields/datawrapper-responsive-iframe') }}
+{% endif %}
+
+<div class="gho-{{ provider }}">
 <iframe{{ attributes
-  .addClass('gho-datawrapper-iframe')
+  .addClass('gho-' ~ provider ~ '-iframe')
   .setAttribute('scrolling', 'no')
   .setAttribute('frameborder', '0')
   .setAttribute('style', 'width: 0; min-width: 100% !important; border: none;')

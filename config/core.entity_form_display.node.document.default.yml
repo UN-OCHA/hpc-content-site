@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.document.field_automatically_visible
     - field.field.node.document.field_caption
     - field.field.node.document.field_content_space
     - field.field.node.document.field_hero_image
@@ -57,6 +58,7 @@ third_party_settings:
         - field_content_space
         - field_summary
         - field_tags
+        - field_automatically_visible
       label: Properties
       region: content
       parent_name: group_tabs
@@ -95,6 +97,13 @@ content:
     weight: 3
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_automatically_visible:
+    type: boolean_checkbox
+    weight: 30
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_caption:
     type: double_field
@@ -149,10 +158,14 @@ content:
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      maxlength:
+        maxlength_js: 33
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: true
   field_summary:
     type: text_textarea
-    weight: 29
+    weight: 28
     region: content
     settings:
       rows: 5
@@ -160,7 +173,7 @@ content:
     third_party_settings: {  }
   field_tags:
     type: entity_reference_autocomplete_tags
-    weight: 30
+    weight: 29
     region: content
     settings:
       match_operator: CONTAINS

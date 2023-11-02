@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - layout_paragraphs
     - ncms_publisher
     - paragraphs_viewmode
 id: bottom_figure_row
@@ -11,6 +12,9 @@ icon_uuid: null
 icon_default: null
 description: 'A row of textual figures with custom labels.'
 behavior_plugins:
+  layout_paragraphs:
+    enabled: false
+    available_layouts: {  }
   paragraphs_viewmode_behavior:
     enabled: true
     override_mode: default

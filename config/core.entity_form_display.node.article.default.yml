@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.article.field_appeals
     - field.field.node.article.field_author
+    - field.field.node.article.field_automatically_visible
     - field.field.node.article.field_caption
     - field.field.node.article.field_card_title
     - field.field.node.article.field_content_space
@@ -13,6 +14,7 @@ dependencies:
     - field.field.node.article.field_pdf
     - field.field.node.article.field_report_link
     - field.field.node.article.field_section
+    - field.field.node.article.field_short_title
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
@@ -53,6 +55,7 @@ third_party_settings:
         - field_section
         - field_author
         - field_pdf
+        - field_automatically_visible
       label: Properties
       region: content
       parent_name: group_tabs
@@ -84,6 +87,7 @@ third_party_settings:
     group_content:
       children:
         - title
+        - field_short_title
         - field_summary
         - field_paragraphs
       label: Content
@@ -127,6 +131,13 @@ content:
       revision: false
       removed_reference: optional
     third_party_settings: {  }
+  field_automatically_visible:
+    type: boolean_checkbox
+    weight: 27
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_caption:
     type: double_field
     weight: 6
@@ -169,7 +180,7 @@ content:
     third_party_settings: {  }
   field_paragraphs:
     type: layout_paragraphs
-    weight: 5
+    weight: 7
     region: content
     settings:
       preview_view_mode: preview
@@ -190,9 +201,21 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_short_title:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 45
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: true
   field_summary:
     type: text_textarea
-    weight: 4
+    weight: 6
     region: content
     settings:
       rows: 5
@@ -226,7 +249,7 @@ content:
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 3
+    weight: 4
     region: content
     settings:
       size: 60

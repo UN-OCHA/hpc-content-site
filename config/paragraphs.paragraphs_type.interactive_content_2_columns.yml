@@ -1,0 +1,16 @@
+uuid: 20eab055-8b14-416e-adeb-5e9edfe81ec0
+langcode: en
+status: true
+dependencies:
+  module:
+    - layout_paragraphs
+id: interactive_content_2_columns
+label: 'Interactive content (2 columns)'
+icon_uuid: null
+icon_default: null
+description: 'Allows to embed 2 interactive content widgets side by side'
+behavior_plugins:
+  layout_paragraphs:
+    enabled: true
+    available_layouts:
+      layout_twocol_interactive: 'Two column (interactive content)'

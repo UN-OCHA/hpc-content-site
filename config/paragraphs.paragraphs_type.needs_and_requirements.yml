@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - layout_paragraphs
     - ncms_publisher
 id: needs_and_requirements
 label: 'Needs and requirements'
@@ -10,5 +11,8 @@ icon_uuid: null
 icon_default: null
 description: 'A paragraph showing needs and requirements figures (people in need, people targeted and requirements (US$)).'
 behavior_plugins:
+  layout_paragraphs:
+    enabled: false
+    available_layouts: {  }
   promoted_behavior:
     enabled: true

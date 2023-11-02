@@ -1,0 +1,15 @@
+uuid: f1efafa9-a717-497b-8ada-24c35230faf3
+langcode: en
+status: true
+dependencies:
+  module:
+    - layout_paragraphs
+id: infographic
+label: Infographic
+icon_uuid: null
+icon_default: null
+description: 'An infographic media'
+behavior_plugins:
+  layout_paragraphs:
+    enabled: false
+    available_layouts: {  }

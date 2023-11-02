@@ -256,6 +256,12 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
         }),
       )
     );
+    $registry->addFieldResolver('Document', 'autoVisible',
+      $builder->produce('property_path')
+        ->map('type', $builder->fromValue('entity:node'))
+        ->map('value', $builder->fromParent())
+        ->map('path', $builder->fromValue('field_automatically_visible.value')),
+    );
   }
 
   /**
@@ -278,6 +284,12 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
     $registry->addFieldResolver('Article', 'title',
       $builder->produce('entity_label')
         ->map('entity', $builder->fromParent())
+    );
+    $registry->addFieldResolver('Article', 'title_short',
+      $builder->produce('property_path')
+        ->map('type', $builder->fromValue('entity:node'))
+        ->map('value', $builder->fromParent())
+        ->map('path', $builder->fromValue('field_short_title.value')),
     );
     $registry->addFieldResolver('Article', 'section',
       $builder->compose(
@@ -348,8 +360,16 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
           ->map('field', $builder->fromValue('field_paragraphs')),
         $builder->callback(function (array $paragraphs) {
           $exclude_types = [];
+          /** @var \Drupal\paragraphs\Entity\Paragraph[] $paragraphs */
           $paragraphs = array_filter($paragraphs, function ($paragraph) use ($exclude_types) {
+            /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
             if (!empty($exclude_types) && in_array($paragraph->getParagraphType()->id(), $exclude_types)) {
+              return NULL;
+            }
+            // Exclude paragraphs that are nested inside another paragraph
+            // using the layout paragraphs behavior.
+            $layout_paragraph_parent = $paragraph->getBehaviorSetting('layout_paragraphs', 'parent_uuid');
+            if ($layout_paragraph_parent) {
               return NULL;
             }
             if ($paragraph->getParagraphType()->id() == 'story') {
@@ -376,6 +396,12 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
           return $tags;
         }),
       ),
+    );
+    $registry->addFieldResolver('Article', 'autoVisible',
+      $builder->produce('property_path')
+        ->map('type', $builder->fromValue('entity:node'))
+        ->map('value', $builder->fromParent())
+        ->map('path', $builder->fromValue('field_automatically_visible.value')),
     );
   }
 

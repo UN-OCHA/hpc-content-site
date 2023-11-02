@@ -1,0 +1,33 @@
+uuid: c5c350d9-dab8-47db-9a03-4fc463489ea4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.media.infographic.field_content_space
+    - field.field.media.infographic.field_media_image
+    - media.type.infographic
+  module:
+    - image
+id: media.infographic.default
+targetEntityType: media
+bundle: infographic
+mode: default
+content:
+  field_media_image:
+    type: image
+    label: visually_hidden
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  created: true
+  field_content_space: true
+  langcode: true
+  name: true
+  thumbnail: true
+  uid: true

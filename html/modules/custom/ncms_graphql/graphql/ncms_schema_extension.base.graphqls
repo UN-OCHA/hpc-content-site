@@ -7,7 +7,7 @@ type Article {
   id: Int!
   uuid: String!
   title: String!
-  title_short: String!
+  title_short: String
   section: String
   language: Language
   status: Int
@@ -28,7 +28,7 @@ type Document {
   id: Int!
   uuid: String!
   title: String!
-  title_short: String!
+  title_short: String
   status: Int
   created: String
   updated: String

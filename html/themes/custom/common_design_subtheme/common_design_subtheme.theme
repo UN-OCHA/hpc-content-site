@@ -169,7 +169,24 @@ function common_design_subtheme_preprocess_node(&$variables) {
 function common_design_subtheme_preprocess_node__story(&$variables) {
   if (isset($variables['content']['field_media'][0]['#media'])) {
     $credits = $variables['content']['field_media'][0]['#media']->field_credits->value;
-    $variables['content']['credits'] = ['#markup' => $credits];
+
+    if ($variables['content']['field_caption']) {
+      // Move the caption into the markup of the media field.
+      $variables['content']['field_caption']['#prefix'] = '<div class="media-caption">';
+      $variables['content']['field_caption']['#suffix'] = '</div>';
+      $variables['content']['field_caption'][] = [
+        '#type' => 'html_tag',
+        '#tag' => 'span',
+        '#attributes' => [
+          'class' => [
+            'gho-caption__credits',
+          ],
+        ],
+        '#value' => $credits,
+      ];
+      $variables['content']['field_media'][0][] = $variables['content']['field_caption'];
+      $variables['content']['field_caption']['#access'] = FALSE;
+    }
   }
 }
 

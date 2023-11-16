@@ -114,11 +114,10 @@
     <div class="gho-story__caption gho-caption gho-caption--formatted">
       <div class="gho-caption__text">
         {{ content.field_text }}
-        <span class="gho-caption__credits">{{ content.credits }}</span>
       </div>
     </div>
 
-    {{ content|without(['field_type', 'field_media', 'field_text', 'credits']) }}
+    {{ content|without(['field_type', 'field_media', 'field_text']) }}
   </div>
 
   {#

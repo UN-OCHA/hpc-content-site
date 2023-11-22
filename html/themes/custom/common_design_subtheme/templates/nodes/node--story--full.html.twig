@@ -111,13 +111,17 @@
 
   <div{{ content_attributes.addClass('node__content').addClass('gho-story__content').addClass('content-width') }}>
     {{ content.field_media }}
+    <div class="media-caption">
+      {{ content.field_caption }}
+      {{ content.credits }}
+    </div>
     <div class="gho-story__caption gho-caption gho-caption--formatted">
       <div class="gho-caption__text">
         {{ content.field_text }}
       </div>
     </div>
 
-    {{ content|without(['field_type', 'field_media', 'field_text']) }}
+    {{ content|without(['field_type', 'field_media', 'field_text', 'field_caption', 'credits']) }}
   </div>
 
   {#

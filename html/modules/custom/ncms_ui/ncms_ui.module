@@ -337,15 +337,11 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   ];
 
   if ($node instanceof Document) {
-    // Hide the label of the double field widget.
-    $form['field_caption']['widget'][0]['#title_display'] = FALSE;
     // Attach custom styles.
     $form['#attached']['library'][] = 'ncms_ui/document_edit_form';
   }
 
   if ($node instanceof Article) {
-    // Hide the label of the double field widget.
-    $form['field_caption']['widget'][0]['#title_display'] = FALSE;
     // Attach custom styles.
     $form['#attached']['library'][] = 'ncms_ui/article_edit_form';
   }
@@ -366,6 +362,11 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
     /** @var \Drupal\ncms_ui\Form\EntityOverviewFormAlter $entity_overview_form_alter */
     $entity_overview_form_alter = \Drupal::service('ncms_ui.entity_overview_form_alter');
     $entity_overview_form_alter->alterForm($form, $form_state);
+  }
+
+  // Hide the label of the double field widget.
+  if (array_key_exists('field_caption', $form)) {
+    $form['field_caption']['widget'][0]['#title_display'] = FALSE;
   }
 
   // Add a cancel link. This either redirects to the publisher site if this

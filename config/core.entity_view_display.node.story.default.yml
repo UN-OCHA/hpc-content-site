@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.story.field_caption
     - field.field.node.story.field_content_space
     - field.field.node.story.field_footnotes
     - field.field.node.story.field_media
@@ -11,6 +12,7 @@ dependencies:
     - field.field.node.story.field_type
     - node.type.story
   module:
+    - gho_fields
     - text
     - user
 id: node.story.default
@@ -18,6 +20,13 @@ targetEntityType: node
 bundle: story
 mode: default
 content:
+  field_caption:
+    type: gho_caption
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
   field_footnotes:
     type: text_default
     label: above

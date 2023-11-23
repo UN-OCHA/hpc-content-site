@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.preview
+    - field.field.node.story.field_caption
     - field.field.node.story.field_content_space
     - field.field.node.story.field_footnotes
     - field.field.node.story.field_media
@@ -71,6 +72,7 @@ content:
     weight: -5
     region: content
 hidden:
+  field_caption: true
   field_content_space: true
   langcode: true
   links: true

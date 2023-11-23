@@ -46,6 +46,7 @@ class ContentSubmitConfirmForm extends ConfirmFormBase {
       $entity = $this->getRouteMatch()->getParameter('node');
     }
 
+    $confirm_question = $this->getQuestion();
     if ($triggering_element) {
       $confirm_question = $triggering_element['#ajax']['confirm_question'];
       $confirm_field = $triggering_element['#ajax']['confirm_field'];

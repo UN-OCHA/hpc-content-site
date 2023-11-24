@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.bottom_figure_row.field_bottom_figures
     - field.field.paragraph.bottom_figure_row.field_dataset
+    - field.field.paragraph.bottom_figure_row.field_figures
     - paragraphs.paragraphs_type.bottom_figure_row
   module:
     - gho_fields
@@ -13,14 +14,6 @@ targetEntityType: paragraph
 bundle: bottom_figure_row
 mode: default
 content:
-  field_bottom_figures:
-    type: gho_figures
-    label: hidden
-    settings:
-      format: small
-    third_party_settings: {  }
-    weight: 0
-    region: content
   field_dataset:
     type: gho_dataset_link
     label: hidden
@@ -28,4 +21,13 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
-hidden: {  }
+  field_figures:
+    type: gho_figures
+    label: hidden
+    settings:
+      format: small
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_bottom_figures: true

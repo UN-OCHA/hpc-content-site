@@ -11,7 +11,7 @@ id: paragraph.bottom_figure_row.field_bottom_figures
 field_name: field_bottom_figures
 entity_type: paragraph
 bundle: bottom_figure_row
-label: Figures
+label: 'Figures (Deprecated)'
 description: ''
 required: false
 translatable: true

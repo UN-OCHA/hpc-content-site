@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de1fd2a86aa1cfb4b073e40120869b4d",
+    "content-hash": "3cf8892a20727e8967173e77fcaa5f14",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3468,6 +3468,66 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/ctools",
                 "issues": "https://www.drupal.org/project/issues/ctools"
+            }
+        },
+        {
+            "name": "drupal/custom_field",
+            "version": "2.0.0-rc5",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/custom_field.git",
+                "reference": "2.0.0-rc5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/custom_field-2.0.0-rc5.zip",
+                "reference": "2.0.0-rc5",
+                "shasum": "dc17989d2d9331c8211f435e15aefac52f4e7905"
+            },
+            "require": {
+                "drupal/core": "^9.4 || ^10"
+            },
+            "require-dev": {
+                "drupal/feeds": "3.x-dev",
+                "drupal/linkit": "^6"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.0.0-rc5",
+                    "datestamp": "1699114865",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "RC releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "apmsooner",
+                    "homepage": "https://www.drupal.org/user/593202"
+                },
+                {
+                    "name": "DamienMcKenna",
+                    "homepage": "https://www.drupal.org/user/108450"
+                },
+                {
+                    "name": "Luke.Leber",
+                    "homepage": "https://www.drupal.org/user/3509746"
+                }
+            ],
+            "description": "Create simple, but flexible, multivalue fields without the hassle of entity references.",
+            "homepage": "https://www.drupal.org/project/custom_field",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/custom_field",
+                "issues": "https://www.drupal.org/project/issues/custom_field"
             }
         },
         {
@@ -15869,6 +15929,7 @@
     "stability-flags": {
         "drupal/bigint": 20,
         "drupal/bulk_update_fields": 15,
+        "drupal/custom_field": 5,
         "drupal/entity_usage": 10,
         "drupal/gin": 5,
         "drupal/imageapi_optimize_binaries": 15,
@@ -15880,5 +15941,5 @@
         "php": ">=8.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

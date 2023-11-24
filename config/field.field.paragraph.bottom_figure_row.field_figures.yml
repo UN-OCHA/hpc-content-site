@@ -1,0 +1,70 @@
+uuid: 3fd316b4-0141-444a-b533-c8c012feeb82
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_figures
+    - paragraphs.paragraphs_type.bottom_figure_row
+  module:
+    - custom_field
+id: paragraph.bottom_figure_row.field_figures
+field_name: field_figures
+entity_type: paragraph
+bundle: bottom_figure_row
+label: Figures
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  field_settings:
+    label:
+      type: text
+      weight: 0
+      check_empty: false
+      widget_settings:
+        label: Label
+        settings:
+          description: ''
+          description_display: after
+          size: 30
+          placeholder: 'Ex: Population'
+          maxlength: 255
+          maxlength_js: false
+          prefix: ''
+          suffix: ''
+          required: false
+    value:
+      type: text
+      weight: 0
+      check_empty: false
+      widget_settings:
+        label: Value
+        settings:
+          description: ''
+          description_display: after
+          size: 30
+          placeholder: 'Ex: 10.4 million'
+          maxlength: 255
+          maxlength_js: false
+          prefix: ''
+          suffix: ''
+          required: false
+    footnote:
+      type: text
+      weight: 0
+      check_empty: false
+      widget_settings:
+        label: Footnote
+        settings:
+          description: ''
+          description_display: after
+          size: 30
+          placeholder: ''
+          maxlength: 255
+          maxlength_js: false
+          prefix: ''
+          suffix: ''
+          required: false
+field_type: custom

@@ -4,7 +4,7 @@
  * Default theme implementation for a GHO figures formatter - small format.
  *
  * Available variables:
- * - figures: list of figures with a label and a value.
+ * - figures: list of figures with a label, a value and an optional footnote.
  * - format: format of the figures: large or small
  * - attributes: attributes for the wrapper.
  *
@@ -16,7 +16,7 @@
 {% for figure in figures %}
   <div class="gho-figure">
     <div class="gho-figure__label">{{ figure.label }}</div>
-    <div class="gho-figure__value">{{ figure.value }}</div>
+    <div class="gho-figure__value" data-footnote="{{ figure.footnote }}">{{ figure.value }}</div>
   </div>
 {% endfor %}
 </div>

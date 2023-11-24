@@ -6,6 +6,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Template\Attribute;
+use Drupal\custom_field\Plugin\Field\FieldType\CustomItem;
 
 /**
  * Plugin implementations for 'gho_figures' formatter.
@@ -14,7 +15,7 @@ use Drupal\Core\Template\Attribute;
  *   id = "gho_figures",
  *   label = @Translation("GHO figures formatter"),
  *   field_types = {
- *     "double_field"
+ *     "custom"
  *   }
  * )
  */
@@ -66,12 +67,16 @@ class GhoFiguresFormatter extends FormatterBase {
 
     $figures = [];
     foreach ($items as $delta => $item) {
-      $label = trim($item->first ?? '');
-      $value = trim($item->second ?? '');
+      if (!$item instanceof CustomItem) {
+        continue;
+      }
+      $label = trim($item->label ?? '');
+      $value = trim($item->value ?? '');
       if (!empty($label) && !empty($value)) {
         $figures[$delta] = [
-          'label' => $item->first,
-          'value' => $item->second,
+          'label' => $label,
+          'value' => $value,
+          'footnote' => trim($item->footnote ?? ''),
         ];
       }
     }

@@ -11,3 +11,4 @@ dependencies:
   - diff:diff
   - drupal:content_moderation
   - workflows:workflows
+  - gho_fields:gho_fields

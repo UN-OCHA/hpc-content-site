@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.paragraph.top_figures
     - field.field.paragraph.bottom_figure_row.field_bottom_figures
     - field.field.paragraph.bottom_figure_row.field_dataset
+    - field.field.paragraph.bottom_figure_row.field_figures
     - paragraphs.paragraphs_type.bottom_figure_row
   module:
     - gho_fields
@@ -19,7 +20,7 @@ targetEntityType: paragraph
 bundle: bottom_figure_row
 mode: top_figures
 content:
-  field_bottom_figures:
+  field_figures:
     type: gho_figures
     label: hidden
     settings:
@@ -28,4 +29,5 @@ content:
     weight: 0
     region: content
 hidden:
+  field_bottom_figures: true
   field_dataset: true

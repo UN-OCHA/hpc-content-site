@@ -70,5 +70,7 @@ enforce:
       base: none
     frame-ancestors:
       base: self
+      sources:
+        - humanitarianaction.info
   reporting:
     plugin: sitelog

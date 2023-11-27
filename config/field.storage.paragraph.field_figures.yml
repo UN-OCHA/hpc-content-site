@@ -1,0 +1,47 @@
+uuid: 25c0eb25-3e8f-4ae4-9d5b-4c54598aec07
+langcode: en
+status: true
+dependencies:
+  module:
+    - custom_field
+    - paragraphs
+id: paragraph.field_figures
+field_name: field_figures
+entity_type: paragraph
+type: custom
+settings:
+  columns:
+    label:
+      name: label
+      type: string
+      max_length: '255'
+      unsigned: 0
+      precision: '10'
+      scale: '2'
+      size: normal
+      datetime_type: datetime
+    value:
+      name: value
+      type: string
+      max_length: '255'
+      unsigned: 0
+      precision: '10'
+      scale: '2'
+      size: normal
+      datetime_type: datetime
+    footnote:
+      name: footnote
+      type: string
+      max_length: '255'
+      unsigned: 0
+      precision: '10'
+      scale: '2'
+      size: normal
+      datetime_type: datetime
+module: custom_field
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

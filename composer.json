@@ -57,6 +57,7 @@
         "drupal/core-recommended": "^10",
         "drupal/csp": "^1.16",
         "drupal/ctools": "^4.0",
+        "drupal/custom_field": "^2.0@RC",
         "drupal/diff": "^1.1",
         "drupal/double_field": "^4.0",
         "drupal/editor_advanced_link": "^2.0",

@@ -2,8 +2,10 @@
 
 namespace Drupal\ncms_ui\Entity\Storage;
 
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageException;
+use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\ncms_ui\Entity\Content\ContentBase;
 use Drupal\node\NodeInterface;
 use Drupal\node\NodeStorage;
@@ -115,6 +117,26 @@ class ContentStorage extends NodeStorage {
       $latest_revision->setSyncing(TRUE);
       $latest_revision->save();
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function hasFieldValueChanged(FieldDefinitionInterface $field_definition, ContentEntityInterface $entity, ContentEntityInterface $original) {
+    // Work around an issue where field data of content with active
+    // translations sometimes doesn't save correctly when using the
+    // "Publish as correction" or "Publish as revision" submit buttons on the
+    // node edit form.
+    if ($entity instanceof ContentBase && $entity->getTranslationLanguages(FALSE)) {
+      // Always return TRUE if the content has translations. The reason is that
+      // hasFieldValueChanged() doesn't fetch the previous revisions field
+      // values and thus falsely reports the fields to not have changed,
+      // preventing the changes from beeing written to storage. The main issue
+      // is probably somewhere else, but returning TRUE here seems to fix the
+      // issue without further side effects.
+      return TRUE;
+    }
+    return parent::hasFieldValueChanged($field_definition, $entity, $original);
   }
 
 }

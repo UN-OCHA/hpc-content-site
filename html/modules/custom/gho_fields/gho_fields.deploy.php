@@ -23,7 +23,7 @@ function gho_fields_deploy_post_rename_datawrapper_fields(&$sandbox) {
     $paragraph->get('field_show_interactive_content')->setValue([
       'value' => $paragraph->get('field_show_datawrapper')->value,
     ]);
-    $paragraph->isSyncing();
+    $paragraph->setSyncing(TRUE);
     $paragraph->save();
   }
 }
@@ -53,7 +53,7 @@ function gho_fields_deploy_migrate_bottom_figure_rows() {
         'value' => $figure->second,
       ]);
     }
-    $paragraph->isSyncing();
+    $paragraph->setSyncing(TRUE);
     $paragraph->save();
 
     foreach ($paragraph->getTranslationLanguages() as $language) {
@@ -74,7 +74,7 @@ function gho_fields_deploy_migrate_bottom_figure_rows() {
           'value' => $figure->second,
         ]);
       }
-      $translated_paragraph->isSyncing();
+      $translated_paragraph->setSyncing(TRUE);
       $translated_paragraph->save();
     }
   }

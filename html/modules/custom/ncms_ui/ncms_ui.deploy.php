@@ -120,7 +120,7 @@ function ncms_ui_deploy_set_content_space_nodes(&$sandbox) {
     $node->get('field_content_space')->setValue([
       'target_id' => $term->id(),
     ]);
-    $node->isSyncing();
+    $node->setSyncing(TRUE);
     $node->save();
   }
 }
@@ -199,7 +199,7 @@ function ncms_ui_deploy_set_content_space_nodes_orphaned(&$sandbox) {
     $node->get('field_content_space')->setValue([
       'target_id' => $term->id(),
     ]);
-    $node->isSyncing();
+    $node->setSyncing(TRUE);
     $node->save();
   }
 }
@@ -225,7 +225,7 @@ function ncms_ui_deploy_set_content_space_media(&$sandbox) {
     $entity->get('field_content_space')->setValue([
       'target_id' => $term->id(),
     ]);
-    $entity->isSyncing();
+    $entity->setSyncing(TRUE);
     $entity->save();
   }
 }
@@ -241,5 +241,56 @@ function ncms_ui_deploy_remove_obsolete_admin_menu_links() {
   ]);
   foreach ($links as $menu_link) {
     $menu_link->delete();
+  }
+}
+
+/**
+ * Correct the changed date for content.
+ *
+ * The changed date got corrupted by
+ * ncms_graphql_deploy_set_auto_visible_flag().
+ */
+function ncms_ui_deploy_correct_changed_date(&$sandbox) {
+  /** @var \Drupal\Node\NodeStorageInterface $node_storage */
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+
+  /** @var \Drupal\node\NodeInterface[] $nodes */
+  $nodes = $node_storage->loadByProperties([
+    'type' => ['article', 'document'],
+  ]);
+
+  foreach ($nodes as $node) {
+    if (!$node instanceof ContentBase) {
+      continue;
+    }
+
+    // Get all revision ids.
+    $revision_ids = $node_storage->revisionIds($node);
+    if (count($revision_ids) < 2) {
+      continue;
+    }
+    $revision_ids = array_values(array_reverse($revision_ids));
+
+    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $revision */
+    $revision = $node_storage->loadRevision($revision_ids[0]);
+    if (!$revision) {
+      continue;
+    }
+
+    if ($revision->getChangedTime() != 1698930576) {
+      continue;
+    }
+
+    // Update the changed date of the current revision.
+    $revision->setChangedTime($revision->getRevisionCreationTime());
+    $revision->setNewRevision(FALSE);
+    $revision->setSyncing(TRUE);
+    $revision->save();
+
+    // Update the changed date of the node.
+    $node->setChangedTime($revision->getRevisionCreationTime());
+    $node->setNewRevision(FALSE);
+    $node->setSyncing(TRUE);
+    $node->save();
   }
 }

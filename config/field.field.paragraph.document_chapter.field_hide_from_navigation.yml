@@ -1,0 +1,21 @@
+uuid: eb6f7af0-4f35-4cd0-a789-82f1e6ad8513
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_hide_from_navigation
+    - paragraphs.paragraphs_type.document_chapter
+id: paragraph.document_chapter.field_hide_from_navigation
+field_name: field_hide_from_navigation
+entity_type: paragraph
+bundle: document_chapter
+label: 'Hide in document navigation'
+description: 'If checked, the chapter is marked as part of the document but should not be automatically included in the documents navigation. Useful for example for articles that are mostly shown as sub-articles in other article pages.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -13,6 +13,7 @@ use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Markup;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\media\MediaInterface;
@@ -303,6 +304,22 @@ function ncms_ui_preprocess_layout_paragraphs_builder_component_menu(&$variables
   });
   $variables['types']['content'] = $items;
   $variables['types']['layout'] = [];
+}
+
+/**
+ * Implements hook_preprocess_hook().
+ */
+function ncms_ui_preprocess_field__paragraph__field_title__document_chapter(&$variables) {
+  if ($variables['element']['#view_mode'] != 'preview') {
+    return;
+  }
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['element']['#object'];
+  // If the chapter is marked as hidden, add a note to the title.
+  if ($paragraph->hasField('field_hide_from_navigation') && $paragraph->get('field_hide_from_navigation')->value) {
+    $variables['items'][0]['content']['#template'] .= Markup::create('<span style="font-style: italic; font-weight: normal;"> ({{ note }})</span>');
+    $variables['items'][0]['content']['#context']['note'] = t('Hidden from navigation');
+  }
 }
 
 /**

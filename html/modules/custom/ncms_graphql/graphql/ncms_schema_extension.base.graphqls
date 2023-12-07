@@ -87,6 +87,7 @@ type DocumentChapter {
   title: String
   title_short: String
   summary: String
+  hidden: Boolean
   articles: [Article]
 }
 

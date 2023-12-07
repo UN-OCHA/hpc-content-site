@@ -20,7 +20,7 @@ function ncms_graphql_deploy_set_auto_visible_flag(&$sandbox) {
     $node->get('field_automatically_visible')->setValue([
       'value' => 1,
     ]);
-    $node->isSyncing();
+    $node->setSyncing(TRUE);
     $node->save();
   }
 }

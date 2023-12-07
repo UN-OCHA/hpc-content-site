@@ -26,7 +26,7 @@ function ncms_ui_post_update_set_content_space_nodes(&$sandbox) {
     $node->get('field_content_space')->setValue([
       'target_id' => $term->id(),
     ]);
-    $node->isSyncing();
+    $node->setSyncing(TRUE);
     $node->save();
   }
 }

@@ -10,7 +10,7 @@ field_name: field_embed_code
 entity_type: paragraph
 bundle: interactive_content
 label: 'Embed code'
-description: 'Embed code from datawrapper (responsive image). <strong>Do not include the <em>script</em>, only the <em>iframe</em>.</strong>'
+description: "Supported embed providers: PowerBI (https://app.powerbi.com), Datawrapper (https://datawrapper.dwcdn.net) and ArcGIS (https://experience.arcgis.com). Note that the iframe's height attribute might need to be manually adjusted to fit the content.\r\n<strong>Do not include any <em>script</em> tags, only the <em>iframe</em>.</strong>"
 required: false
 translatable: true
 default_value: {  }

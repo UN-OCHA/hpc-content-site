@@ -26,9 +26,11 @@ class GhoInteractiveContentFormatter extends FormatterBase {
    */
   const EMBED_POWERBI = 'powerbi';
   const EMBED_DATAWRAPPER = 'datawrapper';
+  const EMBED_ARCGIS = 'arcgis';
   const EMBED_PROVIDERS = [
     self::EMBED_POWERBI => 'https://app\.powerbi\.com/',
     self::EMBED_DATAWRAPPER => 'https://datawrapper\.dwcdn\.net/',
+    self::EMBED_ARCGIS => 'https://experience\.arcgis\.com/',
   ];
 
   /**
@@ -40,29 +42,19 @@ class GhoInteractiveContentFormatter extends FormatterBase {
     foreach ($items as $delta => $item) {
       $attributes = static::extractAttributes($item->value);
       if (static::validateMandatoryAttributes($attributes) === []) {
+        $provider = $this->getProviderForItem($item);
+        if (!$provider) {
+          continue;
+        }
         $element[$delta] = [
           '#theme' => 'gho_interactive_content_formatter',
           '#attributes' => new Attribute($attributes),
-          '#provider' => $this->isDatawrapper($item) ? self::EMBED_DATAWRAPPER : self::EMBED_POWERBI,
+          '#provider' => $provider,
         ];
       }
     }
 
     return $element;
-  }
-
-  /**
-   * Check if the given item represents a datawrapper embed.
-   *
-   * @param \Drupal\Core\Field\FieldItemInterface $item
-   *   The field item.
-   *
-   * @return bool
-   *   TRUE if datawrapper, FALSE otherwise.
-   */
-  private function isDatawrapper(FieldItemInterface $item) {
-    $attributes = static::extractAttributes($item->value);
-    return preg_match('~^' . self::EMBED_PROVIDERS['datawrapper'] . '~', $attributes['src'] ?? '') === 1;
   }
 
   /**
@@ -97,16 +89,7 @@ class GhoInteractiveContentFormatter extends FormatterBase {
     // First check if one of the supported embed providers is present.
     $src = $iframe->getAttribute('src');
 
-    $pattern_datawrapper = '~^' . self::EMBED_PROVIDERS['datawrapper'] . '~';
-    $pattern_powerbi = '~^' . self::EMBED_PROVIDERS['powerbi'] . '~';
-
-    $provider = NULL;
-    if (preg_match($pattern_datawrapper, $src) === 1) {
-      $provider = self::EMBED_DATAWRAPPER;
-    }
-    elseif (preg_match($pattern_powerbi, $src) === 1) {
-      $provider = self::EMBED_POWERBI;
-    }
+    $provider = self::getProviderForSrc($src);
     if (!$provider) {
       return NULL;
     }
@@ -129,9 +112,9 @@ class GhoInteractiveContentFormatter extends FormatterBase {
         }
       }
     }
-    elseif ($provider == self::EMBED_POWERBI) {
+    else {
       $attributes['src'] = $src;
-      $attributes['id'] = Html::getUniqueId('powerbi');
+      $attributes['id'] = Html::getUniqueId($provider);
     }
 
     // Extract width.
@@ -204,6 +187,37 @@ class GhoInteractiveContentFormatter extends FormatterBase {
     return filter_var((int) $value, FILTER_VALIDATE_INT, [
       'options' => ['min_range' => 0],
     ]) !== FALSE;
+  }
+
+  /**
+   * Get the provider for the given field item.
+   *
+   * @param \Drupal\Core\Field\FieldItemInterface $item
+   *   The field item.
+   *
+   * @return string
+   *   The provider string if found.
+   */
+  private static function getProviderForItem(FieldItemInterface $item) {
+    $attributes = static::extractAttributes($item->value);
+    return self::getProviderForSrc($attributes['src']);
+  }
+
+  /**
+   * Get the provider for the given source.
+   *
+   * @param string $src
+   *   The src string.
+   *
+   * @return string
+   *   The provider string if found.
+   */
+  private static function getProviderForSrc($src) {
+    foreach (self::EMBED_PROVIDERS as $provider => $regex) {
+      if (preg_match('~^' . $regex . '~', $src ?? '') === 1) {
+        return $provider;
+      }
+    }
   }
 
 }

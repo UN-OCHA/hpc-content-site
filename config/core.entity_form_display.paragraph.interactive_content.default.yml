@@ -23,7 +23,7 @@ mode: default
 content:
   field_dataset:
     type: gho_dataset_link
-    weight: 7
+    weight: 6
     region: content
     settings:
       placeholder_url: 'Ex: https://humdata.org/dataset'
@@ -31,7 +31,7 @@ content:
     third_party_settings: {  }
   field_embed_code:
     type: gho_interactive_content
-    weight: 5
+    weight: 4
     region: content
     settings:
       rows: 5
@@ -39,21 +39,21 @@ content:
     third_party_settings: {  }
   field_full_width:
     type: boolean_checkbox
-    weight: 1
+    weight: 0
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_image:
     type: media_library_widget
-    weight: 4
+    weight: 3
     region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
   field_link:
     type: link_default
-    weight: 3
+    weight: 2
     region: content
     settings:
       placeholder_url: 'Ex: https://datawrapper.de/content-page'
@@ -61,33 +61,27 @@ content:
     third_party_settings: {  }
   field_show_interactive_content:
     type: boolean_checkbox
-    weight: 6
+    weight: 5
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_title:
     type: string_textfield
-    weight: 2
+    weight: 1
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_type:
-    type: options_select
-    weight: 0
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 8
+    weight: 7
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
 hidden:
   created: true
-  field_show_datawrapper: true
+  field_type: true
   translation: true

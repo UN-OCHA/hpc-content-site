@@ -13,7 +13,6 @@ dependencies:
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_pdf
     - field.field.node.article.field_report_link
-    - field.field.node.article.field_section
     - field.field.node.article.field_short_title
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
@@ -52,7 +51,6 @@ third_party_settings:
       children:
         - field_content_space
         - field_tags
-        - field_section
         - field_author
         - field_pdf
         - field_automatically_visible
@@ -194,12 +192,6 @@ content:
     region: content
     settings:
       progress_indicator: throbber
-    third_party_settings: {  }
-  field_section:
-    type: options_select
-    weight: 24
-    region: content
-    settings: {  }
     third_party_settings: {  }
   field_short_title:
     type: string_textfield

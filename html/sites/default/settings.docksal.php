@@ -3,6 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
+ini_set('session.cookie_samesite', 'lax');
 
 $config['system.logging']['error_level'] = 'verbose';
 $settings['skip_permissions_hardening'] = TRUE;
@@ -87,8 +88,6 @@ $settings['trusted_host_patterns'] = array(
 // This doesn't seem to be an issue on the dev environments for some reason
 // CONFIRM!.
 $config['seckit.settings']['seckit_xss']['csp']['checkbox'] = FALSE;
-
-ini_set('session.cookie_samesite', 'lax');
 
 $settings['config_exclude_modules'] = [
   'dblog',

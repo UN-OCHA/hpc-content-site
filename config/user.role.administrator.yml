@@ -19,7 +19,6 @@ dependencies:
     - taxonomy.vocabulary.major_tags
     - taxonomy.vocabulary.minor_tags
     - taxonomy.vocabulary.needs_and_requirements
-    - taxonomy.vocabulary.section
     - taxonomy.vocabulary.story_type
     - workflows.workflow.article_workflow
   module:
@@ -67,7 +66,6 @@ permissions:
   - 'create terms in major_tags'
   - 'create terms in minor_tags'
   - 'create terms in needs_and_requirements'
-  - 'create terms in section'
   - 'create terms in story_type'
   - 'create video media'
   - 'delete any author media'
@@ -83,7 +81,6 @@ permissions:
   - 'delete terms in major_tags'
   - 'delete terms in minor_tags'
   - 'delete terms in needs_and_requirements'
-  - 'delete terms in section'
   - 'delete terms in story_type'
   - 'edit any author media'
   - 'edit any image media'
@@ -102,7 +99,6 @@ permissions:
   - 'edit terms in major_tags'
   - 'edit terms in minor_tags'
   - 'edit terms in needs_and_requirements'
-  - 'edit terms in section'
   - 'edit terms in story_type'
   - 'enter achievement revision log entry'
   - 'enter article revision log entry'

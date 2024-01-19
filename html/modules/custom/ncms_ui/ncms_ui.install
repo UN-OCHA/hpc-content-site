@@ -97,3 +97,15 @@ function ncms_ui_update_9005(&$sandbox) {
   // Update field storage configuration.
   FieldStorageConfig::loadByName('paragraph', 'field_short_title')->save();
 }
+
+/**
+ * Remove existing terms of type section.
+ */
+function ncms_ui_update_9006(&$sandbox) {
+  $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
+    'vid' => 'section',
+  ]);
+  foreach ($terms as $term) {
+    $term->delete();
+  }
+}

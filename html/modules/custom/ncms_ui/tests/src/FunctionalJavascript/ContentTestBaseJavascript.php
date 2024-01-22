@@ -20,6 +20,7 @@ abstract class ContentTestBaseJavascript extends WebDriverTestBase {
    * @var array
    */
   protected static $modules = [
+    'js_testing_ajax_request_test',
     'ncms_ui',
     'ncms_ui_test',
   ];
@@ -36,13 +37,23 @@ abstract class ContentTestBaseJavascript extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $defaultTheme = 'stark';
+  protected $defaultTheme = 'claro';
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setup(): void {
+    parent::setUp();
+
+    $this->setupContentSpaceStructure();
+  }
 
   /**
    * Waits for jQuery to become ready and animations to complete.
    */
   protected function waitForAjaxToFinish() {
     $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->htmlOutput(NULL);
   }
 
   /**

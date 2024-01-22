@@ -8,8 +8,9 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\taxonomy\Entity\Term;
-use Drupal\taxonomy\Entity\Vocabulary;
-use Drupal\Tests\field\Traits\EntityReferenceTestTrait;
+use Drupal\Tests\field\Traits\EntityReferenceFieldCreationTrait;
+use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
+use Drupal\Tests\paragraphs\FunctionalJavascript\ParagraphsTestBaseTrait;
 use Drupal\Tests\taxonomy\Traits\TaxonomyTestTrait;
 
 /**
@@ -17,33 +18,15 @@ use Drupal\Tests\taxonomy\Traits\TaxonomyTestTrait;
  */
 trait ContentTestTrait {
 
-  use EntityReferenceTestTrait;
+  use EntityReferenceFieldCreationTrait;
+  use ContentTypeCreationTrait;
+  use ParagraphsTestBaseTrait;
   use TaxonomyTestTrait;
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function setUp(): void {
-    parent::setUp();
-
-    $this->setupContent();
-  }
 
   /**
    * Setup the content types.
    */
-  protected function setupContent() {
-    // Create major tags vocabulary and fields.
-    Vocabulary::create([
-      'vid' => 'major_tags',
-      'name' => 'Major tags',
-    ])->save();
-
-    // Create content space vocabulary and fields.
-    Vocabulary::create([
-      'vid' => 'content_space',
-      'name' => 'Content space',
-    ])->save();
+  protected function setupContentSpaceStructure() {
     $handler_settings = [
       'target_bundles' => [
         'tags' => 'major_tags',
@@ -146,12 +129,14 @@ trait ContentTestTrait {
    *
    * @param array $content_spaces
    *   An array of content space term objects.
+   * @param array $permissions
+   *   Additional permissions to give to the user.
    *
    * @return \Drupal\user\Entity\User|false
    *   The user object or FALSE.
    */
-  protected function createEditorUserWithContentSpaces(array $content_spaces) {
-    return $this->drupalCreateUser([
+  protected function createEditorUserWithContentSpaces(array $content_spaces, $permissions = []) {
+    return $this->drupalCreateUser(array_merge([
       'access content overview',
       'access administration pages',
       'view the administration theme',
@@ -167,7 +152,7 @@ trait ContentTestTrait {
       'use article_workflow transition restore_publish',
       'use article_workflow transition save_draft_leave_current_published',
       'use article_workflow transition update',
-    ], NULL, NULL, [
+    ], $permissions), NULL, NULL, [
       'field_content_spaces' => array_map(function ($content_space) {
         return ['target_id' => $content_space->id()];
       }, $content_spaces),

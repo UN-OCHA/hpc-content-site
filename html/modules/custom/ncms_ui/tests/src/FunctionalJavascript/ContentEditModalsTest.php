@@ -50,8 +50,7 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
 
     // Click Save as draft without any changes.
     $this->getSession()->getPage()->pressButton('Save as draft');
-    $this->waitForAjaxToFinish();
-    $assert_session->pageTextContains('No changes detected for Article 1 for Content space 1. The article has not been updated.');
+    $assert_session->waitForText('No changes detected for Article 1 for Content space 1. The article has not been updated.');
 
     // Reopen edit and assert state.
     $this->drupalGet($edit_url);
@@ -66,8 +65,7 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
     $body_element = $assert_session->waitForElement('css', '#edit-body-0-value + .ck-editor .ck-editor__editable');
     $body_element->setValue('Test content draft');
     $this->getSession()->getPage()->pressButton('Save as draft');
-    $this->waitForAjaxToFinish();
-    $assert_session->pageTextContains('Saved a new draft version of Article 1 for Content space 1.');
+    $assert_session->waitForText('Saved a new draft version of Article 1 for Content space 1.');
 
     // Reopen edit and assert state.
     $this->drupalGet($edit_url);
@@ -103,7 +101,7 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
 
     // Confirm the dialog and go back to the edit page.
     $this->pressModalButton('Ok');
-    $this->waitForAjaxToFinish();
+    $assert_session->waitForText('Published current version of Article 1 for Content space 1');
   }
 
   /**
@@ -163,7 +161,7 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
 
     // Confirm the dialog and go back to the edit page.
     $this->pressModalButton('Ok');
-    $this->waitForAjaxToFinish();
+    $assert_session->waitForText('Created and published a new version of Article 1 for Content space 1. Unpublished the last published version.');
 
     $this->drupalGet($edit_url);
     $assert_session->elementTextContains('css', '#edit-meta-published', '#2 Published');
@@ -232,7 +230,7 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
 
     // Confirm the dialog and go back to the edit page.
     $this->pressModalButton('Ok');
-    $this->waitForAjaxToFinish();
+    $assert_session->waitForText('Created and published a new version of Article 1 for Content space 1');
 
     $this->drupalGet($edit_url);
     $assert_session->elementTextContains('css', '#edit-meta-published', '#2 Published');

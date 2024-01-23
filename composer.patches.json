@@ -1,9 +1,9 @@
 {
     "patches": {
         "drupal/core": {
-            "https://www.drupal.org/project/drupal/issues/2544110": "https://www.drupal.org/files/issues/2023-05-04/2544110-162.patch",
-            "Issue #2707291: Disable body-level scrolling when a dialog is open as a modal": "https://www.drupal.org/files/issues/2023-04-27/2707291-96.patch",
-            "Issue #3392572: strnatcasecmp(): Passing null to parameter #2 in LayoutPluginManager": "https://www.drupal.org/files/issues/2023-10-25/drupal-strnatcasecmp_string_only-3392572-10.patch"
+            "https://www.drupal.org/project/drupal/issues/2544110": "./patches/2544110.patch",
+            "Issue #3392572: strnatcasecmp(): Passing null to parameter #2 in LayoutPluginManager": "https://www.drupal.org/files/issues/2023-10-25/drupal-strnatcasecmp_string_only-3392572-10.patch",
+            "Issue #3413079: Cannot read properties of null (reading 'nodeType') on node.page.body": "https://www.drupal.org/files/issues/2024-01-08/3413079-9.patch"
         },
         "drupal/csp": {
             "Simplify log format": "./patches/csp-log-format.patch"
@@ -13,8 +13,10 @@
             "Issue #3058111: Allow user to choose 'Visual inline' display view mode": "https://www.drupal.org/files/issues/2019-08-29/3058111-add-default-view-mode-setting-3.patch"
         },
         "drupal/entity_browser": {
-            "Issue #3056057: Position the main form actions to the bottom of IFrame": "https://www.drupal.org/files/issues/2019-05-23/position-main-form-actins-on-bottom-3056057-10.patch",
-            "Issue #3350169: Fix PHP 8.2 deprecation issue with WidgetSelectorBase-class": "https://www.drupal.org/files/issues/2023-06-15/3350169-8_0.patch"
+            "Issue #3056057: Position the main form actions to the bottom of IFrame": "https://www.drupal.org/files/issues/2019-05-23/position-main-form-actins-on-bottom-3056057-10.patch"
+        },
+        "drupal/entity_browser_table": {
+          "Issue #3408217: Error: Call to a member function getStorage() on null": "https://www.drupal.org/files/issues/2023-12-21/3408217-error-call-to-member-function-getstorage-on-null.patch"
         },
         "drupal/entity_reference_revisions": {
             "Issue #2799479: Views doesn't recognize relationship to host": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"

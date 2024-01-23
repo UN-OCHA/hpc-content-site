@@ -20,7 +20,6 @@ abstract class ContentTestBaseJavascript extends WebDriverTestBase {
    * @var array
    */
   protected static $modules = [
-    'js_testing_ajax_request_test',
     'ncms_ui',
     'ncms_ui_test',
   ];

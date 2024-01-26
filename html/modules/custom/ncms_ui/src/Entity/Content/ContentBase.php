@@ -4,6 +4,7 @@ namespace Drupal\ncms_ui\Entity\Content;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -302,6 +303,9 @@ abstract class ContentBase extends Node implements ContentSpaceAwareInterface, C
    */
   public function preSave(EntityStorageInterface $storage) {
     parent::preSave($storage);
+    if (!$this->isSyncing()) {
+      $this->setChangedTime((new DrupalDateTime())->getTimestamp());
+    }
     $this->setRevisionTranslationAffectedEnforced(TRUE);
   }
 

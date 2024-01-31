@@ -604,9 +604,6 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
-        - 'config:core.entity_view_display.node.achievement.default'
-        - 'config:core.entity_view_display.node.achievement.preview'
-        - 'config:core.entity_view_display.node.achievement.teaser'
         - 'config:core.entity_view_display.node.article.default'
         - 'config:core.entity_view_display.node.article.full'
         - 'config:core.entity_view_display.node.article.home_page'
@@ -1013,9 +1010,6 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
-        - 'config:core.entity_view_display.node.achievement.default'
-        - 'config:core.entity_view_display.node.achievement.preview'
-        - 'config:core.entity_view_display.node.achievement.teaser'
         - 'config:core.entity_view_display.node.article.default'
         - 'config:core.entity_view_display.node.article.full'
         - 'config:core.entity_view_display.node.article.home_page'

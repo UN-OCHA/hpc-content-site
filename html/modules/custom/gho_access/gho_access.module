@@ -81,13 +81,8 @@ function gho_access_paragraph_access(Paragraph $paragraph, $operation, AccountIn
 function gho_access_taxonomy_term_access(TermInterface $term, $operation, AccountInterface $account) {
   switch ($operation) {
     case 'view':
-      // Skip the needs and requirements because they are not translatable
-      // and the figures are automatically translated by the GhoNumberFormatter
-      // provided in gho_fields.
-      if ($term->bundle() !== 'needs_and_requirements') {
-        // Check the access to the translation.
-        return gho_access_check_language_access($account, $term);
-      }
+      // Check the access to the translation.
+      return gho_access_check_language_access($account, $term);
   }
   // No opinion, let other modules handle the permissions.
   return AccessResult::neutral();

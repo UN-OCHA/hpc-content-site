@@ -149,7 +149,7 @@ function gho_general_preprocess_paragraph(&$variables) {
  * Implements hook_preprocess_taxonomy_term().
  */
 function gho_general_preprocess_taxonomy_term(&$variables) {
-  if (isset($variables['term']) && $variables['term']->bundle() !== 'needs_and_requirements') {
+  if (isset($variables['term'])) {
     gho_general_flag_untranslated('term', $variables);
   }
 }

@@ -13,6 +13,12 @@ name: 'Filtered Html'
 format: filtered_html
 weight: 0
 filters:
+  filter_align:
+    id: filter_align
+    provider: filter
+    status: true
+    weight: 0
+    settings: {  }
   filter_html:
     id: filter_html
     provider: filter
@@ -22,37 +28,17 @@ filters:
       allowed_html: '<br> <p class="highlight"> <h2 id jump-*> <h3 id jump-*> <h4 id jump-*> <h5 id jump-*> <h6 id jump-*> <cite> <dl> <dt> <dd> <a target href> <blockquote cite> <ul type> <ol type a i start> <drupal-media data-caption title data-entity-type data-entity-uuid alt data-view-mode data-align> <strong> <em> <li> <table> <tr> <td rowspan colspan> <th rowspan colspan> <thead> <tbody> <tfoot> <caption>'
       filter_html_help: true
       filter_html_nofollow: false
-  filter_htmlcorrector:
-    id: filter_htmlcorrector
-    provider: filter
-    status: true
-    weight: 10
-    settings: {  }
-  media_embed:
-    id: media_embed
-    provider: media
-    status: true
-    weight: 100
-    settings:
-      default_view_mode: thumbnail_small
-      allowed_view_modes:
-        full_width: full_width
-        thumbnail_medium: thumbnail_medium
-        thumbnail_small: thumbnail_small
-      allowed_media_types:
-        image: image
-        infographic: infographic
   filter_html_image_secure:
     id: filter_html_image_secure
     provider: filter
     status: true
     weight: 9
     settings: {  }
-  filter_align:
-    id: filter_align
+  filter_htmlcorrector:
+    id: filter_htmlcorrector
     provider: filter
     status: true
-    weight: 0
+    weight: 10
     settings: {  }
   filter_space_corrector:
     id: filter_space_corrector
@@ -67,3 +53,17 @@ filters:
     weight: 0
     settings:
       filter_url_length: 72
+  media_embed:
+    id: media_embed
+    provider: media
+    status: true
+    weight: 100
+    settings:
+      default_view_mode: thumbnail_small
+      allowed_view_modes:
+        full_width: full_width
+        thumbnail_medium: thumbnail_medium
+        thumbnail_small: thumbnail_small
+      allowed_media_types:
+        image: image
+        infographic: infographic

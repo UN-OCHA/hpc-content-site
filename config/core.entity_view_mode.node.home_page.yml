@@ -6,5 +6,6 @@ dependencies:
     - node
 id: node.home_page
 label: 'Home page'
+description: ''
 targetEntityType: node
 cache: true

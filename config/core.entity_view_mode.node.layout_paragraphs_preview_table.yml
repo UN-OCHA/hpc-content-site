@@ -6,5 +6,6 @@ dependencies:
     - node
 id: node.layout_paragraphs_preview_table
 label: 'Layout paragraphs preview (table)'
+description: ''
 targetEntityType: node
 cache: true

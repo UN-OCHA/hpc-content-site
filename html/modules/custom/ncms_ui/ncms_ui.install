@@ -109,3 +109,21 @@ function ncms_ui_update_9006(&$sandbox) {
     $term->delete();
   }
 }
+
+/**
+ * Remove existing content of paragraph type "layout".
+ */
+function ncms_ui_update_9007(&$sandox) {
+  $storage = \Drupal::entityTypeManager()->getStorage('paragraph');
+  $ids = $storage->getQuery()
+    ->condition('type', 'layout')
+    ->accessCheck(FALSE)
+    ->execute();
+
+  if (!empty($ids)) {
+    $paragraphs = $storage->loadMultiple($ids);
+    // Delete existing entities.
+    $storage->delete($paragraphs);
+  }
+  return 'Deleted ' . count($ids) . ' paragraphs of type "layout"';
+}

@@ -6,5 +6,6 @@ dependencies:
     - node
 id: node.preview
 label: Preview
+description: ''
 targetEntityType: node
 cache: true

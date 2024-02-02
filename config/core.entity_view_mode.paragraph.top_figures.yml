@@ -6,5 +6,6 @@ dependencies:
     - paragraphs
 id: paragraph.top_figures
 label: 'Top figures'
+description: ''
 targetEntityType: paragraph
 cache: true

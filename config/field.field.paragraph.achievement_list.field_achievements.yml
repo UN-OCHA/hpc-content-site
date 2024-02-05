@@ -40,6 +40,12 @@ settings:
       bottom_figure_row:
         weight: 25
         enabled: false
+      document_articles:
+        weight: 27
+        enabled: false
+      document_chapter:
+        weight: 28
+        enabled: false
       download_button:
         weight: 26
         enabled: false
@@ -55,26 +61,23 @@ settings:
       image_with_text:
         weight: 30
         enabled: false
+      infographic:
+        weight: 34
+        enabled: false
       interactive_content:
         weight: 31
+        enabled: false
+      interactive_content_2_columns:
+        weight: 36
         enabled: false
       layout:
         weight: 32
         enabled: false
-      needs_and_requirements:
-        weight: 33
-        enabled: false
       photo_gallery:
         weight: 34
         enabled: false
-      section_index:
-        weight: 35
-        enabled: false
       separator:
         weight: 36
-        enabled: false
-      signature:
-        weight: 37
         enabled: false
       story:
         weight: 38

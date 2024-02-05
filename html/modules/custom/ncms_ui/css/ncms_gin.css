@@ -10,13 +10,14 @@
 .gin--horizontal-toolbar #toolbar-item-administration-tray > nav,
 .gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu,
 .gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li,
+.gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li > a.is-active,
 .gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li > .toolbar-box > .toolbar-handle:focus {
   background-color: rgb(5, 80, 230) !important;
 }
 
 .gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li > a.toolbar-icon,
 .gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li > .toolbar-box > a.toolbar-icon {
-  color: white;
+  color: white !important;
 }
 .gin--horizontal-toolbar #toolbar-item-administration-tray > nav > div > .toolbar-menu > li > a.toolbar-icon::before {
   background-color: white;

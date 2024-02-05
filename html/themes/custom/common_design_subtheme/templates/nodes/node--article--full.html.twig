@@ -105,7 +105,6 @@
   <header class="gho-article__header">
     {{ hero_image }}
     <div class="gho-article__heading content-width content-width--reading">
-      {{ content.field_section }}
       {{ title }}
       {{ content.field_appeals }}
     </div>
@@ -116,7 +115,7 @@
   {% endif %}
 
   <div{{ content_attributes.addClass('node__content').addClass('gho-article__content') }}>
-    {{ content|without(['field_hero_image', 'field_section', 'field_appeals']) }}
+    {{ content|without(['field_hero_image', 'field_appeals']) }}
   </div>
 
 </article>

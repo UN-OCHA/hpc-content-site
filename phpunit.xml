@@ -25,6 +25,10 @@
     <env name="DTT_MINK_DRIVER_ARGS" value='["chrome", { "chromeOptions" : { "w3c": false } }, "http://localhost:4444/wd/hub"]'/>
     <env name="DTT_API_OPTIONS" value='{"socketTimeout": 360, "domWaitTimeout": 3600000}' />
     <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled" />
+
+        <!-- ###+ symfony/mailer ### -->
+        <!-- MAILER_DSN=null://null -->
+        <!-- ###- symfony/mailer ### -->
   </php>
   <coverage includeUncoveredFiles="false">
     <include>

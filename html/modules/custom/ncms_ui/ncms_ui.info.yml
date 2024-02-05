@@ -10,5 +10,7 @@ dependencies:
   - replicate_ui:replicate_ui
   - diff:diff
   - drupal:content_moderation
+  - entity_browser_table:entity_browser_table
+  - paragraphs:paragraphs
   - workflows:workflows
   - gho_fields:gho_fields

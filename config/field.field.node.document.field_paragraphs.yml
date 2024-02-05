@@ -61,26 +61,23 @@ settings:
       image_with_text:
         weight: 32
         enabled: false
+      infographic:
+        weight: 34
+        enabled: false
       interactive_content:
         weight: 33
+        enabled: false
+      interactive_content_2_columns:
+        weight: 36
         enabled: false
       layout:
         weight: 34
         enabled: false
-      needs_and_requirements:
-        weight: 35
-        enabled: false
       photo_gallery:
         weight: 36
         enabled: false
-      section_index:
-        weight: 37
-        enabled: false
       separator:
         weight: 38
-        enabled: false
-      signature:
-        weight: 39
         enabled: false
       story:
         weight: 40

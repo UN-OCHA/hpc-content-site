@@ -1,0 +1,8 @@
+uuid: 30ef2eab-9382-46dc-a6dd-05757ca4a1ba
+langcode: en
+status: true
+dependencies: {  }
+name: 'Content space'
+vid: content_space
+description: ''
+weight: 0

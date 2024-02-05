@@ -1,8 +1,0 @@
-uuid: 9ec321be-0357-4971-9150-7d60ac0f8cc3
-langcode: en
-status: true
-dependencies: {  }
-name: Section
-vid: section
-description: 'Sections to which articles belong.'
-weight: 0

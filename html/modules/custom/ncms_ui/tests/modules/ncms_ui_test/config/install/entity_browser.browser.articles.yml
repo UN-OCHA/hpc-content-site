@@ -1,0 +1,31 @@
+uuid: 1f01a1ab-2a5f-4387-82bc-8f40cca13cb6
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.article_selection
+  module:
+    - views
+name: articles
+label: Articles
+display: modal
+display_configuration:
+  width: '1300'
+  height: ''
+  link_text: 'Add more articles'
+  auto_open: false
+selection_display: no_display
+selection_display_configuration: {  }
+widget_selector: single
+widget_selector_configuration: {  }
+widgets:
+  3edc1b01-249d-4f9d-8e47-a3449dd4fd59:
+    id: view
+    uuid: 3edc1b01-249d-4f9d-8e47-a3449dd4fd59
+    label: 'Articles table'
+    weight: 1
+    settings:
+      submit_text: 'Add selected articles'
+      auto_select: false
+      view: article_selection
+      view_display: entity_browser_table

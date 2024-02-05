@@ -1,8 +1,0 @@
-uuid: 85921d1f-f317-4e9d-9014-a4a36e85f5ef
-langcode: en
-status: true
-dependencies: {  }
-name: 'Needs and requirements'
-vid: needs_and_requirements
-description: 'Figures (people in need, people targeted, funding requirements) for the global and regional overviews and appeals'
-weight: 0

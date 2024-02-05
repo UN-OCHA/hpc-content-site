@@ -41,6 +41,15 @@ abstract class ContentTestBase extends BrowserTestBase {
   protected $defaultTheme = 'stark';
 
   /**
+   * {@inheritdoc}
+   */
+  protected function setup(): void {
+    parent::setUp();
+
+    $this->setupContentSpaceStructure();
+  }
+
+  /**
    * Assert a table entry in content_moderation_state_field_data.
    */
   protected function assertContentModerationTableEntry(NodeInterface $entity) {

@@ -36,13 +36,23 @@ abstract class ContentTestBaseJavascript extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $defaultTheme = 'stark';
+  protected $defaultTheme = 'claro';
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setup(): void {
+    parent::setUp();
+
+    $this->setupContentSpaceStructure();
+  }
 
   /**
    * Waits for jQuery to become ready and animations to complete.
    */
   protected function waitForAjaxToFinish() {
     $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->htmlOutput(NULL);
   }
 
   /**

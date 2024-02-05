@@ -56,9 +56,9 @@
     {% block content %}
       <header class="gho-section-index__header">
         {{ content.field_image }}
-        {% if pre_title %}
         <div class="gho-section-index__heading">
-          <span class="gho-section-index__pre-title">{{ pre_title }}</span>
+          {% if pre_title %}
+            <span class="gho-section-index__pre-title">{{ pre_title }}</span>
           {% endif %}
           <h2 class="gho-section-index__title">{{- content.field_title -}}</h2>
         </div>

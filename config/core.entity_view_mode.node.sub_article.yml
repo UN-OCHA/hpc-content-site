@@ -6,5 +6,6 @@ dependencies:
     - node
 id: node.sub_article
 label: Sub-article
+description: ''
 targetEntityType: node
 cache: true

@@ -14,7 +14,6 @@ dependencies:
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_pdf
     - field.field.node.article.field_report_link
-    - field.field.node.article.field_section
     - field.field.node.article.field_short_title
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
@@ -58,14 +57,6 @@ content:
         attribute: lazy
     third_party_settings: {  }
     weight: 0
-    region: content
-  field_section:
-    type: entity_reference_label
-    label: hidden
-    settings:
-      link: false
-    third_party_settings: {  }
-    weight: 1
     region: content
   field_summary:
     type: text_default

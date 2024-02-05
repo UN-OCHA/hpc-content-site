@@ -53,16 +53,6 @@
   color: #888;
 }
 
-/* Section name */
-.gho-article-card .gho-article__pre-title {
-  margin: 1.25rem 0;
-  padding: 0 var(--gho-article-card-padding);
-  text-transform: uppercase;
-  color: var(--cd-ocha-blue);
-  font-size: var(--cd-font-size--tiny);
-  font-weight: 700;
-}
-
 /* Article title */
 .gho-article-card .gho-article-card__title {
   margin: 1.25rem 0 1.5rem;

@@ -131,7 +131,8 @@
             "oomphinc/composer-installers-extender": true,
             "mglaman/composer-drupal-lenient": true,
             "phpstan/extension-installer": true,
-            "drupal-composer/preserve-paths": true
+            "drupal-composer/preserve-paths": true,
+            "php-http/discovery": true
         }
     },
     "autoload": {

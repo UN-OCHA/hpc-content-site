@@ -35,9 +35,6 @@
     "composer/xdebug-handler": {
         "version": "1.4.5"
     },
-    "container-interop/container-interop": {
-        "version": "1.2.0"
-    },
     "cweagans/composer-patches": {
         "version": "1.7.1"
     },

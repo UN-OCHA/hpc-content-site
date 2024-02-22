@@ -1,5 +1,15 @@
+From 3cf003dbb423405425d79c5dccde327669b801bc Mon Sep 17 00:00:00 2001
+From: Lucas D Hedding <lucashedding@1463982.no-reply.drupal.org>
+Date: Tue, 26 Dec 2023 12:37:36 -0600
+Subject: [PATCH] rebase
+
+---
+ core/lib/Drupal/Component/Utility/Xss.php     | 107 +++++++++++++++---
+ .../Tests/Component/Utility/XssTest.php       |  97 +++++++++++++++-
+ 2 files changed, 190 insertions(+), 14 deletions(-)
+
 diff --git a/core/lib/Drupal/Component/Utility/Xss.php b/core/lib/Drupal/Component/Utility/Xss.php
-index 7480c3793eeba30cf8926df645d1d0f37bb9aa4b..e16f021b4d05b4e7b2ff3ffe9409227e5eb48d80 100644
+index 2c143cddf84b..b0e77605194f 100644
 --- a/core/lib/Drupal/Component/Utility/Xss.php
 +++ b/core/lib/Drupal/Component/Utility/Xss.php
 @@ -2,7 +2,7 @@
@@ -66,7 +76,7 @@ index 7480c3793eeba30cf8926df645d1d0f37bb9aa4b..e16f021b4d05b4e7b2ff3ffe9409227e
  
      while (strlen($attributes) != 0) {
        // Was the last operation successful?
-@@ -229,17 +270,16 @@ protected static function attributes($attributes) {
+@@ -229,18 +270,16 @@ protected static function attributes($attributes) {
              // starting with "javascript:"). However, for some non-URI
              // attributes performing this filtering causes valid and safe data
              // to be mangled. We prevent this by skipping protocol filtering on
@@ -74,7 +84,7 @@ index 7480c3793eeba30cf8926df645d1d0f37bb9aa4b..e16f021b4d05b4e7b2ff3ffe9409227e
 +            // such attributes. Adding check to skip angular attributes (ng).
              // @see \Drupal\Component\Utility\UrlHelper::filterBadProtocol()
              // @see http://www.w3.org/TR/html4/index/attributes.html
--            $skip_protocol_filtering = substr($attribute_name, 0, 5) === 'data-' || in_array($attribute_name, [
+-            $skip_protocol_filtering = str_starts_with($attribute_name, 'data-') || in_array($attribute_name, [
 -              'title',
 -              'alt',
 -              'rel',
@@ -82,17 +92,17 @@ index 7480c3793eeba30cf8926df645d1d0f37bb9aa4b..e16f021b4d05b4e7b2ff3ffe9409227e
 -              'class',
 -              'datetime',
 -            ]);
-+            $skip_protocol_filtering = substr($attribute_name, 0, 5) === 'data-' ||
-+              substr($attribute_name, 0, 3) === 'ng-' ||
++            $skip_protocol_filtering = str_starts_with($attribute_name, 'data-') ||
++              str_starts_with($attribute_name, 'ng-') ||
 +              in_array($attribute_name, static::$safeAttributes);
-+
+ 
 +            // There are also certain attributes that we want to make sure we
 +            // filter no matter what.
 +            $enforce_protocol_filtering = in_array($attribute_name, static::$unSafeAttributes);
- 
              $working = $mode = 1;
              $attributes = preg_replace('/^[-a-zA-Z][-a-zA-Z0-9]*/', '', $attributes);
-@@ -272,7 +312,12 @@ protected static function attributes($attributes) {
+           }
+@@ -272,7 +311,12 @@ protected static function attributes($attributes) {
            $working = 1;
            // Attribute value, a URL after href= for instance.
            if (preg_match('/^"([^"]*)"(\s+|$)/', $attributes, $match)) {
@@ -106,7 +116,7 @@ index 7480c3793eeba30cf8926df645d1d0f37bb9aa4b..e16f021b4d05b4e7b2ff3ffe9409227e
  
              if (!$skip) {
                $attributes_array[] = "$attribute_name=\"$value\"";
-@@ -282,7 +327,12 @@ protected static function attributes($attributes) {
+@@ -282,7 +326,12 @@ protected static function attributes($attributes) {
            }
  
            if (preg_match("/^'([^']*)'(\s+|$)/", $attributes, $match)) {
@@ -120,7 +130,7 @@ index 7480c3793eeba30cf8926df645d1d0f37bb9aa4b..e16f021b4d05b4e7b2ff3ffe9409227e
  
              if (!$skip) {
                $attributes_array[] = "$attribute_name='$value'";
-@@ -292,7 +342,12 @@ protected static function attributes($attributes) {
+@@ -292,7 +341,12 @@ protected static function attributes($attributes) {
            }
  
            if (preg_match("%^([^\s\"']+)(\s+|$)%", $attributes, $match)) {
@@ -134,7 +144,7 @@ index 7480c3793eeba30cf8926df645d1d0f37bb9aa4b..e16f021b4d05b4e7b2ff3ffe9409227e
  
              if (!$skip) {
                $attributes_array[] = "$attribute_name=\"$value\"";
-@@ -341,6 +396,33 @@ protected static function needsRemoval(array $html_tags, $elem) {
+@@ -341,6 +395,33 @@ protected static function needsRemoval(array $html_tags, $elem) {
      return !isset($html_tags[strtolower($elem)]);
    }
  
@@ -169,7 +179,7 @@ index 7480c3793eeba30cf8926df645d1d0f37bb9aa4b..e16f021b4d05b4e7b2ff3ffe9409227e
     * Gets the list of HTML tags allowed by Xss::filterAdmin().
     *
 diff --git a/core/tests/Drupal/Tests/Component/Utility/XssTest.php b/core/tests/Drupal/Tests/Component/Utility/XssTest.php
-index 2cf89d233e6aa1656a09ae1b1386dd5a414f2c4b..63a5a0bef36f837ebeaddad0cf3f1e48fd6667e7 100644
+index 0f242959ebee..6c024b0ac818 100644
 --- a/core/tests/Drupal/Tests/Component/Utility/XssTest.php
 +++ b/core/tests/Drupal/Tests/Component/Utility/XssTest.php
 @@ -8,10 +8,11 @@
@@ -300,3 +310,6 @@ index 2cf89d233e6aa1656a09ae1b1386dd5a414f2c4b..63a5a0bef36f837ebeaddad0cf3f1e48
      ];
    }
  
+-- 
+GitLab
+

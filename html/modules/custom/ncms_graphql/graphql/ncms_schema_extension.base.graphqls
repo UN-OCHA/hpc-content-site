@@ -23,6 +23,11 @@ type Article {
   autoVisible: Int!
 }
 
+type DocumentList {
+  count: Int
+  items: [Document]
+}
+
 type Document {
   id: Int!
   uuid: String!
@@ -38,11 +43,6 @@ type Document {
   chapters: [DocumentChapter]
   tags: [String]
   autoVisible: Int!
-}
-
-type DocumentList {
-  count: Int
-  items: [Document]
 }
 
 type HeroImage {
@@ -62,6 +62,11 @@ type Author {
   id: Int
   title: String
   image: Image
+}
+
+type ContentSpaceList {
+  count: Int
+  items: [ContentSpace]
 }
 
 type ContentSpace {

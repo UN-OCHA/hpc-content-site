@@ -4,6 +4,7 @@
             "https://www.drupal.org/project/drupal/issues/2544110": "./patches/2544110-2024-02-15.patch",
             "Issue #3392572: strnatcasecmp(): Passing null to parameter #2 in LayoutPluginManager": "https://www.drupal.org/files/issues/2023-10-25/drupal-strnatcasecmp_string_only-3392572-10.patch",
             "Issue #3413079: Cannot read properties of null (reading 'nodeType') on node.page.body": "https://www.drupal.org/files/issues/2024-01-08/3413079-9.patch",
+            "Issue #3274635: [upstream] Use CKEditor 5's native <ol type> and <ul type> UX": "https://www.drupal.org/files/issues/2024-03-20/ckeditor5_custom_patch_file.patch",
             "Issue #3413508: Admin page access denied even when access is given to child items": "./patches/3413508.patch"
         },
         "drupal/csp": {

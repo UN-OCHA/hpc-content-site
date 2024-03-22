@@ -2,9 +2,11 @@ services:
   ncms_ui.content_space.manager:
     class: Drupal\ncms_ui\ContentSpaceManager
     arguments: ['@entity_type.manager', '@current_user', '@tempstore.private', '@plugin.manager.views.join']
+  ncms_ui.entity_compare:
+    class: Drupal\ncms_ui\Entity\EntityCompare
   ncms_ui.content_base_form_alter:
     class: Drupal\ncms_ui\Form\ContentBaseFormAlter
-    arguments: ['@request_stack', '@entity_type.manager', '@ncms_ui.content_space.manager', '@messenger', '@form_builder', '@ncms_publisher.publisher.manager']
+    arguments: ['@request_stack', '@entity_type.manager', '@ncms_ui.content_space.manager', '@messenger', '@form_builder', '@ncms_publisher.publisher.manager', '@ncms_ui.entity_compare']
   ncms_ui.content_space_form_alter:
     class: Drupal\ncms_ui\Form\ContentSpaceFormAlter
     arguments: ['@ncms_ui.content_space.manager', '@messenger']

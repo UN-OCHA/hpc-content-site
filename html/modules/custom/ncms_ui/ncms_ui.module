@@ -27,6 +27,7 @@ use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 use Drupal\ncms_ui\Entity\EntityOverviewInterface;
 use Drupal\ncms_ui\Entity\Media\Author;
 use Drupal\ncms_ui\Entity\Media\Image;
+use Drupal\ncms_ui\Entity\Media\Infographic;
 use Drupal\ncms_ui\Entity\Media\MediaBase;
 use Drupal\ncms_ui\Entity\Media\Video;
 use Drupal\ncms_ui\Entity\Taxonomy\ContentSpace;
@@ -56,6 +57,8 @@ function ncms_ui_entity_bundle_info_alter(array &$bundles) {
   $bundles['media']['author']['label'] = t('Author');
   $bundles['media']['image']['class'] = Image::class;
   $bundles['media']['image']['label'] = t('Image');
+  $bundles['media']['infographic']['class'] = Infographic::class;
+  $bundles['media']['infographic']['label'] = t('Infographic');
   $bundles['media']['video']['class'] = Video::class;
   $bundles['media']['video']['label'] = t('Video');
 }

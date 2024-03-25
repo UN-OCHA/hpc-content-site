@@ -60,53 +60,90 @@ class EntityCompareTest extends UnitTestCase {
   }
 
   /**
+   * Test the hashing of entities.
+   */
+  public function testHashEntity() {
+    $entity_compare = new EntityCompare();
+    $method = self::getMethod(EntityCompare::class, 'hashEntity');
+
+    $entity_data = $this->getEntityDataArray();
+
+    // The original entity.
+    $entity_1 = $this->getEntityProphecyWithData($entity_data);
+    $hash_1 = $method->invokeArgs($entity_compare, [$entity_1->reveal()]);
+
+    // Now unset a couple of array keys, which should not affect the hash.
+    $entity_2 = $this->getEntityProphecyWithData(array_diff_key($entity_data, array_flip([
+      'vid', 'changed', 'revision_timestamp', 'revision_uid',
+    ])));
+    $hash_2 = $method->invokeArgs($entity_compare, [$entity_2->reveal()]);
+
+    // These 2 should be equal.
+    $this->assertEquals($hash_1, $hash_2);
+
+    // Now unset an array key that affects the hash.
+    $entity_3 = $this->getEntityProphecyWithData(array_diff_key($entity_data, array_flip([
+      'status',
+    ])));
+    $hash_3 = $method->invokeArgs($entity_compare, [$entity_3->reveal()]);
+
+    // These should not be equal.
+    $this->assertNotEquals($hash_2, $hash_3);
+  }
+
+  /**
    * Data provider for testHashEntity.
    */
-  public function dataProviderHashEntity() {
-    $entity_data = $this->getEntityDataArray();
+  public function dataBuildHashableEntityData() {
+    $promoted_paragraph = $this->getParagraphProphecyWithData([
+      'title' => 'Paragraph title',
+    ]);
+    $promoted_paragraph->getAllBehaviorSettings()->willReturn([
+      'promoted_behavior' => ['promoted' => TRUE],
+    ]);
+    $unpromoted_paragraph = $this->getParagraphProphecyWithData([
+      'title' => 'Paragraph title',
+    ]);
+    $unpromoted_paragraph->getAllBehaviorSettings()->willReturn([
+      'promoted_behavior' => ['promoted' => FALSE],
+    ]);
     $test_cases = [];
-    $test_cases[] = [
-      'entity' => $entity_data,
-      'paragraph' => $this->getParagraphDataArray(),
-      'hash' => 'c002bf18f397c823483592c6cf5fdce6',
+    $test_cases['promoted_paragraph'] = [
+      'entity' => $promoted_paragraph->reveal(),
+      'expected' => [
+        'title' => 'Paragraph title',
+        'promoted_behavior' => [
+          'promoted' => TRUE,
+        ],
+      ],
     ];
-    $test_cases[] = [
-      'entity' => $entity_data,
-      'paragraph' => [],
-      'hash' => '1e0c568b9750bb700e3b190d62dab5ee',
+    $test_cases['unpromoted_paragraph'] = [
+      'entity' => $unpromoted_paragraph->reveal(),
+      'expected' => [
+        'title' => 'Paragraph title',
+      ],
     ];
-    // Now unset a couple of array keys, which should not affect the hash.
-    $test_cases[] = [
-      'entity' => array_diff_key($entity_data, array_flip([
-        'vid', 'changed', 'revision_timestamp', 'revision_uid',
+    $entity_data = $this->getEntityDataArray();
+    $test_cases['unset_entity_keys'] = [
+      'entity' => $this->getEntityProphecyWithData($entity_data)->reveal(),
+      'expected' => array_diff_key($entity_data, array_flip([
+        'vid', 'changed', 'revision_timestamp', 'revision_uid', 'revision_log',
       ])),
-      'paragraph' => [],
-      'hash' => '1e0c568b9750bb700e3b190d62dab5ee',
-    ];
-    // Now unset an array key that affects the hash.
-    $test_cases[] = [
-      'entity' => array_diff_key($entity_data, array_flip([
-        'status',
-      ])),
-      'paragraph' => [],
-      'hash' => 'b75760efdf4d22a6a760e16d056199f9',
     ];
     return $test_cases;
   }
 
   /**
-   * Test the hashing of entities.
+   * Test the building of hashable entity data.
    *
-   * @dataProvider dataProviderHashEntity
+   * @dataProvider dataBuildHashableEntityData
    */
-  public function testHashEntity(array $entity_data, array $paragraph_data, $expected_hash) {
+  public function testBuildHashableEntityData(ContentEntityInterface $entity, $expected_array) {
     $entity_compare = new EntityCompare();
-    $method = self::getMethod(EntityCompare::class, 'hashEntity');
+    $method = self::getMethod(EntityCompare::class, 'buildHashableEntityData');
 
-    $entity = $this->getEntityProphecyWithData($entity_data, $paragraph_data);
-
-    $hash = $method->invokeArgs($entity_compare, [$entity->reveal()]);
-    $this->assertEquals($expected_hash, $hash);
+    $array = $method->invokeArgs($entity_compare, [$entity]);
+    $this->assertEquals($expected_array, $array);
   }
 
   /**
@@ -227,15 +264,27 @@ class EntityCompareTest extends UnitTestCase {
    * @return \Prophecy\Prophecy\ObjectProphecy
    *   The entity prohpecy.
    */
-  private function getEntityProphecyWithData(array $entity_data, array $paragraph_data) {
-    $paragraph = $this->prophesize(Paragraph::class);
-    $paragraph->toArray()->willReturn($paragraph_data);
-    $entity_reference_field_item_list = $this->prophesize(EntityReferenceFieldItemList::class);
-    $entity_reference_field_item_list->referencedEntities()->willReturn([$paragraph->reveal()]);
+  private function getEntityProphecyWithData(array $entity_data, array $paragraph_data = []) {
     $entity = $this->prophesize(ContentEntityInterface::class);
     $entity->toArray()->willReturn($entity_data);
+    $paragraph = !empty($paragraph_data) ? $this->getParagraphProphecyWithData($paragraph_data)->reveal() : NULL;
+    $entity_reference_field_item_list = $this->prophesize(EntityReferenceFieldItemList::class);
+    $entity_reference_field_item_list->referencedEntities()->willReturn(array_filter([$paragraph]));
     $entity->get('field_paragraphs')->willReturn($entity_reference_field_item_list);
     return $entity;
+  }
+
+  /**
+   * Get a paragraph prophecy with the given data.
+   *
+   * @return \Prophecy\Prophecy\ObjectProphecy
+   *   The paragraph prohpecy.
+   */
+  private function getParagraphProphecyWithData($paragraph_data) {
+    $paragraph = $this->prophesize(Paragraph::class);
+    $paragraph->toArray()->willReturn($paragraph_data);
+    $paragraph->getAllBehaviorSettings()->willReturn([]);
+    return $paragraph;
   }
 
   /**
@@ -243,8 +292,10 @@ class EntityCompareTest extends UnitTestCase {
    *
    * @param array $values
    *   An array of values to set instead of the default values.
+   * @param array $promoted
+   *   Whether the paragraph should be promoted or not.
    */
-  private function getParagraphDataArray(array $values = []) {
+  private function getParagraphDataArray(array $values = [], $promoted = FALSE) {
     return $values + [
       'id' => [['value' => '4556']],
       'uuid' => [['value' => '3005ed14-314c-4418-a5f8-f78cfa2240d2']],
@@ -256,7 +307,6 @@ class EntityCompareTest extends UnitTestCase {
       'parent_id' => [['value' => '295']],
       'parent_type' => [['value' => 'node']],
       'parent_field_name' => [['value' => 'field_paragraphs']],
-      'behavior_settings' => [['value' => "a:1:{s:17:'layout_paragraphs';a:2:{s:11:'parent_uuid';N;s:6:'region';N;}}"]],
       'default_langcode' => [['value' => '1']],
       'revision_default' => [['value' => '1']],
       'revision_translation_affected' => [['value' => TRUE]],

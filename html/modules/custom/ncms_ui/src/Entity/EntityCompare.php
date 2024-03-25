@@ -4,6 +4,7 @@ namespace Drupal\ncms_ui\Entity;
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemList;
+use Drupal\paragraphs\Entity\Paragraph;
 
 /**
  * Service class for some low-tech entity comparison.
@@ -35,8 +36,24 @@ class EntityCompare {
    *   An md5 hash.
    */
   private function hashEntity(ContentEntityInterface $entity) {
-    // First make sure that referenced entities are fully loaded.
+    $entity_data = $this->buildHashableEntityData($entity);
+    return md5(str_replace(['"', "\n"], '', json_encode($entity_data)));
+  }
+
+  /**
+   * Build an array with the entity data that will be used to generate a hash.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The entity object.
+   *
+   * @return array
+   *   An array representing the hashable part of the entity.
+   */
+  private function buildHashableEntityData(ContentEntityInterface $entity) {
     $entity_data = $entity->toArray();
+    if ($entity instanceof Paragraph) {
+      $entity_data += $entity->getAllBehaviorSettings() ?? [];
+    }
     foreach ($entity_data as $field_name => &$field) {
       if (empty($field) || strpos($field_name, 'field_') !== 0) {
         continue;
@@ -62,7 +79,7 @@ class EntityCompare {
       'path',
     ];
     self::reduceArray($entity_data, $remove_keys);
-    return md5(str_replace(['"', "\n"], '', json_encode($entity_data)));
+    return $entity_data;
   }
 
   /**

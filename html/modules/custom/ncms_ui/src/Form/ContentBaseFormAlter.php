@@ -9,7 +9,6 @@ use Drupal\Core\Ajax\MessageCommand;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
-use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -18,6 +17,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\ncms_publisher\PublisherManager;
 use Drupal\ncms_ui\ContentSpaceManager;
 use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\EntityCompare;
 use Drupal\node\NodeInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -72,6 +72,13 @@ class ContentBaseFormAlter {
   protected $publisherManager;
 
   /**
+   * The entity compare service.
+   *
+   * @var \Drupal\ncms_ui\Entity\EntityCompare
+   */
+  protected $entityCompare;
+
+  /**
    * Constructor.
    *
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
@@ -86,14 +93,18 @@ class ContentBaseFormAlter {
    *   The form builder service.
    * @param \Drupal\ncms_publisher\PublisherManager $publisher_manager
    *   The publisher manager service.
+   * @param \Drupal\ncms_ui\Entity\EntityCompare $entity_compare
+   *   The entity compare service.
    */
-  public function __construct(RequestStack $request_stack, EntityTypeManagerInterface $entity_type_manager, ContentSpaceManager $content_manager, MessengerInterface $messenger, FormBuilderInterface $form_builder, PublisherManager $publisher_manager) {
+  public function __construct(RequestStack $request_stack, EntityTypeManagerInterface $entity_type_manager, ContentSpaceManager $content_manager, MessengerInterface $messenger, FormBuilderInterface $form_builder, PublisherManager $publisher_manager, EntityCompare $entity_compare) {
     $this->requestStack = $request_stack;
     $this->entityTypeManager = $entity_type_manager;
     $this->contentSpaceManager = $content_manager;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
     $this->publisherManager = $publisher_manager;
+    $this->entityCompare = $entity_compare;
+
   }
 
   /**
@@ -230,7 +241,7 @@ class ContentBaseFormAlter {
     // Check if the entity has changes.
     /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $updated_entity */
     $updated_entity = $form_object->buildEntity($form, $form_state);
-    $entity_updated = $this->hashEntity($updated_entity) != $this->hashEntity($original_entity);
+    $entity_updated = $this->entityCompare->hasChanged($updated_entity, $original_entity);
 
     $publish_actions = [
       'publish_correction',
@@ -296,7 +307,7 @@ class ContentBaseFormAlter {
     // Check if the entity has changes.
     /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $updated_entity */
     $updated_entity = $form_object->buildEntity($form, $form_state);
-    $entity_updated = $this->hashEntity($updated_entity) != $this->hashEntity($original_entity);
+    $entity_updated = $this->entityCompare->hasChanged($updated_entity, $original_entity);
 
     /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
     $node_storage = $this->entityTypeManager->getStorage('node');
@@ -393,82 +404,6 @@ class ContentBaseFormAlter {
     }
 
     $form_state->setRedirectUrl($updated_entity->getOverviewUrl());
-  }
-
-  /**
-   * Calculate a hash for the current state of the given entity.
-   *
-   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
-   *   The entity object to calculate the hash for.
-   *
-   * @return string
-   *   An md5 hash.
-   */
-  public function hashEntity(ContentEntityInterface $entity) {
-    // First make sure that referenced entities are fully loaded.
-    $entity_data = $entity->toArray();
-    foreach ($entity_data as $field_name => &$field) {
-      if (empty($field) || strpos($field_name, 'field_') !== 0) {
-        continue;
-      }
-      foreach ($field as $delta => &$item) {
-        if (array_key_exists('target_revision_id', $item) && !array_key_exists('entity', $item)) {
-          $item['entity'] = $entity->get($field_name)->referencedEntities()[$delta];
-        }
-      }
-    }
-    $remove_keys = [
-      'vid',
-      'changed',
-      'revision_id',
-      'revision_timestamp',
-      'revision_uid',
-      'revision_translation_affected',
-      'status',
-      'comment',
-      'path',
-    ];
-    self::reduceArray($entity_data, $remove_keys);
-    return md5(str_replace(['"', "\n"], '', json_encode($entity_data)));
-  }
-
-  /**
-   * Reduce an array by removing empty items.
-   *
-   * @param array $array
-   *   The input array.
-   * @param array $remove_keys
-   *   The array with keys to remove.
-   */
-  public static function reduceArray(array &$array, array $remove_keys = []) {
-    foreach ($array as $key => &$a) {
-      if (!empty($remove_keys) && in_array($key, $remove_keys)) {
-        unset($array[$key]);
-        continue;
-      }
-      if (is_array($a)) {
-        if (empty($a)) {
-          unset($array[$key]);
-        }
-        else {
-          self::reduceArray($a, $remove_keys);
-        }
-      }
-      if (is_object($a)) {
-        if ($a instanceof ContentEntityInterface) {
-          $array[$key] = $a->toArray();
-          self::reduceArray($array[$key], $remove_keys);
-        }
-        else {
-          unset($array[$key]);
-        }
-      }
-      if (is_bool($a)) {
-        $a = $a ? 1 : 0;
-      }
-    }
-    $array = array_filter($array);
-    ksort($array);
   }
 
 }

@@ -23,8 +23,5 @@ extend type Query {
   articleTranslations(id: Int!): [Article]
 }
 extend type Query {
-  contentSpaceExport: [ContentSpace]
-}
-extend type Query {
   paragraph(id: Int!): Paragraph
 }

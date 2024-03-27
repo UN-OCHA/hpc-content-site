@@ -64,11 +64,6 @@ type Author {
   image: Image
 }
 
-type ContentSpaceList {
-  count: Int
-  items: [ContentSpace]
-}
-
 type ContentSpace {
   id: Int
   title: String

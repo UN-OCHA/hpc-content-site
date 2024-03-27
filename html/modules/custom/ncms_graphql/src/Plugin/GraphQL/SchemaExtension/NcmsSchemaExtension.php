@@ -141,12 +141,6 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
       )
     );
 
-    $registry->addFieldResolver('Query', 'contentSpaceExport',
-      $builder->produce('taxonomy_load_tree')
-        ->map('vid', $builder->fromValue('content_space'))
-        ->map('parent', $builder->fromValue(0))
-    );
-
     // Paragraph.
     $registry->addFieldResolver('Query', 'paragraph',
       $builder->compose(

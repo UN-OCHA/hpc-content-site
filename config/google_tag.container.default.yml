@@ -1,13 +1,12 @@
 uuid: 3d602961-118a-4a35-ad83-793131fb8298
 langcode: en
 status: true
-dependencies:
-  module:
-    - ctools
+dependencies: {  }
 id: default
 label: default
 weight: 0
 container_id: GTM-xxxxxx
+hostname: www.googletagmanager.com
 data_layer: dataLayer
 include_classes: false
 whitelist_classes: |-

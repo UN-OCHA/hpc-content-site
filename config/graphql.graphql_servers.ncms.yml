@@ -5,14 +5,16 @@ dependencies: {  }
 name: ncms
 label: 'HPC Content Module'
 endpoint: /ncms
-debug_flag: 3
+debug_flag: 0
 schema: ncms_schema
-caching: false
+caching: true
 batching: true
+disable_introspection: false
+query_depth: null
+query_complexity: null
 schema_configuration:
   ncms_schema:
     extensions:
       ncms_schema_extension: ncms_schema_extension
     require_access_key: 1
-    access_key: '12345'
 persisted_queries_settings: {  }

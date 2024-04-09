@@ -50,6 +50,7 @@
         "drupal/bulk_update_fields": "^2.0@alpha",
         "drupal/classy": "^1.0",
         "drupal/components": "^3.0.0",
+        "drupal/config_ignore": "^3.2",
         "drupal/config_split": "^1.7",
         "drupal/core-composer-scaffold": "^10",
         "drupal/core-dev": "^10",

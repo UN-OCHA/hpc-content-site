@@ -92,6 +92,13 @@ class DocumentExport extends DataProducerPluginBase implements ContainerFactoryP
 
     return new Deferred(function () use ($tags, $context) {
       $type = 'node';
+
+      // Add the list cache tags so that the cache entry is purged whenever a
+      // new entity of this type is saved.
+      $entity_type = $this->entityTypeManager->getDefinition($type);
+      /** @var \Drupal\Core\Entity\EntityTypeInterface $type */
+      $context->addCacheTags($entity_type->getListCacheTags());
+
       // Load the buffered entities.
       $query = $this->entityTypeManager
         ->getStorage($type)
@@ -125,13 +132,6 @@ class DocumentExport extends DataProducerPluginBase implements ContainerFactoryP
         ->loadMultiple($entity_ids) : [];
 
       if (!$entities) {
-        // If there is no entity with this id, add the list cache tags so that
-        // the cache entry is purged whenever a new entity of this type is
-        // saved.
-        $type = $this->entityTypeManager->getDefinition($type);
-        /** @var \Drupal\Core\Entity\EntityTypeInterface $type */
-        $tags = $type->getListCacheTags();
-        $context->addCacheTags($tags);
         return [];
       }
 

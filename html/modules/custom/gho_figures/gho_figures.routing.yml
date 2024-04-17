@@ -1,7 +1,0 @@
-gho_figures.import_needs_and_requirements:
-  path: '/admin/content/needs_and_requirements/import'
-  defaults:
-    _form: '\Drupal\gho_figures\Form\GhoFiguresImportNeedsAndRequirementsFiguresForm'
-    _title: 'Import needs and requirements figures'
-  requirements:
-    _permission: 'import needs and requirements figures'

@@ -53,9 +53,6 @@ display:
         roles_target_id:
           expose:
             label: Role
-        permission:
-          expose:
-            label: Permission
       use_more_text: more
   page_1:
     display_title: Page

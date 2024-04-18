@@ -3,18 +3,76 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.top_figures_small.field_dataset
     - field.field.paragraph.top_figures_small.field_figures
     - paragraphs.paragraphs_type.top_figures_small
   module:
     - custom_field
+    - field_group
+    - gho_fields
+third_party_settings:
+  field_group:
+    group_tabs:
+      children:
+        - group_figures
+        - group_source
+      label: Tabs
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        direction: horizontal
+        width_breakpoint: 640
+    group_figures:
+      children:
+        - field_figures
+      label: Figures
+      region: content
+      parent_name: group_tabs
+      weight: 5
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: open
+        description: ''
+        required_fields: true
+    group_source:
+      children:
+        - field_dataset
+      label: Source
+      region: content
+      parent_name: group_tabs
+      weight: 6
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
 id: paragraph.top_figures_small.default
 targetEntityType: paragraph
 bundle: top_figures_small
 mode: default
 content:
+  field_dataset:
+    type: gho_dataset_link
+    weight: 3
+    region: content
+    settings:
+      placeholder_url: 'https://example.com/link-to-data'
+      placeholder_title: 'Ex: Office for the Coordination of Humanitarian Affairs'
+    third_party_settings: {  }
   field_figures:
     type: custom_flex
-    weight: 0
+    weight: 1
     region: content
     settings:
       label: false
@@ -28,7 +86,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 1
+    weight: 2
     region: content
     settings:
       display_label: true

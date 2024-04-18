@@ -27,6 +27,10 @@ document_edit_form:
     component:
       css/edit-form/content_edit_form.css: {}
       css/edit-form/document_edit_form.css: {}
+paragraph_edit_form:
+  css:
+    component:
+      css/edit-form/paragraph_edit_form.css: {}
 revisions:
   css:
     component:

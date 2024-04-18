@@ -37,6 +37,7 @@ class PromoteBehavior extends ParagraphsBehaviorBase {
     $form['promoted'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Promoted'),
+      '#description' => $this->t('If this is checked, this paragraph will be marked as promoted. This allows external consumers to present this content differently.'),
       '#default_value' => $paragraph->getBehaviorSetting($this->getPluginId(), 'promoted', FALSE),
     ];
     return $form;

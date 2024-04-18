@@ -1,18 +1,10 @@
 uuid: aad0adc9-ea9e-44ae-8690-5eaaf50002d3
 langcode: en
 status: true
-dependencies:
-  module:
-    - layout_paragraphs
-    - ncms_publisher
+dependencies: {  }
 id: sub_article
 label: Sub-article
 icon_uuid: null
 icon_default: null
 description: 'A paragraph showing a sub-article.'
-behavior_plugins:
-  layout_paragraphs:
-    enabled: false
-    available_layouts: {  }
-  promoted_behavior:
-    enabled: true
+behavior_plugins: {  }

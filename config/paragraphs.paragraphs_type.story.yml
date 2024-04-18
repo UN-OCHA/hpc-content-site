@@ -1,18 +1,10 @@
 uuid: e4c10110-fb80-4288-91ec-f08bdc4b0beb
 langcode: en
 status: true
-dependencies:
-  module:
-    - layout_paragraphs
-    - ncms_publisher
+dependencies: {  }
 id: story
 label: Story
 icon_uuid: null
 icon_default: null
 description: 'A story (ex: a story from the field).'
-behavior_plugins:
-  layout_paragraphs:
-    enabled: false
-    available_layouts: {  }
-  promoted_behavior:
-    enabled: true
+behavior_plugins: {  }

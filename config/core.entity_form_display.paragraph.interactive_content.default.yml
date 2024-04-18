@@ -13,9 +13,62 @@ dependencies:
     - field.field.paragraph.interactive_content.field_type
     - paragraphs.paragraphs_type.interactive_content
   module:
+    - field_group
     - gho_fields
     - link
     - media_library
+third_party_settings:
+  field_group:
+    group_tabs:
+      children:
+        - group_interactive_content
+        - group_source
+      label: Tabs
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        direction: horizontal
+        width_breakpoint: 640
+    group_interactive_content:
+      children:
+        - field_full_width
+        - field_title
+        - field_link
+        - field_image
+        - field_embed_code
+        - field_show_interactive_content
+      label: 'Interactive content'
+      region: content
+      parent_name: group_tabs
+      weight: 12
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: open
+        description: ''
+        required_fields: true
+    group_source:
+      children:
+        - field_dataset
+      label: Source
+      region: content
+      parent_name: group_tabs
+      weight: 13
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
 id: paragraph.interactive_content.default
 targetEntityType: paragraph
 bundle: interactive_content
@@ -23,7 +76,7 @@ mode: default
 content:
   field_dataset:
     type: gho_dataset_link
-    weight: 6
+    weight: 7
     region: content
     settings:
       placeholder_url: 'Ex: https://humdata.org/dataset'
@@ -31,7 +84,7 @@ content:
     third_party_settings: {  }
   field_embed_code:
     type: gho_interactive_content
-    weight: 4
+    weight: 5
     region: content
     settings:
       rows: 5
@@ -39,21 +92,21 @@ content:
     third_party_settings: {  }
   field_full_width:
     type: boolean_checkbox
-    weight: 0
+    weight: 1
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_image:
     type: media_library_widget
-    weight: 3
+    weight: 4
     region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
   field_link:
     type: link_default
-    weight: 2
+    weight: 3
     region: content
     settings:
       placeholder_url: 'Ex: https://datawrapper.de/content-page'
@@ -61,14 +114,14 @@ content:
     third_party_settings: {  }
   field_show_interactive_content:
     type: boolean_checkbox
-    weight: 5
+    weight: 6
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_title:
     type: string_textfield
-    weight: 1
+    weight: 2
     region: content
     settings:
       size: 60
@@ -76,7 +129,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 7
+    weight: 8
     region: content
     settings:
       display_label: true

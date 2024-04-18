@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.top_figures_small.field_dataset
     - field.field.paragraph.top_figures_small.field_figures
     - paragraphs.paragraphs_type.top_figures_small
   module:
@@ -12,6 +13,13 @@ targetEntityType: paragraph
 bundle: top_figures_small
 mode: default
 content:
+  field_dataset:
+    type: gho_dataset_link
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
   field_figures:
     type: gho_figures
     label: hidden

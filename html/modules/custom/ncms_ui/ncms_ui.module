@@ -338,8 +338,30 @@ function ncms_ui_form_node_preview_form_select_alter(&$form, FormStateInterface 
  * Implements hook_form_FORM_ID_alter().
  */
 function ncms_ui_form_layout_paragraphs_component_form_alter(&$form, FormStateInterface $form_state) {
-  // Don't trigger "Required" messages when canceling the add/eddit form.
+  // Don't trigger "Required" messages when canceling the add/edit form.
   $form['actions']['cancel']['#limit_validation_errors'] = [];
+
+  // Move the behavior plugin from a stand-alone fieldset into existing field
+  // groups.
+  if (!empty($form['#fieldgroups']) && !empty($form['behavior_plugins'])) {
+    /** @var \Drupal\layout_paragraphs\Form\EditComponentForm $form_object */
+    $form_object = $form_state->getFormObject();
+    $form['behavior_plugins']['#parents'] = ['behavior_plugins'];
+    $form['behavior_plugins'] = $form_object->behaviorPluginsForm($form['behavior_plugins'], $form_state, $form);
+    unset($form['behavior_plugins']['#process']);
+
+    $group = clone end($form['#fieldgroups']);
+    $group->children = ['behavior_plugins'];
+    $group->label = t('Additional settings');
+    $group->format_settings['formatter'] = 'close';
+    $group->weight = $group->weight + 1;
+    $group->group_name = 'group_behaviors';
+    $form['#fieldgroups'][$group->group_name] = $group;
+    $form['#group_children']['behavior_plugins'] = 'group_behaviors';
+  }
+
+  // Add our library to improve the display.
+  $form['#attached']['library'][] = 'ncms_ui/paragraph_edit_form';
 }
 
 /**

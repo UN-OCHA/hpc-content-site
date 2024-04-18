@@ -1,0 +1,5 @@
+form.layout-paragraphs-component-form > .field--name-status {
+  position: absolute;
+  bottom: 0;
+  z-index: 10;
+}

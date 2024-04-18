@@ -32,9 +32,11 @@ abstract class ContentBase extends Node implements ContentSpaceAwareInterface, C
     $route_name = $route_match?->getRouteName() ?? NULL;
     $grant_routes = [
       'entity.node.standalone',
+      'entity.node.iframe',
     ];
-    if (in_array($route_name, $grant_routes) && $operation == 'view') {
-      // Always allow view operation on specific internal routes.
+    if (in_array($route_name, $grant_routes) && $operation == 'view' && (!$this->isDeleted() || $this->hasContentSpaceAccess($account))) {
+      // Always allow view operation on specific internal routes for non
+      // deleted content or if the user can access the content space.
       return $return_as_object ? AccessResult::allowed() : TRUE;
     }
 
@@ -43,7 +45,11 @@ abstract class ContentBase extends Node implements ContentSpaceAwareInterface, C
       'restore',
       'delete',
     ];
-    if (($this->isDeleted() && !in_array($operation, $delete_operations)) || !$this->isDeleted() && in_array($operation, $delete_operations)) {
+    if (in_array($operation, $delete_operations) && $this->hasContentSpaceAccess($account)) {
+      $result = AccessResult::allowedIf($this->isDeleted());
+      return $return_as_object ? $result : $result->isAllowed();
+    }
+    elseif ($this->isDeleted()) {
       return $return_as_object ? AccessResult::forbidden() : FALSE;
     }
 
@@ -259,7 +265,7 @@ abstract class ContentBase extends Node implements ContentSpaceAwareInterface, C
         'weight' => 50,
       ];
     }
-    elseif ($this->isDeleted()) {
+    if ($this->access('restore')) {
       $operations['restore'] = [
         'title' => $this->t('Restore'),
         'url' => Url::fromRoute('entity.node.restore', [
@@ -277,6 +283,8 @@ abstract class ContentBase extends Node implements ContentSpaceAwareInterface, C
         ]),
         'weight' => 50,
       ];
+    }
+    if ($this->access('delete')) {
       $operations['delete'] = [
         'title' => $this->t('Delete for ever'),
         'url' => Url::fromRoute('entity.node.delete_form', [

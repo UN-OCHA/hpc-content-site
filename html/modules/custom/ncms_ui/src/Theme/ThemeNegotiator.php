@@ -71,10 +71,14 @@ class ThemeNegotiator implements ThemeNegotiatorInterface {
       'graphql.query.ncms',
       'diff.revisions_diff',
     ];
-    if (in_array($route_match->getRouteName(), $route_names)) {
-      return FALSE;
+    if (!in_array($route_match->getRouteName(), $route_names)) {
+      return TRUE;
     }
-    return TRUE;
+    $node = $route_match->getParameter('node') ?? NULL;
+    if ($node && !$node->access()) {
+      return TRUE;
+    }
+    return FALSE;
   }
 
   /**

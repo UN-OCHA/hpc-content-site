@@ -58,6 +58,7 @@ entity.node.iframe:
     _title_callback: '\Drupal\ncms_ui\Controller\ViewController::previewTitle'
   requirements:
     _user_is_logged_in: 'TRUE'
+    _entity_access: 'node.view'
     node: \d+
   options:
     parameters:
@@ -71,6 +72,7 @@ entity.node_revision.iframe:
     _title_callback: '\Drupal\ncms_ui\Controller\ViewController::previewTitle'
   requirements:
     _user_is_logged_in: 'TRUE'
+    _entity_access: 'node_revision.view revision'
     node: \d+
     node_revision: \d+
   options:
@@ -87,6 +89,7 @@ entity.node.standalone:
     _title_callback: '\Drupal\node\Controller\NodeViewController::title'
   requirements:
     _user_is_logged_in: 'TRUE'
+    _entity_access: 'node.view'
     node: \d+
   options:
     parameters:
@@ -100,6 +103,7 @@ entity.node_revision.standalone:
     _title_callback: '\Drupal\node\Controller\NodeController::revisionPageTitle'
   requirements:
     _user_is_logged_in: 'TRUE'
+    _entity_access: 'node_revision.view revision'
     node: \d+
   options:
     parameters:
@@ -113,6 +117,7 @@ entity.node.revision.publish:
   defaults:
     _controller: '\Drupal\ncms_ui\Controller\RevisionController::publish'
   requirements:
+    _user_is_logged_in: 'TRUE'
     _entity_access: 'node_revision.publish revision'
     node: \d+
   options:
@@ -127,6 +132,7 @@ entity.node.revision.unpublish:
   defaults:
     _controller: '\Drupal\ncms_ui\Controller\RevisionController::unpublish'
   requirements:
+    _user_is_logged_in: 'TRUE'
     _entity_access: 'node_revision.unpublish revision'
     node: \d+
   options:

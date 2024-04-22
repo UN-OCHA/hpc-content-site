@@ -73,6 +73,16 @@ function ncms_paragraphs_form_layout_paragraphs_component_form_alter(&$form, For
 }
 
 /**
+ * Implements hook_preprocess_paragraph().
+ */
+function ncms_paragraphs_preprocess_paragraph(&$variables) {
+  $paragraph = $variables['paragraph'];
+  if ($paragraph instanceof NcmsParagraphInterface) {
+    $paragraph->preprocess($variables);
+  }
+}
+
+/**
  * Implements hook_preprocess_layout_paragraphs_builder().
  */
 function ncms_paragraphs_preprocess_layout_paragraphs_builder(&$variables) {
@@ -80,7 +90,7 @@ function ncms_paragraphs_preprocess_layout_paragraphs_builder(&$variables) {
 }
 
 /**
- * Implements hook_layout_paragraphs_builder_component_menu().
+ * Implements hook_preprocess_layout_paragraphs_builder_component_menu().
  */
 function ncms_paragraphs_preprocess_layout_paragraphs_builder_component_menu(&$variables) {
   /** @var \Drupal\ncms_paragraphs\ComponentMenu $component_menu */

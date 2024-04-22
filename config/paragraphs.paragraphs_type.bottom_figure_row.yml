@@ -9,7 +9,7 @@ dependencies:
 third_party_settings:
   ncms_paragraphs:
     category: content
-    disabled: 1
+    disabled: true
 id: bottom_figure_row
 label: 'Bottom figure row (deprecated)'
 icon_uuid: null

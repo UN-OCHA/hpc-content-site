@@ -8,7 +8,7 @@ dependencies:
 third_party_settings:
   ncms_paragraphs:
     category: widget
-    disabled: 0
+    disabled: false
 id: interactive_content_2_columns
 label: 'Interactive content (2 columns)'
 icon_uuid: null

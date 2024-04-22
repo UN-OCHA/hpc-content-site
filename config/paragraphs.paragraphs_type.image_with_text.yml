@@ -7,7 +7,7 @@ dependencies:
 third_party_settings:
   ncms_paragraphs:
     category: media
-    disabled: 0
+    disabled: false
 id: image_with_text
 label: 'Image with text'
 icon_uuid: null

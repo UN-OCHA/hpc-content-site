@@ -8,7 +8,7 @@ dependencies:
 third_party_settings:
   ncms_paragraphs:
     category: list
-    disabled: 0
+    disabled: false
 id: achievement_list
 label: 'Achievement list'
 icon_uuid: null

@@ -7,7 +7,7 @@ dependencies:
 third_party_settings:
   ncms_paragraphs:
     category: misc
-    disabled: 0
+    disabled: false
 id: download_button
 label: 'Download button'
 icon_uuid: null

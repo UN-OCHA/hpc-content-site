@@ -15,4 +15,9 @@ interface NcmsParagraphInterface extends ParagraphInterface {
    */
   public function entityFormAlter(&$form, FormStateInterface $form_state);
 
+  /**
+   * Preprocess the entity view.
+   */
+  public function preprocess(&$variables);
+
 }

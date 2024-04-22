@@ -8,7 +8,7 @@ dependencies:
 third_party_settings:
   ncms_paragraphs:
     category: list
-    disabled: 0
+    disabled: false
 id: facts_and_figures
 label: 'Facts and figures'
 icon_uuid: null

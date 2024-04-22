@@ -8,7 +8,7 @@ dependencies:
 third_party_settings:
   ncms_paragraphs:
     category: content
-    disabled: 0
+    disabled: false
 id: top_figures
 label: 'Top figures'
 icon_uuid: null

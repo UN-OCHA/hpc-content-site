@@ -7,7 +7,7 @@ dependencies:
 third_party_settings:
   ncms_paragraphs:
     category: media
-    disabled: 0
+    disabled: false
 id: photo_gallery
 label: 'Photo Gallery'
 icon_uuid: null

@@ -15,4 +15,9 @@ abstract class NcmsParagraphBase extends Paragraph implements NcmsParagraphInter
    */
   public function entityFormAlter(&$form, FormStateInterface $form_state) {}
 
+  /**
+   * {@inheritdoc}
+   */
+  public function preprocess(&$variables) {}
+
 }

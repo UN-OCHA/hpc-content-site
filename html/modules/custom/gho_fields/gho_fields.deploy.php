@@ -5,6 +5,7 @@
  * Post update functions for GHO Fields.
  */
 
+use Drupal\Core\Field\FieldItemInterface;
 use Drupal\paragraphs\ParagraphInterface;
 
 /**
@@ -105,13 +106,7 @@ function gho_fields_deploy_migrate_bottom_figure_rows_paragraphs_to_top_figures(
     $field_config = $entity_type_manager
       ->getStorage('field_config')
       ->load($paragraph->getEntityTypeId() . '.' . $target_bundle . '.field_figures');
-
-    $figures = $paragraph->get('field_figures');
     $max_figures = $field_config->getThirdPartySetting('field_config_cardinality', 'cardinality_config');
-    if ($figures->count() > $max_figures) {
-      continue;
-    }
-
     foreach ($paragraph->getTranslationLanguages() as $language) {
       if ($language->isDefault()) {
         continue;
@@ -119,8 +114,13 @@ function gho_fields_deploy_migrate_bottom_figure_rows_paragraphs_to_top_figures(
       if (!$paragraph->hasTranslation($language->getId())) {
         continue;
       }
-      $translated_paragraph = \Drupal::service('entity.repository')->getTranslationFromContext($paragraph, $language->getId());
+
+      $translated_paragraph = $paragraph->getTranslation($language->getId());
       $figures = $translated_paragraph->get('field_figures');
+      $figures->filter(function (FieldItemInterface $figure) use ($language) {
+        return $figure->getLangcode() == $language->getId();
+      });
+
       if (!$figures || $figures->isEmpty()) {
         $translated_paragraph->delete();
         continue;
@@ -135,6 +135,14 @@ function gho_fields_deploy_migrate_bottom_figure_rows_paragraphs_to_top_figures(
       if ($top_figures_paragraph) {
         $translated_paragraph->delete();
       }
+    }
+
+    $figures = $paragraph->get('field_figures');
+    $figures->filter(function (FieldItemInterface $figure) use ($paragraph) {
+      return $figure->getLangcode() == $paragraph->language()->getId();
+    });
+    if ($figures->count() > $max_figures) {
+      continue;
     }
 
     $top_figures_paragraph = ghi_fields_create_top_figures_from_paragraph($paragraph, $target_bundle);

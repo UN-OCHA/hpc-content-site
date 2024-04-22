@@ -6,7 +6,6 @@ dependencies:
     - field.storage.node.field_paragraphs
     - node.type.article
     - paragraphs.paragraphs_type.achievement
-    - paragraphs.paragraphs_type.article_card_list
     - paragraphs.paragraphs_type.document_articles
     - paragraphs.paragraphs_type.document_chapter
   module:
@@ -34,7 +33,6 @@ settings:
   handler_settings:
     target_bundles:
       achievement: achievement
-      article_card_list: article_card_list
       document_articles: document_articles
       document_chapter: document_chapter
     negate: 1
@@ -47,7 +45,7 @@ settings:
         enabled: false
       article_card_list:
         weight: -34
-        enabled: true
+        enabled: false
       article_list:
         weight: -33
         enabled: false

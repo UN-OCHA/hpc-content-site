@@ -41,6 +41,7 @@ gho-top-figures:
   css:
     theme:
       components/gho-top-figures/gho-top-figures.css: {}
+      components/gho-top-figures/gho-top-figures--small.css: {}
 
 gho-download-button:
   css:

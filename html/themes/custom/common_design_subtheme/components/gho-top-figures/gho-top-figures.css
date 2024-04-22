@@ -1,66 +1,74 @@
-/**
- * Base field.
- */
-.gho-top-figures {
-  margin-top: 2rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-/* The border is not on the container itself due to eventual left/right padding
- * values that can interfere. Ex: when it has the `content-width` class. */
-.gho-top-figures::before {
-  display: block;
-  padding-bottom: 2rem;
-  content: "";
-  border-top: 1px solid #d8d8d8;
-}
-/* Hide the border when the figures follow a NaR paragraph. */
-.gho-needs-and-requirements-paragraph + .gho-top-figures::before {
-  content: none;
-}
-
 .gho-top-figures .gho-figures {
-  display: flex;
-  overflow-x: hidden;
-  flex-flow: row wrap;
-  align-content: space-around;
-  justify-content: flex-start;
-  /* Compensate for the margins of the figure items. */
-  margin: -1rem 0 0 0;
   padding-bottom: 2rem;
   border-bottom: 1px solid #d8d8d8;
 }
-
-.gho-top-figures .gho-figure {
-  flex: 0 1 auto;
-  min-width: 140px;
-  margin: 1rem 0 0 0;
+.gho-top-figures:not(.gho-top-figures--small) .gho-figures .gho-figure {
+  padding: 2rem 0;
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  border-color: #d8d8d8;
 }
-[dir="ltr"] .gho-top-figures .gho-figure {
-  margin-right: 0;
-  /* The left margin combined with the overflow-x: hidden of the parent
-   * ensures the left border and padding are hidden for the first item of each
-   * row. */
-  margin-left: calc(-1rem - 1px);
-  padding: 0 2rem 0 1rem;
-  border-right: none;
-  border-left: 1px solid #d8d8d8;
+/* hide border-top when top figures immediately follows a Hero image caption */
+.gho-caption--article + .gho-top-figures .gho-figures .gho-figure:first-child {
+  border-top: 0;
 }
-[dir="rtl"] .gho-top-figures .gho-figure {
-  margin-right: calc(-1rem - 1px);
-  /* The right margin combined with the overflow-x: hidden of the parent
-   * ensures the right border and padding are hidden for the first item of each
-   * row. */
-  margin-left: 0;
-  padding: 0 1rem 0 2rem;
-  border-right: 1px solid #d8d8d8;
-  border-left: none;
-}
-
-.gho-top-figures .gho-figure__label,
-.gho-top-figures .gho-figure__value {
-  display: block;
+.gho-top-figures .gho-figures .gho-figure:last-child {
+  padding-bottom: 0;
 }
 .gho-top-figures .gho-figure__label {
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.gho-top-figures .gho-figure__label small {
+  font-size: inherit;
+  font-weight: normal;
+}
+.gho-top-figures .gho-figure__value {
+  color: #5391cb;
+  font-size: 1.625rem;
+  font-weight: bold;
+}
+
+@media (min-width: 768px) {
+  .gho-top-figures .gho-figures {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2rem;
+    border-top: 1px solid #d8d8d8;
+  }
+  /* hide border-top when NaR immediately follows a Hero image caption */
+  .gho-caption--article + .gho-top-figures .gho-figures {
+    border-top: 0;
+  }
+  .gho-top-figures:not(.gho-top-figures--small) .gho-figures .gho-figure {
+    display: inline-block;
+    flex-basis: 33.33%;
+    flex-grow: 1;
+    flex-shrink: 0;
+    padding: 0 1.5rem;
+    border-width: 0 0 0 1px;
+  }
+  [dir="ltr"] .gho-top-figures:not(.gho-top-figures--small) .gho-figures .gho-figure:first-child {
+    padding-left: 0;
+    border-width: 0;
+  }
+  [dir="rtl"] .gho-top-figures:not(.gho-top-figures--small) .gho-figures .gho-figure:first-child {
+    padding-right: 0;
+    border-width: 0 0 0 1px;
+  }
+  [dir="rtl"] .gho-top-figures:not(.gho-top-figures--small) .gho-figures .gho-figure:last-child {
+    border-width: 0;
+  }
+  .gho-top-figures .gho-figure__label {
+    font-size: 1.125rem;
+  }
+  .gho-top-figures .gho-figure__value {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gho-top-figures .gho-figure__value {
+    font-size: 2.25rem;
+  }
 }

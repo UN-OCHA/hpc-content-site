@@ -3,8 +3,13 @@ langcode: en
 status: true
 dependencies:
   module:
+    - ncms_paragraphs
     - ncms_publisher
     - paragraphs_viewmode
+third_party_settings:
+  ncms_paragraphs:
+    category: content
+    disabled: 1
 id: bottom_figure_row
 label: 'Bottom figure row (deprecated)'
 icon_uuid: null

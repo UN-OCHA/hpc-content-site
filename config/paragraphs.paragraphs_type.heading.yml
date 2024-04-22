@@ -3,13 +3,14 @@ langcode: en
 status: true
 dependencies:
   module:
-    - layout_paragraphs
+    - ncms_paragraphs
+third_party_settings:
+  ncms_paragraphs:
+    category: content
+    disabled: 0
 id: heading
 label: Heading
 icon_uuid: null
 icon_default: null
 description: 'A generic heading.'
-behavior_plugins:
-  layout_paragraphs:
-    enabled: false
-    available_layouts: {  }
+behavior_plugins: {  }

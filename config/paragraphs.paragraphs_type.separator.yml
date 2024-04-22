@@ -3,13 +3,14 @@ langcode: en
 status: true
 dependencies:
   module:
-    - layout_paragraphs
+    - ncms_paragraphs
+third_party_settings:
+  ncms_paragraphs:
+    category: misc
+    disabled: 0
 id: separator
 label: Separator
 icon_uuid: null
 icon_default: null
 description: 'A horizontal rule separating two sections of content.'
-behavior_plugins:
-  layout_paragraphs:
-    enabled: false
-    available_layouts: {  }
+behavior_plugins: {  }

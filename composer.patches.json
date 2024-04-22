@@ -25,6 +25,10 @@
         "drupal/gin": {
             "Issue #3342513: Ajax behaviour on entity edit form action buttons can break": "https://www.drupal.org/files/issues/2024-02-02/3342513-entity-edit-form-update-ajax-ids-12.patch"
         },
+        "drupal/layout_paragraphs": {
+            "Issue #3265794: Modal form actions broken if subform has validation errors or certain AJAX callbacks": "https://git.drupalcode.org/project/layout_paragraphs/-/commit/9e6ce29756e7a44d1644f77a9606d3b598f67b5d.patch",
+            "Issue #3442062: Make selector less greedy, only look at the form actions": "https://git.drupalcode.org/project/layout_paragraphs/-/merge_requests/160.patch"
+        },
         "drupal/maintenance200": {
             "Issue #3288424: Automated Drupal 10 compatibility fixes": "./patches/maintenance200-drupal-10-compatibility.patch"
         },

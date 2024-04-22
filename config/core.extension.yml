@@ -72,6 +72,7 @@ module:
   monitoring: 0
   mysql: 0
   ncms_graphql: 0
+  ncms_paragraphs: 0
   ncms_publisher: 0
   ncms_ui: 0
   node: 0

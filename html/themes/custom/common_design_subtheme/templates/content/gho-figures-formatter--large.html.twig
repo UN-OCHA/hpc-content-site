@@ -13,7 +13,6 @@
 #}
 {%
   set classes = [
-    'gho-needs-and-requirements',
     'gho-figures',
     'gho-figures--large',
   ]
@@ -21,9 +20,9 @@
 {% if figures %}
 <div{{ attributes.addClass(classes) }}>
 {% for figure in figures %}
-  <div class="gho-needs-and-requirements-figure gho-figure">
-    <div class="gho-needs-and-requirements-figure__label gho-figure__label">{{ figure.label }}</div>
-    <div class="gho-needs-and-requirements-figure__value gho-figure__value" data-footnote="{{ figure.footnote }}">{{ figure.value }}</div>
+  <div class="gho-figure">
+    <div class="gho-figure__label">{{ figure.label }}</div>
+    <div class="gho-figure__value" data-footnote="{{ figure.footnote }}">{{ figure.value }}</div>
   </div>
 {% endfor %}
 </div>

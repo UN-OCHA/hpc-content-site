@@ -6,7 +6,6 @@
  */
 
 use Drupal\Component\Serialization\Json;
-use Drupal\Component\Utility\SortArray;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Database\Query\AlterableInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
@@ -291,25 +290,6 @@ function ncms_ui_preprocess_node(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_layout_paragraphs_builder().
- */
-function ncms_ui_preprocess_layout_paragraphs_builder(&$variables) {
-  $variables['#attached']['library'][] = 'ncms_ui/layout_paragraphs';
-}
-
-/**
- * Implements hook_layout_paragraphs_builder_component_menu().
- */
-function ncms_ui_preprocess_layout_paragraphs_builder_component_menu(&$variables) {
-  $items = array_merge($variables['types']['content'], $variables['types']['layout']);
-  uasort($items, function ($a, $b) {
-    return SortArray::sortByKeyString($a, $b, 'label');
-  });
-  $variables['types']['content'] = $items;
-  $variables['types']['layout'] = [];
-}
-
-/**
  * Implements hook_preprocess_hook().
  */
 function ncms_ui_preprocess_field__paragraph__field_title__document_chapter(&$variables) {
@@ -332,36 +312,6 @@ function ncms_ui_form_node_preview_form_select_alter(&$form, FormStateInterface 
   // Disable the view mode selection on the node previews. All we want to see
   // is the full page preview.
   $form['#access'] = FALSE;
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function ncms_ui_form_layout_paragraphs_component_form_alter(&$form, FormStateInterface $form_state) {
-  // Don't trigger "Required" messages when canceling the add/edit form.
-  $form['actions']['cancel']['#limit_validation_errors'] = [];
-
-  // Move the behavior plugin from a stand-alone fieldset into existing field
-  // groups.
-  if (!empty($form['#fieldgroups']) && !empty($form['behavior_plugins'])) {
-    /** @var \Drupal\layout_paragraphs\Form\EditComponentForm $form_object */
-    $form_object = $form_state->getFormObject();
-    $form['behavior_plugins']['#parents'] = ['behavior_plugins'];
-    $form['behavior_plugins'] = $form_object->behaviorPluginsForm($form['behavior_plugins'], $form_state, $form);
-    unset($form['behavior_plugins']['#process']);
-
-    $group = clone end($form['#fieldgroups']);
-    $group->children = ['behavior_plugins'];
-    $group->label = t('Additional settings');
-    $group->format_settings['formatter'] = 'close';
-    $group->weight = $group->weight + 1;
-    $group->group_name = 'group_behaviors';
-    $form['#fieldgroups'][$group->group_name] = $group;
-    $form['#group_children']['behavior_plugins'] = 'group_behaviors';
-  }
-
-  // Add our library to improve the display.
-  $form['#attached']['library'][] = 'ncms_ui/paragraph_edit_form';
 }
 
 /**

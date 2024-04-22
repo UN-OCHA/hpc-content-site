@@ -1,7 +1,13 @@
 uuid: e4c10110-fb80-4288-91ec-f08bdc4b0beb
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - ncms_paragraphs
+third_party_settings:
+  ncms_paragraphs:
+    category: embed
+    disabled: false
 id: story
 label: Story
 icon_uuid: null

@@ -5,12 +5,21 @@ dependencies:
   config:
     - field.storage.paragraph.field_full_width
     - paragraphs.paragraphs_type.interactive_content
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: paragraph.interactive_content.field_full_width
 field_name: field_full_width
 entity_type: paragraph
 bundle: interactive_content
 label: 'Display at full width?'
-description: ''
+description: 'If checked, the interactive content will be shown at full-width. Otherwise it will be restricted to same width as the surrounding text content.'
 required: false
 translatable: true
 default_value:

@@ -169,8 +169,12 @@ function ghi_fields_create_top_figures_from_paragraph(ParagraphInterface $paragr
     'parent_type' => $paragraph->get('parent_type')->value,
     'parent_field_name' => $paragraph->get('parent_field_name')->value,
     'field_figures' => $paragraph->get('field_figures')->getValue(),
+    'field_dataset' => $paragraph->get('field_dataset')->getValue(),
   ]);
   $top_figures_paragraph->setBehaviorSettings('promoted_behavior', $paragraph->getAllBehaviorSettings()['promoted_behavior'] ?? []);
+  $top_figures_paragraph->setBehaviorSettings('ncms_paragraphs', [
+    'replaces' => $paragraph->uuid(),
+  ]);
   $top_figures_paragraph->setSyncing(TRUE);
   $top_figures_paragraph->save();
 

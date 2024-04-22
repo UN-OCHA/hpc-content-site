@@ -3,7 +3,12 @@ langcode: en
 status: true
 dependencies:
   module:
+    - ncms_paragraphs
     - ncms_publisher
+third_party_settings:
+  ncms_paragraphs:
+    category: content
+    disabled: 0
 id: top_figures_small
 label: 'Top figures (small)'
 icon_uuid: null

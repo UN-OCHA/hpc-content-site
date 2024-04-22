@@ -4,6 +4,11 @@ status: true
 dependencies:
   module:
     - layout_paragraphs
+    - ncms_paragraphs
+third_party_settings:
+  ncms_paragraphs:
+    category: widget
+    disabled: 0
 id: interactive_content_2_columns
 label: 'Interactive content (2 columns)'
 icon_uuid: null

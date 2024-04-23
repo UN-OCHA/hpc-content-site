@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ncms_publisher\Plugin\paragraphs\Behavior;
+namespace Drupal\ncms_paragraphs\Plugin\paragraphs\Behavior;
 
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;

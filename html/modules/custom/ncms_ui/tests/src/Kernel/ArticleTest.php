@@ -6,7 +6,7 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\ncms_ui\Entity\Content\Article;
 use Drupal\ncms_ui\Entity\Content\ContentBase;
 use Drupal\ncms_ui\Entity\ContentVersionInterface;
-use Drupal\Tests\content_moderation\Traits\ContentModerationTestTrait;
+use Drupal\Tests\ncms_ui\Traits\ContentTestTrait;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\Tests\user\Traits\UserCreationTrait;
 use Drupal\workflows\Entity\Workflow;
@@ -18,9 +18,9 @@ use Drupal\workflows\Entity\Workflow;
  */
 class ArticleTest extends KernelTestBase {
 
-  use ContentModerationTestTrait;
   use ContentTypeCreationTrait;
   use UserCreationTrait;
+  use ContentTestTrait;
 
   /**
    * {@inheritdoc}
@@ -30,8 +30,11 @@ class ArticleTest extends KernelTestBase {
     'field',
     'user',
     'node',
+    'taxonomy',
     'text',
     'views',
+    'replicate',
+    'replicate_ui',
     'workflows',
     'content_moderation',
     'ncms_publisher',
@@ -50,11 +53,14 @@ class ArticleTest extends KernelTestBase {
     $this->installEntitySchema('content_moderation_state');
     $this->installEntitySchema('user');
     $this->installEntitySchema('node');
+    $this->installEntitySchema('taxonomy_term');
     $this->installEntitySchema('workflow');
+    $this->installConfig(['replicate_ui']);
     $this->installConfig([
       'field',
       'system',
       'node',
+      'taxonomy',
       'content_moderation',
       'ncms_ui',
     ]);
@@ -63,7 +69,8 @@ class ArticleTest extends KernelTestBase {
       'type' => 'article',
     ]);
     $workflow = $this->createArticleWorkflow();
-    $this->addEntityTypeAndBundleToWorkflow($workflow, 'node', 'article');
+    $workflow->getTypePlugin()->addEntityTypeAndBundle('node', 'article');
+    $workflow->save();
   }
 
   /**
@@ -77,14 +84,49 @@ class ArticleTest extends KernelTestBase {
   }
 
   /**
+   * Test the access method.
+   */
+  public function testAccess() {
+    $this->createVocabulary([
+      'vid' => 'content_space',
+    ]);
+    $this->setupContentSpaceStructure();
+
+    $content_space = $this->createContentSpace();
+    $user = $this->setUpCurrentUser([
+      'field_content_spaces' => [['target_id' => $content_space->id()]],
+    ], [], TRUE);
+    /** @var \Drupal\ncms_ui\Entity\Content\Article $article */
+    $article = $this->createArticleInContentSpace('Article in content space', $content_space->id());
+    $this->assertInstanceOf(Article::class, $article);
+    $this->assertEquals($content_space->id(), $article->getContentSpace()->id());
+    $this->assertEquals(TRUE, $article->hasContentSpaceAccess($user));
+    $this->assertTrue($article->access('update'));
+    $this->assertTrue($article->access('publish revision'));
+    $this->assertFalse($article->access('restore'));
+
+    $article->setDeleted();
+    $article->setNewRevision(TRUE);
+    $article->save();
+    $this->assertTrue($article->access('restore'));
+
+    $user = $this->setUpCurrentUser([], [], TRUE);
+    $this->assertFalse($article->access('delete'));
+  }
+
+  /**
    * Test the moderation states.
    */
   public function testModerationStates() {
     $article = Article::create([
       'title' => 'Article title',
     ]);
+    $this->assertTrue($article->isNew());
+    $this->assertFalse($article->isDeleted());
+    $this->assertNull($article->getVersionId());
     $article->save();
     $this->assertFalse($article->isNew());
+    $this->assertEquals(1, $article->getVersionId());
 
     $article->setUnpublished();
     $article->setNewRevision(TRUE);
@@ -133,39 +175,38 @@ class ArticleTest extends KernelTestBase {
    * Test the entity operations.
    */
   public function testEntityOperations() {
-    $article = Article::create([
-      'title' => 'Article title',
+    $this->createVocabulary([
+      'vid' => 'content_space',
     ]);
-    $article->setPublished();
-    $article->setNewRevision(TRUE);
-    $article->save();
+    $this->setupContentSpaceStructure();
 
-    // Setting current user.
-    $this->setUpCurrentUser(['uid' => 1], [
-      'administer nodes',
-    ]);
+    $content_space = $this->createContentSpace();
+    $user = $this->setUpCurrentUser([
+      'field_content_spaces' => [['target_id' => $content_space->id()]],
+    ], [], TRUE);
+    /** @var \Drupal\ncms_ui\Entity\Content\Article $article */
+    $article = $this->createArticleInContentSpace('Article in content space', $content_space->id());
+    $this->assertInstanceOf(Article::class, $article);
+    $this->assertEquals(TRUE, $article->hasContentSpaceAccess($user));
+
     $operations = $article->getEntityOperations();
     $this->assertIsArray($operations);
-
     $this->assertArrayHasKey('versions', $operations);
     $this->assertArrayHasKey('soft_delete', $operations);
-    $this->assertArrayHasKey('restore', $operations);
-    $this->assertArrayHasKey('delete', $operations);
+    $this->assertArrayNotHasKey('restore', $operations);
+    $this->assertArrayNotHasKey('delete', $operations);
 
     $article->setDeleted();
     $article->setNewRevision(TRUE);
     $article->save();
+    $this->assertEquals(TRUE, $article->isDeleted());
 
     $operations = $article->getEntityOperations();
     $this->assertIsArray($operations);
-
     $this->assertArrayNotHasKey('versions', $operations);
     $this->assertArrayNotHasKey('soft_delete', $operations);
-    // @todo These 2 operations should actually be available at this point.
-    // This test misses the setup of content spaces to fully test this.
-    $this->assertArrayNotHasKey('restore', $operations);
-    $this->assertArrayNotHasKey('delete', $operations);
-
+    $this->assertArrayHasKey('restore', $operations);
+    $this->assertArrayHasKey('delete', $operations);
   }
 
   /**

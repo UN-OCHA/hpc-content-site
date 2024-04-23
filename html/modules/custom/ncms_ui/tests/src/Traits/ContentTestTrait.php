@@ -36,7 +36,7 @@ trait ContentTestTrait {
 
     $handler_settings = [
       'target_bundles' => [
-        'team' => 'content_space',
+        'content_space' => 'content_space',
       ],
     ];
     $this->createEntityReferenceField('node', 'article', 'field_content_space', 'Content space', 'taxonomy_term', 'default', $handler_settings);
@@ -49,7 +49,7 @@ trait ContentTestTrait {
 
     $handler_settings = [
       'target_bundles' => [
-        'team' => 'content_space',
+        'content_space' => 'content_space',
       ],
     ];
     $this->createEntityReferenceField('user', 'user', 'field_content_spaces', 'Content spaces', 'taxonomy_term', 'default', $handler_settings, FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);

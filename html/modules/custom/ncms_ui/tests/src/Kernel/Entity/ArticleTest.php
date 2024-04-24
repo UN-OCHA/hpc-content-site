@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\ncms_ui\Kernel;
+namespace Drupal\Tests\ncms_ui\Kernel\Entity;
 
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\ncms_ui\Entity\Content\Article;
@@ -9,7 +9,6 @@ use Drupal\ncms_ui\Entity\ContentVersionInterface;
 use Drupal\Tests\ncms_ui\Traits\ContentTestTrait;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\Tests\user\Traits\UserCreationTrait;
-use Drupal\workflows\Entity\Workflow;
 
 /**
  * Tests the article entity.
@@ -81,6 +80,14 @@ class ArticleTest extends KernelTestBase {
       'title' => 'Article title',
     ]);
     $this->assertEquals('/admin/content', $article->getOverviewUrl()->toString());
+  }
+
+  /**
+   * Test the bundle label.
+   */
+  public function testGetBundleLabel() {
+    $article = Article::create();
+    $this->assertEquals('article', $article->getBundleLabel());
   }
 
   /**
@@ -207,97 +214,6 @@ class ArticleTest extends KernelTestBase {
     $this->assertArrayNotHasKey('soft_delete', $operations);
     $this->assertArrayHasKey('restore', $operations);
     $this->assertArrayHasKey('delete', $operations);
-  }
-
-  /**
-   * Creates the article workflow.
-   *
-   * @return \Drupal\workflows\Entity\Workflow
-   *   The editorial workflow entity.
-   */
-  protected function createArticleWorkflow() {
-    $workflow = Workflow::create([
-      'type' => 'content_moderation',
-      'id' => 'article_workflow',
-      'label' => 'Publishing (with draft and soft delete)',
-      'type_settings' => [
-        'states' => [
-          'trash' => [
-            'label' => 'Archived',
-            'weight' => 5,
-            'published' => FALSE,
-            'default_revision' => TRUE,
-          ],
-          'draft' => [
-            'label' => 'Draft',
-            'published' => FALSE,
-            'default_revision' => FALSE,
-            'weight' => -2,
-          ],
-          'published' => [
-            'label' => 'Published',
-            'published' => TRUE,
-            'default_revision' => TRUE,
-            'weight' => 0,
-          ],
-        ],
-        'transitions' => [
-          'create_new_draft' => [
-            'label' => 'Create New Draft',
-            'to' => 'draft',
-            'weight' => 0,
-            'from' => [
-              'draft',
-            ],
-          ],
-          'delete' => [
-            'label' => 'Archive',
-            'from' => ['draft', 'published'],
-            'to' => 'trash',
-            'weight' => 2,
-          ],
-          'publish' => [
-            'label' => 'Publish',
-            'to' => 'published',
-            'weight' => 1,
-            'from' => [
-              'draft',
-            ],
-          ],
-          'restore_draft' => [
-            'label' => 'Restore to draft',
-            'to' => 'draft',
-            'weight' => 1,
-            'from' => [
-              'trash',
-            ],
-          ],
-          'restore_publish' => [
-            'label' => 'Restore and Publish',
-            'to' => 'published',
-            'weight' => 1,
-            'from' => [
-              'trash',
-            ],
-          ],
-
-          'save_draft_leave_current_published' => [
-            'label' => 'Create draft (leave current version published)',
-            'from' => ['published'],
-            'to' => 'draft',
-            'weight' => 3,
-          ],
-          'update' => [
-            'label' => 'Update',
-            'from' => ['published'],
-            'to' => 'published',
-            'weight' => 4,
-          ],
-        ],
-      ],
-    ]);
-    $workflow->save();
-    return $workflow;
   }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\ncms_ui\Kernel;
+namespace Drupal\Tests\ncms_ui\Kernel\Entity;
 
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\ncms_ui\Entity\Content\Document;

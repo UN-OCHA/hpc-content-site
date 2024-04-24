@@ -24,6 +24,7 @@ use Drupal\ncms_ui\Entity\Content\Document;
 use Drupal\ncms_ui\Entity\Content\Story;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 use Drupal\ncms_ui\Entity\EntityOverviewInterface;
+use Drupal\ncms_ui\Entity\IframeDisplayContentInterface;
 use Drupal\ncms_ui\Entity\Media\Author;
 use Drupal\ncms_ui\Entity\Media\Image;
 use Drupal\ncms_ui\Entity\Media\Infographic;
@@ -550,6 +551,9 @@ function ncms_ui_link_alter(&$variables) {
     $node_storage = \Drupal::entityTypeManager()->getStorage('node');
     /** @var \Drupal\node\NodeInterface $node */
     $node = $node_storage->load($route_params['node']);
+    if (!$node instanceof IframeDisplayContentInterface) {
+      return;
+    }
     $node_revision = !empty($route_params['node_revision']) ? $node_storage->loadRevision($route_params['node_revision']) : NULL;
 
     $title = t('Preview: @title', ['@title' => $variables['text']]);

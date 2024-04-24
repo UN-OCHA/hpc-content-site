@@ -9,20 +9,24 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
+use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 use Drupal\ncms_ui\Entity\ContentVersionInterface;
 use Drupal\ncms_ui\Entity\EntityOverviewInterface;
+use Drupal\ncms_ui\Entity\IframeDisplayContentInterface;
 use Drupal\ncms_ui\Traits\ContentSpaceEntityTrait;
+use Drupal\ncms_ui\Traits\IframeDisplayContentTrait;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 
 /**
  * Bundle class for organization nodes.
  */
-abstract class ContentBase extends Node implements ContentSpaceAwareInterface, ContentVersionInterface, EntityOverviewInterface {
+abstract class ContentBase extends Node implements ContentInterface, ContentSpaceAwareInterface, ContentVersionInterface, EntityOverviewInterface, IframeDisplayContentInterface {
 
   use StringTranslationTrait;
   use ContentSpaceEntityTrait;
+  use IframeDisplayContentTrait;
 
   /**
    * {@inheritdoc}
@@ -69,12 +73,16 @@ abstract class ContentBase extends Node implements ContentSpaceAwareInterface, C
   }
 
   /**
-   * Get the URL for the overview backend listing of this content type.
-   *
-   * @return \Drupal\Core\Url
-   *   A url object.
+   * {@inheritdoc}
    */
   abstract public function getOverviewUrl();
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getBundleLabel() {
+    return $this->type->entity->label();
+  }
 
   /**
    * {@inheritdoc}
@@ -93,7 +101,7 @@ abstract class ContentBase extends Node implements ContentSpaceAwareInterface, C
   }
 
   /**
-   * Mark this entity as deleted.
+   * {@inheritdoc}
    */
   public function setDeleted() {
     parent::setUnpublished();
@@ -104,7 +112,7 @@ abstract class ContentBase extends Node implements ContentSpaceAwareInterface, C
   }
 
   /**
-   * See if this entity is deleted.
+   * {@inheritdoc}
    */
   public function isDeleted() {
     if ($this->isNew()) {

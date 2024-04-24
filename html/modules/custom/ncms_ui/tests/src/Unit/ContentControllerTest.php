@@ -17,7 +17,7 @@ use Prophecy\Argument;
 class ContentControllerTest extends UnitTestCase {
 
   /**
-   * The media controller.
+   * The content controller.
    *
    * @var \Drupal\ncms_ui\Controller\ContentController
    */

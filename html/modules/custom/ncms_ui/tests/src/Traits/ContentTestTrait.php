@@ -12,6 +12,7 @@ use Drupal\Tests\field\Traits\EntityReferenceFieldCreationTrait;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\Tests\paragraphs\FunctionalJavascript\ParagraphsTestBaseTrait;
 use Drupal\Tests\taxonomy\Traits\TaxonomyTestTrait;
+use Drupal\workflows\Entity\Workflow;
 
 /**
  * Common helper trait for functional and webdriver tests.
@@ -185,6 +186,97 @@ trait ContentTestTrait {
     /** @var \Drupal\ncms_ui\ContentSpaceManager $content_manager */
     $content_manager = $this->container->get('ncms_ui.content_space.manager');
     return $content_manager->getCurrentContentSpace();
+  }
+
+  /**
+   * Creates the article workflow.
+   *
+   * @return \Drupal\workflows\Entity\Workflow
+   *   The editorial workflow entity.
+   */
+  protected function createArticleWorkflow() {
+    $workflow = Workflow::create([
+      'type' => 'content_moderation',
+      'id' => 'article_workflow',
+      'label' => 'Publishing (with draft and soft delete)',
+      'type_settings' => [
+        'states' => [
+          'trash' => [
+            'label' => 'Archived',
+            'weight' => 5,
+            'published' => FALSE,
+            'default_revision' => TRUE,
+          ],
+          'draft' => [
+            'label' => 'Draft',
+            'published' => FALSE,
+            'default_revision' => FALSE,
+            'weight' => -2,
+          ],
+          'published' => [
+            'label' => 'Published',
+            'published' => TRUE,
+            'default_revision' => TRUE,
+            'weight' => 0,
+          ],
+        ],
+        'transitions' => [
+          'create_new_draft' => [
+            'label' => 'Create New Draft',
+            'to' => 'draft',
+            'weight' => 0,
+            'from' => [
+              'draft',
+            ],
+          ],
+          'delete' => [
+            'label' => 'Archive',
+            'from' => ['draft', 'published'],
+            'to' => 'trash',
+            'weight' => 2,
+          ],
+          'publish' => [
+            'label' => 'Publish',
+            'to' => 'published',
+            'weight' => 1,
+            'from' => [
+              'draft',
+            ],
+          ],
+          'restore_draft' => [
+            'label' => 'Restore to draft',
+            'to' => 'draft',
+            'weight' => 1,
+            'from' => [
+              'trash',
+            ],
+          ],
+          'restore_publish' => [
+            'label' => 'Restore and Publish',
+            'to' => 'published',
+            'weight' => 1,
+            'from' => [
+              'trash',
+            ],
+          ],
+
+          'save_draft_leave_current_published' => [
+            'label' => 'Create draft (leave current version published)',
+            'from' => ['published'],
+            'to' => 'draft',
+            'weight' => 3,
+          ],
+          'update' => [
+            'label' => 'Update',
+            'from' => ['published'],
+            'to' => 'published',
+            'weight' => 4,
+          ],
+        ],
+      ],
+    ]);
+    $workflow->save();
+    return $workflow;
   }
 
 }

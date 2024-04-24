@@ -1,9 +1,10 @@
 <?php
 
-namespace Drupal\Tests\ncms_ui\Kernel;
+namespace Drupal\Tests\ncms_ui\Kernel\Entity;
 
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\ncms_ui\Entity\Content\Story;
+use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 
 /**
  * Tests the story entity.
@@ -12,6 +13,8 @@ use Drupal\ncms_ui\Entity\Content\Story;
  */
 class StoryTest extends KernelTestBase {
 
+  use ContentTypeCreationTrait;
+
   /**
    * {@inheritdoc}
    */
@@ -19,6 +22,8 @@ class StoryTest extends KernelTestBase {
     'field',
     'user',
     'node',
+    'text',
+    'system',
     'views',
     'ncms_publisher',
     'ncms_ui',
@@ -31,7 +36,7 @@ class StoryTest extends KernelTestBase {
     parent::setUp();
 
     $this->installEntitySchema('node');
-    $this->installConfig('field');
+    $this->installConfig(['field', 'system', 'node']);
   }
 
   /**
@@ -42,6 +47,18 @@ class StoryTest extends KernelTestBase {
       'title' => 'Story title',
     ]);
     $this->assertEquals('/admin/content/stories', $story->getOverviewUrl()->toString());
+  }
+
+  /**
+   * Test the bundle label.
+   */
+  public function testGetBundleLabel() {
+    $this->createContentType([
+      'type' => 'story',
+      'name' => 'Story',
+    ]);
+    $story = Story::create();
+    $this->assertEquals('Story', $story->getBundleLabel());
   }
 
 }

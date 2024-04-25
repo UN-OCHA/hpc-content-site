@@ -1,0 +1,47 @@
+display:
+  default:
+    display_title: الرئيسي
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Apply
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          expose:
+            items_per_page_options_all_label: '- All -'
+            offset_label: Offset
+          tags:
+            previous: '‹ previous'
+            next: 'next ›'
+            first: '« الأولى'
+            last: 'last »'
+      fields:
+        sensor_status:
+          label: Status
+        sensor_message:
+          label: 'رسالة الحالة'
+        timestamp:
+          label: 'التوقيت الزمني'
+      title: السجل
+      arguments:
+        sensor_name:
+          exception:
+            title: All
+  detail_page_log:
+    display_options:
+      fields:
+        timestamp:
+          label: 'التوقيت الزمني'
+        sensor_status:
+          label: Status
+        sensor_message:
+          label: 'رسالة الحالة'
+  page_1:
+    display_title: Page
+    display_options:
+      menu:
+        title: السجل

@@ -1,0 +1,20 @@
+uuid: 4291601c-7d3c-40b5-961a-1fccff343178
+langcode: en
+status: false
+dependencies:
+  module:
+    - graphql
+id: core_requirements_graphql
+label: 'Module graphql'
+description: 'Requirements of the graphql module'
+category: Requirements
+plugin_id: core_requirements
+result_class: null
+value_label: null
+value_type: no_value
+caching_time: 3600
+settings:
+  module: graphql
+  exclude_keys: {  }
+thresholds:
+  type: none

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f27d49a18c45b36b1b0efc31701439b",
+    "content-hash": "26e93d38d1c5ff6c15abae3101f2879d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3512,17 +3512,17 @@
         },
         {
             "name": "drupal/custom_field",
-            "version": "3.0.0-rc1",
+            "version": "3.0.0-rc2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/custom_field.git",
-                "reference": "3.0.0-rc1"
+                "reference": "3.0.0-rc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/custom_field-3.0.0-rc1.zip",
-                "reference": "3.0.0-rc1",
-                "shasum": "3aec02cf915a3177eb6d107f4eaebd1a4840282e"
+                "url": "https://ftp.drupal.org/files/projects/custom_field-3.0.0-rc2.zip",
+                "reference": "3.0.0-rc2",
+                "shasum": "0a7e27a71a20a9483bb92845625f0827bce9f354"
             },
             "require": {
                 "drupal/core": "^10.2"
@@ -3534,8 +3534,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "3.0.0-rc1",
-                    "datestamp": "1712345809",
+                    "version": "3.0.0-rc2",
+                    "datestamp": "1713762104",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."

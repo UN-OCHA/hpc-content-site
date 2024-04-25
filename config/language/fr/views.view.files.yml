@@ -26,6 +26,7 @@ display:
           label: 'Changed date'
         count:
           label: 'Used in'
+          format_plural_string: !!binary QGNvdW50IGVtcGxhY2VtZW50A0Bjb3VudCBlbXBsYWNlbWVudHM=
       pager:
         options:
           tags:

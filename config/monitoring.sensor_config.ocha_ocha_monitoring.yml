@@ -1,0 +1,20 @@
+uuid: b305322f-51b2-4a6c-8048-8d28d23154a4
+langcode: en
+status: true
+dependencies:
+  module:
+    - ocha_monitoring
+_core:
+  default_config_hash: fplx4RTa4gTlM0oV1neUt8ZQdsknNCuQ-sWA8m0E7lI
+id: ocha_ocha_monitoring
+label: 'OCHA Monitoring'
+description: 'OCHA Monitoring'
+category: OCHA
+plugin_id: ocha_ocha_monitoring
+result_class: null
+value_label: Version
+value_type: string
+caching_time: 86400
+settings: {  }
+thresholds:
+  type: none

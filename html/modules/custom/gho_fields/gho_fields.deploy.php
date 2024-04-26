@@ -198,6 +198,8 @@ function ghi_fields_create_top_figures_from_paragraph(ParagraphInterface $paragr
     $item['target_revision_id'] = $top_figures_paragraph->getRevisionId();
   }
   $parent->get($parent_field_name)->setValue($values);
+  $parent->setNewRevision(FALSE);
+  $parent->setSyncing(TRUE);
   $parent->save();
 
   return $top_figures_paragraph;

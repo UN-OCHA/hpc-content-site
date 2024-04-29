@@ -2,7 +2,7 @@
 
 namespace Drupal\ncms_ui\Plugin\views\field;
 
-use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Drupal\views\ResultRow;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -47,7 +47,7 @@ class ContentStatusField extends FieldPluginBase {
    * {@inheritdoc}
    */
   public function render(ResultRow $row) {
-    $build = $row->_entity instanceof ContentBase ? $row->_entity->getContentStatusLabel() : NULL;
+    $build = $row->_entity instanceof ContentInterface ? $row->_entity->getContentStatusLabel() : NULL;
     return $build;
   }
 

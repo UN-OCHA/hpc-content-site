@@ -55,7 +55,6 @@ class ViewControllerTest extends UnitTestCase {
     \Drupal::setContainer($container);
 
     $this->controller = ViewController::create($container);
-    // $this->controller->setStringTranslation($string_translation->reveal());
   }
 
   /**

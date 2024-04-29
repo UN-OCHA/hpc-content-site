@@ -10,10 +10,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\ncms_ui\Entity\ContentInterface;
-use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 use Drupal\ncms_ui\Entity\ContentVersionInterface;
-use Drupal\ncms_ui\Entity\EntityOverviewInterface;
-use Drupal\ncms_ui\Entity\IframeDisplayContentInterface;
 use Drupal\ncms_ui\Traits\ContentSpaceEntityTrait;
 use Drupal\ncms_ui\Traits\IframeDisplayContentTrait;
 use Drupal\node\Entity\Node;
@@ -22,7 +19,7 @@ use Drupal\node\NodeInterface;
 /**
  * Bundle class for organization nodes.
  */
-abstract class ContentBase extends Node implements ContentInterface, ContentSpaceAwareInterface, ContentVersionInterface, EntityOverviewInterface, IframeDisplayContentInterface {
+abstract class ContentBase extends Node implements ContentInterface {
 
   use StringTranslationTrait;
   use ContentSpaceEntityTrait;
@@ -89,7 +86,7 @@ abstract class ContentBase extends Node implements ContentInterface, ContentSpac
    */
   public function setPublished() {
     parent::setPublished();
-    $this->moderation_state->value = 'published';
+    $this->setModerationState('published');
   }
 
   /**
@@ -97,7 +94,7 @@ abstract class ContentBase extends Node implements ContentInterface, ContentSpac
    */
   public function setUnpublished() {
     parent::setUnpublished();
-    $this->moderation_state->value = 'draft';
+    $this->setModerationState('draft');
   }
 
   /**
@@ -108,7 +105,7 @@ abstract class ContentBase extends Node implements ContentInterface, ContentSpac
     $this->isDefaultRevision(TRUE);
     $this->setNewRevision(TRUE);
     $this->setRevisionTranslationAffectedEnforced(TRUE);
-    $this->moderation_state->value = 'trash';
+    $this->setModerationState('trash');
   }
 
   /**
@@ -118,7 +115,7 @@ abstract class ContentBase extends Node implements ContentInterface, ContentSpac
     if ($this->isNew()) {
       return FALSE;
     }
-    return $this->getLatestRevision()->moderation_state->value == 'trash';
+    return $this->getLatestRevision()->isModerationState('trash');
   }
 
   /**
@@ -130,6 +127,27 @@ abstract class ContentBase extends Node implements ContentInterface, ContentSpac
     $revision_ids = $node_storage->revisionIds($this);
     $version_key = array_search($this->getRevisionId(), $revision_ids);
     return $version_key !== FALSE ? $version_key + 1 : NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getModerationState() {
+    return $this->moderation_state->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setModerationState($state) {
+    $this->moderation_state->value = $state;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isModerationState($state) {
+    return $this->getModerationState() == $state;
   }
 
   /**
@@ -193,10 +211,7 @@ abstract class ContentBase extends Node implements ContentInterface, ContentSpac
   }
 
   /**
-   * Get the latest revision.
-   *
-   * @return \Drupal\ncms_ui\Entity\Content\ContentBase|null
-   *   The latest revision if available.
+   * {@inheritdoc}
    */
   public function getLatestRevision() {
     /** @var \Drupal\Node\NodeStorageInterface $node_storage */
@@ -230,18 +245,18 @@ abstract class ContentBase extends Node implements ContentInterface, ContentSpac
     /** @var \Drupal\Node\NodeStorageInterface $node_storage */
     $node_storage = $this->entityTypeManager()->getStorage('node');
     $revision_ids = array_reverse($node_storage->revisionIds($this));
+    if (count($revision_ids) < 2) {
+      return NULL;
+    }
     array_shift($revision_ids);
     $previous_revision_id = array_shift($revision_ids);
 
     /** @var \Drupal\node\NodeInterface[] $revisions */
-    return $node_storage->loadRevision($previous_revision_id);
+    return $previous_revision_id ? $node_storage->loadRevision($previous_revision_id) : NULL;
   }
 
   /**
-   * Retrieve entity operations specific to our workflows.
-   *
-   * @return array
-   *   An array of operation links.
+   * {@inheritdoc}
    */
   public function getEntityOperations() {
     $operations = [];

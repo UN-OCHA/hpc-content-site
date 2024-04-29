@@ -7,7 +7,7 @@ use Drupal\node\NodeInterface;
 /**
  * Defines an interface for entities with content spaces.
  */
-interface ContentInterface extends NodeInterface {
+interface ContentInterface extends NodeInterface, ContentSpaceAwareInterface, ContentVersionInterface, EntityOverviewInterface, IframeDisplayContentInterface {
 
   /**
    * Get the URL for the overview backend listing of this content type.
@@ -34,5 +34,13 @@ interface ContentInterface extends NodeInterface {
    * See if this entity is deleted.
    */
   public function isDeleted();
+
+  /**
+   * Retrieve entity operations specific to our workflows.
+   *
+   * @return array
+   *   An array of operation links.
+   */
+  public function getEntityOperations();
 
 }

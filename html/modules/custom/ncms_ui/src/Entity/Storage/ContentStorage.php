@@ -2,11 +2,12 @@
 
 namespace Drupal\ncms_ui\Entity\Storage;
 
+use Drupal\content_moderation\Entity\ContentModerationState;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\node\NodeInterface;
 use Drupal\node\NodeStorage;
 
@@ -21,7 +22,7 @@ class ContentStorage extends NodeStorage {
   /**
    * Update the status for an entity revision.
    *
-   * @param \Drupal\ncms_ui\Entity\Content\ContentBase $entity
+   * @param \Drupal\ncms_ui\Entity\ContentInterface $entity
    *   The entity object.
    * @param int $status
    *   The status of the revision.
@@ -31,11 +32,10 @@ class ContentStorage extends NodeStorage {
    * @return int
    *   The revision id.
    */
-  public function updateRevisionStatus(ContentBase $entity, $status, $update_moderation_state = TRUE) {
+  public function updateRevisionStatus(ContentInterface $entity, $status, $update_moderation_state = TRUE) {
     if ($entity->isNewRevision()) {
       throw new EntityStorageException("Can't update new revision {$entity->id()}");
     }
-
     $result = $this->database
       ->update($this->revisionDataTable)
       ->fields((array) [
@@ -94,12 +94,16 @@ class ContentStorage extends NodeStorage {
   protected function doPostSave(EntityInterface $entity, $update) {
     parent::doPostSave($entity, $update);
 
-    if (!$entity instanceof ContentBase || $entity->isDeleted()) {
+    if (!$entity instanceof ContentInterface || $entity->isDeleted()) {
       return;
     }
 
-    // For entities of type ContentBase, we want to make sure that there is
-    // always a meaningful default revision.
+    if ($entity->isModerationState('trash')) {
+      return;
+    }
+
+    // For ContentInterface entities, we want to make sure that there is always
+    // a meaningful default revision.
     $last_published = $entity->getLastPublishedRevision();
     $latest_revision = $entity->getLatestRevision();
     if ($last_published && $last_published->getRevisionId() != $entity->getRevisionId() && !$last_published->isDefaultRevision()) {
@@ -127,7 +131,7 @@ class ContentStorage extends NodeStorage {
     // translations sometimes doesn't save correctly when using the
     // "Publish as correction" or "Publish as revision" submit buttons on the
     // node edit form.
-    if ($entity instanceof ContentBase && $entity->getTranslationLanguages(FALSE)) {
+    if ($entity instanceof ContentInterface && $entity->getTranslationLanguages(FALSE)) {
       // Always return TRUE if the content has translations. The reason is that
       // hasFieldValueChanged() doesn't fetch the previous revisions field
       // values and thus falsely reports the fields to not have changed,
@@ -137,6 +141,62 @@ class ContentStorage extends NodeStorage {
       return TRUE;
     }
     return parent::hasFieldValueChanged($field_definition, $entity, $original);
+  }
+
+  /**
+   * Safely delete the latest revision.
+   *
+   * This will take care of setting new default revisions, and also update
+   * related content moderation entities.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   The node for which the latest revision should be deleted.
+   */
+  public function deleteLatestRevision($node) {
+    if (!$node instanceof ContentInterface) {
+      return;
+    }
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $entity */
+    $entity = $node->getLatestRevision();
+
+    // First we need to set the previous revision to be the default one.
+    $new_default_revision = $entity->getPreviousRevision();
+    if (!$new_default_revision) {
+      // If there is no previous revision, there is no sense in going further.
+      return;
+    }
+
+    // Get the last published revision only if the previous revision is not in
+    // the trash bin.
+    $last_published = !$new_default_revision->isModerationState('trash') ? $entity->getLastPublishedRevision() : NULL;
+
+    // Set default revision based on whether there is a published revision or
+    // not.
+    $new_default_revision->isDefaultRevision(empty($last_published));
+    $new_default_revision->setNewRevision(FALSE);
+    $new_default_revision->setSyncing(TRUE);
+    $new_default_revision->save();
+
+    if ($last_published) {
+      $last_published->isDefaultRevision(TRUE);
+      $last_published->setNewRevision(FALSE);
+      $last_published->setSyncing(TRUE);
+      $last_published->save();
+    }
+
+    // Update the content moderation state.
+    $content_moderation_state = ContentModerationState::loadFromModeratedEntity($new_default_revision);
+    if ($content_moderation_state) {
+      $content_moderation_state->isDefaultRevision(TRUE);
+      $content_moderation_state->setNewRevision(FALSE);
+      $content_moderation_state->setSyncing(TRUE);
+      ContentModerationState::updateOrCreateFromEntity($content_moderation_state);
+    }
+
+    // And then finally delete the latest revision, which is the one that
+    // marked the whole entity as being deleted.
+    $this->deleteRevision($entity->getRevisionId());
+    $this->resetCache([$node->id()]);
   }
 
 }

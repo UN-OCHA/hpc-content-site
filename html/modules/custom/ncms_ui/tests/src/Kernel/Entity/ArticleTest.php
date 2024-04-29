@@ -138,7 +138,7 @@ class ArticleTest extends KernelTestBase {
     $article->setUnpublished();
     $article->setNewRevision(TRUE);
     $article->save();
-    $this->assertEquals('draft', $article->moderation_state->value);
+    $this->assertEquals('draft', $article->getModerationState());
     $this->assertEquals('Draft', $article->getModerationStateLabel());
     $this->assertEquals(ContentBase::CONTENT_STATUS_DRAFT, $article->getContentStatus());
     $this->assertEquals('Draft', $article->getContentStatusLabel());
@@ -147,7 +147,7 @@ class ArticleTest extends KernelTestBase {
     $article->setPublished();
     $article->setNewRevision(TRUE);
     $article->save();
-    $this->assertEquals('published', $article->moderation_state->value);
+    $this->assertEquals('published', $article->getModerationState());
     $this->assertEquals('Published', $article->getModerationStateLabel());
     $this->assertEquals(ContentBase::CONTENT_STATUS_PUBLISHED, $article->getContentStatus());
     $this->assertEquals('Published', $article->getContentStatusLabel());
@@ -156,7 +156,7 @@ class ArticleTest extends KernelTestBase {
     $article->setUnpublished();
     $article->setNewRevision(TRUE);
     $article->save();
-    $this->assertEquals('draft', $article->moderation_state->value);
+    $this->assertEquals('draft', $article->getModerationState());
     $this->assertEquals('Draft', $article->getModerationStateLabel());
     $this->assertEquals(ContentBase::CONTENT_STATUS_PUBLISHED_WITH_DRAFT, $article->getContentStatus());
     $this->assertEquals('Published with newer draft', $article->getContentStatusLabel());
@@ -165,7 +165,7 @@ class ArticleTest extends KernelTestBase {
     $article->setDeleted();
     $article->setNewRevision(TRUE);
     $article->save();
-    $this->assertEquals('trash', $article->moderation_state->value);
+    $this->assertEquals('trash', $article->getModerationState());
     $this->assertEquals('Archived', $article->getModerationStateLabel());
     $this->assertEquals(ContentBase::CONTENT_STATUS_DELETED, $article->getContentStatus());
     $this->assertEquals('Deleted', $article->getContentStatusLabel());
@@ -173,7 +173,7 @@ class ArticleTest extends KernelTestBase {
 
     $revision = $article->getPreviousRevision();
     $this->assertInstanceOf(ContentVersionInterface::class, $revision);
-    $this->assertEquals('draft', $revision->moderation_state->value);
+    $this->assertEquals('draft', $revision->getModerationState());
 
     $this->assertEquals(TRUE, $article->isDeleted());
   }

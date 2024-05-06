@@ -1,7 +1,8 @@
 {
     "patches": {
         "drupal/core": {
-            "https://www.drupal.org/project/drupal/issues/2544110": "./patches/2544110-2024-02-15.patch",
+            "Issue #2544110: XSS attribute filtering is inconsistent and strips valid attributes": "./patches/2544110-2024-02-15.patch",
+            "Issue #2329253: Allow the ChangedItem to skip updating the entity's changed timestamp when synchronizing (f.e. when migrating)": "https://www.drupal.org/files/issues/2024-04-18/2329253-127-10.2.5.patch",
             "Issue #3392572: strnatcasecmp(): Passing null to parameter #2 in LayoutPluginManager": "https://www.drupal.org/files/issues/2023-10-25/drupal-strnatcasecmp_string_only-3392572-10.patch",
             "Issue #3413079: Cannot read properties of null (reading 'nodeType') on node.page.body": "https://www.drupal.org/files/issues/2024-01-08/3413079-9.patch",
             "Issue #3274635: [upstream] Use CKEditor 5's native <ol type> and <ul type> UX": "https://www.drupal.org/files/issues/2024-03-20/ckeditor5_custom_patch_file.patch",
@@ -36,7 +37,7 @@
             "Issue #3345123: entityViewModeAlter throws an exception in php 8.2": "https://www.drupal.org/files/issues/2023-03-01/paragraphs_viewmode-remove-context-parameter-3345123-2.patch"
         },
         "drupal/user_expire": {
-            "Allow the notification email to be customised": "https://git.drupalcode.org/project/user_expire/-/merge_requests/5.patch",
+            "Issue #2836514: Disable or customize expiration email": "https://git.drupalcode.org/project/user_expire/-/merge_requests/5.patch",
             "Issue #2855005: Reset expiration when user is reactivated": "https://www.drupal.org/files/issues/2022-11-22/2855005-13.patch"
         }
     }

@@ -11,8 +11,7 @@
             "Simplify log format": "./patches/csp-log-format.patch"
         },
         "drupal/diff": {
-            "Issue #3183380: Add 'compare revisions' button on top for long form.": "https://www.drupal.org/files/issues/2023-05-10/3183380-add-compare-revisions-9.patch",
-            "Issue #3058111: Allow user to choose 'Visual inline' display view mode": "https://www.drupal.org/files/issues/2019-08-29/3058111-add-default-view-mode-setting-3.patch"
+            "Issue #3183380: Add 'compare revisions' button on top for long form.": "https://www.drupal.org/files/issues/2024-04-25/3183380-add-compare-revisions-8.x-1.3.patch"
         },
         "drupal/entity_browser": {
             "Issue #3056057: Position the main form actions to the bottom of IFrame": "https://www.drupal.org/files/issues/2019-05-23/position-main-form-actins-on-bottom-3056057-10.patch"

@@ -50,7 +50,7 @@ class ContentSpaceFormAlter {
   public function alterForm(&$form, FormStateInterface $form_state) {
     /** @var \Drupal\Core\Entity\ContentEntityForm $form_object */
     $form_object = $form_state->getFormObject();
-    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $entity */
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $entity */
     $entity = $form_object->getEntity();
     if (!$entity instanceof ContentSpaceAwareInterface) {
       return;

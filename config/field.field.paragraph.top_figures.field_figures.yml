@@ -1,0 +1,78 @@
+uuid: ef933458-7a8c-4ae0-8ff9-8060b5c446de
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_figures
+    - paragraphs.paragraphs_type.top_figures
+  module:
+    - custom_field
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '3'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: paragraph.top_figures.field_figures
+field_name: field_figures
+entity_type: paragraph
+bundle: top_figures
+label: 'Top figures'
+description: 'You can add up to 3 top figures to this paragraph'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  field_settings:
+    label:
+      type: text
+      weight: 0
+      check_empty: false
+      widget_settings:
+        label: Label
+        settings:
+          description: ''
+          description_display: after
+          size: 30
+          placeholder: 'Ex: Population'
+          maxlength: 255
+          maxlength_js: false
+          prefix: ''
+          suffix: ''
+          required: false
+    value:
+      type: text
+      weight: 0
+      check_empty: false
+      widget_settings:
+        label: Value
+        settings:
+          description: ''
+          description_display: after
+          size: 30
+          placeholder: 'Ex: 10.4 million'
+          maxlength: 255
+          maxlength_js: false
+          prefix: ''
+          suffix: ''
+          required: false
+    footnote:
+      type: text
+      weight: 0
+      check_empty: false
+      widget_settings:
+        label: Footnote
+        settings:
+          description: ''
+          description_display: after
+          size: 30
+          placeholder: ''
+          maxlength: 255
+          maxlength_js: false
+          prefix: ''
+          suffix: ''
+          required: false
+field_type: custom

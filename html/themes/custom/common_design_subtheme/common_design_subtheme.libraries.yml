@@ -37,6 +37,12 @@ gho-bottom-figure-row:
     theme:
       components/gho-bottom-figure-row/gho-bottom-figure-row.css: {}
 
+gho-top-figures:
+  css:
+    theme:
+      components/gho-top-figures/gho-top-figures.css: {}
+      components/gho-top-figures/gho-top-figures--small.css: {}
+
 gho-download-button:
   css:
     theme:

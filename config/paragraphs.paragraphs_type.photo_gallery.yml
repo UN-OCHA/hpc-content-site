@@ -3,16 +3,14 @@ langcode: en
 status: true
 dependencies:
   module:
-    - layout_paragraphs
-    - ncms_publisher
+    - ncms_paragraphs
+third_party_settings:
+  ncms_paragraphs:
+    category: media
+    disabled: false
 id: photo_gallery
 label: 'Photo Gallery'
 icon_uuid: null
 icon_default: null
 description: 'A photo gallery with up to 4 images.'
-behavior_plugins:
-  layout_paragraphs:
-    enabled: false
-    available_layouts: {  }
-  promoted_behavior:
-    enabled: true
+behavior_plugins: {  }

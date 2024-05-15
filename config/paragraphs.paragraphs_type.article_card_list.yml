@@ -3,16 +3,17 @@ langcode: en
 status: true
 dependencies:
   module:
-    - layout_paragraphs
+    - ncms_paragraphs
     - ncms_publisher
+third_party_settings:
+  ncms_paragraphs:
+    category: content
+    disabled: true
 id: article_card_list
 label: 'Article Card List'
 icon_uuid: null
 icon_default: null
 description: 'A list of Articles rendered as cards with thumbnails.'
 behavior_plugins:
-  layout_paragraphs:
-    enabled: false
-    available_layouts: {  }
   promoted_behavior:
     enabled: true

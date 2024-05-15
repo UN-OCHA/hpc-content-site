@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\ncms_ui\FunctionalJavascript;
 
-use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\node\NodeInterface;
 
 /**
@@ -26,8 +26,8 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
 
     // Create node for content space 1.
     $node_1_1 = $this->createArticleInContentSpace('Article 1 for Content space 1', $content_space_1->id(), NodeInterface::NOT_PUBLISHED);
-    $this->assertInstanceOf(ContentBase::class, $node_1_1);
-    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $node_1_1 */
+    $this->assertInstanceOf(ContentInterface::class, $node_1_1);
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $node_1_1 */
 
     // Define some urls.
     $edit_url = '/node/' . $node_1_1->id() . '/edit';
@@ -113,8 +113,8 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
 
     // Create node for content space 1.
     $node_1_1 = $this->createArticleInContentSpace('Article 1 for Content space 1', $content_space_1->id());
-    $this->assertInstanceOf(ContentBase::class, $node_1_1);
-    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $node_1_1 */
+    $this->assertInstanceOf(ContentInterface::class, $node_1_1);
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $node_1_1 */
 
     // Define some urls.
     $edit_url = '/node/' . $node_1_1->id() . '/edit';
@@ -182,8 +182,8 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
 
     // Create node for content space 1.
     $node_1_1 = $this->createArticleInContentSpace('Article 1 for Content space 1', $content_space_1->id());
-    $this->assertInstanceOf(ContentBase::class, $node_1_1);
-    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $node_1_1 */
+    $this->assertInstanceOf(ContentInterface::class, $node_1_1);
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $node_1_1 */
 
     // Define some urls.
     $edit_url = '/node/' . $node_1_1->id() . '/edit';
@@ -251,8 +251,8 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
 
     // Create node for content space 1.
     $node_1_1 = $this->createArticleInContentSpace('Article 1 for Content space 1', $content_space_1->id());
-    $this->assertInstanceOf(ContentBase::class, $node_1_1);
-    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $node_1_1 */
+    $this->assertInstanceOf(ContentInterface::class, $node_1_1);
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $node_1_1 */
 
     // Define some urls.
     $edit_url = '/node/' . $node_1_1->id() . '/edit';

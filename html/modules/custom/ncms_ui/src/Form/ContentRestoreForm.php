@@ -2,14 +2,13 @@
 
 namespace Drupal\ncms_ui\Form;
 
-use Drupal\content_moderation\Entity\ContentModerationState;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\ncms_ui\Ajax\ReloadPageCommand;
-use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\ContentInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -112,43 +111,19 @@ class ContentRestoreForm extends ConfirmFormBase {
       // confirmation.
       return;
     }
-    $entity = $this->getNodeFromRouteMatch()->getLatestRevision();
-    $last_published = $entity->getLastPublishedRevision();
 
     // Confirmed, so we can delete the revision where the node got marked as
-    // deleted. First we need to set the previous revision to be the default
-    // one.
-    $new_default_revision = $entity->getPreviousRevision();
-    $new_default_revision->isDefaultRevision(empty($last_published));
-    $new_default_revision->setNewRevision(FALSE);
-    $new_default_revision->setSyncing(TRUE);
-    $new_default_revision->save();
+    // deleted.
+    $entity = $this->getNodeFromRouteMatch();
 
-    if ($last_published) {
-      $last_published->isDefaultRevision(TRUE);
-      $last_published->setNewRevision(FALSE);
-      $last_published->setSyncing(TRUE);
-      $last_published->save();
-    }
-
-    // Do the same for the content moderation entity.
-    $content_moderation_state = ContentModerationState::loadFromModeratedEntity($new_default_revision);
-    if ($content_moderation_state) {
-      $content_moderation_state->isDefaultRevision(TRUE);
-      $content_moderation_state->setNewRevision(FALSE);
-      $content_moderation_state->setSyncing(TRUE);
-      ContentModerationState::updateOrCreateFromEntity($content_moderation_state);
-    }
-
-    // And then finally delete the latest revision, which is the one that
-    // marked the whole entity as being deleted.
     /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
     $node_storage = $this->entityTypeManager->getStorage('node');
-    $node_storage->deleteRevision($entity->getRevisionId());
+    $node_storage->deleteLatestRevision($entity);
 
     // And inform the user.
-    $this->messenger()->addStatus($this->t('@type %title has been restored from the trash bin.', [
+    $this->messenger()->addStatus($this->t('@type <a href="@url">%title</a> has been restored from the trash bin.', [
       '@type' => $entity->type->entity->label(),
+      '@url' => $entity->toUrl('edit-form')->toString(),
       '%title' => $entity->label(),
     ]));
 
@@ -158,12 +133,12 @@ class ContentRestoreForm extends ConfirmFormBase {
   /**
    * Get the current entity from the route match.
    *
-   * @return \Drupal\ncms_ui\Entity\Content\ContentBase|null
+   * @return \Drupal\ncms_ui\Entity\ContentInterface|null
    *   The entity or NULL.
    */
   private function getNodeFromRouteMatch() {
     $entity = $this->getRouteMatch()->getParameter('node');
-    return $entity && $entity instanceof ContentBase ? $entity : NULL;
+    return $entity && $entity instanceof ContentInterface ? $entity : NULL;
   }
 
 }

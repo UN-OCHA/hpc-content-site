@@ -5,7 +5,7 @@ namespace Drupal\ncms_ui\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\ncms_ui\Entity\Storage\ContentStorage;
 use Drupal\node\NodeInterface;
 
@@ -19,13 +19,13 @@ class RevisionController extends ControllerBase implements ContainerInjectionInt
   /**
    * Publish a node revision.
    *
-   * @param \Drupal\ncms_ui\Entity\Content\ContentBase $node_revision
+   * @param \Drupal\ncms_ui\Entity\ContentInterface $node_revision
    *   The node revision.
    *
    * @return array
    *   An array suitable for \Drupal\Core\Render\RendererInterface::render().
    */
-  public function publish(ContentBase $node_revision) {
+  public function publish(ContentInterface $node_revision) {
     if ($this->setRevisionStatus($node_revision, NodeInterface::PUBLISHED)) {
       $this->messenger()->addStatus($this->t('Version #@version has been published', [
         '@version' => $node_revision->getVersionId(),
@@ -43,13 +43,13 @@ class RevisionController extends ControllerBase implements ContainerInjectionInt
   /**
    * Publish a node revision.
    *
-   * @param \Drupal\ncms_ui\Entity\Content\ContentBase $node_revision
+   * @param \Drupal\ncms_ui\Entity\ContentInterface $node_revision
    *   The node revision.
    *
    * @return array
    *   An array suitable for \Drupal\Core\Render\RendererInterface::render().
    */
-  public function unpublish(ContentBase $node_revision) {
+  public function unpublish(ContentInterface $node_revision) {
     if ($this->setRevisionStatus($node_revision, NodeInterface::NOT_PUBLISHED)) {
       $this->messenger()->addStatus($this->t('Version #@version has been unpublished', [
         '@version' => $node_revision->getVersionId(),

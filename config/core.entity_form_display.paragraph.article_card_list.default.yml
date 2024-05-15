@@ -3,34 +3,92 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.articles
     - field.field.paragraph.article_card_list.field_articles
     - field.field.paragraph.article_card_list.field_emphasize_first_row
     - paragraphs.paragraphs_type.article_card_list
+  module:
+    - field_group
+    - ncms_ui
+third_party_settings:
+  field_group:
+    group_tabs:
+      children:
+        - group_articles
+        - group_settings
+      label: Tabs
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        direction: horizontal
+        width_breakpoint: 640
+    group_articles:
+      children:
+        - field_articles
+      label: Articles
+      region: content
+      parent_name: group_tabs
+      weight: 6
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: open
+        description: ''
+        required_fields: true
+    group_settings:
+      children:
+        - field_emphasize_first_row
+      label: Settings
+      region: content
+      parent_name: group_tabs
+      weight: 7
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
 id: paragraph.article_card_list.default
 targetEntityType: paragraph
 bundle: article_card_list
 mode: default
 content:
   field_articles:
-    type: entity_reference_autocomplete
-    weight: 1
+    type: entity_reference_browser_table_widget_ncms
+    weight: 2
     region: content
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+      open: false
+      entity_browser: articles
+      field_widget_display: label
+      field_widget_edit: '1'
+      field_widget_remove: '1'
+      selection_mode: selection_append
+      field_widget_replace: 0
+      additional_fields:
+        options:
+          status: 0
+      field_widget_display_settings: {  }
     third_party_settings: {  }
   field_emphasize_first_row:
     type: boolean_checkbox
-    weight: 0
+    weight: 2
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 2
+    weight: 3
     region: content
     settings:
       display_label: true

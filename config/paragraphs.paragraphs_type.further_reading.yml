@@ -3,16 +3,17 @@ langcode: en
 status: true
 dependencies:
   module:
-    - layout_paragraphs
+    - ncms_paragraphs
     - ncms_publisher
+third_party_settings:
+  ncms_paragraphs:
+    category: misc
+    disabled: false
 id: further_reading
 label: 'Further reading'
 icon_uuid: null
 icon_default: null
 description: 'A list of links to futher information related to the topics of the article.'
 behavior_plugins:
-  layout_paragraphs:
-    enabled: false
-    available_layouts: {  }
   promoted_behavior:
     enabled: true

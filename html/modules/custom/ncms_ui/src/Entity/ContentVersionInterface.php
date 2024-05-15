@@ -26,6 +26,33 @@ interface ContentVersionInterface extends NodeInterface {
   public function getVersionId();
 
   /**
+   * Get the moderation state of the entity.
+   *
+   * @return string
+   *   The moderation state string identifier.
+   */
+  public function getModerationState();
+
+  /**
+   * Set the moderation state of the entity.
+   *
+   * @param string $state
+   *   The moderation state string identifier.
+   */
+  public function setModerationState($state);
+
+  /**
+   * Check if the moderation state of the entity has the given state.
+   *
+   * @param string $state
+   *   The moderation state string identifier.
+   *
+   * @return bool
+   *   TRUE if the moderation state is equal to the given one, FALSE otherwise.
+   */
+  public function isModerationState($state);
+
+  /**
    * Get the current moderation state label.
    *
    * @return string
@@ -72,5 +99,13 @@ interface ContentVersionInterface extends NodeInterface {
    *   The previous revision if available.
    */
   public function getPreviousRevision();
+
+  /**
+   * Get the latest revision.
+   *
+   * @return \Drupal\ncms_ui\Entity\Content\ContentInterface|null
+   *   The latest revision if available.
+   */
+  public function getLatestRevision();
 
 }

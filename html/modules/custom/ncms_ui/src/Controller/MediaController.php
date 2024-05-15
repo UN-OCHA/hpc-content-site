@@ -8,6 +8,7 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\ncms_ui\ContentSpaceManager;
+use Drupal\ncms_ui\Traits\ContentSpaceManagerTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -16,13 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class MediaController extends ControllerBase implements ContainerInjectionInterface {
 
   use StringTranslationTrait;
-
-  /**
-   * The ncms content manager service.
-   *
-   * @var \Drupal\ncms_ui\ContentSpaceManager
-   */
-  protected $contentSpaceManager;
+  use ContentSpaceManagerTrait;
 
   /**
    * Creates a MediaController object.
@@ -54,7 +49,7 @@ class MediaController extends ControllerBase implements ContainerInjectionInterf
    *   will be TRUE.
    */
   public function mediaCreateAccess(AccountInterface $account) {
-    return $this->contentSpaceManager->userIsInValidContentSpace() ? AccessResult::allowed() : AccessResult::neutral();
+    return $this->getContentSpaceManager()->userIsInValidContentSpace($account) ? AccessResult::allowed() : AccessResult::neutral();
   }
 
 }

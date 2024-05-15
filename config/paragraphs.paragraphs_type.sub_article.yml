@@ -3,16 +3,14 @@ langcode: en
 status: true
 dependencies:
   module:
-    - layout_paragraphs
-    - ncms_publisher
+    - ncms_paragraphs
+third_party_settings:
+  ncms_paragraphs:
+    category: embed
+    disabled: false
 id: sub_article
 label: Sub-article
 icon_uuid: null
 icon_default: null
 description: 'A paragraph showing a sub-article.'
-behavior_plugins:
-  layout_paragraphs:
-    enabled: false
-    available_layouts: {  }
-  promoted_behavior:
-    enabled: true
+behavior_plugins: {  }

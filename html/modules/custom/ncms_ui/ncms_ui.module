@@ -6,7 +6,6 @@
  */
 
 use Drupal\Component\Serialization\Json;
-use Drupal\Component\Utility\SortArray;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Database\Query\AlterableInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
@@ -23,8 +22,10 @@ use Drupal\ncms_ui\Entity\Content\Article;
 use Drupal\ncms_ui\Entity\Content\ContentBase;
 use Drupal\ncms_ui\Entity\Content\Document;
 use Drupal\ncms_ui\Entity\Content\Story;
+use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 use Drupal\ncms_ui\Entity\EntityOverviewInterface;
+use Drupal\ncms_ui\Entity\IframeDisplayContentInterface;
 use Drupal\ncms_ui\Entity\Media\Author;
 use Drupal\ncms_ui\Entity\Media\Image;
 use Drupal\ncms_ui\Entity\Media\Infographic;
@@ -89,7 +90,7 @@ function ncms_ui_entity_base_field_info_alter(&$fields, $entity_type) {
  */
 function ncms_ui_entity_operation(EntityInterface $entity) {
   $operations = [];
-  if ($entity instanceof ContentBase) {
+  if ($entity instanceof ContentInterface) {
     $operations = $entity->getEntityOperations();
   }
   return $operations;
@@ -247,7 +248,7 @@ function ncms_ui_preprocess_html(&$variables) {
     $variables['page']['content']['system_main']['#attached']['library'][] = 'ncms_ui/diff';
   }
 
-  if ($route_name == 'entity.node.edit_form' && $route_match->getParameter('node') instanceof ContentBase) {
+  if ($route_name == 'entity.node.edit_form' && $route_match->getParameter('node') instanceof ContentInterface) {
     $variables['attributes']['class'][] = 'node-content-base';
   }
   /** @var \Drupal\node\Entity\NodeType $node_type */
@@ -291,25 +292,6 @@ function ncms_ui_preprocess_node(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_layout_paragraphs_builder().
- */
-function ncms_ui_preprocess_layout_paragraphs_builder(&$variables) {
-  $variables['#attached']['library'][] = 'ncms_ui/layout_paragraphs';
-}
-
-/**
- * Implements hook_layout_paragraphs_builder_component_menu().
- */
-function ncms_ui_preprocess_layout_paragraphs_builder_component_menu(&$variables) {
-  $items = array_merge($variables['types']['content'], $variables['types']['layout']);
-  uasort($items, function ($a, $b) {
-    return SortArray::sortByKeyString($a, $b, 'label');
-  });
-  $variables['types']['content'] = $items;
-  $variables['types']['layout'] = [];
-}
-
-/**
  * Implements hook_preprocess_hook().
  */
 function ncms_ui_preprocess_field__paragraph__field_title__document_chapter(&$variables) {
@@ -337,14 +319,6 @@ function ncms_ui_form_node_preview_form_select_alter(&$form, FormStateInterface 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function ncms_ui_form_layout_paragraphs_component_form_alter(&$form, FormStateInterface $form_state) {
-  // Don't trigger "Required" messages when canceling the add/eddit form.
-  $form['actions']['cancel']['#limit_validation_errors'] = [];
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
 function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   /** @var \Drupal\node\NodeInterface $node */
   $node = $form_state->getFormObject()->getEntity();
@@ -366,7 +340,7 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
     $form['#attached']['library'][] = 'ncms_ui/article_edit_form';
   }
 
-  if ($node instanceof ContentBase) {
+  if ($node instanceof ContentInterface) {
     /** @var \Drupal\ncms_ui\Form\ContentBaseFormAlter $content_base_form_alter */
     $content_base_form_alter = \Drupal::service('ncms_ui.content_base_form_alter');
     $content_base_form_alter->alterForm($form, $form_state);
@@ -578,16 +552,19 @@ function ncms_ui_link_alter(&$variables) {
     $node_storage = \Drupal::entityTypeManager()->getStorage('node');
     /** @var \Drupal\node\NodeInterface $node */
     $node = $node_storage->load($route_params['node']);
+    if (!$node instanceof IframeDisplayContentInterface) {
+      return;
+    }
     $node_revision = !empty($route_params['node_revision']) ? $node_storage->loadRevision($route_params['node_revision']) : NULL;
 
     $title = t('Preview: @title', ['@title' => $variables['text']]);
-    if ($node && $node instanceof ContentBase) {
+    if ($node && $node instanceof ContentInterface) {
       $title = t('Preview: @title (@status)', [
         '@title' => $node->label(),
         '@status' => $node->isPublished() ? t('Latest published') : t('Latest draft'),
       ]);
     }
-    if ($node_revision && $node_revision instanceof ContentBase) {
+    if ($node_revision && $node_revision instanceof ContentInterface) {
       $title = t('Preview: #@version (@status) - @date', [
         '@version' => $node_revision->getVersionId(),
         '@status' => $node_revision->getVersionStatusLabel(),

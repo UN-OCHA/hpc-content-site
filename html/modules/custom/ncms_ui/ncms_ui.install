@@ -6,6 +6,7 @@
  */
 
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\ncms_ui\Entity\ContentInterface;
 
 /**
  * Remove existing terms of type article type.
@@ -126,4 +127,36 @@ function ncms_ui_update_9007(&$sandox) {
     $storage->delete($paragraphs);
   }
   return 'Deleted ' . count($ids) . ' paragraphs of type "layout"';
+}
+
+/**
+ * Remove duplicated trash revisions.
+ *
+ * There should really only be one per entity.
+ */
+function ncms_ui_update_9008(&$sandbox) {
+  $database = \Drupal::database();
+  $query = $database->query('SELECT content_entity_id, COUNT(id) AS cnt FROM {content_moderation_state_field_revision} m
+    WHERE moderation_state = :moderation_state
+    GROUP BY content_entity_id
+    HAVING cnt > 1', [
+      ':moderation_state' => 'trash',
+    ]);
+  $result = $query->fetchAll();
+  if (!$result) {
+    return;
+  }
+
+  /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  foreach ($result as $row) {
+    $entity_id = $row->content_entity_id;
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $entity */
+    $entity = $node_storage->load($entity_id);
+    while ($entity instanceof ContentInterface && $entity?->getPreviousRevision()?->isModerationState('trash')) {
+      $node_storage->deleteLatestRevision($entity);
+      /** @var \Drupal\ncms_ui\Entity\ContentInterface $entity */
+      $entity = $node_storage->load($entity_id);
+    }
+  }
 }

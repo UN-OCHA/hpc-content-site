@@ -1,0 +1,15 @@
+{{ status_messages }}
+<div{{ attributes }}>
+  <h4 class="visually-hidden">{{ 'Add Item'|t }}</h4>
+  {% if menu|length > 1 %}
+  <div class="">
+    <div class="lpb-component-list__group--menu">
+      {{ menu }}
+    </div>
+  </div>
+  {% else %}
+  <div class="lpb-component-list__empty-message">
+    {{ empty_message }}
+  </div>
+  {% endif %}
+</div>

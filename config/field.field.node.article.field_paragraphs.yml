@@ -6,9 +6,18 @@ dependencies:
     - field.storage.node.field_paragraphs
     - node.type.article
     - paragraphs.paragraphs_type.achievement
-    - paragraphs.paragraphs_type.article_card_list
+    - paragraphs.paragraphs_type.document_articles
+    - paragraphs.paragraphs_type.document_chapter
   module:
     - entity_reference_revisions
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '-1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: node.article.field_paragraphs
 field_name: field_paragraphs
 entity_type: node
@@ -24,70 +33,74 @@ settings:
   handler_settings:
     target_bundles:
       achievement: achievement
-      article_card_list: article_card_list
+      document_articles: document_articles
+      document_chapter: document_chapter
     negate: 1
     target_bundles_drag_drop:
       achievement:
-        weight: 22
+        weight: -35
         enabled: true
       achievement_list:
-        weight: 21
+        weight: -36
         enabled: false
       article_card_list:
-        weight: 23
-        enabled: true
+        weight: -34
+        enabled: false
       article_list:
-        weight: 24
+        weight: -33
         enabled: false
       bottom_figure_row:
-        weight: 8
+        weight: -43
         enabled: false
       document_articles:
-        weight: 28
-        enabled: false
+        weight: -31
+        enabled: true
       document_chapter:
-        weight: 29
-        enabled: false
+        weight: -29
+        enabled: true
       download_button:
-        weight: 26
+        weight: -32
         enabled: false
       facts_and_figures:
-        weight: 9
+        weight: -42
         enabled: false
       further_reading:
-        weight: 28
+        weight: -30
         enabled: false
       heading:
-        weight: 29
+        weight: -28
         enabled: false
       image_with_text:
-        weight: 12
+        weight: -38
         enabled: false
       infographic:
-        weight: 36
+        weight: -26
         enabled: false
       interactive_content:
-        weight: 31
+        weight: -27
         enabled: false
       interactive_content_2_columns:
-        weight: 39
+        weight: -25
         enabled: false
-      layout:
-        weight: 8
-        enabled: true
       photo_gallery:
-        weight: 11
+        weight: -39
         enabled: false
       separator:
-        weight: 15
+        weight: -37
         enabled: false
       story:
-        weight: 10
+        weight: -41
         enabled: false
       sub_article:
-        weight: 39
+        weight: -24
         enabled: false
       text:
-        weight: 10
+        weight: -40
+        enabled: false
+      top_figures:
+        weight: -45
+        enabled: false
+      top_figures_small:
+        weight: -44
         enabled: false
 field_type: entity_reference_revisions

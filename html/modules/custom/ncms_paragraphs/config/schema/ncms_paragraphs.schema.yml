@@ -1,0 +1,13 @@
+paragraphs.paragraphs_type.*.third_party.ncms_paragraphs:
+  type: config_entity
+  label: "Paragraph settings"
+  mapping:
+    category:
+      type: text
+      label: "Category"
+    disabled:
+      type: boolean
+      label: "Disabled"
+    replaces:
+      type: text
+      label: "Replaces (UUID)"

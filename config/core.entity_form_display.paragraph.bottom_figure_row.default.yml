@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.bottom_figure_row.field_bottom_figures
     - field.field.paragraph.bottom_figure_row.field_dataset
     - field.field.paragraph.bottom_figure_row.field_figures
     - paragraphs.paragraphs_type.bottom_figure_row
@@ -94,5 +93,4 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
-  field_bottom_figures: true
   translation: true

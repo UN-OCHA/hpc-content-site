@@ -20,14 +20,5 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-  field_emphasize_first_row:
-    type: boolean
-    label: hidden
-    settings:
-      format: custom
-      format_custom_false: default
-      format_custom_true: show-2col
-    third_party_settings: {  }
-    weight: 1
-    region: content
-hidden: {  }
+hidden:
+  field_emphasize_first_row: true

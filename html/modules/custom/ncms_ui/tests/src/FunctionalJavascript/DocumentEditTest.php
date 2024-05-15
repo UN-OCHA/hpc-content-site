@@ -3,7 +3,7 @@
 namespace Drupal\Tests\ncms_ui\FunctionalJavascript;
 
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
-use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\node\NodeInterface;
 use Drupal\Tests\ncms_ui\Traits\ContentTestTrait;
 
@@ -115,8 +115,8 @@ class DocumentEditTest extends ContentTestBaseJavascript {
 
     // Create node for content space 1.
     $node_1_1 = $this->createArticleInContentSpace('Article 1 for Content space 1', $content_space_1->id(), NodeInterface::NOT_PUBLISHED);
-    $this->assertInstanceOf(ContentBase::class, $node_1_1);
-    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $node_1_1 */
+    $this->assertInstanceOf(ContentInterface::class, $node_1_1);
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $node_1_1 */
 
     /** @var \Drupal\FunctionalJavascriptTests\WebDriverWebAssert $assert_session */
     $assert_session = $this->assertSession();

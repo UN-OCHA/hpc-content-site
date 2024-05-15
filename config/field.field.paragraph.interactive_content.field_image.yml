@@ -6,11 +6,20 @@ dependencies:
     - field.storage.paragraph.field_image
     - media.type.image
     - paragraphs.paragraphs_type.interactive_content
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: paragraph.interactive_content.field_image
 field_name: field_image
 entity_type: paragraph
 bundle: interactive_content
-label: Thumbnail
+label: 'Fallback image'
 description: "Image representing the content. When clicked it will redirect to the interactive content's page."
 required: false
 translatable: true
@@ -23,6 +32,7 @@ settings:
       image: image
     sort:
       field: _none
+      direction: ASC
     auto_create: false
     auto_create_bundle: ''
 field_type: entity_reference

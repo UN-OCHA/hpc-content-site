@@ -159,7 +159,7 @@ class RevisionOverviewFormAlter {
       $revision_ids = array_slice($revision_ids, $offset, $pager->getLimit());
     }
 
-    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase[] $revisions */
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface[] $revisions */
     $revisions = array_values($node_storage->loadMultipleRevisions($revision_ids));
 
     $header = &$form['node_revisions_table']['#header'];

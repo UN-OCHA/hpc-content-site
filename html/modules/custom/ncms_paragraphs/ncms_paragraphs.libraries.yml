@@ -1,0 +1,12 @@
+paragraph_edit_form:
+  css:
+    component:
+      css/paragraph_edit_form.css: {}
+layout_paragraphs:
+  css:
+    component:
+      css/layout_paragraphs.css: {}
+component_menu:
+  css:
+    component:
+      css/component_menu.css: {}

@@ -8,7 +8,7 @@ use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\ncms_ui\Ajax\ReloadPageCommand;
-use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\ContentInterface;
 
 /**
  * Form class for content submit confirm forms.
@@ -111,12 +111,12 @@ class ContentSoftDeleteForm extends ConfirmFormBase {
   /**
    * Get the current entity from the route match.
    *
-   * @return \Drupal\ncms_ui\Entity\Content\ContentBase|null
+   * @return \Drupal\ncms_ui\Entity\ContentInterface|null
    *   The entity or NULL.
    */
   private function getNodeFromRouteMatch() {
     $entity = $this->getRouteMatch()->getParameter('node');
-    return $entity && $entity instanceof ContentBase ? $entity : NULL;
+    return $entity && $entity instanceof ContentInterface ? $entity : NULL;
   }
 
 }

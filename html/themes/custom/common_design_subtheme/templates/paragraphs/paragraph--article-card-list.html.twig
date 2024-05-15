@@ -48,12 +48,11 @@
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished',
     'gho-article-card-list',
-    'gho-article-card-list--' ~ content.field_emphasize_first_row|render|striptags|trim|clean_class,
     'content-width',
   ]
 %}
 {% set title = content.field_title|render %}
-{% set content = content|without('field_title','field_emphasize_first_row')|render %}
+{% set content = content|without('field_title')|render %}
 {% if content %}
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>

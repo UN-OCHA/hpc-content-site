@@ -9,6 +9,8 @@ services:
       - HID_CLIENT_SECRET
       - GRAPHQL_KEY
       - COMPOSER_MEMORY_LIMIT=-1
+      - XDEBUG_ENABLED=1
+      - XDEBUG_MODE=off
 
   browser:
     hostname: browser

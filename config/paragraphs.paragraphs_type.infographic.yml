@@ -3,13 +3,14 @@ langcode: en
 status: true
 dependencies:
   module:
-    - layout_paragraphs
+    - ncms_paragraphs
+third_party_settings:
+  ncms_paragraphs:
+    category: media
+    disabled: false
 id: infographic
 label: Infographic
 icon_uuid: null
 icon_default: null
 description: 'An infographic media'
-behavior_plugins:
-  layout_paragraphs:
-    enabled: false
-    available_layouts: {  }
+behavior_plugins: {  }

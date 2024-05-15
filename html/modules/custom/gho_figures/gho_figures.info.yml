@@ -1,5 +1,0 @@
-type: module
-name: GHO Figures
-description: 'DEPRECATED Figures import handling (ex: needs and requirements).'
-package: gho
-core_version_requirement: ^9.3 || ^10

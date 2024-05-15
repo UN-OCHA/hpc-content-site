@@ -1,0 +1,16 @@
+.lpb-component-list {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.lpb-component-list__group--menu {
+  --vertical-tabs-menu-width: 10rem;
+  min-width: 40rem;
+}
+.lpb-component-list .paragraph-category-links ul {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.lpb-component-list .paragraph-category-links ul li {
+  list-style-type: none;
+}

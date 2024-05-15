@@ -5,11 +5,17 @@ on: [pull_request]
 jobs:
   tests:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      checks: write
+      pull-requests: write
+      actions: read
+      statuses: write
 
     steps:
       - name: Checkout Code
         id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Extract PHP Version
         id: php
@@ -97,6 +103,7 @@ jobs:
         with:
           run: |
             docker-compose -f .github/tests/docker-compose.yml exec -w /srv/www -T drupal /usr/bin/composer run sub-theme
+
       - name: PHPCS
         id: phpcs
         uses: cafuego/command-output@main
@@ -157,18 +164,18 @@ jobs:
             docker-compose -f .github/tests/docker-compose.yml exec -T drupal drush watchdog:show
 
       - name: Find Comment
-        uses: peter-evans/find-comment@v2
+        uses: peter-evans/find-comment@v3
         id: fc
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
           body-includes: Build output
 
       - name: Create or update comment
-        uses: peter-evans/create-or-update-comment@v2
+        uses: peter-evans/create-or-update-comment@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
@@ -193,7 +200,7 @@ jobs:
       - name: Slack Success Notification
         id: slack_success
         if: success()
-        uses: slackapi/slack-github-action@v1.23.0
+        uses: slackapi/slack-github-action@v1.25.0
         with:
           channel-id: '${{ vars.SLACK_CHANNEL }}'
           payload: |
@@ -220,7 +227,7 @@ jobs:
       - name: Slack Failure Notification
         id: slack_failure
         if: failure()
-        uses: slackapi/slack-github-action@v1.23.0
+        uses: slackapi/slack-github-action@v1.25.0
         with:
           channel-id: '${{ vars.SLACK_CHANNEL }}'
           payload: |

@@ -9,6 +9,7 @@ dependencies:
   - social_auth_hid:social_auth_hid
   - replicate_ui:replicate_ui
   - diff:diff
+  - views:views
   - drupal:content_moderation
   - entity_browser_table:entity_browser_table
   - paragraphs:paragraphs

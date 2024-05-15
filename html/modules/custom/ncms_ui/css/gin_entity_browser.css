@@ -39,14 +39,21 @@
   margin: 0;
 }
 .field--widget-entity-reference-browser-table-widget-ncms > details > .details-wrapper .layer-wrapper {
+  margin-top: 0;
   padding: 1rem 0;
   border: 0;
   border-radius: 0;
   box-shadow: none;
 }
+.field--widget-entity-reference-browser-table-widget-ncms > details > .details-wrapper .layer-wrapper .gin-table-scroll-wrapper {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
 .field--widget-entity-reference-browser-table-widget-ncms > details > .details-wrapper > .form-wrapper {
   position: absolute;
   bottom: 0;
+  z-index: 12;
+  right: 12rem;
 }
 .field--widget-entity-reference-browser-table-widget-ncms > details > .details-wrapper > .form-wrapper > input.button {
   margin: var(--gin-spacing-s) 0;

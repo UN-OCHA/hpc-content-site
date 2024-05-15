@@ -65,6 +65,9 @@ if $IMPORT_BACKUP; then
   fi
 fi
 
+# Make sure that the code base is up to date.
+composer install
+
 echo "Set maintenance mode to on"
 drush sset system.maintenance_mode 1 -y
 

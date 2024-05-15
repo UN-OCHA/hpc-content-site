@@ -5,12 +5,14 @@ namespace Drupal\ncms_ui\Controller;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\Url;
 use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\ncms_ui\Entity\ContentVersionInterface;
+use Drupal\ncms_ui\Entity\IframeDisplayContentInterface;
 use Drupal\node\Controller\NodeViewController;
 use Drupal\node\NodeInterface;
 
@@ -44,26 +46,20 @@ class ViewController extends NodeViewController {
    * Using an iframe to be able to use the full frontend styling from links in
    * the backend.
    */
-  public function viewIframe(NodeInterface $node, NodeInterface $node_revision = NULL, $preview = FALSE) {
+  public function viewIframe(IframeDisplayContentInterface $node, ContentInterface $node_revision = NULL, $preview = FALSE) {
     // Iframe dimensions. The height is set initially, but is adjusted in the
     // client.
     $max_width = '100%';
     $max_height = 800;
 
     if ($preview) {
-      $url = Url::fromRoute('entity.node.preview', [
-        'node_preview' => $node->uuid(),
-        'view_mode_id' => 'full',
-      ]);
+      $url = $node->getIframePreviewUrl();
     }
     elseif ($node_revision !== NULL) {
-      $url = Url::fromRoute('entity.node_revision.standalone', [
-        'node' => $node->id(),
-        'node_revision' => $node_revision->getRevisionId(),
-      ]);
+      $url = $node->getIframeStandaloneRevisionUrl();
     }
     else {
-      $url = Url::fromRoute('entity.node.standalone', ['node' => $node->id()]);
+      $url = $node->getIframeStandaloneUrl();
     }
 
     $build = [
@@ -83,7 +79,7 @@ class ViewController extends NodeViewController {
           // Add the page title, so that it can be set for the DOM document
           // via javascript once the iframe get's included.
           'data-page-title' => $this->t('@type preview: @label', [
-            '@type' => $node->type->entity->label(),
+            '@type' => $node->getBundleLabel(),
             '@label' => $node->label(),
           ]),
           // Adding this onload fixing formatting issues when printing from
@@ -109,19 +105,19 @@ class ViewController extends NodeViewController {
    *   The current state of the form.
    */
   public static function previewModal(array $form, FormStateInterface $form_state) {
+    $response = new AjaxResponse();
     /** @var \Drupal\Core\Entity\ContentEntityFormInterface $form_object */
     $form_object = $form_state->getFormObject();
-    $entity = $form_object->getEntity();
-
-    $node_preview_controller = ViewController::create(\Drupal::getContainer());
-    $title = $node_preview_controller->previewTitle($entity);
-    $build = $node_preview_controller->viewIframe($entity, NULL, TRUE);
-
-    $response = new AjaxResponse();
-    $response->addCommand(new OpenModalDialogCommand($title, $build, [
-      'width' => '80%',
-      'dialogClass' => 'node-preview',
-    ]));
+    $entity = $form_object instanceof EntityFormInterface ? $form_object->getEntity() : NULL;
+    if ($entity instanceof IframeDisplayContentInterface) {
+      $node_preview_controller = ViewController::create(\Drupal::getContainer());
+      $title = $node_preview_controller->previewTitle($entity);
+      $build = $node_preview_controller->viewIframe($entity, NULL, TRUE);
+      $response->addCommand(new OpenModalDialogCommand($title, $build, [
+        'width' => '80%',
+        'dialogClass' => 'node-preview',
+      ]));
+    }
     return $response;
   }
 

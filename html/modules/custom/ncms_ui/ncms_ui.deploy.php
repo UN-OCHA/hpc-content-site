@@ -8,7 +8,7 @@
 use Drupal\content_moderation\Entity\ContentModerationState;
 use Drupal\content_moderation\Entity\ContentModerationStateInterface;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
-use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\node\NodeInterface;
 
 /**
@@ -63,7 +63,7 @@ function ncms_ui_deploy_set_moderation_state() {
     /** @var \Drupal\node\NodeInterface[] $revisions */
     $revisions = $node_storage->loadMultipleRevisions($revision_ids);
     foreach ($revisions as $revision) {
-      if (!$revision instanceof ContentBase || $revision->isDefaultRevision() || $revision->isLatestRevision()) {
+      if (!$revision instanceof ContentInterface || $revision->isDefaultRevision() || $revision->isLatestRevision()) {
         continue;
       }
 
@@ -85,7 +85,7 @@ function ncms_ui_deploy_set_moderation_state() {
     /** @var \Drupal\node\NodeInterface[] $revisions */
     $revisions = $node_storage->loadMultipleRevisions($revision_ids);
     foreach ($revisions as $revision) {
-      if (!$revision instanceof ContentBase || $revision->isDefaultRevision() || $revision->isLatestRevision() || !$revision->isPublished()) {
+      if (!$revision instanceof ContentInterface || $revision->isDefaultRevision() || $revision->isLatestRevision() || !$revision->isPublished()) {
         continue;
       }
       $node_storage->updateRevisionStatus($revision, NodeInterface::NOT_PUBLISHED, FALSE);
@@ -260,7 +260,7 @@ function ncms_ui_deploy_correct_changed_date(&$sandbox) {
   ]);
 
   foreach ($nodes as $node) {
-    if (!$node instanceof ContentBase) {
+    if (!$node instanceof ContentInterface) {
       continue;
     }
 
@@ -271,7 +271,7 @@ function ncms_ui_deploy_correct_changed_date(&$sandbox) {
     }
     $revision_ids = array_values(array_reverse($revision_ids));
 
-    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $revision */
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $revision */
     $revision = $node_storage->loadRevision($revision_ids[0]);
     if (!$revision) {
       continue;

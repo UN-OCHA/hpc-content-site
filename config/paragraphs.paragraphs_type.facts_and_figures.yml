@@ -3,16 +3,17 @@ langcode: en
 status: true
 dependencies:
   module:
-    - layout_paragraphs
+    - ncms_paragraphs
     - ncms_publisher
+third_party_settings:
+  ncms_paragraphs:
+    category: list
+    disabled: false
 id: facts_and_figures
 label: 'Facts and figures'
 icon_uuid: null
 icon_default: null
 description: 'A list of facts and figures composed of images with a text.'
 behavior_plugins:
-  layout_paragraphs:
-    enabled: false
-    available_layouts: {  }
   promoted_behavior:
     enabled: true

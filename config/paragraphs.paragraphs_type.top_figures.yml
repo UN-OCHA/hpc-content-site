@@ -1,0 +1,19 @@
+uuid: 42ca3952-bcb5-40ed-89ec-39ff9ef0a4f0
+langcode: en
+status: true
+dependencies:
+  module:
+    - ncms_paragraphs
+    - ncms_publisher
+third_party_settings:
+  ncms_paragraphs:
+    category: content
+    disabled: false
+id: top_figures
+label: 'Top figures'
+icon_uuid: null
+icon_default: null
+description: 'A set of label/value pairs to show top figures'
+behavior_plugins:
+  promoted_behavior:
+    enabled: true

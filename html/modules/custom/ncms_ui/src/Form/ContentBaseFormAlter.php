@@ -17,6 +17,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\ncms_publisher\PublisherManager;
 use Drupal\ncms_ui\ContentSpaceManager;
 use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\ncms_ui\Entity\EntityCompare;
 use Drupal\node\NodeInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -113,9 +114,9 @@ class ContentBaseFormAlter {
   public function alterForm(&$form, FormStateInterface $form_state) {
     /** @var \Drupal\Core\Entity\ContentEntityForm $form_object */
     $form_object = $form_state->getFormObject();
-    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $entity */
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $entity */
     $entity = $form_object->getEntity();
-    if (!$entity instanceof ContentBase) {
+    if (!$entity instanceof ContentInterface) {
       return;
     }
 
@@ -232,14 +233,14 @@ class ContentBaseFormAlter {
     /** @var \Drupal\Core\Entity\EntityForm $form_object */
     $form_object = $form_state->getFormObject();
 
-    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $original_entity */
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $original_entity */
     $original_entity = $form_state->get('original_entity');
 
     // Get the triggering element.
     $triggering_element = $form_state->getTriggeringElement();
 
     // Check if the entity has changes.
-    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $updated_entity */
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $updated_entity */
     $updated_entity = $form_object->buildEntity($form, $form_state);
     $entity_updated = $this->entityCompare->hasChanged($updated_entity, $original_entity);
 
@@ -298,14 +299,14 @@ class ContentBaseFormAlter {
     /** @var \Drupal\Core\Entity\EntityForm $form_object */
     $form_object = $form_state->getFormObject();
 
-    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $original_entity */
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $original_entity */
     $original_entity = $form_state->get('original_entity');
 
     // Get the triggering element.
     $triggering_element = $form_state->getTriggeringElement();
 
     // Check if the entity has changes.
-    /** @var \Drupal\ncms_ui\Entity\Content\ContentBase $updated_entity */
+    /** @var \Drupal\ncms_ui\Entity\ContentInterface $updated_entity */
     $updated_entity = $form_object->buildEntity($form, $form_state);
     $entity_updated = $this->entityCompare->hasChanged($updated_entity, $original_entity);
 

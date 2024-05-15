@@ -1,0 +1,41 @@
+/* Move the status checkbox into the bottom pane of the modal. */
+form.layout-paragraphs-component-form > .field--name-status {
+  position: absolute;
+  bottom: 0;
+  z-index: 10;
+}
+
+form.layout-paragraphs-component-form table.field-multiple-table tbody td.tabledrag-cell {
+  vertical-align: middle;
+}
+
+/* Give the tab content some space. */
+form.layout-paragraphs-component-form .horizontal-tabs-panes {
+  margin-top: 1rem;
+}
+
+/* Adjustments for some multi value fields that. */
+form.layout-paragraphs-component-form .details-wrapper > .form-wrapper > div > .form-item--multiple .tabledrag-toggle-weight-wrapper {
+  margin-top: -2rem;
+}
+form.layout-paragraphs-component-form .details-wrapper > .form-wrapper > div > .form-item--multiple > .field-actions {
+  align-items: center;
+}
+form.layout-paragraphs-component-form .details-wrapper > .form-wrapper > div > .form-item--multiple > .field-actions > em.placeholder {
+  padding-left: 0.2rem;
+}
+
+form.layout-paragraphs-component-form .field--type-custom[data-drupal-selector='edit-field-figures-wrapper'] table.field-multiple-table tbody tr td:nth-child(2) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+form.layout-paragraphs-component-form .field--type-custom[data-drupal-selector='edit-field-figures-wrapper'] table.field-multiple-table tbody tr td:nth-child(2) input.button {
+  height: fit-content;
+}
+form.layout-paragraphs-component-form .field--type-custom[data-drupal-selector='edit-field-figures-wrapper'] table.field-multiple-table th.tabledrag-hide {
+  display: none;
+}
+form.layout-paragraphs-component-form .field--type-custom[data-drupal-selector='edit-field-figures-wrapper'] table.field-multiple-table th.tabledrag-hide[style*="none"] ~ th {
+  display: none;
+}

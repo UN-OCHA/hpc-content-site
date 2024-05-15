@@ -1,0 +1,7 @@
+services:
+  ncms_paragraphs.component_menu:
+    class: Drupal\ncms_paragraphs\ComponentMenu
+    arguments: ['@entity_type.manager', '@ncms_paragraphs.paragraph_type_settings']
+  ncms_paragraphs.paragraph_type_settings:
+    class: Drupal\ncms_paragraphs\ParagraphsTypeSettings
+    arguments: []

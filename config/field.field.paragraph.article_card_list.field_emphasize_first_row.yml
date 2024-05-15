@@ -5,14 +5,23 @@ dependencies:
   config:
     - field.storage.paragraph.field_emphasize_first_row
     - paragraphs.paragraphs_type.article_card_list
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: paragraph.article_card_list.field_emphasize_first_row
 field_name: field_emphasize_first_row
 entity_type: paragraph
 bundle: article_card_list
 label: 'Show first two items in 2-column layout?'
-description: ''
+description: 'Check this to display the first 2 articles bigger than the following.'
 required: false
-translatable: false
+translatable: true
 default_value:
   -
     value: 0

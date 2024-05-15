@@ -124,6 +124,9 @@ class EntityConfiguration extends DataProducerPluginBase implements ContainerFac
             ];
           }
         }
+        if ($original_uuid = $entity->getBehaviorSetting('ncms_paragraphs', 'replaces')) {
+          $config['replaces'] = $original_uuid;
+        }
       }
       return Yaml::encode($this->mapObjectsToString($config));
     });

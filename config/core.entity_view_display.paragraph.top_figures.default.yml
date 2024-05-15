@@ -1,0 +1,31 @@
+uuid: 9aacccd4-0a89-4c5f-8a45-f9f19e47cd49
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.top_figures.field_dataset
+    - field.field.paragraph.top_figures.field_figures
+    - paragraphs.paragraphs_type.top_figures
+  module:
+    - gho_fields
+id: paragraph.top_figures.default
+targetEntityType: paragraph
+bundle: top_figures
+mode: default
+content:
+  field_dataset:
+    type: gho_dataset_link
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_figures:
+    type: gho_figures
+    label: hidden
+    settings:
+      format: large
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

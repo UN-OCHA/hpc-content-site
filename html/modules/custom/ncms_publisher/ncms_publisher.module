@@ -7,7 +7,7 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\ncms_ui\Entity\Content\ContentBase;
+use Drupal\ncms_ui\Entity\ContentInterface;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -16,7 +16,7 @@ function ncms_publisher_form_node_form_alter(&$form, FormStateInterface $form_st
   /** @var \Drupal\node\NodeForm $form_object */
   $form_object = $form_state->getFormObject();
   $entity = $form_object->getEntity();
-  if (!$entity instanceof ContentBase) {
+  if (!$entity instanceof ContentInterface) {
     return;
   }
 

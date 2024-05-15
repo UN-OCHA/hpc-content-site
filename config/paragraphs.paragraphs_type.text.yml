@@ -3,16 +3,17 @@ langcode: en
 status: true
 dependencies:
   module:
-    - layout_paragraphs
+    - ncms_paragraphs
     - ncms_publisher
+third_party_settings:
+  ncms_paragraphs:
+    category: content
+    disabled: false
 id: text
 label: Text
 icon_uuid: null
 icon_default: null
 description: 'A text with a rich editor to allow basic formatting like bold, italic, list and links.'
 behavior_plugins:
-  layout_paragraphs:
-    enabled: false
-    available_layouts: {  }
   promoted_behavior:
     enabled: true

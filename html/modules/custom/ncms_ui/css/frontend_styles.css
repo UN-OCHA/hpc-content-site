@@ -129,7 +129,7 @@
 }
 
 /* the label, e.g. "Separator: full" */
-.field--name-field-separator-size {
+.paragraph--view-mode--preview .field--name-field-separator-size {
   position: relative;
   text-align: center;
   z-index: 2;
@@ -137,7 +137,7 @@
   margin: 0 auto;
   background: #fcfcfa;
 }
-.field--name-field-separator-size::before {
+.paragraph--view-mode--preview .field--name-field-separator-size::before {
   content: 'Separator: ';
 }
 

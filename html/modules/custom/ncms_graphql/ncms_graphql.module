@@ -7,6 +7,26 @@
 
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+
+/**
+ * Implements hook_entity_base_field_info().
+ *
+ * Add a new node property to be able to force the update of a node visible to
+ * external partners.
+ */
+function ncms_graphql_entity_base_field_info(EntityTypeInterface $entity_type) {
+  if ($entity_type->id() == 'node') {
+    $fields = [];
+    $fields['force_update'] = BaseFieldDefinition::create('timestamp')
+      ->setLabel(t('Force update'))
+      ->setDescription(t('The time that the node was last forced to update.'))
+      ->setRevisionable(TRUE)
+      ->setTranslatable(TRUE);
+    return $fields;
+  }
+}
 
 /**
  * Implements hook_node_view_alter().

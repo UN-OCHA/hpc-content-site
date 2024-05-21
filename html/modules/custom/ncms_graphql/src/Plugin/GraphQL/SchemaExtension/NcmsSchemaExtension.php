@@ -262,6 +262,11 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
         ->map('value', $builder->fromParent())
         ->map('path', $builder->fromValue('field_automatically_visible.value')),
     );
+
+    $registry->addFieldResolver('Document', 'forceUpdate',
+      $builder->produce('entity_force_update')
+        ->map('entity', $builder->fromParent()),
+    );
   }
 
   /**
@@ -393,6 +398,11 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
         ->map('type', $builder->fromValue('entity:node'))
         ->map('value', $builder->fromParent())
         ->map('path', $builder->fromValue('field_automatically_visible.value')),
+    );
+
+    $registry->addFieldResolver('Article', 'forceUpdate',
+      $builder->produce('entity_force_update')
+        ->map('entity', $builder->fromParent()),
     );
   }
 

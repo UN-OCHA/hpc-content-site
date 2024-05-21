@@ -46,7 +46,7 @@
         "drupal/admin_toolbar": "^3.1",
         "drupal/allowed_formats": "^2",
         "drupal/anonymous_login": "^2.0",
-        "drupal/bigint": "1.x-dev",
+        "drupal/bigint": "^2",
         "drupal/bulk_update_fields": "^2.0@alpha",
         "drupal/classy": "^1.0",
         "drupal/components": "^3.0.0",
@@ -206,8 +206,7 @@
         },
         "drupal-lenient": {
             "allowed-list": [
-              "drupal/bigint",
-              "drupal/maintenance200"
+              "drupal/bigint"
             ]
         }
     }

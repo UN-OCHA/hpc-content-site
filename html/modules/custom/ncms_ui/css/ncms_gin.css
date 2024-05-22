@@ -1,3 +1,4 @@
+/* Main admin toolbar horizontal */
 .gin--horizontal-toolbar .region-sticky {
   display: block;
 }
@@ -9,10 +10,10 @@
 }
 .gin--horizontal-toolbar nav#gin-toolbar-bar,
 .gin--horizontal-toolbar nav#gin-toolbar-bar .toolbar .toolbar-menu,
-.gin--horizontal-toolbar .toolbar-tray-horizontal > nav > div > .toolbar-menu,
-.gin--horizontal-toolbar .toolbar-tray-horizontal > nav > div > .toolbar-menu > li,
-.gin--horizontal-toolbar .toolbar-tray-horizontal > nav > div > .toolbar-menu > li > a.is-active,
-.gin--horizontal-toolbar .toolbar-tray-horizontal > nav > div > .toolbar-menu > li > .toolbar-box > .toolbar-handle:focus {
+.gin--horizontal-toolbar .toolbar-tray > nav > div > .toolbar-menu,
+.gin--horizontal-toolbar .toolbar-tray > nav > div > .toolbar-menu > li,
+.gin--horizontal-toolbar .toolbar-tray > nav > div > .toolbar-menu > li > a.is-active,
+.gin--horizontal-toolbar .toolbar-tray > nav > div > .toolbar-menu > li > .toolbar-box > .toolbar-handle:focus {
   background-color: rgb(5, 80, 230) !important;
 }
 .toolbar .toolbar-menu,
@@ -22,30 +23,30 @@
   background-color: rgb(5, 80, 230) !important;
 }
 
-.toolbar-tray-vertical .toolbar-menu,
-.toolbar-tray-vertical .menu-item--expanded.menu-item--expanded,
-.toolbar-tray-vertical .menu-item--expanded.menu-item--expanded li,
-.toolbar-vertical .toolbar-tray .menu-item--expanded.menu-item--expanded li,
-.toolbar-horizontal .toolbar-tray .menu-item--expanded.menu-item--expanded li,
-.toolbar-horizontal .toolbar-menu-administration .toolbar-icon:hover::before {
-  background-color: var(--gin-bg-layer) !important;
+/* The secondary toolbar */
+body.toolbar-vertical .gin-secondary-toolbar {
+  height: auto;
 }
-
-#toolbar-bar .toolbar-tab--toolbar-item-user {
+body.toolbar-vertical .toolbar-secondary {
+  flex-direction: row !important;
+}
+body.toolbar-vertical .toolbar-secondary #toolbar-bar {
   display: none;
 }
 
-.gin--horizontal-toolbar .toolbar-tray-horizontal > nav > div > .toolbar-menu > li > a.toolbar-icon,
-.gin--horizontal-toolbar .toolbar-tray-horizontal > nav > div > .toolbar-menu > li > .toolbar-box > a.toolbar-icon {
+.gin--horizontal-toolbar .toolbar-tray > nav > div > .toolbar-menu > li > a.toolbar-icon,
+.gin--horizontal-toolbar .toolbar-tray > nav > div > .toolbar-menu > li > .toolbar-box > a.toolbar-icon {
   color: white !important;
 }
-.gin--horizontal-toolbar .toolbar-tray-horizontal > nav > div > .toolbar-menu > li > a.toolbar-icon::before {
-  background-color: white;
+.gin--horizontal-toolbar .toolbar-tray > nav > div > .toolbar-menu > li > a.toolbar-icon::before,
+.gin--horizontal-toolbar .toolbar-tray > nav > div > .toolbar-menu > li > a.toolbar-icon.is-active::before {
+  background-color: white !important;
 }
 .toolbar .toolbar-bar .toolbar-icon-admin-toolbar-tools-help.toolbar-icon-default:before {
   mask-image: url(../assets/toolbar-logo.svg) !important;
   -webkit-mask-image: url(../assets/toolbar-logo.svg) !important;
   width: 28px !important;
+  background-color: white !important;
 }
 .toolbar .toolbar-bar .toolbar-tray-horizontal .toolbar-icon-admin-toolbar-tools-help.toolbar-icon-default:before {
   background-color: white !important;
@@ -54,11 +55,25 @@
 .gin--horizontal-toolbar .toolbar-tray-horizontal .toolbar-menu > .menu-item > .toolbar-icon::before,
 .gin--horizontal-toolbar .toolbar-tray-horizontal .toolbar-menu > .menu-item > .toolbar-box > .toolbar-icon::before,
 .gin--horizontal-toolbar .toolbar-tray-horizontal .level-2 .toolbar-handle:focus {
-  background-color: white;
+  background-color: white !important;
 }
 
-.gin--horizontal-toolbar .toolbar-tray-vertical nav.toolbar-lining {
+/* Main admin toolbar vertical */
+.toolbar-tray-vertical nav.toolbar-lining {
   background-color: var(--gin-bg-layer);
+}
+
+.toolbar-tray-vertical nav.toolbar-lining li.level-1 > .toolbar-box > .toolbar-icon::before {
+  background-color: white !important;
+}
+
+.toolbar-tray-vertical .toolbar-menu,
+.toolbar-tray-vertical .menu-item--expanded.menu-item--expanded,
+.toolbar-tray-vertical .menu-item--expanded.menu-item--expanded li,
+.toolbar-vertical .toolbar-tray .menu-item--expanded.menu-item--expanded li,
+.toolbar-horizontal .toolbar-tray .menu-item--expanded.menu-item--expanded li,
+.toolbar-horizontal .toolbar-menu-administration .toolbar-icon:hover::before {
+  background-color: var(--gin-bg-layer) !important;
 }
 
 /* The secondary toolbar. */

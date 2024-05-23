@@ -207,7 +207,7 @@ function ghi_fields_create_top_figures_from_paragraph(ParagraphInterface $paragr
 }
 
 /**
- * Migrate bottom figure row paragraph types to the new paragraph types.
+ * Force updates on nodes having a top figures paragraph.
  */
 function gho_fields_deploy_force_updates() {
   $entity_type_manager = \Drupal::entityTypeManager();

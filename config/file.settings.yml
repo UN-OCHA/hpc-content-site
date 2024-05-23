@@ -10,6 +10,6 @@ filename_sanitization:
   transliterate: true
   replace_whitespace: true
   replace_non_alphanumeric: true
-  deduplicate_separators: false
-  lowercase: false
+  deduplicate_separators: true
+  lowercase: true
   replacement_character: '-'

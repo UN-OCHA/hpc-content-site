@@ -1,9 +1,7 @@
 uuid: 55a3ea3b-ff3d-4d64-8c02-8e6a58641718
 langcode: en
 status: false
-dependencies:
-  module:
-    - system
+dependencies: {  }
 _core:
   default_config_hash: EpAogeIPxfKYPscZ5c_7tMyu8nazITOFQAZfPOLV09w
 id: user_sessions_authenticated

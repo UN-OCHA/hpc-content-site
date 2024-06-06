@@ -30,9 +30,6 @@
             "Issue #3265794: Modal form actions broken if subform has validation errors or certain AJAX callbacks": "https://git.drupalcode.org/project/layout_paragraphs/-/commit/9e6ce29756e7a44d1644f77a9606d3b598f67b5d.patch",
             "Issue #3442062: Make selector less greedy, only look at the form actions": "https://git.drupalcode.org/project/layout_paragraphs/-/merge_requests/160.patch"
         },
-        "drupal/maintenance200": {
-            "Issue #3288424: Automated Drupal 10 compatibility fixes": "./patches/maintenance200-drupal-10-compatibility.patch"
-        },
         "drupal/paragraphs_viewmode": {
             "Issue #3345123: entityViewModeAlter throws an exception in php 8.2": "https://www.drupal.org/files/issues/2023-03-01/paragraphs_viewmode-remove-context-parameter-3345123-2.patch"
         },

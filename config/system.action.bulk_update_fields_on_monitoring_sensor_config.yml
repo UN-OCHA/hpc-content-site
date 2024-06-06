@@ -1,0 +1,11 @@
+uuid: caa5e578-7590-40d1-85d8-00d10c76a31b
+langcode: en
+status: true
+dependencies:
+  module:
+    - bulk_update_fields
+id: bulk_update_fields_on_monitoring_sensor_config
+label: 'Bulk Update Monitoring Sensor Fields'
+type: monitoring_sensor_config
+plugin: bulk_update_fields_action_base
+configuration: {  }

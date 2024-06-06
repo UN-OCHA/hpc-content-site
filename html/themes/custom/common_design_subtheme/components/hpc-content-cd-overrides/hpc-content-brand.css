@@ -54,6 +54,11 @@
 }
 
 .cd-user-menu__dropdown-link,
+.cd-user-menu__item,
+.cd-user-menu a,
+.cd-user-menu a:hover,
+.cd-user-menu a:focus,
+.cd-user-menu button,
 .cd-global-header .menu > li a,
 .cd-global-header .menu > li button {
   color: var(--cd--global-header-text-color);

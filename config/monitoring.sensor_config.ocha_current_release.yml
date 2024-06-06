@@ -1,11 +1,9 @@
-uuid: 06317439-86d1-47dc-811e-3165d329552f
+uuid: null
 langcode: en
-status: false
+status: true
 dependencies:
   module:
     - ocha_monitoring
-_core:
-  default_config_hash: J8GhNRySBdH2tkq9VG_OZckya_w78hO4ed5dgNZA2Fs
 id: ocha_current_release
 label: 'Current release'
 description: 'Current release'

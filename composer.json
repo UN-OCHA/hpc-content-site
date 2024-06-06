@@ -46,7 +46,7 @@
         "drupal/admin_toolbar": "^3.1",
         "drupal/allowed_formats": "^2",
         "drupal/anonymous_login": "^2.0",
-        "drupal/bigint": "1.x-dev",
+        "drupal/bigint": "^2",
         "drupal/bulk_update_fields": "^2.0@alpha",
         "drupal/classy": "^1.0",
         "drupal/components": "^3.0.0",
@@ -75,7 +75,7 @@
         "drupal/inline_entity_form": "^1.0@RC",
         "drupal/layout_paragraphs": "^2",
         "drupal/layout_paragraphs_limit": "^1.0",
-        "drupal/maintenance200": "^1.1",
+        "drupal/maintenance200": "^2",
         "drupal/maxlength": "^2.1",
         "drupal/metatag": "^1.16",
         "drupal/override_node_options": "^2.6",
@@ -88,6 +88,7 @@
         "drupal/replicate": "^1.0",
         "drupal/replicate_actions": "^1.2",
         "drupal/replicate_ui": "^1.0",
+        "drupal/seckit": "^2.0",
         "drupal/social_auth_hid": "^3.1",
         "drupal/stage_file_proxy": "^2",
         "drupal/user_expire": "^1.0",
@@ -205,8 +206,7 @@
         },
         "drupal-lenient": {
             "allowed-list": [
-              "drupal/bigint",
-              "drupal/maintenance200"
+              "drupal/bigint"
             ]
         }
     }

@@ -1,11 +1,9 @@
-uuid: 92a8b7d8-494a-4f07-bd5e-51d0a130c2be
+uuid: null
 langcode: en
-status: false
+status: true
 dependencies:
   module:
     - ocha_monitoring
-_core:
-  default_config_hash: Z7mFKGp89JjTnstHqSWDLJ0zu9W-M2wjl2_6yIMARMA
 id: ocha_current_drupal_version
 label: 'Current drupal version'
 description: 'Current drupal version'

@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Field\FieldItemInterface;
+use Drupal\node\NodeInterface;
 use Drupal\paragraphs\ParagraphInterface;
 
 /**
@@ -203,4 +204,29 @@ function ghi_fields_create_top_figures_from_paragraph(ParagraphInterface $paragr
   $parent->save();
 
   return $top_figures_paragraph;
+}
+
+/**
+ * Force updates on nodes having a top figures paragraph.
+ */
+function gho_fields_deploy_force_updates() {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $storage = $entity_type_manager->getStorage('paragraph');
+
+  /** @var \Drupal\paragraphs\ParagraphInterface[] $paragraphs */
+  $paragraphs = $storage->loadByProperties([
+    'type' => ['top_figures', 'top_figures_small'],
+  ]);
+  $node_ids = [];
+  foreach ($paragraphs as $paragraph) {
+    $parent = $paragraph->getParentEntity();
+    if (!$parent instanceof NodeInterface || in_array($parent->id(), $node_ids)) {
+      continue;
+    }
+    $node_ids[] = $parent->id();
+    $parent->set('force_update', \Drupal::time()->getRequestTime());
+    $parent->setNewRevision(FALSE);
+    $parent->setSyncing(TRUE);
+    $parent->save();
+  }
 }

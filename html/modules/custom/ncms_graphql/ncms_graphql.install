@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Update functions for NCMS Graph QL.
+ */
+
+use Drupal\Core\Field\BaseFieldDefinition;
+
+/**
+ * Implements hook_update_N().
+ */
+function ncms_graphql_update_10000(&$sandbox) {
+  $storage_definition = BaseFieldDefinition::create('timestamp')
+    ->setLabel(t('Force update'))
+    ->setDescription(t('The time that the node was last forced to update.'))
+    ->setRevisionable(TRUE)
+    ->setTranslatable(TRUE);
+
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $update_manager->installFieldStorageDefinition('force_update', 'node', 'ncms_graphql', $storage_definition);
+}

@@ -4271,7 +4271,7 @@
             "extra": {
                 "drupal": {
                     "version": "8.x-3.0-rc11",
-                    "datestamp": "1718351205",
+                    "datestamp": "1718354743",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."
@@ -16822,5 +16822,5 @@
         "php": ">=8.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

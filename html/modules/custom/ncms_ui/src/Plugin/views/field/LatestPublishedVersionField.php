@@ -71,10 +71,20 @@ class LatestPublishedVersionField extends FieldPluginBase {
         'node' => $revision->id(),
         'node_revision' => $revision->getRevisionId(),
       ]),
-      '#title' => new FormattableMarkup('#@version (@moderation_status)', [
-        '@version' => $revision instanceof ContentVersionInterface ? $revision->getVersionId() : $revision->getRevisionId(),
-        '@moderation_status' => $revision instanceof ContentVersionInterface ? $revision->getVersionStatusLabel() : ($revision->isPublished() ? $this->t('Published') : $this->t('Unpublished')),
-      ]),
+      '#title' => [
+        '#type' => 'html_tag',
+        '#tag' => 'span',
+        '#value' => new FormattableMarkup('#@version (@moderation_status)', [
+          '@version' => $revision instanceof ContentVersionInterface ? $revision->getVersionId() : $revision->getRevisionId(),
+          '@moderation_status' => $revision instanceof ContentVersionInterface ? $revision->getVersionStatusLabel() : ($revision->isPublished() ? $this->t('Published') : $this->t('Unpublished')),
+        ]),
+        '#attributes' => [
+          'class' => array_filter([
+            'marker',
+            $revision->isPublished() ? 'marker--published' : NULL,
+          ]),
+        ],
+      ],
     ];
     return $build;
   }

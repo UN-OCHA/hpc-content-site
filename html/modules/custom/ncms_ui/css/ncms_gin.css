@@ -118,6 +118,11 @@ table {
   background-color: white;
 }
 
+[dir="ltr"] .gin-layer-wrapper:has(> .gin--sticky-table-header)::before,
+[dir="ltr"] .gin-layer-wrapper:has(> .gin--sticky-table-header)::after {
+  background: none !important;
+}
+
 /* Improvements for the ui dialog (modal). */
 .ui-dialog.lpb-dialog {
   width: auto !important;

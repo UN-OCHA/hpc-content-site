@@ -11,9 +11,6 @@
         "drupal/csp": {
             "Simplify log format": "./patches/csp-log-format.patch"
         },
-        "drupal/diff": {
-            "Issue #3183380: Add 'compare revisions' button on top for long form.": "https://www.drupal.org/files/issues/2024-04-25/3183380-add-compare-revisions-8.x-1.3.patch"
-        },
         "drupal/entity_browser": {
             "Issue #3056057: Position the main form actions to the bottom of IFrame": "https://www.drupal.org/files/issues/2019-05-23/position-main-form-actins-on-bottom-3056057-10.patch"
         },
@@ -22,13 +19,6 @@
         },
         "drupal/entity_reference_revisions": {
             "Issue #2799479: Views doesn't recognize relationship to host": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
-        },
-        "drupal/gin": {
-            "Issue #3342513: Ajax behaviour on entity edit form action buttons can break": "https://www.drupal.org/files/issues/2024-02-02/3342513-entity-edit-form-update-ajax-ids-12.patch"
-        },
-        "drupal/layout_paragraphs": {
-            "Issue #3265794: Modal form actions broken if subform has validation errors or certain AJAX callbacks": "https://git.drupalcode.org/project/layout_paragraphs/-/commit/9e6ce29756e7a44d1644f77a9606d3b598f67b5d.patch",
-            "Issue #3442062: Make selector less greedy, only look at the form actions": "https://git.drupalcode.org/project/layout_paragraphs/-/merge_requests/160.patch"
         },
         "drupal/paragraphs_viewmode": {
             "Issue #3345123: entityViewModeAlter throws an exception in php 8.2": "https://www.drupal.org/files/issues/2023-03-01/paragraphs_viewmode-remove-context-parameter-3345123-2.patch"

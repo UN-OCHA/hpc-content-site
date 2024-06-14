@@ -159,6 +159,7 @@ class ContentBaseFormAlter {
               '@type' => strtolower($entity->type->entity->label()),
             ]),
           ],
+          '#gin_action_item' => TRUE,
           '#submit' => [],
         ];
         break;
@@ -172,6 +173,7 @@ class ContentBaseFormAlter {
           '#ajax' => $ajax_confirm + [
             'confirm_question' => $this->t('This will publish these changes as a correction to the currently published version, which will be entirely replaced. Are you sure?'),
           ],
+          '#gin_action_item' => TRUE,
           '#submit' => [],
         ];
         $form['actions']['publish_revision'] = [
@@ -181,6 +183,7 @@ class ContentBaseFormAlter {
           '#ajax' => $ajax_confirm + [
             'confirm_question' => $this->t('This will publish these changes as a new revision to the currently published version, which will remain publicly available as an earlier or original version. Are you sure?'),
           ],
+          '#gin_action_item' => TRUE,
           '#submit' => [],
         ];
         break;
@@ -191,6 +194,7 @@ class ContentBaseFormAlter {
       '#name' => 'save_draft',
       '#value' => $this->t('Save as draft'),
       '#ajax' => $ajax_confirm,
+      '#gin_action_item' => TRUE,
       '#submit' => [],
     ];
   }

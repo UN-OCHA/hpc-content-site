@@ -135,6 +135,9 @@ table {
 }
 
 /* Improvements for the horizontal form tabs. */
-.horizontal-tabs ul.horizontal-tabs-list li.horizontal-tab-button a {
+.ui-dialog .horizontal-tabs ul.horizontal-tabs-list li.horizontal-tab-button a {
   padding: var(--gin-spacing-m) !important;
+}
+ .ui-dialog .horizontal-tabs ul.horizontal-tabs-list li.horizontal-tab-button a:focus {
+  box-shadow: none;
 }

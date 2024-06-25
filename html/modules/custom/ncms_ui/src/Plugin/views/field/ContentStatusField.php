@@ -47,7 +47,20 @@ class ContentStatusField extends FieldPluginBase {
    * {@inheritdoc}
    */
   public function render(ResultRow $row) {
-    $build = $row->_entity instanceof ContentInterface ? $row->_entity->getContentStatusLabel() : NULL;
+    if (!$row->_entity instanceof ContentInterface) {
+      return NULL;
+    }
+    $build = [
+      '#type' => 'html_tag',
+      '#tag' => 'span',
+      '#value' => $row->_entity->getContentStatusLabel(),
+      '#attributes' => [
+        'class' => array_filter([
+          'marker',
+          $row->_entity->isPublished() ? 'marker--published' : NULL,
+        ]),
+      ],
+    ];
     return $build;
   }
 

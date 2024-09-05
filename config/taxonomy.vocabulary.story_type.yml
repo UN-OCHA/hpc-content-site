@@ -6,3 +6,4 @@ name: 'Story type'
 vid: story_type
 description: 'Type of a story (ex: story from the field)'
 weight: 0
+new_revision: false

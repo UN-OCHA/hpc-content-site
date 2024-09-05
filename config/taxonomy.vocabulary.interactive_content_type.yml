@@ -6,3 +6,4 @@ name: 'Interactive content type'
 vid: interactive_content_type
 description: 'Type of an interactive content (ex: infographic)'
 weight: 0
+new_revision: false

@@ -1,0 +1,209 @@
+diff --git a/README.md b/README.md
+index 3ad19ac..c514716 100644
+--- a/README.md
++++ b/README.md
+@@ -145,14 +145,8 @@ $form['my_element'] = [
+   '#delimiter' => '',
+   '#style' => 'rectangle',
+   '#show_entity_id' => FALSE,
+-  '#not_exist_message' => $this->t('@not_exist_message', [
+-    '@not_exist_message' =>
+-      "No matches found, Press Enter to add <strong>'@term'</strong>."
+-  ]),
+-  '#not_found_message' => $this->t('@not_found_message', [
+-    '@not_found_message' =>
+-      "No matching suggestions found for <strong>'@term'</strong>."
+-  ]),
++  '#not_exist_message' => $this->t("No matches found, Press Enter to add <strong>'@term'</strong>."),
++  '#not_found_message' => $this->t("No matching suggestions found for <strong>'@term'</strong>."),
+   '#placeholder' => $this->t('@placeholder', ['@placeholder' => "Enter..."]),
+ ];
+ ```
+diff --git a/assets/css/active-tags.css b/assets/css/active-tags.css
+index e93832b..7939e54 100644
+--- a/assets/css/active-tags.css
++++ b/assets/css/active-tags.css
+@@ -699,7 +699,6 @@
+   font-style: italic;
+ }
+ .active-tags__dropdown__item--no-match p {
+-  display: inline-flex;
+   font-size: 0.8em;
+ }
+ .active-tags__dropdown__item--no-match .active-tags--value {
+diff --git a/assets/js/active-tags.init.js b/assets/js/active-tags.init.js
+index 76ab8e2..4d80d11 100644
+--- a/assets/js/active-tags.init.js
++++ b/assets/js/active-tags.init.js
+@@ -29,18 +29,19 @@
+     const autoCreate = $(input).hasClass('active-tags--auto-create');
+     const bubbleStyle = $(input).hasClass('active-tags__tag__bubble');
+ 
+-    // Determine the appropriate message for no match scenarios.
+-    const noMatchMessage = autoCreate
+-      ? autocompleteSettings.not_exist_message
+-      : autocompleteSettings.not_found_message;
+-
+     // Define the template for no match dropdown items.
+-    const dropdownItemNoMatch = (data) =>
+-      !isTagLimitReached(cardinality, identifier) ?
++    const dropdownItemNoMatch = function (data) {
++      // Determine the appropriate message for no match scenarios.
++      let t_args = {"@term": data.value};
++      const noMatchMessage = autoCreate
++      ? (autocompleteSettings.not_exist_message ? Drupal.formatString(autocompleteSettings.not_exist_message, t_args) : Drupal.t('No matches found, Press Enter to add <strong>@term</strong>.', t_args))
++      : (autocompleteSettings.not_found_message ? Drupal.formatString(autocompleteSettings.not_found_message, t_args) : Drupal.t('No matching suggestions found for <strong>@term</strong>.', t_args));
++      return !isTagLimitReached(cardinality, identifier) ?
+         `<div class='${activeTags.settings.classNames.dropdownItem} active-tags__dropdown__item--no-match' value="noMatch" tabindex="0" role="option">
+-          <p>${Drupal.t(noMatchMessage, {"@term": data.value})}</p>
++          <p>${noMatchMessage}</p>
+         </div>`
+         : '';
++    }
+ 
+     // Initialize the Active Tags widget.
+     const activeTags = Drupal.activeTags(input, {
+@@ -174,21 +175,22 @@
+     // Check if the select element has the auto-create class.
+     const autoCreate = $(select).hasClass('active-tags--auto-create');
+ 
+-    // Determine the appropriate message for no match scenarios.
+-    const noMatchMessage = autoCreate
+-      ? selectSettings.not_exist_message
+-      : selectSettings.not_found_message;
+-
+     // Define the template for no match dropdown items.
+-    const dropdownItemNoMatch = (data) =>
+-      !isTagLimitReached(cardinality, identifier)
++    const dropdownItemNoMatch = function (data) {
++      // Determine the appropriate message for no match scenarios.
++      let t_args = {"@term": data.value};
++      const noMatchMessage = autoCreate
++      ? (selectSettings.not_exist_message ? Drupal.formatString(selectSettings.not_exist_message, t_args) : Drupal.t('No matches found, Press Enter to add <strong>@term</strong>.', t_args))
++      : (selectSettings.not_found_message ? Drupal.formatString(selectSettings.not_found_message, t_args) : Drupal.t('No matching suggestions found for <strong>@term</strong>.', t_args));
++      return !isTagLimitReached(cardinality, identifier)
+         ? `<div class="${this.activeTagsSelect.settings.classNames.dropdownItem} active-tags__dropdown__item--no-match"
+                value="noMatch"
+                tabindex="0"
+                role="option">
+-            <p>${Drupal.t(noMatchMessage, {"@term": data.value})}</p>
++            <p>${noMatchMessage}</p>
+           </div>`
+         : '';
++    }
+ 
+     // Initialize arrays to store options and selected options.
+     const options = [];
+diff --git a/config/schema/active_tags.schema.yml b/config/schema/active_tags.schema.yml
+index c8a5136..def5f40 100644
+--- a/config/schema/active_tags.schema.yml
++++ b/config/schema/active_tags.schema.yml
+@@ -1,6 +1,6 @@
+ # Default schema for active tags field widget.
+-field.widget.settings.active_tags_entity_reference_autocomplete_widget:
+-  type: field.widget.settings.active_tags
++field.widget.settings.entity_reference_autocomplete_active_tags:
++  type: mapping
+   label: 'Active tags entity reference widget'
+   mapping:
+     autocomplete_route_name:
+@@ -28,7 +28,7 @@ field.widget.settings.active_tags_entity_reference_autocomplete_widget:
+       type: string
+       label: "Delimiter"
+     placeholder:
+-      type: string
++      type: label
+       label: 'Placeholder'
+     show_avatar:
+       type: integer
+@@ -46,7 +46,7 @@ field.widget.settings.active_tags_entity_reference_autocomplete_widget:
+       type: integer
+       label: 'Include info label'
+     info_label:
+-      type: string
++      type: label
+       label: 'Info label content'
+     not_found_message_allow:
+       type: boolean
+@@ -67,8 +67,8 @@ field.widget.settings.active_tags_entity_reference_autocomplete_widget:
+       type: string
+       label: 'Field name'
+ 
+-field.widget.settings.select_active_tags_widget:
+-  type: field.widget.settings.active_tags_select
++field.widget.settings.select_active_tags:
++  type: mapping
+   label: 'Active tags select widget'
+   mapping:
+     match_operator:
+diff --git a/src/Element/EntityAutocompleteActiveTags.php b/src/Element/EntityAutocompleteActiveTags.php
+index 1c10b93..690029a 100644
+--- a/src/Element/EntityAutocompleteActiveTags.php
++++ b/src/Element/EntityAutocompleteActiveTags.php
+@@ -238,8 +238,8 @@ class EntityAutocompleteActiveTags extends Textfield {
+       'delimiter' => $element['#delimiter'] ?? '',
+       'new_terms' => $element['#new_terms'] ?? FALSE,
+       'string_override' => $element['#string_override'] ?? 0,
+-      'not_exist_message' => $element['#not_exist_message'] ?? "No matches found, Press Enter to add <strong>'@term'</strong>.",
+-      'not_found_message' => $element['#not_found_message'] ?? "No matching suggestions found for <strong>'@term'</strong>.",
++      'not_exist_message' => $element['#not_exist_message'] ?? NULL,
++      'not_found_message' => $element['#not_found_message'] ?? NULL,
+       'limit_tag_message' => $element['#limit_tag_message'] ?? "Allowed number of values limited to <strong>@cardinality</strong>.",
+     ];
+ 
+diff --git a/src/Element/SelectActiveTags.php b/src/Element/SelectActiveTags.php
+index 43cfff0..2db3726 100644
+--- a/src/Element/SelectActiveTags.php
++++ b/src/Element/SelectActiveTags.php
+@@ -157,8 +157,8 @@ class SelectActiveTags extends Select {
+       'cardinality' => $element['#cardinality'],
+       'required' => $element['#required'],
+       'limit' => $element['#limit'] ?? 10,
+-      'not_exist_message' => $element['#not_exist_message'] ?? "No matches found, Press Enter to add <strong>'@term'</strong>.",
+-      'not_found_message' => $element['#not_found_message'] ?? "No matching suggestions found for <strong>'@term'</strong>.",
++      'not_exist_message' => $element['#not_exist_message'] ?? NULL,
++      'not_found_message' => $element['#not_found_message'] ?? NULL,
+       'limit_tag_message' => $element['#limit_tag_message'] ?? "Allowed number of values limited to <strong>@cardinality</strong>.",
+     ];
+ 
+diff --git a/src/Plugin/Field/FieldWidget/EntityReferenceAutocompleteActiveTagsWidget.php b/src/Plugin/Field/FieldWidget/EntityReferenceAutocompleteActiveTagsWidget.php
+index 870b928..d0a2527 100644
+--- a/src/Plugin/Field/FieldWidget/EntityReferenceAutocompleteActiveTagsWidget.php
++++ b/src/Plugin/Field/FieldWidget/EntityReferenceAutocompleteActiveTagsWidget.php
+@@ -123,8 +123,8 @@ class EntityReferenceAutocompleteActiveTagsWidget extends EntityReferenceAutocom
+       'string_override' => 0,
+       'show_info_label' => 0,
+       'info_label' => '',
+-      'not_exist_message' => "No matches found, Press Enter to add <strong>'@term'</strong>.",
+-      'not_found_message' => "No matching suggestions found for <strong>'@term'</strong>.",
++      'not_exist_message' => NULL,
++      'not_found_message' => NULL,
+       'limit_tag_message' => "Allowed number of values limited to <strong>@cardinality</strong>.",
+     ] + parent::defaultSettings();
+   }
+@@ -380,8 +380,8 @@ class EntityReferenceAutocompleteActiveTagsWidget extends EntityReferenceAutocom
+       '#delimiter' => $this->getSetting('delimiter') ?? '',
+       '#new_terms' => $this->getSelectionHandlerSetting('auto_create'),
+       '#string_override' => $this->getSetting('string_override') ?? 0,
+-      '#not_exist_message' => $this->t('@not_exist_message', ['@not_exist_message' => $this->getSetting('not_exist_message') ?? '']),
+-      '#not_found_message' => $this->t('@not_found_message', ['@not_found_message' => $this->getSetting('not_found_message') ?? '']),
++      '#not_exist_message' => $this->getSetting('string_override') ? $this->getSetting('not_exist_message') : NULL,
++      '#not_found_message' => $this->getSetting('string_override') ? $this->getSetting('not_found_message') : NULL,
+       // Entity reference field items are handling validation themselves via
+       // the 'ValidReference' constraint.
+       '#validate_reference' => FALSE,
+diff --git a/src/Plugin/WebformElement/EntityAutocompleteActiveTags.php b/src/Plugin/WebformElement/EntityAutocompleteActiveTags.php
+index 6eba830..b9d8418 100644
+--- a/src/Plugin/WebformElement/EntityAutocompleteActiveTags.php
++++ b/src/Plugin/WebformElement/EntityAutocompleteActiveTags.php
+@@ -46,8 +46,8 @@ class EntityAutocompleteActiveTags extends WebformElementBase implements Webform
+       'show_entity_id' => 0,
+       'show_info_label' => 0,
+       'info_label' => '',
+-      'not_exist_message' => "No matches found, Press Enter to add <strong>'@term'</strong>.",
+-      'not_found_message' => "No matching suggestions found for <strong>'@term'</strong>.",
++      'not_exist_message' => NULL,
++      'not_found_message' => NULL,
+       'limit_tag_message' => "Allowed number of values limited to <strong>@cardinality</strong>.",
+     ] + parent::defineDefaultProperties()
+       + $this->defineDefaultMultipleProperties();

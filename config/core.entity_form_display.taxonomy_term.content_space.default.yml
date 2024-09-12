@@ -6,6 +6,7 @@ dependencies:
     - field.field.taxonomy_term.content_space.field_major_tags
     - taxonomy.vocabulary.content_space
   module:
+    - active_tags
     - path
 id: taxonomy_term.content_space.default
 targetEntityType: taxonomy_term
@@ -13,7 +14,7 @@ bundle: content_space
 mode: default
 content:
   field_major_tags:
-    type: entity_reference_autocomplete_tags
+    type: entity_reference_autocomplete_active_tags
     weight: 1
     region: content
     settings:
@@ -21,6 +22,20 @@ content:
       match_limit: 10
       size: 60
       placeholder: ''
+      autocomplete_route_name: active_tags.entity_autocomplete
+      style: rectangle
+      selection_handler: default
+      min_length: 1
+      delimiter: ''
+      show_entity_id: 0
+      show_avatar: 1
+      convert_uppercase: 0
+      string_override: 0
+      show_info_label: 0
+      info_label: ''
+      not_exist_message: "No matches found, Press Enter to add <strong>'@term'</strong>."
+      not_found_message: "No matching suggestions found for <strong>'@term'</strong>."
+      limit_tag_message: 'Allowed number of values limited to <strong>@cardinality</strong>.'
     third_party_settings: {  }
   langcode:
     type: language_select

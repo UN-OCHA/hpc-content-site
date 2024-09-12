@@ -15,6 +15,7 @@ dependencies:
     - field.field.node.document.field_tags
     - node.type.document
   module:
+    - active_tags
     - double_field
     - field_group
     - layout_paragraphs
@@ -190,14 +191,28 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_tags:
-    type: entity_reference_autocomplete_tags
+    type: entity_reference_autocomplete_active_tags
     weight: 31
     region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
-      size: 60
       placeholder: 'Document tags'
+      style: rectangle
+      autocomplete_route_name: active_tags.entity_autocomplete
+      size: 60
+      selection_handler: default
+      min_length: 1
+      delimiter: ''
+      show_entity_id: 0
+      show_avatar: 1
+      convert_uppercase: 0
+      string_override: 0
+      show_info_label: 0
+      info_label: ''
+      not_exist_message: "No matches found, Press Enter to add <strong>'@term'</strong>."
+      not_found_message: "No matching suggestions found for <strong>'@term'</strong>."
+      limit_tag_message: 'Allowed number of values limited to <strong>@cardinality</strong>.'
     third_party_settings: {  }
   langcode:
     type: language_select

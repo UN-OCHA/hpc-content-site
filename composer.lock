@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "781f39c11936ede1c0735fc26b650d6d",
+    "content-hash": "c8917b9bd53eb4c9a4751854f1cc2edd",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2317,6 +2317,70 @@
             "homepage": "https://www.drupal.org/project/action",
             "support": {
                 "source": "https://git.drupalcode.org/project/action"
+            }
+        },
+        {
+            "name": "drupal/active_tags",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/active_tags.git",
+                "reference": "1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/active_tags-1.0.0.zip",
+                "reference": "1.0.0",
+                "shasum": "781fc88716acab21fdebc9e8557f2f53caf92851"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9 || ^10 || ^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.0.0",
+                    "datestamp": "1723203012",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Mahyar Sabeti",
+                    "homepage": "https://www.drupal.org/u/mahyarsbt",
+                    "email": "mahyar.sbt7@gmail.com",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "dragonwize",
+                    "homepage": "https://www.drupal.org/user/137882"
+                },
+                {
+                    "name": "mahyarsbt",
+                    "homepage": "https://www.drupal.org/user/722386"
+                },
+                {
+                    "name": "pfrenssen",
+                    "homepage": "https://www.drupal.org/user/382067"
+                }
+            ],
+            "description": "Enhanced tag widget for free tagging vocabularies.",
+            "homepage": "https://www.drupal.org/project/active_tags",
+            "keywords": [
+                "Active Tags",
+                "ActiveTags",
+                "Drupal"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/active_tags",
+                "issues": "https://drupal.org/project/issues/active_tags"
             }
         },
         {

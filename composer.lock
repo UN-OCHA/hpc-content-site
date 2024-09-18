@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4709045437816c30187f4203e1572b0",
+    "content-hash": "195d8a4e3906be9a6ef3536901f089be",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4947,6 +4947,52 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/layout_paragraphs_limit",
                 "issues": "https://www.drupal.org/project/issues/layout_paragraphs_limit"
+            }
+        },
+        {
+            "name": "drupal/layout_paragraphs_toggle_publish",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/layout_paragraphs_toggle_publish.git",
+                "reference": "1.0.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/layout_paragraphs_toggle_publish-1.0.1.zip",
+                "reference": "1.0.1",
+                "shasum": "e77de99b318c553c748c25ed65ad2e45d919c80a"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9 || ^10",
+                "drupal/layout_paragraphs": "^2",
+                "drupal/paragraphs": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.0.1",
+                    "datestamp": "1680092419",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "xaviemirmon",
+                    "homepage": "https://www.drupal.org/user/2727781"
+                }
+            ],
+            "description": "Toggle Paragraphs published status from the controls section.",
+            "homepage": "https://www.drupal.org/project/layout_paragraphs_toggle_publish",
+            "support": {
+                "source": "https://git.drupalcode.org/project/layout_paragraphs_toggle_publish"
             }
         },
         {
@@ -16893,5 +16939,5 @@
         "php": ">=8.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

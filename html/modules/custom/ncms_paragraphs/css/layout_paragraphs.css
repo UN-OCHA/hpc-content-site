@@ -10,6 +10,16 @@
   background-color: var(--gin-color-focus-border) !important;
   outline: 1px solid var(--gin-color-focus-border);
 }
+.lpb-controls .lpb-controls-publish-toggle {
+  background-image: url("../assets/visibility_on.svg");
+  background-repeat: no-repeat;
+  background-position-y: center;
+  width: 24px;
+  height: 16px;
+}
+.lpb-controls .lpb-controls-publish-toggle.not-published {
+  background-image: url("../assets/visibility_off.svg");
+}
 .lpb-btn--add {
   z-index: 91;
 }

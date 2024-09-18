@@ -5,12 +5,21 @@ dependencies:
   config:
     - field.storage.node.field_automatically_visible
     - node.type.document
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: node.document.field_automatically_visible
 field_name: field_automatically_visible
 entity_type: node
 bundle: document
-label: Auto-visible
-description: 'Enable to mark this document as automatically visible on client sites like Humanitarian Action.'
+label: 'Enable auto-display on initial publish'
+description: 'Enable to mark this document to be automatically displayed on client sites like Humanitarian Action when first published. This toggle has no effect for republishing pages that already exist on such client sites.'
 required: false
 translatable: false
 default_value:

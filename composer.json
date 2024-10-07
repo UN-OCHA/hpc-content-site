@@ -136,7 +136,8 @@
             "mglaman/composer-drupal-lenient": true,
             "phpstan/extension-installer": true,
             "drupal-composer/preserve-paths": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "tbachert/spi": true
         }
     },
     "autoload": {

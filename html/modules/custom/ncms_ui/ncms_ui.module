@@ -24,6 +24,7 @@ use Drupal\ncms_ui\Entity\Content\Document;
 use Drupal\ncms_ui\Entity\Content\Story;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
+use Drupal\ncms_ui\Entity\ContentVersionInterface;
 use Drupal\ncms_ui\Entity\EntityOverviewInterface;
 use Drupal\ncms_ui\Entity\IframeDisplayContentInterface;
 use Drupal\ncms_ui\Entity\Media\Author;
@@ -82,6 +83,13 @@ function ncms_ui_entity_base_field_info_alter(&$fields, $entity_type) {
     if (isset($fields['title'])) {
       $fields['title']->setDisplayConfigurable('view', TRUE);
     }
+  }
+  // Since the paragraph entity doesn't have uid fields anymore, remove the
+  // content_translation_uid from the field definitions.
+  if ($entity_type->id() == 'paragraph' && isset($fields['status'])) {
+    /** @var \Drupal\Core\Field\BaseFieldDefinition $status_field */
+    $status_field = &$fields['status'];
+    $status_field->setLabel(t('Visible'));
   }
 }
 
@@ -308,6 +316,16 @@ function ncms_ui_preprocess_field__paragraph__field_title__document_chapter(&$va
 }
 
 /**
+ * Implements hook_preprocess_layout_paragraphs_builder_controls().
+ */
+function ncms_ui_preprocess_layout_paragraphs_builder_controls(array &$variables) {
+  // Move the publish toggle to the right of the edit control.
+  if (!empty($variables['controls']['publish_toggle'])) {
+    $variables['controls']['publish_toggle']['#weight'] = $variables['controls']['edit_link']['#weight'] + 1;
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ncms_ui_form_node_preview_form_select_alter(&$form, FormStateInterface $form_state) {
@@ -356,6 +374,11 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
     /** @var \Drupal\ncms_ui\Form\EntityOverviewFormAlter $entity_overview_form_alter */
     $entity_overview_form_alter = \Drupal::service('ncms_ui.entity_overview_form_alter');
     $entity_overview_form_alter->alterForm($form, $form_state);
+  }
+
+  if ($node instanceof ContentVersionInterface && array_key_exists('field_automatically_visible', $form)) {
+    // Disable the "auto-visible" toggle if a published revision exists.
+    $form['field_automatically_visible']['#disabled'] = !empty($node->getLastPublishedRevision());
   }
 
   // Hide the label of the double field widget.

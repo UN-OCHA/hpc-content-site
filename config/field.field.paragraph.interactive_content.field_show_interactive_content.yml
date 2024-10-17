@@ -5,6 +5,15 @@ dependencies:
   config:
     - field.storage.paragraph.field_show_interactive_content
     - paragraphs.paragraphs_type.interactive_content
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: paragraph.interactive_content.field_show_interactive_content
 field_name: field_show_interactive_content
 entity_type: paragraph
@@ -15,7 +24,7 @@ required: false
 translatable: true
 default_value:
   -
-    value: 0
+    value: 1
 default_value_callback: ''
 settings:
   on_label: 'On'

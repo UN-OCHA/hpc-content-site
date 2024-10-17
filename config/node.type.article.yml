@@ -11,7 +11,7 @@ third_party_settings:
 name: Article
 type: article
 description: 'A publicly available article with its own page.'
-help: ''
+help: null
 new_revision: true
 preview_mode: 1
 display_submitted: false

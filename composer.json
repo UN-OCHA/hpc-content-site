@@ -75,6 +75,7 @@
         "drupal/inline_entity_form": "^1.0@RC",
         "drupal/layout_paragraphs": "^2",
         "drupal/layout_paragraphs_limit": "^1.0",
+        "drupal/layout_paragraphs_toggle_publish": "^1.0",
         "drupal/maintenance200": "^2",
         "drupal/maxlength": "^2.1",
         "drupal/metatag": "^1.16",
@@ -135,7 +136,8 @@
             "mglaman/composer-drupal-lenient": true,
             "phpstan/extension-installer": true,
             "drupal-composer/preserve-paths": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "tbachert/spi": true
         }
     },
     "autoload": {

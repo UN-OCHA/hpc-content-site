@@ -11,3 +11,12 @@ form.node-article-form fieldset[data-drupal-selector="edit-field-hero-image"] .f
 form.node-article-edit-form fieldset[data-drupal-selector="edit-field-hero-image"] .fieldset__wrapper {
   margin: 0;
 }
+
+form.node-article-form .paragraph--unpublished,
+form.node-article-edit-form .paragraph--unpublished {
+  background-color: rgb(228, 226, 226);
+}
+form.node-article-form .paragraph--unpublished > div:not(.lpb-controls),
+form.node-article-edit-form .paragraph--unpublished > div:not(.lpb-controls) {
+  opacity: 0.7;
+}

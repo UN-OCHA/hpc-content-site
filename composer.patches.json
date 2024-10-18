@@ -19,6 +19,9 @@
         "drupal/entity_reference_revisions": {
             "Issue #2799479: Views doesn't recognize relationship to host": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
         },
+        "drupal/field_group": {
+          "Issue #3395375: Duplicated required marks in field tabs with GIn admin theme": "https://www.drupal.org/files/issues/2024-08-06/3395375-6.patch"
+        },
         "drupal/paragraphs_viewmode": {
             "Issue #3345123: entityViewModeAlter throws an exception in php 8.2": "https://www.drupal.org/files/issues/2023-03-01/paragraphs_viewmode-remove-context-parameter-3345123-2.patch"
         },

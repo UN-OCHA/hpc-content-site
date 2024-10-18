@@ -1,0 +1,7 @@
+name: HPC Content Module Tags
+type: module
+description: 'Additional logic around tags.'
+package: HPC Content Module
+core_version_requirement: ^9.3 || ^10
+dependencies:
+  - taxonomy:taxonomy

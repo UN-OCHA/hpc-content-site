@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Post update functions for NCMS UI.
+ * Deploy functions for HPC Content Module GraphQL.
  */
 
 /**

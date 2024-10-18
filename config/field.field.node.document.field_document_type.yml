@@ -1,38 +1,38 @@
-uuid: 90260dcf-c955-4b42-bd04-b2e247c4dba5
+uuid: 65d2857e-72a2-40a2-9400-4569a6f21012
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_tags
+    - field.storage.node.field_document_type
     - node.type.document
-    - taxonomy.vocabulary.major_tags
+    - taxonomy.vocabulary.document_type
   module:
     - field_config_cardinality
 third_party_settings:
   field_config_cardinality:
-    cardinality_config: '-1'
+    cardinality_config: '1'
     cardinality_label_config: false
     unlimited_not_required: ''
     limited_not_required: ''
     limited_required: ''
-id: node.document.field_tags
-field_name: field_tags
+id: node.document.field_document_type
+field_name: field_document_type
 entity_type: node
 bundle: document
-label: Theme
-description: 'Add tags that describe the theme of this document and all articles within it.'
-required: false
-translatable: true
+label: 'Document type'
+description: 'Select the type of document for this document.'
+required: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      major_tags: major_tags
+      document_type: document_type
     sort:
       field: name
       direction: asc
-    auto_create: true
+    auto_create: false
     auto_create_bundle: ''
 field_type: entity_reference

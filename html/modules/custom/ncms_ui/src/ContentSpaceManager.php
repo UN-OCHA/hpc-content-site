@@ -257,12 +257,14 @@ class ContentSpaceManager {
    *   The query object.
    */
   public function alterViewsQuery(ViewExecutable $view, QueryPluginBase $query) {
+    if ($view->current_display == 'page_find_content') {
+      return;
+    }
     $content_space = $this->getCurrentContentSpace();
     if (!$content_space) {
       return;
     }
     $content_space_id = $content_space->id();
-
     if (!empty($query->tables['node_field_data']) && $content_space_id) {
       $definition = [
         'table' => 'node__field_content_space',

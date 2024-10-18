@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.articles
     - filter.format.filtered_html
     - filter.format.footnotes
     - filter.format.limited_html
@@ -16,7 +17,6 @@ dependencies:
     - taxonomy.vocabulary.content_space
     - taxonomy.vocabulary.interactive_content_type
     - taxonomy.vocabulary.major_tags
-    - taxonomy.vocabulary.minor_tags
     - taxonomy.vocabulary.story_type
     - workflows.workflow.article_workflow
   module:
@@ -60,7 +60,6 @@ permissions:
   - 'create terms in content_space'
   - 'create terms in interactive_content_type'
   - 'create terms in major_tags'
-  - 'create terms in minor_tags'
   - 'create terms in story_type'
   - 'create video media'
   - 'delete any author media'
@@ -74,7 +73,6 @@ permissions:
   - 'delete terms in appeals'
   - 'delete terms in interactive_content_type'
   - 'delete terms in major_tags'
-  - 'delete terms in minor_tags'
   - 'delete terms in story_type'
   - 'edit any author media'
   - 'edit any image media'
@@ -90,7 +88,6 @@ permissions:
   - 'edit terms in content_space'
   - 'edit terms in interactive_content_type'
   - 'edit terms in major_tags'
-  - 'edit terms in minor_tags'
   - 'edit terms in story_type'
   - 'enter article revision log entry'
   - 'enter document revision log entry'

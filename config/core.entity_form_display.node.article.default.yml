@@ -9,6 +9,8 @@ dependencies:
     - field.field.node.article.field_caption
     - field.field.node.article.field_card_title
     - field.field.node.article.field_content_space
+    - field.field.node.article.field_country
+    - field.field.node.article.field_document_type
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_pdf
@@ -44,12 +46,15 @@ third_party_settings:
         classes: ''
         show_empty_fields: false
         id: ''
+        label_as_html: false
         formatter: closed
         description: ''
         required_fields: true
     group_meta_data:
       children:
         - field_content_space
+        - field_document_type
+        - field_country
         - field_tags
         - field_author
         - field_pdf
@@ -63,6 +68,7 @@ third_party_settings:
         classes: ''
         show_empty_fields: false
         id: ''
+        label_as_html: false
         formatter: closed
         description: ''
         required_fields: true
@@ -97,6 +103,7 @@ third_party_settings:
         classes: ''
         show_empty_fields: false
         id: ''
+        label_as_html: false
         formatter: closed
         description: ''
         required_fields: true
@@ -113,7 +120,7 @@ content:
     third_party_settings: {  }
   field_author:
     type: inline_entity_form_complex
-    weight: 25
+    weight: 26
     region: content
     settings:
       form_mode: default
@@ -131,7 +138,7 @@ content:
     third_party_settings: {  }
   field_automatically_visible:
     type: boolean_checkbox
-    weight: 27
+    weight: 28
     region: content
     settings:
       display_label: true
@@ -169,6 +176,18 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_country:
+    type: options_select
+    weight: 24
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_document_type:
+    type: options_select
+    weight: 23
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_hero_image:
     type: media_library_widget
     weight: 5
@@ -181,14 +200,16 @@ content:
     weight: 7
     region: content
     settings:
+      view_mode: default
       preview_view_mode: preview
+      form_display_mode: default
       nesting_depth: 4
       require_layouts: 0
       empty_message: ''
     third_party_settings: {  }
   field_pdf:
     type: file_generic
-    weight: 26
+    weight: 27
     region: content
     settings:
       progress_indicator: throbber
@@ -218,7 +239,7 @@ content:
         hide_guidelines: '1'
   field_tags:
     type: entity_reference_autocomplete_tags
-    weight: 23
+    weight: 25
     region: content
     settings:
       match_operator: CONTAINS

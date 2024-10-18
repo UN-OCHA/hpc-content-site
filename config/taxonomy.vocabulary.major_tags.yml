@@ -2,8 +2,8 @@ uuid: 90adcf85-47c7-4d3c-8d4a-fd3986ee0a2a
 langcode: en
 status: true
 dependencies: {  }
-name: 'Major tags'
+name: Theme
 vid: major_tags
-description: null
+description: 'The main theme of the content'
 weight: 0
 new_revision: false

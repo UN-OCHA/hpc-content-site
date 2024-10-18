@@ -6,6 +6,8 @@ dependencies:
     - field.field.node.document.field_automatically_visible
     - field.field.node.document.field_caption
     - field.field.node.document.field_content_space
+    - field.field.node.document.field_country
+    - field.field.node.document.field_document_type
     - field.field.node.document.field_hero_image
     - field.field.node.document.field_paragraphs
     - field.field.node.document.field_short_title
@@ -92,6 +94,8 @@ content:
 hidden:
   field_automatically_visible: true
   field_content_space: true
+  field_country: true
+  field_document_type: true
   field_summary: true
   field_tags: true
   langcode: true

@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @file
+ * NCMS Tags module file.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\taxonomy\TermInterface;
+
+/**
+ * Implements hook_entity_base_field_info_alter().
+ *
+ * This is used to add a constraint to the homepage node type to guarantee
+ * unique years.
+ */
+function ncms_tags_entity_base_field_info_alter(&$fields, EntityTypeInterface $entity_type) {
+  if (($entity_type->id() === 'taxonomy_term') && isset($fields['name'])) {
+    $fields['name']->addConstraint('UniqueTermName');
+  }
+}
+
+/**
+ * Support for computed tags field on articles and documents.
+ */
+function ncms_tags_computed_field_field_computed_tags_value_alter(&$value, $context) {
+  $entity = $context['entity'];
+  $supported_fields = [
+    'field_country',
+    'field_document_type',
+    'field_year',
+    'field_tags',
+  ];
+  $tags = [];
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  foreach ($entity->toArray() as $field_name => $field) {
+    if (!in_array($field_name, $supported_fields)) {
+      continue;
+    }
+    $tids = array_map(function ($value) {
+      return $value['target_id'];
+    }, $field);
+    $terms = $term_storage->loadMultiple($tids);
+    $tags = array_merge($tags, array_map(function (TermInterface $term) {
+      return $term->getName();
+    }, $terms));
+  }
+  $value = implode(',', $tags);
+}

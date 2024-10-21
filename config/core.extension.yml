@@ -16,6 +16,7 @@ module:
   bulk_update_fields: 0
   ckeditor5: 0
   components: 0
+  computed_field: 0
   config: 0
   config_filter: 0
   config_ignore: 0
@@ -112,6 +113,7 @@ module:
   username_enumeration_prevention: 0
   views_ui: 0
   workflows: 0
+  year: 0
   content_translation: 10
   views: 10
   paragraphs: 11

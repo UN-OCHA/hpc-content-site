@@ -1,0 +1,9 @@
+uuid: 8fd1b754-668f-4b20-af33-e813116f108c
+langcode: en
+status: true
+dependencies: {  }
+name: Year
+vid: year
+description: 'The year(s) that a content item is about'
+weight: 0
+new_revision: false

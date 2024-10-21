@@ -4,6 +4,6 @@ status: true
 dependencies: {  }
 name: Country
 vid: country
-description: 'The country this content is about'
+description: 'The countries that a content item is about'
 weight: 0
 new_revision: false

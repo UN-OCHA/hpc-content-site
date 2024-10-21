@@ -4,6 +4,6 @@ status: true
 dependencies: {  }
 name: Theme
 vid: major_tags
-description: 'The main theme of the content'
+description: 'The main theme(s) of the content'
 weight: 0
 new_revision: false

@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.article.field_automatically_visible
     - field.field.node.article.field_caption
     - field.field.node.article.field_card_title
+    - field.field.node.article.field_computed_tags
     - field.field.node.article.field_content_space
     - field.field.node.article.field_country
     - field.field.node.article.field_document_type
@@ -20,6 +21,7 @@ dependencies:
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
+    - field.field.node.article.field_year
     - image.style.572_x_360
     - node.type.article
   module:
@@ -77,6 +79,7 @@ hidden:
   field_author: true
   field_automatically_visible: true
   field_caption: true
+  field_computed_tags: true
   field_content_space: true
   field_country: true
   field_document_type: true
@@ -86,6 +89,7 @@ hidden:
   field_short_title: true
   field_tags: true
   field_thumbnail_image: true
+  field_year: true
   langcode: true
   links: true
   title: true

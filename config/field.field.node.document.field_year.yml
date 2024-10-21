@@ -1,26 +1,26 @@
-uuid: 4d3170bb-cf6c-413a-a321-34cc6d790e9f
+uuid: 08099397-cd2d-43f1-92e8-0f45334f87e6
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_document_type
-    - node.type.article
-    - taxonomy.vocabulary.document_type
+    - field.storage.node.field_year
+    - node.type.document
+    - taxonomy.vocabulary.year
   module:
     - field_config_cardinality
 third_party_settings:
   field_config_cardinality:
-    cardinality_config: '1'
+    cardinality_config: '-1'
     cardinality_label_config: false
     unlimited_not_required: ''
     limited_not_required: ''
     limited_required: ''
-id: node.article.field_document_type
-field_name: field_document_type
+id: node.document.field_year
+field_name: field_year
 entity_type: node
-bundle: article
-label: 'Document type'
-description: 'Select the type of document for this article.'
+bundle: document
+label: Year
+description: ''
 required: false
 translatable: false
 default_value: {  }
@@ -29,7 +29,7 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      document_type: document_type
+      year: year
     sort:
       field: name
       direction: asc

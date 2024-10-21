@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8917b9bd53eb4c9a4751854f1cc2edd",
+    "content-hash": "0cfb4947e49e26880e20a6549ed0b7dc",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2944,6 +2944,82 @@
             "homepage": "https://drupal.org/project/components",
             "support": {
                 "source": "https://git.drupalcode.org/project/components"
+            }
+        },
+        {
+            "name": "drupal/computed_field",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/computed_field.git",
+                "reference": "3.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/computed_field-3.0.0.zip",
+                "reference": "3.0.0",
+                "shasum": "88f060658f30e196b177923dc12bc48df38042df"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "3.0.0",
+                    "datestamp": "1705775905",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Agileware",
+                    "homepage": "https://www.drupal.org/user/89106"
+                },
+                {
+                    "name": "colan",
+                    "homepage": "https://www.drupal.org/user/58704"
+                },
+                {
+                    "name": "dealancer",
+                    "homepage": "https://www.drupal.org/user/243418"
+                },
+                {
+                    "name": "joachim",
+                    "homepage": "https://www.drupal.org/user/107701"
+                },
+                {
+                    "name": "markus_petrux",
+                    "homepage": "https://www.drupal.org/user/39593"
+                },
+                {
+                    "name": "Moonshine",
+                    "homepage": "https://www.drupal.org/user/133705"
+                },
+                {
+                    "name": "nickcaballero",
+                    "homepage": "https://www.drupal.org/user/588336"
+                },
+                {
+                    "name": "Pedro Lozano",
+                    "homepage": "https://www.drupal.org/user/123766"
+                },
+                {
+                    "name": "ram4nd",
+                    "homepage": "https://www.drupal.org/user/601534"
+                }
+            ],
+            "description": "Defines a field type that allows values to be \"computed\" via PHP code.",
+            "homepage": "https://www.drupal.org/project/computed_field",
+            "support": {
+                "source": "https://git.drupalcode.org/project/computed_field"
             }
         },
         {
@@ -6701,6 +6777,58 @@
             "homepage": "https://www.drupal.org/project/username_enumeration_prevention",
             "support": {
                 "source": "https://git.drupalcode.org/project/username_enumeration_prevention"
+            }
+        },
+        {
+            "name": "drupal/year",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/year.git",
+                "reference": "1.0.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/year-1.0.1.zip",
+                "reference": "1.0.1",
+                "shasum": "68f7b8ff3935f9e43baa3dfe4130b45f864ea72e"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9 || ^10 || ^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.0.1",
+                    "datestamp": "1722367176",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Caldwell (justcaldwell)",
+                    "homepage": "https://www.drupal.org/u/justcaldwell",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Custom integer field for collecting only the year portion of a date.",
+            "homepage": "https://drupal.org/project/year",
+            "keywords": [
+                "Date",
+                "Drupal",
+                "Fields",
+                "Year"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/year",
+                "issues": "https://www.drupal.org/project/issues/year"
             }
         },
         {

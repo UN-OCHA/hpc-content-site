@@ -15,9 +15,12 @@ dependencies:
     - node.type.story
     - taxonomy.vocabulary.appeals
     - taxonomy.vocabulary.content_space
+    - taxonomy.vocabulary.country
+    - taxonomy.vocabulary.document_type
     - taxonomy.vocabulary.interactive_content_type
     - taxonomy.vocabulary.major_tags
     - taxonomy.vocabulary.story_type
+    - taxonomy.vocabulary.year
     - workflows.workflow.article_workflow
   module:
     - content_moderation
@@ -58,9 +61,12 @@ permissions:
   - 'create story content'
   - 'create terms in appeals'
   - 'create terms in content_space'
+  - 'create terms in country'
+  - 'create terms in document_type'
   - 'create terms in interactive_content_type'
   - 'create terms in major_tags'
   - 'create terms in story_type'
+  - 'create terms in year'
   - 'create video media'
   - 'delete any author media'
   - 'delete any image media'
@@ -71,9 +77,12 @@ permissions:
   - 'delete own image media'
   - 'delete own video media'
   - 'delete terms in appeals'
+  - 'delete terms in country'
+  - 'delete terms in document_type'
   - 'delete terms in interactive_content_type'
   - 'delete terms in major_tags'
   - 'delete terms in story_type'
+  - 'delete terms in year'
   - 'edit any author media'
   - 'edit any image media'
   - 'edit any video media'
@@ -86,9 +95,12 @@ permissions:
   - 'edit own video media'
   - 'edit terms in appeals'
   - 'edit terms in content_space'
+  - 'edit terms in country'
+  - 'edit terms in document_type'
   - 'edit terms in interactive_content_type'
   - 'edit terms in major_tags'
   - 'edit terms in story_type'
+  - 'edit terms in year'
   - 'enter article revision log entry'
   - 'enter document revision log entry'
   - 'enter story revision log entry'

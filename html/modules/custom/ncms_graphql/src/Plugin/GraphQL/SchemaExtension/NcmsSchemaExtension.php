@@ -221,14 +221,16 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
     );
     $registry->addFieldResolver('Document', 'tags',
       $builder->compose(
-        $builder->produce('entity_reference')
-          ->map('entity', $builder->fromParent())
-          ->map('field', $builder->fromValue('field_tags')),
-        $builder->callback(function ($tags) {
-          $tags = array_map(function ($tag) {
-            return $tag->label();
-          }, $tags);
-          return $tags;
+        $builder->produce('property_path')
+          ->map('type', $builder->fromValue('entity:node'))
+          ->map('value', $builder->fromParent())
+          ->map('path', $builder->fromValue('field_computed_tags.value')),
+        $builder->callback(function ($value) {
+          if (empty($value)) {
+            return NULL;
+          }
+          $tags = explode(',', $value);
+          return !empty($tags) ? $tags : NULL;
         }),
       ),
     );
@@ -388,13 +390,15 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
     );
     $registry->addFieldResolver('Article', 'tags',
       $builder->compose(
-        $builder->produce('entity_reference')
-          ->map('entity', $builder->fromParent())
-          ->map('field', $builder->fromValue('field_tags')),
-        $builder->callback(function ($tags) {
-          $tags = array_map(function ($tag) {
-            return $tag->label();
-          }, $tags);
+        $builder->produce('property_path')
+          ->map('type', $builder->fromValue('entity:node'))
+          ->map('value', $builder->fromParent())
+          ->map('path', $builder->fromValue('field_computed_tags.value')),
+        $builder->callback(function ($value) {
+          if (empty($value)) {
+            return NULL;
+          }
+          $tags = explode(',', $value);
           return $tags;
         }),
       ),

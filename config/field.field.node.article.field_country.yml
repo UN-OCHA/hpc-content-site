@@ -21,7 +21,7 @@ entity_type: node
 bundle: article
 label: Country
 description: 'Select the country for this article.'
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''

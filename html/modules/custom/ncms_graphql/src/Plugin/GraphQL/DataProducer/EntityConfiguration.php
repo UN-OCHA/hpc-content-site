@@ -127,6 +127,9 @@ class EntityConfiguration extends DataProducerPluginBase implements ContainerFac
         if ($original_uuid = $entity->getBehaviorSetting('ncms_paragraphs', 'replaces')) {
           $config['replaces'] = $original_uuid;
         }
+        if ($entity->getType() == 'sub_article') {
+          $config['article_id'] = $entity->get('field_article')->target_id;
+        }
       }
       return Yaml::encode($this->mapObjectsToString($config));
     });

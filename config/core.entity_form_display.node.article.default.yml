@@ -19,6 +19,7 @@ dependencies:
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
+    - field.field.node.article.field_year
     - node.type.article
     - workflows.workflow.article_workflow
   module:
@@ -32,6 +33,7 @@ dependencies:
     - layout_paragraphs
     - media_library
     - text
+    - year
 third_party_settings:
   field_group:
     group_image:
@@ -56,6 +58,7 @@ third_party_settings:
         - field_content_space
         - field_document_type
         - field_country
+        - field_year
         - field_tags
         - field_author
         - field_pdf
@@ -121,7 +124,7 @@ content:
     third_party_settings: {  }
   field_author:
     type: inline_entity_form_complex
-    weight: 26
+    weight: 27
     region: content
     settings:
       form_mode: default
@@ -139,7 +142,7 @@ content:
     third_party_settings: {  }
   field_automatically_visible:
     type: boolean_checkbox
-    weight: 28
+    weight: 29
     region: content
     settings:
       display_label: true
@@ -210,7 +213,7 @@ content:
     third_party_settings: {  }
   field_pdf:
     type: file_generic
-    weight: 27
+    weight: 28
     region: content
     settings:
       progress_indicator: throbber
@@ -240,27 +243,34 @@ content:
         hide_guidelines: '1'
   field_tags:
     type: entity_reference_autocomplete_active_tags
-    weight: 25
+    weight: 26
     region: content
     settings:
-      style: rectangle
+      autocomplete_route_name: active_tags.entity_autocomplete
       match_operator: CONTAINS
-      match_limit: '0'
-      min_length: '1'
+      style: rectangle
+      size: 60
+      selection_handler: default
+      match_limit: 0
+      min_length: 1
       delimiter: ''
-      not_exist_message: "No matches found, Press Enter to add <strong>'@term'</strong>."
-      not_found_message: "No matching suggestions found for <strong>'@term'</strong>."
-      info_label: ''
       placeholder: 'Article tags'
+      show_avatar: 1
       show_entity_id: 0
       convert_uppercase: 0
       string_override: 0
       show_info_label: 0
-      autocomplete_route_name: active_tags.entity_autocomplete
-      size: 60
-      selection_handler: default
-      show_avatar: 1
+      info_label: ''
+      not_exist_message: "No matches found, Press Enter to add <strong>'@term'</strong>."
+      not_found_message: "No matching suggestions found for <strong>'@term'</strong>."
       limit_tag_message: 'Allowed number of values limited to <strong>@cardinality</strong>.'
+    third_party_settings: {  }
+  field_year:
+    type: year_select
+    weight: 25
+    region: content
+    settings:
+      sort_order: desc
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default

@@ -20,6 +20,7 @@ dependencies:
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
+    - field.field.node.article.field_year
     - node.type.article
   module:
     - layout_builder
@@ -76,5 +77,6 @@ hidden:
   field_short_title: true
   field_summary: true
   field_thumbnail_image: true
+  field_year: true
   langcode: true
   links: true

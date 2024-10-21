@@ -1,0 +1,31 @@
+uuid: 060befaf-65d6-4313-a31a-144af6b8dfe6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_year
+    - node.type.article
+  module:
+    - field_config_cardinality
+    - year
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: node.article.field_year
+field_name: field_year
+entity_type: node
+bundle: article
+label: Year
+description: 'Select the year that this article is about.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1980
+  max: '+2 years'
+field_type: year

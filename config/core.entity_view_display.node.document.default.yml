@@ -13,11 +13,13 @@ dependencies:
     - field.field.node.document.field_short_title
     - field.field.node.document.field_summary
     - field.field.node.document.field_tags
+    - field.field.node.document.field_year
     - node.type.document
   module:
     - double_field
     - entity_reference_revisions
     - user
+    - year
 id: node.document.default
 targetEntityType: node
 bundle: document
@@ -77,6 +79,13 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 4
+    region: content
+  field_year:
+    type: year_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 9
     region: content
   title:
     type: string

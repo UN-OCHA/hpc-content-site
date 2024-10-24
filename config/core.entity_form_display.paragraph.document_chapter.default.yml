@@ -12,6 +12,7 @@ dependencies:
     - field.field.paragraph.document_chapter.field_title
     - paragraphs.paragraphs_type.document_chapter
   module:
+    - active_tags
     - field_group
     - ncms_ui
 third_party_settings:
@@ -129,14 +130,28 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_tags:
-    type: entity_reference_autocomplete_tags
+    type: entity_reference_autocomplete_active_tags
     weight: 6
     region: content
     settings:
+      autocomplete_route_name: active_tags.entity_autocomplete
       match_operator: CONTAINS
-      match_limit: 10
+      style: rectangle
       size: 60
+      selection_handler: default
+      match_limit: 10
+      min_length: 1
+      delimiter: ''
       placeholder: ''
+      show_avatar: 1
+      show_entity_id: 0
+      convert_uppercase: 0
+      string_override: 0
+      show_info_label: 0
+      info_label: ''
+      not_exist_message: "No matches found, Press Enter to add <strong>'@term'</strong>."
+      not_found_message: "No matching suggestions found for <strong>'@term'</strong>."
+      limit_tag_message: 'Allowed number of values limited to <strong>@cardinality</strong>.'
     third_party_settings: {  }
   field_title:
     type: string_textfield

@@ -6,16 +6,20 @@ dependencies:
     - field.field.node.document.field_automatically_visible
     - field.field.node.document.field_caption
     - field.field.node.document.field_content_space
+    - field.field.node.document.field_country
+    - field.field.node.document.field_document_type
     - field.field.node.document.field_hero_image
     - field.field.node.document.field_paragraphs
     - field.field.node.document.field_short_title
     - field.field.node.document.field_summary
     - field.field.node.document.field_tags
+    - field.field.node.document.field_year
     - node.type.document
   module:
     - double_field
     - entity_reference_revisions
     - user
+    - year
 id: node.document.default
 targetEntityType: node
 bundle: document
@@ -76,6 +80,13 @@ content:
     third_party_settings: {  }
     weight: 4
     region: content
+  field_year:
+    type: year_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 9
+    region: content
   title:
     type: string
     label: hidden
@@ -92,6 +103,8 @@ content:
 hidden:
   field_automatically_visible: true
   field_content_space: true
+  field_country: true
+  field_document_type: true
   field_summary: true
   field_tags: true
   langcode: true

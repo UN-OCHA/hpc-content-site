@@ -10,6 +10,8 @@ dependencies:
     - field.field.node.article.field_caption
     - field.field.node.article.field_card_title
     - field.field.node.article.field_content_space
+    - field.field.node.article.field_country
+    - field.field.node.article.field_document_type
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_pdf
@@ -18,6 +20,7 @@ dependencies:
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
+    - field.field.node.article.field_year
     - node.type.article
   module:
     - gho_fields
@@ -108,8 +111,11 @@ hidden:
   field_automatically_visible: true
   field_card_title: true
   field_content_space: true
+  field_country: true
+  field_document_type: true
   field_pdf: true
   field_short_title: true
   field_tags: true
   field_thumbnail_image: true
+  field_year: true
   langcode: true

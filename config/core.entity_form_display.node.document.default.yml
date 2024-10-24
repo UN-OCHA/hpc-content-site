@@ -6,18 +6,23 @@ dependencies:
     - field.field.node.document.field_automatically_visible
     - field.field.node.document.field_caption
     - field.field.node.document.field_content_space
+    - field.field.node.document.field_country
+    - field.field.node.document.field_document_type
     - field.field.node.document.field_hero_image
     - field.field.node.document.field_paragraphs
     - field.field.node.document.field_short_title
     - field.field.node.document.field_summary
     - field.field.node.document.field_tags
+    - field.field.node.document.field_year
     - node.type.document
   module:
+    - active_tags
     - double_field
     - field_group
     - layout_paragraphs
     - media_library
     - text
+    - year
 third_party_settings:
   field_group:
     group_tabs:
@@ -56,6 +61,9 @@ third_party_settings:
     group_meta_data:
       children:
         - field_content_space
+        - field_document_type
+        - field_country
+        - field_year
         - field_summary
         - field_tags
         - field_automatically_visible
@@ -100,7 +108,7 @@ content:
     third_party_settings: {  }
   field_automatically_visible:
     type: boolean_checkbox
-    weight: 30
+    weight: 33
     region: content
     settings:
       display_label: true
@@ -134,6 +142,18 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_country:
+    type: options_select
+    weight: 29
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_document_type:
+    type: options_select
+    weight: 28
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_hero_image:
     type: media_library_widget
     weight: 28
@@ -146,7 +166,9 @@ content:
     weight: 4
     region: content
     settings:
+      view_mode: default
       preview_view_mode: preview
+      form_display_mode: default
       nesting_depth: 0
       require_layouts: 0
       empty_message: ''
@@ -165,21 +187,42 @@ content:
         maxlength_js_enforce: true
   field_summary:
     type: text_textarea
-    weight: 28
+    weight: 31
     region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
   field_tags:
-    type: entity_reference_autocomplete_tags
-    weight: 29
+    type: entity_reference_autocomplete_active_tags
+    weight: 32
     region: content
     settings:
+      autocomplete_route_name: active_tags.entity_autocomplete
       match_operator: CONTAINS
-      match_limit: 10
+      style: rectangle
       size: 60
+      selection_handler: default
+      match_limit: 10
+      min_length: 1
+      delimiter: ''
       placeholder: 'Document tags'
+      show_avatar: 1
+      show_entity_id: 0
+      convert_uppercase: 0
+      string_override: 0
+      show_info_label: 0
+      info_label: ''
+      not_exist_message: "No matches found, Press Enter to add <strong>'@term'</strong>."
+      not_found_message: "No matching suggestions found for <strong>'@term'</strong>."
+      limit_tag_message: 'Allowed number of values limited to <strong>@cardinality</strong>.'
+    third_party_settings: {  }
+  field_year:
+    type: year_select
+    weight: 30
+    region: content
+    settings:
+      sort_order: desc
     third_party_settings: {  }
   langcode:
     type: language_select

@@ -1,0 +1,30 @@
+uuid: 5d4bd331-c5f3-4528-8a7f-6d1e0fe48e62
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_collapsible
+    - paragraphs.paragraphs_type.sub_article
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: paragraph.sub_article.field_collapsible
+field_name: field_collapsible
+entity_type: paragraph
+bundle: sub_article
+label: 'Allow collapsing'
+description: 'Check this if the sub-article should be collapsed on initial display.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

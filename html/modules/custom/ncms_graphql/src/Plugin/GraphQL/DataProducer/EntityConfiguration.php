@@ -129,6 +129,7 @@ class EntityConfiguration extends DataProducerPluginBase implements ContainerFac
         }
         if ($entity->getType() == 'sub_article') {
           $config['article_id'] = $entity->get('field_article')->target_id;
+          $config['collapsible'] = (bool) $entity->get('field_collapsible')->value;
         }
       }
       return Yaml::encode($this->mapObjectsToString($config));

@@ -158,6 +158,8 @@ gho-sub-article:
   css:
     theme:
       components/gho-sub-article/gho-sub-article.css: {}
+  js:
+    components/gho-sub-article/gho-sub-article.js: {}
 
 gho-embed:
   css:

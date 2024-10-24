@@ -51,8 +51,10 @@
     'gho-sub-article-paragraph--no-hero',
   ]
 %}
+{% set collapsible = paragraph.field_collapsible.value %}
+
 {% block paragraph %}
-  <div{{ attributes.addClass(classes) }}>
+  <div{{ attributes.addClass(classes).setAttribute('data-article-collapsible', collapsible ? 'true' : 'false') }}>
     {% block content %}
       {{ content }}
     {% endblock %}

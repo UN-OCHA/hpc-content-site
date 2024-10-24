@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.sub_article.field_article
+    - field.field.paragraph.sub_article.field_collapsible
     - paragraphs.paragraphs_type.sub_article
 id: paragraph.sub_article.default
 targetEntityType: paragraph
@@ -19,4 +20,5 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-hidden: {  }
+hidden:
+  field_collapsible: true

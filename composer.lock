@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "195d8a4e3906be9a6ef3536901f089be",
+    "content-hash": "781f39c11936ede1c0735fc26b650d6d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -16728,20 +16728,20 @@
         },
         {
             "name": "unocha/common_design",
-            "version": "v8.2.0",
+            "version": "v9.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/UN-OCHA/common_design.git",
-                "reference": "ff0a700bcfa5f1bc56628205a90658f18720faf8"
+                "reference": "15592bea6f10db7c6bb4b58abd2b4a1962979c7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/UN-OCHA/common_design/zipball/ff0a700bcfa5f1bc56628205a90658f18720faf8",
-                "reference": "ff0a700bcfa5f1bc56628205a90658f18720faf8",
+                "url": "https://api.github.com/repos/UN-OCHA/common_design/zipball/15592bea6f10db7c6bb4b58abd2b4a1962979c7d",
+                "reference": "15592bea6f10db7c6bb4b58abd2b4a1962979c7d",
                 "shasum": ""
             },
             "require": {
-                "composer/installers": "^1.2",
+                "composer/installers": "^1.2 || ^2",
                 "drupal/stable": "^2.0"
             },
             "type": "drupal-theme",
@@ -16752,9 +16752,9 @@
             "description": "OCHA Common Design base theme for Drupal 9+",
             "support": {
                 "issues": "https://github.com/UN-OCHA/common_design/issues",
-                "source": "https://github.com/UN-OCHA/common_design/tree/v8.2.0"
+                "source": "https://github.com/UN-OCHA/common_design/tree/v9.4.3"
             },
-            "time": "2023-06-16T10:10:01+00:00"
+            "time": "2024-08-08T09:37:46+00:00"
         },
         {
             "name": "unocha/ocha_monitoring",

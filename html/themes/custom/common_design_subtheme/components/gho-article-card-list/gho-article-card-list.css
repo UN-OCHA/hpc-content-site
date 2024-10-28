@@ -36,7 +36,9 @@
    * When the "Show first row as 2-column" checkbox is enabled, we make the
    * first row 2-col, then the rest are still 3-col.
    */
-  .gho-article-card-list--show-2col .field__items > .field__item:nth-child(-n + 2) {
+  .gho-article-card-list--show-2col
+    .field__items
+    > .field__item:nth-child(-n + 2) {
     flex-basis: calc((100% - var(--gho-article-card-list-gap-col)) / 2);
   }
 }

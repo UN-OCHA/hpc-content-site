@@ -5,10 +5,10 @@
 
 .cd-global-header,
 .cd-footer {
-  font-family: var(--cd-font--roboto);
-  font-weight: 400;
   color: var(--cd--global-header-text-color);
   background: var(--brand-secondary);
+  font-family: var(--cd-font--roboto);
+  font-weight: 400;
 }
 
 .cd-global-header svg,
@@ -21,19 +21,23 @@
 }
 
 @media (min-width: 768px) {
-  .cd-global-header__dropdown .cd-ocha-dropdown__inner .cd-ocha-dropdown__section  {
+  .cd-global-header__dropdown
+    .cd-ocha-dropdown__inner
+    .cd-ocha-dropdown__section {
     align-self: flex-start;
   }
-  .cd-global-header__dropdown .cd-ocha-dropdown__inner .cd-ocha-dropdown__section:last-child {
+  .cd-global-header__dropdown
+    .cd-ocha-dropdown__inner
+    .cd-ocha-dropdown__section:last-child {
     align-self: flex-end;
   }
   .cd-ocha-dropdown__see-all {
-    background: var(--cd--global-header-text-color);
-    color: var(--cd-white);
     position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
+    color: var(--cd-white);
+    background: var(--cd--global-header-text-color);
   }
 }
 
@@ -102,5 +106,6 @@
 }
 
 .cd-footer .cd-mandate__logo {
-  background: url(/themes/custom/common_design_subtheme/img/logos/ocha-lockup.svg) 0 center no-repeat;
+  background: url(/themes/custom/common_design_subtheme/img/logos/ocha-lockup.svg)
+    0 center no-repeat;
 }

@@ -70,8 +70,8 @@ class GhoFiguresFormatter extends FormatterBase {
       if (!$item instanceof CustomItem) {
         continue;
       }
-      $label = trim($item->label ?? '');
-      $value = trim($item->value ?? '');
+      $label = preg_replace("/^\s+|\s+$/u", "", $item->label ?? '');
+      $value = preg_replace("/^\s+|\s+$/u", "", $item->value ?? '');
       if (!empty($label) && !empty($value)) {
         $figures[$delta] = [
           'label' => $label,

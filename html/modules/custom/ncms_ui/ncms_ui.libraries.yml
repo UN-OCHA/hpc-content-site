@@ -39,6 +39,13 @@ ncms_gin:
       css/frontend_styles.css: {}
   js:
     js/ncms_gin.js: {}
+entity_browser:
+  js:
+    js/entity_browser.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once
 ajax_commands:
   js:
     js/ajax_commands.js: {}

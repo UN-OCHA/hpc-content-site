@@ -346,7 +346,9 @@ class ContentBaseFormAlter {
         $last_published = $updated_entity->getLastPublishedRevision();
         if ($entity_updated) {
           // Entity has been updated. Unpublish the last published revision.
-          $node_storage->updateRevisionStatus($last_published, NodeInterface::NOT_PUBLISHED);
+          if ($last_published) {
+            $node_storage->updateRevisionStatus($last_published, NodeInterface::NOT_PUBLISHED);
+          }
           // Create a new revision and set to published.
           $updated_entity->setPublished();
           $updated_entity->save();
@@ -356,6 +358,10 @@ class ContentBaseFormAlter {
           ]));
         }
         elseif (!$updated_entity->isPublished()) {
+          // Unpublish the last published revision.
+          if ($last_published) {
+            $node_storage->updateRevisionStatus($last_published, NodeInterface::NOT_PUBLISHED);
+          }
           // No changes and current entity is unpublished. Just publish it
           // without a new revision.
           $node_storage->updateRevisionStatus($original_entity, NodeInterface::PUBLISHED);

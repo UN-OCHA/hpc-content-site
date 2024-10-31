@@ -22,7 +22,9 @@ label: 'Allow collapsing'
 description: 'Check this if the sub-article should be collapsed on initial display.'
 required: false
 translatable: true
-default_value: {  }
+default_value:
+  -
+    value: 1
 default_value_callback: ''
 settings:
   on_label: 'On'

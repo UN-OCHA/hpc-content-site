@@ -24,7 +24,7 @@ function ncms_tags_deploy_setup_country_vocabulary(&$sandbox) {
     'Antigua and Barbuda',
     'Argentina',
     'Armenia',
-    'Aruba (Netherlands)',
+    'Aruba',
     'Australia',
     'Austria',
     'Azerbaijan',
@@ -38,7 +38,7 @@ function ncms_tags_deploy_setup_country_vocabulary(&$sandbox) {
     'Benin',
     'Bermuda',
     'Bhutan',
-    'Bolivia, Plurinational State of',
+    'Bolivia',
     'Bonaire, Saint Eustatius and Saba (The Netherlands)',
     'Bosnia and Herzegovina',
     'Botswana',
@@ -63,7 +63,7 @@ function ncms_tags_deploy_setup_country_vocabulary(&$sandbox) {
     'Colombia',
     'Comoros',
     'Congo',
-    'Congo, The Democratic Republic of the',
+    'Democratic Republic of the Congo',
     'Cook Islands',
     'Costa Rica',
     'Côte d\'Ivoire',
@@ -234,7 +234,7 @@ function ncms_tags_deploy_setup_country_vocabulary(&$sandbox) {
     'Syrian Arab Republic',
     'Taiwan, Province of China',
     'Tajikistan',
-    'Tanzania, United Republic of',
+    'Tanzania',
     'Thailand',
     'Timor-Leste',
     'Togo',
@@ -255,7 +255,7 @@ function ncms_tags_deploy_setup_country_vocabulary(&$sandbox) {
     'Uruguay',
     'Uzbekistan',
     'Vanuatu',
-    'Venezuela, Bolivarian Republic of',
+    'Venezuela',
     'Viet Nam',
     'Virgin Islands, British',
     'Virgin Islands, U.S.',
@@ -264,6 +264,7 @@ function ncms_tags_deploy_setup_country_vocabulary(&$sandbox) {
     'Yemen',
     'Zambia',
     'Zimbabwe',
+    'World',
   ];
   $not_migrated = [];
   foreach ($countries as $key => $country) {
@@ -327,7 +328,7 @@ function ncms_tags_deploy_setup_document_type_vocabulary(&$sandbox) {
  * Setup the document type vocabulary.
  */
 function ncms_tags_deploy_setup_years_vocabulary(&$sandbox) {
-  $years = range(1980, 2025);
+  $years = array_reverse(range(1980, 2025));
   $not_migrated = [];
   foreach ($years as $key => $year) {
     $year_name = $year;
@@ -369,6 +370,7 @@ function ncms_tags_deploy_setup_years_vocabulary(&$sandbox) {
 function ncms_tags_create_and_migrate($vid, $term_name, $weight, $field_name, $alternative_names = []) {
   $node_storage = \Drupal::entityTypeManager()->getStorage('node');
   $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $paragraph_storage = \Drupal::entityTypeManager()->getStorage('paragraph');
 
   /** @var \Drupal\taxonomy\TermInterface $term */
   $term = $term_storage->create([
@@ -421,6 +423,23 @@ function ncms_tags_create_and_migrate($vid, $term_name, $weight, $field_name, $a
     $node->setNewRevision(FALSE);
     $node->setSyncing(TRUE);
     $node->save();
+  }
+
+  /** @var \Drupal\paragraphs\ParagraphInterface[] $paragraphs */
+  $paragraphs = $paragraph_storage->loadByProperties([
+    'type' => ['document_chapter'],
+    'field_tags' => $tag_ids,
+  ]);
+  foreach ($paragraphs as $paragraph) {
+    $tags = $paragraph->get('field_tags')->getValue();
+    $tags = array_filter($tags, function ($_tag) use ($tag_ids) {
+      return !in_array($_tag['target_id'], $tag_ids);
+    });
+    $paragraph->get('field_tags')->setValue($tags);
+    $paragraph->get($field_name)->setValue($term);
+    $paragraph->setNewRevision(FALSE);
+    $paragraph->setSyncing(TRUE);
+    $paragraph->save();
   }
 
   if ($tag) {

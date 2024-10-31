@@ -181,10 +181,14 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_country:
-    type: options_select
+    type: select_active_tags
     weight: 25
     region: content
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      style: rectangle
+      match_limit: 10
+      placeholder: ''
     third_party_settings: {  }
   field_document_type:
     type: options_select
@@ -266,28 +270,14 @@ content:
       limit_tag_message: 'Allowed number of values limited to <strong>@cardinality</strong>.'
     third_party_settings: {  }
   field_year:
-    type: entity_reference_autocomplete_active_tags
+    type: select_active_tags
     weight: 24
     region: content
     settings:
-      autocomplete_route_name: active_tags.entity_autocomplete
       match_operator: CONTAINS
       style: rectangle
-      size: 60
-      selection_handler: default
       match_limit: 10
-      min_length: 1
-      delimiter: ''
       placeholder: ''
-      show_avatar: 1
-      show_entity_id: 0
-      convert_uppercase: 0
-      string_override: 0
-      show_info_label: 0
-      info_label: ''
-      not_exist_message: null
-      not_found_message: null
-      limit_tag_message: 'Allowed number of values limited to <strong>@cardinality</strong>.'
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default

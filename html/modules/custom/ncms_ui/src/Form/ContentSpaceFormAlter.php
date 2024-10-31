@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_ui\Form;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
@@ -96,8 +97,13 @@ class ContentSpaceFormAlter {
         '@tags' => $content_space_tags ? implode(', ', $content_space_tags) : $this->t('none'),
       ]);
       $widget = &$form['field_tags']['widget'];
-      if (!empty($widget['#type']) && $widget['#type'] == 'entity_autocomplete_active_tags') {
-        $widget['#description'] = $description;
+
+      $theme_key_parents = ['#description', '#theme'];
+      $theme = NestedArray::getValue($widget, $theme_key_parents);
+      if (!empty($widget['#type']) && $widget['#type'] == 'entity_autocomplete_active_tags' && $theme == 'item_list') {
+        $widget['#description'] = [
+          '#markup' => (string) reset($widget['#description']['#items']) . ' ' . $description,
+        ];
       }
       else {
         $widget['target_id']['#description'] .= ' ' . $description;

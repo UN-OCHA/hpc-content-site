@@ -10,7 +10,7 @@ dependencies:
     - field_config_cardinality
 third_party_settings:
   field_config_cardinality:
-    cardinality_config: '-1'
+    cardinality_config: '4'
     cardinality_label_config: false
     unlimited_not_required: ''
     limited_not_required: ''

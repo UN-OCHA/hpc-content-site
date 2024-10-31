@@ -1,19 +1,19 @@
-uuid: 1e7c6cce-6c84-44e4-93d2-bbac450e5101
+uuid: 65cafae1-11e4-4974-9e17-3b9b6e8b2228
 langcode: en
 status: true
 dependencies:
   module:
-    - node
+    - paragraphs
     - taxonomy
-id: node.field_tags
-field_name: field_tags
-entity_type: node
+id: paragraph.field_document_type
+field_name: field_document_type
+entity_type: paragraph
 type: entity_reference
 settings:
   target_type: taxonomy_term
 module: core
 locked: false
-cardinality: 4
+cardinality: 1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

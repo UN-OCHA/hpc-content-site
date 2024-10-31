@@ -5,14 +5,19 @@ dependencies:
   config:
     - entity_browser.browser.articles
     - field.field.paragraph.document_chapter.field_articles
+    - field.field.paragraph.document_chapter.field_computed_tags
+    - field.field.paragraph.document_chapter.field_country
+    - field.field.paragraph.document_chapter.field_document_type
     - field.field.paragraph.document_chapter.field_hide_from_navigation
     - field.field.paragraph.document_chapter.field_short_title
     - field.field.paragraph.document_chapter.field_summary
     - field.field.paragraph.document_chapter.field_tags
     - field.field.paragraph.document_chapter.field_title
+    - field.field.paragraph.document_chapter.field_year
     - paragraphs.paragraphs_type.document_chapter
   module:
     - active_tags
+    - computed_field
     - field_group
     - ncms_ui
 third_party_settings:
@@ -21,6 +26,7 @@ third_party_settings:
       children:
         - group_meta_data
         - group_articles
+        - group_tags
       label: Tabs
       region: content
       parent_name: ''
@@ -51,7 +57,6 @@ third_party_settings:
       children:
         - group_title
         - field_summary
-        - field_tags
         - field_hide_from_navigation
       label: 'Chapter properties'
       region: content
@@ -80,6 +85,25 @@ third_party_settings:
         id: ''
         description: 'If your document only has one chapter, the chapter title will not be shown on Humanitarian Action. It may still be visible to other users of the API.'
         required_fields: true
+    group_tags:
+      children:
+        - field_document_type
+        - field_year
+        - field_country
+        - field_tags
+      label: Tags
+      region: content
+      parent_name: group_tabs
+      weight: 9
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
 id: paragraph.document_chapter.default
 targetEntityType: paragraph
 bundle: document_chapter
@@ -102,9 +126,31 @@ content:
       field_widget_replace: 0
       field_widget_display_settings: {  }
     third_party_settings: {  }
+  field_computed_tags:
+    type: computed_string_widget
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_country:
+    type: select_active_tags
+    weight: 8
+    region: content
+    settings:
+      match_operator: CONTAINS
+      style: rectangle
+      match_limit: 10
+      placeholder: ''
+    third_party_settings: {  }
+  field_document_type:
+    type: options_select
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_hide_from_navigation:
     type: boolean_checkbox
-    weight: 8
+    weight: 10
     region: content
     settings:
       display_label: true
@@ -131,7 +177,7 @@ content:
     third_party_settings: {  }
   field_tags:
     type: entity_reference_autocomplete_active_tags
-    weight: 6
+    weight: 9
     region: content
     settings:
       autocomplete_route_name: active_tags.entity_autocomplete
@@ -159,6 +205,16 @@ content:
     region: content
     settings:
       size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_year:
+    type: select_active_tags
+    weight: 7
+    region: content
+    settings:
+      match_operator: CONTAINS
+      style: rectangle
+      match_limit: 10
       placeholder: ''
     third_party_settings: {  }
   status:

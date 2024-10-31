@@ -4,11 +4,15 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.document_chapter.field_articles
+    - field.field.paragraph.document_chapter.field_computed_tags
+    - field.field.paragraph.document_chapter.field_country
+    - field.field.paragraph.document_chapter.field_document_type
     - field.field.paragraph.document_chapter.field_hide_from_navigation
     - field.field.paragraph.document_chapter.field_short_title
     - field.field.paragraph.document_chapter.field_summary
     - field.field.paragraph.document_chapter.field_tags
     - field.field.paragraph.document_chapter.field_title
+    - field.field.paragraph.document_chapter.field_year
     - paragraphs.paragraphs_type.document_chapter
 id: paragraph.document_chapter.default
 targetEntityType: paragraph
@@ -40,6 +44,10 @@ content:
     weight: 0
     region: content
 hidden:
+  field_computed_tags: true
+  field_country: true
+  field_document_type: true
   field_hide_from_navigation: true
   field_short_title: true
   field_tags: true
+  field_year: true

@@ -20,7 +20,7 @@ field_name: field_year
 entity_type: node
 bundle: document
 label: Year
-description: ''
+description: 'The year(s) for the document.'
 required: false
 translatable: false
 default_value: {  }

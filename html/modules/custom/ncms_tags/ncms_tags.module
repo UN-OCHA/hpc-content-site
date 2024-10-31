@@ -5,6 +5,7 @@
  * NCMS Tags module file.
  */
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\taxonomy\TermInterface;
 
@@ -46,4 +47,25 @@ function ncms_tags_computed_field_field_computed_tags_value_alter(&$value, $cont
     }, $terms));
   }
   $value = implode(',', $tags);
+}
+
+/**
+ * Implements hook_preprocess_form_element().
+ *
+ * The active_tags module adds additional info to the description of it's
+ * elements and changes the display for the description to an item list.
+ * As this looks a bit noisy in the forms, let's simplify this.
+ */
+function ncms_tags_preprocess_form_element(&$variables) {
+  $type = $variables['type'] ?? NULL;
+  if (!$type || !str_ends_with($type, '_active_tags')) {
+    return;
+  }
+  $theme_key_parents = ['description', 'content', '#theme'];
+  $theme = NestedArray::getValue($variables, $theme_key_parents);
+  if ($theme == 'item_list') {
+    $variables['description']['content'] = [
+      '#markup' => (string) reset($variables['description']['content']['#items']),
+    ];
+  }
 }

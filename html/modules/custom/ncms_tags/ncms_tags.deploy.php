@@ -442,6 +442,25 @@ function ncms_tags_create_and_migrate($vid, $term_name, $weight, $field_name, $a
     $paragraph->save();
   }
 
+  /** @var \Drupal\taxonomy\TermInterface[] $content_spaces */
+  $content_spaces = $term_storage->loadByProperties([
+    'vid' => ['content_space'],
+    'field_major_tags' => $tag_ids,
+  ]);
+  foreach ($content_spaces as $content_space) {
+    $tags = $content_space->get('field_major_tags')->getValue();
+    $tags = array_filter($tags, function ($_tag) use ($tag_ids) {
+      return !in_array($_tag['target_id'], $tag_ids);
+    });
+    $tags[] = [
+      'target_id' => $term->id(),
+    ];
+    $content_space->get('field_major_tags')->setValue($tags);
+    $content_space->setNewRevision(FALSE);
+    $content_space->setSyncing(TRUE);
+    $content_space->save();
+  }
+
   if ($tag) {
     $tag->delete();
   }

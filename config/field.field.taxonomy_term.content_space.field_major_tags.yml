@@ -5,7 +5,19 @@ dependencies:
   config:
     - field.storage.taxonomy_term.field_major_tags
     - taxonomy.vocabulary.content_space
+    - taxonomy.vocabulary.country
+    - taxonomy.vocabulary.document_type
     - taxonomy.vocabulary.major_tags
+    - taxonomy.vocabulary.year
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '-1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: taxonomy_term.content_space.field_major_tags
 field_name: field_major_tags
 entity_type: taxonomy_term
@@ -20,10 +32,13 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
+      country: country
+      document_type: document_type
       major_tags: major_tags
+      year: year
     sort:
       field: name
       direction: asc
     auto_create: true
-    auto_create_bundle: ''
+    auto_create_bundle: country
 field_type: entity_reference

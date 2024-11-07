@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+## Open a link in a browser.
+##
+## Usage: fin utils/open-link [-h|-i] URL
+##
+
+usage="$(basename "$0") [-h|-i]
+
+where:
+    -i  open in incognito mode
+    -h  show this help text"
+
+INCOGNITO=false
+URL=''
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -i | --incognico )    INCOGNITO=true
+                          ;;
+    -h | --help )         echo "$usage"
+                          exit
+                          ;;
+    * )                   URL=$1
+  esac
+  shift
+done
+
+if $INCOGNITO; then
+  open -a "Google Chrome" -n --args --incognito "${URL}"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  xdg-open "${URL}"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  open "${URL}"
+else
+  echo "Unsupported operating system ${OSTYPE}"
+fi

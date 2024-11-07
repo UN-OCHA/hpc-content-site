@@ -88,9 +88,9 @@
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
-  <header class="gho-sub-article__header">
+  <header class="gho-sub-article__header content-width content-width--reading">
     {{ hero_image }}
-    <div class="gho-sub-article__heading content-width content-width--reading">
+    <div class="gho-sub-article__heading">
       <h2{{ title_attributes.addClass('gho-sub-article__title').setAttribute('id', label|render|striptags|clean_class) }}>{{ label }}</h2>
       {{ content.field_appeals }}
     </div>

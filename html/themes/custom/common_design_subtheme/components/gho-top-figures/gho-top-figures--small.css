@@ -27,17 +27,17 @@
   justify-content: flex-start;
   /* Compensate for the margins of the figure items. */
   margin: -1rem 0 0 0;
-  padding-bottom: 2rem;
   padding-top: 0;
+  padding-bottom: 2rem;
   border-top: 0;
   border-bottom: 1px solid #d8d8d8;
 }
 
 .gho-top-figures--small .gho-figures * {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
   color: inherit;
+  font-size: 0.875rem;
   font-weight: inherit;
+  line-height: 1.25rem;
 }
 
 .gho-top-figures--small .gho-figures .gho-figure {

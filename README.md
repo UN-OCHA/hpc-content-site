@@ -236,3 +236,15 @@ Run the tests as they would in GitHub Actions
 ```bash
 ./.github/tests/test.sh
 ```
+
+
+TROUBLESHOOTING
+---------------
+
+If you run into this error when committing:
+
+    Error: Could not find "stylelint-config-standard". Do you need a `configBasedir`?
+
+You need to install all Drupal packages by doing this from the project root:
+
+    fin exec "cd html/core && yarn"

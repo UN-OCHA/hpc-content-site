@@ -1,11 +1,12 @@
 {
     "patches": {
         "drupal/core": {
-            "Issue #2544110: XSS attribute filtering is inconsistent and strips valid attributes": "./patches/2544110-2024-02-15.patch",
             "Issue #2329253: Allow the ChangedItem to skip updating the entity's changed timestamp when synchronizing (f.e. when migrating)": "https://www.drupal.org/files/issues/2024-07-30/2329253-10.x.patch",
+            "Issue #2544110: XSS attribute filtering is inconsistent and strips valid attributes": "./patches/2544110-2024-02-15.patch",
+            "Issue #3274635: [upstream] Use CKEditor 5's native <ol type> and <ul type> UX": "https://www.drupal.org/files/issues/2024-08-11/3274635--ckeditor_list_styles-10.3.2--108.patch",
             "Issue #3392572: strnatcasecmp(): Passing null to parameter #2 in LayoutPluginManager": "https://www.drupal.org/files/issues/2023-10-25/drupal-strnatcasecmp_string_only-3392572-10.patch",
             "Issue #3413079: Cannot read properties of null (reading 'nodeType') on node.page.body": "https://www.drupal.org/files/issues/2024-01-08/3413079-9.patch",
-            "Issue #3274635: [upstream] Use CKEditor 5's native <ol type> and <ul type> UX": "https://www.drupal.org/files/issues/2024-08-11/3274635--ckeditor_list_styles-10.3.2--108.patch"
+            "Issue #3467860: Ensure consistent library ordering between page an asset requests when calculating asset aggregates": "./patches/3467860.mr-9219.patch"
         },
         "drupal/csp": {
             "Simplify log format": "./patches/csp-log-format.patch"
@@ -18,6 +19,9 @@
         },
         "drupal/entity_reference_revisions": {
             "Issue #2799479: Views doesn't recognize relationship to host": "https://www.drupal.org/files/issues/2022-06-01/entity_reference_revisions-relationship_host_id-2799479-176.patch"
+        },
+        "drupal/field_group": {
+          "Issue #3395375: Duplicated required marks in field tabs with GIn admin theme": "https://www.drupal.org/files/issues/2024-08-06/3395375-6.patch"
         },
         "drupal/paragraphs_viewmode": {
             "Issue #3345123: entityViewModeAlter throws an exception in php 8.2": "https://www.drupal.org/files/issues/2023-03-01/paragraphs_viewmode-remove-context-parameter-3345123-2.patch"

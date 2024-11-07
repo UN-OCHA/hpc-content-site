@@ -294,3 +294,20 @@ function ncms_ui_deploy_correct_changed_date(&$sandbox) {
     $node->save();
   }
 }
+
+/**
+ * Set the content space for all users.
+ */
+function ncms_ui_deploy_set_collapsible_field_value(&$sandbox) {
+  /** @var \Drupal\paragraphs\ParagraphInterface[] $paragraphs */
+  $paragraphs = \Drupal::entityTypeManager()->getStorage('paragraph')->loadByProperties([
+    'type' => 'sub_article',
+  ]);
+  if (empty($paragraphs)) {
+    return;
+  }
+  foreach ($paragraphs as $paragraph) {
+    $paragraph->get('field_collapsible')->applyDefaultValue();
+    $paragraph->save();
+  }
+}

@@ -181,7 +181,9 @@
 }
 
 @media (min-width: 768px) {
-  .gho-home-page__content > .gho-needs-and-requirements-paragraph .gho-needs-and-requirements-figure {
+  .gho-home-page__content
+    > .gho-needs-and-requirements-paragraph
+    .gho-needs-and-requirements-figure {
     padding: 0 1.5rem;
   }
 }

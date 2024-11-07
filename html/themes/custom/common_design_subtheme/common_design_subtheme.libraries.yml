@@ -145,7 +145,8 @@ gho-aside:
 gho-page-node:
   css:
     theme:
-      components/gho-page-node/gho-page-node.css: {}
+      components/gho-page-node/gho-page-node.css:
+        weight: 10
 
 gho-article:
   css:
@@ -158,6 +159,8 @@ gho-sub-article:
   css:
     theme:
       components/gho-sub-article/gho-sub-article.css: {}
+  js:
+    components/gho-sub-article/gho-sub-article.js: {}
 
 gho-embed:
   css:

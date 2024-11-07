@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.sub_article.field_article
+    - field.field.paragraph.sub_article.field_collapsible
     - paragraphs.paragraphs_type.sub_article
 id: paragraph.sub_article.default
 targetEntityType: paragraph
@@ -19,6 +20,13 @@ content:
       match_limit: 10
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_collapsible:
+    type: boolean_checkbox
+    weight: 2
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   status:
     type: boolean_checkbox

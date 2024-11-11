@@ -13,12 +13,14 @@ dependencies:
     - field.field.node.article.field_country
     - field.field.node.article.field_document_type
     - field.field.node.article.field_hero_image
+    - field.field.node.article.field_month
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_pdf
     - field.field.node.article.field_report_link
     - field.field.node.article.field_short_title
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
+    - field.field.node.article.field_theme
     - field.field.node.article.field_thumbnail_image
     - field.field.node.article.field_year
     - node.type.article
@@ -58,8 +60,9 @@ third_party_settings:
         - field_content_space
         - field_document_type
         - field_year
+        - field_month
         - field_country
-        - field_tags
+        - field_theme
         - field_author
         - field_pdf
         - field_automatically_visible
@@ -124,7 +127,7 @@ content:
     third_party_settings: {  }
   field_author:
     type: inline_entity_form_complex
-    weight: 27
+    weight: 8
     region: content
     settings:
       form_mode: default
@@ -142,7 +145,7 @@ content:
     third_party_settings: {  }
   field_automatically_visible:
     type: boolean_checkbox
-    weight: 29
+    weight: 10
     region: content
     settings:
       display_label: true
@@ -176,25 +179,29 @@ content:
     third_party_settings: {  }
   field_content_space:
     type: options_select
-    weight: 22
+    weight: 1
     region: content
     settings: {  }
     third_party_settings: {  }
   field_country:
     type: select_active_tags
-    weight: 25
+    weight: 5
     region: content
     settings:
       match_operator: CONTAINS
       style: rectangle
-      match_limit: 10
+      match_limit: 0
       placeholder: ''
     third_party_settings: {  }
   field_document_type:
-    type: options_select
-    weight: 23
+    type: select_active_tags
+    weight: 2
     region: content
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      style: rectangle
+      match_limit: 0
+      placeholder: ''
     third_party_settings: {  }
   field_hero_image:
     type: media_library_widget
@@ -202,6 +209,16 @@ content:
     region: content
     settings:
       media_types: {  }
+    third_party_settings: {  }
+  field_month:
+    type: select_active_tags
+    weight: 4
+    region: content
+    settings:
+      match_operator: CONTAINS
+      style: rectangle
+      match_limit: 0
+      placeholder: ''
     third_party_settings: {  }
   field_paragraphs:
     type: layout_paragraphs
@@ -217,7 +234,7 @@ content:
     third_party_settings: {  }
   field_pdf:
     type: file_generic
-    weight: 28
+    weight: 9
     region: content
     settings:
       progress_indicator: throbber
@@ -245,9 +262,9 @@ content:
       allowed_formats:
         hide_help: '1'
         hide_guidelines: '1'
-  field_tags:
+  field_theme:
     type: entity_reference_autocomplete_active_tags
-    weight: 26
+    weight: 6
     region: content
     settings:
       autocomplete_route_name: active_tags.entity_autocomplete
@@ -255,28 +272,28 @@ content:
       style: rectangle
       size: 60
       selection_handler: default
-      match_limit: 0
+      match_limit: 10
       min_length: 1
       delimiter: ''
-      placeholder: 'Article tags'
+      placeholder: ''
       show_avatar: 1
       show_entity_id: 0
       convert_uppercase: 0
       string_override: 0
       show_info_label: 0
       info_label: ''
-      not_exist_message: "No matches found, Press Enter to add <strong>'@term'</strong>."
-      not_found_message: "No matching suggestions found for <strong>'@term'</strong>."
+      not_exist_message: null
+      not_found_message: null
       limit_tag_message: 'Allowed number of values limited to <strong>@cardinality</strong>.'
     third_party_settings: {  }
   field_year:
     type: select_active_tags
-    weight: 24
+    weight: 3
     region: content
     settings:
       match_operator: CONTAINS
       style: rectangle
-      match_limit: 10
+      match_limit: 0
       placeholder: ''
     third_party_settings: {  }
   moderation_state:
@@ -305,6 +322,7 @@ hidden:
   field_card_title: true
   field_computed_tags: true
   field_report_link: true
+  field_tags: true
   field_thumbnail_image: true
   langcode: true
   path: true

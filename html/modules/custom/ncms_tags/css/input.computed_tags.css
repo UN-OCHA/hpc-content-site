@@ -1,0 +1,14 @@
+.computed-tags-filter.active-tags.ui-autocomplete-input {
+  flex-wrap: nowrap;
+  min-width: 25rem;
+  margin-inline-end: initial;
+}
+.computed-tags-filter.active-tags.ui-autocomplete-input > tag {
+  margin-block: auto;
+}
+.computed-tags-filter.active-tags.ui-autocomplete-input > tag .active-tags__tag__text {
+  white-space: nowrap;
+}
+.computed-tags-filter.active-tags.ui-autocomplete-input > * {
+  padding: 0;
+}

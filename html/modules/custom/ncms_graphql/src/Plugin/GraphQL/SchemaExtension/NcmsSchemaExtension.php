@@ -541,17 +541,7 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
         ->map('entity', $builder->fromParent())
     );
     $registry->addFieldResolver('ContentSpace', 'tags',
-      $builder->compose(
-        $builder->produce('entity_reference')
-          ->map('entity', $builder->fromParent())
-          ->map('field', $builder->fromValue('field_major_tags')),
-        $builder->callback(function ($tags) {
-          $tags = array_map(function ($tag) {
-            return $tag->label();
-          }, $tags);
-          return $tags;
-        }),
-      ),
+      $this->buildFromComputedTags($builder, 'taxonomy_term'),
     );
   }
 

@@ -3,6 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.content_space.field_computed_tags
+    - field.field.taxonomy_term.content_space.field_country
     - field.field.taxonomy_term.content_space.field_major_tags
     - taxonomy.vocabulary.content_space
   module:
@@ -13,29 +15,15 @@ targetEntityType: taxonomy_term
 bundle: content_space
 mode: default
 content:
-  field_major_tags:
-    type: entity_reference_autocomplete_active_tags
+  field_country:
+    type: select_active_tags
     weight: 1
     region: content
     settings:
-      autocomplete_route_name: active_tags.entity_autocomplete
       match_operator: CONTAINS
       style: rectangle
-      size: 60
-      selection_handler: default
       match_limit: 10
-      min_length: 1
-      delimiter: ''
       placeholder: ''
-      show_avatar: 1
-      show_entity_id: 0
-      convert_uppercase: 0
-      string_override: 0
-      show_info_label: 0
-      info_label: ''
-      not_exist_message: "No matches found, Press Enter to add <strong>'@term'</strong>."
-      not_found_message: "No matching suggestions found for <strong>'@term'</strong>."
-      limit_tag_message: 'Allowed number of values limited to <strong>@cardinality</strong>.'
     third_party_settings: {  }
   langcode:
     type: language_select
@@ -67,3 +55,5 @@ content:
     third_party_settings: {  }
 hidden:
   description: true
+  field_computed_tags: true
+  field_major_tags: true

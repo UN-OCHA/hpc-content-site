@@ -3,10 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_tags
     - node.type.article
     - node.type.document
-    - taxonomy.vocabulary.major_tags
     - workflows.workflow.article_workflow
   module:
     - content_moderation
@@ -182,14 +180,15 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_tags:
-          id: field_tags
-          table: node__field_tags
-          field: field_tags
+        term_node_tid:
+          id: term_node_tid
+          table: node_field_data
+          field: term_node_tid
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: field
+          entity_type: node
+          plugin_id: taxonomy_index_tid
           label: Tags
           exclude: false
           alter:
@@ -231,20 +230,20 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: false
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
+          type: separator
           separator: ', '
-          field_api_classes: false
+          link_to_taxonomy: false
+          limit: true
+          vids:
+            country: country
+            document_type: document_type
+            theme: theme
+            year: year
+            appeals: '0'
+            content_space: '0'
+            interactive_content_type: '0'
+            major_tags: '0'
+            story_type: '0'
         changed:
           id: changed
           table: node_field_data
@@ -492,24 +491,24 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_tags_target_id:
-          id: field_tags_target_id
-          table: node__field_tags
-          field: field_tags_target_id
+        field_computed_tags_value:
+          id: field_computed_tags_value
+          table: node__field_computed_tags
+          field: field_computed_tags_value
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: taxonomy_index_tid
-          operator: or
-          value: {  }
+          plugin_id: string
+          operator: '='
+          value: ''
           group: 1
           exposed: true
           expose:
-            operator_id: field_tags_target_id_op
+            operator_id: field_computed_tags_value_op
             label: Tags
             description: ''
             use_operator: false
-            operator: field_tags_target_id_op
+            operator: field_computed_tags_value_op
             operator_limit_selection: false
             operator_list: {  }
             identifier: tags
@@ -521,7 +520,7 @@ display:
               anonymous: '0'
               administrator: '0'
               editor: '0'
-            reduce: false
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -534,12 +533,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          reduce_duplicates: false
-          vid: major_tags
-          type: textfield
-          hierarchy: false
-          limit: true
-          error_message: true
         type:
           id: type
           table: node_field_data
@@ -720,11 +713,9 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:
-        - 'config:field.storage.node.field_tags'
         - 'config:workflow_list'
   page_trash:
     id: page_trash
@@ -765,9 +756,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:
-        - 'config:field.storage.node.field_tags'
         - 'config:workflow_list'

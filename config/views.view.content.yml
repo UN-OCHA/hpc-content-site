@@ -6,7 +6,7 @@ dependencies:
     - field.storage.node.field_content_space
     - field.storage.node.field_country
     - field.storage.node.field_document_type
-    - field.storage.node.field_tags
+    - field.storage.node.field_theme
     - field.storage.node.field_type
     - node.type.article
     - node.type.document
@@ -15,12 +15,13 @@ dependencies:
     - taxonomy.vocabulary.content_space
     - taxonomy.vocabulary.country
     - taxonomy.vocabulary.document_type
-    - taxonomy.vocabulary.major_tags
     - taxonomy.vocabulary.story_type
+    - taxonomy.vocabulary.theme
     - workflows.workflow.article_workflow
   module:
     - content_moderation
     - gho_fields
+    - ncms_tags
     - ncms_ui
     - node
     - taxonomy
@@ -1003,11 +1004,13 @@ display:
           vids:
             country: country
             document_type: document_type
-            major_tags: major_tags
+            month: month
+            theme: theme
             year: year
             appeals: '0'
             content_space: '0'
             interactive_content_type: '0'
+            major_tags: '0'
             story_type: '0'
         article_document:
           id: article_document
@@ -1337,148 +1340,6 @@ display:
           hide_alter_empty: true
           destination: false
       filters:
-        title:
-          id: title
-          table: node_field_data
-          field: title
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          entity_field: title
-          plugin_id: string
-          operator: contains
-          value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: title_op
-            label: Title
-            description: ''
-            use_operator: false
-            operator: title_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: title
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        field_computed_tags_value:
-          id: field_computed_tags_value
-          table: node__field_computed_tags
-          field: field_computed_tags_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: string
-          operator: contains
-          value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_computed_tags_value_op
-            label: Tags
-            description: ''
-            use_operator: false
-            operator: field_computed_tags_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: tags
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              editor: '0'
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        moderation_state:
-          id: moderation_state
-          table: node_field_data
-          field: moderation_state
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          plugin_id: moderation_state_filter
-          operator: in
-          value:
-            all: all
-            article_workflow-draft: article_workflow-draft
-            article_workflow-published: article_workflow-published
-            article_workflow-trash: article_workflow-trash
-            article_workflow-unpublished: article_workflow-unpublished
-          group: 1
-          exposed: true
-          expose:
-            operator_id: moderation_state_op
-            label: Status
-            description: ''
-            use_operator: false
-            operator: moderation_state_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: status
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              editor: '0'
-            reduce: false
-          is_grouped: true
-          group_info:
-            label: Status
-            description: ''
-            identifier: moderation_state
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items:
-              1:
-                title: Published
-                operator: in
-                value:
-                  article_workflow-published: article_workflow-published
-              2:
-                title: Draft
-                operator: in
-                value:
-                  article_workflow-draft: article_workflow-draft
         type:
           id: type
           table: node_field_data
@@ -1650,6 +1511,147 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: title_op
+            label: Title
+            description: ''
+            use_operator: false
+            operator: title_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: title
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        computed_tags_active_tags:
+          id: computed_tags_active_tags
+          table: node__field_computed_tags
+          field: computed_tags_active_tags
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: computed_tags_active_tags
+          operator: '='
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ''
+            label: Tags
+            description: ''
+            use_operator: false
+            operator: computed_tags_active_tags_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: tags
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              editor: '0'
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        moderation_state:
+          id: moderation_state
+          table: node_field_data
+          field: moderation_state
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: moderation_state_filter
+          operator: in
+          value:
+            all: all
+            article_workflow-draft: article_workflow-draft
+            article_workflow-published: article_workflow-published
+            article_workflow-trash: article_workflow-trash
+            article_workflow-unpublished: article_workflow-unpublished
+          group: 1
+          exposed: true
+          expose:
+            operator_id: moderation_state_op
+            label: Status
+            description: ''
+            use_operator: false
+            operator: moderation_state_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: status
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              editor: '0'
+            reduce: false
+          is_grouped: true
+          group_info:
+            label: Status
+            description: ''
+            identifier: moderation_state
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: Published
+                operator: in
+                value:
+                  article_workflow-published: article_workflow-published
+              2:
+                title: Draft
+                operator: in
+                value:
+                  article_workflow-draft: article_workflow-draft
       filter_groups:
         operator: AND
         groups:
@@ -1898,14 +1900,15 @@ display:
           type: string
           settings:
             link_to_entity: true
-        field_tags:
-          id: field_tags
-          table: node__field_tags
-          field: field_tags
+        term_node_tid:
+          id: term_node_tid
+          table: node_field_data
+          field: term_node_tid
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: field
+          entity_type: node
+          plugin_id: taxonomy_index_tid
           label: Tags
           exclude: false
           alter:
@@ -1947,20 +1950,21 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: false
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
+          type: separator
           separator: ', '
-          field_api_classes: false
+          link_to_taxonomy: false
+          limit: true
+          vids:
+            country: country
+            document_type: document_type
+            month: month
+            theme: theme
+            year: year
+            appeals: '0'
+            content_space: '0'
+            interactive_content_type: '0'
+            major_tags: '0'
+            story_type: '0'
         latest_version:
           id: latest_version
           table: node
@@ -2366,36 +2370,35 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_computed_tags_value:
-          id: field_computed_tags_value
+        computed_tags_active_tags:
+          id: computed_tags_active_tags
           table: node__field_computed_tags
-          field: field_computed_tags_value
+          field: computed_tags_active_tags
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: string
-          operator: contains
+          plugin_id: computed_tags_active_tags
+          operator: '='
           value: ''
           group: 1
           exposed: true
           expose:
-            operator_id: field_computed_tags_value_op
+            operator_id: ''
             label: Tags
             description: ''
             use_operator: false
-            operator: field_computed_tags_value_op
+            operator: computed_tags_active_tags_op
             operator_limit_selection: false
             operator_list: {  }
             identifier: tags
             required: false
             remember: false
-            multiple: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
               editor: '0'
-            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -2600,7 +2603,6 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
-        - 'config:field.storage.node.field_tags'
         - 'config:workflow_list'
   page_find_content:
     id: page_find_content
@@ -2995,15 +2997,15 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_tags:
-          id: field_tags
-          table: node__field_tags
-          field: field_tags
+        field_theme:
+          id: field_theme
+          table: node__field_theme
+          field: field_theme
           relationship: none
           group_type: group
           admin_label: ''
           plugin_id: field
-          label: Tags
+          label: Theme
           exclude: false
           alter:
             alter_text: false
@@ -3476,10 +3478,10 @@ display:
           hierarchy: false
           limit: true
           error_message: true
-        field_tags_target_id:
-          id: field_tags_target_id
-          table: node__field_tags
-          field: field_tags_target_id
+        field_theme_target_id:
+          id: field_theme_target_id
+          table: node__field_theme
+          field: field_theme_target_id
           relationship: none
           group_type: group
           admin_label: ''
@@ -3489,14 +3491,14 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: field_tags_target_id_op
-            label: Tags
+            operator_id: field_theme_target_id_op
+            label: Theme
             description: ''
             use_operator: false
-            operator: field_tags_target_id_op
+            operator: field_theme_target_id_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: tags
+            identifier: theme
             required: false
             remember: false
             multiple: false
@@ -3519,7 +3521,7 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          vid: major_tags
+          vid: theme
           type: textfield
           hierarchy: false
           limit: true
@@ -3608,7 +3610,7 @@ display:
         - 'config:field.storage.node.field_content_space'
         - 'config:field.storage.node.field_country'
         - 'config:field.storage.node.field_document_type'
-        - 'config:field.storage.node.field_tags'
+        - 'config:field.storage.node.field_theme'
   page_stories:
     id: page_stories
     display_title: Stories

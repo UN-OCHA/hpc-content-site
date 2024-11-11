@@ -8,9 +8,11 @@ dependencies:
     - field.field.paragraph.document_chapter.field_country
     - field.field.paragraph.document_chapter.field_document_type
     - field.field.paragraph.document_chapter.field_hide_from_navigation
+    - field.field.paragraph.document_chapter.field_month
     - field.field.paragraph.document_chapter.field_short_title
     - field.field.paragraph.document_chapter.field_summary
     - field.field.paragraph.document_chapter.field_tags
+    - field.field.paragraph.document_chapter.field_theme
     - field.field.paragraph.document_chapter.field_title
     - field.field.paragraph.document_chapter.field_year
     - paragraphs.paragraphs_type.document_chapter
@@ -35,6 +37,14 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
+  field_theme:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
   field_title:
     type: string
     label: hidden
@@ -48,6 +58,7 @@ hidden:
   field_country: true
   field_document_type: true
   field_hide_from_navigation: true
+  field_month: true
   field_short_title: true
   field_tags: true
   field_year: true

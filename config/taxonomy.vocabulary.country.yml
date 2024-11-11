@@ -1,7 +1,12 @@
 uuid: 67fbeaa2-803b-4949-9f51-4074a4ff28e1
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - taxonomy_max_depth
+third_party_settings:
+  taxonomy_max_depth:
+    max_depth: 0
 name: Country
 vid: country
 description: 'The countries that a content item is about'

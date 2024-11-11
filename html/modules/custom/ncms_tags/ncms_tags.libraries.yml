@@ -1,0 +1,4 @@
+input.computed_tags:
+  css:
+    theme:
+      css/input.computed_tags.css: {}

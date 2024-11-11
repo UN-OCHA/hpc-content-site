@@ -94,6 +94,7 @@ display:
         display_link_table:
           label: Table
   widget_table:
+    display_title: 'Widget (table)'
     display_options:
       fields:
         thumbnail__target_id:

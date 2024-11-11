@@ -6,4 +6,5 @@ dependencies:
   - graphql:graphql
   - node:node
   - ncms_paragraphs:ncms_paragraphs
+  - ncms_tags:ncms_tags
 core_version_requirement: ^9.3 || ^10

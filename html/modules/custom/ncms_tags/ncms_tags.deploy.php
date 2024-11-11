@@ -5,13 +5,12 @@
  * Deploy functions for HPC Content Module Tags.
  */
 
-use Drupal\taxonomy\TermInterface;
-
 /**
  * Setup the country vocabulary.
  */
-function ncms_tags_deploy_setup_country_vocabulary(&$sandbox) {
+function ncms_tags_deploy_1_setup_country_vocabulary(&$sandbox) {
   $countries = [
+    // Countries as available in the API.
     'Afghanistan',
     'Åland Islands',
     'Albania',
@@ -69,7 +68,10 @@ function ncms_tags_deploy_setup_country_vocabulary(&$sandbox) {
     'Côte d\'Ivoire',
     'Croatia',
     'Cuba',
-    'Curaçao (Netherlands)',
+    [
+      'name' => ['Curaçao (Netherlands)'],
+      'alternatives' => ['Curacao'],
+    ],
     'Cyprus',
     'Czech Republic',
     'Denmark',
@@ -118,7 +120,10 @@ function ncms_tags_deploy_setup_country_vocabulary(&$sandbox) {
     'Iceland',
     'India',
     'Indonesia',
-    'Iran, Islamic Republic of',
+    [
+      'name' => 'Iran, Islamic Republic of',
+      'alternatives' => ['Iran'],
+    ],
     'Iraq',
     'Ireland',
     'Isle of Man',
@@ -158,7 +163,10 @@ function ncms_tags_deploy_setup_country_vocabulary(&$sandbox) {
     'Mayotte',
     'Mexico',
     'Micronesia, Federated States of',
-    'Moldova, Republic of',
+    [
+      'name' => 'Moldova, Republic of',
+      'alternatives' => ['Republic of Moldova'],
+    ],
     'Monaco',
     'Mongolia',
     'Montenegro',
@@ -234,7 +242,10 @@ function ncms_tags_deploy_setup_country_vocabulary(&$sandbox) {
     'Syrian Arab Republic',
     'Taiwan, Province of China',
     'Tajikistan',
-    'Tanzania',
+    [
+      'name' => 'Tanzania',
+      'alternatives' => ['United Republic of Tanzania'],
+    ],
     'Thailand',
     'Timor-Leste',
     'Togo',
@@ -264,11 +275,33 @@ function ncms_tags_deploy_setup_country_vocabulary(&$sandbox) {
     'Yemen',
     'Zambia',
     'Zimbabwe',
+    // Regions.
+    [
+      'name' => 'Asia and the Pacific',
+      'alternatives' => ['Asia', 'Pacific Islands'],
+    ],
+    [
+      'name' => 'Europe',
+      'alternatives' => ['Eastern Europe'],
+    ],
+    'Latin America and the Caribbean',
+    'Middle East and North Africa',
+    [
+      'name' => 'Southern and Eastern Africa',
+      'alternatives' => ['Southern and East Africa', 'Horn of Africa'],
+    ],
+    'West and Central Africa',
+    // World.
     'World',
   ];
+  /** @var \Drupal\ncms_tags\TagMigration $tag_migration */
+  $tag_migration = \Drupal::service('ncms_tags.tag_migration');
   $not_migrated = [];
   foreach ($countries as $key => $country) {
-    $result = ncms_tags_create_and_migrate('country', $country, $key, 'field_country');
+    $country_name = is_array($country) ? $country['name'] : $country;
+    $country_alternatives = is_array($country) ? $country['alternatives'] : [];
+    $country_term = $tag_migration->createTag('country', $country_name, $key);
+    $result = $tag_migration->migrateTag($country_term, $country_alternatives);
     if ($result === FALSE) {
       $not_migrated[] = $country;
     }
@@ -289,7 +322,7 @@ function ncms_tags_deploy_setup_country_vocabulary(&$sandbox) {
 /**
  * Setup the document type vocabulary.
  */
-function ncms_tags_deploy_setup_document_type_vocabulary(&$sandbox) {
+function ncms_tags_deploy_2_setup_document_type_vocabulary(&$sandbox) {
   $document_types = [
     'HNO',
     'HRP',
@@ -299,14 +332,27 @@ function ncms_tags_deploy_setup_document_type_vocabulary(&$sandbox) {
       'name' => 'GHO Monthly',
       'alternatives' => ['GHO Monthly update'],
     ],
-    'Flash Appeal',
-    'Other plan',
+    [
+      'name' => 'Flash Appeal',
+      'alternatives' => ['FA'],
+    ],
+    [
+      'name' => 'Regional plan',
+      'alternatives' => ['RMRP', 'RRP'],
+    ],
+    [
+      'name' => 'Other plan',
+      'alternatives' => ['ERP', 'Rohingya'],
+    ],
   ];
+  /** @var \Drupal\ncms_tags\TagMigration $tag_migration */
+  $tag_migration = \Drupal::service('ncms_tags.tag_migration');
   $not_migrated = [];
   foreach ($document_types as $key => $document_type) {
     $document_type_name = is_array($document_type) ? $document_type['name'] : $document_type;
     $document_type_alternatives = is_array($document_type) ? $document_type['alternatives'] : [];
-    $result = ncms_tags_create_and_migrate('document_type', $document_type_name, $key, 'field_document_type', $document_type_alternatives);
+    $document_type_term = $tag_migration->createTag('document_type', $document_type_name, $key);
+    $result = $tag_migration->migrateTag($document_type_term, $document_type_alternatives);
     if ($result === FALSE) {
       $not_migrated[] = $document_type_name;
     }
@@ -327,14 +373,16 @@ function ncms_tags_deploy_setup_document_type_vocabulary(&$sandbox) {
 /**
  * Setup the document type vocabulary.
  */
-function ncms_tags_deploy_setup_years_vocabulary(&$sandbox) {
+function ncms_tags_deploy_3_setup_years_vocabulary(&$sandbox) {
   $years = array_reverse(range(1980, 2025));
+  /** @var \Drupal\ncms_tags\TagMigration $tag_migration */
+  $tag_migration = \Drupal::service('ncms_tags.tag_migration');
   $not_migrated = [];
   foreach ($years as $key => $year) {
-    $year_name = $year;
-    $result = ncms_tags_create_and_migrate('year', $year_name, $key, 'field_year');
+    $year_term = $tag_migration->createTag('year', $year, $key);
+    $result = $tag_migration->migrateTag($year_term);
     if ($result === FALSE) {
-      $not_migrated[] = $year_name;
+      $not_migrated[] = $year;
     }
   }
   if (count($not_migrated)) {
@@ -351,121 +399,519 @@ function ncms_tags_deploy_setup_years_vocabulary(&$sandbox) {
 }
 
 /**
- * Create and migrate a term for the given vocabulary.
- *
- * @param string $vid
- *   The machine name of the vocabulary.
- * @param string $term_name
- *   The term name.
- * @param int $weight
- *   The weight of the term in the vocabulary.
- * @param string $field_name
- *   The field name of the term on article nodes.
- * @param string[] $alternative_names
- *   An optional list of alternative names for the given term.
- *
- * @return bool
- *   The result state of the operation.
+ * Setup the document type vocabulary.
  */
-function ncms_tags_create_and_migrate($vid, $term_name, $weight, $field_name, $alternative_names = []) {
-  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+function ncms_tags_deploy_4_setup_months_vocabulary(&$sandbox) {
+  $months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  /** @var \Drupal\ncms_tags\TagMigration $tag_migration */
+  $tag_migration = \Drupal::service('ncms_tags.tag_migration');
+  $not_migrated = [];
+  foreach ($months as $key => $month) {
+    $month_term = $tag_migration->createTag('month', $month, $key);
+    $result = $tag_migration->migrateTag($month_term);
+    if ($result === FALSE) {
+      $not_migrated[] = $month;
+    }
+  }
+  if (count($not_migrated)) {
+    return t('Processed @processed month tags, skipped migration for these tags: @not_migrated', [
+      '@processed' => count($months),
+      '@not_migrated' => implode(', ', $not_migrated),
+    ]);
+  }
+  else {
+    return t('Processed @processed year tags', [
+      '@processed' => count($months),
+    ]);
+  }
+}
+
+/**
+ * Setup the theme vocabulary.
+ */
+function ncms_tags_deploy_5_setup_theme_vocabulary(&$sandbox) {
+  $themes = [
+    'Access' => [
+      'Bureaucratic impediments',
+      'Safe passage',
+      'Operational constraints',
+      'Cross-border operation',
+      'Security Council authorization',
+      'Safe zones',
+    ],
+    'Accountability to affected people' => [
+      'Complaint mechanisms',
+      'Transparency',
+      'Monitoring',
+      'Program monitoring',
+      'Community consultations',
+    ],
+    'Anticipatory action' => [
+      'alternatives' => ['Anticipatory Action'],
+      'children' => [
+        'Preparedness',
+        'Early warning systems',
+        'Risk mitigation',
+        'Disaster preparedness',
+        'Forecast-based financing',
+      ],
+    ],
+    'Camp coordination and camp management (CCCM)' => [
+      'Site planning and development',
+      'Camp infrastructure maintenance',
+      'Community mobilization',
+      'Protection and safety in camps',
+      'Shelter allocation',
+      'Displacement tracking and monitoring',
+    ],
+    'Cash' => [
+      'Cash assistance',
+      'Vouchers',
+      'Economic recovery',
+      'Livelihood support',
+      'Cash for work',
+      'Cash transfers',
+    ],
+    'Children' => [
+      'Child protection',
+      'Education in crisis',
+    ],
+    'Climate change' => [
+      'Climate emergencies',
+      'Displacement',
+      'Natural disasters',
+      'Adaptation strategies',
+      'Environmental degradation',
+    ],
+    'Conflict' => [
+      'Civilian casualties',
+      'Peacebuilding',
+    ],
+    'Coordination' => [
+      'Interagency',
+      'Joint operations',
+      'Response planning',
+      'Resource sharing',
+      'Field-level coordination',
+      'Cluster coordination',
+    ],
+    'COVID-19' => [
+      'Vaccination campaigns',
+      'Health services',
+      'Disease outbreaks',
+      'Social distancing measures',
+      'Pandemic response',
+      'Vaccine shortages',
+    ],
+    'Data and technology' => [
+      'alternatives' => ['Data Responsibility'],
+      'children' => [],
+    ],
+    'Disasters' => [
+      'alternatives' => ['Disaster Response', 'Natural Disasters'],
+      'children' => [
+        'Natural disasters',
+        'Cyclones',
+        'Earthquakes',
+        'Flooding',
+        'Natural disaster response',
+        'Relief',
+      ],
+    ],
+    'Disease' => [
+      'Cholera',
+      'Malaria',
+      'Measles',
+      'COVID-19',
+      'Outbreaks',
+      'Malaria',
+    ],
+    'Displacement' => [
+      'alternatives' => ['Migrants', 'Refugees'],
+      'children' => [
+        'Internal displacement',
+        'Refugee movements',
+        'IDP camps',
+        'Cross-border displacement',
+        'Refugee flows',
+      ],
+    ],
+    'Early recovery' => [
+      'Site planning and development',
+      'Camp infrastructure maintenance',
+      'Community mobilization',
+      'Protection and safety in camps',
+      'Shelter allocation',
+      'Displacement tracking and monitoring',
+    ],
+    'Economy' => [
+      'Economic shocks',
+      'Poverty',
+      'Job loss',
+      'Livelihoods',
+      'Economic sensitivity',
+      'Deflation',
+      'Economic instability',
+    ],
+    'Education' => [
+      'Schools in emergencies',
+      'Remote learning',
+      'Access to education',
+      'Emergency education programs',
+      'School rebuilding',
+    ],
+    'Emergency shelter' => [
+      'Shelter materials distribution',
+      'Transitional shelter solutions',
+      'Temporary housing setup',
+      'Site selection for temporary shelters',
+    ],
+    'Emergency telecommunications' => [
+      'Satellite communications',
+      'Radio communications',
+      'Mobile network services',
+      'Internet connectivity',
+      'Telecommunication infrastructure',
+      'Network security',
+    ],
+    'Financing' => [
+      'Funding',
+      'Funding gaps',
+      'Donor contributions',
+      'Pooled funds',
+      'Contributions',
+      'Donor shortfalls',
+    ],
+    'Food security' => [
+      'alternatives' => ['Food Insecurity'],
+      'children' => [
+        'Acute food insecurity',
+        'Malnutrition',
+        'Cash assistance',
+        'Famine prevention',
+        'Agricultural assistance',
+      ],
+    ],
+    'Funding' => [
+      'Humanitarian funding',
+      'Funding gaps',
+      'Donor contributions',
+      'Resource mobilization',
+      'Funding appeals',
+    ],
+    'Gender' => [
+      'Gender equality',
+      'Women empowerment',
+      'Gender-based violence (GBV)',
+      'Reproductive health',
+      'Gender-sensitive programming',
+      "Women's participation in humanitarian work",
+    ],
+    'Gender-based violence (GBV)' => [
+      'alternatives' => ['Gender-Based Violence'],
+      'children' => [
+        'Survivor support',
+        'Women protection',
+        'Legal aid',
+        'Sexual violence prevention',
+        'Survivor services',
+        'Safe spaces for women',
+      ],
+    ],
+    'Health' => [
+      'Emergency health services',
+      'Vaccinations',
+      'Healthcare access',
+      'Mental health support',
+      'Trauma care',
+      'Emergency health response',
+    ],
+    'Humanitarian-development-peace collaboration' => [
+      'alternatives' => ['Development', 'Nexus', 'Peacebuilding'],
+      'children' => [
+        'Resilience building',
+        'Sustainable development',
+        'Partnerships',
+        'Capacity building',
+        'Resilience building',
+        'Development linkages',
+      ],
+    ],
+    'Hunger' => [
+      'alternatives' => ['Famine'],
+      'children' => [
+        'Acute food insecurity',
+        'Malnutrition',
+        'Food aid',
+        'Agriculture support',
+        'Food aid',
+        'Emergency feeding',
+      ],
+    ],
+    'Immunizations' => [
+      'alternatives' => ['Vaccines'],
+      'children' => [
+        'COVID-19 vaccines',
+        'Measles vaccination',
+        'Routine immunizations',
+        'Routine vaccine programs',
+        'Cold chain support',
+      ],
+    ],
+    'Inter-agency' => [
+      'alternatives' => ['Interagency'],
+      'children' => [
+        'Coordination',
+        'Partnerships',
+        'Joint planning',
+        'Resource sharing',
+        'Humanitarian coordination',
+        'Cluster approach',
+      ],
+    ],
+    'Localization' => [
+      'Local partnerships',
+      'Community engagement',
+      'National actors',
+      'Capacity building',
+      'Support to local NGOs',
+      'Capacity strengthening',
+    ],
+    'Logistics' => [
+      'Transportation of aid supplies',
+      'Warehousing and storage',
+      'Supply chain management',
+      'Coordination of humanitarian convoys',
+      'Customs and border clearance',
+      'Air, land, and sea operations',
+    ],
+    'Mental health and psychosocial support' => [
+      'alternatives' => ['Mental Health', 'Psychosocial Support'],
+      'children' => [
+        'Psychological first aid',
+        'Trauma recovery',
+        'Community-based support',
+        'Access to mental health services',
+        'Counseling services',
+        'Trauma recovery',
+      ],
+    ],
+    'Needs analysis' => [
+      'alternatives' => ['Analysis', 'Needs'],
+      'children' => [
+        'Data collection',
+        'Joint needs assessment',
+        'Vulnerability analysis',
+        'Humanitarian planning',
+        'Vulnerability assessments',
+        'Data-driven response',
+      ],
+    ],
+    'Negotiation' => [
+      'Humanitarian diplomacy',
+      'Access negotiations',
+      'Peace talks',
+      'Ceasefire agreements',
+      'Access agreements',
+      'Local negotiations',
+    ],
+    'Nutrition' => [
+      'Malnutrition',
+      'Food aid',
+      'Child nutrition',
+      'Emergency feeding',
+      'Child malnutrition',
+      'Supplementary feeding',
+    ],
+    'Partners' => [
+      'alternatives' => ['NGO', 'Private Sector', 'UNDAC'],
+      'children' => [],
+    ],
+    'Pooled funds' => [
+      'alternatives' => ['CBPFs', 'CERF'],
+      'children' => [
+        'Country-Based Pooled Funds',
+        'Central Emergency Response Fund',
+        'Flexible funding',
+        'Donor coordination',
+        'Emergency allocations',
+        'CERF funding',
+      ],
+    ],
+    'Poverty' => [
+      'Economic inequality',
+      'Job loss',
+      'Social safety nets',
+      'Cash assistance',
+      'Livelihood recovery',
+      'Income support',
+    ],
+    'Protection' => [
+      'Child protection',
+      'Gender-based violence (GBV)',
+      'Legal aid',
+      'Safe spaces',
+      'Legal aid',
+      'Protection of civilians',
+      'Mine action',
+      'Housing, land, and property',
+    ],
+    'Protection from sexual exploitation and abuse' => [
+      'alternatives' => ['Sexual Abuse'],
+      'children' => [
+        'Legal frameworks',
+        'Survivor assistance',
+        'Prevention programs',
+        'Reporting mechanisms',
+        'Safeguarding programs',
+        'Incident reporting',
+      ],
+    ],
+    'Violence' => [
+      'Armed conflict',
+      'Civilian casualties',
+      'Gender-based violence (GBV)',
+      'Child protection',
+      'Armed violence',
+      'Civilian protection',
+    ],
+    'Vulnerable areas' => [
+      'Conflict zones',
+      'Drought-affected areas',
+      'Urban slums',
+      'Disaster-prone regions',
+      'Conflict zones',
+    ],
+    'Water, Sanitation, and Hygiene (WASH)' => [
+      'Water supply systems',
+      'Sanitation facility construction',
+      'Hygiene promotion and education',
+      'Waste management and disposal',
+      'Water quality monitoring',
+      'Latrine construction and maintenance',
+    ],
+    'Women' => [
+      'alternatives' => ['Women and Girls'],
+      'children' => [
+        'Women empowerment',
+        'Gender equality',
+        'Protection services',
+        'Reproductive health',
+        "Women's rights",
+        'Economic participation',
+      ],
+    ],
+  ];
+  /** @var \Drupal\ncms_tags\TagMigration $tag_migration */
+  $tag_migration = \Drupal::service('ncms_tags.tag_migration');
+  $not_migrated = [];
+  foreach (array_keys($themes) as $parent_key => $theme) {
+    $parent_term = $tag_migration->createTag('theme', $theme, $parent_key);
+    $result = $tag_migration->migrateTag($parent_term, !empty($themes[$theme]['alternatives']) ? $themes[$theme]['alternatives'] : []);
+    if ($result === FALSE) {
+      $not_migrated[] = $theme;
+    }
+    $children = array_key_exists('children', $themes[$theme]) ? $themes[$theme]['children'] : $themes[$theme];
+    foreach ($children as $child_key => $child_tag) {
+      $tag_migration->createTag('theme', $child_tag, $child_key, $parent_term);
+    }
+  }
+  if (count($not_migrated)) {
+    return t('Processed @processed theme tags, skipped migration for these tags: @not_migrated', [
+      '@processed' => count($themes),
+      '@not_migrated' => implode(', ', $not_migrated),
+    ]);
+  }
+  else {
+    return t('Processed @processed theme tags', [
+      '@processed' => count($themes),
+    ]);
+  }
+}
+
+/**
+ * Migrate some special tags into the new taxonomies.
+ */
+function ncms_tags_deploy_6_migrate_special_terms(&$sandbox) {
+  /** @var \Drupal\ncms_tags\TagMigration $tag_migration */
+  $tag_migration = \Drupal::service('ncms_tags.tag_migration');
   $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-  $paragraph_storage = \Drupal::entityTypeManager()->getStorage('paragraph');
 
-  /** @var \Drupal\taxonomy\TermInterface $term */
-  $term = $term_storage->create([
-    'vid' => $vid,
-    'name' => $term_name,
-    'weight' => $weight,
-  ]);
-  $term->save();
-
-  /** @var \Drupal\taxonomy\TermInterface $tag */
-  $tag = $term_storage->loadByProperties([
-    'vid' => 'major_tags',
-    'name' => $term->getName(),
-  ]);
-  $tag = is_array($tag) ? reset($tag) : $tag;
-
-  /** @var \Drupal\taxonomy\TermInterface[] $alternative_terms */
-  $alternative_terms = !empty($alternative_names) ? $term_storage->loadByProperties([
-    'vid' => 'major_tags',
-    'name' => $alternative_names,
-  ]) : [];
-
-  if (!$tag instanceof TermInterface && empty($alternative_terms)) {
-    return FALSE;
+  $gho_tags = [
+    'GHO 2022' => [
+      'document_type' => 'GHO',
+      'year' => '2022',
+    ],
+    'GHO 2023' => [
+      'document_type' => 'GHO',
+      'year' => '2023',
+    ],
+    'GHO 2024' => [
+      'document_type' => 'GHO',
+      'year' => '2024',
+    ],
+  ];
+  foreach ($gho_tags as $tag => $fields) {
+    /** @var \Drupal\taxonomy\TermInterface $tag_term */
+    $tag_terms = $term_storage->loadByProperties([
+      'vid' => 'major_tags',
+      'name' => $tag,
+    ]);
+    foreach ($fields as $vid => $value) {
+      $term = $tag_migration->createTag($vid, $value);
+      $tag_migration->migrateTermReferences($tag_terms, $term);
+    }
+    foreach ($tag_terms as $tag_term) {
+      $tag_term->delete();
+    }
   }
+}
 
-  $tag_ids = [];
-  if ($tag) {
-    $tag_ids[] = $tag->id();
+/**
+ * Delete some obsolete tags.
+ */
+function ncms_tags_deploy_7_delete_obsolete_tags(&$sandbox) {
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $obsolete_tags = [
+    'Achievements',
+    'Dashboard',
+    'Delivering Better',
+    'Flash Appeal Template',
+    'Foreword',
+    'Global Trends',
+    'HNO template',
+    'Humanitarian Action',
+    'Introduction',
+    'Methodology',
+    'Regional',
+    'Regional Overview',
+    'Response Plans',
+    'Section 1: Global Trends',
+    'Section 2: Response Plans',
+    'Section 3: Delivering Better',
+    'Snapshot',
+    'Standalone',
+  ];
+  foreach ($obsolete_tags as $tag) {
+    $tag_terms = $term_storage->loadByProperties([
+      'vid' => 'major_tags',
+      'name' => $tag,
+    ]);
+    foreach ($tag_terms as $tag_term) {
+      $tag_term->delete();
+    }
   }
-  if (!empty($alternative_terms)) {
-    $alternative_tag_ids = array_map(function (TermInterface $_term) {
-      return $_term->id();
-    }, $alternative_terms);
-    $tag_ids = array_merge($tag_ids, $alternative_tag_ids);
-  }
-
-  /** @var \Drupal\node\NodeInterface[] $nodes */
-  $nodes = $node_storage->loadByProperties([
-    'type' => ['article', 'document'],
-    'field_tags' => $tag_ids,
-  ]);
-  foreach ($nodes as $node) {
-    $tags = $node->get('field_tags')->getValue();
-    $tags = array_filter($tags, function ($_tag) use ($tag_ids) {
-      return !in_array($_tag['target_id'], $tag_ids);
-    });
-    $node->get('field_tags')->setValue($tags);
-    $node->get($field_name)->setValue($term);
-    $node->setNewRevision(FALSE);
-    $node->setSyncing(TRUE);
-    $node->save();
-  }
-
-  /** @var \Drupal\paragraphs\ParagraphInterface[] $paragraphs */
-  $paragraphs = $paragraph_storage->loadByProperties([
-    'type' => ['document_chapter'],
-    'field_tags' => $tag_ids,
-  ]);
-  foreach ($paragraphs as $paragraph) {
-    $tags = $paragraph->get('field_tags')->getValue();
-    $tags = array_filter($tags, function ($_tag) use ($tag_ids) {
-      return !in_array($_tag['target_id'], $tag_ids);
-    });
-    $paragraph->get('field_tags')->setValue($tags);
-    $paragraph->get($field_name)->setValue($term);
-    $paragraph->setNewRevision(FALSE);
-    $paragraph->setSyncing(TRUE);
-    $paragraph->save();
-  }
-
-  /** @var \Drupal\taxonomy\TermInterface[] $content_spaces */
-  $content_spaces = $term_storage->loadByProperties([
-    'vid' => ['content_space'],
-    'field_major_tags' => $tag_ids,
-  ]);
-  foreach ($content_spaces as $content_space) {
-    $tags = $content_space->get('field_major_tags')->getValue();
-    $tags = array_filter($tags, function ($_tag) use ($tag_ids) {
-      return !in_array($_tag['target_id'], $tag_ids);
-    });
-    $tags[] = [
-      'target_id' => $term->id(),
-    ];
-    $content_space->get('field_major_tags')->setValue($tags);
-    $content_space->setNewRevision(FALSE);
-    $content_space->setSyncing(TRUE);
-    $content_space->save();
-  }
-
-  if ($tag) {
-    $tag->delete();
-  }
-  foreach ($alternative_terms as $term) {
-    $term->delete();
-  }
-  return TRUE;
 }

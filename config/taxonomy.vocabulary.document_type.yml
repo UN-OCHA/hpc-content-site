@@ -1,7 +1,12 @@
 uuid: 2d9ffc8f-5bc2-46fb-85c2-b93bfb7fb4ed
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - taxonomy_max_depth
+third_party_settings:
+  taxonomy_max_depth:
+    max_depth: 0
 name: 'Document type'
 vid: document_type
 description: 'The type of document'

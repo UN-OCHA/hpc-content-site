@@ -47,7 +47,6 @@
         "drupal/admin_toolbar": "^3.1",
         "drupal/allowed_formats": "^2",
         "drupal/anonymous_login": "^2.0",
-        "drupal/better_exposed_filters": "^7.0",
         "drupal/bigint": "^2",
         "drupal/bulk_update_fields": "^2.0@alpha",
         "drupal/classy": "^1.0",

@@ -99,7 +99,7 @@ class TagMigration {
     if (empty($tags)) {
       return FALSE;
     }
-    $this->migrateTermReferences($tags, $term);
+    $this->migrateTermReferences($tags, [$term]);
 
     if ($cleanup_tags) {
       foreach ($tags as $tag) {
@@ -110,21 +110,21 @@ class TagMigration {
   }
 
   /**
-   * Migrate term references for the given source tags and field name.
+   * Migrate term references for the given source tags.
    *
    * @param \Drupal\taxonomy\TermInterface[] $source_tags
    *   The term objects to migrate.
-   * @param \Drupal\taxonomy\TermInterface $term
+   * @param \Drupal\taxonomy\TermInterface[] $terms
    *   The target term object that the field should reference.
    */
-  public function migrateTermReferences(array $source_tags, $term) {
+  public function migrateTermReferences(array $source_tags, array $terms) {
     $tag_ids = array_map(function (TermInterface $_term) {
       return $_term->id();
     }, $source_tags);
 
-    $this->migrateNodeTerms($tag_ids, $term);
-    $this->migrateParagraphTerms($tag_ids, $term);
-    $this->migrateContentSpaceTerms($tag_ids, $term);
+    $this->migrateNodeTerms($tag_ids, $terms);
+    $this->migrateParagraphTerms($tag_ids, $terms);
+    $this->migrateContentSpaceTerms($tag_ids, $terms);
   }
 
   /**
@@ -132,11 +132,10 @@ class TagMigration {
    *
    * @param int[] $tag_ids
    *   An array of tag ids.
-   * @param \Drupal\taxonomy\TermInterface $term
-   *   The term to migrate.
+   * @param \Drupal\taxonomy\TermInterface[] $terms
+   *   The terms to migrate to.
    */
-  private function migrateNodeTerms(array $tag_ids, TermInterface $term) {
-    $field_name = $this->commonTaxonomies->getFieldNameForTaxonomyBundle($term->bundle());
+  private function migrateNodeTerms(array $tag_ids, array $terms) {
     /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
     $node_storage = $this->entityTypeManager->getStorage('node');
     /** @var \Drupal\node\NodeInterface[] $nodes */
@@ -146,7 +145,7 @@ class TagMigration {
     ]);
     foreach ($nodes as $node) {
       $this->removeTagIdsFromField($node, 'field_tags', $tag_ids);
-      $this->addTagToField($node, $field_name, $term);
+      $this->addTermsToField($node, $terms);
       $this->saveEntity($node);
 
       $revision_ids = $node_storage->revisionIds($node);
@@ -154,7 +153,7 @@ class TagMigration {
       $revisions = $node_storage->loadMultipleRevisions($revision_ids);
       foreach ($revisions as $revision) {
         $this->removeTagIdsFromField($revision, 'field_tags', $tag_ids);
-        $this->addTagToField($revision, $field_name, $term);
+        $this->addTermsToField($revision, $terms);
         $this->saveEntity($revision);
       }
     }
@@ -165,11 +164,10 @@ class TagMigration {
    *
    * @param int[] $tag_ids
    *   An array of tag ids.
-   * @param \Drupal\taxonomy\TermInterface $term
-   *   The term to migrate.
+   * @param \Drupal\taxonomy\TermInterface[] $terms
+   *   The terms to migrate to.
    */
-  private function migrateParagraphTerms(array $tag_ids, TermInterface $term) {
-    $field_name = $this->commonTaxonomies->getFieldNameForTaxonomyBundle($term->bundle());
+  private function migrateParagraphTerms(array $tag_ids, array $terms) {
     $paragraph_storage = $this->entityTypeManager->getStorage('paragraph');
     /** @var \Drupal\paragraphs\ParagraphInterface[] $paragraphs */
     $paragraphs = $paragraph_storage->loadByProperties([
@@ -178,7 +176,7 @@ class TagMigration {
     ]);
     foreach ($paragraphs as $paragraph) {
       $this->removeTagIdsFromField($paragraph, 'field_tags', $tag_ids);
-      $this->addTagToField($paragraph, $field_name, $term);
+      $this->addTermsToField($paragraph, $terms);
       $this->saveEntity($paragraph);
     }
   }
@@ -188,11 +186,10 @@ class TagMigration {
    *
    * @param int[] $tag_ids
    *   An array of tag ids.
-   * @param \Drupal\taxonomy\TermInterface $term
-   *   The term to migrate.
+   * @param \Drupal\taxonomy\TermInterface[] $terms
+   *   The terms to migrate to.
    */
-  private function migrateContentSpaceTerms(array $tag_ids, TermInterface $term) {
-    $field_name = $this->commonTaxonomies->getFieldNameForTaxonomyBundle($term->bundle());
+  private function migrateContentSpaceTerms(array $tag_ids, array $terms) {
     $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
     /** @var \Drupal\taxonomy\TermInterface[] $content_spaces */
     $content_spaces = $term_storage->loadByProperties([
@@ -201,7 +198,7 @@ class TagMigration {
     ]);
     foreach ($content_spaces as $content_space) {
       $this->removeTagIdsFromField($content_space, 'field_major_tags', $tag_ids);
-      $this->addTagToField($content_space, $field_name, $term);
+      $this->addTermsToField($content_space, $terms);
       $this->saveEntity($content_space);
     }
   }
@@ -225,25 +222,26 @@ class TagMigration {
   }
 
   /**
-   * Add the given term to an entity field.
+   * Add the given terms to an entity field.
    *
    * @param \Drupal\Core\Entity\ContentEntityInterface $entity
    *   The entity.
-   * @param string $field_name
-   *   The field name.
-   * @param \Drupal\taxonomy\TermInterface $term
-   *   The term to add.
+   * @param \Drupal\taxonomy\TermInterface[] $terms
+   *   The terms to add.
    */
-  private function addTagToField(ContentEntityInterface $entity, $field_name, TermInterface $term) {
-    if (!$entity->hasField($field_name)) {
-      return;
+  private function addTermsToField(ContentEntityInterface $entity, array $terms) {
+    foreach ($terms as $term) {
+      $field_name = $this->commonTaxonomies->getFieldNameForTaxonomyBundle($term->bundle());
+      if (!$entity->hasField($field_name)) {
+        return;
+      }
+      $field_tags = $entity->get($field_name)->getValue();
+      $field_tags = array_filter($field_tags, function ($_tag) use ($term) {
+        return $_tag['target_id'] != $term->id();
+      });
+      $field_tags[] = ['target_id' => $term->id()];
+      $entity->get($field_name)->setValue($field_tags);
     }
-    $field_tags = $entity->get($field_name)->getValue();
-    $field_tags = array_filter($field_tags, function ($_tag) use ($term) {
-      return $_tag['target_id'] != $term->id();
-    });
-    $field_tags[] = ['target_id' => $term->id()];
-    $entity->get($field_name)->setValue($field_tags);
   }
 
   /**

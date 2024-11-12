@@ -62,18 +62,18 @@ function ncms_tags_deploy_1_setup_country_vocabulary(&$sandbox) {
     'Colombia',
     'Comoros',
     'Congo',
-    'Democratic Republic of the Congo',
     'Cook Islands',
     'Costa Rica',
     'Côte d\'Ivoire',
     'Croatia',
     'Cuba',
     [
-      'name' => ['Curaçao (Netherlands)'],
+      'name' => ['Curaçao'],
       'alternatives' => ['Curacao'],
     ],
     'Cyprus',
     'Czech Republic',
+    'Democratic Republic of the Congo',
     'Denmark',
     'Djibouti',
     'Dominica',
@@ -121,7 +121,7 @@ function ncms_tags_deploy_1_setup_country_vocabulary(&$sandbox) {
     'India',
     'Indonesia',
     [
-      'name' => 'Iran, Islamic Republic of',
+      'name' => 'Iran (Islamic Republic of)',
       'alternatives' => ['Iran'],
     ],
     'Iraq',
@@ -163,10 +163,7 @@ function ncms_tags_deploy_1_setup_country_vocabulary(&$sandbox) {
     'Mayotte',
     'Mexico',
     'Micronesia, Federated States of',
-    [
-      'name' => 'Moldova, Republic of',
-      'alternatives' => ['Republic of Moldova'],
-    ],
+    'Republic of Moldova',
     'Monaco',
     'Mongolia',
     'Montenegro',
@@ -242,10 +239,6 @@ function ncms_tags_deploy_1_setup_country_vocabulary(&$sandbox) {
     'Syrian Arab Republic',
     'Taiwan, Province of China',
     'Tajikistan',
-    [
-      'name' => 'Tanzania',
-      'alternatives' => ['United Republic of Tanzania'],
-    ],
     'Thailand',
     'Timor-Leste',
     'Togo',
@@ -261,6 +254,7 @@ function ncms_tags_deploy_1_setup_country_vocabulary(&$sandbox) {
     'Ukraine',
     'United Arab Emirates',
     'United Kingdom',
+    'United Republic of Tanzania',
     'United States',
     'United States Minor Outlying Islands',
     'Uruguay',
@@ -866,15 +860,16 @@ function ncms_tags_deploy_6_migrate_special_terms(&$sandbox) {
   ];
   foreach ($gho_tags as $tag => $fields) {
     /** @var \Drupal\taxonomy\TermInterface $tag_term */
-    $tag_terms = $term_storage->loadByProperties([
+    $source_tags = $term_storage->loadByProperties([
       'vid' => 'major_tags',
       'name' => $tag,
     ]);
+    $target_terms = [];
     foreach ($fields as $vid => $value) {
-      $term = $tag_migration->createTag($vid, $value);
-      $tag_migration->migrateTermReferences($tag_terms, $term);
+      $target_terms[] = $tag_migration->createTag($vid, $value);
     }
-    foreach ($tag_terms as $tag_term) {
+    $tag_migration->migrateTermReferences($source_tags, $target_terms);
+    foreach ($source_tags as $tag_term) {
       $tag_term->delete();
     }
   }

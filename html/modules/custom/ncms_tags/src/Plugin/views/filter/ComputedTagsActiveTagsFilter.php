@@ -112,12 +112,11 @@ class ComputedTagsActiveTagsFilter extends FilterPluginBase {
       }
       $table_name = 'node__' . $bundle_field_map[$term->bundle()];
       $field_name = $bundle_field_map[$term->bundle()] . '_target_id';
-      $table_alias = $this->query->ensureTable($table_name);
+      $table_alias = $this->query->addTable($table_name);
       if (!$table_alias) {
         continue;
       }
-      $this->query->addWhere($this->options['group'], ($this->query->getConnection()->condition('OR'))
-        ->condition("$table_alias.$field_name", $term->id()));
+      $this->query->addWhere($this->options['group'], "$table_alias.$field_name", $term->id());
     }
   }
 

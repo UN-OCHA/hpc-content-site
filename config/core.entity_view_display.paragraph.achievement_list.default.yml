@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.achievement_list.field_achievements
+    - field.field.paragraph.achievement_list.field_columns
     - field.field.paragraph.achievement_list.field_text
     - paragraphs.paragraphs_type.achievement_list
   module:
@@ -30,4 +31,5 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
-hidden: {  }
+hidden:
+  field_columns: true

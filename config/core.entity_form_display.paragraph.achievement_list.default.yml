@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.achievement_list.field_achievements
+    - field.field.paragraph.achievement_list.field_columns
     - field.field.paragraph.achievement_list.field_text
     - paragraphs.paragraphs_type.achievement_list
   module:
@@ -16,6 +17,7 @@ third_party_settings:
       children:
         - group_achievements
         - group_caption
+        - group_settings
       label: Tabs
       region: content
       parent_name: ''
@@ -57,6 +59,22 @@ third_party_settings:
         formatter: closed
         description: ''
         required_fields: true
+    group_settings:
+      children:
+        - field_columns
+      label: Settings
+      region: content
+      parent_name: group_tabs
+      weight: 8
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
 id: paragraph.achievement_list.default
 targetEntityType: paragraph
 bundle: achievement_list
@@ -82,6 +100,13 @@ content:
         convert: '0'
         duplicate: duplicate
     third_party_settings: {  }
+  field_columns:
+    type: number
+    weight: 2
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
   field_text:
     type: text_textarea
     weight: 2
@@ -92,13 +117,13 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 3
+    weight: 1
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   translation:
-    weight: 4
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }

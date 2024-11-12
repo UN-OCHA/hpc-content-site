@@ -2,7 +2,6 @@
 
 namespace Drupal\ncms_graphql\Plugin\GraphQL\DataProducer;
 
-use Drupal\Core\Entity\TranslatableInterface;
 use Drupal\graphql\GraphQL\Execution\FieldContext;
 use Drupal\ncms_graphql\Wrappers\QueryConnection;
 use Drupal\node\NodeInterface;

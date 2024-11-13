@@ -254,7 +254,10 @@ function ncms_tags_deploy_1_setup_country_vocabulary(&$sandbox) {
     'Ukraine',
     'United Arab Emirates',
     'United Kingdom',
-    'United Republic of Tanzania',
+    [
+      'name' => 'United Republic of Tanzania',
+      'alternatives' => ['Tanzania'],
+    ],
     'United States',
     'United States Minor Outlying Islands',
     'Uruguay',
@@ -856,6 +859,10 @@ function ncms_tags_deploy_6_migrate_special_terms(&$sandbox) {
     'GHO 2024' => [
       'document_type' => 'GHO',
       'year' => '2024',
+    ],
+    'GHO 2025' => [
+      'document_type' => 'GHO',
+      'year' => '2025',
     ],
   ];
   foreach ($gho_tags as $tag => $fields) {

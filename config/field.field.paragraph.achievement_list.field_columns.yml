@@ -1,0 +1,34 @@
+uuid: 69b81f5b-70a8-46ee-855c-9b8b3c5c501a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_columns
+    - paragraphs.paragraphs_type.achievement_list
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: paragraph.achievement_list.field_columns
+field_name: field_columns
+entity_type: paragraph
+bundle: achievement_list
+label: Columns
+description: 'Set the number of columns for the display of the achievement list.'
+required: false
+translatable: true
+default_value:
+  -
+    value: 4
+default_value_callback: ''
+settings:
+  min: 1
+  max: 4
+  prefix: ''
+  suffix: ''
+field_type: integer

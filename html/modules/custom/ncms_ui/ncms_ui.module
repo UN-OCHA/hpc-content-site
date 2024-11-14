@@ -316,6 +316,16 @@ function ncms_ui_preprocess_field__paragraph__field_title__document_chapter(&$va
 }
 
 /**
+ * Implements hook_preprocess_hook().
+ */
+function ncms_ui_preprocess_field__paragraph__achievement_list(&$variables) {
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['element']['#object'];
+  $columns = $paragraph->hasField('field_columns') ? ($paragraph->get('field_columns')->value ?? 4) : 4;
+  $variables['attributes']['class'][] = 'col-' . $columns;
+}
+
+/**
  * Implements hook_preprocess_layout_paragraphs_builder_controls().
  */
 function ncms_ui_preprocess_layout_paragraphs_builder_controls(array &$variables) {

@@ -44,7 +44,9 @@
 .cd-global-header .cd-ocha-dropdown__heading,
 .cd-global-header .cd-ocha-dropdown__link a,
 .cd-global-header .cd-ocha__btn-label,
-.cd-footer a {
+.cd-ocha-services h2,
+.cd-footer a,
+.cd-footer a:hover {
   color: var(--cd--global-header-text-color);
 }
 

@@ -1,6 +1,7 @@
 type ArticleList {
-  count: Int
-  items: [Article]
+  count: Int!
+  ids: [Int]
+  items: [Article!]
 }
 
 type Article {
@@ -25,8 +26,9 @@ type Article {
 }
 
 type DocumentList {
-  count: Int
-  items: [Document]
+  count: Int!
+  ids: [Int]
+  items: [Document!]
 }
 
 type Document {

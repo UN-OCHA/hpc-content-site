@@ -3,8 +3,10 @@
 namespace Drupal\ncms_graphql\Plugin\GraphQL\SchemaExtension;
 
 use Drupal\graphql\GraphQL\ResolverBuilder;
+use Drupal\graphql\GraphQL\ResolverRegistry;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
+use Drupal\ncms_graphql\Wrappers\QueryConnection;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -56,6 +58,9 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
     $this->addFieldResolverContentSpace($registry, $builder);
     $this->addFieldResolverParagraph($registry, $builder);
     $this->addFieldResolverDocumentChapter($registry, $builder);
+
+    $this->addListFieldResolvers('ArticleList', $registry, $builder);
+    $this->addListFieldResolvers('DocumentList', $registry, $builder);
   }
 
   /**
@@ -105,6 +110,7 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('article_export')
         ->map('tags', $builder->fromArgument('tags'))
     );
+
     $registry->addFieldResolver('Query', 'articleSearch',
       $builder->compose(
         $builder->produce('hid_user'),
@@ -662,6 +668,34 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('entity_reference')
         ->map('entity', $builder->fromParent())
         ->map('field', $builder->fromValue('field_articles')),
+    );
+  }
+
+  /**
+   * Add field resolvers for list types using a query connection.
+   *
+   * @param string $type
+   *   The data type.
+   * @param \Drupal\graphql\GraphQL\ResolverRegistry $registry
+   *   The resolver registry.
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
+   */
+  protected function addListFieldResolvers($type, ResolverRegistry $registry, ResolverBuilder $builder): void {
+    $registry->addFieldResolver($type, 'count',
+      $builder->callback(function (QueryConnection $connection) {
+        return $connection->count();
+      })
+    );
+    $registry->addFieldResolver($type, 'ids',
+      $builder->callback(function (QueryConnection $connection) {
+        return $connection->ids();
+      })
+    );
+    $registry->addFieldResolver($type, 'items',
+      $builder->callback(function (QueryConnection $connection) {
+        return $connection->items();
+      })
     );
   }
 

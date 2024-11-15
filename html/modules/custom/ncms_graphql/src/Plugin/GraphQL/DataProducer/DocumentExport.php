@@ -3,10 +3,10 @@
 namespace Drupal\ncms_graphql\Plugin\GraphQL\DataProducer;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\TranslatableInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\graphql\GraphQL\Execution\FieldContext;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
+use Drupal\ncms_graphql\Wrappers\QueryConnection;
 use Drupal\node\NodeInterface;
 use GraphQL\Deferred;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -96,16 +96,18 @@ class DocumentExport extends DataProducerPluginBase implements ContainerFactoryP
       // Add the list cache tags so that the cache entry is purged whenever a
       // new entity of this type is saved.
       $entity_type = $this->entityTypeManager->getDefinition($type);
-      /** @var \Drupal\Core\Entity\EntityTypeInterface $type */
       $context->addCacheTags($entity_type->getListCacheTags());
+      $context->addCacheContexts($entity_type->getListCacheContexts());
 
-      // Load the buffered entities.
+      // Build the query.
       $query = $this->entityTypeManager
         ->getStorage($type)
         ->getQuery();
       $query->accessCheck(TRUE);
       $query->condition('type', 'document');
       $query->condition('status', NodeInterface::PUBLISHED);
+      $query->condition('field_tags', NULL, 'IS NOT NULL');
+      $query->condition('field_content_space', NULL, 'IS NOT NULL');
       $query->sort('changed', 'DESC');
 
       if (!empty($tags)) {
@@ -125,55 +127,7 @@ class DocumentExport extends DataProducerPluginBase implements ContainerFactoryP
           $query->condition($and_condition);
         }
       }
-      $entity_ids = $query->execute();
-
-      $entities = $entity_ids ? $this->entityTypeManager
-        ->getStorage($type)
-        ->loadMultiple($entity_ids) : [];
-
-      if (!$entities) {
-        return [];
-      }
-
-      foreach ($entities as $id => $entity) {
-        $context->addCacheableDependency($entities[$id]);
-
-        if (isset($language) && $language !== $entities[$id]->language()->getId() && $entities[$id] instanceof TranslatableInterface) {
-          $entities[$id] = $entities[$id]->getTranslation($language);
-          $entities[$id]->addCacheContexts(["static:language:{$language}"]);
-        }
-
-        /** @var \Drupal\Core\Access\AccessResultInterface $accessResult */
-        $accessResult = $entities[$id]->access('view', NULL, TRUE);
-        $context->addCacheableDependency($accessResult);
-        // We need to call isAllowed() because isForbidden() returns FALSE
-        // for neutral access results, which is dangerous. Only an explicitly
-        // allowed result means that the user has access.
-        if (!$accessResult->isAllowed()) {
-          unset($entities[$id]);
-          continue;
-        }
-
-        // Filter out documents that are not tagged yet.
-        if ($entities[$id]->get('field_tags')->isEmpty()) {
-          unset($entities[$id]);
-          continue;
-        }
-
-        // Filter out documents that are not associated to a content space.
-        if ($entities[$id]->get('field_content_space')->isEmpty()) {
-          unset($entities[$id]);
-          continue;
-        }
-
-        // @todo Filter out documents that are associated to a content space
-        // which has no tags. See if this is necessary.
-      }
-
-      return (object) [
-        'count' => count($entities),
-        'items' => $entities,
-      ];
+      return new QueryConnection($query);
     });
   }
 

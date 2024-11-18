@@ -76,8 +76,8 @@ class QueryConnection {
     $field_query->addJoin('LEFT', 'node__field_automatically_visible', 'auto_visible', 'n.nid = auto_visible.entity_id');
     $field_query->addField('n', 'nid', 'id');
     $field_query->addField('n', 'status');
-    $field_query->addField('n', 'created');
-    $field_query->addField('n', 'changed', 'updated');
+    $field_query->addExpression('FROM_UNIXTIME(n.created)', 'created');
+    $field_query->addExpression('FROM_UNIXTIME(n.changed)', 'updated');
     $field_query->addField('n', 'title');
     $field_query->addField('n', 'force_update', 'forceUpdate');
     $field_query->addField('summary', 'field_summary_value', 'summary');

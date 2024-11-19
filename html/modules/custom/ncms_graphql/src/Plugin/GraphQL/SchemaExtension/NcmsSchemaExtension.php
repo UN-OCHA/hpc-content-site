@@ -694,7 +694,7 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
     );
     $registry->addFieldResolver($type, 'metaData',
       $builder->callback(function (QueryConnection $connection) {
-        return $connection->articleMetaData();
+        return $connection->metaData();
       })
     );
     $registry->addFieldResolver($type, 'items',

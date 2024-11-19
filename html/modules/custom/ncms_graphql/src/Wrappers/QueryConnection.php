@@ -60,7 +60,7 @@ class QueryConnection {
    * @return array
    *   An array of article meta data, keyed by article id.
    */
-  public function articleMetaData() {
+  public function metaData() {
     $result = $this->query->execute();
     if (empty($result)) {
       return [];

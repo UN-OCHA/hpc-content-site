@@ -215,28 +215,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_theme:
-    type: entity_reference_autocomplete_active_tags
+    type: select_active_tags
     weight: 32
     region: content
     settings:
-      autocomplete_route_name: active_tags.entity_autocomplete
       match_operator: CONTAINS
       style: rectangle
-      size: 60
-      selection_handler: default
-      match_limit: 10
-      min_length: 1
-      delimiter: ''
+      match_limit: 0
       placeholder: ''
-      show_avatar: 1
-      show_entity_id: 0
-      convert_uppercase: 0
-      string_override: 0
-      show_info_label: 0
-      info_label: ''
-      not_exist_message: null
-      not_found_message: null
-      limit_tag_message: 'Allowed number of values limited to <strong>@cardinality</strong>.'
     third_party_settings: {  }
   field_year:
     type: select_active_tags

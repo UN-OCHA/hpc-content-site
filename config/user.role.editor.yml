@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.articles
     - filter.format.filtered_html
     - media.type.author
     - media.type.image

@@ -1,0 +1,14 @@
+uuid: da7964f1-a383-41f5-be86-3da9fb51ca0f
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy_max_depth
+third_party_settings:
+  taxonomy_max_depth:
+    max_depth: 0
+name: Month
+vid: month
+description: 'The month(s) that a content item is about'
+weight: 0
+new_revision: false

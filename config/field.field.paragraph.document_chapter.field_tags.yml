@@ -6,11 +6,20 @@ dependencies:
     - field.storage.paragraph.field_tags
     - paragraphs.paragraphs_type.document_chapter
     - taxonomy.vocabulary.major_tags
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '4'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: paragraph.document_chapter.field_tags
 field_name: field_tags
 entity_type: paragraph
 bundle: document_chapter
-label: Tags
+label: Theme
 description: 'Add tags that apply to this chapter and all articles within it.'
 required: false
 translatable: false

@@ -5,14 +5,21 @@ dependencies:
   config:
     - field.field.node.document.field_automatically_visible
     - field.field.node.document.field_caption
+    - field.field.node.document.field_computed_tags
     - field.field.node.document.field_content_space
+    - field.field.node.document.field_country
+    - field.field.node.document.field_document_type
     - field.field.node.document.field_hero_image
+    - field.field.node.document.field_month
     - field.field.node.document.field_paragraphs
     - field.field.node.document.field_short_title
     - field.field.node.document.field_summary
     - field.field.node.document.field_tags
+    - field.field.node.document.field_theme
+    - field.field.node.document.field_year
     - node.type.document
   module:
+    - active_tags
     - double_field
     - field_group
     - layout_paragraphs
@@ -56,8 +63,12 @@ third_party_settings:
     group_meta_data:
       children:
         - field_content_space
+        - field_document_type
+        - field_year
+        - field_month
+        - field_country
+        - field_theme
         - field_summary
-        - field_tags
         - field_automatically_visible
       label: Properties
       region: content
@@ -100,7 +111,7 @@ content:
     third_party_settings: {  }
   field_automatically_visible:
     type: boolean_checkbox
-    weight: 30
+    weight: 35
     region: content
     settings:
       display_label: true
@@ -134,6 +145,26 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_country:
+    type: select_active_tags
+    weight: 31
+    region: content
+    settings:
+      match_operator: CONTAINS
+      style: rectangle
+      match_limit: 0
+      placeholder: ''
+    third_party_settings: {  }
+  field_document_type:
+    type: select_active_tags
+    weight: 28
+    region: content
+    settings:
+      match_operator: CONTAINS
+      style: rectangle
+      match_limit: 0
+      placeholder: ''
+    third_party_settings: {  }
   field_hero_image:
     type: media_library_widget
     weight: 28
@@ -141,12 +172,24 @@ content:
     settings:
       media_types: {  }
     third_party_settings: {  }
+  field_month:
+    type: select_active_tags
+    weight: 30
+    region: content
+    settings:
+      match_operator: CONTAINS
+      style: rectangle
+      match_limit: 0
+      placeholder: ''
+    third_party_settings: {  }
   field_paragraphs:
     type: layout_paragraphs
     weight: 4
     region: content
     settings:
+      view_mode: default
       preview_view_mode: preview
+      form_display_mode: default
       nesting_depth: 0
       require_layouts: 0
       empty_message: ''
@@ -165,21 +208,45 @@ content:
         maxlength_js_enforce: true
   field_summary:
     type: text_textarea
-    weight: 28
+    weight: 34
     region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_tags:
-    type: entity_reference_autocomplete_tags
+  field_theme:
+    type: entity_reference_autocomplete_active_tags
+    weight: 32
+    region: content
+    settings:
+      autocomplete_route_name: active_tags.entity_autocomplete
+      match_operator: CONTAINS
+      style: rectangle
+      size: 60
+      selection_handler: default
+      match_limit: 10
+      min_length: 1
+      delimiter: ''
+      placeholder: ''
+      show_avatar: 1
+      show_entity_id: 0
+      convert_uppercase: 0
+      string_override: 0
+      show_info_label: 0
+      info_label: ''
+      not_exist_message: null
+      not_found_message: null
+      limit_tag_message: 'Allowed number of values limited to <strong>@cardinality</strong>.'
+    third_party_settings: {  }
+  field_year:
+    type: select_active_tags
     weight: 29
     region: content
     settings:
       match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: 'Document tags'
+      style: rectangle
+      match_limit: 0
+      placeholder: ''
     third_party_settings: {  }
   langcode:
     type: language_select
@@ -190,7 +257,7 @@ content:
     third_party_settings: {  }
   moderation_state:
     type: string_textfield
-    weight: 31
+    weight: 6
     region: content
     settings:
       size: 60
@@ -198,7 +265,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 5
+    weight: 4
     region: content
     settings:
       display_label: true
@@ -212,7 +279,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 10
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -227,6 +294,8 @@ content:
       placeholder: ''
     third_party_settings: {  }
 hidden:
+  field_computed_tags: true
+  field_tags: true
   path: true
   promote: true
   sticky: true

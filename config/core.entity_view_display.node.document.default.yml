@@ -5,12 +5,18 @@ dependencies:
   config:
     - field.field.node.document.field_automatically_visible
     - field.field.node.document.field_caption
+    - field.field.node.document.field_computed_tags
     - field.field.node.document.field_content_space
+    - field.field.node.document.field_country
+    - field.field.node.document.field_document_type
     - field.field.node.document.field_hero_image
+    - field.field.node.document.field_month
     - field.field.node.document.field_paragraphs
     - field.field.node.document.field_short_title
     - field.field.node.document.field_summary
     - field.field.node.document.field_tags
+    - field.field.node.document.field_theme
+    - field.field.node.document.field_year
     - node.type.document
   module:
     - double_field
@@ -91,8 +97,14 @@ content:
     region: content
 hidden:
   field_automatically_visible: true
+  field_computed_tags: true
   field_content_space: true
+  field_country: true
+  field_document_type: true
+  field_month: true
   field_summary: true
   field_tags: true
+  field_theme: true
+  field_year: true
   langcode: true
   links: true

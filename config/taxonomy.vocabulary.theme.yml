@@ -1,0 +1,14 @@
+uuid: efb4aa66-7232-4688-bb07-b2a451a0ab04
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy_max_depth
+third_party_settings:
+  taxonomy_max_depth:
+    max_depth: 1
+name: Theme
+vid: theme
+description: 'The main theme(s) of the content'
+weight: 0
+new_revision: false

@@ -220,17 +220,7 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
         ->map('field', $builder->fromValue('field_content_space')),
     );
     $registry->addFieldResolver('Document', 'tags',
-      $builder->compose(
-        $builder->produce('entity_reference')
-          ->map('entity', $builder->fromParent())
-          ->map('field', $builder->fromValue('field_tags')),
-        $builder->callback(function ($tags) {
-          $tags = array_map(function ($tag) {
-            return $tag->label();
-          }, $tags);
-          return $tags;
-        }),
-      ),
+      $this->buildFromComputedTags($builder, 'node'),
     );
     $registry->addFieldResolver('Document', 'language',
       $builder->compose(
@@ -387,17 +377,7 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
       )
     );
     $registry->addFieldResolver('Article', 'tags',
-      $builder->compose(
-        $builder->produce('entity_reference')
-          ->map('entity', $builder->fromParent())
-          ->map('field', $builder->fromValue('field_tags')),
-        $builder->callback(function ($tags) {
-          $tags = array_map(function ($tag) {
-            return $tag->label();
-          }, $tags);
-          return $tags;
-        }),
-      ),
+      $this->buildFromComputedTags($builder, 'node'),
     );
     $registry->addFieldResolver('Article', 'autoVisible',
       $builder->produce('property_path')
@@ -561,17 +541,7 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
         ->map('entity', $builder->fromParent())
     );
     $registry->addFieldResolver('ContentSpace', 'tags',
-      $builder->compose(
-        $builder->produce('entity_reference')
-          ->map('entity', $builder->fromParent())
-          ->map('field', $builder->fromValue('field_major_tags')),
-        $builder->callback(function ($tags) {
-          $tags = array_map(function ($tag) {
-            return $tag->label();
-          }, $tags);
-          return $tags;
-        }),
-      ),
+      $this->buildFromComputedTags($builder, 'taxonomy_term'),
     );
   }
 
@@ -668,6 +638,36 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('entity_reference')
         ->map('entity', $builder->fromParent())
         ->map('field', $builder->fromValue('field_articles')),
+    );
+    $registry->addFieldResolver('DocumentChapter', 'tags',
+      $this->buildFromComputedTags($builder, 'paragraph'),
+    );
+  }
+
+  /**
+   * Build the tags based on the comuted tags field of an entity.
+   *
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
+   * @param string $entity_type_id
+   *   The entity type id.
+   *
+   * @return \Drupal\graphql\GraphQL\Resolver\Composite
+   *   The resolver chain that retrieves the value.
+   */
+  private function buildFromComputedTags(ResolverBuilder $builder, $entity_type_id) {
+    return $builder->compose(
+      $builder->produce('property_path')
+        ->map('type', $builder->fromValue('entity:' . $entity_type_id))
+        ->map('value', $builder->fromParent())
+        ->map('path', $builder->fromValue('field_computed_tags.value')),
+      $builder->callback(function ($value) {
+        if (empty($value)) {
+          return [];
+        }
+        $tags = explode(',', $value);
+        return !empty($tags) ? $tags : [];
+      }),
     );
   }
 

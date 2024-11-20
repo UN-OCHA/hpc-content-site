@@ -1,0 +1,38 @@
+uuid: 083171f3-b521-41fb-8011-503c3f5e0595
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_country
+    - paragraphs.paragraphs_type.document_chapter
+    - taxonomy.vocabulary.country
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '-1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: paragraph.document_chapter.field_country
+field_name: field_country
+entity_type: paragraph
+bundle: document_chapter
+label: Country
+description: 'Select the country for this chapter.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      country: country
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

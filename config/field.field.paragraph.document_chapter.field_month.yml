@@ -1,0 +1,38 @@
+uuid: 01bda68f-6670-4544-9652-e75e8f63695c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_month
+    - paragraphs.paragraphs_type.document_chapter
+    - taxonomy.vocabulary.month
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '-1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: paragraph.document_chapter.field_month
+field_name: field_month
+entity_type: paragraph
+bundle: document_chapter
+label: Month
+description: 'Select the month for this chapter.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      month: month
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

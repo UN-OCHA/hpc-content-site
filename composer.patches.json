@@ -1,8 +1,13 @@
 {
     "patches": {
+        "drupal/active_tags": {
+            "Issue #3481823: HTML tags appear in 'Not exist' and 'Not found' messages": "https://www.drupal.org/files/issues/2024-11-08/3481823-3.patch",
+            "Issue #3486362: Limit 0 for select dropdowns is not respected": "https://git.drupalcode.org/project/active_tags/-/merge_requests/2.patch"
+        },
         "drupal/core": {
-            "Issue #2329253: Allow the ChangedItem to skip updating the entity's changed timestamp when synchronizing (f.e. when migrating)": "https://www.drupal.org/files/issues/2024-07-30/2329253-10.x.patch",
             "Issue #2544110: XSS attribute filtering is inconsistent and strips valid attributes": "./patches/2544110-2024-02-15.patch",
+            "Issue #2546212: Entity view/form mode formatter/widget settings have no translation UI": "https://www.drupal.org/files/issues/2024-08-06/drupal-core-2546212-10.3-reroll-302.patch",
+            "Issue #2329253: Allow the ChangedItem to skip updating the entity's changed timestamp when synchronizing (f.e. when migrating)": "https://www.drupal.org/files/issues/2024-07-30/2329253-10.x.patch",
             "Issue #3274635: [upstream] Use CKEditor 5's native <ol type> and <ul type> UX": "https://www.drupal.org/files/issues/2024-08-11/3274635--ckeditor_list_styles-10.3.2--108.patch",
             "Issue #3392572: strnatcasecmp(): Passing null to parameter #2 in LayoutPluginManager": "https://www.drupal.org/files/issues/2023-10-25/drupal-strnatcasecmp_string_only-3392572-10.patch",
             "Issue #3413079: Cannot read properties of null (reading 'nodeType') on node.page.body": "https://www.drupal.org/files/issues/2024-01-08/3413079-9.patch",

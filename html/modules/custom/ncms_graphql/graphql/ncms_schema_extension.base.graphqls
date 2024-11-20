@@ -106,6 +106,7 @@ type DocumentChapter {
   summary: String
   hidden: Boolean
   articles: [Article]
+  tags: [String]
 }
 
 type Caption {

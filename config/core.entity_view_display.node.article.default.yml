@@ -8,15 +8,21 @@ dependencies:
     - field.field.node.article.field_automatically_visible
     - field.field.node.article.field_caption
     - field.field.node.article.field_card_title
+    - field.field.node.article.field_computed_tags
     - field.field.node.article.field_content_space
+    - field.field.node.article.field_country
+    - field.field.node.article.field_document_type
     - field.field.node.article.field_hero_image
+    - field.field.node.article.field_month
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_pdf
     - field.field.node.article.field_report_link
     - field.field.node.article.field_short_title
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
+    - field.field.node.article.field_theme
     - field.field.node.article.field_thumbnail_image
+    - field.field.node.article.field_year
     - node.type.article
   module:
     - gho_fields
@@ -39,7 +45,7 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 4
+    weight: 3
     region: content
   field_author:
     type: entity_reference_entity_view
@@ -104,10 +110,16 @@ content:
 hidden:
   field_automatically_visible: true
   field_card_title: true
+  field_computed_tags: true
   field_content_space: true
+  field_country: true
+  field_document_type: true
+  field_month: true
   field_pdf: true
   field_report_link: true
   field_summary: true
   field_tags: true
+  field_theme: true
   field_thumbnail_image: true
+  field_year: true
   langcode: true

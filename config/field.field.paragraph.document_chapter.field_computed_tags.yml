@@ -1,0 +1,29 @@
+uuid: 36725a2a-a658-4e53-ab1d-8f410a51000f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_computed_tags
+    - paragraphs.paragraphs_type.document_chapter
+  module:
+    - computed_field
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: paragraph.document_chapter.field_computed_tags
+field_name: field_computed_tags
+entity_type: paragraph
+bundle: document_chapter
+label: 'Computed tags'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: computed_string_long

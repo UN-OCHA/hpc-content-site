@@ -8,18 +8,25 @@ dependencies:
     - field.field.node.article.field_automatically_visible
     - field.field.node.article.field_caption
     - field.field.node.article.field_card_title
+    - field.field.node.article.field_computed_tags
     - field.field.node.article.field_content_space
+    - field.field.node.article.field_country
+    - field.field.node.article.field_document_type
     - field.field.node.article.field_hero_image
+    - field.field.node.article.field_month
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_pdf
     - field.field.node.article.field_report_link
     - field.field.node.article.field_short_title
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
+    - field.field.node.article.field_theme
     - field.field.node.article.field_thumbnail_image
+    - field.field.node.article.field_year
     - node.type.article
     - workflows.workflow.article_workflow
   module:
+    - active_tags
     - allowed_formats
     - content_moderation
     - double_field
@@ -44,13 +51,18 @@ third_party_settings:
         classes: ''
         show_empty_fields: false
         id: ''
+        label_as_html: false
         formatter: closed
         description: ''
         required_fields: true
     group_meta_data:
       children:
         - field_content_space
-        - field_tags
+        - field_document_type
+        - field_year
+        - field_month
+        - field_country
+        - field_theme
         - field_author
         - field_pdf
         - field_automatically_visible
@@ -63,6 +75,7 @@ third_party_settings:
         classes: ''
         show_empty_fields: false
         id: ''
+        label_as_html: false
         formatter: closed
         description: ''
         required_fields: true
@@ -97,6 +110,7 @@ third_party_settings:
         classes: ''
         show_empty_fields: false
         id: ''
+        label_as_html: false
         formatter: closed
         description: ''
         required_fields: true
@@ -113,7 +127,7 @@ content:
     third_party_settings: {  }
   field_author:
     type: inline_entity_form_complex
-    weight: 25
+    weight: 8
     region: content
     settings:
       form_mode: default
@@ -131,7 +145,7 @@ content:
     third_party_settings: {  }
   field_automatically_visible:
     type: boolean_checkbox
-    weight: 27
+    weight: 10
     region: content
     settings:
       display_label: true
@@ -165,9 +179,29 @@ content:
     third_party_settings: {  }
   field_content_space:
     type: options_select
-    weight: 22
+    weight: 1
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_country:
+    type: select_active_tags
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      style: rectangle
+      match_limit: 0
+      placeholder: ''
+    third_party_settings: {  }
+  field_document_type:
+    type: select_active_tags
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      style: rectangle
+      match_limit: 0
+      placeholder: ''
     third_party_settings: {  }
   field_hero_image:
     type: media_library_widget
@@ -176,19 +210,31 @@ content:
     settings:
       media_types: {  }
     third_party_settings: {  }
+  field_month:
+    type: select_active_tags
+    weight: 4
+    region: content
+    settings:
+      match_operator: CONTAINS
+      style: rectangle
+      match_limit: 0
+      placeholder: ''
+    third_party_settings: {  }
   field_paragraphs:
     type: layout_paragraphs
     weight: 7
     region: content
     settings:
+      view_mode: default
       preview_view_mode: preview
+      form_display_mode: default
       nesting_depth: 4
       require_layouts: 0
       empty_message: ''
     third_party_settings: {  }
   field_pdf:
     type: file_generic
-    weight: 26
+    weight: 9
     region: content
     settings:
       progress_indicator: throbber
@@ -216,19 +262,29 @@ content:
       allowed_formats:
         hide_help: '1'
         hide_guidelines: '1'
-  field_tags:
-    type: entity_reference_autocomplete_tags
-    weight: 23
+  field_theme:
+    type: select_active_tags
+    weight: 6
     region: content
     settings:
       match_operator: CONTAINS
+      style: rectangle
       match_limit: 0
-      size: 60
-      placeholder: 'Article tags'
+      placeholder: ''
+    third_party_settings: {  }
+  field_year:
+    type: select_active_tags
+    weight: 3
+    region: content
+    settings:
+      match_operator: CONTAINS
+      style: rectangle
+      match_limit: 0
+      placeholder: ''
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 102
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -250,7 +306,9 @@ content:
 hidden:
   field_appeals: true
   field_card_title: true
+  field_computed_tags: true
   field_report_link: true
+  field_tags: true
   field_thumbnail_image: true
   langcode: true
   path: true

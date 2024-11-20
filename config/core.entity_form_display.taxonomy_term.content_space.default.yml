@@ -3,23 +3,26 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.content_space.field_computed_tags
+    - field.field.taxonomy_term.content_space.field_country
     - field.field.taxonomy_term.content_space.field_major_tags
     - taxonomy.vocabulary.content_space
   module:
+    - active_tags
     - path
 id: taxonomy_term.content_space.default
 targetEntityType: taxonomy_term
 bundle: content_space
 mode: default
 content:
-  field_major_tags:
-    type: entity_reference_autocomplete_tags
+  field_country:
+    type: select_active_tags
     weight: 1
     region: content
     settings:
       match_operator: CONTAINS
+      style: rectangle
       match_limit: 10
-      size: 60
       placeholder: ''
     third_party_settings: {  }
   langcode:
@@ -52,3 +55,5 @@ content:
     third_party_settings: {  }
 hidden:
   description: true
+  field_computed_tags: true
+  field_major_tags: true

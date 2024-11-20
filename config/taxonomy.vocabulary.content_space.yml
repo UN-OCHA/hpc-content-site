@@ -4,6 +4,6 @@ status: true
 dependencies: {  }
 name: 'Content space'
 vid: content_space
-description: null
+description: 'The content space that a content item belongs to'
 weight: 0
 new_revision: false

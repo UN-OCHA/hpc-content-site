@@ -1,0 +1,22 @@
+uuid: d1f2682f-d4b7-487b-ad84-51c4691cae94
+langcode: en
+status: true
+dependencies:
+  module:
+    - computed_field
+    - taxonomy
+id: taxonomy_term.field_computed_tags
+field_name: field_computed_tags
+entity_type: taxonomy_term
+type: computed_string
+settings:
+  max_length: '255'
+  is_ascii: false
+  case_sensitive: false
+module: computed_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

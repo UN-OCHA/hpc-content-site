@@ -1,0 +1,29 @@
+uuid: 3db5b732-d025-4ada-a3de-efd79c863221
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_computed_tags
+    - node.type.document
+  module:
+    - computed_field
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: node.document.field_computed_tags
+field_name: field_computed_tags
+entity_type: node
+bundle: document
+label: 'Computed Tags'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: computed_string

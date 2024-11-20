@@ -3,10 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.content_space.field_computed_tags
+    - field.field.taxonomy_term.content_space.field_country
     - field.field.taxonomy_term.content_space.field_major_tags
     - taxonomy.vocabulary.content_space
   module:
-    - ncms_ui
+    - computed_field
     - text
 id: taxonomy_term.content_space.default
 targetEntityType: taxonomy_term
@@ -20,13 +22,17 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-  field_major_tags:
-    type: entity_reference_label_inline
+  field_computed_tags:
+    type: computed_string
     label: inline
     settings:
-      link: 0
+      sanitized: true
+      cache_unit: -1
+      cache_duration: 1
     third_party_settings: {  }
     weight: 1
     region: content
 hidden:
+  field_country: true
+  field_major_tags: true
   langcode: true

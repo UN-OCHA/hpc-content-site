@@ -1,6 +1,20 @@
+type MetaData {
+  id: Int!
+  title: String
+  title_short: String
+  status: Int
+  created: String
+  updated: String
+  summary: String
+  autoVisible: Int!
+  forceUpdate: Int
+}
+
 type ArticleList {
-  count: Int
-  items: [Article]
+  count: Int!
+  ids: [Int]
+  metaData: [MetaData]
+  items: [Article!]
 }
 
 type Article {
@@ -25,8 +39,10 @@ type Article {
 }
 
 type DocumentList {
-  count: Int
-  items: [Document]
+  count: Int!
+  ids: [Int]
+  metaData: [MetaData]
+  items: [Document!]
 }
 
 type Document {
@@ -90,6 +106,7 @@ type DocumentChapter {
   summary: String
   hidden: Boolean
   articles: [Article]
+  tags: [String]
 }
 
 type Caption {

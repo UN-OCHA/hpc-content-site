@@ -1,0 +1,6 @@
+services:
+  ncms_tags.common_taxonomies:
+    class: Drupal\ncms_tags\CommonTaxonomyService
+  ncms_tags.tag_migration:
+    class: Drupal\ncms_tags\TagMigration
+    arguments: ['@entity_type.manager', '@ncms_tags.common_taxonomies']

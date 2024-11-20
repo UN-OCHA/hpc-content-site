@@ -6,12 +6,21 @@ dependencies:
     - field.storage.node.field_tags
     - node.type.document
     - taxonomy.vocabulary.major_tags
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '-1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: node.document.field_tags
 field_name: field_tags
 entity_type: node
 bundle: document
-label: Tags
-description: 'Add tags that apply to this document and all articles within it.'
+label: Theme
+description: 'Add tags that describe the theme of this document and all articles within it.'
 required: false
 translatable: true
 default_value: {  }

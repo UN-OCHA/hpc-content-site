@@ -1,0 +1,34 @@
+uuid: b2375b94-3b78-4d6d-b144-5b9f07adf5a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_theme
+    - node.type.document
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '-1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: node.document.field_theme
+field_name: field_theme
+entity_type: node
+bundle: document
+label: Theme
+description: 'Add tags that describe the theme of this document and all articles within it.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: theme_selection
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

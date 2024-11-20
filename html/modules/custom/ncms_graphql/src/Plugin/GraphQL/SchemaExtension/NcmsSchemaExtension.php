@@ -3,8 +3,10 @@
 namespace Drupal\ncms_graphql\Plugin\GraphQL\SchemaExtension;
 
 use Drupal\graphql\GraphQL\ResolverBuilder;
+use Drupal\graphql\GraphQL\ResolverRegistry;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
+use Drupal\ncms_graphql\Wrappers\QueryConnection;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -56,6 +58,9 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
     $this->addFieldResolverContentSpace($registry, $builder);
     $this->addFieldResolverParagraph($registry, $builder);
     $this->addFieldResolverDocumentChapter($registry, $builder);
+
+    $this->addListFieldResolvers('ArticleList', $registry, $builder);
+    $this->addListFieldResolvers('DocumentList', $registry, $builder);
   }
 
   /**
@@ -105,6 +110,7 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('article_export')
         ->map('tags', $builder->fromArgument('tags'))
     );
+
     $registry->addFieldResolver('Query', 'articleSearch',
       $builder->compose(
         $builder->produce('hid_user'),
@@ -214,17 +220,7 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
         ->map('field', $builder->fromValue('field_content_space')),
     );
     $registry->addFieldResolver('Document', 'tags',
-      $builder->compose(
-        $builder->produce('entity_reference')
-          ->map('entity', $builder->fromParent())
-          ->map('field', $builder->fromValue('field_tags')),
-        $builder->callback(function ($tags) {
-          $tags = array_map(function ($tag) {
-            return $tag->label();
-          }, $tags);
-          return $tags;
-        }),
-      ),
+      $this->buildFromComputedTags($builder, 'node'),
     );
     $registry->addFieldResolver('Document', 'language',
       $builder->compose(
@@ -381,17 +377,7 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
       )
     );
     $registry->addFieldResolver('Article', 'tags',
-      $builder->compose(
-        $builder->produce('entity_reference')
-          ->map('entity', $builder->fromParent())
-          ->map('field', $builder->fromValue('field_tags')),
-        $builder->callback(function ($tags) {
-          $tags = array_map(function ($tag) {
-            return $tag->label();
-          }, $tags);
-          return $tags;
-        }),
-      ),
+      $this->buildFromComputedTags($builder, 'node'),
     );
     $registry->addFieldResolver('Article', 'autoVisible',
       $builder->produce('property_path')
@@ -555,17 +541,7 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
         ->map('entity', $builder->fromParent())
     );
     $registry->addFieldResolver('ContentSpace', 'tags',
-      $builder->compose(
-        $builder->produce('entity_reference')
-          ->map('entity', $builder->fromParent())
-          ->map('field', $builder->fromValue('field_major_tags')),
-        $builder->callback(function ($tags) {
-          $tags = array_map(function ($tag) {
-            return $tag->label();
-          }, $tags);
-          return $tags;
-        }),
-      ),
+      $this->buildFromComputedTags($builder, 'taxonomy_term'),
     );
   }
 
@@ -662,6 +638,69 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('entity_reference')
         ->map('entity', $builder->fromParent())
         ->map('field', $builder->fromValue('field_articles')),
+    );
+    $registry->addFieldResolver('DocumentChapter', 'tags',
+      $this->buildFromComputedTags($builder, 'paragraph'),
+    );
+  }
+
+  /**
+   * Build the tags based on the comuted tags field of an entity.
+   *
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
+   * @param string $entity_type_id
+   *   The entity type id.
+   *
+   * @return \Drupal\graphql\GraphQL\Resolver\Composite
+   *   The resolver chain that retrieves the value.
+   */
+  private function buildFromComputedTags(ResolverBuilder $builder, $entity_type_id) {
+    return $builder->compose(
+      $builder->produce('property_path')
+        ->map('type', $builder->fromValue('entity:' . $entity_type_id))
+        ->map('value', $builder->fromParent())
+        ->map('path', $builder->fromValue('field_computed_tags.value')),
+      $builder->callback(function ($value) {
+        if (empty($value)) {
+          return [];
+        }
+        $tags = explode(',', $value);
+        return !empty($tags) ? $tags : [];
+      }),
+    );
+  }
+
+  /**
+   * Add field resolvers for list types using a query connection.
+   *
+   * @param string $type
+   *   The data type.
+   * @param \Drupal\graphql\GraphQL\ResolverRegistry $registry
+   *   The resolver registry.
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
+   */
+  protected function addListFieldResolvers($type, ResolverRegistry $registry, ResolverBuilder $builder): void {
+    $registry->addFieldResolver($type, 'count',
+      $builder->callback(function (QueryConnection $connection) {
+        return $connection->count();
+      })
+    );
+    $registry->addFieldResolver($type, 'ids',
+      $builder->callback(function (QueryConnection $connection) {
+        return $connection->ids();
+      })
+    );
+    $registry->addFieldResolver($type, 'metaData',
+      $builder->callback(function (QueryConnection $connection) {
+        return $connection->metaData();
+      })
+    );
+    $registry->addFieldResolver($type, 'items',
+      $builder->callback(function (QueryConnection $connection) {
+        return $connection->items();
+      })
     );
   }
 

@@ -1,0 +1,29 @@
+uuid: 15c6d13b-0832-448d-a76f-ccbe3cc98180
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_computed_tags
+    - taxonomy.vocabulary.content_space
+  module:
+    - computed_field
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: taxonomy_term.content_space.field_computed_tags
+field_name: field_computed_tags
+entity_type: taxonomy_term
+bundle: content_space
+label: 'Computed Tags'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: computed_string

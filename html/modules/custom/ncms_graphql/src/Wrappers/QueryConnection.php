@@ -83,6 +83,7 @@ class QueryConnection {
     $field_query->addField('summary', 'field_summary_value', 'summary');
     $field_query->addField('short_title', 'field_short_title_value', 'title_short');
     $field_query->addField('auto_visible', 'field_automatically_visible_value', 'autoVisible');
+    $field_query->orderBy('n.changed', 'DESC');
     $result = $field_query->execute();
     return $result->fetchAllAssoc('id');
   }

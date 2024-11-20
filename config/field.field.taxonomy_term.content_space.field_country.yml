@@ -1,0 +1,38 @@
+uuid: a718b71f-3549-4e2d-b99f-f5eb2164279c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_country
+    - taxonomy.vocabulary.content_space
+    - taxonomy.vocabulary.country
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '-1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: taxonomy_term.content_space.field_country
+field_name: field_country
+entity_type: taxonomy_term
+bundle: content_space
+label: Country
+description: 'Select the country for this content space.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      country: country
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,20 @@
+uuid: 78eb0628-3307-4267-9e23-20d71a6a5ce2
+langcode: en
+status: true
+dependencies:
+  module:
+    - computed_field
+    - paragraphs
+id: paragraph.field_computed_tags
+field_name: field_computed_tags
+entity_type: paragraph
+type: computed_string_long
+settings:
+  case_sensitive: false
+module: computed_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

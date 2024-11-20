@@ -1,0 +1,38 @@
+uuid: 4e019727-3bbd-42f2-9897-fb1349081934
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_year
+    - paragraphs.paragraphs_type.document_chapter
+    - taxonomy.vocabulary.year
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '-1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: paragraph.document_chapter.field_year
+field_name: field_year
+entity_type: paragraph
+bundle: document_chapter
+label: Year
+description: 'The year(s) for the chapter.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      year: year
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

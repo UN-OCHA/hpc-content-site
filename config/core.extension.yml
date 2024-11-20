@@ -2,6 +2,7 @@ _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
   action: 0
+  active_tags: 0
   admin_denied: 0
   admin_dialogs: 0
   admin_toolbar: 0
@@ -15,6 +16,7 @@ module:
   bulk_update_fields: 0
   ckeditor5: 0
   components: 0
+  computed_field: 0
   config: 0
   config_filter: 0
   config_ignore: 0
@@ -24,6 +26,7 @@ module:
   csp: 0
   ctools: 0
   custom_field: 0
+  datetime: 0
   diff: 0
   double_field: 0
   dynamic_page_cache: 0
@@ -75,6 +78,7 @@ module:
   ncms_graphql: 0
   ncms_paragraphs: 0
   ncms_publisher: 0
+  ncms_tags: 0
   ncms_ui: 0
   node: 0
   ocha_monitoring: 0
@@ -99,6 +103,8 @@ module:
   syslog: 0
   system: 0
   taxonomy: 0
+  taxonomy_max_depth: 0
+  taxonomy_term_depth: 0
   text: 0
   token: 0
   toolbar: 0
@@ -109,6 +115,7 @@ module:
   username_enumeration_prevention: 0
   views_ui: 0
   workflows: 0
+  year: 0
   content_translation: 10
   views: 10
   paragraphs: 11

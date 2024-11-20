@@ -296,7 +296,7 @@ function ncms_ui_deploy_correct_changed_date(&$sandbox) {
 }
 
 /**
- * Set the content space for all users.
+ * Set the collapsible field value for all sub article paragraphs.
  */
 function ncms_ui_deploy_set_collapsible_field_value(&$sandbox) {
   /** @var \Drupal\paragraphs\ParagraphInterface[] $paragraphs */

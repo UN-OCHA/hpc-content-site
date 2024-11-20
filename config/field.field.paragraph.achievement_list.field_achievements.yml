@@ -8,6 +8,14 @@ dependencies:
     - paragraphs.paragraphs_type.achievement_list
   module:
     - entity_reference_revisions
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '-1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: paragraph.achievement_list.field_achievements
 field_name: field_achievements
 entity_type: paragraph
@@ -15,7 +23,7 @@ bundle: achievement_list
 label: Achievements
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -70,9 +78,6 @@ settings:
       interactive_content_2_columns:
         weight: 36
         enabled: false
-      layout:
-        weight: 32
-        enabled: false
       photo_gallery:
         weight: 34
         enabled: false
@@ -87,5 +92,11 @@ settings:
         enabled: false
       text:
         weight: 40
+        enabled: false
+      top_figures:
+        weight: 43
+        enabled: false
+      top_figures_small:
+        weight: 44
         enabled: false
 field_type: entity_reference_revisions

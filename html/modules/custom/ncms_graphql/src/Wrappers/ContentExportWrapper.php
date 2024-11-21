@@ -3,12 +3,13 @@
 namespace Drupal\ncms_graphql\Wrappers;
 
 use Drupal\Core\Entity\Query\QueryInterface;
+use Drupal\ncms_graphql\ResultWrapperInterface;
 use GraphQL\Deferred;
 
 /**
  * Helper class that wraps entity queries.
  */
-class QueryConnection {
+class ContentExportWrapper implements ResultWrapperInterface {
 
   /**
    * The query object.
@@ -18,7 +19,7 @@ class QueryConnection {
   protected $query;
 
   /**
-   * QueryConnection constructor.
+   * ContentExportWrapper constructor.
    *
    * @param \Drupal\Core\Entity\Query\QueryInterface $query
    *   The query object.
@@ -28,10 +29,7 @@ class QueryConnection {
   }
 
   /**
-   * Return the number of results.
-   *
-   * @return int
-   *   The number of results.
+   * {@inheritdoc}
    */
   public function count() {
     $query = clone $this->query;
@@ -41,10 +39,7 @@ class QueryConnection {
   }
 
   /**
-   * Return the ids.
-   *
-   * @return int[]
-   *   An array of ids.
+   * {@inheritdoc}
    */
   public function ids() {
     $result = $this->query->execute();
@@ -55,10 +50,7 @@ class QueryConnection {
   }
 
   /**
-   * Return the article meta data for all article.
-   *
-   * @return array
-   *   An array of article meta data, keyed by article id.
+   * {@inheritdoc}
    */
   public function metaData() {
     $result = $this->query->execute();
@@ -79,9 +71,9 @@ class QueryConnection {
     $field_query->addExpression('FROM_UNIXTIME(n.created)', 'created');
     $field_query->addExpression('FROM_UNIXTIME(n.changed)', 'updated');
     $field_query->addField('n', 'title');
-    $field_query->addField('n', 'force_update', 'forceUpdate');
-    $field_query->addField('summary', 'field_summary_value', 'summary');
     $field_query->addField('short_title', 'field_short_title_value', 'title_short');
+    $field_query->addField('summary', 'field_summary_value', 'summary');
+    $field_query->addField('n', 'force_update', 'forceUpdate');
     $field_query->addField('auto_visible', 'field_automatically_visible_value', 'autoVisible');
     $field_query->orderBy('n.changed', 'DESC');
     $result = $field_query->execute();
@@ -89,10 +81,7 @@ class QueryConnection {
   }
 
   /**
-   * Return all items.
-   *
-   * @return array|\GraphQL\Deferred
-   *   The promise.
+   * {@inheritdoc}
    */
   public function items() {
     $result = $this->query->execute();

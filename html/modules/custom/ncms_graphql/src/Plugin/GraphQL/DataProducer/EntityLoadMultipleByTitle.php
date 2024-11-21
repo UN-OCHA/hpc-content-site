@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_graphql\Plugin\GraphQL\DataProducer;
 
+use Drupal\Core\Entity\EntityPublishedInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\TranslatableInterface;
@@ -10,6 +11,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\ncms_graphql\GraphQL\Buffers\EntityMatchingBuffer;
 use Drupal\graphql\GraphQL\Execution\FieldContext;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
+use Drupal\ncms_graphql\Wrappers\ContentSearchWrapper;
 use GraphQL\Deferred;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -174,6 +176,11 @@ class EntityLoadMultipleByTitle extends DataProducerPluginBase implements Contai
       foreach ($entities as $id => $entity) {
         $context->addCacheableDependency($entities[$id]);
 
+        if ($entity instanceof EntityPublishedInterface && !$entity->isPublished()) {
+          unset($entities[$id]);
+          continue;
+        }
+
         if (isset($language) && $language !== $entities[$id]->language()->getId() && $entities[$id] instanceof TranslatableInterface) {
           $entities[$id] = $entities[$id]->getTranslation($language);
           $entities[$id]->addCacheContexts(["static:language:{$language}"]);
@@ -190,10 +197,7 @@ class EntityLoadMultipleByTitle extends DataProducerPluginBase implements Contai
           continue;
         }
       }
-      return (object) [
-        'count' => count($entities),
-        'items' => $entities,
-      ];
+      return new ContentSearchWrapper($entities);
     });
   }
 

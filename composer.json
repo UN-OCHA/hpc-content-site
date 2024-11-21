@@ -69,7 +69,7 @@
         "drupal/entity_usage": "^2.0@beta",
         "drupal/field_config_cardinality": "^3.0",
         "drupal/field_group": "^3.4",
-        "drupal/gin": "^3.0@RC",
+        "drupal/gin": "3.0.0-rc13",
         "drupal/google_tag": "^1.4",
         "drupal/graphql": "^4.2",
         "drupal/imageapi_optimize_binaries": "^1.0@alpha",

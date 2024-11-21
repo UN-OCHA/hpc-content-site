@@ -3,7 +3,7 @@
 namespace Drupal\ncms_graphql\Plugin\GraphQL\DataProducer;
 
 use Drupal\graphql\GraphQL\Execution\FieldContext;
-use Drupal\ncms_graphql\Wrappers\QueryConnection;
+use Drupal\ncms_graphql\Wrappers\ContentExportWrapper;
 use Drupal\node\NodeInterface;
 use GraphQL\Deferred;
 
@@ -62,7 +62,7 @@ class ArticleExport extends ContentExportBase {
       if (!empty($tags)) {
         $this->addTagConditionsToQuery($query, $tags);
       }
-      return new QueryConnection($query);
+      return new ContentExportWrapper($query);
     });
   }
 

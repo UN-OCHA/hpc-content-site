@@ -6,7 +6,7 @@ use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistry;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
-use Drupal\ncms_graphql\Wrappers\QueryConnection;
+use Drupal\ncms_graphql\ResultWrapperInterface;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -683,23 +683,23 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
    */
   protected function addListFieldResolvers($type, ResolverRegistry $registry, ResolverBuilder $builder): void {
     $registry->addFieldResolver($type, 'count',
-      $builder->callback(function (QueryConnection $connection) {
-        return $connection->count();
+      $builder->callback(function (ResultWrapperInterface $wrapper) {
+        return $wrapper->count();
       })
     );
     $registry->addFieldResolver($type, 'ids',
-      $builder->callback(function (QueryConnection $connection) {
-        return $connection->ids();
+      $builder->callback(function (ResultWrapperInterface $wrapper) {
+        return $wrapper->ids();
       })
     );
     $registry->addFieldResolver($type, 'metaData',
-      $builder->callback(function (QueryConnection $connection) {
-        return $connection->metaData();
+      $builder->callback(function (ResultWrapperInterface $wrapper) {
+        return $wrapper->metaData();
       })
     );
     $registry->addFieldResolver($type, 'items',
-      $builder->callback(function (QueryConnection $connection) {
-        return $connection->items();
+      $builder->callback(function (ResultWrapperInterface $wrapper) {
+        return $wrapper->items();
       })
     );
   }

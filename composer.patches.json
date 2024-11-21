@@ -29,9 +29,6 @@
         "drupal/field_group": {
           "Issue #3395375: Duplicated required marks in field tabs with GIn admin theme": "https://www.drupal.org/files/issues/2024-08-06/3395375-6.patch"
         },
-        "drupal/gin": {
-          "Issue #3486743: Cannot opt out buttons using #gin_action_item = TRUE": "https://git.drupalcode.org/project/gin/-/merge_requests/531.patch"
-        },
         "drupal/paragraphs_viewmode": {
             "Issue #3345123: entityViewModeAlter throws an exception in php 8.2": "https://www.drupal.org/files/issues/2023-03-01/paragraphs_viewmode-remove-context-parameter-3345123-2.patch"
         },

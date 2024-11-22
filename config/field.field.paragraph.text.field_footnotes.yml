@@ -4,16 +4,22 @@ status: true
 dependencies:
   config:
     - field.storage.paragraph.field_footnotes
+    - filter.format.footnotes
     - paragraphs.paragraphs_type.text
   module:
     - allowed_formats
+    - field_config_cardinality
     - text
 third_party_settings:
   allowed_formats:
-    footnotes: footnotes
-    plain_text: '0'
-    filtered_html: '0'
-    limited_html: '0'
+    allowed_formats:
+      - footnotes
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: paragraph.text.field_footnotes
 field_name: field_footnotes
 entity_type: paragraph
@@ -24,5 +30,7 @@ required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
-settings: {  }
+settings:
+  allowed_formats:
+    - footnotes
 field_type: text_long

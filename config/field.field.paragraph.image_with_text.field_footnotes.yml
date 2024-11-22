@@ -1,12 +1,10 @@
-uuid: e60479ee-703e-4920-a8df-2e04e65545a3
+uuid: bb9c881b-bffe-4b1f-b4c0-b7ed1702dc2d
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_text
-    - filter.format.filtered_html
-    - filter.format.limited_html
-    - filter.format.plain_text
+    - field.storage.paragraph.field_footnotes
+    - filter.format.footnotes
     - paragraphs.paragraphs_type.image_with_text
   module:
     - allowed_formats
@@ -15,28 +13,24 @@ dependencies:
 third_party_settings:
   allowed_formats:
     allowed_formats:
-      - plain_text
-      - filtered_html
-      - limited_html
+      - footnotes
   field_config_cardinality:
     cardinality_config: '1'
     cardinality_label_config: false
     unlimited_not_required: ''
     limited_not_required: ''
     limited_required: ''
-id: paragraph.image_with_text.field_text
-field_name: field_text
+id: paragraph.image_with_text.field_footnotes
+field_name: field_footnotes
 entity_type: paragraph
 bundle: image_with_text
-label: Text
-description: ''
-required: true
+label: Footnotes
+description: 'Enter one footnote per line. They can be referenced in the text field above via their number in the form <code>[X]</code> where <code>X</code> is the number of the footnote. Links to the footnotes will be generated automatically when rendered.'
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
   allowed_formats:
-    - plain_text
-    - filtered_html
-    - limited_html
+    - footnotes
 field_type: text_long

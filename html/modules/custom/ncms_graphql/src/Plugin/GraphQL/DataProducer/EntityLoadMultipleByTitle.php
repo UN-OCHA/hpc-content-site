@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_graphql\Plugin\GraphQL\DataProducer;
 
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityPublishedInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -197,6 +198,9 @@ class EntityLoadMultipleByTitle extends DataProducerPluginBase implements Contai
           continue;
         }
       }
+      uasort($entities, function (ContentEntityInterface $a, ContentEntityInterface $b) {
+        return $a->get('created')->value <= $b->get('created')->value;
+      });
       return new ContentSearchWrapper($entities);
     });
   }

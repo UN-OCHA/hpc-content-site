@@ -341,6 +341,41 @@ abstract class ContentBase extends Node implements ContentInterface {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function buildMetaDataForDiff() {
+    $build = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => ['metadata-wrapper'],
+      ],
+    ];
+    $build['header'] = [
+      '#type' => 'label',
+      '#title' => $this->t('Meta data'),
+      '#title_display' => 'before',
+    ];
+
+    $meta_fields = [
+      'field_short_title',
+      'field_computed_tags',
+      'field_automatically_visible',
+      'field_summary',
+      'field_author',
+      'field_pdf',
+    ];
+    foreach ($meta_fields as $field_name) {
+      if (!$this->hasField($field_name)) {
+        continue;
+      }
+      $build[$field_name] = $this->get($field_name)->view([
+        'label' => 'inline',
+      ]);
+    }
+    return $build;
+  }
+
+  /**
    * Get the route match service.
    *
    * @return \Drupal\Core\Routing\RouteMatchInterface

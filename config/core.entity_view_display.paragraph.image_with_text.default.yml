@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.image_with_text.field_footnotes
     - field.field.paragraph.image_with_text.field_image
     - field.field.paragraph.image_with_text.field_text
     - paragraphs.paragraphs_type.image_with_text
@@ -29,4 +30,5 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
-hidden: {  }
+hidden:
+  field_footnotes: true

@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.facts_and_figures.field_columns
     - field.field.paragraph.facts_and_figures.field_paragraphs
     - field.field.paragraph.facts_and_figures.field_title
     - paragraphs.paragraphs_type.facts_and_figures
@@ -14,6 +15,7 @@ third_party_settings:
     group_tabs:
       children:
         - group_facts_and_figures
+        - group_settings
       label: Tabs
       region: content
       parent_name: ''
@@ -41,11 +43,34 @@ third_party_settings:
         formatter: open
         description: ''
         required_fields: true
+    group_settings:
+      children:
+        - field_columns
+      label: Settings
+      region: content
+      parent_name: group_tabs
+      weight: 7
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
 id: paragraph.facts_and_figures.default
 targetEntityType: paragraph
 bundle: facts_and_figures
 mode: default
 content:
+  field_columns:
+    type: number
+    weight: 2
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
   field_paragraphs:
     type: paragraphs
     weight: 2
@@ -76,7 +101,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 3
+    weight: 2
     region: content
     settings:
       display_label: true

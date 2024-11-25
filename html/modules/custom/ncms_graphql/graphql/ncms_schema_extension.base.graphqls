@@ -6,6 +6,8 @@ type MetaData {
   created: String
   updated: String
   summary: String
+  content_space: String
+  tags: [String]
   autoVisible: Int!
   forceUpdate: Int
 }

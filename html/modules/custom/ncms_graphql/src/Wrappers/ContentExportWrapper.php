@@ -66,6 +66,9 @@ class ContentExportWrapper implements ResultWrapperInterface {
     $field_query->addJoin('LEFT', 'node__field_summary', 'summary', 'n.nid = summary.entity_id');
     $field_query->addJoin('LEFT', 'node__field_short_title', 'short_title', 'n.nid = short_title.entity_id');
     $field_query->addJoin('LEFT', 'node__field_automatically_visible', 'auto_visible', 'n.nid = auto_visible.entity_id');
+    $field_query->addJoin('LEFT', 'node__field_content_space', 'content_space', 'n.nid = content_space.entity_id');
+    $field_query->addJoin('LEFT', 'node__field_computed_tags', 'computed_tags', 'n.nid = computed_tags.entity_id');
+    $field_query->addJoin('LEFT', 'taxonomy_term_field_data', 'cm_tag', 'content_space.field_content_space_target_id = cm_tag.tid');
     $field_query->addField('n', 'nid', 'id');
     $field_query->addField('n', 'status');
     $field_query->addExpression('FROM_UNIXTIME(n.created)', 'created');
@@ -73,11 +76,17 @@ class ContentExportWrapper implements ResultWrapperInterface {
     $field_query->addField('n', 'title');
     $field_query->addField('short_title', 'field_short_title_value', 'title_short');
     $field_query->addField('summary', 'field_summary_value', 'summary');
+    $field_query->addField('cm_tag', 'name', 'content_space');
+    $field_query->addField('computed_tags', 'field_computed_tags_value', 'tags');
     $field_query->addField('n', 'force_update', 'forceUpdate');
     $field_query->addField('auto_visible', 'field_automatically_visible_value', 'autoVisible');
     $field_query->orderBy('n.changed', 'DESC');
-    $result = $field_query->execute();
-    return $result->fetchAllAssoc('id');
+    $result = $field_query->execute()->fetchAllAssoc('id');
+    $result = array_map(function ($item) {
+      $item->tags = explode(',', $item->tags);
+      return $item;
+    }, $result);
+    return $result;
   }
 
   /**

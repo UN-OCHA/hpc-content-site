@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.paragraph.facts_and_figures
+    - field.field.paragraph.image_with_text.field_footnotes
     - field.field.paragraph.image_with_text.field_image
     - field.field.paragraph.image_with_text.field_text
     - paragraphs.paragraphs_type.image_with_text
@@ -19,6 +20,13 @@ targetEntityType: paragraph
 bundle: image_with_text
 mode: facts_and_figures
 content:
+  field_footnotes:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
   field_image:
     type: entity_reference_entity_view
     label: hidden
@@ -26,13 +34,13 @@ content:
       view_mode: facts_and_figures
       link: false
     third_party_settings: {  }
-    weight: 2
+    weight: 0
     region: content
   field_text:
     type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 3
+    weight: 1
     region: content
 hidden: {  }

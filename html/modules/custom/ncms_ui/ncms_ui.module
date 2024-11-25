@@ -318,11 +318,17 @@ function ncms_ui_preprocess_field__paragraph__field_title__document_chapter(&$va
 /**
  * Implements hook_preprocess_hook().
  */
-function ncms_ui_preprocess_field__paragraph__achievement_list(&$variables) {
+function ncms_ui_preprocess_field__paragraph(&$variables, $original_hook) {
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['element']['#object'];
-  $columns = $paragraph->hasField('field_columns') ? ($paragraph->get('field_columns')->value ?? 4) : 4;
-  $variables['attributes']['class'][] = 'col-' . $columns;
+  if ($paragraph->hasField('field_columns')) {
+    $columns_field = $paragraph->get('field_columns');
+    if ($columns_field->isEmpty()) {
+      $columns_field->applyDefaultValue();
+    }
+    $columns = $columns_field->value;
+    $variables['attributes']['class'][] = 'col-' . $columns;
+  }
 }
 
 /**

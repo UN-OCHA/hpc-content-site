@@ -4,6 +4,7 @@ status: false
 dependencies:
   config:
     - core.entity_view_mode.paragraph.three_columns
+    - field.field.paragraph.facts_and_figures.field_columns
     - field.field.paragraph.facts_and_figures.field_paragraphs
     - field.field.paragraph.facts_and_figures.field_title
     - paragraphs.paragraphs_type.facts_and_figures
@@ -36,4 +37,5 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-hidden: {  }
+hidden:
+  field_columns: true

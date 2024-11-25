@@ -1,10 +1,23 @@
 .ncms-node-diff #main-content {
   padding-block-start: 0;
 }
-.ncms-node-diff .diff-header {
+.ncms-node-diff .diff-header,
+.ncms-node-diff .metadata-wrapper {
   margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--cd-blue-grey--dark);
+}
+
+.ncms-node-diff .diff-header label,
+.ncms-node-diff .metadata-wrapper label {
+  font-weight: bold;
+}
+
+.ncms-node-diff .diff-header .diff-revision__items .diff-revision__items-group:first-child {
+  background-color: #cfc;
+}
+.ncms-node-diff .diff-header .diff-revision__items .diff-revision__items-group:last-child {
+  background-color: #fcc;
 }
 
 .ncms-node-diff .diff-controls {
@@ -18,4 +31,19 @@
   content: 'There have been no changes between these two versions';
   margin: 2rem 0;
   display: block;
+}
+
+.ncms-node-diff .metadata-wrapper .field--label-inline > .field__label,
+.ncms-node-diff .metadata-wrapper .field--label-inline > .field__item {
+  display: inline;
+}
+.ncms-node-diff .metadata-wrapper .field--label-inline > .field__label {
+  font-weight: bold;
+}
+.ncms-node-diff .metadata-wrapper .field--label-inline > .field__label::after {
+  content: ":";
+}
+.ncms-node-diff .metadata-wrapper .field--type-text-long .field__item p {
+  display: inline;
+  margin-left: 0.3rem;
 }

@@ -35,6 +35,7 @@ use Drupal\ncms_ui\Entity\Media\Video;
 use Drupal\ncms_ui\Entity\Taxonomy\ContentSpace;
 use Drupal\ncms_ui\Form\ContentSpaceSelectForm;
 use Drupal\node\NodeInterface;
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\user\Entity\User;
 use Drupal\views\Plugin\views\cache\CachePluginBase;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
@@ -302,6 +303,24 @@ function ncms_ui_preprocess_node(&$variables) {
 /**
  * Implements hook_preprocess_hook().
  */
+function ncms_ui_preprocess_field(&$variables) {
+  /** @var \Drupal\Core\Entity\EntityInterface $entity */
+  $entity = $variables['element']['#object'];
+  if ($entity instanceof Paragraph) {
+    if ($entity->hasField('field_columns')) {
+      $columns_field = $entity->get('field_columns');
+      if ($columns_field->isEmpty()) {
+        $columns_field->applyDefaultValue();
+      }
+      $columns = $columns_field->value;
+      $variables['attributes']['class'][] = 'col-' . $columns;
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_hook().
+ */
 function ncms_ui_preprocess_field__paragraph__field_title__document_chapter(&$variables) {
   if ($variables['element']['#view_mode'] != 'preview') {
     return;
@@ -312,22 +331,6 @@ function ncms_ui_preprocess_field__paragraph__field_title__document_chapter(&$va
   if ($paragraph->hasField('field_hide_from_navigation') && $paragraph->get('field_hide_from_navigation')->value) {
     $variables['items'][0]['content']['#template'] .= Markup::create('<span style="font-style: italic; font-weight: normal;"> ({{ note }})</span>');
     $variables['items'][0]['content']['#context']['note'] = t('Hidden from navigation');
-  }
-}
-
-/**
- * Implements hook_preprocess_hook().
- */
-function ncms_ui_preprocess_field__paragraph(&$variables, $original_hook) {
-  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
-  $paragraph = $variables['element']['#object'];
-  if ($paragraph->hasField('field_columns')) {
-    $columns_field = $paragraph->get('field_columns');
-    if ($columns_field->isEmpty()) {
-      $columns_field->applyDefaultValue();
-    }
-    $columns = $columns_field->value;
-    $variables['attributes']['class'][] = 'col-' . $columns;
   }
 }
 

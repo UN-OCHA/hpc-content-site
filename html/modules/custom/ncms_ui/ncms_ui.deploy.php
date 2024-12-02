@@ -7,6 +7,7 @@
 
 use Drupal\content_moderation\Entity\ContentModerationState;
 use Drupal\content_moderation\Entity\ContentModerationStateInterface;
+use Drupal\Core\Render\Markup;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\node\NodeInterface;
@@ -310,4 +311,40 @@ function ncms_ui_deploy_set_collapsible_field_value(&$sandbox) {
     $paragraph->get('field_collapsible')->applyDefaultValue();
     $paragraph->save();
   }
+}
+
+/**
+ * Correct the text format for footnotes.
+ */
+function ncms_ui_deploy_correct_text_format_footnotes(&$sandbox) {
+  $storage = \Drupal::entityTypeManager()->getStorage('paragraph');
+  $query = $storage->getQuery();
+  $query->condition('type', 'text');
+  $query->condition('field_footnotes.format', 'footnotes', '<>');
+  $query->accessCheck(FALSE);
+  $results = $query->execute();
+  /** @var \Drupal\paragraphs\ParagraphInterface[] $paragraphs */
+  $paragraphs = $storage->loadMultiple($results);
+
+  foreach ($paragraphs as $paragraph) {
+    $items = $paragraph->get('field_footnotes')->getValue();
+    foreach ($items as &$item) {
+      $value = $item['value'];
+      if (!str_starts_with($value, '<p>')) {
+        $lines = preg_split('/\r\n|\r|\n/', $value);
+        foreach ($lines as &$line) {
+          $line = preg_replace("/\s+/u", " ", $line);
+          $line = (string) Markup::create('<p>' . trim($line) . '</p>');
+        }
+        $value = implode("\n", $lines);
+      }
+      $item['value'] = $value;
+      $item['format'] = 'footnotes';
+    }
+    $paragraph->get('field_footnotes')->setValue($items);
+    $paragraph->save();
+  }
+  return t('Updated footnote text format on @count paragraphs.', [
+    '@count' => count($paragraphs),
+  ]);
 }

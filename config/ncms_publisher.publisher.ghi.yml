@@ -4,4 +4,4 @@ status: true
 dependencies: {  }
 id: ghi
 label: 'Humanitarian Action'
-known_hosts: "humanitarianaction.info\r\ndemo.humanitarianaction-info.ahconu.org\r\nstage.humanitarianaction-info.ahconu.org\r\ndev.humanitarianaction-info.ahconu.org\r\nghi-site.docksal.site"
+known_hosts: "humanitarianaction.info\r\ndemo.humanitarianaction-info.ahconu.org\r\nstage.humanitarianaction-info.ahconu.org\r\nblue.dev.humanitarianaction-info.ahconu.org\r\nred.dev.humanitarianaction-info.ahconu.org\r\nghi-site.docksal.site"

@@ -3,7 +3,8 @@
         "drupal/active_tags": {
             "Issue #3481823: HTML tags appear in 'Not exist' and 'Not found' messages": "https://www.drupal.org/files/issues/2024-11-08/3481823-3.patch",
             "Issue #3486362: Limit 0 for select dropdowns is not respected": "https://git.drupalcode.org/project/active_tags/-/merge_requests/2.patch",
-            "Issue #3488660: Missing spaces in highlighted terms in select dropdown": "https://git.drupalcode.org/project/active_tags/-/merge_requests/3.patch"
+            "Issue #3488660: Missing spaces in highlighted terms in select dropdown": "https://git.drupalcode.org/project/active_tags/-/merge_requests/3.patch",
+            "Issue #3491949: White space / line breaks in autocomplete dropdown": "https://git.drupalcode.org/project/active_tags/-/merge_requests/4.patch"
         },
         "drupal/core": {
             "Issue #2544110: XSS attribute filtering is inconsistent and strips valid attributes": "./patches/2544110-2024-02-15.patch",

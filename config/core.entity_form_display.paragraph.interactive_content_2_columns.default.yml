@@ -1,0 +1,25 @@
+uuid: 8c961a0e-f545-4bc8-b05c-d1bfd797eb46
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.interactive_content_2_columns
+id: paragraph.interactive_content_2_columns.default
+targetEntityType: paragraph
+bundle: interactive_content_2_columns
+mode: default
+content:
+  layout_paragraphs_fields:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 1
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  created: true

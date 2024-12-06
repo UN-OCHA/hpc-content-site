@@ -50,7 +50,7 @@
     not paragraph.isPublished() ? 'paragraph--unpublished',
     'gho-aside',
     'gho-interactive-content',
-    content.field_full_width|render|striptags|trim == 'true' ? 'gho-interactive-content--full-width' : 'content-width',
+    content.field_full_width|render|striptags|trim|lower == 'true' ? 'gho-interactive-content--full-width' : 'content-width',
   ]
 %}
 {% block paragraph %}

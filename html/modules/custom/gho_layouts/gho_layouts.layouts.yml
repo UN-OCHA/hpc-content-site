@@ -55,3 +55,21 @@ layout_twocol_interactive:
       label: First
     second:
       label: Second
+
+layout_threecol_interactive:
+  label: 'Three column (interactive content)'
+  path: layouts/threecol
+  template: layout--threecol--interactive-content
+  library: gho_layouts/threecol
+  class: '\Drupal\gho_layouts\Plugin\Layout\ThreeColumnInteractiveContentLayout'
+  category: 'Columns: 3'
+  default_region: first
+  icon_map:
+    - [first, second, third]
+  regions:
+    first:
+      label: First
+    second:
+      label: Second
+    third:
+      label: Third

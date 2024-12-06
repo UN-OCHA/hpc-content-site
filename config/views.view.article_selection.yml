@@ -8,10 +8,10 @@ dependencies:
     - field.storage.node.field_tags
     - image.style.thumbnail_medium_x1
     - node.type.article
-    - taxonomy.vocabulary.major_tags
   module:
     - entity_browser
     - media
+    - ncms_tags
     - node
     - taxonomy
     - user
@@ -505,36 +505,35 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_tags_target_id:
-          id: field_tags_target_id
-          table: node__field_tags
-          field: field_tags_target_id
+        computed_tags_active_tags:
+          id: computed_tags_active_tags
+          table: node__field_computed_tags
+          field: computed_tags_active_tags
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: taxonomy_index_tid
-          operator: and
-          value: {  }
+          plugin_id: computed_tags_active_tags
+          operator: '='
+          value: ''
           group: 1
           exposed: true
           expose:
-            operator_id: field_tags_target_id_op
+            operator_id: ''
             label: Tags
             description: ''
             use_operator: false
-            operator: field_tags_target_id_op
+            operator: computed_tags_active_tags_op
             operator_limit_selection: false
             operator_list: {  }
             identifier: tags
             required: false
             remember: false
-            multiple: true
+            multiple: false
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
-              editor: '0'
               administrator: '0'
-            reduce: false
+              editor: '0'
           is_grouped: false
           group_info:
             label: ''
@@ -547,12 +546,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          reduce_duplicates: true
-          vid: major_tags
-          type: textfield
-          hierarchy: false
-          limit: true
-          error_message: true
       filter_groups:
         operator: AND
         groups:
@@ -601,27 +594,9 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:
-        - 'config:core.entity_view_display.node.article.default'
-        - 'config:core.entity_view_display.node.article.full'
-        - 'config:core.entity_view_display.node.article.home_page'
-        - 'config:core.entity_view_display.node.article.layout_paragraphs_preview_table'
-        - 'config:core.entity_view_display.node.article.preview'
-        - 'config:core.entity_view_display.node.article.related_article'
-        - 'config:core.entity_view_display.node.article.sub_article'
-        - 'config:core.entity_view_display.node.article.teaser'
-        - 'config:core.entity_view_display.node.article.teaser_card'
-        - 'config:core.entity_view_display.node.document.default'
-        - 'config:core.entity_view_display.node.document.full'
-        - 'config:core.entity_view_display.node.document.teaser'
-        - 'config:core.entity_view_display.node.story.default'
-        - 'config:core.entity_view_display.node.story.full'
-        - 'config:core.entity_view_display.node.story.home_page'
-        - 'config:core.entity_view_display.node.story.preview'
-        - 'config:core.entity_view_display.node.story.teaser'
         - 'config:field.storage.node.field_hero_image'
         - 'config:field.storage.node.field_tags'
   entity_browser_grid:
@@ -1007,27 +982,9 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:
-        - 'config:core.entity_view_display.node.article.default'
-        - 'config:core.entity_view_display.node.article.full'
-        - 'config:core.entity_view_display.node.article.home_page'
-        - 'config:core.entity_view_display.node.article.layout_paragraphs_preview_table'
-        - 'config:core.entity_view_display.node.article.preview'
-        - 'config:core.entity_view_display.node.article.related_article'
-        - 'config:core.entity_view_display.node.article.sub_article'
-        - 'config:core.entity_view_display.node.article.teaser'
-        - 'config:core.entity_view_display.node.article.teaser_card'
-        - 'config:core.entity_view_display.node.document.default'
-        - 'config:core.entity_view_display.node.document.full'
-        - 'config:core.entity_view_display.node.document.teaser'
-        - 'config:core.entity_view_display.node.story.default'
-        - 'config:core.entity_view_display.node.story.full'
-        - 'config:core.entity_view_display.node.story.home_page'
-        - 'config:core.entity_view_display.node.story.preview'
-        - 'config:core.entity_view_display.node.story.teaser'
         - 'config:field.storage.node.field_hero_image'
         - 'config:field.storage.node.field_tags'
   entity_browser_table:
@@ -1087,7 +1044,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          use_field_cardinality: false
+          use_field_cardinality: true
         title:
           id: title
           table: node_field_data
@@ -1153,14 +1110,15 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_tags:
-          id: field_tags
-          table: node__field_tags
-          field: field_tags
+        term_node_tid:
+          id: term_node_tid
+          table: node_field_data
+          field: term_node_tid
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: field
+          entity_type: node
+          plugin_id: taxonomy_index_tid
           label: Tags
           exclude: false
           alter:
@@ -1194,7 +1152,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: false
+          element_label_colon: true
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -1202,20 +1160,21 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: false
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
+          type: separator
           separator: ', '
-          field_api_classes: false
+          link_to_taxonomy: true
+          limit: true
+          vids:
+            country: country
+            document_type: document_type
+            month: month
+            theme: theme
+            year: year
+            appeals: '0'
+            content_space: '0'
+            interactive_content_type: '0'
+            major_tags: '0'
+            story_type: '0'
       style:
         type: table
         options:
@@ -1271,8 +1230,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - 'user.node_grants:view'
         - user.permissions
-      tags:
-        - 'config:field.storage.node.field_tags'
+      tags: {  }

@@ -43,4 +43,12 @@ interface ContentInterface extends NodeInterface, ContentSpaceAwareInterface, Co
    */
   public function getEntityOperations();
 
+  /**
+   * Build the metadata used for diff displays.
+   *
+   * @return array
+   *   A render array.
+   */
+  public function buildMetaDataForDiff();
+
 }

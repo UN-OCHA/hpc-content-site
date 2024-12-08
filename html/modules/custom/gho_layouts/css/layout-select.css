@@ -1,0 +1,24 @@
+.layout-select.form-radios {
+  gap: 1rem;
+}
+.layout-select.form-radios > div {
+  margin: 0;
+}
+.layout-select.form-radios .layout-select__item {
+  flex-basis: 11rem;
+}
+.layout-select.form-radios .layout-select__item.form-item--disabled {
+  opacity: 0.6;
+}
+.layout-select.form-radios .layout-select__item label.option,
+.layout-select.form-radios .layout-select__item input:checked + label.option {
+  font-weight: 500;
+}
+#layout-paragraphs-element > fieldset[data-drupal-selector="edit-layout-paragraphs-layout"] {
+  margin-bottom: 0.5rem;
+}
+#layout-paragraphs-element .disabled-message {
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  color: gray;
+}

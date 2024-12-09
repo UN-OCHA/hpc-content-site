@@ -50,7 +50,7 @@
     not paragraph.isPublished() ? 'paragraph--unpublished',
     'gho-aside',
     'gho-interactive-content',
-    content.field_full_width|render|striptags|trim|lower == 'true' ? 'gho-interactive-content--full-width' : 'content-width',
+    full_width ? 'gho-interactive-content--full-width' : 'content-width',
   ]
 %}
 {% block paragraph %}
@@ -65,7 +65,7 @@
       {% else %}
         {{ content.field_image }}
       {% endif %}
-      {{ content|without(['field_type', 'field_title', 'field_embed_code', 'field_image', 'field_show_interactive_content', 'field_full_width']) }}
+      {{ content|without(['field_type', 'field_title', 'field_embed_code', 'field_image', 'field_show_interactive_content']) }}
     {% endblock %}
   </div>
 {% endblock paragraph %}

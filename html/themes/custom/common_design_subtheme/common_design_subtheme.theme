@@ -228,6 +228,17 @@ function common_design_subtheme_preprocess_paragraph__image_with_text(&$variable
 }
 
 /**
+ * Implements hook_preprocess_paragraph__sub_article().
+ *
+ * Add a class to the sub-article paragraph indicating whether the article has
+ * a hero or not as it's difficult to access from within the twig templates.
+ */
+function common_design_subtheme_preprocess_paragraph__interactive_content(&$variables) {
+  $paragraph = $variables['paragraph'];
+  $variables['full_width'] = $paragraph->hasField('field_full_width') && $paragraph->get('field_full_width')->value;
+}
+
+/**
  * Implements hook_preprocess_paragraph__section_index().
  *
  * Extract the media credits to display them after the text.

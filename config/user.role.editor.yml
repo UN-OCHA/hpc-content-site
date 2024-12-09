@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.article
     - entity_browser.browser.articles
     - filter.format.filtered_html
     - media.type.author
@@ -31,6 +32,7 @@ weight: -6
 is_admin: null
 permissions:
   - 'access administration pages'
+  - 'access article entity browser pages'
   - 'access articles entity browser pages'
   - 'access content overview'
   - 'access media overview'

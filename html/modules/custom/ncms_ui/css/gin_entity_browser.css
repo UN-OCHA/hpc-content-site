@@ -8,19 +8,23 @@
 .ui-dialog form.layout-paragraphs-component-form div[data-drupal-selector="edit-group-tabs"] {
   max-height: 65vh;
 }
-#entity-browser-articles-form > .view {
+#entity-browser-articles-form > .view,
+#entity-browser-article-form > .view {
   padding: var(--gin-spacing-l) var(--gin-spacing-l);
   margin-bottom: 1rem;
 }
-#entity-browser-articles-form > .form-actions {
+#entity-browser-articles-form > .form-actions,
+#entity-browser-article-form > .form-actions {
   padding: 0 var(--gin-spacing-l);
   border-top: 1px solid var(--gin-border-color-layer);
   background: var(--gin-bg-app);
 }
-#entity-browser-articles-form .entities-list {
+#entity-browser-articles-form .entities-list,
+#entity-browser-article-form .entities-list {
   display: none;
 }
-#entity-browser-articles-form .view-content .gin-table-scroll-wrapper {
+#entity-browser-articles-form .view-content .gin-table-scroll-wrapper,
+#entity-browser-article-form .view-content .gin-table-scroll-wrapper {
   margin: 0;
   padding: 0;
 }
@@ -58,8 +62,14 @@
 .field--widget-entity-reference-browser-table-widget-ncms > details > .details-wrapper > .form-wrapper > input.button {
   margin: var(--gin-spacing-s) 0;
 }
-.field--widget-entity-reference-browser-table-widget-ncms table th {
-  padding-left: var(--gin-spacing-m);
+table.table--widget-entity_reference_browser_table_widget th,
+table.table--widget-entity_reference_browser_table_widget td {
+  padding-left: var(--gin-spacing-m) !important;
+  white-space: nowrap;
+}
+.table--widget-entity_reference_browser_table_widget--sortable th:first-child,
+.table--widget-entity_reference_browser_table_widget--sortable td:first-child {
+  padding: 0;
 }
 .field--widget-entity-reference-browser-table-widget-ncms table th.th__title {
   width: 100%;

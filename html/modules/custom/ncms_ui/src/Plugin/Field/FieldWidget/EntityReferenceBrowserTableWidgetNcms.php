@@ -49,10 +49,19 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
     $entity_browser = $this->getEntityBrowser();
     $add_more_button_label = $entity_browser->getDisplay()->getConfiguration()['link_text'];
     try {
+      $header = $this->buildTableHeaders();
+      if (!$this->isSortable()) {
+        unset($header[0]);
+      }
       $table = [
         '#type' => 'table',
-        '#header' => $this->buildTableHeaders(),
-        '#attributes' => ['class' => ['table--widget-entity_reference_browser_table_widget']],
+        '#header' => $header,
+        '#attributes' => [
+          'class' => array_filter([
+            'table--widget-entity_reference_browser_table_widget',
+            $this->isSortable() ? 'table--widget-entity_reference_browser_table_widget--sortable' : NULL,
+          ]),
+        ],
         '#empty' => $this->t('No articles added yet. Use the <em>@button_label</em> button below to add articles.', [
           '@button_label' => $add_more_button_label,
         ]),
@@ -96,7 +105,7 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
       }
 
       $rowData[] = array_filter([
-        'handle' => $this->buildSortableHandle(),
+        'handle' => $this->isSortable() ? $this->buildSortableHandle() : NULL,
         'title-preview' => $this->getFirstColumn($entity),
         'status' => $this->getAdditionalFieldsColumn($entity),
         'actions' => [
@@ -116,6 +125,17 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
     }
 
     return $rowData;
+  }
+
+  /**
+   * Check if the table should be sortable.
+   *
+   * @return bool
+   *   TRUE if the table should be sortable, FALSE otherwise.
+   */
+  private function isSortable() {
+    $cardinality = $this->fieldDefinition->getFieldStorageDefinition()->getCardinality();
+    return $cardinality > 1 || $cardinality == -1;
   }
 
   /**

@@ -10,12 +10,13 @@ third_party_settings:
     category: widget
     disabled: false
 id: interactive_content_2_columns
-label: 'Interactive content (2 columns)'
+label: 'Interactive content (multiple columns)'
 icon_uuid: null
 icon_default: null
-description: 'Allows to embed 2 interactive content widgets side by side'
+description: 'Allows to embed multiple interactive content widgets side by side'
 behavior_plugins:
   layout_paragraphs:
     enabled: true
     available_layouts:
       layout_twocol_interactive: 'Two column (interactive content)'
+      layout_threecol_interactive: 'Three column (interactive content)'

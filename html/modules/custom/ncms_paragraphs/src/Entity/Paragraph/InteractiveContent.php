@@ -20,6 +20,14 @@ class InteractiveContent extends NcmsParagraphBase {
         'validateEmbedCodeField',
       ];
     }
+    $layout_paragraphs_parent = $this->getBehaviorSetting('layout_paragraphs', 'parent_uuid', NULL);
+    $region = $form_state->getBuildInfo()['args'][3] ?? NULL;
+    if (!empty($region) || !empty($layout_paragraphs_parent)) {
+      // Don't show additional settings if this paragraph is displayed inside a
+      // multi-column layout.
+      $form['behavior_plugins']['#access'] = FALSE;
+      $form['field_full_width']['#access'] = FALSE;
+    }
   }
 
   /**

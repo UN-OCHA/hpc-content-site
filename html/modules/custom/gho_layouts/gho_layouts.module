@@ -5,6 +5,9 @@
  * GHO Layouts module file.
  */
 
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\gho_layouts\LayoutSelectHelper;
+
 /**
  * Implements hook_entity_view_mode_alter().
  */
@@ -12,5 +15,30 @@ function gho_layouts_entity_view_mode_alter(&$view_mode, $entity) {
   // We know homepage is node/1 so we get to cut a corner!
   if ($entity->getEntityTypeId() == 'node' && $entity->id() == 1) {
     $view_mode = 'home_page';
+  }
+}
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function gho_layouts_element_info_alter(array &$info) {
+  if (isset($info['layout_select'])) {
+    $info['layout_select']['#process'][] = [
+      LayoutSelectHelper::class,
+      'processLayoutSelect',
+    ];
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function gho_layouts_form_layout_paragraphs_component_form_alter(array &$form, FormStateInterface $form_state) {
+  /** @var \Drupal\layout_paragraphs\Form\EditComponentForm $form_object */
+  $form_object = $form_state->getFormObject();
+  $paragraph = $form_object->getParagraph();
+  if ($paragraph->bundle() == 'interactive_content_2_columns') {
+    // See LayoutSelectHelper::processLayoutSelect().
+    $form['#region_component_restrict'] = TRUE;
   }
 }

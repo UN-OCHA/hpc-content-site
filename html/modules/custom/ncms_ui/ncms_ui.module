@@ -298,6 +298,11 @@ function ncms_ui_preprocess_node(&$variables) {
   if (in_array($variables['elements']['#view_mode'], ['teaser', 'teaser_card'])) {
     $variables['page'] = TRUE;
   }
+  $route_match = \Drupal::routeMatch();
+  $node = $variables['node'];
+  if ($route_match->getRouteName() == 'diff.revisions_diff' && $node instanceof ContentInterface) {
+    $variables['diff_metadata'] = $node->buildMetaDataForDiff();
+  }
 }
 
 /**

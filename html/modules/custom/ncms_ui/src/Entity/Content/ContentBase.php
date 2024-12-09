@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_ui\Entity\Content;
 
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Datetime\DrupalDateTime;
@@ -351,15 +352,15 @@ abstract class ContentBase extends Node implements ContentInterface {
       ],
     ];
     $build['header'] = [
-      '#type' => 'label',
-      '#title' => $this->t('Meta data'),
-      '#title_display' => 'before',
+      '#markup' => new FormattableMarkup('<strong>@label</strong>', [
+        '@label' => $this->t('Meta data'),
+      ]),
     ];
 
     $meta_fields = [
+      'status',
       'field_short_title',
       'field_computed_tags',
-      'field_automatically_visible',
       'field_summary',
       'field_author',
       'field_pdf',
@@ -371,6 +372,9 @@ abstract class ContentBase extends Node implements ContentInterface {
       $build[$field_name] = $this->get($field_name)->view([
         'label' => 'inline',
       ]);
+      if ($field_name == 'field_computed_tags' && !empty($build[$field_name][0]['#markup'])) {
+        $build[$field_name][0]['#markup'] = implode(', ', explode(',', $build[$field_name][0]['#markup']));
+      }
     }
     return $build;
   }

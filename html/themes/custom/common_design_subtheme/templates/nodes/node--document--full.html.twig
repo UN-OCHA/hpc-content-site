@@ -102,8 +102,8 @@
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
-  {% if content.diff_metadata %}
-    {{ content.diff_metadata  }}
+  {% if diff_metadata %}
+    {{ diff_metadata  }}
   {% endif %}
   <header class="gho-article__header">
     {{ hero_image }}
@@ -117,7 +117,7 @@
   {% endif %}
 
   <div{{ content_attributes.addClass('node__content').addClass('gho-article__content') }}>
-    {{ content|without(['field_hero_image', 'diff_metadata']) }}
+    {{ content|without(['field_hero_image']) }}
   </div>
 
 </article>

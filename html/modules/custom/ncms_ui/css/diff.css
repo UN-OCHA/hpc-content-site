@@ -9,7 +9,7 @@
 }
 
 .ncms-node-diff .diff-header label,
-.ncms-node-diff .metadata-wrapper label {
+.ncms-node-diff .metadata-wrapper > strong {
   font-weight: bold;
 }
 
@@ -38,7 +38,7 @@
   display: inline;
 }
 .ncms-node-diff .metadata-wrapper .field--label-inline > .field__label {
-  font-weight: bold;
+  color: gray;
 }
 .ncms-node-diff .metadata-wrapper .field--label-inline > .field__label::after {
   content: ":";

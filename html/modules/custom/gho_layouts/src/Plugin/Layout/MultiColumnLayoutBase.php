@@ -36,9 +36,42 @@ abstract class MultiColumnLayoutBase extends MultiWidthLayoutBase {
       else {
         $form_state->setUserInput($input);
       }
+    }
 
+    // Reassign components to regions when the layout has changed.
+    $layout_parents = ['layout_paragraphs', 'layout'];
+    $layout_id = NestedArray::getValue($input, $layout_parents);
+    if ($layout_id && $plugin = self::getLayoutPluginManager()->createInstance($layout_id)) {
+      /** @var \Drupal\layout_paragraphs\Form\EditComponentForm $form_object */
+      $form_object = $form_state->getFormObject();
+      $layout = $form_object->getLayoutParagraphsLayout();
+      $layout_section = $layout->getLayoutSection($form_object->getParagraph());
+      $components = $layout_section->getComponents();
+      $regions = $plugin->getPluginDefinition()->getRegions();
+      if ($layout_section->getLayoutId() != $layout_id) {
+        foreach (array_keys($regions) as $region_id) {
+          if (empty($components)) {
+            break;
+          }
+          $component = array_shift($components);
+          $component->setSettings(['region' => $region_id]);
+          $layout->setComponent($component->getEntity());
+        }
+        $tempstore = \Drupal::service('layout_paragraphs.tempstore_repository');
+        $tempstore->set($layout);
+      }
     }
     return $form;
+  }
+
+  /**
+   * Get the layout plugin manager.
+   *
+   * @return \Drupal\Core\Layout\LayoutPluginManagerInterface
+   *   The layout plugin manager.
+   */
+  private static function getLayoutPluginManager() {
+    return \Drupal::service('plugin.manager.core.layout');
   }
 
 }

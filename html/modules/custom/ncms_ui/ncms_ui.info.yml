@@ -15,3 +15,4 @@ dependencies:
   - paragraphs:paragraphs
   - workflows:workflows
   - gho_fields:gho_fields
+  - ncms_tags:ncms_tags

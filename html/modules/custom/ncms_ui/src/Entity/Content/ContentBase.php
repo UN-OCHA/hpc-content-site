@@ -86,7 +86,17 @@ abstract class ContentBase extends Node implements ContentInterface {
    * {@inheritdoc}
    */
   public function hasTags() {
-    return !$this->get('field_computed_tags')->isEmpty();
+    $common_taxonomies = $this->getCommonTaxonomiesService();
+    $supported_fields = $common_taxonomies->getCommonTaxonomyFieldNames();
+    foreach ($supported_fields as $field_name) {
+      if (!$this->hasField($field_name)) {
+        continue;
+      }
+      if (!$this->get($field_name)->isEmpty()) {
+        return TRUE;
+      }
+    }
+    return FALSE;
   }
 
   /**
@@ -394,6 +404,16 @@ abstract class ContentBase extends Node implements ContentInterface {
    */
   public static function getRouteMatch() {
     return \Drupal::routeMatch();
+  }
+
+  /**
+   * Get the common taxonomies service.
+   *
+   * @return \Drupal\ncms_tags\CommonTaxonomyService
+   *   The common taxonomies service.
+   */
+  public function getCommonTaxonomiesService() {
+    return \Drupal::service('ncms_tags.common_taxonomies');
   }
 
 }

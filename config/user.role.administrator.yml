@@ -5,6 +5,7 @@ dependencies:
   config:
     - entity_browser.browser.article
     - entity_browser.browser.articles
+    - entity_browser.browser.story
     - filter.format.filtered_html
     - filter.format.footnotes
     - filter.format.limited_html
@@ -51,6 +52,7 @@ permissions:
   - 'access media overview'
   - 'access site in maintenance mode'
   - 'access site reports'
+  - 'access story entity browser pages'
   - 'access taxonomy overview'
   - 'access toolbar'
   - 'access user profiles'

@@ -20,7 +20,14 @@ class LayoutSelectHelper {
   public static function processLayoutSelect(array &$element, FormStateInterface $form_state, array &$form) {
     $element['#attached']['library'][] = 'gho_layouts/layout_select';
 
+    // Make the details wrapper a container, so it shows directly.
+    $form['layout_paragraphs']['config']['#type'] = 'container';
+    // Hide the "Administrative label input, we don't need that.
+    $form['layout_paragraphs']['config']['label']['#access'] = FALSE;
+
     if (empty($form['#region_component_restrict'])) {
+      // The rest here applies only to elements where some layout options
+      // should be restricted.
       return $element;
     }
 
@@ -43,6 +50,7 @@ class LayoutSelectHelper {
         $element[$layout]['#disabled'] = TRUE;
       }
     }
+
     if (!empty($disabled)) {
       $form['layout_paragraphs']['disabled_message'] = [
         '#type' => 'html_tag',
@@ -58,7 +66,7 @@ class LayoutSelectHelper {
   }
 
   /**
-   * Get th layout plugin manager.
+   * Get the layout plugin manager.
    *
    * @return \Drupal\Core\Layout\LayoutPluginManagerInterface
    *   The layout plugin manager.

@@ -1,0 +1,14 @@
+uuid: 4ccfb4b9-f82a-4e70-ad8a-953d448c90e2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.interactive_content_2_columns.field_full_width
+    - paragraphs.paragraphs_type.interactive_content_2_columns
+id: paragraph.interactive_content_2_columns.default
+targetEntityType: paragraph
+bundle: interactive_content_2_columns
+mode: default
+content: {  }
+hidden:
+  field_full_width: true

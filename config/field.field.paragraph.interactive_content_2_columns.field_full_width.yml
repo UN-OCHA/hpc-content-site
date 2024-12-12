@@ -1,0 +1,32 @@
+uuid: 6e0f7d23-ee57-41e0-8d62-f08316679e46
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_full_width
+    - paragraphs.paragraphs_type.interactive_content_2_columns
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: paragraph.interactive_content_2_columns.field_full_width
+field_name: field_full_width
+entity_type: paragraph
+bundle: interactive_content_2_columns
+label: 'Display at full width?'
+description: 'If checked, the interactive content will be shown at full-width. Otherwise it will be restricted to same width as the surrounding text content.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes, full width'
+  off_label: 'No, align with content'
+field_type: boolean

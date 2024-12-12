@@ -14,6 +14,8 @@ class InteractiveContent extends NcmsParagraphBase {
    * {@inheritdoc}
    */
   public function entityFormAlter(&$form, FormStateInterface $form_state) {
+    parent::entityFormAlter($form, $form_state);
+
     if (!empty($form['field_embed_code'])) {
       $form['field_embed_code']['#element_validate'][] = [
         $this,
@@ -39,6 +41,18 @@ class InteractiveContent extends NcmsParagraphBase {
     if (strpos($embed_code, '<script ')) {
       $form_state->setError($element, $this->t('The embed code must not contain any script tags.'));
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isFullWidth() {
+    if (!empty($this->getBehaviorSetting('layout_paragraphs', 'parent_uuid'))) {
+      // Interactive content widgets that are embedded inside other paragraphs
+      // should never display in full width.
+      return FALSE;
+    }
+    return parent::isFullWidth();
   }
 
 }

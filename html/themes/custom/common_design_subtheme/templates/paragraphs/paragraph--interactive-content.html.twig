@@ -50,7 +50,7 @@
     not paragraph.isPublished() ? 'paragraph--unpublished',
     'gho-aside',
     'gho-interactive-content',
-    full_width ? 'gho-interactive-content--full-width' : 'content-width',
+    paragraph.isFullWidth ? 'gho-interactive-content--full-width' : 'content-width',
   ]
 %}
 {% block paragraph %}

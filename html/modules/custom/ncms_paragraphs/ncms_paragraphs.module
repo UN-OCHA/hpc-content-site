@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\ncms_paragraphs\Entity\NcmsParagraphGeneric;
 use Drupal\ncms_paragraphs\Entity\NcmsParagraphInterface;
 use Drupal\ncms_paragraphs\Helpers\StringHelper;
 
@@ -15,18 +16,20 @@ use Drupal\ncms_paragraphs\Helpers\StringHelper;
 function ncms_paragraphs_entity_bundle_info_alter(array &$bundles) {
   foreach (array_keys($bundles['paragraph'] ?? []) as $paragraph_type) {
     $class_name = '\\Drupal\ncms_paragraphs\\Entity\\Paragraph\\' . StringHelper::makeCamelCase($paragraph_type, FALSE);
-    if (!class_exists($class_name)) {
-      continue;
+    if (class_exists($class_name)) {
+      $bundles['paragraph'][$paragraph_type]['class'] = $class_name;
+      $bundles['paragraph'][$paragraph_type]['label'] = ucfirst(str_replace('_', ' ', $paragraph_type));
     }
-    $bundles['paragraph'][$paragraph_type]['class'] = $class_name;
-    $bundles['paragraph'][$paragraph_type]['label'] = ucfirst(str_replace('_', ' ', $paragraph_type));
+    else {
+      $bundles['paragraph'][$paragraph_type]['class'] = NcmsParagraphGeneric::class;
+    }
   }
 }
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function ncms_paragraphs_form_layout_paragraphs_component_form_alter(&$form, FormStateInterface $form_state) {
+function ncms_paragraphs_form_layout_paragraphs_component_form_alter(&$form, FormStateInterface &$form_state) {
   /** @var \Drupal\layout_paragraphs\Form\EditComponentForm $form_object */
   $form_object = $form_state->getFormObject();
   $paragraph = $form_object->getParagraph();
@@ -34,42 +37,6 @@ function ncms_paragraphs_form_layout_paragraphs_component_form_alter(&$form, For
   if ($paragraph instanceof NcmsParagraphInterface) {
     $paragraph->entityFormAlter($form, $form_state);
   }
-
-  // Don't trigger "Required" messages when canceling the add/edit form.
-  $form['actions']['cancel']['#limit_validation_errors'] = [];
-
-  // Add our library to improve the display.
-  $form['#attached']['library'][] = 'ncms_paragraphs/paragraph_edit_form';
-
-  // Move the behavior plugin from a stand-alone fieldset into existing field
-  // groups.
-  if (!empty($form['#fieldgroups']) && !empty($form['behavior_plugins'])) {
-
-    $form['behavior_plugins']['#parents'] = ['behavior_plugins'];
-    $form['behavior_plugins'] = $form_object->behaviorPluginsForm($form['behavior_plugins'], $form_state, $form);
-    unset($form['behavior_plugins']['#process']);
-
-    $group_name = 'group_settings';
-    if (empty($form['#fieldgroups'][$group_name])) {
-      $group = clone end($form['#fieldgroups']);
-      $group->children = ['behavior_plugins'];
-      $group->format_settings['formatter'] = 'close';
-      $group->weight = $group->weight + 1;
-      $group->group_name = $group_name;
-      $form['#fieldgroups'][$group->group_name] = $group;
-    }
-    else {
-      $form['#fieldgroups'][$group_name]->children[] = 'behavior_plugins';
-    }
-    $form['#fieldgroups'][$group_name]->label = t('Additional settings');
-    $form['#group_children']['behavior_plugins'] = $group_name;
-  }
-
-  if (!empty($form['field_dataset'])) {
-    // Hide the fieldset.
-    $form['field_dataset']['widget'][0]['#type'] = 'container';
-  }
-
 }
 
 /**

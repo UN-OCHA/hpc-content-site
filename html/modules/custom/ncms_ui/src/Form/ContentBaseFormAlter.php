@@ -155,7 +155,7 @@ class ContentBaseFormAlter {
           '#name' => 'save_and_publish',
           '#value' => $this->t('Save and publish'),
           '#ajax' => $ajax_confirm + [
-            'confirm_question' => $this->t('This will make this @type publicly available on the API and will automatically create a page for this @type on Humanitarian Action. Are you sure?', [
+            'confirm_question' => $this->t("Publishing the @type will make it publicly available on the API. It will also create a page for this article on Humanitarian Action, which will be set to 'Non-displayed'.", [
               '@type' => strtolower($entity->type->entity->label()),
             ]),
           ],

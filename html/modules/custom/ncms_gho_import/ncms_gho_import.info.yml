@@ -1,0 +1,7 @@
+name: GHO Import
+type: module
+description: 'Support module for importing content from previous GHO sites'
+package: HPC Content Module
+dependencies:
+  - single_content_sync:single_content_sync
+core_version_requirement: ^9.3 || ^10

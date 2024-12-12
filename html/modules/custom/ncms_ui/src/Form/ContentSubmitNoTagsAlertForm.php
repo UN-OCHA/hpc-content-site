@@ -43,12 +43,12 @@ class ContentSubmitNoTagsAlertForm extends ConfirmFormBase {
     $node_type = $this->entityTypeManager->getStorage('node_type')->load($bundle) ?? $this->t('entity');
     $node_type_label = strtolower($node_type->label());
     if (in_array($node_type_label[0], ['a', 'e', 'i', 'o', 'u'])) {
-      return $this->t('An @type cannot be published without any tags associated with it. Please add at least one tag and try again, or save the @type as a draft instead', [
+      return $this->t('An @type cannot be published without any tags associated with it. Please add at least one tag and try again, or save the @type as a draft instead.', [
         '@type' => $node_type_label,
       ]);
     }
     else {
-      return $this->t('A @type cannot be published without any tags associated with it. Please add at least one tag and try again, or save the @type as a draft instead', [
+      return $this->t('A @type cannot be published without any tags associated with it. Please add at least one tag and try again, or save the @type as a draft instead.', [
         '@type' => $node_type_label,
       ]);
     }

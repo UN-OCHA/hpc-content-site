@@ -85,6 +85,13 @@ abstract class ContentBase extends Node implements ContentInterface {
   /**
    * {@inheritdoc}
    */
+  public function hasTags() {
+    return !$this->get('field_computed_tags')->isEmpty();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function setPublished() {
     parent::setPublished();
     $this->setModerationState('published');

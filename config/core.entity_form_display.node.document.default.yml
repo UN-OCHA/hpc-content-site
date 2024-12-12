@@ -63,11 +63,7 @@ third_party_settings:
     group_meta_data:
       children:
         - field_content_space
-        - field_document_type
-        - field_year
-        - field_month
-        - field_country
-        - field_theme
+        - group_tags
         - field_summary
       label: Properties
       region: content
@@ -95,6 +91,26 @@ third_party_settings:
         show_empty_fields: false
         id: ''
         formatter: closed
+        description: ''
+        required_fields: true
+    group_tags:
+      children:
+        - field_document_type
+        - field_year
+        - field_month
+        - field_country
+        - field_theme
+      label: Tags
+      region: content
+      parent_name: group_meta_data
+      weight: 28
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: true
         description: ''
         required_fields: true
 id: node.document.default
@@ -139,7 +155,7 @@ content:
     third_party_settings: {  }
   field_country:
     type: select_active_tags
-    weight: 31
+    weight: 32
     region: content
     settings:
       match_operator: CONTAINS
@@ -149,7 +165,7 @@ content:
     third_party_settings: {  }
   field_document_type:
     type: select_active_tags
-    weight: 28
+    weight: 29
     region: content
     settings:
       match_operator: CONTAINS
@@ -166,7 +182,7 @@ content:
     third_party_settings: {  }
   field_month:
     type: select_active_tags
-    weight: 30
+    weight: 31
     region: content
     settings:
       match_operator: CONTAINS
@@ -208,7 +224,7 @@ content:
     third_party_settings: {  }
   field_theme:
     type: select_active_tags
-    weight: 32
+    weight: 33
     region: content
     settings:
       match_operator: CONTAINS
@@ -218,7 +234,7 @@ content:
     third_party_settings: {  }
   field_year:
     type: select_active_tags
-    weight: 29
+    weight: 30
     region: content
     settings:
       match_operator: CONTAINS

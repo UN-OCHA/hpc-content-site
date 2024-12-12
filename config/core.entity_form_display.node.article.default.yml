@@ -58,11 +58,7 @@ third_party_settings:
     group_meta_data:
       children:
         - field_content_space
-        - field_document_type
-        - field_year
-        - field_month
-        - field_country
-        - field_theme
+        - group_tags
         - field_author
         - field_pdf
       label: Properties
@@ -111,6 +107,26 @@ third_party_settings:
         id: ''
         label_as_html: false
         formatter: closed
+        description: ''
+        required_fields: true
+    group_tags:
+      children:
+        - field_document_type
+        - field_year
+        - field_month
+        - field_country
+        - field_theme
+      label: Tags
+      region: content
+      parent_name: group_meta_data
+      weight: 2
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: true
         description: ''
         required_fields: true
 id: node.article.default
@@ -177,7 +193,7 @@ content:
     third_party_settings: {  }
   field_country:
     type: select_active_tags
-    weight: 5
+    weight: 6
     region: content
     settings:
       match_operator: CONTAINS
@@ -187,7 +203,7 @@ content:
     third_party_settings: {  }
   field_document_type:
     type: select_active_tags
-    weight: 2
+    weight: 3
     region: content
     settings:
       match_operator: CONTAINS
@@ -204,7 +220,7 @@ content:
     third_party_settings: {  }
   field_month:
     type: select_active_tags
-    weight: 4
+    weight: 5
     region: content
     settings:
       match_operator: CONTAINS
@@ -256,7 +272,7 @@ content:
         hide_guidelines: '1'
   field_theme:
     type: select_active_tags
-    weight: 6
+    weight: 7
     region: content
     settings:
       match_operator: CONTAINS
@@ -266,7 +282,7 @@ content:
     third_party_settings: {  }
   field_year:
     type: select_active_tags
-    weight: 3
+    weight: 4
     region: content
     settings:
       match_operator: CONTAINS

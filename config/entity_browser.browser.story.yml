@@ -1,0 +1,31 @@
+uuid: 53f92d65-5536-4418-b2cc-82bcde5fe33e
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.story_selection
+  module:
+    - views
+name: story
+label: Story
+display: modal
+display_configuration:
+  width: '1300'
+  height: ''
+  link_text: 'Add story'
+  auto_open: false
+selection_display: no_display
+selection_display_configuration: {  }
+widget_selector: single
+widget_selector_configuration: {  }
+widgets:
+  724dbc5e-321d-48f7-9b00-845ca2c1705b:
+    id: view
+    uuid: 724dbc5e-321d-48f7-9b00-845ca2c1705b
+    label: 'Stories table'
+    weight: 1
+    settings:
+      submit_text: 'Add selected story'
+      auto_select: false
+      view: story_selection
+      view_display: entity_browser_table

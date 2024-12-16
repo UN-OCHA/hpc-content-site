@@ -26,6 +26,14 @@ interface ContentInterface extends NodeInterface, ContentSpaceAwareInterface, Co
   public function getBundleLabel();
 
   /**
+   * Check if the content has any tags.
+   *
+   * @return bool
+   *   TRUE if it can be published, FALSE otherwise.
+   */
+  public function hasTags();
+
+  /**
    * Mark this entity as deleted.
    */
   public function setDeleted();
@@ -42,5 +50,13 @@ interface ContentInterface extends NodeInterface, ContentSpaceAwareInterface, Co
    *   An array of operation links.
    */
   public function getEntityOperations();
+
+  /**
+   * Build the metadata used for diff displays.
+   *
+   * @return array
+   *   A render array.
+   */
+  public function buildMetaDataForDiff();
 
 }

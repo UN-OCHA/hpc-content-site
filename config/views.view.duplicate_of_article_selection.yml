@@ -1,4 +1,4 @@
-uuid: 84cf8f0f-6f39-43b0-81f8-5bd5c5c60c57
+uuid: 30a39903-fb63-4775-ab2b-11cdb0fdf5a3
 langcode: en
 status: true
 dependencies:
@@ -15,8 +15,8 @@ dependencies:
     - node
     - taxonomy
     - user
-id: article_selection
-label: 'Article selection'
+id: duplicate_of_article_selection
+label: 'Story selection'
 module: views
 description: ''
 tag: ''

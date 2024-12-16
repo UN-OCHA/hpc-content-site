@@ -6,11 +6,14 @@
  */
 
 use Drupal\Component\Serialization\Json;
+use Drupal\content_moderation\Entity\ContentModerationStateInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Database\Query\AlterableInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\Core\Entity\Query\QueryInterface;
+use Drupal\Core\Entity\Query\Sql\Query;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Session\AccountInterface;
@@ -297,6 +300,11 @@ function ncms_ui_preprocess_toolbar__gin__secondary(&$variables) {
 function ncms_ui_preprocess_node(&$variables) {
   if (in_array($variables['elements']['#view_mode'], ['teaser', 'teaser_card'])) {
     $variables['page'] = TRUE;
+  }
+  $route_match = \Drupal::routeMatch();
+  $node = $variables['node'];
+  if ($route_match->getRouteName() == 'diff.revisions_diff' && $node instanceof ContentInterface) {
+    $variables['diff_metadata'] = $node->buildMetaDataForDiff();
   }
 }
 
@@ -692,6 +700,34 @@ function ncms_ui_views_data_alter(&$data) {
 }
 
 /**
+ * Implements hook_entity_query_tag__TAG_alter().
+ *
+ * Exclude trashed nodes from auto complete matches.
+ */
+function ncms_ui_entity_query_tag__entity_reference_alter(QueryInterface $query) : void {
+  /** @var \Drupal\ncms_ui\ContentSpaceManager $content_space_manager */
+  $content_space_manager = \Drupal::service('ncms_ui.content_space.manager');
+  $content_space_id = $content_space_manager->getCurrentContentSpaceId();
+  if ($content_space_id && $query instanceof Query && $query->hasTag('entity_reference') && $query->hasTag('node_access')) {
+    // First load the node ids of all trashed nodes.
+    $result = \Drupal::entityTypeManager()->getStorage('content_moderation_state')->loadByProperties([
+      'content_entity_type_id' => 'node',
+      'moderation_state' => 'trash',
+    ]);
+    $node_ids = $result ? array_map(function (ContentModerationStateInterface $content_moderation) {
+      return $content_moderation->get('content_entity_id')->value;
+    }, $result) : [];
+
+    // Then add a condition to the query to exclude these.
+    if (!empty($node_ids)) {
+      $query->condition('nid', $node_ids, 'NOT IN');
+    }
+    // Add by last updated timestamp.
+    $query->sort('changed', 'DESC');
+  }
+}
+
+/**
  * Implements hook_views_query_alter().
  */
 function ncms_ui_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
@@ -725,11 +761,11 @@ function ncms_ui_views_pre_render(ViewExecutable $view) {
  * Implements hook_node_access_records().
  */
 function ncms_ui_node_access_records(NodeInterface $node) {
-  if (!$node->hasField('field_content_space')) {
-    return [];
+  $grants = [];
+  if (!$node instanceof ContentInterface) {
+    return $grants;
   }
 
-  $grants = [];
   $grants[] = [
     'realm' => ContentSpaceManager::NODE_ACCESS_REALM,
     'gid' => 0,
@@ -740,7 +776,7 @@ function ncms_ui_node_access_records(NodeInterface $node) {
   ];
 
   // Get the content space id from the current node if it's available.
-  $content_space_id = !$node->field_content_space->isEmpty() ? $node->field_content_space->entity->tid->value : NULL;
+  $content_space_id = $node->getContentSpace()?->tid?->value;
   if (!$content_space_id) {
     return $grants;
   }

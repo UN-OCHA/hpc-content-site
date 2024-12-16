@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_ui\Entity\Content;
 
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Datetime\DrupalDateTime;
@@ -79,6 +80,23 @@ abstract class ContentBase extends Node implements ContentInterface {
    */
   public function getBundleLabel() {
     return $this->type->entity->label();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasTags() {
+    $common_taxonomies = $this->getCommonTaxonomiesService();
+    $supported_fields = $common_taxonomies->getCommonTaxonomyFieldNames();
+    foreach ($supported_fields as $field_name) {
+      if (!$this->hasField($field_name)) {
+        continue;
+      }
+      if (!$this->get($field_name)->isEmpty()) {
+        return TRUE;
+      }
+    }
+    return FALSE;
   }
 
   /**
@@ -341,6 +359,44 @@ abstract class ContentBase extends Node implements ContentInterface {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function buildMetaDataForDiff() {
+    $build = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => ['metadata-wrapper'],
+      ],
+    ];
+    $build['header'] = [
+      '#markup' => new FormattableMarkup('<strong>@label</strong>', [
+        '@label' => $this->t('Meta data'),
+      ]),
+    ];
+
+    $meta_fields = [
+      'status',
+      'field_short_title',
+      'field_computed_tags',
+      'field_summary',
+      'field_author',
+      'field_pdf',
+    ];
+    foreach ($meta_fields as $field_name) {
+      if (!$this->hasField($field_name)) {
+        continue;
+      }
+      $build[$field_name] = $this->get($field_name)->view([
+        'label' => 'inline',
+      ]);
+      if ($field_name == 'field_computed_tags' && !empty($build[$field_name][0]['#markup'])) {
+        $build[$field_name][0]['#markup'] = implode(', ', explode(',', $build[$field_name][0]['#markup']));
+      }
+    }
+    return $build;
+  }
+
+  /**
    * Get the route match service.
    *
    * @return \Drupal\Core\Routing\RouteMatchInterface
@@ -348,6 +404,16 @@ abstract class ContentBase extends Node implements ContentInterface {
    */
   public static function getRouteMatch() {
     return \Drupal::routeMatch();
+  }
+
+  /**
+   * Get the common taxonomies service.
+   *
+   * @return \Drupal\ncms_tags\CommonTaxonomyService
+   *   The common taxonomies service.
+   */
+  public function getCommonTaxonomiesService() {
+    return \Drupal::service('ncms_tags.common_taxonomies');
   }
 
 }

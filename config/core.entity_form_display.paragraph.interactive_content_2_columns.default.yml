@@ -1,0 +1,85 @@
+uuid: 8c961a0e-f545-4bc8-b05c-d1bfd797eb46
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.interactive_content_2_columns.field_full_width
+    - paragraphs.paragraphs_type.interactive_content_2_columns
+  module:
+    - field_group
+third_party_settings:
+  field_group:
+    group_tabs:
+      children:
+        - group_layout
+        - group_settings
+      label: Tabs
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        direction: horizontal
+        width_breakpoint: 640
+    group_layout:
+      children:
+        - layout_paragraphs_fields
+      label: Layout
+      region: content
+      parent_name: group_tabs
+      weight: 4
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: true
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_settings:
+      children:
+        - field_full_width
+      label: 'Additional settings'
+      region: content
+      parent_name: group_tabs
+      weight: 5
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
+id: paragraph.interactive_content_2_columns.default
+targetEntityType: paragraph
+bundle: interactive_content_2_columns
+mode: default
+content:
+  field_full_width:
+    type: boolean_checkbox
+    weight: 3
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  layout_paragraphs_fields:
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 1
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  created: true

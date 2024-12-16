@@ -3,23 +3,33 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.article
     - field.field.paragraph.sub_article.field_article
     - field.field.paragraph.sub_article.field_collapsible
     - paragraphs.paragraphs_type.sub_article
+  module:
+    - ncms_ui
 id: paragraph.sub_article.default
 targetEntityType: paragraph
 bundle: sub_article
 mode: default
 content:
   field_article:
-    type: entity_reference_autocomplete
+    type: entity_reference_browser_table_widget_ncms
     weight: 0
     region: content
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+      open: true
+      entity_browser: article
+      field_widget_display: label
+      field_widget_edit: '1'
+      field_widget_remove: '1'
+      field_widget_replace: '1'
+      selection_mode: selection_append
+      additional_fields:
+        options:
+          status: status
+      field_widget_display_settings: {  }
     third_party_settings: {  }
   field_collapsible:
     type: boolean_checkbox

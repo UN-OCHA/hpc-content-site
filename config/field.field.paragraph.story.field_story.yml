@@ -6,12 +6,21 @@ dependencies:
     - field.storage.paragraph.field_story
     - node.type.story
     - paragraphs.paragraphs_type.story
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: paragraph.story.field_story
 field_name: field_story
 entity_type: paragraph
 bundle: story
 label: Story
-description: 'Type part of the title of the story to include.'
+description: ''
 required: true
 translatable: true
 default_value: {  }

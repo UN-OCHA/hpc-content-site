@@ -4,3 +4,23 @@
 .node-content-base.gin--edit-form .submit-trash.button {
   position: inherit;
 }
+
+.gin--edit-form .lpb-dialog .ui-dialog-content {
+  max-width: 75vw !important;
+}
+.gin--edit-form .ui-dialog form[data-drupal-selector="edit-layout-paragraphs-component-form-sub-article"],
+.gin--edit-form .ui-dialog form[data-drupal-selector="edit-layout-paragraphs-component-form-document-chapter"],
+.gin--edit-form .ui-dialog form[data-drupal-selector="edit-layout-paragraphs-component-form-text"],
+.gin--edit-form .ui-dialog form[data-drupal-selector="edit-layout-paragraphs-component-form-top-figures"],
+.gin--edit-form .ui-dialog form[data-drupal-selector="edit-layout-paragraphs-component-form-top-figures-small"] {
+  width: 70vw;
+  max-width: 1200px;
+}
+@media screen and (max-width: 650px) {
+  .gin--edit-form .lpb-dialog .ui-dialog-content {
+    max-width: 95vw !important;
+  }
+  .gin--edit-form .ui-dialog form.layout-paragraphs-component-form {
+    width: 80vw;
+  }
+}

@@ -20,4 +20,9 @@ interface NcmsParagraphInterface extends ParagraphInterface {
    */
   public function preprocess(&$variables);
 
+  /**
+   * Whether the paragraph is a full width paragraph.
+   */
+  public function isFullWidth();
+
 }

@@ -155,7 +155,7 @@ class ContentBaseFormAlter {
           '#name' => 'save_and_publish',
           '#value' => $this->t('Save and publish'),
           '#ajax' => $ajax_confirm + [
-            'confirm_question' => $this->t('This will make this @type publicly available on the API and will automatically create a page for this @type on Humanitarian Action. Are you sure?', [
+            'confirm_question' => $this->t("Publishing the @type will make it publicly available on the API. It will also create a page for this article on Humanitarian Action, which will be set to 'Not displayed'.", [
               '@type' => strtolower($entity->type->entity->label()),
             ]),
           ],
@@ -249,10 +249,17 @@ class ContentBaseFormAlter {
     $entity_updated = $this->entityCompare->hasChanged($updated_entity, $original_entity);
 
     $publish_actions = [
+      'save_and_publish',
       'publish_correction',
       'publish_revision',
     ];
-    if ($original_entity->isPublished() && !$entity_updated && in_array($triggering_element['#name'], $publish_actions)) {
+    if (in_array($triggering_element['#name'], $publish_actions) && !$updated_entity->hasTags()) {
+      $content = $this->formBuilder->getForm(ContentSubmitNoTagsAlertForm::class, $triggering_element, $original_entity);
+      $response->addCommand(new OpenModalDialogCommand($this->t('Publishing not possible'), $content, [
+        'width' => '60vw',
+      ]));
+    }
+    elseif ($original_entity->isPublished() && !$entity_updated && in_array($triggering_element['#name'], $publish_actions)) {
       $content = $this->formBuilder->getForm(ContentSubmitNoChangesAlertForm::class, $triggering_element, $original_entity);
       $response->addCommand(new OpenModalDialogCommand($this->t('Confirmation'), $content, [
         'width' => '60vw',

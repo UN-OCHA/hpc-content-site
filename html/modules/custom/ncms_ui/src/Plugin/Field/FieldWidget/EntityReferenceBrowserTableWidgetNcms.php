@@ -48,14 +48,30 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
   protected function displayCurrentSelection($details_id, array $field_parents, array $entities) {
     $entity_browser = $this->getEntityBrowser();
     $add_more_button_label = $entity_browser->getDisplay()->getConfiguration()['link_text'];
+    $empty_text_args = [
+      '@type' => strtolower($entity_browser->label()),
+      '@button_label' => $add_more_button_label,
+    ];
+    $empty_text = match ($entity_browser->id()) {
+      'article' => $this->t('No article added yet. Use the <em>@button_label</em> button to add an article.', $empty_text_args),
+      'articles' => $this->t('No articles added yet. Use the <em>@button_label</em> button to add articles.', $empty_text_args),
+      'story' => $this->t('No story added yet. Use the <em>@button_label</em> button to add a story.', $empty_text_args),
+    };
     try {
+      $header = $this->buildTableHeaders();
+      if (!$this->isSortable()) {
+        unset($header[0]);
+      }
       $table = [
         '#type' => 'table',
-        '#header' => $this->buildTableHeaders(),
-        '#attributes' => ['class' => ['table--widget-entity_reference_browser_table_widget']],
-        '#empty' => $this->t('No articles added yet. Use the <em>@button_label</em> button below to add articles.', [
-          '@button_label' => $add_more_button_label,
-        ]),
+        '#header' => $header,
+        '#attributes' => [
+          'class' => array_filter([
+            'table--widget-entity_reference_browser_table_widget',
+            $this->isSortable() ? 'table--widget-entity_reference_browser_table_widget--sortable' : NULL,
+          ]),
+        ],
+        '#empty' => $empty_text,
       ];
       return array_merge($table, $this->buildTableRows($entities, $details_id, $field_parents));
     }
@@ -95,10 +111,29 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
         $entity = $entity->getTranslation($this->currentLanguage);
       }
 
+      // See EntityReferenceBrowserTableWidget::getAdditionalFieldsColumn for
+      // why this is done like this.
+      $status = $this->moderationInfo && $this->moderationInfo->isModeratedEntity($entity)
+      ? $entity->get('moderation_state')->value
+      : ($entity->get('status')->value === '0' ? 'unpublished' : 'published');
+
       $rowData[] = array_filter([
-        'handle' => $this->buildSortableHandle(),
+        'handle' => $this->isSortable() ? $this->buildSortableHandle() : NULL,
         'title-preview' => $this->getFirstColumn($entity),
-        'status' => $this->getAdditionalFieldsColumn($entity),
+        'status' => [
+          '#type' => 'html_tag',
+          '#tag' => 'span',
+          '#attributes' => [
+            'class' => array_filter([
+              'marker',
+              $status == 'published' ? 'marker--' . $status : NULL,
+            ]),
+          ],
+          '#wrapper_attributes' => [
+            'class' => ['views-field'],
+          ],
+          'status_label' => $this->getAdditionalFieldsColumn($entity),
+        ],
         'actions' => [
           'replace_button' => $this->buildReplaceButton($entity, $entities, $details_id, $row_id, $field_parents),
           'remove_button' => $this->buildRemoveButton($entity, $details_id, $row_id, $field_parents),
@@ -116,6 +151,27 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
     }
 
     return $rowData;
+  }
+
+  /**
+   * Check if the table should be sortable.
+   *
+   * @return bool
+   *   TRUE if the table should be sortable, FALSE otherwise.
+   */
+  private function isSortable() {
+    return !$this->isSingleEntitySelect();
+  }
+
+  /**
+   * Check if the table should should only allow a single entity.
+   *
+   * @return bool
+   *   TRUE if the table should allow single entities only, FALSE otherwise.
+   */
+  private function isSingleEntitySelect() {
+    $cardinality = $this->fieldDefinition->getFieldStorageDefinition()->getCardinality();
+    return $cardinality == 1;
   }
 
   /**

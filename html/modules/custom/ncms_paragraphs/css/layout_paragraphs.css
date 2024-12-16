@@ -81,3 +81,21 @@ form.node-form .js-lpb-component-list > .js-lpb-component.paragraph {
 .lpb-dialog .ui-dialog-content form .horizontal-tabs-panes > details {
   padding-bottom: 1rem;
 }
+
+.lp-builder .lpb-controls {
+  top: 0 !important;
+}
+.lp-builder .field--name-field-embed-code {
+  margin-top: 1.5rem;
+}
+.lp-builder .paragraph--type--interactive-content-2-columns .layout__region > .paragraph--type--interactive-content {
+  padding-top: 3.5rem;
+}
+.lp-builder .paragraph--type--interactive-content-2-columns .layout__region .lpb-btn--add.before,
+.lp-builder .paragraph--type--interactive-content-2-columns .layout__region .lpb-btn--add.after,
+.lp-builder .paragraph--type--interactive-content-2-columns .layout__region .lpb-drag,
+.lp-builder .paragraph--type--interactive-content-2-columns .layout__region .lpb-up,
+.lp-builder .paragraph--type--interactive-content-2-columns .layout__region .lpb-down,
+.lp-builder .paragraph--type--interactive-content-2-columns .layout__region .lpb-duplicate {
+  display: none;
+}

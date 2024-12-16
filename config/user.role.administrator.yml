@@ -3,7 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.article
     - entity_browser.browser.articles
+    - entity_browser.browser.story
     - filter.format.filtered_html
     - filter.format.footnotes
     - filter.format.limited_html
@@ -44,11 +46,13 @@ weight: -8
 is_admin: null
 permissions:
   - 'access administration pages'
+  - 'access article entity browser pages'
   - 'access articles entity browser pages'
   - 'access content overview'
   - 'access media overview'
   - 'access site in maintenance mode'
   - 'access site reports'
+  - 'access story entity browser pages'
   - 'access taxonomy overview'
   - 'access toolbar'
   - 'access user profiles'

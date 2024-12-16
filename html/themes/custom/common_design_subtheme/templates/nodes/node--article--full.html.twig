@@ -102,6 +102,9 @@
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
+  {% if diff_metadata %}
+    {{ diff_metadata  }}
+  {% endif %}
   <header class="gho-article__header">
     {{ hero_image }}
     <div class="gho-article__heading content-width content-width--reading">

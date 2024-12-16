@@ -130,6 +130,10 @@
   color: white;
   padding: 1em;
 }
+.paragraph--type--sub-article .paragraph--type--interactive-content {
+  background: inherit;
+  color: inherit;
+}
 
 /*------------------------------------------------------------------------------
  * Styling of the Separator paragraph type

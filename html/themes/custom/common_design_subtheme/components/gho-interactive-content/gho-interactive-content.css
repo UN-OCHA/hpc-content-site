@@ -11,7 +11,9 @@
   margin-right: calc(-50vw + (var(--scrollbar-width, 15px) / 2));
   margin-left: calc(-50vw + (var(--scrollbar-width, 15px) / 2));
 }
-.paragraph--type--interactive-content-2-columns .gho-interactive-content--full-width {
+
+.paragraph--type--interactive-content-2-columns
+  .gho-interactive-content--full-width {
   position: relative;
   right: unset;
   left: unset;
@@ -91,7 +93,7 @@
 /**
  * Support for 3-col interactive content.
  */
- .layout--threecol--interactive-content {
+.layout--threecol--interactive-content {
   display: flex;
   flex-wrap: wrap;
 }
@@ -157,5 +159,41 @@
     > .layout__region--third {
     flex: 0 1 50%;
     flex-basis: calc(50% - 1rem);
+  }
+}
+
+/**
+ * Support for 4-col interactive content.
+ */
+ .layout--fourcol--interactive-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.layout--fourcol--interactive-content > .layout__region {
+  flex: 0 1 100%;
+}
+
+@media screen and (min-width: 768) {
+  .layout--fourcol--interactive-content {
+    gap: 1rem;
+  }
+
+  .layout--fourcol--interactive-content.layout--fourcol--interactive-content--25-25-25-25
+    > .layout__region {
+    flex: 0 1 50%;
+    flex-basis: calc(50% - 1rem);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .layout--fourcol--interactive-content {
+    gap: 1rem;
+  }
+
+  .layout--fourcol--interactive-content.layout--fourcol--interactive-content--25-25-25-25
+    > .layout__region {
+    flex: 0 1 25%;
+    flex-basis: calc(25% - 1rem);
   }
 }

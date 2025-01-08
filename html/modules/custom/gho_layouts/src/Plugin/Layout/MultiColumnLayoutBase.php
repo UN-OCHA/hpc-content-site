@@ -46,19 +46,21 @@ abstract class MultiColumnLayoutBase extends MultiWidthLayoutBase {
       $form_object = $form_state->getFormObject();
       $layout = $form_object->getLayoutParagraphsLayout();
       $layout_section = $layout->getLayoutSection($form_object->getParagraph());
-      $components = $layout_section->getComponents();
-      $regions = $plugin->getPluginDefinition()->getRegions();
-      if ($layout_section->getLayoutId() != $layout_id) {
-        foreach (array_keys($regions) as $region_id) {
-          if (empty($components)) {
-            break;
+      if ($layout_section) {
+        $components = $layout_section->getComponents() ?: [];
+        $regions = $plugin->getPluginDefinition()->getRegions();
+        if ($layout_section->getLayoutId() != $layout_id) {
+          foreach (array_keys($regions) as $region_id) {
+            if (empty($components)) {
+              break;
+            }
+            $component = array_shift($components);
+            $component->setSettings(['region' => $region_id]);
+            $layout->setComponent($component->getEntity());
           }
-          $component = array_shift($components);
-          $component->setSettings(['region' => $region_id]);
-          $layout->setComponent($component->getEntity());
+          $tempstore = \Drupal::service('layout_paragraphs.tempstore_repository');
+          $tempstore->set($layout);
         }
-        $tempstore = \Drupal::service('layout_paragraphs.tempstore_repository');
-        $tempstore->set($layout);
       }
     }
     return $form;

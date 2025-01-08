@@ -20,5 +20,6 @@ behavior_plugins:
     available_layouts:
       layout_twocol_interactive: 'Two column (interactive content)'
       layout_threecol_interactive: 'Three column (interactive content)'
+      layout_fourcol_interactive: 'Four column (interactive content)'
   promoted_behavior:
     enabled: true

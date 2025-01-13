@@ -1,7 +1,7 @@
 {
     "patches": {
         "drupal/anonymous_login": {
-          "Issue #3495893: Warning: foreach() argument must be of type array|object, string given": "https://www.drupal.org/files/issues/2025-01-11/3495893-7.patch"
+          "Issue #3495893: Warning: foreach() argument must be of type array|object, string given": "https://www.drupal.org/files/issues/2025-01-13/3495893-7.patch"
         },
         "drupal/core": {
             "Issue #2544110: XSS attribute filtering is inconsistent and strips valid attributes": "./patches/2544110-2025-01-08.patch",

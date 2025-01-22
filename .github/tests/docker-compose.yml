@@ -22,7 +22,7 @@ services:
       - default
 
   mysql:
-    image: public.ecr.aws/unocha/mysql:10.11
+    image: public.ecr.aws/unocha/mysql:11.4
     hostname: hpc-content-test-mysql
     container_name: hpc-content-test-mysql
     environment:

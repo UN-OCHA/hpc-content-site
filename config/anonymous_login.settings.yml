@@ -1,5 +1,12 @@
 _core:
   default_config_hash: ZKVq7lpyGFQf-SCuj_Ng2yLPD24rKHxz-TzGQxBjLl4
-paths: "*\r\n~user/login\r\n~user/login/*\r\n~ncms\r\n~ncms/login\r\n~media/oembed\r\n~json/health-check-results"
+paths:
+  - '*'
+  - ~user/login
+  - '~user/login/*'
+  - ~ncms
+  - ~ncms/login
+  - ~media/oembed
+  - ~json/health-check-results
 login_path: /ncms/login
 message: ''

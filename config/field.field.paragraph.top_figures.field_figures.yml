@@ -10,7 +10,7 @@ dependencies:
     - field_config_cardinality
 third_party_settings:
   field_config_cardinality:
-    cardinality_config: '3'
+    cardinality_config: '4'
     cardinality_label_config: false
     unlimited_not_required: ''
     limited_not_required: ''
@@ -20,7 +20,7 @@ field_name: field_figures
 entity_type: paragraph
 bundle: top_figures
 label: 'Top figures'
-description: 'You can add up to 3 top figures to this paragraph'
+description: 'You can add up to 4 top figures to this paragraph'
 required: false
 translatable: false
 default_value: {  }

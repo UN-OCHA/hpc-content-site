@@ -1,15 +1,5 @@
-From 3cf003dbb423405425d79c5dccde327669b801bc Mon Sep 17 00:00:00 2001
-From: Lucas D Hedding <lucashedding@1463982.no-reply.drupal.org>
-Date: Tue, 26 Dec 2023 12:37:36 -0600
-Subject: [PATCH] rebase
-
----
- core/lib/Drupal/Component/Utility/Xss.php     | 107 +++++++++++++++---
- .../Tests/Component/Utility/XssTest.php       |  97 +++++++++++++++-
- 2 files changed, 190 insertions(+), 14 deletions(-)
-
 diff --git a/core/lib/Drupal/Component/Utility/Xss.php b/core/lib/Drupal/Component/Utility/Xss.php
-index 2c143cddf84b..b0e77605194f 100644
+index 8e1d7d38eb2..c683b83d191 100644
 --- a/core/lib/Drupal/Component/Utility/Xss.php
 +++ b/core/lib/Drupal/Component/Utility/Xss.php
 @@ -2,7 +2,7 @@
@@ -83,7 +73,7 @@ index 2c143cddf84b..b0e77605194f 100644
 -            // such attributes.
 +            // such attributes. Adding check to skip angular attributes (ng).
              // @see \Drupal\Component\Utility\UrlHelper::filterBadProtocol()
-             // @see http://www.w3.org/TR/html4/index/attributes.html
+             // @see https://www.w3.org/TR/html4/index/attributes.html
 -            $skip_protocol_filtering = str_starts_with($attribute_name, 'data-') || in_array($attribute_name, [
 -              'title',
 -              'alt',
@@ -179,7 +169,7 @@ index 2c143cddf84b..b0e77605194f 100644
     * Gets the list of HTML tags allowed by Xss::filterAdmin().
     *
 diff --git a/core/tests/Drupal/Tests/Component/Utility/XssTest.php b/core/tests/Drupal/Tests/Component/Utility/XssTest.php
-index 0f242959ebee..6c024b0ac818 100644
+index 7d7dc401add..63dd4ee19bf 100644
 --- a/core/tests/Drupal/Tests/Component/Utility/XssTest.php
 +++ b/core/tests/Drupal/Tests/Component/Utility/XssTest.php
 @@ -8,10 +8,11 @@
@@ -204,7 +194,7 @@ index 0f242959ebee..6c024b0ac818 100644
    /**
     * {@inheritdoc}
     */
-@@ -509,6 +512,36 @@ public function providerTestAttributes() {
+@@ -509,6 +512,36 @@ public static function providerTestAttributes() {
          'Link tag with rel attribute',
          ['a'],
        ],
@@ -241,7 +231,7 @@ index 0f242959ebee..6c024b0ac818 100644
        [
          '<span property="dc:subject">Drupal 8: The best release ever.</span>',
          '<span property="dc:subject">Drupal 8: The best release ever.</span>',
-@@ -563,6 +596,68 @@ public function providerTestAttributes() {
+@@ -563,6 +596,68 @@ public static function providerTestAttributes() {
          'Time with datetime attribute',
          ['time'],
        ],
@@ -310,6 +300,3 @@ index 0f242959ebee..6c024b0ac818 100644
      ];
    }
  
--- 
-GitLab
-

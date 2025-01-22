@@ -19,3 +19,8 @@ threecol:
   css:
     theme:
       layouts/threecol/threecol.css: {}
+fourcol:
+  version: VERSION
+  css:
+    theme:
+      layouts/fourcol/fourcol.css: {}

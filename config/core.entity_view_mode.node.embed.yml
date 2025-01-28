@@ -1,0 +1,11 @@
+uuid: 6a0e7f6b-2f09-4dc0-9a70-05846f4f80af
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.embed
+label: Embed
+description: 'View mode for entities that are embedded in another content.'
+targetEntityType: node
+cache: true

@@ -5,10 +5,6 @@
  *
  * Overrides core/themes/classy/templates/content/node.html.twig.
  *
- * Note: the common_design_subtheme_preprocess_node() adds those variables:
- * - title: node title
- * - local_tasks: local tasks (edit etc.)
- *
  * Available variables:
  * - node: The node entity with limited access to object properties and methods.
  *   Only method names starting with "get", "has", or "is" and a few common
@@ -78,13 +74,8 @@
 #}
 {{ attach_library('common_design_subtheme/gho-caption') }}
 {{ attach_library('common_design_subtheme/gho-story') }}
-{{ attach_library('common_design_subtheme/gho-page-node') }}
 {{ attach_library('common_design_subtheme/gho-social-links') }}
 {% set pre_title = content.field_type|render|striptags|trim %}
-{# Pre-render the local_tasks so the `if local_tasks` below can work. #}
-{%
-  set local_tasks = local_tasks ? local_tasks|render
-%}
 {%
   set classes = [
     'node',
@@ -98,18 +89,14 @@
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
-  <header class="gho-story__header content-width">
+  <header class="gho-story__header">
     {% if pre_title %}
-      <span class="gho-aside__pre-title">{{ pre_title|t }}</span>
+    <span class="gho-aside__pre-title">{{ pre_title }}</span>
     {% endif %}
-    {{ title }}
+    <h2{{ title_attributes.addClass('gho-aside__title') }}>{{ label }}</h2>
   </header>
 
-  {% if local_tasks %}
-    <div class="node--local-tasks content-width clearfix">{{ local_tasks }}</div>
-  {% endif %}
-
-  <div{{ content_attributes.addClass('node__content').addClass('gho-story__content').addClass('content-width') }}>
+  <div{{ content_attributes.addClass('node__content').addClass('gho-story__content') }}>
     {{ content.field_media }}
     <div class="media-caption">
       {{ content.field_caption }}
@@ -120,7 +107,6 @@
         {{ content.field_text }}
       </div>
     </div>
-
     {{ content|without(['field_type', 'field_media', 'field_text', 'field_caption', 'credits']) }}
   </div>
 

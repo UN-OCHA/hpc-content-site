@@ -15,6 +15,7 @@
   border-top: 1px solid #d8d8d8;
 }
 /* Hide the border when the figures follow another top figures paragraph. */
+.gho-caption--article + .gho-top-figures--small::before,
 .gho-top-figures + .gho-top-figures--small::before {
   content: none;
 }

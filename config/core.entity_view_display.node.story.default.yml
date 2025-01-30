@@ -1,4 +1,4 @@
-uuid: b618e7f1-761c-472c-9d9f-112755372fb2
+uuid: e6c0739c-8d1d-426c-b85e-643d07179096
 langcode: en
 status: true
 dependencies:
@@ -12,7 +12,7 @@ dependencies:
     - field.field.node.story.field_type
     - node.type.story
   module:
-    - gho_fields
+    - double_field
     - text
     - user
 id: node.story.default
@@ -21,11 +21,28 @@ bundle: story
 mode: default
 content:
   field_caption:
-    type: gho_caption
+    type: double_field_unformatted_list
     label: hidden
-    settings: {  }
+    settings:
+      first:
+        format_type: medium
+        link: false
+        hidden: false
+        key: false
+        decimal_separator: .
+        thousand_separator: ''
+        scale: 2
+      second:
+        format_type: medium
+        link: false
+        hidden: false
+        key: false
+        decimal_separator: .
+        thousand_separator: ''
+        scale: 2
+      inline: true
     third_party_settings: {  }
-    weight: 6
+    weight: 3
     region: content
   field_footnotes:
     type: text_default
@@ -41,7 +58,7 @@ content:
       view_mode: story
       link: false
     third_party_settings: {  }
-    weight: 3
+    weight: 2
     region: content
   field_source:
     type: text_default
@@ -63,11 +80,6 @@ content:
     settings:
       link: false
     third_party_settings: {  }
-    weight: 2
-    region: content
-  links:
-    settings: {  }
-    third_party_settings: {  }
     weight: 1
     region: content
   title:
@@ -81,3 +93,4 @@ content:
 hidden:
   field_content_space: true
   langcode: true
+  links: true

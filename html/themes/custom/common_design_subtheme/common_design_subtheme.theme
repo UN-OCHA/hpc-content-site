@@ -169,7 +169,7 @@ function common_design_subtheme_preprocess_node(&$variables) {
 function common_design_subtheme_preprocess_node__story(&$variables) {
   if (isset($variables['content']['field_media'][0]['#media'])) {
     $credits = $variables['content']['field_media'][0]['#media']->field_credits->value;
-    $variables['content']['credits'] = $credits;
+    $variables['content']['credits'] = ['#markup' => $credits];
   }
 }
 

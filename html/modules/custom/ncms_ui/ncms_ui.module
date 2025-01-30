@@ -762,7 +762,7 @@ function ncms_ui_views_pre_render(ViewExecutable $view) {
  */
 function ncms_ui_node_access_records(NodeInterface $node) {
   $grants = [];
-  if (!$node instanceof ContentInterface) {
+  if (!$node instanceof ContentSpaceAwareInterface) {
     return $grants;
   }
 

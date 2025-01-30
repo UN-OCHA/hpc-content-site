@@ -1,9 +1,9 @@
-uuid: 136ac1d6-9a4e-44ea-a4fe-b9b84e4eb35f
+uuid: c636940f-5957-494b-bff0-4781bf510061
 langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.node.teaser
+    - core.entity_view_mode.node.embed
     - field.field.node.story.field_caption
     - field.field.node.story.field_content_space
     - field.field.node.story.field_footnotes
@@ -16,10 +16,10 @@ dependencies:
     - double_field
     - text
     - user
-id: node.story.teaser
+id: node.story.embed
 targetEntityType: node
 bundle: story
-mode: teaser
+mode: embed
 content:
   field_caption:
     type: double_field_unformatted_list

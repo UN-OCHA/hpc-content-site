@@ -93,6 +93,9 @@ class ArticleDocumentField extends FieldPluginBase {
     $documents_by_article = [];
     foreach ($article_paragraphs as $paragraph) {
       $document = $paragraph->getParentEntity();
+      if (!$document) {
+        continue;
+      }
       $article_nids = array_map(function ($item) {
         return $item['target_id'];
       }, $paragraph->get('field_articles')->getValue());

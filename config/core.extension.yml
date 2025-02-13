@@ -75,6 +75,7 @@ module:
   metatag_twitter_cards: 0
   monitoring: 0
   mysql: 0
+  ncms_gho_import: 0
   ncms_graphql: 0
   ncms_paragraphs: 0
   ncms_publisher: 0
@@ -96,6 +97,7 @@ module:
   responsive_image: 0
   search: 0
   seckit: 0
+  single_content_sync: 0
   social_api: 0
   social_auth: 0
   social_auth_hid: 0

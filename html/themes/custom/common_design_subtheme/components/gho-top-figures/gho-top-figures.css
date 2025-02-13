@@ -86,6 +86,13 @@
     .gho-top-figures:not(.gho-top-figures--small)
     .gho-figures
     .gho-figure:first-child {
+    padding-right: 0;
+  }
+  [dir="rtl"]
+    .gho-top-figures:not(.gho-top-figures--small)
+    .gho-figures
+    .gho-figure:last-child {
+    padding-left: 0;
     border-width: 0;
   }
   .gho-top-figures .gho-figure__label {

@@ -164,7 +164,7 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
   }
 
   /**
-   * Check if the table should should only allow a single entity.
+   * Check if the table should only allow a single entity.
    *
    * @return bool
    *   TRUE if the table should allow single entities only, FALSE otherwise.

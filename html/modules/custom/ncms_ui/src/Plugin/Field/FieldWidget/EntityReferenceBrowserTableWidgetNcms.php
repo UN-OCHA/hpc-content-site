@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\entity_browser_table\Plugin\Field\FieldWidget\EntityReferenceBrowserTableWidget;
+use Drupal\ncms_ui\Entity\ContentInterface;
 
 /**
  * Plugin implementation of the 'entity_reference_browser_table_widget' widget.
@@ -120,6 +121,7 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
       $rowData[] = array_filter([
         'handle' => $this->isSortable() ? $this->buildSortableHandle() : NULL,
         'title-preview' => $this->getFirstColumn($entity),
+        'tags' => $entity instanceof ContentInterface ? ['#markup' => str_replace(',', ', ', $entity->getTags())] : '',
         'status' => [
           '#type' => 'html_tag',
           '#tag' => 'span',
@@ -146,7 +148,6 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
           'data-entity-id' => $entity->getEntityTypeId() . ':' . $entity->id(),
           'data-row-id' => $row_id,
         ],
-
       ]);
     }
 
@@ -161,6 +162,23 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
    */
   private function isSortable() {
     return !$this->isSingleEntitySelect();
+  }
+
+  /**
+   * Override buildTableHeaders function to add a custom column.
+   *
+   * @return array
+   *   An array of header titles.
+   */
+  public function buildTableHeaders(): array {
+    $entity_browser = $this->getEntityBrowser();
+    return [
+      '',
+      $this->getFirstColumnHeader(),
+      $entity_browser->id() == 'articles' ? $this->t('Tags') : '',
+      $this->getAdditionalFieldColumnHeader(),
+      $this->getActionColumnHeader(),
+    ];
   }
 
   /**

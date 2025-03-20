@@ -416,4 +416,11 @@ abstract class ContentBase extends Node implements ContentInterface {
     return \Drupal::service('ncms_tags.common_taxonomies');
   }
 
+  /**
+   * Builds the render array for displaying the current results as a table.
+   */
+  public function getTags() {
+    return $this->get('field_computed_tags')->value;
+  }
+
 }

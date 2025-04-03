@@ -104,29 +104,21 @@ abstract class ContentBase extends Node implements ContentInterface {
    * {@inheritdoc}
    */
   public function getTags() {
-    $tags = [];
     $common_taxonomies = $this->getCommonTaxonomiesService();
     $supported_fields = $common_taxonomies->getCommonTaxonomyFieldNames();
-    $term_storage = $this->entityTypeManager()->getStorage('taxonomy_term');
-    $entity_data = $this->toArray();
-    // Iterating over $supported_fields instead of $entity_data to assure tags
-    // are ordered by vocabulary first. This is not necessarily important, but
-    // make things look more consistent in the backend.
+    $terms = [];
+    // Iterating over $supported_fields to assure tags are ordered by
+    // vocabulary first. This is not necessarily important, but makes things
+    // look more consistent in the backend.
     foreach ($supported_fields as $field_name) {
-      if (empty($entity_data[$field_name])) {
+      if (!$this->hasField($field_name)) {
         continue;
       }
-      $field = $entity_data[$field_name];
-      $tids = array_map(function ($value) {
-        return $value['target_id'];
-      }, $field);
-      $terms = $term_storage->loadMultiple($tids);
-      $field_tags = array_map(function (TermInterface $term) {
-        return $term->getName();
-      }, $terms);
-      $tags = array_merge($tags, $field_tags);
+      $terms = array_merge($terms, ($this->get($field_name)?->referencedEntities() ?? []));
     }
-    return $tags;
+    return array_map(function (TermInterface $term) {
+      return $term->getName();
+    }, $terms);
   }
 
   /**

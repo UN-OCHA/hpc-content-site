@@ -101,7 +101,7 @@ abstract class ContentBase extends Node implements ContentInterface {
   }
 
   /**
-   * Builds the render array for displaying the current results as a table.
+   * {@inheritdoc}
    */
   public function getTags() {
     $tags = [];

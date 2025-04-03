@@ -121,7 +121,7 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
       $rowData[] = array_filter([
         'handle' => $this->isSortable() ? $this->buildSortableHandle() : NULL,
         'title-preview' => $this->getFirstColumn($entity),
-        'tags' => $entity instanceof ContentInterface ? ['#markup' => str_replace(',', ', ', $entity->getTags())] : '',
+        'tags' => $entity instanceof ContentInterface ? ['#markup' => implode(', ', $entity->getTags())] : '',
         'status' => [
           '#type' => 'html_tag',
           '#tag' => 'span',

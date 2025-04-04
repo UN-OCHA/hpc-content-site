@@ -34,6 +34,14 @@ interface ContentInterface extends NodeInterface, ContentSpaceAwareInterface, Co
   public function hasTags();
 
   /**
+   * Get the tags.
+   *
+   * @return string[]
+   *   An array of tag names.
+   */
+  public function getTags();
+
+  /**
    * Mark this entity as deleted.
    */
   public function setDeleted();

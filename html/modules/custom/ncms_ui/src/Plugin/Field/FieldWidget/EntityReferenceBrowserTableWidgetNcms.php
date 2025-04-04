@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\entity_browser_table\Plugin\Field\FieldWidget\EntityReferenceBrowserTableWidget;
+use Drupal\ncms_ui\Entity\ContentInterface;
 
 /**
  * Plugin implementation of the 'entity_reference_browser_table_widget' widget.
@@ -92,7 +93,19 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
         ],
       ];
     }
+  }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function buildTableHeaders(): array {
+    return $this->filterNull([
+      $this->isSortable() ? '' : NULL,
+      $this->getFirstColumnHeader(),
+      $this->canShowTags() ? $this->t('Tags') : NULL,
+      $this->getAdditionalFieldColumnHeader(),
+      $this->getActionColumnHeader(),
+    ]);
   }
 
   /**
@@ -117,9 +130,10 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
       ? $entity->get('moderation_state')->value
       : ($entity->get('status')->value === '0' ? 'unpublished' : 'published');
 
-      $rowData[] = array_filter([
+      $rowData[] = $this->filterNull([
         'handle' => $this->isSortable() ? $this->buildSortableHandle() : NULL,
         'title-preview' => $this->getFirstColumn($entity),
+        'tags' => $this->canShowTags() ? $this->getTagsColumn($entity) : NULL,
         'status' => [
           '#type' => 'html_tag',
           '#tag' => 'span',
@@ -146,11 +160,34 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
           'data-entity-id' => $entity->getEntityTypeId() . ':' . $entity->id(),
           'data-row-id' => $row_id,
         ],
-
       ]);
     }
 
     return $rowData;
+  }
+
+  /**
+   * Get the tags column cell.
+   *
+   * @param Drupal\Core\Entity\EntityInterface $entity
+   *   The entity for which to show the tags.
+   *
+   * @return array|string
+   *   A render array or a string.
+   */
+  private function getTagsColumn(EntityInterface $entity) {
+    return $entity instanceof ContentInterface ? ['#markup' => implode(', ', $entity->getTags())] : '';
+  }
+
+  /**
+   * Check if tags should be shown for this browser widget.
+   *
+   * @return bool
+   *   TRUE if tags should be shown, FALSE otherwise.
+   */
+  private function canShowTags() {
+    $allowed_browser_ids = ['article', 'articles'];
+    return in_array($this->getEntityBrowser()->id(), $allowed_browser_ids);
   }
 
   /**
@@ -172,6 +209,21 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
   private function isSingleEntitySelect() {
     $cardinality = $this->fieldDefinition->getFieldStorageDefinition()->getCardinality();
     return $cardinality == 1;
+  }
+
+  /**
+   * Filter NULL values from an array.
+   *
+   * @param array $array
+   *   The array to filter.
+   *
+   * @return array
+   *   The filtered array with all NULL values removed.
+   */
+  private function filterNull($array) {
+    return array_filter($array, function ($item) {
+      return $item !== NULL;
+    });
   }
 
   /**

@@ -16,6 +16,7 @@ use Drupal\ncms_ui\Traits\ContentSpaceEntityTrait;
 use Drupal\ncms_ui\Traits\IframeDisplayContentTrait;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
+use Drupal\taxonomy\TermInterface;
 
 /**
  * Bundle class for organization nodes.
@@ -97,6 +98,27 @@ abstract class ContentBase extends Node implements ContentInterface {
       }
     }
     return FALSE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTags() {
+    $common_taxonomies = $this->getCommonTaxonomiesService();
+    $supported_fields = $common_taxonomies->getCommonTaxonomyFieldNames();
+    $terms = [];
+    // Iterating over $supported_fields to assure tags are ordered by
+    // vocabulary first. This is not necessarily important, but makes things
+    // look more consistent in the backend.
+    foreach ($supported_fields as $field_name) {
+      if (!$this->hasField($field_name)) {
+        continue;
+      }
+      $terms = array_merge($terms, ($this->get($field_name)?->referencedEntities() ?? []));
+    }
+    return array_map(function (TermInterface $term) {
+      return $term->getName();
+    }, $terms);
   }
 
   /**

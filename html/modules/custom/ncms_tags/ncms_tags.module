@@ -7,7 +7,7 @@
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\taxonomy\TermInterface;
+use Drupal\ncms_ui\Entity\ContentInterface;
 
 /**
  * Implements hook_entity_base_field_info_alter().
@@ -25,37 +25,14 @@ function ncms_tags_entity_base_field_info_alter(&$fields, EntityTypeInterface $e
  * Support for computed tags field on articles and documents.
  */
 function ncms_tags_computed_field_field_computed_tags_value_alter(&$value, $context) {
-  /** @var \Drupal\ncms_tags\CommonTaxonomyService $common_taxonomies */
-  $common_taxonomies = \Drupal::service('ncms_tags.common_taxonomies');
   $entity = $context['entity'];
-  $supported_fields = $common_taxonomies->getCommonTaxonomyFieldNames();
-  $tags = [];
-  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-  $entity_data = $entity->toArray();
-  // Iterating over $supported_fields instead of $entity_data to assure tags
-  // are ordered by vocabulary first. This is not necessarily important, but
-  // make things look more consistent in the backend.
-  foreach ($supported_fields as $field_name) {
-    if (empty($entity_data[$field_name])) {
-      continue;
-    }
-    $field = $entity_data[$field_name];
-    $tids = array_map(function ($value) {
-      return $value['target_id'];
-    }, $field);
-    $terms = $term_storage->loadMultiple($tids);
-    $field_tags = array_map(function (TermInterface $term) {
-      return $term->getName();
-    }, $terms);
-    $tags = array_merge($tags, $field_tags);
-  }
-  $value = implode(',', $tags);
+  $value = $entity instanceof ContentInterface ? implode(',', $entity->getTags()) : $value;
 }
 
 /**
  * Implements hook_preprocess_form_element().
  *
- * The active_tags module adds additional info to the description of it's
+ * The active_tags module adds additional info to the description of its
  * elements and changes the display for the description to an item list.
  * As this looks a bit noisy in the forms, let's simplify this.
  */

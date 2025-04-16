@@ -37,9 +37,17 @@ interface ContentInterface extends NodeInterface, ContentSpaceAwareInterface, Co
    * Get the tags.
    *
    * @return string[]
-   *   An array of tag names.
+   *   An array of tag names, keyed by term id.
    */
   public function getTags();
+
+  /**
+   * Get the tag entities.
+   *
+   * @return \Drupal\taxonomy\TermInterface[]
+   *   An array of taxonomy term entities, keyed by term id.
+   */
+  public function getTagEntities();
 
   /**
    * Mark this entity as deleted.

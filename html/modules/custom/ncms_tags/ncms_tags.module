@@ -7,7 +7,10 @@
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\ncms_ui\Entity\Content\ContentBase;
 use Drupal\ncms_ui\Entity\ContentInterface;
+use Drupal\views\ResultRow;
+use Drupal\views\ViewExecutable;
 
 /**
  * Implements hook_entity_base_field_info_alter().
@@ -48,4 +51,56 @@ function ncms_tags_preprocess_form_element(&$variables) {
       '#markup' => (string) reset($variables['description']['content']['#items']),
     ];
   }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Show tags of unpublished articles as
+ * \Drupal\taxonomy\TermStorage::getNodeTerms looks at the taxonomy_index
+ * database table, which is only populated for published nodes as per
+ * taxonomy_build_node_index().
+ */
+function ncms_tags_views_pre_render(ViewExecutable $view) {
+  $valid_displays = [
+    'page_articles',
+    'page_documents',
+  ];
+  if ($view->id() != 'content' || !in_array($view->current_display, $valid_displays) || !array_key_exists('term_node_tid', $view->field)) {
+    return;
+  }
+
+  // First sort the displayed terms by the order defined in
+  // CommonTaxonomyService::getCommonTaxonomyBundleFieldMap().
+  /** @var \Drupal\ncms_tags\CommonTaxonomyService $common_taxonomy_service */
+  $common_taxonomy_service = \Drupal::service('ncms_tags.common_taxonomies');
+  $vocabularies = $common_taxonomy_service->getCommonTaxonomyBundles();
+  foreach ($view->query->displayHandler->handlers['field']['term_node_tid']->items as &$item) {
+    uasort($item, function ($a, $b) use ($vocabularies) {
+      return array_search($a['vocabulary_vid'], $vocabularies) <=> array_search($b['vocabulary_vid'], $vocabularies);
+    });
+  }
+
+  // Then fill in terms for nodes that have no published version yet.
+  $nids = array_map(function (ResultRow $row) {
+    return $row->nid;
+  }, $view->result);
+  $term_nids = array_keys($view->query->displayHandler->handlers['field']['term_node_tid']->items);
+  foreach (array_diff($nids, $term_nids) as $nid) {
+    $row_index = array_search($nid, $nids);
+    $entity = $view->result[$row_index]?->_entity ?? NULL;
+    if (!$entity instanceof ContentBase) {
+      continue;
+    }
+    $terms = $entity->getTagEntities();
+    $view->query->displayHandler->handlers['field']['term_node_tid']->items[$nid] = array_map(function ($term) {
+      return [
+        'name' => $term->getName(),
+        'tid' => $term->id(),
+        'vocabulary_vid' => $term->bundle(),
+        'vocabulary' => $term->vid->entity->label(),
+      ];
+    }, $terms);
+  }
+
 }

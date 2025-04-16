@@ -16,7 +16,7 @@ use Drupal\ncms_ui\Traits\ContentSpaceEntityTrait;
 use Drupal\ncms_ui\Traits\IframeDisplayContentTrait;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
-use Drupal\taxonomy\TermInterface;
+use Drupal\taxonomy\Entity\Term;
 
 /**
  * Bundle class for organization nodes.
@@ -104,6 +104,16 @@ abstract class ContentBase extends Node implements ContentInterface {
    * {@inheritdoc}
    */
   public function getTags() {
+    $terms = $this->getTagEntities();
+    return array_map(function ($term) {
+      return $term->getName();
+    }, $terms);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTagEntities() {
     $common_taxonomies = $this->getCommonTaxonomiesService();
     $supported_fields = $common_taxonomies->getCommonTaxonomyFieldNames();
     $terms = [];
@@ -114,11 +124,14 @@ abstract class ContentBase extends Node implements ContentInterface {
       if (!$this->hasField($field_name)) {
         continue;
       }
-      $terms = array_merge($terms, ($this->get($field_name)?->referencedEntities() ?? []));
+      foreach (($this->get($field_name)?->referencedEntities() ?? []) as $term) {
+        if (!$term instanceof Term) {
+          continue;
+        }
+        $terms[$term->id()] = $term;
+      }
     }
-    return array_map(function (TermInterface $term) {
-      return $term->getName();
-    }, $terms);
+    return $terms;
   }
 
   /**

@@ -93,7 +93,7 @@
         "drupal/seckit": "^2.0",
         "drupal/single_content_sync": "^1.4",
         "drupal/social_auth_hid": "^3.1",
-        "drupal/stage_file_proxy": "^2",
+        "drupal/stage_file_proxy": "^3",
         "drupal/taxonomy_max_depth": "^2.1",
         "drupal/taxonomy_term_depth": "^2.6",
         "drupal/user_expire": "^1.0",

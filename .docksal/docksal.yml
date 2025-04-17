@@ -12,13 +12,17 @@ services:
 
   browser:
     hostname: browser
-    image: seleniarm/standalone-chromium:103.0
+    image: selenium/standalone-chromium:latest
     volumes:
       # Workaround to avoid the browser crashing inside a docker container
       # See https://github.com/SeleniumHQ/docker-selenium#quick-start
       - /tmp:/dev/shm
+      - ${PROJECT_ROOT}/logs/chromedriver:/var/log/chromedriver
     environment:
-      - JAVA_OPTS=-Dwebdriver.chrome.whitelistedIps=
+      - 'JAVA_OPTS=-Dwebdriver.chrome.logfile=/var/log/chromedriver/chromedriver.log -Dverbose -Dwhitelisted-ips='
+      - 'SE_NODE_MAX_SESSIONS=2'
+      - 'SE_NODE_STEREOTYPE={"browserName": "chrome"}'
     ports:
-      - 4445:4444
+      - 5901:5900
       - 7901:7900
+      - 4445:4444

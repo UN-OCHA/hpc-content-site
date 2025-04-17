@@ -25,3 +25,6 @@ extend type Query {
 extend type Query {
   paragraph(id: Int!): Paragraph
 }
+extend type Query {
+  tag(name: String): Tag
+}

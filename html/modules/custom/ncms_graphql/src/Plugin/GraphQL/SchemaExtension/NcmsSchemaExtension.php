@@ -58,6 +58,7 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
     $this->addFieldResolverContentSpace($registry, $builder);
     $this->addFieldResolverParagraph($registry, $builder);
     $this->addFieldResolverDocumentChapter($registry, $builder);
+    $this->addFieldResolverTag($registry, $builder);
 
     $this->addListFieldResolvers('ArticleList', $registry, $builder);
     $this->addListFieldResolvers('DocumentList', $registry, $builder);
@@ -156,6 +157,35 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
           ->map('id', $builder->fromArgument('id'))
           ->map('access_user', $builder->fromParent())
           ->map('access_operation', $builder->fromValue('view'))
+      ),
+    );
+
+    // Tag.
+    $registry->addFieldResolver('Query', 'tag',
+      $builder->compose(
+        $builder->fromArgument('name'),
+        $builder->callback(function ($name) {
+          $conditions = [
+            'vid' => ['document_type', 'year', 'theme', 'country'],
+            'name' => [$name],
+          ];
+          return array_map(function ($key, $value) {
+            return ['field' => $key, 'value' => $value, 'operator' => 'IN'];
+          }, array_keys($conditions), $conditions);
+        }),
+        $builder->produce('entity_query')
+          ->map('type', $builder->fromValue('taxonomy_term'))
+          ->map('allowed_filters', $builder->fromValue(['vid', 'name']))
+          ->map('conditions', $builder->fromParent())
+          ->map('access_user', $builder->fromParent())
+          ->map('access_operation', $builder->fromValue('view')),
+        $builder->callback(function ($ids) {
+          return count($ids) == 1 ? reset($ids) : NULL;
+        }),
+        $builder->produce('entity_load', [
+          'type' => $builder->fromValue('taxonomy_term'),
+          'id' => $builder->fromParent(),
+        ]),
       ),
     );
   }
@@ -642,6 +672,30 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
     $registry->addFieldResolver('DocumentChapter', 'tags',
       $this->buildFromComputedTags($builder, 'paragraph'),
     );
+  }
+
+  /**
+   * Add field resolvers for tags.
+   *
+   * @param \Drupal\graphql\GraphQL\ResolverRegistryInterface $registry
+   *   The resolver registry.
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
+   */
+  private function addFieldResolverTag(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
+    $registry->addFieldResolver('Tag', 'id',
+      $builder->produce('entity_id')
+        ->map('entity', $builder->fromParent())
+    );
+    $registry->addFieldResolver('Tag', 'name',
+      $builder->produce('entity_label')
+        ->map('entity', $builder->fromParent())
+    );
+    $registry->addFieldResolver('Tag', 'type',
+      $builder->produce('entity_bundle')
+        ->map('entity', $builder->fromParent())
+    );
+
   }
 
   /**

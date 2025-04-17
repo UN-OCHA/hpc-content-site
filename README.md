@@ -104,11 +104,6 @@ functioning of this site as a content backend.
   for example to format and translate `needs and requirements` figures, embed
   `datawrapper` graphs etc.
 
-- [**GHO Figures**](html/modules/custom/gho_figures)
-
-  The gho_figures module provides facilities to import `needs and requirements`
-  figures from a spreadsheet.
-
 - [**GHO Footnotes**](html/modules/custom/gho_footnotes)
 
   The gho_footnotes module provides extraction and formatting of footnotes from

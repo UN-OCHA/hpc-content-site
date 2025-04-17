@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.infographic.field_full_width
     - field.field.paragraph.infographic.field_media_infographic
     - field.field.paragraph.infographic.field_text
     - paragraphs.paragraphs_type.infographic
@@ -20,7 +21,7 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 1
+    weight: 0
     region: content
   field_text:
     type: text_default
@@ -29,4 +30,5 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
-hidden: {  }
+hidden:
+  field_full_width: true

@@ -126,3 +126,9 @@ type Language {
   id: String
   name: String
 }
+
+type Tag {
+  id: Int
+  name: String
+  type: String
+}

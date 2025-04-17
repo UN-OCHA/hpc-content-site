@@ -1,0 +1,32 @@
+uuid: bdcbe723-2e62-482a-9c71-903cc875ba5a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_full_width
+    - paragraphs.paragraphs_type.infographic
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: paragraph.infographic.field_full_width
+field_name: field_full_width
+entity_type: paragraph
+bundle: infographic
+label: 'Display at full width?'
+description: 'If checked, the infographic will be shown at full content width. Otherwise it will be restricted to the same width as the surrounding text content (reading width).'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes, full width'
+  off_label: 'No, align with content'
+field_type: boolean

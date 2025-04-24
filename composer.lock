@@ -2888,12 +2888,12 @@
             ],
             "authors": [
                 {
-                    "name": "apmsooner",
-                    "homepage": "https://www.drupal.org/user/593202"
+                    "name": "andreasderijcke",
+                    "homepage": "https://www.drupal.org/user/3260992"
                 },
                 {
-                    "name": "luke.leber",
-                    "homepage": "https://www.drupal.org/user/3509746"
+                    "name": "apmsooner",
+                    "homepage": "https://www.drupal.org/user/593202"
                 }
             ],
             "description": "Dynamic custom field types with extensive widget and formatter plugin support. A highly performant & scalable alternative to paragraphs and entity reference by storing data in a single table.",

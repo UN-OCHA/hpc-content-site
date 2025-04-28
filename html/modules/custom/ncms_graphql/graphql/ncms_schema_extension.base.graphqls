@@ -35,6 +35,7 @@ type Article {
   author: [Author]
   content_space: ContentSpace
   content: [Paragraph]
+  documents: [Document]
   tags: [String]
   autoVisible: Int!
   forceUpdate: Int

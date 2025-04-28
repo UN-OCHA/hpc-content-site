@@ -15,9 +15,7 @@ use Drupal\views\Plugin\ViewsHandlerManager;
 use Drupal\views\ViewExecutable;
 
 /**
- * Manager class for content.
- *
- * This allows to load publishers from the current request.
+ * Manager class for content spaces.
  */
 class ContentSpaceManager {
 

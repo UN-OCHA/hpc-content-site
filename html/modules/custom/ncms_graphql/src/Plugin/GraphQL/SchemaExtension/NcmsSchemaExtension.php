@@ -406,6 +406,11 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
         }),
       )
     );
+    $registry->addFieldResolver('Article', 'documents',
+      $builder->callback(function ($article) {
+        return $article->getDocuments();
+      }),
+    );
     $registry->addFieldResolver('Article', 'tags',
       $this->buildFromComputedTags($builder, 'node'),
     );

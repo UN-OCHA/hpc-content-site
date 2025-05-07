@@ -425,6 +425,7 @@ abstract class ContentBase extends Node implements ContentInterface {
         'label' => 'inline',
       ]);
       if ($field_name == 'field_computed_tags' && !empty($build[$field_name][0]['#markup'])) {
+        $build[$field_name]['#title'] = $this->t('Tags');
         $build[$field_name][0]['#markup'] = implode(', ', explode(',', $build[$field_name][0]['#markup']));
       }
     }

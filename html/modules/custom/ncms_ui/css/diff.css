@@ -41,7 +41,7 @@
   color: gray;
 }
 .ncms-node-diff .metadata-wrapper .field--label-inline > .field__label::after {
-  content: ":";
+  content: ": ";
 }
 .ncms-node-diff .metadata-wrapper .field--type-text-long .field__item p {
   display: inline;

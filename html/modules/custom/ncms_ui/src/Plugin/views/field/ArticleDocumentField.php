@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_ui\Plugin\views\field;
 
+use Drupal\ncms_ui\Entity\Content\Document;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Drupal\views\ResultRow;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -93,7 +94,7 @@ class ArticleDocumentField extends FieldPluginBase {
     $documents_by_article = [];
     foreach ($article_paragraphs as $paragraph) {
       $document = $paragraph->getParentEntity();
-      if (!$document) {
+      if (!$document instanceof Document || $document->isDeleted()) {
         continue;
       }
       $article_nids = array_map(function ($item) {

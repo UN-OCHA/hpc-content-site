@@ -32,6 +32,9 @@ class Article extends ContentBase {
     foreach ($article_paragraphs as $paragraph) {
       $document = $paragraph->getParentEntity();
       if ($document instanceof Document) {
+        if ($document->isDeleted() || !$document->isPublished()) {
+          continue;
+        }
         $documents[$document->id()] = $document;
       }
     }

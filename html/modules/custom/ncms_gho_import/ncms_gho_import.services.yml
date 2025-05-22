@@ -1,9 +1,0 @@
-services:
-  ncms_gho_import.manager:
-    class: Drupal\ncms_gho_import\ContentImportManager
-    arguments: ['@entity_type.manager', '@file_system', '@file_url_generator', '@datetime.time']
-  ncms_gho_import.import_event_subscriber:
-    class: Drupal\ncms_gho_import\EventSubscriber\ImportEventSubscriber
-    arguments: ['@single_content_sync.importer', '@ncms_gho_import.manager']
-    tags:
-      - { name: event_subscriber }

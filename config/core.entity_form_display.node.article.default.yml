@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.article.field_content_space
     - field.field.node.article.field_country
     - field.field.node.article.field_document_type
+    - field.field.node.article.field_documents
     - field.field.node.article.field_hero_image
     - field.field.node.article.field_month
     - field.field.node.article.field_paragraphs
@@ -316,6 +317,7 @@ hidden:
   field_automatically_visible: true
   field_card_title: true
   field_computed_tags: true
+  field_documents: true
   field_report_link: true
   field_tags: true
   field_thumbnail_image: true

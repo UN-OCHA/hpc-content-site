@@ -656,50 +656,6 @@ function ncms_ui_link_alter(&$variables) {
 }
 
 /**
- * Implements hook_views_data_alter().
- */
-function ncms_ui_views_data_alter(&$data) {
-  // New comments are only supported for node table because it requires the
-  // history table.
-  $data['node']['article_document'] = [
-    'title' => t('Document'),
-    'help' => t('Lists the documents in which a node appears.'),
-    'field' => [
-      'id' => 'article_document_field',
-      'no group by' => TRUE,
-      'click sortable' => FALSE,
-    ],
-  ];
-  $data['node']['latest_version'] = [
-    'title' => t('Latest version'),
-    'help' => t('Shows the latest version for a node.'),
-    'field' => [
-      'id' => 'latest_version_field',
-      'no group by' => TRUE,
-      'click sortable' => FALSE,
-    ],
-  ];
-  $data['node']['latest_published_version'] = [
-    'title' => t('Latest published version'),
-    'help' => t('Shows the latest published version for a node.'),
-    'field' => [
-      'id' => 'latest_published_version_field',
-      'no group by' => TRUE,
-      'click sortable' => FALSE,
-    ],
-  ];
-  $data['node']['content_status'] = [
-    'title' => t('Content status'),
-    'help' => t('Shows the content status.'),
-    'field' => [
-      'id' => 'content_status_field',
-      'no group by' => TRUE,
-      'click sortable' => FALSE,
-    ],
-  ];
-}
-
-/**
  * Implements hook_entity_query_tag__TAG_alter().
  *
  * Exclude trashed nodes from auto complete matches.

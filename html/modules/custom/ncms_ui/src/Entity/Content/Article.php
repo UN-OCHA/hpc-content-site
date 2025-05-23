@@ -9,11 +9,30 @@ use Drupal\Core\Url;
  */
 class Article extends ContentBase {
 
+  const FIELD_DOCUMENTS = 'field_documents';
+
   /**
    * {@inheritdoc}
    */
   public function getOverviewUrl() {
     return Url::fromUri('base:/admin/content');
+  }
+
+  /**
+   * Update the document references for this article.
+   */
+  public function updateDocumentReferences() {
+    $document_ids = [];
+
+    if (!$this->isDeleted()) {
+      $document_ids = array_map(function ($document) {
+        return $document->id();
+      }, $this->getDocuments());
+    }
+
+    $this->get(self::FIELD_DOCUMENTS)->setValue(array_map(function ($document_id) {
+      return ['target_id' => $document_id];
+    }, $document_ids));
   }
 
   /**
@@ -32,7 +51,7 @@ class Article extends ContentBase {
     foreach ($article_paragraphs as $paragraph) {
       $document = $paragraph->getParentEntity();
       if ($document instanceof Document) {
-        if ($document->isDeleted() || !$document->isPublished()) {
+        if ($document->isDeleted()) {
           continue;
         }
         $documents[$document->id()] = $document;

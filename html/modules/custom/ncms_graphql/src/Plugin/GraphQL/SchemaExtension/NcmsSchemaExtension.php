@@ -7,6 +7,7 @@ use Drupal\graphql\GraphQL\ResolverRegistry;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
 use Drupal\ncms_graphql\ResultWrapperInterface;
+use Drupal\ncms_ui\Entity\Content\Document;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -408,7 +409,10 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
     );
     $registry->addFieldResolver('Article', 'documents',
       $builder->callback(function ($article) {
-        return $article->getDocuments();
+        /** @var \Drupal\ncms_ui\Entity\Content\Article $article */
+        return array_filter($article->getDocuments(), function (Document $document) {
+          return $document->isPublished();
+        });
       }),
     );
     $registry->addFieldResolver('Article', 'tags',

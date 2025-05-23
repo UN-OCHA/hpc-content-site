@@ -1,0 +1,38 @@
+uuid: 552aac5e-e02d-4d37-982b-17eb8cff824a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_articles
+    - node.type.article
+    - node.type.document
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '-1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: node.document.field_articles
+field_name: field_articles
+entity_type: node
+bundle: document
+label: Articles
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      article: article
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -186,7 +186,7 @@ abstract class ContentBase extends Node implements ContentInterface {
    * {@inheritdoc}
    */
   public function getModerationState() {
-    return $this->moderation_state->value;
+    return $this->moderation_state?->value;
   }
 
   /**

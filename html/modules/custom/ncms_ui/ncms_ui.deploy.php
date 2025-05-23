@@ -348,3 +348,22 @@ function ncms_ui_deploy_correct_text_format_footnotes(&$sandbox) {
     '@count' => count($paragraphs),
   ]);
 }
+
+/**
+ * Update the document article references.
+ */
+function ncms_ui_deploy_update_document_article_references(&$sandbox) {
+  /** @var \Drupal\Node\NodeStorageInterface $node_storage */
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+
+  /** @var \Drupal\node\NodeInterface[] $nodes */
+  $nodes = $node_storage->loadByProperties([
+    'type' => ['document'],
+  ]);
+  foreach ($nodes as $node) {
+    // Just save the document node. The update is triggered via hooks on save.
+    $node->setNewRevision(FALSE);
+    $node->setSyncing(TRUE);
+    $node->save();
+  }
+}

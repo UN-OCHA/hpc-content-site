@@ -55,6 +55,9 @@ class Document extends ContentBase {
    *   Chapter paragraph objects.
    */
   public function getChapterParagraphs() {
+    if (!$this->hasField('field_paragraphs') || $this->get('field_paragraphs')->isEmpty()) {
+      return [];
+    }
     return array_filter($this->get('field_paragraphs')->referencedEntities(), function (ParagraphInterface $paragraph) {
       return $paragraph instanceof DocumentChapter;
     });

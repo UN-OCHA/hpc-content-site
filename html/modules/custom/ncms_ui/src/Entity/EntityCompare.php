@@ -54,8 +54,16 @@ class EntityCompare {
     if ($entity instanceof Paragraph) {
       $entity_data += $entity->getAllBehaviorSettings() ?? [];
     }
+    $internal_reference_fields = ['field_articles', 'field_documents'];
     foreach ($entity_data as $field_name => &$field) {
       if (empty($field) || strpos($field_name, 'field_') !== 0) {
+        continue;
+      }
+      if ($entity instanceof ContentInterface && in_array($field_name, $internal_reference_fields)) {
+        // The hidden reference fields are purely for internal record keeping,
+        // so they should not be taken into consideration here. Also, given
+        // that both articles and documents have bi-directional references this
+        // would create an infinite loop.
         continue;
       }
       $field_list = $entity->get($field_name);

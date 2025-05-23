@@ -109,7 +109,7 @@ class ContentBaseFormAlter {
   }
 
   /**
-   * Alter the replicate confirm form.
+   * Alter the node forms for content entities.
    */
   public function alterForm(&$form, FormStateInterface $form_state) {
     /** @var \Drupal\Core\Entity\ContentEntityForm $form_object */

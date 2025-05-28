@@ -1,0 +1,3 @@
+action.configuration.move_to_trash:
+  type: action_configuration_default
+  label: 'Move a content entity to the trash'

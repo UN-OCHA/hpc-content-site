@@ -36,8 +36,6 @@ class DocumentTest extends KernelTestBase {
     'node',
     'paragraphs',
     'views',
-    // 'workflows',
-    // 'content_moderation',
     'ncms_publisher',
     'ncms_paragraphs',
     'ncms_ui',
@@ -79,7 +77,7 @@ class DocumentTest extends KernelTestBase {
     ];
     $this->createEntityReferenceField('node', 'document', 'field_articles', 'Articles', 'node', 'default', $handler_settings);
 
-    // Create a field with artucle references for the document type.
+    // Create a field with article references for the document type.
     $handler_settings = [
       'target_bundles' => [
         'document' => 'document',

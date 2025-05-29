@@ -8,6 +8,7 @@ dependencies:
   - anonymous_login:anonymous_login
   - social_auth_hid:social_auth_hid
   - replicate_ui:replicate_ui
+  - replicate_actions:replicate_actions
   - diff:diff
   - views:views
   - drupal:content_moderation
@@ -16,3 +17,4 @@ dependencies:
   - workflows:workflows
   - gho_fields:gho_fields
   - ncms_tags:ncms_tags
+  - ncms_paragraphs:ncms_paragraphs

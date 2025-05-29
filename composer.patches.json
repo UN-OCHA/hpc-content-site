@@ -29,6 +29,9 @@
         "drupal/paragraphs_viewmode": {
             "Issue #3345123: entityViewModeAlter throws an exception in php 8.2": "https://www.drupal.org/files/issues/2023-03-01/paragraphs_viewmode-remove-context-parameter-3345123-2.patch"
         },
+        "drupal/replicate_actions": {
+            "Issue #3526856: Redirect triggered by event handler is not always working well with Replicate UI": "https://git.drupalcode.org/project/replicate_actions/-/merge_requests/8.diff"
+        },
         "drupal/user_expire": {
             "Issue #2836514: Disable or customize expiration email": "./patches/2836514-mr-5-2024-09-05.patch",
             "Issue #2855005: Reset expiration when user is reactivated": "./patches/2855005-mr-6-2024-09-05.patch"

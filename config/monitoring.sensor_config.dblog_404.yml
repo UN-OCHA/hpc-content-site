@@ -1,0 +1,29 @@
+uuid: e3f8c002-ddfb-4454-a845-d3e97c521058
+langcode: en
+status: false
+dependencies: {  }
+id: dblog_404
+label: 'Page not found errors'
+description: 'Page not found errors logged by watchdog'
+category: Watchdog
+plugin_id: dblog_404
+result_class: null
+value_label: 'Watchdog events'
+value_type: number
+caching_time: 3600
+settings:
+  time_interval_field: timestamp
+  time_interval_value: 86400
+  conditions:
+    -
+      field: type
+      value: 'page not found'
+  verbose_fields:
+    - location
+    - timestamp
+  table: watchdog
+  history_status: true
+thresholds:
+  type: exceeds
+  warning: 20
+  critical: 100

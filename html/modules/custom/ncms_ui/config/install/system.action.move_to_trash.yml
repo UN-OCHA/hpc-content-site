@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - workflows
+id: move_to_trash
+label: "Move to trash"
+type: node
+plugin: move_to_trash
+configuration: {  }

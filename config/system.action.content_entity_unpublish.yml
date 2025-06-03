@@ -1,3 +1,4 @@
+uuid: b7766cef-1097-4f1e-a84c-74d54da84fe3
 langcode: en
 status: true
 dependencies:
@@ -5,7 +6,7 @@ dependencies:
     - node
     - workflows
 id: content_entity_unpublish
-label: "Unpublish"
+label: Unpublish
 type: node
 plugin: content_entity_unpublish
 configuration: {  }

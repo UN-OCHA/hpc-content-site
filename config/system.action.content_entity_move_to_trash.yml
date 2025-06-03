@@ -1,3 +1,4 @@
+uuid: 070cf92a-07fd-484c-92c0-b2d002f98763
 langcode: en
 status: true
 dependencies:
@@ -5,7 +6,7 @@ dependencies:
     - node
     - workflows
 id: content_entity_move_to_trash
-label: "Move to trash"
+label: 'Move to trash'
 type: node
 plugin: content_entity_move_to_trash
 configuration: {  }

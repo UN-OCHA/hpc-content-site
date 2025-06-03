@@ -40,4 +40,13 @@ function ncms_ui_views_data_alter(array &$data) {
       'click sortable' => FALSE,
     ],
   ];
+  $data['node']['article_count'] = [
+    'title' => t('Article count'),
+    'help' => t('Shows the number of articles for a document.'),
+    'field' => [
+      'id' => 'article_count_field',
+      'no group by' => TRUE,
+      'click sortable' => TRUE,
+    ],
+  ];
 }

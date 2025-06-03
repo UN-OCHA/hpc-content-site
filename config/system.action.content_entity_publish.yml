@@ -1,3 +1,4 @@
+uuid: 5937b5eb-833d-4a17-9955-5c256c985561
 langcode: en
 status: true
 dependencies:
@@ -5,7 +6,7 @@ dependencies:
     - node
     - workflows
 id: content_entity_publish
-label: "Publish"
+label: Publish
 type: node
 plugin: content_entity_publish
 configuration: {  }

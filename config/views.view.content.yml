@@ -2096,24 +2096,26 @@ display:
           row_class: ''
           default_row_class: true
           columns:
+            node_bulk_form: node_bulk_form
             nid: nid
             title: title
             term_node_tid: term_node_tid
-            article_document: article_document
+            field_documents: field_documents
             latest_version: latest_version
             latest_published_version: latest_published_version
             content_status: content_status
             changed: changed
             operations: operations
-            name: name
-            name_1: name_1
-            name_2: name_2
-            name_3: name_3
           default: changed
           info:
+            node_bulk_form:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             nid:
-              sortable: false
-              default_sort_order: asc
+              sortable: true
+              default_sort_order: desc
               align: ''
               separator: ''
               empty_column: false
@@ -2130,7 +2132,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            article_document:
+            field_documents:
               align: ''
               separator: ''
               empty_column: false
@@ -2158,34 +2160,6 @@ display:
               empty_column: false
               responsive: priority-low
             operations:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            name:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            name_1:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            name_2:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            name_3:
-              sortable: false
-              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -2456,6 +2430,57 @@ display:
             interactive_content_type: '0'
             major_tags: '0'
             story_type: '0'
+        article_count:
+          id: article_count
+          table: node
+          field: article_count
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: article_count_field
+          label: Articles
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          link_to_article_list: 1
         latest_version:
           id: latest_version
           table: node
@@ -2963,23 +2988,26 @@ display:
           row_class: ''
           default_row_class: true
           columns:
+            node_bulk_form: node_bulk_form
             nid: nid
             title: title
-            field_tags: field_tags
+            term_node_tid: term_node_tid
+            article_count: article_count
             latest_version: latest_version
             latest_published_version: latest_published_version
             content_status: content_status
             changed: changed
             operations: operations
-            name: name
-            name_1: name_1
-            name_2: name_2
-            name_3: name_3
           default: changed
           info:
+            node_bulk_form:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             nid:
-              sortable: false
-              default_sort_order: asc
+              sortable: true
+              default_sort_order: desc
               align: ''
               separator: ''
               empty_column: false
@@ -2991,7 +3019,14 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            field_tags:
+            term_node_tid:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            article_count:
+              sortable: true
+              default_sort_order: desc
               align: ''
               separator: ''
               empty_column: false
@@ -3019,34 +3054,6 @@ display:
               empty_column: false
               responsive: priority-low
             operations:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            name:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            name_1:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            name_2:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            name_3:
-              sortable: false
-              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false

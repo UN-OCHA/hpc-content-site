@@ -4,8 +4,8 @@ dependencies:
   module:
     - node
     - workflows
-id: move_to_trash
+id: content_entity_move_to_trash
 label: "Move to trash"
 type: node
-plugin: move_to_trash
+plugin: content_entity_move_to_trash
 configuration: {  }

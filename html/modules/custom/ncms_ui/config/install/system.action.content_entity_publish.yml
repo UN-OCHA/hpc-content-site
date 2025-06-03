@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - workflows
+id: content_entity_publish
+label: "Publish"
+type: node
+plugin: content_entity_publish
+configuration: {  }

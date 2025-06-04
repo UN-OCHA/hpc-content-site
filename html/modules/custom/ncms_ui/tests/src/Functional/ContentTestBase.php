@@ -46,7 +46,15 @@ abstract class ContentTestBase extends BrowserTestBase {
   protected function setup(): void {
     parent::setUp();
 
+    // Create the content structure. The article content type is already
+    // provided by the standard install profile, but we still need to create
+    // the document type, the content spaces and some additional fields, e.g.
+    // paragraphs.
+    $this->setupDocumentStructure();
     $this->setupContentSpaceStructure();
+    $this->addContentSpaceFieldToBundle('article');
+    $this->addContentSpaceFieldToBundle('document');
+
   }
 
   /**

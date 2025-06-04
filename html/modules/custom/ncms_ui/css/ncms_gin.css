@@ -146,3 +146,8 @@ table {
  .ui-dialog .horizontal-tabs ul.horizontal-tabs-list li.horizontal-tab-button a:focus {
   box-shadow: none;
 }
+
+/* Improvements to views */
+.views-exposed-form.views-exposed-form .form-element--type-select[data-drupal-selector="edit-document"] {
+  max-width: unset;
+}

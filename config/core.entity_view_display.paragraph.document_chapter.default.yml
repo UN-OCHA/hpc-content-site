@@ -37,14 +37,6 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
-  field_theme:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 3
-    region: content
   field_title:
     type: string
     label: hidden
@@ -61,4 +53,5 @@ hidden:
   field_month: true
   field_short_title: true
   field_tags: true
+  field_theme: true
   field_year: true

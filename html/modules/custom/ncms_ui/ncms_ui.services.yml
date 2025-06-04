@@ -19,7 +19,7 @@ services:
       - [setDiffLayoutManager, ['@?plugin.manager.diff.layout']]
   ncms_ui.replicate_form_alter:
     class: Drupal\ncms_ui\Form\ReplicateFormAlter
-    arguments: ['@entity_type.manager', '@ncms_ui.content_space.manager']
+    arguments: ['@entity_type.manager', '@ncms_ui.content_space.manager', '@string_translation']
   ncms_ui.route_subscriber:
     class: Drupal\ncms_ui\Routing\RouteSubscriber
     tags:

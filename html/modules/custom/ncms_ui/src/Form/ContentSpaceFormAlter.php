@@ -46,7 +46,7 @@ class ContentSpaceFormAlter {
   }
 
   /**
-   * Alter the replicate confirm form.
+   * Alter the node forms for content space aware nodes.
    */
   public function alterForm(&$form, FormStateInterface $form_state) {
     /** @var \Drupal\Core\Entity\ContentEntityForm $form_object */

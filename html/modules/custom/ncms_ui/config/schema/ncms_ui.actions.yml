@@ -1,0 +1,9 @@
+action.configuration.content_entity_publish:
+  type: action_configuration_default
+  label: 'Publish a content entity'
+action.configuration.content_entity_unpublish:
+  type: action_configuration_default
+  label: 'Unpublish a content entity'
+action.configuration.content_entity_move_to_trash:
+  type: action_configuration_default
+  label: 'Move a content entity to the trash'

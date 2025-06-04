@@ -45,6 +45,7 @@ abstract class ContentTestBaseJavascript extends WebDriverTestBase {
     parent::setUp();
 
     $this->setupContentSpaceStructure();
+    $this->addContentSpaceFieldToBundle('article');
   }
 
   /**

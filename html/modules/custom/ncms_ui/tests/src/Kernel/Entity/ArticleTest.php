@@ -98,6 +98,7 @@ class ArticleTest extends KernelTestBase {
       'vid' => 'content_space',
     ]);
     $this->setupContentSpaceStructure();
+    $this->addContentSpaceFieldToBundle('article');
 
     $content_space = $this->createContentSpace();
     $user = $this->setUpCurrentUser([
@@ -186,6 +187,7 @@ class ArticleTest extends KernelTestBase {
       'vid' => 'content_space',
     ]);
     $this->setupContentSpaceStructure();
+    $this->addContentSpaceFieldToBundle('article');
 
     $content_space = $this->createContentSpace();
     $user = $this->setUpCurrentUser([

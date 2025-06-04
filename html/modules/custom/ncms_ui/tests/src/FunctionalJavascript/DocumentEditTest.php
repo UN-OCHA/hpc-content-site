@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\ncms_ui\FunctionalJavascript;
 
-use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\node\NodeInterface;
 use Drupal\Tests\ncms_ui\Traits\ContentTestTrait;
@@ -52,50 +51,10 @@ class DocumentEditTest extends ContentTestBaseJavascript {
   protected function setUp(): void {
     parent::setUp();
 
+    $this->setupDocumentStructure();
+
     $this->setupContentSpaceStructure();
-
-    // Create document content type with paragraph field.
-    $this->addParagraphedContentType('document');
-
-    $handler_settings = [
-      'target_bundles' => [
-        'team' => 'content_space',
-      ],
-    ];
-    $this->createEntityReferenceField('node', 'document', 'field_content_space', 'Content space', 'taxonomy_term', 'default', $handler_settings);
-    EntityFormDisplay::load('node.document.default')
-      ->setComponent('field_content_space', [
-        'type' => 'options_select',
-        'region' => 'content',
-      ])
-      ->save();
-
-    $this->addParagraphsType('document_chapter');
-    $settings = [
-      'handler' => 'default:node',
-      'handler_settings' => [
-        'target_bundles' => [
-          'article' => 'article',
-        ],
-      ],
-    ];
-    $this->addFieldtoParagraphType('document_chapter', 'field_articles', 'entity_reference', $settings);
-    $settings = [
-      'open' => TRUE,
-      'entity_browser' => 'articles',
-      'field_widget_display' => 'label',
-      'field_widget_edit' => '1',
-      'field_widget_remove' => '1',
-      'selection_mode' => 'selection_append',
-      'additional_fields' => [
-        'options' => [
-          'status' => 'status',
-        ],
-      ],
-      'field_widget_replace' => 0,
-      'field_widget_display_settings' => [],
-    ];
-    $this->setParagraphsWidgetSettings('document_chapter', 'field_articles', $settings, 'entity_browser_entity_reference', 'paragraph');
+    $this->addContentSpaceFieldToBundle('document');
   }
 
   /**

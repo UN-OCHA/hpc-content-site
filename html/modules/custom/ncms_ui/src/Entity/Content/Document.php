@@ -17,14 +17,14 @@ class Document extends ContentBase {
   /**
    * {@inheritdoc}
    */
-  public function getOverviewUrl() {
+  public function getOverviewUrl(): Url {
     return Url::fromUri('base:/admin/content/documents');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function preSave(EntityStorageInterface $storage) {
+  public function preSave(EntityStorageInterface $storage): void {
     parent::preSave($storage);
 
     // Update the article references.
@@ -34,7 +34,7 @@ class Document extends ContentBase {
   /**
    * {@inheritdoc}
    */
-  public function postSave(EntityStorageInterface $storage, $update = TRUE) {
+  public function postSave(EntityStorageInterface $storage, $update = TRUE): void {
     parent::postSave($storage, $update);
 
     // Update the document references of all contained articles.
@@ -54,7 +54,7 @@ class Document extends ContentBase {
    * @return \Drupal\ncms_paragraphs\Entity\Paragraph\DocumentChapter[]
    *   Chapter paragraph objects.
    */
-  public function getChapterParagraphs() {
+  public function getChapterParagraphs(): array {
     if (!$this->hasField('field_paragraphs') || $this->get('field_paragraphs')->isEmpty()) {
       return [];
     }
@@ -66,7 +66,7 @@ class Document extends ContentBase {
   /**
    * Update the article references for this document.
    */
-  public function updateArticleReferences() {
+  public function updateArticleReferences(): void {
     $articles_ids = [];
 
     if (!$this->isDeleted()) {
@@ -81,6 +81,16 @@ class Document extends ContentBase {
     $this->get(self::ARTICLES_FIELD)->setValue(array_map(function ($articles_id) {
       return ['target_id' => $articles_id];
     }, $articles_ids));
+  }
+
+  /**
+   * Get the number of articles for this document.
+   *
+   * @return int
+   *   The number of articles for this document
+   */
+  public function getArticleCount(): int {
+    return $this->get(self::ARTICLES_FIELD)->count();
   }
 
 }

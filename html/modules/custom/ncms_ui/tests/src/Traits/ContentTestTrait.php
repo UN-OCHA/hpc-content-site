@@ -5,9 +5,13 @@ namespace Drupal\Tests\ncms_ui\Traits;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\ncms_ui\Entity\Taxonomy\ContentSpace;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\TermInterface;
 use Drupal\Tests\field\Traits\EntityReferenceFieldCreationTrait;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\Tests\paragraphs\FunctionalJavascript\ParagraphsTestBaseTrait;
@@ -25,6 +29,54 @@ trait ContentTestTrait {
   use TaxonomyTestTrait;
 
   /**
+   * Setup the content structure for documents.
+   */
+  protected function setupDocumentStructure(): void {
+    // Create the necessary content structure for documents.
+    $this->addParagraphedContentType('document');
+
+    $this->addParagraphsType('document_chapter');
+    $settings = [
+      'target_type' => 'node',
+    ];
+    $this->addFieldtoParagraphType('document_chapter', 'field_articles', 'entity_reference', $settings);
+    $storage = FieldStorageConfig::loadByName('paragraph', 'field_articles');
+    $storage->setCardinality(FieldStorageConfig::CARDINALITY_UNLIMITED);
+    $storage->save();
+
+    $settings = [
+      'open' => TRUE,
+      'entity_browser' => 'articles',
+      'field_widget_display' => 'label',
+      'field_widget_edit' => '1',
+      'field_widget_remove' => '1',
+      'selection_mode' => 'selection_append',
+      'additional_fields' => [
+        'options' => [
+          'status' => 'status',
+        ],
+      ],
+      'field_widget_replace' => 0,
+      'field_widget_display_settings' => [],
+    ];
+    $this->setParagraphsWidgetSettings('document_chapter', 'field_articles', $settings, 'entity_browser_entity_reference', 'paragraph');
+
+    $handler_settings = [
+      'target_bundles' => [
+        'article' => 'article',
+      ],
+    ];
+    $this->createEntityReferenceField('node', 'document', 'field_articles', 'Articles', 'node', 'default', $handler_settings);
+
+    $handler_settings = [
+      'target_bundles' => [
+        'document' => 'document',
+      ],
+    ];
+    $this->createEntityReferenceField('node', 'article', 'field_documents', 'Documents', 'node', 'default', $handler_settings);
+  }
+
+  /**
    * Setup the content types.
    */
   protected function setupContentSpaceStructure() {
@@ -35,24 +87,6 @@ trait ContentTestTrait {
     ];
     $this->createEntityReferenceField('taxonomy_term', 'content_space', 'field_major_tags', 'Tags', 'taxonomy_term', 'default', $handler_settings);
 
-    $handler_settings = [
-      'target_bundles' => [
-        'content_space' => 'content_space',
-      ],
-    ];
-    $this->createEntityReferenceField('node', 'article', 'field_content_space', 'Content space', 'taxonomy_term', 'default', $handler_settings);
-    EntityFormDisplay::load('node.article.default')
-      ->setComponent('field_content_space', [
-        'type' => 'options_select',
-        'region' => 'content',
-      ])
-      ->save();
-
-    $handler_settings = [
-      'target_bundles' => [
-        'content_space' => 'content_space',
-      ],
-    ];
     $this->createEntityReferenceField('user', 'user', 'field_content_spaces', 'Content spaces', 'taxonomy_term', 'default', $handler_settings, FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
 
     // Make content be replicatable.
@@ -66,12 +100,39 @@ trait ContentTestTrait {
   }
 
   /**
+   * Add a content space reference field to the given node bundle.
+   *
+   * @param string $bundle
+   *   The node bundle to which the field should be added.
+   */
+  protected function addContentSpaceFieldToBundle($bundle): void {
+    $handler_settings = [
+      'target_bundles' => [
+        'content_space' => 'content_space',
+      ],
+    ];
+    $this->createEntityReferenceField('node', $bundle, 'field_content_space', 'Content space', 'taxonomy_term', 'default', $handler_settings);
+    EntityFormDisplay::load('node.' . $bundle . '.default')
+      ->setComponent('field_content_space', [
+        'type' => 'options_select',
+        'region' => 'content',
+      ])
+      ->save();
+
+    $handler_settings = [
+      'target_bundles' => [
+        'content_space' => 'content_space',
+      ],
+    ];
+  }
+
+  /**
    * Create a major tag term.
    *
    * @return \Drupal\taxonomy\TermInterface
    *   The created term object.
    */
-  protected function createMajorTag() {
+  protected function createMajorTag(): TermInterface {
     $term = Term::create([
       'name' => $this->randomMachineName(),
       'vid' => 'major_tags',
@@ -86,7 +147,7 @@ trait ContentTestTrait {
    * @return \Drupal\taxonomy\TermInterface
    *   The created term object.
    */
-  protected function createContentSpace() {
+  protected function createContentSpace(): TermInterface {
     $tag = $this->createMajorTag();
     $term = Term::create([
       'name' => $this->randomMachineName(),
@@ -95,6 +156,34 @@ trait ContentTestTrait {
     ]);
     $term->save();
     return $term;
+  }
+
+  /**
+   * Create a document in the given content space.
+   *
+   * @param string $title
+   *   The title of the node.
+   * @param int $content_space_id
+   *   The id of the content space.
+   * @param int $status
+   *   The published status of the document.
+   *
+   * @return \Drupal\node\NodeInterface
+   *   The created node object.
+   */
+  protected function createDocumentInContentSpace($title, $content_space_id, $status = NodeInterface::PUBLISHED): NodeInterface {
+    $node = Node::create([
+      'type' => 'document',
+      'title' => $title,
+      'field_content_space' => ['target_id' => $content_space_id],
+      'status' => $status,
+      'moderation_state' => [
+        'value' => $status == NodeInterface::PUBLISHED ? 'published' : 'draft',
+      ],
+    ]);
+    $result = $node->save();
+    $this->assertEquals($result, SAVED_NEW);
+    return $node;
   }
 
   /**
@@ -110,7 +199,7 @@ trait ContentTestTrait {
    * @return \Drupal\node\NodeInterface
    *   The created node object.
    */
-  protected function createArticleInContentSpace($title, $content_space_id, $status = NodeInterface::PUBLISHED) {
+  protected function createArticleInContentSpace($title, $content_space_id, $status = NodeInterface::PUBLISHED): NodeInterface {
     $node = Node::create([
       'type' => 'article',
       'title' => $title,
@@ -123,6 +212,31 @@ trait ContentTestTrait {
     $result = $node->save();
     $this->assertEquals($result, SAVED_NEW);
     return $node;
+  }
+
+  /**
+   * Create a chapter paragraph.
+   *
+   * @param \Drupal\ncms_ui\Entity\Content\Articles[] $articles
+   *   An array of articles to add to the chapter.
+   * @param \Drupal\node\NodeInterface $parent_entity
+   *   The entity to attach the chapter paragraph to.
+   * @param string $parent_field_name
+   *   The name of the field.
+   */
+  protected function createChapter($articles = [], $parent_entity = NULL, $parent_field_name = 'field_paragraphs'): void {
+    $chapter = Paragraph::create([
+      'type' => 'document_chapter',
+      'field_articles' => $articles,
+    ]);
+    $chapter->save();
+    if ($parent_entity !== NULL) {
+      // Add the chapter to the document.
+      $parent_entity->get('field_paragraphs')->setValue([$chapter]);
+      $parent_entity->save();
+      $chapter->setParentEntity($parent_entity, $parent_field_name);
+    }
+    $chapter->save();
   }
 
   /**
@@ -166,7 +280,7 @@ trait ContentTestTrait {
    * @param \Drupal\ncms_ui\Entity\Taxonomy\ContentSpace $content_space
    *   The content space to activate.
    */
-  protected function setContentSpace($content_space) {
+  protected function setContentSpace($content_space): void {
     /** @var \Drupal\ncms_ui\ContentSpaceManager $content_manager */
     $content_manager = $this->container->get('ncms_ui.content_space.manager');
     $content_manager->setCurrentContentSpaceId($content_space->id());
@@ -182,7 +296,7 @@ trait ContentTestTrait {
    * @return \Drupal\ncms_ui\Entity\Taxonomy\ContentSpace
    *   The content space to activate.
    */
-  protected function getContentSpace() {
+  protected function getContentSpace(): ContentSpace {
     /** @var \Drupal\ncms_ui\ContentSpaceManager $content_manager */
     $content_manager = $this->container->get('ncms_ui.content_space.manager');
     return $content_manager->getCurrentContentSpace();
@@ -194,7 +308,7 @@ trait ContentTestTrait {
    * @return \Drupal\workflows\Entity\Workflow
    *   The editorial workflow entity.
    */
-  protected function createArticleWorkflow() {
+  protected function createArticleWorkflow(): Workflow {
     $workflow = Workflow::create([
       'type' => 'content_moderation',
       'id' => 'article_workflow',

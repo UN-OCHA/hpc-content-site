@@ -14,14 +14,14 @@ class Article extends ContentBase {
   /**
    * {@inheritdoc}
    */
-  public function getOverviewUrl() {
+  public function getOverviewUrl(): Url {
     return Url::fromUri('base:/admin/content');
   }
 
   /**
    * Update the document references for this article.
    */
-  public function updateDocumentReferences() {
+  public function updateDocumentReferences(): void {
     $document_ids = [];
 
     if (!$this->isDeleted()) {
@@ -41,7 +41,7 @@ class Article extends ContentBase {
    * @return \Drupal\ncms_ui\Entity\Content\Document[]
    *   The documents that the article belongs to.
    */
-  public function getDocuments() {
+  public function getDocuments(): array {
     /** @var \Drupal\paragraphs\Entity\Paragraph[] $article_paragraphs */
     $article_paragraphs = $this->entityTypeManager()->getStorage('paragraph')->loadByProperties([
       'type' => ['article', 'document_chapter'],

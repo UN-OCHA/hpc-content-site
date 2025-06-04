@@ -1,12 +1,12 @@
-uuid: 4a4a642a-35e2-4337-8b27-208cc9d20522
+uuid: 305c356d-31ed-4c6b-82d4-93b4949a911c
 langcode: en
 status: false
 dependencies:
   module:
-    - field_group
-id: core_requirements_field_group
-label: 'Module field_group'
-description: 'Requirements of the field_group module'
+    - user
+id: core_requirements_user
+label: 'Module user'
+description: 'Requirements of the user module'
 category: Requirements
 plugin_id: core_requirements
 result_class: null
@@ -14,7 +14,7 @@ value_label: null
 value_type: no_value
 caching_time: 3600
 settings:
-  module: field_group
+  module: user
   exclude_keys: {  }
 thresholds:
   type: none

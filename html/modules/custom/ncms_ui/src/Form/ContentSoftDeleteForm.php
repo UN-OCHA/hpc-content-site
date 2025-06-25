@@ -7,6 +7,7 @@ use Drupal\Core\Ajax\CloseModalDialogCommand;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Drupal\media\Entity\Media;
 use Drupal\ncms_ui\Ajax\ReloadPageCommand;
 use Drupal\ncms_ui\Entity\ContentInterface;
 
@@ -26,10 +27,7 @@ class ContentSoftDeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
-    $entity = $this->getNodeFromRouteMatch();
-    return $this->t('This will remove this @type, including already published versions, from public display anywhere. Are you sure?', [
-      '@type' => strtolower($entity->type->entity->label()),
-    ]);
+    return $this->t('This will remove it, including already published versions, from public display anywhere. Are you sure?');
   }
 
   /**
@@ -100,8 +98,7 @@ class ContentSoftDeleteForm extends ConfirmFormBase {
     $entity->save();
 
     // And inform the user.
-    $this->messenger()->addStatus($this->t('@type %title has been moved to the trash bin.', [
-      '@type' => $entity->type->entity->label(),
+    $this->messenger()->addStatus($this->t('%title has been moved to the trash bin.', [
       '%title' => $entity->label(),
     ]));
 
@@ -111,12 +108,20 @@ class ContentSoftDeleteForm extends ConfirmFormBase {
   /**
    * Get the current entity from the route match.
    *
-   * @return \Drupal\ncms_ui\Entity\ContentInterface|null
+   * @return \Drupal\media\Entity\Media|\Drupal\ncms_ui\Entity\ContentInterface|null
    *   The entity or NULL.
    */
   private function getNodeFromRouteMatch() {
-    $entity = $this->getRouteMatch()->getParameter('node');
-    return $entity && $entity instanceof ContentInterface ? $entity : NULL;
+    $entity = NULL;
+    if ($this->getRouteMatch()->getParameter('node')) {
+      return $entity instanceof ContentInterface ? $entity : NULL;
+    }
+    elseif ($this->getRouteMatch()->getParameter('media')) {
+      $entity = $this->getRouteMatch()->getParameter('media');
+      return $entity instanceof Media ? $entity : NULL;
+    }
+
+    return NULL;
   }
 
 }

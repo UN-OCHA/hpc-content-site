@@ -7,8 +7,10 @@ use Drupal\Core\Ajax\CloseModalDialogCommand;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Drupal\media\Entity\Media;
 use Drupal\ncms_ui\Ajax\ReloadPageCommand;
 use Drupal\ncms_ui\Entity\ContentInterface;
+use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -43,10 +45,7 @@ class ContentRestoreForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
-    $entity = $this->getNodeFromRouteMatch();
-    return $this->t('This will restore this @type and make it automatically publicly available again if there are any published versions. Are you sure?', [
-      '@type' => strtolower($entity->type->entity->label()),
-    ]);
+    return $this->t('This will restore it and make it automatically publicly available again if there are any published versions. Are you sure?');
   }
 
   /**
@@ -117,6 +116,12 @@ class ContentRestoreForm extends ConfirmFormBase {
     $entity = $this->getNodeFromRouteMatch();
 
     /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
+    if ($entity instanceof Node) {
+      $node_storage = $this->entityTypeManager->getStorage('node');
+    }
+    elseif ($entity instanceof Media) {
+      $node_storage = $this->entityTypeManager->getStorage('media');
+    }
     $node_storage = $this->entityTypeManager->getStorage('node');
     $node_storage->deleteLatestRevision($entity);
 

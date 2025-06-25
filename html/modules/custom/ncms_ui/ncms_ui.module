@@ -18,6 +18,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
+use Drupal\media\Entity\Media;
 use Drupal\media\MediaInterface;
 use Drupal\ncms_ui\ContentSpaceManager;
 use Drupal\ncms_ui\Controller\ViewController;
@@ -102,7 +103,7 @@ function ncms_ui_entity_base_field_info_alter(&$fields, $entity_type) {
  */
 function ncms_ui_entity_operation(EntityInterface $entity) {
   $operations = [];
-  if ($entity instanceof ContentInterface) {
+  if ($entity instanceof ContentInterface || $entity instanceof Media) {
     $operations = $entity->getEntityOperations();
   }
   return $operations;

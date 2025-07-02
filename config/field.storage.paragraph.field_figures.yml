@@ -38,6 +38,10 @@ settings:
       size: normal
       datetime_type: datetime
       max_length: '255'
+    emphasis:
+      name: emphasis
+      type: string
+      length: 20
 module: custom_field
 locked: false
 cardinality: -1

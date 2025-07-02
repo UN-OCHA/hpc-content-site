@@ -11,8 +11,14 @@
  * @ingroup themeable
  */
 #}
+{%
+  set classes = [
+    'gho-figures',
+    'gho-figures--small',
+  ]
+%}
 {% if figures %}
-<div{{ attributes.addClass(['gho-figures', 'gho-figures--small']) }}>
+<div{{ attributes.addClass(classes) }}>
 {% for figure in figures %}
   <div class="gho-figure">
     <div class="gho-figure__label">{{ figure.label }}</div>

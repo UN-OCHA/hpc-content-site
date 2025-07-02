@@ -7,6 +7,7 @@ use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Template\Attribute;
 use Drupal\custom_field\Plugin\Field\FieldType\CustomItem;
+use Drupal\ncms_paragraphs\Entity\Paragraph\TopFigures;
 
 /**
  * Plugin implementations for 'gho_figures' formatter.
@@ -64,6 +65,7 @@ class GhoFiguresFormatter extends FormatterBase {
    */
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $element = [];
+    $format = $this->getSetting('format') ?? 'large';
 
     $figures = [];
     foreach ($items as $delta => $item) {
@@ -77,12 +79,12 @@ class GhoFiguresFormatter extends FormatterBase {
           'label' => $label,
           'value' => $value,
           'footnote' => trim($item->footnote ?? ''),
+          'emphasis' => $item->emphasis ?? TopFigures::EMPHASIS_OPTION_NORMAL,
         ];
       }
     }
 
     if (!empty($figures)) {
-      $format = $this->getSetting('format') ?? 'large';
       $element['#theme'] = 'gho_figures_formatter__' . $format;
       $element['#figures'] = $figures;
       $element['#format'] = $format;

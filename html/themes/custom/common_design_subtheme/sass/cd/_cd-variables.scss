@@ -119,7 +119,7 @@ $zindex: (
 // Implementation colours
 //——————————————————————————————————————————————————————————————————————————————
 $un-blue: #3a90d2;
-$gho-link-color: #5090cd;
+$gho-link-color: $cd-default-text-color;
 $implementation-primary: var(--cd-implementation-primary);
 $implementation-primary-dark: $cd-ocha-blue;
 $implementation-secondary: var(--cd-implementation-secondary);

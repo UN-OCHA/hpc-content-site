@@ -1,0 +1,11 @@
+.cd-button {
+  padding: 0.8rem 1.5rem;
+  color: var(--cd-default-text-color) !important;
+  background-color: var(--ha-primary-button-color);
+  font-size: var(--cd-font-size--small);
+
+  &:hover,
+  &:focus {
+    background-color: var(--ha-primary-button-color-hover);
+  }
+}

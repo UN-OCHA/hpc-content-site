@@ -6,3 +6,4 @@ package: gho
 dependencies:
   - drupal:link
   - custom_field:custom_field
+  - ncms_paragraphs:ncms_paragraphs

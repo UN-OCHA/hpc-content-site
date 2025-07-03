@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Update functions for the GHO Fields module.
+ */
+
+/**
+ * Add column 'emphasis' to 'field_figures' on 'paragraph'.
+ */
+function gho_fields_update_10000() {
+  \Drupal::service('custom_field.update_manager')->addColumn(
+    'paragraph',
+    'field_figures',
+    'emphasis',
+    'string',
+    [
+      'length' => 20,
+    ]
+  );
+}

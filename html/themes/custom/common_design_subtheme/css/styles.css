@@ -1,11 +1,15 @@
-.cd-button {
+.cd-button:not(.login-link) {
   padding: 0.8rem 1.5rem;
   color: var(--cd-default-text-color) !important;
   background-color: var(--ha-primary-button-color);
   font-size: var(--cd-font-size--small);
 }
-.cd-button:hover, .cd-button:focus {
+.cd-button:not(.login-link):hover, .cd-button:not(.login-link):focus {
   background-color: var(--ha-primary-button-color-hover);
+}
+
+.cd-button.login-link {
+  margin-top: 1rem;
 }
 
 body {

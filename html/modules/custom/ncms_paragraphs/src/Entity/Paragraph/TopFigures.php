@@ -13,8 +13,8 @@ use Drupal\ncms_paragraphs\Entity\NcmsParagraphBase;
 class TopFigures extends NcmsParagraphBase {
 
   const EMPHASIS_OPTION_NORMAL = 'normal';
-  const EMPHASIS_OPTION_NONE = 'none';
-  const EMPHASIS_OPTION_HIGHLIGHT = 'highlight';
+  const EMPHASIS_OPTION_NEEDS_RELATED = 'needs_related';
+  const EMPHASIS_OPTION_EMPHASIZED = 'emphasized';
   const USE_EMPHASIS = TRUE;
 
   /**
@@ -51,9 +51,9 @@ class TopFigures extends NcmsParagraphBase {
           $select = [
             '#type' => 'select',
             '#options' => [
-              self::EMPHASIS_OPTION_NORMAL => $this->t('Normal (Blue)'),
-              self::EMPHASIS_OPTION_NONE => $this->t('De-emphasized (Grey)'),
-              self::EMPHASIS_OPTION_HIGHLIGHT => $this->t('Highlighted (Red)'),
+              self::EMPHASIS_OPTION_NORMAL => $this->t('Normal (Grey)'),
+              self::EMPHASIS_OPTION_NEEDS_RELATED => $this->t('Needs related (Blue)'),
+              self::EMPHASIS_OPTION_EMPHASIZED => $this->t('Emphasized (Red)'),
             ],
             '#size' => 0,
           ];

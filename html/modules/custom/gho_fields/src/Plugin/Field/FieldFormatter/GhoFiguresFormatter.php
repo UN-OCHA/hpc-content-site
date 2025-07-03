@@ -2,6 +2,7 @@
 
 namespace Drupal\gho_fields\Plugin\Field\FieldFormatter;
 
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -79,7 +80,7 @@ class GhoFiguresFormatter extends FormatterBase {
           'label' => $label,
           'value' => $value,
           'footnote' => trim($item->footnote ?? ''),
-          'emphasis' => $item->emphasis ?? TopFigures::EMPHASIS_OPTION_NORMAL,
+          'emphasis' => Html::getClass($item->emphasis ?? TopFigures::EMPHASIS_OPTION_NORMAL),
         ];
       }
     }

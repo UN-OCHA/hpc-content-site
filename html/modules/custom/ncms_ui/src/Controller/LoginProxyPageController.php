@@ -36,7 +36,14 @@ class LoginProxyPageController extends ControllerBase {
     ];
 
     $route_name = 'user.login';
-    $options = [];
+    $options = [
+      'attributes' => [
+        'class' => [
+          'login-link',
+          'cd-button',
+        ],
+      ],
+    ];
 
     $destination = $this->getRedirectDestination()->get();
     if ($destination) {

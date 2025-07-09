@@ -26,13 +26,15 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
+  add_more_label: ''
   field_settings:
     label:
       type: text
-      weight: 0
+      weight: -10
       check_empty: false
       widget_settings:
         label: Label
+        translatable: false
         settings:
           description: ''
           description_display: after
@@ -45,10 +47,11 @@ settings:
           required: false
     value:
       type: text
-      weight: 0
+      weight: -9
       check_empty: false
       widget_settings:
         label: Value
+        translatable: false
         settings:
           description: ''
           description_display: after
@@ -59,12 +62,30 @@ settings:
           prefix: ''
           suffix: ''
           required: false
+    emphasis:
+      type: text
+      weight: -8
+      check_empty: false
+      widget_settings:
+        label: Emphasis
+        translatable: false
+        settings:
+          description: ''
+          description_display: after
+          size: 20
+          placeholder: ''
+          maxlength: 20
+          maxlength_js: false
+          prefix: ''
+          suffix: ''
+          required: false
     footnote:
       type: text
-      weight: 0
+      weight: -7
       check_empty: false
       widget_settings:
         label: Footnote
+        translatable: false
         settings:
           description: ''
           description_display: after

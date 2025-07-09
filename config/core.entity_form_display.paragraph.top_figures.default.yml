@@ -81,6 +81,7 @@ content:
       columns:
         label: auto
         value: auto
+        emphasis: auto
         footnote: auto
       breakpoint: ''
     third_party_settings: {  }

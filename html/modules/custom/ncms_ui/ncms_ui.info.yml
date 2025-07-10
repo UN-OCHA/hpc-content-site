@@ -10,6 +10,8 @@ dependencies:
   - replicate_actions:replicate_actions
   - diff:diff
   - views:views
+  - drupal:node
+  - drupal:media
   - drupal:content_moderation
   - entity_browser_table:entity_browser_table
   - paragraphs:paragraphs

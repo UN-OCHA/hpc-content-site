@@ -1,12 +1,12 @@
-uuid: b7766cef-1097-4f1e-a84c-74d54da84fe3
+uuid: 0489fd2b-52cd-42ab-97ab-3b9f17ab830c
 langcode: en
 status: true
 dependencies:
   module:
-    - node
+    - media
     - workflows
-id: content_entity_unpublish
+id: media_entity_unpublish
 label: Unpublish
-type: node
+type: media
 plugin: entity_unpublish
 configuration: {  }

@@ -2,10 +2,10 @@ langcode: en
 status: true
 dependencies:
   module:
-    - node
+    - media
     - workflows
-id: content_entity_publish
+id: media_entity_publish
 label: "Publish"
-type: node
+type: media
 plugin: entity_publish
 configuration: {  }

@@ -121,7 +121,6 @@ trait ModeratedEntityTrait {
   public function getLastPublishedRevision() {
     $storage = $this->getEntityStorage();
     $revision_ids = array_reverse($storage->revisionIds($this));
-
     $revisions = $storage->loadMultipleRevisions($revision_ids);
     foreach ($revisions as $revision) {
       if (!$revision instanceof EntityPublishedInterface || !$revision->isPublished()) {

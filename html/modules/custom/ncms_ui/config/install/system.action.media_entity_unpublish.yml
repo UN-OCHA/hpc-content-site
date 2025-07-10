@@ -2,10 +2,10 @@ langcode: en
 status: true
 dependencies:
   module:
-    - node
+    - media
     - workflows
-id: content_entity_unpublish
+id: media_entity_unpublish
 label: "Unpublish"
-type: node
+type: media
 plugin: entity_unpublish
 configuration: {  }

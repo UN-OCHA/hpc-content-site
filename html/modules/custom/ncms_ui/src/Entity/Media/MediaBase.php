@@ -208,14 +208,4 @@ abstract class MediaBase extends Media implements MediaInterface {
     $this->setModerationState('trash');
   }
 
-  /**
-   * Get the route match service.
-   *
-   * @return \Drupal\Core\Routing\RouteMatchInterface
-   *   The route match service.
-   */
-  public static function getRouteMatch() {
-    return \Drupal::routeMatch();
-  }
-
 }

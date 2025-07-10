@@ -6,33 +6,30 @@ use Drupal\Core\Action\Attribute\Action;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\ncms_ui\Entity\ContentInterface;
-use Drupal\node\NodeInterface;
+use Drupal\ncms_ui\Entity\BaseEntityInterface;
 
 /**
- * Custom action to publish a content entity.
+ * Custom action to publish an entity.
  */
 #[Action(
-  id: 'content_entity_publish',
+  id: 'entity_publish',
   label: new TranslatableMarkup('Publish'),
-  type: 'node'
 )]
 class Publish extends ContentActionBase implements ContainerFactoryPluginInterface {
 
   /**
    * {@inheritdoc}
    */
-  public function execute($node = NULL) {
-    if (!$node instanceof NodeInterface || !$node instanceof ContentInterface) {
+  public function execute($entity = NULL) {
+    if (!$entity instanceof BaseEntityInterface) {
       return;
     }
 
     // Entity has not been changed, so we simply update the current
     // revision to published.
-    /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
-    $node_storage = $this->entityTypeManager->getStorage('node');
-    $node_storage->updateRevisionStatus($node, NodeInterface::PUBLISHED);
-    Cache::invalidateTags($node->getCacheTags());
+    $storage = $entity->getEntityStorage();
+    $storage->updateRevisionStatus($entity, 1);
+    Cache::invalidateTags($entity->getCacheTags());
   }
 
 }

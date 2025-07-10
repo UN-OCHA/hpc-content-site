@@ -6,7 +6,9 @@ dependencies:
     - core.entity_view_mode.media.media_library
     - image.style.media_library
     - image.style.thumbnail
+    - workflows.workflow.article_workflow
   module:
+    - content_moderation
     - image
     - media
     - media_library
@@ -549,8 +551,11 @@ display:
           empty_zero: false
           hide_alter_empty: true
           action_title: Action
-          include_exclude: exclude
-          selected_actions: {  }
+          include_exclude: include
+          selected_actions:
+            - media_entity_move_to_trash
+            - media_entity_publish
+            - media_entity_unpublish
         name:
           id: name
           table: media_field_data
@@ -910,17 +915,18 @@ display:
               1: {  }
               2: {  }
               3: {  }
-        status_extra:
-          id: status_extra
+        moderation_state:
+          id: moderation_state
           table: media_field_data
-          field: status_extra
+          field: moderation_state
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: media
-          plugin_id: media_status
-          operator: '='
-          value: ''
+          plugin_id: moderation_state_filter
+          operator: 'not in'
+          value:
+            article_workflow-trash: article_workflow-trash
           group: 1
           exposed: false
           expose:
@@ -937,6 +943,7 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
+            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -968,9 +975,9 @@ display:
         - url
         - url.query_args
         - 'url.query_args:sort_by'
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:workflow_list'
   page_table:
     id: page_table
     display_title: Table
@@ -1030,10 +1037,11 @@ display:
           empty_zero: false
           hide_alter_empty: true
           action_title: Action
-          include_exclude: exclude
+          include_exclude: include
           selected_actions:
-            - media_publish_action
-            - media_unpublish_action
+            - media_entity_move_to_trash
+            - media_entity_publish
+            - media_entity_unpublish
         thumbnail__target_id:
           id: thumbnail__target_id
           table: media_field_data
@@ -1364,17 +1372,17 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        changed:
-          id: changed
+        created:
+          id: created
           table: media_field_data
-          field: changed
+          field: created
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: media
-          entity_field: changed
+          entity_field: created
           plugin_id: field
-          label: Updated
+          label: Uploaded
           exclude: false
           alter:
             alter_text: false
@@ -1418,11 +1426,11 @@ display:
           click_sort_column: value
           type: timestamp
           settings:
-            date_format: medium
+            date_format: short
             custom_date_format: ''
             timezone: ''
             tooltip:
-              date_format: long
+              date_format: ''
               custom_date_format: ''
             time_diff:
               enabled: false
@@ -1629,17 +1637,18 @@ display:
               1: {  }
               2: {  }
               3: {  }
-        status_extra:
-          id: status_extra
+        moderation_state:
+          id: moderation_state
           table: media_field_data
-          field: status_extra
+          field: moderation_state
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: media
-          plugin_id: media_status
-          operator: '='
-          value: ''
+          plugin_id: moderation_state_filter
+          operator: 'not in'
+          value:
+            article_workflow-trash: article_workflow-trash
           group: 1
           exposed: false
           expose:
@@ -1656,6 +1665,7 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
+            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -1749,9 +1759,9 @@ display:
         - url
         - url.query_args
         - 'url.query_args:sort_by'
-        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:workflow_list'
   widget:
     id: widget
     display_title: Widget
@@ -2028,6 +2038,47 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        moderation_state:
+          id: moderation_state
+          table: media_field_data
+          field: moderation_state
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: media
+          plugin_id: moderation_state_filter
+          operator: 'not in'
+          value:
+            article_workflow-trash: article_workflow-trash
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -2070,7 +2121,8 @@ display:
         - url.query_args
         - 'url.query_args:sort_by'
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:workflow_list'
   widget_table:
     id: widget_table
     display_title: 'Widget (table)'
@@ -2318,6 +2370,47 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        moderation_state:
+          id: moderation_state
+          table: media_field_data
+          field: moderation_state
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: media
+          plugin_id: moderation_state_filter
+          operator: 'not in'
+          value:
+            article_workflow-trash: article_workflow-trash
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -2368,4 +2461,5 @@ display:
         - url.query_args
         - 'url.query_args:sort_by'
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:workflow_list'

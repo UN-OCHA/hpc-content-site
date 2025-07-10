@@ -45,7 +45,7 @@ class MediaStorage extends BaseMediaStorage implements ModeratedEntityStorageInt
       return FALSE;
     }
 
-    if ($status === TRUE && !$entity->isPublished()) {
+    if ($status == 1 && !$entity->isPublished()) {
       $this->database
         ->update($this->dataTable)
         ->fields((array) [
@@ -56,7 +56,7 @@ class MediaStorage extends BaseMediaStorage implements ModeratedEntityStorageInt
     }
 
     $last_published = $entity->getLastPublishedRevision();
-    if ($status === FALSE && !$last_published) {
+    if ($status == 0 && !$last_published) {
       $this->database
         ->update($this->dataTable)
         ->fields((array) [
@@ -67,7 +67,7 @@ class MediaStorage extends BaseMediaStorage implements ModeratedEntityStorageInt
     }
 
     if ($update_moderation_state) {
-      if ($status === FALSE) {
+      if ($status == 0) {
         $entity->set('moderation_state', 'draft');
         $entity->setNewRevision(FALSE);
         $entity->setSyncing(TRUE);

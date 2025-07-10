@@ -28,7 +28,9 @@ class ArticleTest extends KernelTestBase {
     'system',
     'field',
     'user',
+    'image',
     'node',
+    'media',
     'taxonomy',
     'text',
     'views',
@@ -52,13 +54,16 @@ class ArticleTest extends KernelTestBase {
     $this->installEntitySchema('content_moderation_state');
     $this->installEntitySchema('user');
     $this->installEntitySchema('node');
+    $this->installEntitySchema('media');
     $this->installEntitySchema('taxonomy_term');
     $this->installEntitySchema('workflow');
     $this->installConfig(['replicate_ui']);
     $this->installConfig([
       'field',
       'system',
+      'image',
       'node',
+      'media',
       'taxonomy',
       'content_moderation',
       'ncms_ui',

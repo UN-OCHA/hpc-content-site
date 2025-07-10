@@ -2,10 +2,10 @@ langcode: en
 status: true
 dependencies:
   module:
-    - node
+    - media
     - workflows
-id: content_entity_move_to_trash
+id: media_entity_move_to_trash
 label: "Move to trash"
-type: node
+type: media
 plugin: entity_move_to_trash
 configuration: {  }

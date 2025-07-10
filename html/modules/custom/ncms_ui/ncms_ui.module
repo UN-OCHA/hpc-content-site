@@ -236,7 +236,7 @@ function ncms_ui_entity_view_alter(array &$build, EntityInterface $entity, Entit
   if ($build['#view_mode'] === 'full' && $display->getComponent('workflow_buttons')) {
     unset($build['workflow_buttons']);
   }
-  if ($build['#view_mode'] === 'full' && $display->getComponent('content_moderation_control')) {
+  if (in_array($build['#view_mode'], ['full', 'media_library']) && $display->getComponent('content_moderation_control')) {
     unset($build['content_moderation_control']);
   }
 }

@@ -33,7 +33,9 @@ class DocumentTest extends KernelTestBase {
     'file',
     'text',
     'user',
+    'image',
     'node',
+    'media',
     'paragraphs',
     'views',
     'ncms_publisher',
@@ -51,6 +53,7 @@ class DocumentTest extends KernelTestBase {
     $this->installSchema('node', 'node_access');
     $this->installSchema('user', 'users_data');
     $this->installEntitySchema('node');
+    $this->installEntitySchema('media');
     $this->installEntitySchema('user');
     $this->installEntitySchema('paragraph');
     $this->installConfig([
@@ -58,7 +61,9 @@ class DocumentTest extends KernelTestBase {
       'field',
       'file',
       'user',
+      'image',
       'node',
+      'media',
       'text',
       'paragraphs',
       'ncms_paragraphs',

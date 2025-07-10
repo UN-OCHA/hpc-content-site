@@ -1,0 +1,16 @@
+ncms_ui.trash:
+  title: Trash bin
+  route_name: view.trash_nodes.page_trash
+  base_route: system.admin_content
+  weight: 99
+
+ncms_ui.trash.content:
+  title: 'Content'
+  parent_id: ncms_ui.trash
+  route_name: view.trash_nodes.page_trash
+  weight: 10
+ncms_ui.trash.media:
+  title: 'Media'
+  parent_id: ncms_ui.trash
+  route_name: view.trash_media.page_trash
+  weight: 20

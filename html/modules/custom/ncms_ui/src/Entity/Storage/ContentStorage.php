@@ -7,6 +7,7 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\ncms_ui\Entity\BaseEntityInterface;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\node\NodeInterface;
 use Drupal\node\NodeStorage;
@@ -17,22 +18,12 @@ use Drupal\node\NodeStorage;
  * This extends the base NodeStorage class, adding required special handling
  * for revisions.
  */
-class ContentStorage extends NodeStorage {
+class ContentStorage extends NodeStorage implements ModeratedEntityStorageInterface {
 
   /**
-   * Update the status for an entity revision.
-   *
-   * @param \Drupal\ncms_ui\Entity\ContentInterface $entity
-   *   The entity object.
-   * @param int $status
-   *   The status of the revision.
-   * @param bool $update_moderation_state
-   *   Whether to also update the moderation state.
-   *
-   * @return int
-   *   The revision id.
+   * {@inheritdoc}
    */
-  public function updateRevisionStatus(ContentInterface $entity, $status, $update_moderation_state = TRUE) {
+  public function updateRevisionStatus(BaseEntityInterface $entity, $status, $update_moderation_state = TRUE) {
     if ($entity->isNewRevision()) {
       throw new EntityStorageException("Can't update new revision {$entity->id()}");
     }
@@ -144,23 +135,13 @@ class ContentStorage extends NodeStorage {
   }
 
   /**
-   * Safely delete the latest revision.
-   *
-   * This will take care of setting new default revisions, and also update
-   * related content moderation entities.
-   *
-   * @param \Drupal\node\NodeInterface $node
-   *   The node for which the latest revision should be deleted.
+   * {@inheritdoc}
    */
-  public function deleteLatestRevision($node) {
-    if (!$node instanceof ContentInterface) {
-      return;
-    }
-    /** @var \Drupal\ncms_ui\Entity\ContentInterface $entity */
-    $entity = $node->getLatestRevision();
+  public function deleteLatestRevision(BaseEntityInterface $entity) {
+    $revision = $entity->getLatestRevision();
 
     // First we need to set the previous revision to be the default one.
-    $new_default_revision = $entity->getPreviousRevision();
+    $new_default_revision = $revision->getPreviousRevision();
     if (!$new_default_revision) {
       // If there is no previous revision, there is no sense in going further.
       return;
@@ -168,7 +149,7 @@ class ContentStorage extends NodeStorage {
 
     // Get the last published revision only if the previous revision is not in
     // the trash bin.
-    $last_published = !$new_default_revision->isModerationState('trash') ? $entity->getLastPublishedRevision() : NULL;
+    $last_published = !$new_default_revision->isModerationState('trash') ? $revision->getLastPublishedRevision() : NULL;
 
     // Set default revision based on whether there is a published revision or
     // not.
@@ -195,8 +176,8 @@ class ContentStorage extends NodeStorage {
 
     // And then finally delete the latest revision, which is the one that
     // marked the whole entity as being deleted.
-    $this->deleteRevision($entity->getRevisionId());
-    $this->resetCache([$node->id()]);
+    $this->deleteRevision($revision->getRevisionId());
+    $this->resetCache([$entity->id()]);
   }
 
 }

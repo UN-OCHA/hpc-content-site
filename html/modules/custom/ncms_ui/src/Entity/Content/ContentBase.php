@@ -13,9 +13,10 @@ use Drupal\Core\Url;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\ncms_ui\Entity\ContentVersionInterface;
 use Drupal\ncms_ui\Traits\ContentSpaceEntityTrait;
+use Drupal\ncms_ui\Traits\EntityBundleLabelTrait;
 use Drupal\ncms_ui\Traits\IframeDisplayContentTrait;
+use Drupal\ncms_ui\Traits\ModeratedEntityTrait;
 use Drupal\node\Entity\Node;
-use Drupal\node\NodeInterface;
 use Drupal\taxonomy\Entity\Term;
 
 /**
@@ -26,6 +27,8 @@ abstract class ContentBase extends Node implements ContentInterface {
   use StringTranslationTrait;
   use ContentSpaceEntityTrait;
   use IframeDisplayContentTrait;
+  use EntityBundleLabelTrait;
+  use ModeratedEntityTrait;
 
   /**
    * {@inheritdoc}
@@ -92,13 +95,6 @@ abstract class ContentBase extends Node implements ContentInterface {
    * {@inheritdoc}
    */
   abstract public function getOverviewUrl();
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getBundleLabel() {
-    return $this->type->entity->label();
-  }
 
   /**
    * {@inheritdoc}
@@ -186,143 +182,6 @@ abstract class ContentBase extends Node implements ContentInterface {
       return FALSE;
     }
     return $this->getLatestRevision()->isModerationState('trash');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getVersionId() {
-    /** @var \Drupal\Node\NodeStorageInterface $node_storage */
-    $node_storage = $this->entityTypeManager()->getStorage('node');
-    $revision_ids = $node_storage->revisionIds($this);
-    $version_key = array_search($this->getRevisionId(), $revision_ids);
-    return $version_key !== FALSE ? $version_key + 1 : NULL;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getModerationState() {
-    return $this->moderation_state?->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setModerationState($state) {
-    $this->moderation_state->value = $state;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isModerationState($state) {
-    return $this->getModerationState() == $state;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getModerationStateLabel() {
-    /** @var \Drupal\content_moderation\ModerationInformation $moderation_information */
-    $moderation_information = \Drupal::service('content_moderation.moderation_information');
-    return $moderation_information->getOriginalState($this)->label();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getContentStatus() {
-    if ($this->isDeleted()) {
-      return self::CONTENT_STATUS_DELETED;
-    }
-    if ($this->getLatestRevision() && $this->getLatestRevision()->isPublished()) {
-      return self::CONTENT_STATUS_PUBLISHED;
-    }
-
-    /** @var \Drupal\Node\NodeStorageInterface $node_storage */
-    $node_storage = $this->entityTypeManager()->getStorage('node');
-    $revision_ids = $node_storage->revisionIds($this);
-    $revisions = $node_storage->loadMultipleRevisions($revision_ids);
-
-    $count_published = count(array_filter($revisions, function (NodeInterface $revision) {
-      return $revision->isPublished();
-    }));
-    // If there are no published versions we call it "Draft". If at least one
-    // published version exists we call it "Published with newer draft".
-    return !$count_published ? self::CONTENT_STATUS_DRAFT : self::CONTENT_STATUS_PUBLISHED_WITH_DRAFT;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getContentStatusLabel() {
-    $content_status = $this->getContentStatus();
-    $label_map = [
-      self::CONTENT_STATUS_PUBLISHED => $this->t('Published'),
-      self::CONTENT_STATUS_PUBLISHED_WITH_DRAFT => $this->t('Published with newer draft'),
-      self::CONTENT_STATUS_DRAFT => $this->t('Draft'),
-      self::CONTENT_STATUS_DELETED => $this->t('Deleted'),
-    ];
-    return $label_map[$content_status];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getVersionStatusLabel() {
-    if ($this->getLatestRevision()->isDeleted()) {
-      return $this->t('Deleted');
-    }
-    if ($this->isPublished()) {
-      return $this->t('Published');
-    }
-    return $this->isLatestRevision() ? $this->t('Draft') : $this->t('Archived');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getLatestRevision() {
-    /** @var \Drupal\Node\NodeStorageInterface $node_storage */
-    $node_storage = $this->entityTypeManager()->getStorage('node');
-    $revision_id = $node_storage->getLatestRevisionId($this->id());
-    return $revision_id ? $node_storage->loadRevision($revision_id) : NULL;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getLastPublishedRevision() {
-    /** @var \Drupal\Node\NodeStorageInterface $node_storage */
-    $node_storage = $this->entityTypeManager()->getStorage('node');
-    $revision_ids = array_reverse($node_storage->revisionIds($this));
-
-    /** @var \Drupal\node\NodeInterface[] $revisions */
-    $revisions = $node_storage->loadMultipleRevisions($revision_ids);
-    foreach ($revisions as $revision) {
-      if (!$revision->isPublished()) {
-        continue;
-      }
-      return $revision;
-    };
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getPreviousRevision() {
-    /** @var \Drupal\Node\NodeStorageInterface $node_storage */
-    $node_storage = $this->entityTypeManager()->getStorage('node');
-    $revision_ids = array_reverse($node_storage->revisionIds($this));
-    if (count($revision_ids) < 2) {
-      return NULL;
-    }
-    array_shift($revision_ids);
-    $previous_revision_id = array_shift($revision_ids);
-
-    /** @var \Drupal\node\NodeInterface[] $revisions */
-    return $previous_revision_id ? $node_storage->loadRevision($previous_revision_id) : NULL;
   }
 
   /**

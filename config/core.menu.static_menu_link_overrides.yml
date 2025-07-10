@@ -2,9 +2,10 @@ _core:
   default_config_hash: jdY7AU0tU-QsjmiOw3W8vwpYMb-By--_MSFgbqKUTYM
 definitions:
   'admin_toolbar_tools__extra_links:node__add':
+    weight: -2
     menu_name: admin
     parent: system.admin_content
-    weight: 0
+    enabled: false
     expanded: false
     enabled: false
   'admin_toolbar_tools__extra_links:node__add__achievement':
@@ -30,4 +31,9 @@ definitions:
     parent: 'admin_toolbar_tools.extra_links:node.add'
     weight: 0
     expanded: false
-    enabled: false
+  'admin_toolbar_tools__extra_links:media_page':
+    weight: -1
+    menu_name: admin
+    parent: system.admin_content
+    expanded: false
+    enabled: true

@@ -490,28 +490,7 @@ display:
         - 'url.query_args:sort_by'
         - user
         - user.permissions
-      tags:
-        - 'config:core.entity_view_display.media.author.default'
-        - 'config:core.entity_view_display.media.author.media_library'
-        - 'config:core.entity_view_display.media.image.default'
-        - 'config:core.entity_view_display.media.image.facts_and_figures'
-        - 'config:core.entity_view_display.media.image.full_width'
-        - 'config:core.entity_view_display.media.image.hero_image'
-        - 'config:core.entity_view_display.media.image.hero_image_home_page'
-        - 'config:core.entity_view_display.media.image.hero_image_sub_article'
-        - 'config:core.entity_view_display.media.image.media_library'
-        - 'config:core.entity_view_display.media.image.photo_gallery_single_column'
-        - 'config:core.entity_view_display.media.image.photo_gallery_two_columns'
-        - 'config:core.entity_view_display.media.image.related_articles'
-        - 'config:core.entity_view_display.media.image.story'
-        - 'config:core.entity_view_display.media.image.thumbnail_medium'
-        - 'config:core.entity_view_display.media.image.thumbnail_small'
-        - 'config:core.entity_view_display.media.infographic.default'
-        - 'config:core.entity_view_display.media.infographic.media_library'
-        - 'config:core.entity_view_display.media.video.default'
-        - 'config:core.entity_view_display.media.video.full_width'
-        - 'config:core.entity_view_display.media.video.media_library'
-        - 'config:core.entity_view_display.media.video.story'
+      tags: {  }
   page:
     id: page
     display_title: Grid
@@ -991,34 +970,14 @@ display:
         - 'url.query_args:sort_by'
         - user
         - user.permissions
-      tags:
-        - 'config:core.entity_view_display.media.author.default'
-        - 'config:core.entity_view_display.media.author.media_library'
-        - 'config:core.entity_view_display.media.image.default'
-        - 'config:core.entity_view_display.media.image.facts_and_figures'
-        - 'config:core.entity_view_display.media.image.full_width'
-        - 'config:core.entity_view_display.media.image.hero_image'
-        - 'config:core.entity_view_display.media.image.hero_image_home_page'
-        - 'config:core.entity_view_display.media.image.hero_image_sub_article'
-        - 'config:core.entity_view_display.media.image.media_library'
-        - 'config:core.entity_view_display.media.image.photo_gallery_single_column'
-        - 'config:core.entity_view_display.media.image.photo_gallery_two_columns'
-        - 'config:core.entity_view_display.media.image.related_articles'
-        - 'config:core.entity_view_display.media.image.story'
-        - 'config:core.entity_view_display.media.image.thumbnail_medium'
-        - 'config:core.entity_view_display.media.image.thumbnail_small'
-        - 'config:core.entity_view_display.media.infographic.default'
-        - 'config:core.entity_view_display.media.infographic.media_library'
-        - 'config:core.entity_view_display.media.video.default'
-        - 'config:core.entity_view_display.media.video.full_width'
-        - 'config:core.entity_view_display.media.video.media_library'
-        - 'config:core.entity_view_display.media.video.story'
+      tags: {  }
   page_table:
     id: page_table
     display_title: Table
     display_plugin: page
     position: 1
     display_options:
+      enabled: true
       fields:
         media_bulk_form:
           id: media_bulk_form
@@ -2111,28 +2070,7 @@ display:
         - url.query_args
         - 'url.query_args:sort_by'
         - user.permissions
-      tags:
-        - 'config:core.entity_view_display.media.author.default'
-        - 'config:core.entity_view_display.media.author.media_library'
-        - 'config:core.entity_view_display.media.image.default'
-        - 'config:core.entity_view_display.media.image.facts_and_figures'
-        - 'config:core.entity_view_display.media.image.full_width'
-        - 'config:core.entity_view_display.media.image.hero_image'
-        - 'config:core.entity_view_display.media.image.hero_image_home_page'
-        - 'config:core.entity_view_display.media.image.hero_image_sub_article'
-        - 'config:core.entity_view_display.media.image.media_library'
-        - 'config:core.entity_view_display.media.image.photo_gallery_single_column'
-        - 'config:core.entity_view_display.media.image.photo_gallery_two_columns'
-        - 'config:core.entity_view_display.media.image.related_articles'
-        - 'config:core.entity_view_display.media.image.story'
-        - 'config:core.entity_view_display.media.image.thumbnail_medium'
-        - 'config:core.entity_view_display.media.image.thumbnail_small'
-        - 'config:core.entity_view_display.media.infographic.default'
-        - 'config:core.entity_view_display.media.infographic.media_library'
-        - 'config:core.entity_view_display.media.video.default'
-        - 'config:core.entity_view_display.media.video.full_width'
-        - 'config:core.entity_view_display.media.video.media_library'
-        - 'config:core.entity_view_display.media.video.story'
+      tags: {  }
   widget_table:
     id: widget_table
     display_title: 'Widget (table)'

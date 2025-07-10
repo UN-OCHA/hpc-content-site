@@ -75,9 +75,14 @@ function ncms_ui_entity_bundle_info_alter(array &$bundles) {
  */
 function ncms_ui_entity_type_alter(array &$entity_types) {
   /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
-  // Set the controller class for nodes to an alternate implementation of the
-  // Drupal\Core\Entity\EntityStorageInterface interface.
-  $entity_types['node']->setStorageClass('Drupal\ncms_ui\Entity\Storage\ContentStorage');
+  // Set the controller classes for node and media entities to an alternate
+  // implementation of the Drupal\Core\Entity\EntityStorageInterface interface.
+  if (array_key_exists('node', $entity_types)) {
+    $entity_types['node']->setStorageClass('Drupal\ncms_ui\Entity\Storage\ContentStorage');
+  }
+  if (array_key_exists('media', $entity_types)) {
+    $entity_types['media']->setStorageClass('Drupal\ncms_ui\Entity\Storage\MediaStorage');
+  }
 }
 
 /**

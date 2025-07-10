@@ -3,18 +3,61 @@
 namespace Drupal\ncms_ui\Entity\Media;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\media\Entity\Media;
-use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
-use Drupal\ncms_ui\Entity\EntityOverviewInterface;
+use Drupal\ncms_ui\Entity\MediaInterface;
 use Drupal\ncms_ui\Traits\ContentSpaceEntityTrait;
+use Drupal\ncms_ui\Traits\EntityBundleLabelTrait;
+use Drupal\ncms_ui\Traits\ModeratedEntityTrait;
 
 /**
  * Bundle base class for media entities.
  */
-abstract class MediaBase extends Media implements ContentSpaceAwareInterface, EntityOverviewInterface {
+abstract class MediaBase extends Media implements MediaInterface {
 
   use ContentSpaceEntityTrait;
+  use EntityBundleLabelTrait;
+  use ModeratedEntityTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function access($operation = 'view', AccountInterface $account = NULL, $return_as_object = FALSE) {
+    if ($operation == 'view' && (!$this->isDeleted() || $this->hasContentSpaceAccess($account))) {
+      // Always allow view operation on specific internal routes for non
+      // deleted content or if the user can access the content space.
+      return $return_as_object ? AccessResult::allowed() : TRUE;
+    }
+
+    // These operations are allowed when an entity is marked as deleted.
+    $delete_operations = [
+      'restore',
+      'delete',
+    ];
+    if (in_array($operation, $delete_operations) && $this->hasContentSpaceAccess($account)) {
+      $result = AccessResult::allowedIf($this->isDeleted());
+      return $return_as_object ? $result : $result->isAllowed();
+    }
+    elseif ($this->isDeleted()) {
+      return $return_as_object ? AccessResult::forbidden() : FALSE;
+    }
+
+    // These operations are used in ncms_ui.routing.yml and should be mapped to
+    // the 'update' operation.
+    $update_operations = [
+      'publish revision',
+      'unpublish revision',
+      'soft delete',
+      'restore',
+      'version history',
+    ];
+    if (in_array($operation, $update_operations)) {
+      $operation = 'update';
+    }
+    return parent::access($operation, $account, $return_as_object);
+  }
 
   /**
    * {@inheritdoc}
@@ -163,6 +206,16 @@ abstract class MediaBase extends Media implements ContentSpaceAwareInterface, En
     $this->setNewRevision(TRUE);
     $this->setRevisionTranslationAffectedEnforced(TRUE);
     $this->setModerationState('trash');
+  }
+
+  /**
+   * Get the route match service.
+   *
+   * @return \Drupal\Core\Routing\RouteMatchInterface
+   *   The route match service.
+   */
+  public static function getRouteMatch() {
+    return \Drupal::routeMatch();
   }
 
 }

@@ -2,12 +2,10 @@
 
 namespace Drupal\ncms_ui\Entity;
 
-use Drupal\node\NodeInterface;
-
 /**
  * Defines an interface for entities with content spaces.
  */
-interface ContentVersionInterface extends NodeInterface {
+interface ContentVersionInterface {
 
   const CONTENT_STATUS_PUBLISHED = 'published';
   const CONTENT_STATUS_PUBLISHED_WITH_DRAFT = 'published_with_draft';

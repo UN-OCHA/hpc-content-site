@@ -7,14 +7,15 @@ use Drupal\Core\Ajax\CloseModalDialogCommand;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\media\Entity\Media;
 use Drupal\ncms_ui\Ajax\ReloadPageCommand;
-use Drupal\ncms_ui\Entity\ContentInterface;
+use Drupal\ncms_ui\Traits\RouteMatchEntityTrait;
 
 /**
  * Form class for content submit confirm forms.
  */
 class ContentSoftDeleteForm extends ConfirmFormBase {
+
+  use RouteMatchEntityTrait;
 
   /**
    * {@inheritdoc}
@@ -27,7 +28,10 @@ class ContentSoftDeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return $this->t('This will remove it, including already published versions, from public display anywhere. Are you sure?');
+    $entity = $this->getEntityFromRouteMatch();
+    return $this->t('This will remove this @type, including already published versions, from public display anywhere. Are you sure?', [
+      '@type' => strtolower($entity->getBundleLabel()),
+    ]);
   }
 
   /**
@@ -44,7 +48,7 @@ class ContentSoftDeleteForm extends ConfirmFormBase {
     $form = parent::buildForm($form, $form_state);
 
     if ($entity === NULL) {
-      $entity = $this->getNodeFromRouteMatch();
+      $entity = $this->getEntityFromRouteMatch();
     }
 
     $form['description'] = ['#markup' => $this->getQuestion()];
@@ -93,35 +97,17 @@ class ContentSoftDeleteForm extends ConfirmFormBase {
     }
 
     // Confirmed, so we mark the node as deleted.
-    $entity = $this->getNodeFromRouteMatch();
+    $entity = $this->getEntityFromRouteMatch();
     $entity->setDeleted();
     $entity->save();
 
     // And inform the user.
-    $this->messenger()->addStatus($this->t('%title has been moved to the trash bin.', [
+    $this->messenger()->addStatus($this->t('@type %title has been moved to the trash bin.', [
+      '@type' => $entity->getBundleLabel(),
       '%title' => $entity->label(),
     ]));
 
     $form_state->setRedirectUrl($entity->getOverviewUrl());
-  }
-
-  /**
-   * Get the current entity from the route match.
-   *
-   * @return \Drupal\media\Entity\Media|\Drupal\ncms_ui\Entity\ContentInterface|null
-   *   The entity or NULL.
-   */
-  private function getNodeFromRouteMatch() {
-    $entity = NULL;
-    if ($this->getRouteMatch()->getParameter('node')) {
-      return $entity instanceof ContentInterface ? $entity : NULL;
-    }
-    elseif ($this->getRouteMatch()->getParameter('media')) {
-      $entity = $this->getRouteMatch()->getParameter('media');
-      return $entity instanceof Media ? $entity : NULL;
-    }
-
-    return NULL;
   }
 
 }

@@ -3,6 +3,10 @@ langcode: en
 status: true
 dependencies:
   config:
+    - media.type.author
+    - media.type.image
+    - media.type.infographic
+    - media.type.video
     - node.type.article
     - node.type.document
   module:
@@ -74,6 +78,11 @@ type_settings:
       to: published
       weight: -3
   entity_types:
+    media:
+      - author
+      - image
+      - infographic
+      - video
     node:
       - article
       - document

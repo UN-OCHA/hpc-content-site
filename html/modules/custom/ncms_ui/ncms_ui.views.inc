@@ -49,4 +49,24 @@ function ncms_ui_views_data_alter(array &$data) {
       'click sortable' => TRUE,
     ],
   ];
+  $data['node']['soft_delete_node'] = [
+    'title' => t('Link to soft-delete content'),
+    'help' => t('Provide a soft-delete link to the content.'),
+    'field' => [
+      'id' => 'entity_link_soft_delete',
+      'no group by' => TRUE,
+      'click sortable' => FALSE,
+    ],
+  ];
+  if (array_key_exists('media_field_data', $data)) {
+    $data['media_field_data']['soft_delete_media'] = [
+      'title' => t('Link to soft-delete Media'),
+      'help' => t('Provide a soft-delete link to the Media.'),
+      'field' => [
+        'id' => 'entity_link_soft_delete',
+        'no group by' => TRUE,
+        'click sortable' => FALSE,
+      ],
+    ];
+  }
 }

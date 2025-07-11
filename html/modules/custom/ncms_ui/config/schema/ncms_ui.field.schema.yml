@@ -1,0 +1,3 @@
+views.field.entity_link_soft_delete:
+  type: views.field.entity_link
+  label: 'Entity soft-delete link'

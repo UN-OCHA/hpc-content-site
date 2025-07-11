@@ -16,6 +16,11 @@ targetEntityType: media
 bundle: image
 mode: media_library
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
   field_credits:
     type: string
     label: hidden

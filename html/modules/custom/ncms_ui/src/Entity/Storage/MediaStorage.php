@@ -3,22 +3,28 @@
 namespace Drupal\ncms_ui\Entity\Storage;
 
 use Drupal\content_moderation\Entity\ContentModerationState;
-use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageException;
-use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\media\MediaStorage as BaseMediaStorage;
 use Drupal\ncms_ui\Entity\BaseEntityInterface;
-use Drupal\ncms_ui\Entity\ContentInterface;
-use Drupal\node\NodeInterface;
-use Drupal\node\NodeStorage;
 
 /**
  * Defines a custom storage handler class for nodes.
  *
- * This extends the base NodeStorage class, adding required special handling
+ * This extends the base MediaStorage class, adding required special handling
  * for revisions.
  */
-class ContentStorage extends NodeStorage implements ModeratedEntityStorageInterface {
+class MediaStorage extends BaseMediaStorage implements ModeratedEntityStorageInterface {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function revisionIds(EntityInterface $entity) {
+    return $this->database->query(
+      'SELECT [vid] FROM {' . $this->getRevisionTable() . '} WHERE [mid] = :mid ORDER BY [vid]',
+      [':mid' => $entity->id()]
+    )->fetchCol();
+  }
 
   /**
    * {@inheritdoc}
@@ -39,7 +45,7 @@ class ContentStorage extends NodeStorage implements ModeratedEntityStorageInterf
       return FALSE;
     }
 
-    if ($status == NodeInterface::PUBLISHED && !$entity->isPublished()) {
+    if ($status == 1 && !$entity->isPublished()) {
       $this->database
         ->update($this->dataTable)
         ->fields((array) [
@@ -50,7 +56,7 @@ class ContentStorage extends NodeStorage implements ModeratedEntityStorageInterf
     }
 
     $last_published = $entity->getLastPublishedRevision();
-    if ($status == NodeInterface::NOT_PUBLISHED && !$last_published) {
+    if ($status == 0 && !$last_published) {
       $this->database
         ->update($this->dataTable)
         ->fields((array) [
@@ -61,7 +67,7 @@ class ContentStorage extends NodeStorage implements ModeratedEntityStorageInterf
     }
 
     if ($update_moderation_state) {
-      if ($status == NodeInterface::NOT_PUBLISHED) {
+      if ($status == 0) {
         $entity->set('moderation_state', 'draft');
         $entity->setNewRevision(FALSE);
         $entity->setSyncing(TRUE);
@@ -85,7 +91,11 @@ class ContentStorage extends NodeStorage implements ModeratedEntityStorageInterf
   protected function doPostSave(EntityInterface $entity, $update) {
     parent::doPostSave($entity, $update);
 
-    if (!$entity instanceof ContentInterface || $entity->isDeleted()) {
+    if (!$entity instanceof BaseEntityInterface) {
+      return;
+    }
+
+    if ($entity->isDeleted()) {
       return;
     }
 
@@ -112,26 +122,6 @@ class ContentStorage extends NodeStorage implements ModeratedEntityStorageInterf
       $latest_revision->setSyncing(TRUE);
       $latest_revision->save();
     }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function hasFieldValueChanged(FieldDefinitionInterface $field_definition, ContentEntityInterface $entity, ContentEntityInterface $original) {
-    // Work around an issue where field data of content with active
-    // translations sometimes doesn't save correctly when using the
-    // "Publish as correction" or "Publish as revision" submit buttons on the
-    // node edit form.
-    if ($entity instanceof ContentInterface && $entity->getTranslationLanguages(FALSE)) {
-      // Always return TRUE if the content has translations. The reason is that
-      // hasFieldValueChanged() doesn't fetch the previous revisions field
-      // values and thus falsely reports the fields to not have changed,
-      // preventing the changes from beeing written to storage. The main issue
-      // is probably somewhere else, but returning TRUE here seems to fix the
-      // issue without further side effects.
-      return TRUE;
-    }
-    return parent::hasFieldValueChanged($field_definition, $entity, $original);
   }
 
   /**

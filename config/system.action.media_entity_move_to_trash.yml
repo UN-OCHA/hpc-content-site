@@ -1,12 +1,12 @@
-uuid: 070cf92a-07fd-484c-92c0-b2d002f98763
+uuid: e3865b7c-1d6c-4019-ab41-3205c82e7de2
 langcode: en
 status: true
 dependencies:
   module:
-    - node
+    - media
     - workflows
-id: content_entity_move_to_trash
+id: media_entity_move_to_trash
 label: 'Move to trash'
-type: node
+type: media
 plugin: entity_move_to_trash
 configuration: {  }

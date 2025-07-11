@@ -1,0 +1,3 @@
+ncms_ui:
+  deriver: 'Drupal\ncms_ui\Plugin\Derivative\DynamicLocalTasks'
+  weight: 100

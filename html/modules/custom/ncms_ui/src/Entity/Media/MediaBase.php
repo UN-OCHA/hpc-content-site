@@ -2,7 +2,6 @@
 
 namespace Drupal\ncms_ui\Entity\Media;
 
-use Drupal\Component\Serialization\Json;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
@@ -10,6 +9,7 @@ use Drupal\media\Entity\Media;
 use Drupal\ncms_ui\Entity\MediaInterface;
 use Drupal\ncms_ui\Traits\ContentSpaceEntityTrait;
 use Drupal\ncms_ui\Traits\EntityBundleLabelTrait;
+use Drupal\ncms_ui\Traits\ModalLinkTrait;
 use Drupal\ncms_ui\Traits\ModeratedEntityTrait;
 
 /**
@@ -20,6 +20,7 @@ abstract class MediaBase extends Media implements MediaInterface {
   use ContentSpaceEntityTrait;
   use EntityBundleLabelTrait;
   use ModeratedEntityTrait;
+  use ModalLinkTrait;
 
   /**
    * {@inheritdoc}
@@ -63,7 +64,17 @@ abstract class MediaBase extends Media implements MediaInterface {
    * {@inheritdoc}
    */
   public function toUrl($rel = 'canonical', array $options = []) {
-    if ($rel == 'canonical' && !$this->access('update')) {
+    if ($rel == 'soft-delete-form' && $this->access('soft delete')) {
+      return Url::fromRoute('entity.media.soft_delete', [
+        'media' => $this->id(),
+      ], $options);
+    }
+    if ($rel == 'restore-form' && $this->access('restore')) {
+      return Url::fromRoute('entity.media.restore', [
+        'media' => $this->id(),
+      ], $options);
+    }
+    if ($rel == 'canonical' && !$this->access('update') && !$this->isDeleted()) {
       // The canonical url for media entities is the edit url. In cases where
       // access to the edit form is forbidden, we need to use a different url
       // here, so we use the actual image url.
@@ -96,60 +107,24 @@ abstract class MediaBase extends Media implements MediaInterface {
    */
   public function getEntityOperations() {
     $operations = [];
-    if (!$this->isDeleted() && $this->access('update')) {
+    if ($this->access('soft delete')) {
       $operations['soft_delete'] = [
         'title' => $this->t('Move to trash'),
-        'url' => Url::fromRoute('entity.media.soft_delete', [
-          'media' => $this->id(),
-        ], [
-          'attributes' => [
-            'class' => ['use-ajax'],
-            'data-dialog-type' => 'modal',
-            'data-dialog-options' => Json::encode([
-              'width' => '80%',
-              'title' => $this->t('Confirm deletion'),
-              'dialogClass' => 'node-confirm',
-            ]),
-          ],
-        ]),
+        'url' => $this->toUrl('soft-delete-form', $this->getModalUrlOptions($this->t('Confirm delete'))),
         'weight' => 50,
       ];
     }
     if ($this->access('restore')) {
       $operations['restore'] = [
         'title' => $this->t('Restore'),
-        'url' => Url::fromRoute('entity.media.restore', [
-          'media' => $this->id(),
-        ], [
-          'attributes' => [
-            'class' => ['use-ajax'],
-            'data-dialog-type' => 'modal',
-            'data-dialog-options' => Json::encode([
-              'width' => '80%',
-              'title' => $this->t('Confirm restore'),
-              'dialogClass' => 'node-confirm',
-            ]),
-          ],
-        ]),
+        'url' => $this->toUrl('restore-form', $this->getModalUrlOptions($this->t('Confirm restore'))),
         'weight' => 50,
       ];
     }
     if ($this->access('delete')) {
       $operations['delete'] = [
         'title' => $this->t('Delete for ever'),
-        'url' => Url::fromRoute('entity.node.delete_form', [
-          'media' => $this->id(),
-        ], [
-          'attributes' => [
-            'class' => ['use-ajax'],
-            'data-dialog-type' => 'modal',
-            'data-dialog-options' => Json::encode([
-              'width' => '80%',
-              'title' => $this->t('Confirm delete'),
-              'dialogClass' => 'node-confirm',
-            ]),
-          ],
-        ]),
+        'url' => $this->toUrl('delete-form', $this->getModalUrlOptions($this->t('Confirm delete'))),
         'weight' => 50,
       ];
     }
@@ -163,7 +138,7 @@ abstract class MediaBase extends Media implements MediaInterface {
     if ($this->isNew()) {
       return FALSE;
     }
-    return $this->getLatestRevision()->isModerationState('trash');
+    return $this->getLatestRevision()?->isModerationState('trash') ?: FALSE;
   }
 
   /**

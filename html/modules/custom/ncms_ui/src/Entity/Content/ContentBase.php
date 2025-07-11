@@ -3,7 +3,6 @@
 namespace Drupal\ncms_ui\Entity\Content;
 
 use Drupal\Component\Render\FormattableMarkup;
-use Drupal\Component\Serialization\Json;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -15,6 +14,7 @@ use Drupal\ncms_ui\Entity\ContentVersionInterface;
 use Drupal\ncms_ui\Traits\ContentSpaceEntityTrait;
 use Drupal\ncms_ui\Traits\EntityBundleLabelTrait;
 use Drupal\ncms_ui\Traits\IframeDisplayContentTrait;
+use Drupal\ncms_ui\Traits\ModalLinkTrait;
 use Drupal\ncms_ui\Traits\ModeratedEntityTrait;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
@@ -29,6 +29,7 @@ abstract class ContentBase extends Node implements ContentInterface {
   use IframeDisplayContentTrait;
   use EntityBundleLabelTrait;
   use ModeratedEntityTrait;
+  use ModalLinkTrait;
 
   /**
    * {@inheritdoc}
@@ -86,6 +87,16 @@ abstract class ContentBase extends Node implements ContentInterface {
       return Url::fromRoute('entity.node_revision.iframe', [
         'node' => $this->id(),
         'node_revision' => $this->getRevisionId(),
+      ], $options);
+    }
+    if ($rel == 'soft-delete-form' && $this->access('soft delete')) {
+      return Url::fromRoute('entity.node.soft_delete', [
+        'node' => $this->id(),
+      ], $options);
+    }
+    if ($rel == 'restore-form' && $this->access('restore')) {
+      return Url::fromRoute('entity.node.restore', [
+        'node' => $this->id(),
       ], $options);
     }
     return parent::toUrl($rel, $options);
@@ -201,57 +212,21 @@ abstract class ContentBase extends Node implements ContentInterface {
       }
       $operations['soft_delete'] = [
         'title' => $this->t('Move to trash'),
-        'url' => Url::fromRoute('entity.node.soft_delete', [
-          'node' => $this->id(),
-        ], [
-          'attributes' => [
-            'class' => ['use-ajax'],
-            'data-dialog-type' => 'modal',
-            'data-dialog-options' => Json::encode([
-              'width' => '80%',
-              'title' => $this->t('Confirm deletion'),
-              'dialogClass' => 'node-confirm',
-            ]),
-          ],
-        ]),
+        'url' => $this->toUrl('soft-delete-form', $this->getModalUrlOptions($this->t('Confirm delete'))),
         'weight' => 50,
       ];
     }
     if ($this->access('restore')) {
       $operations['restore'] = [
         'title' => $this->t('Restore'),
-        'url' => Url::fromRoute('entity.node.restore', [
-          'node' => $this->id(),
-        ], [
-          'attributes' => [
-            'class' => ['use-ajax'],
-            'data-dialog-type' => 'modal',
-            'data-dialog-options' => Json::encode([
-              'width' => '80%',
-              'title' => $this->t('Confirm restore'),
-              'dialogClass' => 'node-confirm',
-            ]),
-          ],
-        ]),
+        'url' => $this->toUrl('restore-form', $this->getModalUrlOptions($this->t('Confirm restore'))),
         'weight' => 50,
       ];
     }
     if ($this->access('delete')) {
       $operations['delete'] = [
         'title' => $this->t('Delete for ever'),
-        'url' => Url::fromRoute('entity.node.delete_form', [
-          'node' => $this->id(),
-        ], [
-          'attributes' => [
-            'class' => ['use-ajax'],
-            'data-dialog-type' => 'modal',
-            'data-dialog-options' => Json::encode([
-              'width' => '80%',
-              'title' => $this->t('Confirm delete'),
-              'dialogClass' => 'node-confirm',
-            ]),
-          ],
-        ]),
+        'url' => $this->toUrl('delete-form', $this->getModalUrlOptions($this->t('Confirm delete'))),
         'weight' => 50,
       ];
     }

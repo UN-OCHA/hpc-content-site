@@ -17,6 +17,7 @@ dependencies:
   module:
     - content_moderation
     - entity_browser
+    - entity_usage
     - filter
     - gho_access
     - gho_fields
@@ -36,6 +37,7 @@ permissions:
   - 'access article entity browser pages'
   - 'access articles entity browser pages'
   - 'access content overview'
+  - 'access entity usage statistics'
   - 'access media overview'
   - 'access story entity browser pages'
   - 'access toolbar'
@@ -79,7 +81,6 @@ permissions:
   - 'use article_workflow transition save_draft_leave_current_published'
   - 'use article_workflow transition update'
   - 'use text format filtered_html'
-  - 'view all media revisions'
   - 'view article revisions'
   - 'view document revisions'
   - 'view latest version'

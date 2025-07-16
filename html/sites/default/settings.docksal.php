@@ -74,4 +74,5 @@ $settings['config_exclude_modules'] = [
   'dblog',
   'debug_tools',
   'stage_file_proxy',
+  'config_inspector',
 ];

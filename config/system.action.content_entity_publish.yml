@@ -8,5 +8,5 @@ dependencies:
 id: content_entity_publish
 label: Publish
 type: node
-plugin: content_entity_publish
+plugin: entity_publish
 configuration: {  }

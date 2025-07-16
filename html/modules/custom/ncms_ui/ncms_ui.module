@@ -281,6 +281,54 @@ function ncms_ui_preprocess_html(&$variables) {
   if ($route_name == 'node.add' && is_subclass_of($bundle_info[$node_type->id()]['class'], ContentBase::class)) {
     $variables['attributes']['class'][] = 'node-content-base';
   }
+
+  $path = \Drupal::requestStack()->getCurrentRequest()->getPathInfo();
+  $path_parts = explode('/', ltrim($path, '/'));
+  $first_part = count($path_parts) > 1 ? reset($path_parts) : NULL;
+  $last_part = count($path_parts) > 1 ? end($path_parts) : NULL;
+  if ($first_part && $last_part && in_array($first_part, ['node', 'media']) && is_string($last_part)) {
+    $variables['attributes']['class'][] = $path_parts[0] . '-' . $last_part;
+  }
+
+  // Add a cancel link. This either redirects to the publisher site if this
+  // request came from an external publisher, or to a url given in the
+  // destination query argument, or, as a fallback, to the main content
+  // overview page.
+  $entity = $route_match->getParameter('node') ?? ($route_match->getParameter('media') ?? NULL);
+  $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
+  if ($entity && $is_gin) {
+    /** @var \Drupal\ncms_publisher\PublisherManager $publisher_manager */
+    $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
+    $publisher_redirect = $publisher_manager->getCurrentRedirectUrl();
+
+    $redirect_label = $publisher_redirect ? (string) t('Back to @publisher', [
+      '@publisher' => $publisher_manager->getCurrentPublisher()->label(),
+    ]) : NULL;
+
+    // Take the destination only if it's not pointing to the current edit page.
+    $current_destination = \Drupal::destination()->get();
+    $destination_redirect = $entity->id() && !str_contains($current_destination, $entity->toUrl('edit-form')->toString()) ? $current_destination : NULL;
+
+    // Set the redirect url. Publishers have priority, otherwise take the
+    // destination if it's available.
+    $redirect_url = $publisher_redirect ? Url::fromUri($publisher_redirect) : NULL;
+    if (!$redirect_url && $destination_redirect) {
+      $redirect_url = url::fromUserInput($destination_redirect);
+    }
+    if (!$redirect_url && $entity instanceof EntityOverviewInterface) {
+      $redirect_url = $entity->getOverviewUrl();
+    }
+    // And if we still don't have a valid redirect, use the fallback.
+    if (!$redirect_url) {
+      $redirect_url = Url::fromRoute('system.admin_content');
+    }
+
+    $variables['#attached']['library'][] = 'ncms_ui/ncms_gin';
+    $variables['#attached']['drupalSettings']['ncms_gin']['redirect_url'] = $redirect_url->toString();
+    if ($redirect_label) {
+      $variables['#attached']['drupalSettings']['ncms_gin']['redirect_label'] = $redirect_label;
+    }
+  }
 }
 
 /**
@@ -424,53 +472,6 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   if (array_key_exists('field_caption', $form)) {
     $form['field_caption']['widget'][0]['#title_display'] = FALSE;
   }
-
-  // Add a cancel link. This either redirects to the publisher site if this
-  // request came from an external publisher, or to a url given in the
-  // destination query argument, or, as a fallback, to the main content
-  // overview page.
-  /** @var \Drupal\ncms_publisher\PublisherManager $publisher_manager */
-  $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
-  $publisher_redirect = $publisher_manager->getCurrentRedirectUrl();
-
-  $redirect_label = $publisher_redirect ? (string) t('Back to @publisher', [
-    '@publisher' => $publisher_manager->getCurrentPublisher()->label(),
-  ]) : NULL;
-
-  // Take the destination only if it's not pointing to the current edit page.
-  $current_destination = \Drupal::destination()->get();
-  $destination_redirect = $node->id() && $current_destination != $node->toUrl('edit-form')->toString() ? $current_destination : NULL;
-
-  // Set the redirect url. Publishers have priority, otherwise take the
-  // destination if it's available.
-  $redirect_url = $publisher_redirect ? Url::fromUri($publisher_redirect) : NULL;
-  if (!$redirect_url && $destination_redirect) {
-    $redirect_url = url::fromUserInput($destination_redirect);
-  }
-  if (!$redirect_url && $node instanceof EntityOverviewInterface) {
-    $redirect_url = $node->getOverviewUrl();
-  }
-  // And if we still don't have a valid redirect, use the fallback.
-  if (!$redirect_url) {
-    $redirect_url = Url::fromRoute('system.admin_content');
-  }
-
-  $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
-  if ($is_gin) {
-    $form['#attached']['library'][] = 'ncms_ui/ncms_gin';
-    $form['#attached']['drupalSettings']['ncms_gin']['redirect_url'] = $redirect_url->toString();
-    if ($redirect_label) {
-      $form['#attached']['drupalSettings']['ncms_gin']['redirect_label'] = $redirect_label;
-    }
-  }
-  else {
-    $form['actions']['cancel'] = [
-      '#type' => 'link',
-      '#title' => t('Cancel'),
-      '#url' => $redirect_url,
-      '#weight' => 20,
-    ];
-  }
 }
 
 /**
@@ -488,38 +489,6 @@ function ncms_ui_form_media_form_alter(&$form, FormStateInterface $form_state) {
     /** @var \Drupal\ncms_ui\Form\EntityOverviewFormAlter $entity_overview_form_alter */
     $entity_overview_form_alter = \Drupal::service('ncms_ui.entity_overview_form_alter');
     $entity_overview_form_alter->alterForm($form, $form_state);
-  }
-
-  // Take the destination only if it's not pointing to the current edit page.
-  $current_destination = \Drupal::destination()->get();
-  $destination_redirect = $entity->id() && $current_destination != $entity->toUrl('edit-form')->toString() ? $current_destination : NULL;
-
-  // Set the redirect url. Publishers have priority, otherwise take the
-  // destination if it's available.
-  $redirect_url = NULL;
-  if ($destination_redirect) {
-    $redirect_url = url::fromUserInput($destination_redirect);
-  }
-  if (!$redirect_url && $entity instanceof EntityOverviewInterface) {
-    $redirect_url = $entity->getOverviewUrl();
-  }
-  // And if we still don't have a valid redirect, use the fallback.
-  if (!$redirect_url) {
-    $redirect_url = Url::fromRoute('system.admin_content');
-  }
-
-  $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
-  if ($is_gin) {
-    $form['#attached']['library'][] = 'ncms_ui/ncms_gin';
-    $form['#attached']['drupalSettings']['ncms_gin']['redirect_url'] = $redirect_url->toString();
-  }
-  else {
-    $form['actions']['cancel'] = [
-      '#type' => 'link',
-      '#title' => t('Cancel'),
-      '#url' => $redirect_url,
-      '#weight' => 20,
-    ];
   }
 }
 

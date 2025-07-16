@@ -1,3 +1,17 @@
+.cd-button:not(.login-link) {
+  padding: 0.8rem 1.5rem;
+  color: var(--cd-default-text-color) !important;
+  background-color: var(--ha-primary-button-color);
+  font-size: var(--cd-font-size--small);
+}
+.cd-button:not(.login-link):hover, .cd-button:not(.login-link):focus {
+  background-color: var(--ha-primary-button-color-hover);
+}
+
+.cd-button.login-link {
+  margin-top: 1rem;
+}
+
 body {
   color: var(--cd-grey--dark);
   font-family: roboto, helvetica, arial, sans-serif;
@@ -20,6 +34,8 @@ picture img {
 :root {
   --content-width: 904px;
   --reading-width: 720px;
+  --ha-primary-button-color: #fed83d;
+  --ha-primary-button-color-hover: #feba00;
 }
 
 h1,
@@ -27,7 +43,7 @@ h2,
 h3,
 h4,
 h5 {
-  color: var(--cd-ocha-blue);
+  color: var(--cd-grey--dark);
 }
 
 h1 {
@@ -42,10 +58,10 @@ h1 {
 }
 
 a {
-  color: #5090cd;
+  color: var(--cd-default-text-color);
 }
 a:hover, a:focus {
-  color: #5090cd;
+  color: var(--cd-default-text-color);
 }
 
 /* ------------------------------------------------------------------------------

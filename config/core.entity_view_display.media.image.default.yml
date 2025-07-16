@@ -43,6 +43,7 @@ content:
     weight: 0
     region: content
 hidden:
+  content_moderation_control: true
   created: true
   langcode: true
   name: true

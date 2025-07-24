@@ -2848,22 +2848,23 @@
         },
         {
             "name": "drupal/custom_field",
-            "version": "3.1.12",
+            "version": "3.1.13",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/custom_field.git",
-                "reference": "3.1.12"
+                "reference": "3.1.13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/custom_field-3.1.12.zip",
-                "reference": "3.1.12",
-                "shasum": "0aab1d6185d3908c1e6dba63b77b9041292c3a13"
+                "url": "https://ftp.drupal.org/files/projects/custom_field-3.1.13.zip",
+                "reference": "3.1.13",
+                "shasum": "faafe3803fc60807d9f57262bbb0bd3507da29de"
             },
             "require": {
-                "drupal/core": "^10.3 || ^11.0"
+                "drupal/core": "^10.3 || ^11"
             },
             "require-dev": {
+                "drupal/ai": "^1.2",
                 "drupal/entity_browser": "^2",
                 "drupal/entity_usage": "^2",
                 "drupal/feeds": "^3",
@@ -2877,8 +2878,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "3.1.12",
-                    "datestamp": "1752127899",
+                    "version": "3.1.13",
+                    "datestamp": "1753328218",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -14917,16 +14918,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.12.27",
+            "version": "1.12.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "3a6e423c076ab39dfedc307e2ac627ef579db162"
+                "reference": "fcf8b71aeab4e1a1131d1783cef97b23a51b87a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3a6e423c076ab39dfedc307e2ac627ef579db162",
-                "reference": "3a6e423c076ab39dfedc307e2ac627ef579db162",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/fcf8b71aeab4e1a1131d1783cef97b23a51b87a9",
+                "reference": "fcf8b71aeab4e1a1131d1783cef97b23a51b87a9",
                 "shasum": ""
             },
             "require": {
@@ -14971,7 +14972,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-05-21T20:51:45+00:00"
+            "time": "2025-07-17T17:15:39+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",

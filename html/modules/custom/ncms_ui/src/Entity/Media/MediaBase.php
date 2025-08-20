@@ -107,6 +107,15 @@ abstract class MediaBase extends Media implements MediaInterface {
    */
   public function getEntityOperations() {
     $operations = [];
+    if (!$this->isDeleted()) {
+      $operations['usage'] = [
+        'title' => $this->t('Places used'),
+        'url' => Url::fromRoute('view.media_usage.page_media_usage', [
+          'media' => $this->id(),
+        ]),
+        'weight' => 50,
+      ];
+    }
     if ($this->access('soft delete')) {
       $operations['soft_delete'] = [
         'title' => $this->t('Move to trash'),

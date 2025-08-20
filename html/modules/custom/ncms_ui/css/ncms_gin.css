@@ -87,6 +87,7 @@ body.toolbar-vertical .toolbar-secondary #toolbar-bar {
 .gin-secondary-toolbar .gin-breadcrumb-wrapper {
   display: none;
   margin-inline-end: 0;
+  min-width: fit-content;
 }
 .gin-secondary-toolbar .gin-breadcrumb-wrapper nav.gin-breadcrumb {
   padding-right: 1rem;

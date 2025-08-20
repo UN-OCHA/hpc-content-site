@@ -173,6 +173,9 @@ function ncms_ui_local_tasks_alter(&$local_tasks) {
   if (array_key_exists('entity.user.openid_connect_accounts', $local_tasks)) {
     $local_tasks['entity.user.openid_connect_accounts']['weight'] = 4;
   }
+  // Remove the "Usages" task provided by the Entity Usage module as we provide
+  // our own task under a different name.
+  unset($local_tasks['entity_usage.entities:media.entity_usage']);
 }
 
 /**
@@ -290,13 +293,13 @@ function ncms_ui_preprocess_html(&$variables) {
     $variables['attributes']['class'][] = $path_parts[0] . '-' . $last_part;
   }
 
-  // Add a cancel link. This either redirects to the publisher site if this
+  // Set the redirect url. This either redirects to the publisher site if this
   // request came from an external publisher, or to a url given in the
   // destination query argument, or, as a fallback, to the main content
   // overview page.
-  $entity = $route_match->getParameter('node') ?? ($route_match->getParameter('media') ?? NULL);
+  $entity = $route_match->getParameter('node') ?? NULL;
   $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
-  if ($entity && $is_gin) {
+  if ($entity instanceof EntityInterface && $is_gin) {
     /** @var \Drupal\ncms_publisher\PublisherManager $publisher_manager */
     $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
     $publisher_redirect = $publisher_manager->getCurrentRedirectUrl();
@@ -317,10 +320,12 @@ function ncms_ui_preprocess_html(&$variables) {
     }
     if (!$redirect_url && $entity instanceof EntityOverviewInterface) {
       $redirect_url = $entity->getOverviewUrl();
+      $redirect_label = t('Back to content library');
     }
     // And if we still don't have a valid redirect, use the fallback.
     if (!$redirect_url) {
       $redirect_url = Url::fromRoute('system.admin_content');
+      $redirect_label = t('Back to content library');
     }
 
     $variables['#attached']['library'][] = 'ncms_ui/ncms_gin';
@@ -328,6 +333,17 @@ function ncms_ui_preprocess_html(&$variables) {
     if ($redirect_label) {
       $variables['#attached']['drupalSettings']['ncms_gin']['redirect_label'] = $redirect_label;
     }
+  }
+
+  // Add a redirect url for media too.
+  $media = $route_match->getParameter('media') ?? NULL;
+  $media = $media && !is_object($media) ? \Drupal::entityTypeManager()->getStorage('media')->load($media) : $media;
+  if ($media instanceof MediaBase && $is_gin) {
+    $redirect_url = $media->getOverviewUrl();
+    $redirect_label = t('Back to media library');
+    $variables['#attached']['library'][] = 'ncms_ui/ncms_gin';
+    $variables['#attached']['drupalSettings']['ncms_gin']['redirect_url'] = $redirect_url->toString();
+    $variables['#attached']['drupalSettings']['ncms_gin']['redirect_label'] = $redirect_label;
   }
 }
 

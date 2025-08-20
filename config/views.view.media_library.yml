@@ -1493,12 +1493,12 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        count:
-          id: count
+        source_id:
+          id: source_id
           table: entity_usage
-          field: count
+          field: source_id
           relationship: media_to_usage_entity
-          group_type: sum
+          group_type: count_distinct
           admin_label: ''
           plugin_id: numeric
           label: 'Places used'
@@ -1678,6 +1678,7 @@ display:
           empty_zero: false
           hide_alter_empty: true
           destination: false
+      sorts: {  }
       filters:
         status:
           id: status
@@ -1867,42 +1868,80 @@ display:
           row_class: ''
           default_row_class: true
           columns:
+            mid: mid
             media_bulk_form: media_bulk_form
+            thumbnail__target_id: thumbnail__target_id
             name: name
-            edit_media: edit_media
-            delete_media: delete_media
-            rendered_entity: rendered_entity
-          default: '-1'
+            bundle: bundle
+            uid: uid
+            status: status
+            source_id: source_id
+            created: created
+            operations: operations
+          default: created
           info:
+            mid:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             media_bulk_form:
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
+            thumbnail__target_id:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             name:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            bundle:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            uid:
               sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            edit_media:
-              sortable: false
+            status:
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            delete_media:
-              sortable: false
+            source_id:
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            rendered_entity:
-              sortable: false
-              default_sort_order: asc
+            created:
+              sortable: true
+              default_sort_order: desc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            operations:
               align: ''
               separator: ''
               empty_column: false
@@ -1926,6 +1965,7 @@ display:
         row: false
         relationships: false
         fields: false
+        sorts: false
         filters: false
         filter_groups: false
       relationships:
@@ -1950,7 +1990,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - 'url.query_args:sort_by'
         - user.permissions
       tags:
         - 'config:workflow_list'

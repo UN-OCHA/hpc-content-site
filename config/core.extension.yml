@@ -51,6 +51,7 @@ module:
   gho_layouts: 0
   google_tag: 0
   graphql: 0
+  honeypot: 0
   image: 0
   imageapi_optimize: 0
   imageapi_optimize_binaries: 0

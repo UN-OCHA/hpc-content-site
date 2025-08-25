@@ -5,12 +5,17 @@ namespace Drupal\ncms_ui\Entity\Media;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
+use Drupal\entity_usage\EntityUsageListTrait;
 use Drupal\media\Entity\Media;
+use Drupal\ncms_paragraphs\Traits\ParagraphHelperTrait;
+use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\ncms_ui\Entity\MediaInterface;
 use Drupal\ncms_ui\Traits\ContentSpaceEntityTrait;
 use Drupal\ncms_ui\Traits\EntityBundleLabelTrait;
 use Drupal\ncms_ui\Traits\ModalLinkTrait;
 use Drupal\ncms_ui\Traits\ModeratedEntityTrait;
+use Drupal\node\NodeInterface;
+use Drupal\paragraphs\ParagraphInterface;
 
 /**
  * Bundle base class for media entities.
@@ -21,6 +26,18 @@ abstract class MediaBase extends Media implements MediaInterface {
   use EntityBundleLabelTrait;
   use ModeratedEntityTrait;
   use ModalLinkTrait;
+  use EntityUsageListTrait;
+  use ParagraphHelperTrait;
+
+  const PARAGRAPHS_WITH_MANDATORY_IMAGES = [
+    'infographic' => ['field_media_infographic'],
+    'image_with_text' => ['field_image'],
+    'photo_gallery' => ['field_photos'],
+    // 'facts_and_figures', USES IMAGE WITH TEXT
+  ];
+  const PARAGRAPHS_WITH_OPTIONAL_IMAGES = [
+    'interactive_content' => ['field_image'],
+  ];
 
   /**
    * {@inheritdoc}
@@ -82,6 +99,16 @@ abstract class MediaBase extends Media implements MediaInterface {
       $path = self::filUrlGenerator()->generateAbsoluteString($thumbnail_uri);
       return Url::fromUri($path);
     }
+    if ($rel == 'places-used' && $this->access('update')) {
+      $node_references = $this->getUsageReferences(['node']);
+      $paragraph_references = $this->getUsageReferences(['paragraph']);
+      $has_node_references = !empty($node_references['optional']) || !empty(!empty($node_references['mandatory']));
+      $has_paragraph_references = !empty($paragraph_references['optional']) || !empty(!empty($paragraph_references['mandatory']));
+      $display_id = !$has_node_references && $has_paragraph_references ? 'page_paragraphs' : 'page_content';
+      return Url::fromRoute('view.media_usage.' . $display_id, [
+        'media' => $this->id(),
+      ]);
+    }
     return parent::toUrl($rel, $options);
   }
 
@@ -110,7 +137,7 @@ abstract class MediaBase extends Media implements MediaInterface {
     if (!$this->isDeleted()) {
       $operations['usage'] = [
         'title' => $this->t('Places used'),
-        'url' => Url::fromRoute('view.media_usage.page_media_usage', [
+        'url' => Url::fromRoute('view.media_usage.page_content', [
           'media' => $this->id(),
         ]),
         'weight' => 50,
@@ -148,6 +175,87 @@ abstract class MediaBase extends Media implements MediaInterface {
       return FALSE;
     }
     return $this->getLatestRevision()?->isModerationState('trash') ?: FALSE;
+  }
+
+  /**
+   * Check if the media is used in mandatory fields.
+   *
+   * @return bool
+   *   TRUE if the media is used in mandatory fields, FALSE otherwise.
+   */
+  public function hasMandatoryReferences(): bool {
+    $references = $this->getUsageReferences();
+    return !empty($references['mandatory']);
+  }
+
+  /**
+   * Check if the media is used in optional fields.
+   *
+   * @return bool
+   *   TRUE if the media is used in optional fields, FALSE otherwise.
+   */
+  public function hasOptionalReferences(): bool {
+    $references = $this->getUsageReferences();
+    return !empty($references['optional']);
+  }
+
+  /**
+   * Get a list of usage references for this media.
+   *
+   * @return array
+   *   An array with the keys 'mandatory' and 'optional'.
+   */
+  public function getUsageReferences(?array $entity_type_ids = NULL): array {
+    $entity_usage = $this->entityUsage();
+    $sources_list = $entity_usage->listSources($this);
+
+    $references = [
+      'mandatory' => [],
+      'optional' => [],
+    ];
+    foreach ($sources_list as $entity_type_id => $entity_sources) {
+      foreach ($entity_sources as $entity_id => $sources) {
+        $entity = $this->entityTypeManager()->getStorage($entity_type_id)->load($entity_id);
+        if (is_array($entity_type_ids) && !in_array($entity->getEntityTypeId(), $entity_type_ids)) {
+          continue;
+        }
+        foreach ($sources as $source) {
+          if ($source['source_langcode'] != 'en') {
+            // Let's not look at content in other languages for now.
+            continue;
+          }
+          if ($entity instanceof NodeInterface && $entity->language() == 'en' && $entity->isDefaultRevision() && $entity->getRevisionId() == $source['source_vid'] && $source['field_name'] == 'field_hero_image') {
+            $source['source_id'] = $entity->id();
+            $references['optional'][] = $source;
+          }
+          if ($entity instanceof ParagraphInterface && $entity->getRevisionId() == $source['source_vid']) {
+            $parent = $entity->getParentEntity();
+            while ($parent instanceof ParagraphInterface) {
+              $parent = $parent->getParentEntity();
+            }
+            $parent_revision = $this->getParagraphParentRevision($parent, $entity);
+            if (!$parent_revision || !$parent_revision instanceof ContentInterface) {
+              continue;
+            }
+            if ($parent_revision->isDeleted()) {
+              continue;
+            }
+            if (!$parent_revision->isDefaultRevision()) {
+              continue;
+            }
+            $source['parent_id'] = $parent_revision->id();
+            $source['parent_revision_id'] = $parent_revision->getRevisionId();
+            if (array_key_exists($entity->bundle(), self::PARAGRAPHS_WITH_MANDATORY_IMAGES) && in_array($source['field_name'], self::PARAGRAPHS_WITH_MANDATORY_IMAGES[$entity->bundle()])) {
+              $references['mandatory'][] = $source;
+            }
+            if (array_key_exists($entity->bundle(), self::PARAGRAPHS_WITH_OPTIONAL_IMAGES) && in_array($source['field_name'], self::PARAGRAPHS_WITH_OPTIONAL_IMAGES[$entity->bundle()])) {
+              $references['optional'][] = $source;
+            }
+          }
+        }
+      }
+    }
+    return $references;
   }
 
   /**

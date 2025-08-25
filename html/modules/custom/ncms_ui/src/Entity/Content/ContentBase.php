@@ -34,10 +34,14 @@ abstract class ContentBase extends Node implements ContentInterface {
   /**
    * {@inheritdoc}
    */
-  public function access($operation = 'view', AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($operation = 'view', ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     if ($operation == 'view' && (!$this->isDeleted() || $this->hasContentSpaceAccess($account))) {
       // Always allow view operation on specific internal routes for non
       // deleted content or if the user can access the content space.
+      return $return_as_object ? AccessResult::allowed() : TRUE;
+    }
+
+    if ($operation == 'view label' && $this->hasContentSpaceAccess($account)) {
       return $return_as_object ? AccessResult::allowed() : TRUE;
     }
 
@@ -251,7 +255,7 @@ abstract class ContentBase extends Node implements ContentInterface {
     $build = [
       '#type' => 'container',
       '#attributes' => [
-        'class' => ['metadata-wrapper'],
+        'class' => ['metadata-wrapper', 'content-width'],
       ],
     ];
     $build['header'] = [

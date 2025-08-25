@@ -24,6 +24,11 @@ services:
     class: Drupal\ncms_ui\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
+  ncms_ui.controller_alter:
+    class: Drupal\ncms_ui\EventSubscriber\ControllerAlterSubscriber
+    arguments: []
+    tags:
+      - { name: event_subscriber }
   ncms_ui.replicate_subscriber:
     class: Drupal\ncms_ui\EventSubscriber\ReplicateEventSubscriber
     arguments: ['@entity_type.manager', '@ncms_ui.content_space.manager']

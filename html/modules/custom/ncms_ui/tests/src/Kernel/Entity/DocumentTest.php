@@ -35,6 +35,7 @@ class DocumentTest extends KernelTestBase {
     'user',
     'image',
     'node',
+    'taxonomy',
     'media',
     'paragraphs',
     'views',
@@ -53,6 +54,7 @@ class DocumentTest extends KernelTestBase {
     $this->installSchema('node', 'node_access');
     $this->installSchema('user', 'users_data');
     $this->installEntitySchema('node');
+    $this->installEntitySchema('taxonomy_term');
     $this->installEntitySchema('media');
     $this->installEntitySchema('user');
     $this->installEntitySchema('paragraph');
@@ -63,6 +65,7 @@ class DocumentTest extends KernelTestBase {
       'user',
       'image',
       'node',
+      'taxonomy',
       'media',
       'text',
       'paragraphs',

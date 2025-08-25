@@ -2,13 +2,29 @@
 
 namespace Drupal\ncms_paragraphs\Entity;
 
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\ncms_paragraphs\Traits\ParagraphHelperTrait;
 use Drupal\paragraphs\Entity\Paragraph;
 
 /**
  * Base class for NCMS paragraphs.
  */
 abstract class NcmsParagraphBase extends Paragraph implements NcmsParagraphInterface {
+
+  use ParagraphHelperTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function access($operation = 'view', ?AccountInterface $account = NULL, $return_as_object = FALSE) {
+    if ($operation == 'view label') {
+      return $return_as_object ? AccessResult::allowed() : TRUE;
+    }
+    return parent::access($operation, $account, $return_as_object);
+  }
 
   /**
    * {@inheritdoc}
@@ -54,6 +70,24 @@ abstract class NcmsParagraphBase extends Paragraph implements NcmsParagraphInter
    * {@inheritdoc}
    */
   public function preprocess(&$variables) {}
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preSave(EntityStorageInterface $storage) {
+    parent::preSave($storage);
+
+    // Check for required fields. If any is missing, set the paragraph to be
+    // hidden.
+    foreach ($this->getFields() as $field) {
+      if (!$field->getFieldDefinition()->isRequired()) {
+        continue;
+      }
+      if ($field->isEmpty() || $field->validate()->count() > 0) {
+        $this->setUnpublished();
+      }
+    }
+  }
 
   /**
    * {@inheritdoc}

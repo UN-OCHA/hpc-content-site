@@ -5,6 +5,7 @@ namespace Drupal\ncms_ui\Plugin\Derivative;
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\ncms_ui\Plugin\Menu\LocalTask\MediaUsageLocalTask;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -66,7 +67,7 @@ class DynamicLocalTasks extends DeriverBase implements ContainerDeriverInterface
         'weight' => 99,
       ];
 
-      $this->derivatives['content'] = [
+      $this->derivatives['trash_content'] = [
         'title' => (string) $this->t('Content'),
         'parent_id' => $parent_id,
         'route_name' => 'view.trash_nodes.page_trash',
@@ -74,11 +75,39 @@ class DynamicLocalTasks extends DeriverBase implements ContainerDeriverInterface
       ];
 
       if ($this->router->getRouteCollection()->get('view.trash_media.page_trash')) {
-        $this->derivatives['media'] = [
+        $this->derivatives['trash_media'] = [
           'title' => (string) $this->t('Media'),
           'parent_id' => $parent_id,
           'route_name' => 'view.trash_media.page_trash',
           'weight' => 20,
+        ];
+      }
+    }
+    // Add the places used tasks if the views routes exists.
+    if ($this->router->getRouteCollection()->get('view.media_usage.page_content')) {
+      $parent_id = $this->basePluginId . ':media_usage';
+      $this->derivatives['media_usage'] = [
+        'title' => (string) $this->t('Places used'),
+        'route_name' => 'view.media_usage.page_content',
+        'base_route' => 'entity.media.canonical',
+        'weight' => 99,
+      ];
+
+      $this->derivatives['media_usage_content'] = [
+        'title' => (string) $this->t('Content'),
+        'parent_id' => $parent_id,
+        'route_name' => 'view.media_usage.page_content',
+        'weight' => 10,
+        'class' => MediaUsageLocalTask::class,
+      ];
+
+      if ($this->router->getRouteCollection()->get('view.media_usage.page_paragraphs')) {
+        $this->derivatives['media_usage_paragraphs'] = [
+          'title' => (string) $this->t('Paragraphs'),
+          'parent_id' => $parent_id,
+          'route_name' => 'view.media_usage.page_paragraphs',
+          'weight' => 20,
+          'class' => MediaUsageLocalTask::class,
         ];
       }
     }

@@ -138,7 +138,7 @@ class ContentSpaceManager {
    *   The content space ids
    */
   public function getValidContentSpaceIdsForCurrentUser() {
-    return $this->getValidContentSpaceIdsForUser($this->currentUser);
+    return $this->currentUser ? $this->getValidContentSpaceIdsForUser($this->currentUser) : [];
   }
 
   /**

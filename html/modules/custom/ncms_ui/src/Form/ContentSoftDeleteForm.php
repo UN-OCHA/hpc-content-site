@@ -8,6 +8,7 @@ use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\ncms_ui\Ajax\ReloadPageCommand;
+use Drupal\ncms_ui\Entity\Media\MediaBase;
 use Drupal\ncms_ui\Traits\RouteMatchEntityTrait;
 
 /**
@@ -29,9 +30,19 @@ class ContentSoftDeleteForm extends ConfirmFormBase {
    */
   public function getQuestion() {
     $entity = $this->getEntityFromRouteMatch();
-    return $this->t('This will remove this @type, including already published versions, from public display anywhere. Are you sure?', [
+    $t_args = [
       '@type' => strtolower($entity->getBundleLabel()),
-    ]);
+    ];
+    if ($entity instanceof MediaBase) {
+      if (!$entity->hasMandatoryReferences()) {
+        return $this->t('This will remove this @type from public display and remove references to it from all the places (articles, documents or stories) where it is currently used. These references will not be restored if you untrash this item later. Are you sure?', $t_args);
+      }
+      else {
+        $t_args['@places_used_url'] = $entity->toUrl('places-used')->toString();
+        return $this->t('This @type is currently referred to in article paragraphs where it is mandatory. It cannot be moved to trash until those references are removed manually. Please refer to the <a href="@places_used_url" target="_blank">Places used</a> list.', $t_args);
+      }
+    }
+    return $this->t('This will remove this @type, including already published versions, from public display anywhere. Are you sure?', $t_args);
   }
 
   /**
@@ -58,6 +69,9 @@ class ContentSoftDeleteForm extends ConfirmFormBase {
     // This is a special class to which JavaScript assigns dialog closing
     // behavior.
     $form['actions']['cancel']['#attributes']['class'][] = 'dialog-cancel';
+    if ($entity instanceof MediaBase && $entity->hasMandatoryReferences()) {
+      $form['actions']['submit']['#access'] = FALSE;
+    }
     return $form;
   }
 

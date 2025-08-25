@@ -14,6 +14,7 @@ dependencies:
     - media
     - media_library
     - ncms_ui
+    - node
     - user
   enforced:
     module:
@@ -1493,63 +1494,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        source_id:
-          id: source_id
-          table: entity_usage
-          field: source_id
-          relationship: media_to_usage_entity
-          group_type: count_distinct
-          admin_label: ''
-          plugin_id: numeric
-          label: 'Places used'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: true
-            path: '/media/{{ mid }}/edit/usage'
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          set_precision: false
-          precision: 0
-          decimal: .
-          separator: ','
-          format_plural: false
-          format_plural_string: !!binary MQNAY291bnQ=
-          prefix: ''
-          suffix: ''
         created:
           id: created
           table: media_field_data
@@ -1627,6 +1571,65 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        places_used_count:
+          id: places_used_count
+          table: node
+          field: places_used_count
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: places_used_count_field
+          label: 'Places used'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          link_to_usage_count_page: 1
+          set_precision: false
+          precision: 0
+          decimal: .
+          separator: ','
+          format_plural: false
+          format_plural_string: !!binary MQNAY291bnQ=
+          prefix: ''
+          suffix: ''
         operations:
           id: operations
           table: media
@@ -1857,10 +1860,99 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        nid_1:
+          id: nid_1
+          table: node_field_data
+          field: nid
+          relationship: reverse__node__source
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: nid
+          plugin_id: numeric
+          operator: empty
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 2
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        langcode:
+          id: langcode
+          table: node_field_data
+          field: langcode
+          relationship: reverse__node__source
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: langcode
+          plugin_id: language
+          operator: in
+          value:
+            en: en
+          group: 2
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
           1: AND
+          2: OR
       style:
         type: table
         options:
@@ -1960,6 +2052,7 @@ display:
           separator: ''
           hide_empty: false
       defaults:
+        query: true
         group_by: false
         style: false
         row: false
@@ -1977,6 +2070,15 @@ display:
           group_type: group
           admin_label: 'Usage information (Media)'
           entity_type: media
+          plugin_id: standard
+          required: false
+        reverse__node__source:
+          id: reverse__node__source
+          table: entity_usage
+          field: reverse__node__source
+          relationship: media_to_usage_entity
+          group_type: group
+          admin_label: 'Source entity usage information (Content)'
           plugin_id: standard
           required: false
       group_by: true

@@ -37,6 +37,7 @@ class TopFigures extends NcmsParagraphBase {
     /** @var \Drupal\ncms_paragraphs\Entity\NcmsParagraphGeneric $paragraph */
     $paragraph = $form['#paragraph'];
     foreach ($paragraph->getFields() as $field_name => $field) {
+
       if (!$field instanceof CustomItemList) {
         continue;
       }

@@ -598,6 +598,18 @@ function ncms_ui_views_post_render(ViewExecutable $view, &$output, CachePluginBa
     // }
     // @codingStandardsIgnoreEnd
   }
+  if ($view->id() === 'media_usage') {
+    $media_id = reset($view->args);
+    $media = \Drupal::entityTypeManager()->getStorage('media')->load($media_id);
+    $t_args = [
+      '@name' => $media->label(),
+      '@type' => $media->bundle(),
+    ];
+    match ($view->current_display) {
+      'page_content' => $view->setTitle(t('Content using <em>@type</em> @name', $t_args)),
+      'page_paragraphs' => $view->setTitle(t('Paragraphs using <em>@type</em> @name', $t_args)),
+    };
+  }
 }
 
 /**

@@ -133,6 +133,24 @@ trait ModeratedEntityTrait {
   /**
    * {@inheritdoc}
    */
+  public function getPublishedRevisions() {
+    $storage = $this->getEntityStorage();
+    $revision_ids = array_reverse($storage->revisionIds($this));
+    /** @var \Drupal\Core\Entity\RevisionableInterface[] $revisions */
+    $revisions = $storage->loadMultipleRevisions($revision_ids);
+    $published_revisions = [];
+    foreach ($revisions as $revision) {
+      if (!$revision instanceof EntityPublishedInterface || !$revision->isPublished()) {
+        continue;
+      }
+      $published_revisions[$revision->getRevisionId()] = $revision;
+    };
+    return $published_revisions;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getPreviousRevision() {
     $storage = $this->getEntityStorage();
     $revision_ids = array_reverse($storage->revisionIds($this));
@@ -146,7 +164,10 @@ trait ModeratedEntityTrait {
   }
 
   /**
-   * {@inheritdoc}
+   * Get the entity storage.
+   *
+   * @return \Drupal\ncms_ui\Entity\Storage\ContentStorage|\Drupal\ncms_ui\Entity\Storage\MediaStorage|null
+   *   The storage object.
    */
   public function getEntityStorage() {
     if ($this instanceof ContentInterface) {

@@ -91,6 +91,14 @@ interface ContentVersionInterface {
   public function getLastPublishedRevision();
 
   /**
+   * Get the all published revisions.
+   *
+   * @return \Drupal\ncms_ui\Entity\ContentVersionInterface[]|null
+   *   An array with all published revisions if available.
+   */
+  public function getPublishedRevisions();
+
+  /**
    * Get the previous revision.
    *
    * @return \Drupal\ncms_ui\Entity\ContentVersionInterface|null

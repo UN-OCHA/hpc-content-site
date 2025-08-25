@@ -4080,7 +4080,8 @@ display:
         type: normal
         title: 'Find content'
         description: ''
-        weight: 4
+        weight: 10
+        enabled: true
         expanded: false
         menu_name: admin
         parent: system.admin_content

@@ -30,6 +30,9 @@ function ncms_ui_views_data_alter(array &$data) {
       'no group by' => TRUE,
       'click sortable' => FALSE,
     ],
+    'filter' => [
+      'id' => 'latest_published_version_filter',
+    ],
   ];
   $data['node']['content_status'] = [
     'title' => t('Content status'),
@@ -38,6 +41,15 @@ function ncms_ui_views_data_alter(array &$data) {
       'id' => 'content_status_field',
       'no group by' => TRUE,
       'click sortable' => FALSE,
+    ],
+  ];
+  $data['node']['places_used_count'] = [
+    'title' => t('Places used count'),
+    'help' => t('Shows the number of places an entity is used.'),
+    'field' => [
+      'id' => 'places_used_count_field',
+      'no group by' => TRUE,
+      'click sortable' => TRUE,
     ],
   ];
   $data['node']['article_count'] = [

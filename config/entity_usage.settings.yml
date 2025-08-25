@@ -4,27 +4,13 @@ local_task_enabled_entity_types:
   - media
 operations_enabled_entity_types: {  }
 track_enabled_source_entity_types:
-  - content_moderation_state
+  - file
   - media
-  - menu_link_content
-  - monitoring_sensor_result
   - node
   - paragraph
-  - path_alias
-  - redirect
-  - social_auth
   - taxonomy_term
 track_enabled_target_entity_types:
-  - content_moderation_state
   - media
-  - menu_link_content
-  - monitoring_sensor_result
-  - node
-  - paragraph
-  - path_alias
-  - redirect
-  - social_auth
-  - taxonomy_term
 track_enabled_plugins:
   - block_field
   - ckeditor_image

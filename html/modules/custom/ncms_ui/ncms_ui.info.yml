@@ -14,6 +14,7 @@ dependencies:
   - drupal:media
   - drupal:content_moderation
   - entity_browser_table:entity_browser_table
+  - entity_usage:entity_usage
   - paragraphs:paragraphs
   - workflows:workflows
   - gho_fields:gho_fields

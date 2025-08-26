@@ -85,26 +85,20 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
         ->map('tags', $builder->fromArgument('tags'))
     );
     $registry->addFieldResolver('Query', 'documentSearch',
-      $builder->compose(
-        $builder->produce('hid_user'),
-        $builder->produce('entity_search_by_title')
-          ->map('type', $builder->fromValue('node'))
-          ->map('bundles', $builder->fromValue(['document']))
-          ->map('title', $builder->fromArgument('title'))
-          ->map('access_user', $builder->fromParent())
-          ->map('access_operation', $builder->fromValue('view'))
-      ),
+      $builder->produce('entity_search_by_title')
+        ->map('type', $builder->fromValue('node'))
+        ->map('bundles', $builder->fromValue(['document']))
+        ->map('title', $builder->fromArgument('title'))
+        ->map('access_user', $builder->fromParent())
+        ->map('access_operation', $builder->fromValue('view'))
     );
     $registry->addFieldResolver('Query', 'document',
-      $builder->compose(
-        $builder->produce('hid_user'),
-        $builder->produce('entity_load')
-          ->map('type', $builder->fromValue('node'))
-          ->map('bundles', $builder->fromValue(['document']))
-          ->map('id', $builder->fromArgument('id'))
-          ->map('access_user', $builder->fromParent())
-          ->map('access_operation', $builder->fromValue('view'))
-      ),
+      $builder->produce('entity_load')
+        ->map('type', $builder->fromValue('node'))
+        ->map('bundles', $builder->fromValue(['document']))
+        ->map('id', $builder->fromArgument('id'))
+        ->map('access_user', $builder->fromParent())
+        ->map('access_operation', $builder->fromValue('view'))
     );
 
     // Articles.
@@ -114,30 +108,23 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
     );
 
     $registry->addFieldResolver('Query', 'articleSearch',
-      $builder->compose(
-        $builder->produce('hid_user'),
-        $builder->produce('entity_search_by_title')
-          ->map('type', $builder->fromValue('node'))
-          ->map('bundles', $builder->fromValue(['article']))
-          ->map('title', $builder->fromArgument('title'))
-          ->map('access_user', $builder->fromParent())
-          ->map('access_operation', $builder->fromValue('view'))
-      ),
+      $builder->produce('entity_search_by_title')
+        ->map('type', $builder->fromValue('node'))
+        ->map('bundles', $builder->fromValue(['article']))
+        ->map('title', $builder->fromArgument('title'))
+        ->map('access_user', $builder->fromParent())
+        ->map('access_operation', $builder->fromValue('view'))
     );
     $registry->addFieldResolver('Query', 'article',
-      $builder->compose(
-        $builder->produce('hid_user'),
-        $builder->produce('entity_load')
-          ->map('type', $builder->fromValue('node'))
-          ->map('bundles', $builder->fromValue(['article']))
-          ->map('id', $builder->fromArgument('id'))
-          ->map('access_user', $builder->fromParent())
-          ->map('access_operation', $builder->fromValue('view'))
-      ),
+      $builder->produce('entity_load')
+        ->map('type', $builder->fromValue('node'))
+        ->map('bundles', $builder->fromValue(['article']))
+        ->map('id', $builder->fromArgument('id'))
+        ->map('access_user', $builder->fromParent())
+        ->map('access_operation', $builder->fromValue('view'))
     );
     $registry->addFieldResolver('Query', 'articleTranslations',
       $builder->compose(
-        $builder->produce('hid_user'),
         $builder->produce('entity_load')
           ->map('type', $builder->fromValue('node'))
           ->map('bundles', $builder->fromValue(['article']))
@@ -151,14 +138,11 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
 
     // Paragraph.
     $registry->addFieldResolver('Query', 'paragraph',
-      $builder->compose(
-        $builder->produce('hid_user'),
-        $builder->produce('entity_load')
-          ->map('type', $builder->fromValue('paragraph'))
-          ->map('id', $builder->fromArgument('id'))
-          ->map('access_user', $builder->fromParent())
-          ->map('access_operation', $builder->fromValue('view'))
-      ),
+      $builder->produce('entity_load')
+        ->map('type', $builder->fromValue('paragraph'))
+        ->map('id', $builder->fromArgument('id'))
+        ->map('access_user', $builder->fromParent())
+        ->map('access_operation', $builder->fromValue('view'))
     );
 
     // Tag.

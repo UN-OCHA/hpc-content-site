@@ -102,7 +102,6 @@
         "masonry/masonry": "^3.3",
         "mglaman/composer-drupal-lenient": "^1.0",
         "oomphinc/composer-installers-extender": "^2.0",
-        "phpoffice/phpspreadsheet": "^1.18",
         "slevomat/coding-standard": "^7.0",
         "symfony/flex": "^1.12",
         "symfony/uid": "^5.3",

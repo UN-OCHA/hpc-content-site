@@ -1,0 +1,29 @@
+uuid: 6dbd219d-d16a-4142-a87c-c49ddd3be707
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_icon
+    - paragraphs.paragraphs_type.heading
+  module:
+    - field_config_cardinality
+    - options
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
+id: paragraph.heading.field_icon
+field_name: field_icon
+entity_type: paragraph
+bundle: heading
+label: Icon
+description: 'Select an optional icon that will be display before the title.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

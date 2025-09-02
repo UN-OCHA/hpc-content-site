@@ -36,6 +36,7 @@ picture img {
   --reading-width: 720px;
   --ha-primary-button-color: #fed83d;
   --ha-primary-button-color-hover: #feba00;
+  --cd-font-size--medium-large: 1.5rem; /* 24px */
 }
 
 h1,

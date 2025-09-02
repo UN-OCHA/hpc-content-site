@@ -54,7 +54,12 @@
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-      <h2 class="gho-heading__heading">{{ content }}</h2>
+      {% if content.field_pre_title %}
+        {{ content.field_pre_title }}
+      {% endif %}
+      <h2 class="gho-heading--title-wrapper">
+        {{ content|without('field_pre_title') }}
+      </h2>
     {% endblock %}
   </div>
 {% endblock paragraph %}

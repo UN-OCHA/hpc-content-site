@@ -104,6 +104,8 @@ gho-heading:
   css:
     theme:
       components/gho-heading/gho-heading.css: {}
+  dependencies:
+    - common_design_subtheme/gho-icon-field
 
 gho-footnotes:
   js:
@@ -178,6 +180,11 @@ gho-home-page:
   dependencies:
     - common_design_subtheme/gho-page-node
 
+gho-icon-field:
+  css:
+    theme:
+      components/gho-icon-field/gho-icon-field.css: {}
+
 gho-interactive-content:
   css:
     theme:
@@ -194,6 +201,8 @@ gho-achievement:
   css:
     theme:
       components/gho-achievement/gho-achievement.css: {}
+  dependencies:
+    - common_design_subtheme/gho-icon-field
 
 gho-achievement-list:
   css:

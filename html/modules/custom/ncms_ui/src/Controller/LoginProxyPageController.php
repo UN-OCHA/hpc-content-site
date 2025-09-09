@@ -45,7 +45,7 @@ class LoginProxyPageController extends ControllerBase {
       [
         '#type' => 'html_tag',
         '#tag' => 'p',
-        '#value' => $this->t('If you do not have a UN agency account, then you will first need your email address to be added to an approved user list. Contact <a href="mailto:ocha-hpc@un.org">ocha-hpc@un.org</a> to request this. Once added, you can use the ‘UN agency’ link above with that email address to log in.'),
+        '#value' => $this->t('If you do not have a UN agency account, then you will first need your email address to be added to an approved user list. Contact <a href="mailto:ocha-hpc@un.org">ocha-hpc@un.org</a> to request this. Once added, you can use the ‘UN agency’ link below with that email address to log in.'),
       ],
     ];
 

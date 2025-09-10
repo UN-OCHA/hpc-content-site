@@ -32,6 +32,7 @@ module:
   entity_browser: 0
   entity_browser_table: 0
   entity_reference_revisions: 0
+  externalauth: 0
   entity_usage: 0
   field: 0
   field_config_cardinality: 0

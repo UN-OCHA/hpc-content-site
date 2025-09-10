@@ -9,5 +9,4 @@ user_allowed: login
 redirect_user_form: false
 disable_admin_login: true
 disabled_roles:
-  editor: '0'
   administrator: '0'

@@ -1961,7 +1961,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
           is_grouped: false
           group_info:
             label: ''
@@ -2002,7 +2001,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
             min_placeholder: ''
             max_placeholder: ''
             placeholder: ''
@@ -2061,8 +2059,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
-            reduce: false
           is_grouped: true
           group_info:
             label: Status
@@ -2085,6 +2081,7 @@ display:
                 operator: in
                 value:
                   article_workflow-draft: article_workflow-draft
+          reduce: false
       filter_groups:
         operator: AND
         groups:
@@ -2914,7 +2911,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
           is_grouped: false
           group_info:
             label: ''
@@ -3814,8 +3810,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
-            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -3834,6 +3828,7 @@ display:
           hierarchy: false
           limit: true
           error_message: true
+          reduce: false
         type:
           id: type
           table: node_field_data
@@ -3866,8 +3861,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
-            reduce: true
           is_grouped: false
           group_info:
             label: ''
@@ -3880,6 +3873,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          reduce: true
         field_document_type_target_id:
           id: field_document_type_target_id
           table: node__field_document_type
@@ -3908,8 +3902,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
-            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -3928,6 +3920,7 @@ display:
           hierarchy: false
           limit: true
           error_message: true
+          reduce: false
         field_country_target_id:
           id: field_country_target_id
           table: node__field_country
@@ -3956,8 +3949,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
-            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -3976,6 +3967,7 @@ display:
           hierarchy: false
           limit: true
           error_message: true
+          reduce: false
         field_theme_target_id:
           id: field_theme_target_id
           table: node__field_theme
@@ -4004,8 +3996,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
-            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -4024,6 +4014,7 @@ display:
           hierarchy: false
           limit: true
           error_message: true
+          reduce: false
         status:
           id: status
           table: node_field_data

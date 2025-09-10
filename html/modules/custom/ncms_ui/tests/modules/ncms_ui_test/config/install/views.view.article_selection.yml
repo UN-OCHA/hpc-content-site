@@ -319,7 +319,6 @@ display:
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
-              editor: '0'
               administrator: '0'
             placeholder: ''
           is_grouped: false
@@ -361,7 +360,6 @@ display:
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
-              editor: '0'
               administrator: '0'
             reduce: false
           is_grouped: false

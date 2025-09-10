@@ -519,8 +519,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
-            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -533,6 +531,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          placeholder: ''
         type:
           id: type
           table: node_field_data
@@ -565,8 +564,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
-            reduce: true
           is_grouped: false
           group_info:
             label: ''
@@ -579,6 +576,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          reduce: true
       filter_groups:
         operator: AND
         groups:

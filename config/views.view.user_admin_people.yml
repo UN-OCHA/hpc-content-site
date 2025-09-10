@@ -761,8 +761,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
-            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -781,6 +779,7 @@ display:
           hierarchy: false
           limit: true
           error_message: true
+          reduce: false
         default_langcode:
           id: default_langcode
           table: users_field_data

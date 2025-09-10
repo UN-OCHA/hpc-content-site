@@ -224,7 +224,7 @@ abstract class MediaBase extends Media implements MediaInterface {
             // Let's not look at content in other languages for now.
             continue;
           }
-          if ($entity instanceof NodeInterface && $entity->language() == 'en' && $entity->isDefaultRevision() && $entity->getRevisionId() == $source['source_vid'] && $source['field_name'] == 'field_hero_image') {
+          if ($entity instanceof NodeInterface && $entity->language()->getId() == 'en' && $entity->isDefaultRevision() && $entity->getRevisionId() == $source['source_vid'] && $source['field_name'] == 'field_hero_image') {
             $source['source_id'] = $entity->id();
             $references['optional'][] = $source;
           }

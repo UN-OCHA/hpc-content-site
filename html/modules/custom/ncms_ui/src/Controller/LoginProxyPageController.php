@@ -2,15 +2,36 @@
 
 namespace Drupal\ncms_ui\Controller;
 
+use Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implementation of the LoginProxyPageController class.
  */
-class LoginProxyPageController extends ControllerBase {
+class LoginProxyPageController extends ControllerBase implements ContainerInjectionInterface {
+
+  /**
+   * The block manager service.
+   *
+   * @var \Drupal\Core\Block\BlockManagerInterface
+   */
+  protected $blockManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container): self {
+    /** @var self $instance */
+    $instance = new static();
+    $instance->blockManager = $container->get('plugin.manager.block');
+    return $instance;
+  }
 
   /**
    * Build the title of the proxy page.
@@ -50,6 +71,7 @@ class LoginProxyPageController extends ControllerBase {
     ];
 
     $route_name = 'ocha_entraid.login';
+
     $options = [
       'attributes' => [
         'class' => [
@@ -66,10 +88,18 @@ class LoginProxyPageController extends ControllerBase {
       ];
     }
 
-    $login_link = Link::createFromRoute($this->t('Continue with your UN Agency email'), $route_name, [], $options)->toRenderable();
+    $login_attributes = [
+      'attributes' => [
+        'class' => [Html::getClass('login-link--un')],
+      ],
+    ];
+    $login_link = Link::createFromRoute($this->t('Continue with your UN Agency email'), $route_name, [], NestedArray::mergeDeep($options, $login_attributes));
 
-    return [
+    $build = [
       '#type' => 'container',
+      '#attributes' => [
+        'class' => ['site-login'],
+      ],
       'message' => [
         '#type' => 'html_tag',
         '#tag' => 'div',
@@ -78,7 +108,7 @@ class LoginProxyPageController extends ControllerBase {
       'link' => [
         '#type' => 'html_tag',
         '#tag' => 'div',
-        'content' => $login_link,
+        'content' => $login_link->toRenderable(),
       ],
       '#cache' => [
         'contexts' => [
@@ -87,6 +117,41 @@ class LoginProxyPageController extends ControllerBase {
         ],
       ],
     ];
+
+    if ($this->moduleHandler()->moduleExists('social_auth')) {
+      /** @var \Drupal\social_auth\Plugin\Block\SocialAuthLoginBlock $social_auth_login_block */
+      $social_auth_login_block = $this->blockManager->createInstance('social_auth_login');
+      /** @var \Drupal\social_auth\Plugin\Network\NetworkInterface[] $login_networks */
+      $login_networks = $social_auth_login_block->build()['#networks'] ?? [];
+      $build['social_auth'] = [
+        '#type' => 'container',
+        '#attributes' => [
+          'class' => ['site-login-other'],
+        ],
+        '#access' => !empty($login_networks),
+        'message' => [
+          '#type' => 'html_tag',
+          '#tag' => 'p',
+          '#value' => $this->t('You can also login using one of the following options:'),
+        ],
+        'links' => [
+          '#type' => 'html_tag',
+          '#tag' => 'div',
+        ],
+      ];
+
+      foreach ($login_networks as $login_network) {
+        $login_attributes = [
+          'class' => [Html::getClass('login-link--' . $login_network->getShortName())],
+        ];
+        $login_url = $login_network->getRedirectUrl();
+        $login_url->setOption('attributes', NestedArray::mergeDeep($options['attributes'], $login_attributes));
+        $link = Link::fromTextAndUrl($login_network->getSocialNetwork(), $login_url);
+        $build['social_auth']['links'][] = $link->toRenderable();
+      }
+    }
+
+    return $build;
   }
 
 }

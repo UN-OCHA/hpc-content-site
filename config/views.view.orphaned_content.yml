@@ -581,8 +581,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
-            reduce: true
           is_grouped: false
           group_info:
             label: ''
@@ -595,6 +593,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          reduce: true
         type_1:
           id: type_1
           table: node_field_data

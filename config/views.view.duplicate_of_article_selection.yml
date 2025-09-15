@@ -490,9 +490,8 @@ display:
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
-              editor: '0'
-              administrator: '0'
             placeholder: ''
+            administrator: '0'
           is_grouped: false
           group_info:
             label: ''
@@ -533,7 +532,6 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
-              editor: '0'
           is_grouped: false
           group_info:
             label: ''

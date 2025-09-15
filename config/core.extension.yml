@@ -35,6 +35,7 @@ module:
   entity_browser: 0
   entity_browser_table: 0
   entity_reference_revisions: 0
+  externalauth: 0
   field: 0
   field_config_cardinality: 0
   field_group: 0
@@ -50,11 +51,13 @@ module:
   gho_layouts: 0
   google_tag: 0
   graphql: 0
+  honeypot: 0
   image: 0
   imageapi_optimize: 0
   imageapi_optimize_binaries: 0
   imagemagick: 0
   inline_entity_form: 0
+  key: 0
   language: 0
   layout_builder: 0
   layout_discovery: 0
@@ -81,7 +84,10 @@ module:
   ncms_tags: 0
   ncms_ui: 0
   node: 0
+  ocha_entraid: 0
   ocha_monitoring: 0
+  openid_connect: 0
+  openid_connect_windows_aad: 0
   options: 0
   override_node_options: 0
   page_cache: 0
@@ -96,9 +102,6 @@ module:
   responsive_image: 0
   search: 0
   seckit: 0
-  social_api: 0
-  social_auth: 0
-  social_auth_hid: 0
   sophron: 0
   syslog: 0
   system: 0

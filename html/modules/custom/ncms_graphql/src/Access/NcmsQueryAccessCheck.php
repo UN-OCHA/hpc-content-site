@@ -7,7 +7,6 @@ use Drupal\Core\Routing\Access\AccessInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\graphql\Access\QueryAccessCheck;
 use Drupal\graphql\Entity\ServerInterface;
-use Drupal\social_api\User\UserManager;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -30,27 +29,16 @@ class NcmsQueryAccessCheck implements AccessInterface {
   private $requestStack;
 
   /**
-   * The social auth user manager.
-   *
-   * @var \Drupal\social_auth\User\UserManager
-   */
-  protected $userManager;
-
-  /**
    * Constructs a new QueryAccessCheck instance.
    *
    * @param \Drupal\graphql\Access\QueryAccessCheck $query_access_check
    *   The original query access check service.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   The request stack service.
-   * @param \Drupal\social_auth\User\UserManager $user_manager
-   *   The social auth user manager service.
    */
-  public function __construct(QueryAccessCheck $query_access_check, RequestStack $request_stack, UserManager $user_manager) {
+  public function __construct(QueryAccessCheck $query_access_check, RequestStack $request_stack) {
     $this->queryAccessCheck = $query_access_check;
     $this->requestStack = $request_stack;
-    $this->userManager = $user_manager;
-    $this->userManager->setPluginId('social_auth_hid');
   }
 
   /**

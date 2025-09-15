@@ -4,6 +4,7 @@ paths:
   - '*'
   - ~user/login
   - '~user/login/*'
+  - ~openid-connect/entraid
   - ~ncms
   - ~ncms/login
   - ~media/oembed

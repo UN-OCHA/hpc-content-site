@@ -1,0 +1,11 @@
+uuid: 570e1cb1-d7a0-4a43-8ac4-6fa47f8d1a84
+langcode: en
+status: true
+dependencies:
+  module:
+    - bulk_update_fields
+id: bulk_update_fields_on_openid_connect_client
+label: 'Bulk Update OpenID Connect client Fields'
+type: openid_connect_client
+plugin: bulk_update_fields_action_base
+configuration: {  }

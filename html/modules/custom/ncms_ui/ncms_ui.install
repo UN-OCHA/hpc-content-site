@@ -160,3 +160,12 @@ function ncms_ui_update_9008(&$sandbox) {
     }
   }
 }
+
+/**
+ * Delete social auth entities so the social_auth module can be uninstalled.
+ */
+function ncms_ui_update_9009() {
+  $storage = \Drupal::entityTypeManager()->getStorage('social_auth');
+  $entities = $storage->loadMultiple();
+  $storage->delete($entities);
+}

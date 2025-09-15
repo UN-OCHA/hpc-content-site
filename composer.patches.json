@@ -26,6 +26,12 @@
         "drupal/field_group": {
           "Issue #3395375: Duplicated required marks in field tabs with GIn admin theme": "https://www.drupal.org/files/issues/2024-08-06/3395375-6.patch"
         },
+        "drupal/openid_connect": {
+            "Handle case if user is in blocked state after SSO Authorization": "./patches/openid_connect-3390668-6.patch"
+        },
+        "drupal/openid_connect_windows_aad": {
+            "Failed to get authentication tokens for Windows Azure AD": "./patches/openid_connect_windows_aad-3346603-5.patch"
+        },
         "drupal/paragraphs_viewmode": {
             "Issue #3345123: entityViewModeAlter throws an exception in php 8.2": "https://www.drupal.org/files/issues/2023-03-01/paragraphs_viewmode-remove-context-parameter-3345123-2.patch"
         },

@@ -6,6 +6,7 @@ dependencies:
     - gho_access
     - gho_download
     - media
+    - ocha_entraid
     - system
 _core:
   default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
@@ -15,6 +16,7 @@ weight: -10
 is_admin: false
 permissions:
   - 'access content'
+  - 'access ocha entraid direct login'
   - 'download article'
   - 'view media'
   - 'view published article content'

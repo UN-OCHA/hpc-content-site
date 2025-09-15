@@ -32,10 +32,24 @@ class LoginProxyPageController extends ControllerBase {
     }
 
     $message = [
-      '#markup' => $this->t('This site is backend-only and you need to login in order to use it.'),
+      [
+        '#markup' => $this->t('Please log in to access the @site_name.', [
+          '@site_name' => $this->config('system.site')->get('name'),
+        ]),
+      ],
+      [
+        '#type' => 'html_tag',
+        '#tag' => 'p',
+        '#value' => $this->t('If you have a UN agency account you can log in directly, but still also need to be an authorized user of the Content Module to get access. Contact <a href="mailto:ocha-hpc@un.org">ocha-hpc@un.org</a> to request this.'),
+      ],
+      [
+        '#type' => 'html_tag',
+        '#tag' => 'p',
+        '#value' => $this->t('If you do not have a UN agency account, then you will first need your email address to be added to an approved user list. Contact <a href="mailto:ocha-hpc@un.org">ocha-hpc@un.org</a> to request this. Once added, you can use the ‘UN agency’ link below with that email address to log in.'),
+      ],
     ];
 
-    $route_name = 'user.login';
+    $route_name = 'ocha_entraid.login';
     $options = [
       'attributes' => [
         'class' => [
@@ -52,7 +66,7 @@ class LoginProxyPageController extends ControllerBase {
       ];
     }
 
-    $login_link = Link::createFromRoute($this->t('Login via Humanitarian ID'), $route_name, [], $options)->toRenderable();
+    $login_link = Link::createFromRoute($this->t('Continue with your UN Agency email'), $route_name, [], $options)->toRenderable();
 
     return [
       '#type' => 'container',

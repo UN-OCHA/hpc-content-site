@@ -7,4 +7,4 @@ services:
     decorates: access_check.graphql.query
     decoration_priority: 9
     public: false
-    arguments: ['@ncms_graphql.access_check.graphql.query.inner', '@request_stack', '@social_auth.user_manager']
+    arguments: ['@ncms_graphql.access_check.graphql.query.inner', '@request_stack']

@@ -81,4 +81,15 @@ function ncms_ui_views_data_alter(array &$data) {
       ],
     ];
   }
+  if (array_key_exists('entity_usage', $data)) {
+    $data['entity_usage']['media_usage_type'] = [
+      'title' => t('Media usage type'),
+      'help' => t('For media entities, shows whether the usage is optional or mandatory'),
+      'field' => [
+        'id' => 'media_usage_type',
+        'no group by' => TRUE,
+        'click sortable' => FALSE,
+      ],
+    ];
+  }
 }

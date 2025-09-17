@@ -36,6 +36,7 @@ use Drupal\ncms_ui\Entity\Media\Image;
 use Drupal\ncms_ui\Entity\Media\Infographic;
 use Drupal\ncms_ui\Entity\Media\MediaBase;
 use Drupal\ncms_ui\Entity\Media\Video;
+use Drupal\ncms_ui\Entity\MediaInterface as EntityMediaInterface;
 use Drupal\ncms_ui\Entity\Taxonomy\ContentSpace;
 use Drupal\ncms_ui\Form\ContentSpaceSelectForm;
 use Drupal\node\NodeInterface;
@@ -378,9 +379,18 @@ function ncms_ui_preprocess_node(&$variables) {
     $variables['page'] = TRUE;
   }
   $route_match = \Drupal::routeMatch();
+  /** @var \Drupal\node\NodeInterface $node */
   $node = $variables['node'];
   if ($route_match->getRouteName() == 'diff.revisions_diff' && $node instanceof ContentInterface) {
     $variables['diff_metadata'] = $node->buildMetaDataForDiff();
+  }
+  if ($node->hasField('field_hero_image') && !$node->get('field_hero_image')->isEmpty()) {
+    $images = $node->get('field_hero_image')->referencedEntities();
+    $image = reset($images);
+    if ($image instanceof EntityMediaInterface && $image->isDeleted()) {
+      // Hide the image from public display if it's been deleted.
+      $variables['content']['field_hero_image'] = NULL;
+    }
   }
 }
 

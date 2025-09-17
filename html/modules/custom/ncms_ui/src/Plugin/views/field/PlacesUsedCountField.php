@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_ui\Plugin\views\field;
 
+use Drupal\Core\Entity\Exception\UndefinedLinkTemplateException;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\ncms_ui\Entity\Media\MediaBase;
 use Drupal\ncms_ui\Plugin\views\ContentBaseField;
@@ -46,12 +47,20 @@ class PlacesUsedCountField extends ContentBaseField {
     }
     $references = $entity->getUsageReferences();
     $count = count($references['optional']) + count($references['mandatory']);
+    $places_used_url = NULL;
     if (!empty($this->options['link_to_usage_count_page'])) {
-      $url = $entity->toUrl('places-used');
+      try {
+        $places_used_url = $entity->toUrl('places-used');
+      }
+      catch (UndefinedLinkTemplateException $e) {
+        // Just fail silently.
+      }
+    }
+    if ($places_used_url) {
       $build = [
         '#type' => 'link',
         '#title' => $count,
-        '#url' => $url,
+        '#url' => $places_used_url,
       ];
     }
     else {

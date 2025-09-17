@@ -32,44 +32,44 @@ definitions:
     expanded: false
     enabled: false
   'admin_toolbar_tools__extra_links:media_page':
-    weight: 2
     menu_name: admin
     parent: system.admin_content
+    weight: 2
+    expanded: false
     enabled: true
-    expanded: false
   'admin_toolbar_tools__extra_links:add_media':
-    enabled: false
     menu_name: admin
     parent: 'admin_toolbar_tools.extra_links:media_page'
-    expanded: false
     weight: 0
+    expanded: false
+    enabled: false
   'admin_toolbar_tools__extra_links:media__add__author':
-    enabled: false
     menu_name: admin
     parent: 'admin_toolbar_tools.extra_links:add_media'
     weight: 0
     expanded: false
+    enabled: false
   'admin_toolbar_tools__extra_links:media__add__image':
-    enabled: false
     menu_name: admin
     parent: 'admin_toolbar_tools.extra_links:add_media'
     weight: 0
     expanded: false
+    enabled: false
   'admin_toolbar_tools__extra_links:media__add__infographic':
-    enabled: false
     menu_name: admin
     parent: 'admin_toolbar_tools.extra_links:add_media'
     weight: 0
     expanded: false
+    enabled: false
   'admin_toolbar_tools__extra_links:media__add__video':
-    enabled: false
     menu_name: admin
     parent: 'admin_toolbar_tools.extra_links:add_media'
     weight: 0
     expanded: false
-  'admin_toolbar_tools__extra_links:media_library':
     enabled: false
+  'admin_toolbar_tools__extra_links:media_library':
     menu_name: admin
     parent: 'admin_toolbar_tools.extra_links:media_page'
     weight: 0
     expanded: false
+    enabled: false

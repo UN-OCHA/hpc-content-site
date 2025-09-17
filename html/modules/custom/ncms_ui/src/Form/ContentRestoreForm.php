@@ -4,11 +4,13 @@ namespace Drupal\ncms_ui\Form;
 
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\ncms_ui\Ajax\ReloadPageCommand;
 use Drupal\ncms_ui\Entity\BaseEntityInterface;
+use Drupal\ncms_ui\Entity\Media\MediaBase;
 use Drupal\ncms_ui\Traits\RouteMatchEntityTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -124,6 +126,16 @@ class ContentRestoreForm extends ConfirmFormBase {
 
     $storage = $entity->getEntityStorage();
     $storage->deleteLatestRevision($entity);
+
+    // Invalidate caches so that changes are applied immediately.
+    $cache_tags = $entity->getCacheTagsToInvalidate();
+    if ($entity instanceof MediaBase) {
+      $usages = $entity->getUsageReferences(['node']);
+      foreach (array_merge($usages['mandatory'], $usages['optional']) as $usage) {
+        $cache_tags = Cache::mergeTags($cache_tags, $usage['cache_tags']);
+      }
+    }
+    Cache::invalidateTags($cache_tags);
 
     // And inform the user.
     $this->messenger()->addStatus($this->t('@type <a href="@url">%title</a> has been restored from the trash bin.', [

@@ -38,15 +38,29 @@ class MediaUsageLocalTask extends LocalTaskDefault implements ContainerFactoryPl
     $instance = new static($configuration, $plugin_id, $plugin_definition);
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->routeMatch = $container->get('current_route_match');
+    $request = $container->get('request_stack')->getCurrentRequest();
+
+    // If this is the local task for the main "Places used" tab, see if there
+    // are actually some counts, and if there are no counts for the content
+    // subtask but counts for the paragraphs, then change it to point at that
+    // instead.
+    if ($instance->getPluginId() == 'ncms_ui:media_usage') {
+      $media = $instance->getMediaEntityFromRequest($request);
+      $content_usage = $media->getUsageCount(['node']);
+      $paragraph_usage = $media->getUsageCount(['paragraph']);
+      if (!$content_usage && $paragraph_usage) {
+        $instance->pluginDefinition['route_name'] = 'view.media_usage.page_paragraphs';
+      }
+    }
+
     return $instance;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getTitle(Request $request = NULL) {
-    $media_id = $request->get('media');
-    $media = $this->entityTypeManager->getStorage('media')->load($media_id);
+  public function getTitle(?Request $request = NULL) {
+    $media = $this->getMediaEntityFromRequest($request);
     if (!$media instanceof MediaBase) {
       return parent::getTitle();
     }
@@ -54,8 +68,8 @@ class MediaUsageLocalTask extends LocalTaskDefault implements ContainerFactoryPl
       'view.media_usage.page_content' => 'node',
       'view.media_usage.page_paragraphs' => 'paragraph',
     };
-    $references = $media->getUsageReferences([$type]);
-    return parent::getTitle() . ' (' . (count($references['mandatory']) + count($references['optional'])) . ')';
+    $usage_count = $media->getUsageCount([$type]);
+    return parent::getTitle() . ' (' . $usage_count . ')';
   }
 
   /**
@@ -79,6 +93,20 @@ class MediaUsageLocalTask extends LocalTaskDefault implements ContainerFactoryPl
       'route.name',
     ];
     return Cache::mergeTags(parent::getCacheContexts(), $cache_contexts);
+  }
+
+  /**
+   * Get the media entity from a request object.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request|null $request
+   *   The request object.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface|null
+   *   A media entity or NULL
+   */
+  private function getMediaEntityFromRequest(?Request $request = NULL) {
+    $media = $request?->get('media');
+    return $media !== NULL && !is_object($media) ? $this->entityTypeManager->getStorage('media')->load($media) : $media;
   }
 
 }

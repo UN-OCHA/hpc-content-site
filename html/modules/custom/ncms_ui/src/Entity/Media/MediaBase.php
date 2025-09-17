@@ -3,6 +3,7 @@
 namespace Drupal\ncms_ui\Entity\Media;
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\entity_usage\EntityUsageListTrait;
@@ -120,26 +121,14 @@ abstract class MediaBase extends Media implements MediaInterface {
   }
 
   /**
-   * Get the file url generator service.
-   *
-   * @return \Drupal\Core\File\FileUrlGenerator
-   *   The file url generator service.
-   */
-  private static function filUrlGenerator() {
-    return \Drupal::service('file_url_generator');
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function getEntityOperations() {
     $operations = [];
-    if (!$this->isDeleted()) {
+    if (!$this->isDeleted() && $this->access('update')) {
       $operations['usage'] = [
         'title' => $this->t('Places used'),
-        'url' => Url::fromRoute('view.media_usage.page_content', [
-          'media' => $this->id(),
-        ]),
+        'url' => $this->toUrl('places-used'),
         'weight' => 50,
       ];
     }
@@ -178,10 +167,7 @@ abstract class MediaBase extends Media implements MediaInterface {
   }
 
   /**
-   * Check if the media is used in mandatory fields.
-   *
-   * @return bool
-   *   TRUE if the media is used in mandatory fields, FALSE otherwise.
+   * {@inheritdoc}
    */
   public function hasMandatoryReferences(): bool {
     $references = $this->getUsageReferences();
@@ -189,10 +175,7 @@ abstract class MediaBase extends Media implements MediaInterface {
   }
 
   /**
-   * Check if the media is used in optional fields.
-   *
-   * @return bool
-   *   TRUE if the media is used in optional fields, FALSE otherwise.
+   * {@inheritdoc}
    */
   public function hasOptionalReferences(): bool {
     $references = $this->getUsageReferences();
@@ -200,10 +183,15 @@ abstract class MediaBase extends Media implements MediaInterface {
   }
 
   /**
-   * Get a list of usage references for this media.
-   *
-   * @return array
-   *   An array with the keys 'mandatory' and 'optional'.
+   * {@inheritdoc}
+   */
+  public function getUsageCount(?array $entity_type_ids = NULL): int {
+    $references = $this->getUsageReferences($entity_type_ids);
+    return count($references['mandatory']) + count($references['optional']);
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function getUsageReferences(?array $entity_type_ids = NULL): array {
     $entity_usage = $this->entityUsage();
@@ -226,6 +214,7 @@ abstract class MediaBase extends Media implements MediaInterface {
           }
           if ($entity instanceof NodeInterface && $entity->language()->getId() == 'en' && $entity->isDefaultRevision() && $entity->getRevisionId() == $source['source_vid'] && $source['field_name'] == 'field_hero_image') {
             $source['source_id'] = $entity->id();
+            $source['cache_tags'] = $entity->getCacheTagsToInvalidate();
             $references['optional'][] = $source;
           }
           if ($entity instanceof ParagraphInterface && $entity->getRevisionId() == $source['source_vid']) {
@@ -243,8 +232,10 @@ abstract class MediaBase extends Media implements MediaInterface {
             if (!$parent_revision->isDefaultRevision()) {
               continue;
             }
+            $source['source_id'] = $entity->id();
             $source['parent_id'] = $parent_revision->id();
             $source['parent_revision_id'] = $parent_revision->getRevisionId();
+            $source['cache_tags'] = $parent_revision->getCacheTagsToInvalidate();
             if (array_key_exists($entity->bundle(), self::PARAGRAPHS_WITH_MANDATORY_IMAGES) && in_array($source['field_name'], self::PARAGRAPHS_WITH_MANDATORY_IMAGES[$entity->bundle()])) {
               $references['mandatory'][] = $source;
             }
@@ -256,6 +247,22 @@ abstract class MediaBase extends Media implements MediaInterface {
       }
     }
     return $references;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isRequiredFor(EntityInterface $entity): bool {
+    $references = $this->getUsageReferences();
+    if (!$entity instanceof ContentInterface && !$entity instanceof ParagraphInterface) {
+      return FALSE;
+    }
+    foreach ($references['mandatory'] as $reference) {
+      if (($reference['source_id'] ?? '') === $entity->id()) {
+        return TRUE;
+      }
+    }
+    return FALSE;
   }
 
   /**
@@ -298,6 +305,16 @@ abstract class MediaBase extends Media implements MediaInterface {
     $this->setNewRevision(TRUE);
     $this->setRevisionTranslationAffectedEnforced(TRUE);
     $this->setModerationState('trash');
+  }
+
+  /**
+   * Get the file url generator service.
+   *
+   * @return \Drupal\Core\File\FileUrlGenerator
+   *   The file url generator service.
+   */
+  private static function filUrlGenerator() {
+    return \Drupal::service('file_url_generator');
   }
 
 }

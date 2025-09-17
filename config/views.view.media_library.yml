@@ -2053,6 +2053,7 @@ display:
           hide_empty: false
       defaults:
         query: true
+        use_ajax: false
         group_by: false
         style: false
         row: false
@@ -2081,6 +2082,7 @@ display:
           admin_label: 'Source entity usage information (Content)'
           plugin_id: standard
           required: false
+      use_ajax: false
       group_by: true
       display_description: ''
       display_extenders: {  }

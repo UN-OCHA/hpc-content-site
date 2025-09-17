@@ -38,7 +38,7 @@ class EntityLinkSoftDelete extends EntityLink {
   protected function getUrlInfo(ResultRow $row) {
     $template = $this->getEntityLinkTemplate();
     $entity = $this->getEntity($row);
-    if ($entity === NULL) {
+    if ($entity === NULL || !$entity->access('soft delete')) {
       return NULL;
     }
     if ($this->languageManager->isMultilingual()) {

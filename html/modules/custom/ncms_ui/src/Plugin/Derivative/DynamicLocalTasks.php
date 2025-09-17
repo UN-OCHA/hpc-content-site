@@ -91,6 +91,7 @@ class DynamicLocalTasks extends DeriverBase implements ContainerDeriverInterface
         'route_name' => 'view.media_usage.page_content',
         'base_route' => 'entity.media.canonical',
         'weight' => 99,
+        'class' => MediaUsageLocalTask::class,
       ];
 
       $this->derivatives['media_usage_content'] = [

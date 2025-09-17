@@ -35,6 +35,7 @@ hidden:
   created: true
   field_content_space: true
   langcode: true
+  moderation_state: true
   path: true
   status: true
   uid: true

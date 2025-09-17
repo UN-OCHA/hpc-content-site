@@ -48,6 +48,7 @@ content:
 hidden:
   created: true
   langcode: true
+  moderation_state: true
   path: true
   status: true
   translation: true

@@ -4,6 +4,7 @@ namespace Drupal\ncms_ui\Form;
 
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
@@ -114,6 +115,9 @@ class ContentSoftDeleteForm extends ConfirmFormBase {
     $entity = $this->getEntityFromRouteMatch();
     $entity->setDeleted();
     $entity->save();
+
+    // Invalidate caches so that changes are applied immediately.
+    Cache::invalidateTags($entity->getCacheTagsToInvalidate());
 
     // And inform the user.
     $this->messenger()->addStatus($this->t('@type %title has been moved to the trash bin.', [

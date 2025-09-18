@@ -255,6 +255,9 @@ class ContentSpaceManager {
    *   The query object.
    */
   public function alterViewsQuery(ViewExecutable $view, QueryPluginBase $query) {
+    if ($view->id() == 'orphaned_content') {
+      return;
+    }
     if ($view->current_display == 'page_find_content') {
       return;
     }

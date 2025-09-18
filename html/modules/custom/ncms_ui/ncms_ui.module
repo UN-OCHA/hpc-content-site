@@ -14,6 +14,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Entity\Query\QueryInterface;
 use Drupal\Core\Entity\Query\Sql\Query;
+use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Session\AccountInterface;
@@ -386,12 +387,22 @@ function ncms_ui_preprocess_node(&$variables) {
   if ($route_match->getRouteName() == 'diff.revisions_diff' && $node instanceof ContentInterface) {
     $variables['diff_metadata'] = $node->buildMetaDataForDiff();
   }
-  if ($node->hasField('field_hero_image') && !$node->get('field_hero_image')->isEmpty()) {
-    $images = $node->get('field_hero_image')->referencedEntities();
-    $image = reset($images);
-    if ($image instanceof EntityMediaInterface && $image->isDeleted()) {
-      // Hide the image from public display if it's been deleted.
-      $variables['content']['field_hero_image'] = NULL;
+
+  // Hide all deleted media items from public display.
+  if ($node->isDefaultRevision()) {
+    foreach ($node->getFields() as $field_name => $field_item) {
+      if (!$field_item instanceof EntityReferenceFieldItemList) {
+        continue;
+      }
+      if ($field_item->getItemDefinition()->getSetting('target_type') != 'media') {
+        continue;
+      }
+      $images = $field_item->referencedEntities();
+      $image = reset($images);
+      if ($image instanceof EntityMediaInterface && $image->isDeleted()) {
+        // Hide the image from public display if it's been deleted.
+        $variables['content'][$field_name] = NULL;
+      }
     }
   }
 }

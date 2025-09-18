@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_ui\Entity\Media;
 
+use Drupal\Component\Render\MarkupInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityInterface;
@@ -196,54 +197,55 @@ abstract class MediaBase extends Media implements MediaInterface {
    */
   public function getUsageReferences(?array $entity_type_ids = NULL): array {
     $entity_usage = $this->entityUsage();
-    $sources_list = $entity_usage->listSources($this);
-
+    $sources = $entity_usage->listSources($this, FALSE);
     $references = [
       'mandatory' => [],
       'optional' => [],
     ];
-    foreach ($sources_list as $entity_type_id => $entity_sources) {
-      foreach ($entity_sources as $entity_id => $sources) {
-        $entity = $this->entityTypeManager()->getStorage($entity_type_id)->load($entity_id);
-        if (is_array($entity_type_ids) && !in_array($entity->getEntityTypeId(), $entity_type_ids)) {
+    if ($this->isDeleted()) {
+      return $references;
+    }
+    foreach ($sources as $source) {
+      if (is_array($entity_type_ids) && !in_array($source['source_type'], $entity_type_ids)) {
+        // Not of the type requested.
+        continue;
+      }
+      if ($source['source_langcode'] != 'en') {
+        // Let's not look at content in other languages for now.
+        continue;
+      }
+      $entity = $this->entityTypeManager()->getStorage($source['source_type'])->load($source['source_id']);
+      if ($entity instanceof NodeInterface && $entity->language()->getId() == 'en' && $entity->isDefaultRevision() && $entity->getRevisionId() == $source['source_vid']) {
+        // This is the default revision of a content node in the default
+        // language.
+        $source['source_id'] = $entity->id();
+        $source['cache_tags'] = $entity->getCacheTagsToInvalidate();
+        $references['optional'][] = $source;
+      }
+      if ($entity instanceof ParagraphInterface && $entity->getRevisionId() == $source['source_vid']) {
+        $parent = $entity->getParentEntity();
+        while ($parent instanceof ParagraphInterface) {
+          $parent = $parent->getParentEntity();
+        }
+        $parent_revision = $this->getParagraphParentRevision($parent, $entity);
+        if (!$parent_revision || !$parent_revision instanceof ContentInterface) {
           continue;
         }
-        foreach ($sources as $source) {
-          if ($source['source_langcode'] != 'en') {
-            // Let's not look at content in other languages for now.
-            continue;
-          }
-          if ($entity instanceof NodeInterface && $entity->language()->getId() == 'en' && $entity->isDefaultRevision() && $entity->getRevisionId() == $source['source_vid'] && $source['field_name'] == 'field_hero_image') {
-            $source['source_id'] = $entity->id();
-            $source['cache_tags'] = $entity->getCacheTagsToInvalidate();
-            $references['optional'][] = $source;
-          }
-          if ($entity instanceof ParagraphInterface && $entity->getRevisionId() == $source['source_vid']) {
-            $parent = $entity->getParentEntity();
-            while ($parent instanceof ParagraphInterface) {
-              $parent = $parent->getParentEntity();
-            }
-            $parent_revision = $this->getParagraphParentRevision($parent, $entity);
-            if (!$parent_revision || !$parent_revision instanceof ContentInterface) {
-              continue;
-            }
-            if ($parent_revision->isDeleted()) {
-              continue;
-            }
-            if (!$parent_revision->isDefaultRevision()) {
-              continue;
-            }
-            $source['source_id'] = $entity->id();
-            $source['parent_id'] = $parent_revision->id();
-            $source['parent_revision_id'] = $parent_revision->getRevisionId();
-            $source['cache_tags'] = $parent_revision->getCacheTagsToInvalidate();
-            if (array_key_exists($entity->bundle(), self::PARAGRAPHS_WITH_MANDATORY_IMAGES) && in_array($source['field_name'], self::PARAGRAPHS_WITH_MANDATORY_IMAGES[$entity->bundle()])) {
-              $references['mandatory'][] = $source;
-            }
-            if (array_key_exists($entity->bundle(), self::PARAGRAPHS_WITH_OPTIONAL_IMAGES) && in_array($source['field_name'], self::PARAGRAPHS_WITH_OPTIONAL_IMAGES[$entity->bundle()])) {
-              $references['optional'][] = $source;
-            }
-          }
+        if ($parent_revision->isDeleted()) {
+          continue;
+        }
+        if (!$parent_revision->isDefaultRevision()) {
+          continue;
+        }
+        $source['source_id'] = $entity->id();
+        $source['parent_id'] = $parent_revision->id();
+        $source['parent_revision_id'] = $parent_revision->getRevisionId();
+        $source['cache_tags'] = $parent_revision->getCacheTagsToInvalidate();
+        if (array_key_exists($entity->bundle(), self::PARAGRAPHS_WITH_MANDATORY_IMAGES) && in_array($source['field_name'], self::PARAGRAPHS_WITH_MANDATORY_IMAGES[$entity->bundle()])) {
+          $references['mandatory'][] = $source;
+        }
+        if (array_key_exists($entity->bundle(), self::PARAGRAPHS_WITH_OPTIONAL_IMAGES) && in_array($source['field_name'], self::PARAGRAPHS_WITH_OPTIONAL_IMAGES[$entity->bundle()])) {
+          $references['optional'][] = $source;
         }
       }
     }
@@ -303,22 +305,10 @@ abstract class MediaBase extends Media implements MediaInterface {
   public function setDeleted() {
     parent::setUnpublished();
 
-    // Find the usages of this directly on the node level, so we can create
-    // updated versions of the content to inform publishers about the media
-    // having been removed.
-    $node_usages = $this->getUsageReferences(['node']);
-    foreach ($node_usages['optional'] as $node_source) {
-      $node = $this->entityTypeManager()->getStorage('node')->load($node_source['source_id']);
-      if (!$node instanceof ContentInterface) {
-        continue;
-      }
-      $node->isDefaultRevision(TRUE);
-      $node->setNewRevision(TRUE);
-      $node->setRevisionUserId(self::getDefaultEntityOwner());
-      $node->setRevisionLogMessage($this->t('Moved media %label to trash.', ['%label' => $this->label()]));
-      $node->setRevisionTranslationAffectedEnforced(TRUE);
-      $node->save();
-    }
+    $affected_nodes = [];
+    $this->updateNodesWithOptionalUsages($affected_nodes);
+    $this->updateParagraphsWithOptionalUsages($affected_nodes);
+    $this->createNewNodeRevisions($affected_nodes, $this->t('Moved media %label to trash.', ['%label' => $this->label()]));
 
     $this->isDefaultRevision(TRUE);
     $this->setNewRevision(TRUE);
@@ -335,22 +325,9 @@ abstract class MediaBase extends Media implements MediaInterface {
   public function restore() {
     $this->getEntityStorage()->deleteLatestRevision($this);
 
-    // Find the usages of this directly on the node level, so we can create
-    // updated versions of the content to inform publishers about the media
-    // having been removed.
-    $node_usages = $this->getUsageReferences(['node']);
-    foreach ($node_usages['optional'] as $node_source) {
-      $node = $this->entityTypeManager()->getStorage('node')->load($node_source['source_id']);
-      if (!$node instanceof ContentInterface) {
-        continue;
-      }
-      $node->isDefaultRevision(TRUE);
-      $node->setNewRevision(TRUE);
-      $node->setRevisionUserId(self::getDefaultEntityOwner());
-      $node->setRevisionLogMessage($this->t('Restored media %label.', ['%label' => $this->label()]));
-      $node->setRevisionTranslationAffectedEnforced(TRUE);
-      $node->save();
-    }
+    $affected_nodes = [];
+    $this->updateNodesWithOptionalUsages($affected_nodes);
+    $this->createNewNodeRevisions($affected_nodes, $this->t('Restored media %label.', ['%label' => $this->label()]));
 
     // Invalidate caches so that changes are applied immediately.
     $cache_tags = $this->getCacheTagsToInvalidate();
@@ -361,6 +338,106 @@ abstract class MediaBase extends Media implements MediaInterface {
       }
     }
     Cache::invalidateTags($cache_tags);
+  }
+
+  /**
+   * Create new revisions for the given nodes.
+   *
+   * @param \Drupal\ncms_ui\Entity\Content\ContentInterface[] $nodes
+   *   Nodes to create new revisions for.
+   * @param \Drupal\Component\Render\MarkupInterface|string $log_message
+   *   The log message to set.
+   */
+  private function createNewNodeRevisions(array $nodes, MarkupInterface|string $log_message) {
+    foreach ($nodes as $node) {
+      $node->isDefaultRevision(TRUE);
+      $node->setNewRevision(TRUE);
+      $node->setRevisionUserId(self::getDefaultEntityOwner());
+      $node->setRevisionLogMessage($log_message);
+      $node->setRevisionTranslationAffectedEnforced(TRUE);
+      $node->save();
+    }
+  }
+
+  /**
+   * Update nodes that have optional usages of this media item.
+   *
+   * @param \Drupal\ncms_ui\Entity\Content\ContentInterface[] $affected_nodes
+   *   Storage for nodes affected by removing the paragraph.
+   */
+  private function updateNodesWithOptionalUsages(array &$affected_nodes): void {
+    // Find the usages of this directly on the node level, so we can create
+    // updated versions of the content to inform publishers about the media
+    // having been removed.
+    $node_usages = $this->getUsageReferences(['node']);
+    foreach ($node_usages['optional'] as $node_source) {
+      $node = $this->entityTypeManager()->getStorage('node')->load($node_source['source_id']);
+      if (!$node instanceof ContentInterface) {
+        continue;
+      }
+      $affected_nodes[$node->id()] = $node;
+    }
+  }
+
+  /**
+   * Update paragraphs that have optional usages of this media item.
+   *
+   * @param \Drupal\ncms_ui\Entity\Content\ContentInterface[] $affected_nodes
+   *   Storage for nodes affected by removing the paragraph.
+   */
+  private function updateParagraphsWithOptionalUsages(array &$affected_nodes): void {
+    $paragraph_usages = $this->getUsageReferences(['paragraph']);
+    foreach ($paragraph_usages['optional'] as $node_source) {
+      $paragraph = $this->entityTypeManager()->getStorage('paragraph')->load($node_source['source_id']);
+      if (!$paragraph) {
+        continue;
+      }
+      $this->removeParagraphsFromParents($paragraph, $affected_nodes);
+    }
+  }
+
+  /**
+   * Remove a paragraph from it's parent node.
+   *
+   * We do not actually delete the paragraph, so that it continues to show in
+   * previous revisions.
+   *
+   * @param \Drupal\paragraphs\ParagraphInterface $paragraph
+   *   The paragraph to delete.
+   * @param \Drupal\ncms_ui\Entity\Content\ContentInterface[] $affected_nodes
+   *   Storage for nodes affected by removing the paragraph.
+   */
+  private function removeParagraphsFromParents(ParagraphInterface $paragraph, array &$affected_nodes): void {
+    // Get the parent entity.
+    $parent = $paragraph->getParentEntity();
+
+    // Ensure we have the correct parent revision that references this
+    // paragraph.
+    if ($parent instanceof ContentInterface) {
+      $parent_revision = $this->getParagraphParentRevision($parent, $paragraph);
+      if ($parent_revision) {
+        $parent = $parent_revision;
+      }
+    }
+
+    if (!$parent) {
+      throw new \RuntimeException('Could not find parent entity for paragraph');
+    }
+
+    $parent = $affected_nodes[$parent->id()] ?? $parent;
+    $field_name = $paragraph->get('parent_field_name')->value;
+
+    // Get current delta of the paragraph.
+    $delta = $this->getParagraphDelta($paragraph, $parent);
+
+    if ($delta === FALSE) {
+      throw new \RuntimeException('Could not find paragraph in parent field');
+    }
+
+    // Remove the paragraph from the parent field.
+    $parent->get($field_name)->removeItem($delta);
+
+    $affected_nodes[$parent->id()] = $parent;
   }
 
   /**

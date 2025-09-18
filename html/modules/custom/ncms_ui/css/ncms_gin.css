@@ -94,27 +94,23 @@ body.toolbar-vertical .toolbar-secondary #toolbar-bar {
 }
 .path-node.node-edit .gin-secondary-toolbar .gin-breadcrumb-wrapper,
 .path-node.node-revisions .gin-secondary-toolbar .gin-breadcrumb-wrapper,
-.path-media.media-edit .gin-secondary-toolbar .gin-breadcrumb-wrapper,
-.path-media.media-usage .gin-secondary-toolbar .gin-breadcrumb-wrapper {
+.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper {
   display: block;
 }
 .path-node.node-edit .gin-secondary-toolbar .gin-breadcrumb-wrapper .gin-breadcrumb__list,
 .path-node.node-revisions .gin-secondary-toolbar .gin-breadcrumb-wrapper .gin-breadcrumb__list,
-.path-media.media-edit .gin-secondary-toolbar .gin-breadcrumb-wrapper .gin-breadcrumb__list,
-.path-media.media-usage .gin-secondary-toolbar .gin-breadcrumb-wrapper .gin-breadcrumb__list {
+.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper .gin-breadcrumb__list {
   width: fit-content;
   text-overflow: clip;
 }
 .path-node.node-edit .gin-secondary-toolbar .gin-breadcrumb-wrapper li,
 .path-node.node-revisions .gin-secondary-toolbar .gin-breadcrumb-wrapper li,
-.path-media.media-edit .gin-secondary-toolbar .gin-breadcrumb-wrapper li,
-.path-media.media-usage .gin-secondary-toolbar .gin-breadcrumb-wrapper li {
+.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper li {
   overflow: visible;
 }
 .path-node.node-edit .gin-secondary-toolbar .gin-breadcrumb-wrapper li::before,
 .path-node.node-revisions .gin-secondary-toolbar .gin-breadcrumb-wrapper li::before,
-.path-media.media-edit .gin-secondary-toolbar .gin-breadcrumb-wrapper li::before,
-.path-media.media-usage .gin-secondary-toolbar .gin-breadcrumb-wrapper li::before {
+.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper li::before {
   border-right: 0;
 }
 .gin-secondary-toolbar #toolbar-administration-secondary {

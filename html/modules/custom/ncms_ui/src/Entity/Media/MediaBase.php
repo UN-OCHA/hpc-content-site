@@ -3,6 +3,7 @@
 namespace Drupal\ncms_ui\Entity\Media;
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
@@ -301,10 +302,61 @@ abstract class MediaBase extends Media implements MediaInterface {
    */
   public function setDeleted() {
     parent::setUnpublished();
+
+    // Find the usages of this directly on the node level, so we can create
+    // updated versions of the content to inform publishers about the media
+    // having been removed.
+    $node_usages = $this->getUsageReferences(['node']);
+    foreach ($node_usages['optional'] as $node_source) {
+      $node = $this->entityTypeManager()->getStorage('node')->load($node_source['source_id']);
+      if (!$node instanceof ContentInterface) {
+        continue;
+      }
+      $node->isDefaultRevision(TRUE);
+      $node->setNewRevision(TRUE);
+      $node->setRevisionTranslationAffectedEnforced(TRUE);
+      $node->save();
+    }
+
     $this->isDefaultRevision(TRUE);
     $this->setNewRevision(TRUE);
     $this->setRevisionTranslationAffectedEnforced(TRUE);
     $this->setModerationState('trash');
+
+    // Invalidate caches so that changes are applied immediately.
+    Cache::invalidateTags($this->getCacheTagsToInvalidate());
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function restore() {
+    $this->getEntityStorage()->deleteLatestRevision($this);
+
+    // Find the usages of this directly on the node level, so we can create
+    // updated versions of the content to inform publishers about the media
+    // having been removed.
+    $node_usages = $this->getUsageReferences(['node']);
+    foreach ($node_usages['optional'] as $node_source) {
+      $node = $this->entityTypeManager()->getStorage('node')->load($node_source['source_id']);
+      if (!$node instanceof ContentInterface) {
+        continue;
+      }
+      $node->isDefaultRevision(TRUE);
+      $node->setNewRevision(TRUE);
+      $node->setRevisionTranslationAffectedEnforced(TRUE);
+      $node->save();
+    }
+
+    // Invalidate caches so that changes are applied immediately.
+    $cache_tags = $this->getCacheTagsToInvalidate();
+    if ($this instanceof MediaBase) {
+      $usages = $this->getUsageReferences(['node']);
+      foreach (array_merge($usages['mandatory'], $usages['optional']) as $usage) {
+        $cache_tags = Cache::mergeTags($cache_tags, $usage['cache_tags']);
+      }
+    }
+    Cache::invalidateTags($cache_tags);
   }
 
   /**

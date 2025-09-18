@@ -17,4 +17,9 @@ interface EntitySoftDeleteInterface {
    */
   public function isDeleted();
 
+  /**
+   * Mark this entity as restored.
+   */
+  public function restore();
+
 }

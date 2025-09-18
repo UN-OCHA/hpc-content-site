@@ -11,6 +11,7 @@ use Drupal\Core\Url;
 use Drupal\entity_usage\EntityUsageListTrait;
 use Drupal\media\Entity\Media;
 use Drupal\ncms_paragraphs\Traits\ParagraphHelperTrait;
+use Drupal\ncms_ui\Entity\BaseEntityInterface;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\ncms_ui\Entity\MediaInterface;
 use Drupal\ncms_ui\Traits\ContentSpaceEntityTrait;
@@ -349,7 +350,16 @@ abstract class MediaBase extends Media implements MediaInterface {
    *   The log message to set.
    */
   private function createNewNodeRevisions(array $nodes, MarkupInterface|string $log_message) {
+    /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
+    $node_storage = $this->entityTypeManager->getStorage('node');
+
     foreach ($nodes as $node) {
+      // Unpublish previous published version.
+      if ($node instanceof BaseEntityInterface && $last_published = $node->getLastPublishedRevision()) {
+        $node_storage->updateRevisionStatus($last_published, NodeInterface::NOT_PUBLISHED);
+      }
+
+      // And create a new published version.
       $node->isDefaultRevision(TRUE);
       $node->setNewRevision(TRUE);
       $node->setRevisionUserId(self::getDefaultEntityOwner());

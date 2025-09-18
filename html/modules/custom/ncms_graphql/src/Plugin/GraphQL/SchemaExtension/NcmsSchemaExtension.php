@@ -8,6 +8,7 @@ use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
 use Drupal\ncms_graphql\ResultWrapperInterface;
 use Drupal\ncms_ui\Entity\Content\Document;
+use Drupal\ncms_ui\Entity\MediaInterface;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -425,17 +426,30 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
    */
   private function addFieldResolverHeroImage(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
     $registry->addFieldResolver('HeroImage', 'id',
-      $builder->produce('entity_id')
-        ->map('entity', $builder->fromParent())
+      $builder->compose(
+        $builder->callback(function (MediaInterface $entity) {
+          return $entity->isPublished() ? $entity : NULL;
+        }),
+        $builder->produce('entity_id')
+          ->map('entity', $builder->fromParent())
+      )
     );
     $registry->addFieldResolver('HeroImage', 'credits',
-      $builder->produce('property_path')
-        ->map('type', $builder->fromValue('entity:node'))
-        ->map('value', $builder->fromParent())
-        ->map('path', $builder->fromValue('field_credits.value')),
+      $builder->compose(
+        $builder->callback(function (MediaInterface $entity) {
+          return $entity->isPublished() ? $entity : NULL;
+        }),
+        $builder->produce('property_path')
+          ->map('type', $builder->fromValue('entity:node'))
+          ->map('value', $builder->fromParent())
+          ->map('path', $builder->fromValue('field_credits.value')),
+      )
     );
     $registry->addFieldResolver('HeroImage', 'image',
       $builder->compose(
+        $builder->callback(function (MediaInterface $entity) {
+          return $entity->isPublished() ? $entity : NULL;
+        }),
         $builder->produce('property_path')
           ->map('type', $builder->fromValue('entity:file'))
           ->map('value', $builder->fromParent())
@@ -447,6 +461,9 @@ class NcmsSchemaExtension extends SdlSchemaExtensionPluginBase {
     );
     $registry->addFieldResolver('HeroImage', 'imageUrl',
       $builder->compose(
+        $builder->callback(function (MediaInterface $entity) {
+          return $entity->isPublished() ? $entity : NULL;
+        }),
         $builder->produce('property_path')
           ->map('type', $builder->fromValue('entity:media'))
           ->map('value', $builder->fromParent())

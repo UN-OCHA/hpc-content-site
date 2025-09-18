@@ -250,6 +250,7 @@ function ncms_ui_entity_view_alter(array &$build, EntityInterface $entity, Entit
  */
 function ncms_ui_preprocess_html(&$variables) {
   // Hide admin toolbar.
+  $request = \Drupal::requestStack()->getCurrentRequest();
   $route_match = \Drupal::routeMatch();
   $route_name = $route_match->getRouteName();
   $routes = [
@@ -286,7 +287,7 @@ function ncms_ui_preprocess_html(&$variables) {
     $variables['attributes']['class'][] = 'node-content-base';
   }
 
-  $path = \Drupal::requestStack()->getCurrentRequest()->getPathInfo();
+  $path = $request->getPathInfo();
   $path_parts = explode('/', ltrim($path, '/'));
   $first_part = count($path_parts) > 1 ? reset($path_parts) : NULL;
   $last_part = count($path_parts) > 1 ? end($path_parts) : NULL;
@@ -338,6 +339,7 @@ function ncms_ui_preprocess_html(&$variables) {
 
   // Add a redirect url for media too.
   $media = $route_match->getParameter('media') ?? NULL;
+  $media = $media ?? $request->attributes->get('media');
   $media = $media && !is_object($media) ? \Drupal::entityTypeManager()->getStorage('media')->load($media) : $media;
   if ($media instanceof MediaBase && $is_gin) {
     $redirect_url = $media->getOverviewUrl();

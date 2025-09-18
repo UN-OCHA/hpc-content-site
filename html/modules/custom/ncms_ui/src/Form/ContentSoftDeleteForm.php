@@ -4,7 +4,6 @@ namespace Drupal\ncms_ui\Form;
 
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
@@ -36,7 +35,7 @@ class ContentSoftDeleteForm extends ConfirmFormBase {
     ];
     if ($entity instanceof MediaBase) {
       if (!$entity->hasMandatoryReferences()) {
-        return $this->t('This will remove this @type from public display and remove references to it from all the places (articles, documents or stories) where it is currently used. These references will not be restored if you untrash this item later. Are you sure?', $t_args);
+        return $this->t('This will remove this @type from public display and remove references to it from all the places (articles, documents or stories) where it is currently used. These references might not be restored if you untrash this item later. Are you sure?', $t_args);
       }
       else {
         $t_args['@places_used_url'] = $entity->toUrl('places-used')->toString();
@@ -113,11 +112,14 @@ class ContentSoftDeleteForm extends ConfirmFormBase {
 
     // Confirmed, so we mark the node as deleted.
     $entity = $this->getEntityFromRouteMatch();
+    if (!$entity) {
+      throw new \Exception('Fatal error: Entity not found.');
+    }
+    if ($entity instanceof MediaBase && $entity->hasMandatoryReferences()) {
+      throw new \Exception('Cannot delete entity with mandatory references.');
+    }
     $entity->setDeleted();
     $entity->save();
-
-    // Invalidate caches so that changes are applied immediately.
-    Cache::invalidateTags($entity->getCacheTagsToInvalidate());
 
     // And inform the user.
     $this->messenger()->addStatus($this->t('@type %title has been moved to the trash bin.', [

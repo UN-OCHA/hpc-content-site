@@ -4,6 +4,7 @@ namespace Drupal\ncms_ui\Entity\Content;
 
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -187,6 +188,9 @@ abstract class ContentBase extends Node implements ContentInterface {
     $this->setNewRevision(TRUE);
     $this->setRevisionTranslationAffectedEnforced(TRUE);
     $this->setModerationState('trash');
+
+    // Invalidate caches so that changes are applied immediately.
+    Cache::invalidateTags($this->getCacheTagsToInvalidate());
   }
 
   /**
@@ -197,6 +201,13 @@ abstract class ContentBase extends Node implements ContentInterface {
       return FALSE;
     }
     return $this->getLatestRevision()->isModerationState('trash');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function restore() {
+    $this->getEntityStorage()->deleteLatestRevision($this);
   }
 
   /**

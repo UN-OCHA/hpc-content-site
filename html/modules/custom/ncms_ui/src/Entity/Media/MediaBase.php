@@ -314,6 +314,8 @@ abstract class MediaBase extends Media implements MediaInterface {
       }
       $node->isDefaultRevision(TRUE);
       $node->setNewRevision(TRUE);
+      $node->setRevisionUserId(self::getDefaultEntityOwner());
+      $node->setRevisionLogMessage($this->t('Moved media %label to trash.', ['%label' => $this->label()]));
       $node->setRevisionTranslationAffectedEnforced(TRUE);
       $node->save();
     }
@@ -344,6 +346,8 @@ abstract class MediaBase extends Media implements MediaInterface {
       }
       $node->isDefaultRevision(TRUE);
       $node->setNewRevision(TRUE);
+      $node->setRevisionUserId(self::getDefaultEntityOwner());
+      $node->setRevisionLogMessage($this->t('Restored media %label.', ['%label' => $this->label()]));
       $node->setRevisionTranslationAffectedEnforced(TRUE);
       $node->save();
     }

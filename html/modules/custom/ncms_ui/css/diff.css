@@ -50,12 +50,18 @@
   display: inline;
   margin-left: 0.3rem;
 }
+.ncms-node-diff del.diffdel.diffimg img,
+.ncms-node-diff del.diffdel img.diffmod {
+  opacity: 0.5;
+}
 .ncms-node-diff del.diffdel.diffimg,
+.ncms-node-diff del.diffdel img.diffmod,
 .ncms-node-diff del.diffmod.diffimg {
   display: block;
   position: relative;
 }
 .ncms-node-diff del.diffdel.diffimg::after,
+.ncms-node-diff del.diffdel img.diffmod::after,
 .ncms-node-diff del.diffmod.diffimg::after {
   content: "";
   position: absolute;

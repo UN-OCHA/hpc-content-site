@@ -6,6 +6,7 @@ use Drupal\Component\Render\MarkupInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\entity_usage\EntityUsageListTrait;
@@ -397,57 +398,21 @@ abstract class MediaBase extends Media implements MediaInterface {
    */
   private function updateParagraphsWithOptionalUsages(array &$affected_nodes): void {
     $paragraph_usages = $this->getUsageReferences(['paragraph']);
-    foreach ($paragraph_usages['optional'] as $node_source) {
-      $paragraph = $this->entityTypeManager()->getStorage('paragraph')->load($node_source['source_id']);
-      if (!$paragraph) {
+    foreach ($paragraph_usages['optional'] as $paragraph_source) {
+      $paragraph = $this->entityTypeManager()->getStorage('paragraph')->load($paragraph_source['source_id']);
+      if (!$paragraph instanceof ParagraphInterface || !$paragraph->hasField($paragraph_source['field_name'])) {
         continue;
       }
-      $this->removeParagraphsFromParents($paragraph, $affected_nodes);
+      /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $field */
+      $field = $paragraph->get($paragraph_source['field_name']);
+      $field->filter(function (EntityReferenceItem $item) {
+        $value = $item->getValue();
+        return $value['target_id'] !== $this->id();
+      });
+      $paragraph->save();
+      $parent = $paragraph->getParentEntity();
+      $affected_nodes[$parent->id()] = $parent;
     }
-  }
-
-  /**
-   * Remove a paragraph from it's parent node.
-   *
-   * We do not actually delete the paragraph, so that it continues to show in
-   * previous revisions.
-   *
-   * @param \Drupal\paragraphs\ParagraphInterface $paragraph
-   *   The paragraph to delete.
-   * @param \Drupal\ncms_ui\Entity\Content\ContentInterface[] $affected_nodes
-   *   Storage for nodes affected by removing the paragraph.
-   */
-  private function removeParagraphsFromParents(ParagraphInterface $paragraph, array &$affected_nodes): void {
-    // Get the parent entity.
-    $parent = $paragraph->getParentEntity();
-
-    // Ensure we have the correct parent revision that references this
-    // paragraph.
-    if ($parent instanceof ContentInterface) {
-      $parent_revision = $this->getParagraphParentRevision($parent, $paragraph);
-      if ($parent_revision) {
-        $parent = $parent_revision;
-      }
-    }
-
-    if (!$parent) {
-      throw new \RuntimeException('Could not find parent entity for paragraph');
-    }
-
-    $parent = $affected_nodes[$parent->id()] ?? $parent;
-    $field_name = $paragraph->get('parent_field_name')->value;
-
-    // Get current delta of the paragraph.
-    $delta = $this->getParagraphDelta($paragraph, $parent);
-
-    if ($delta === FALSE) {
-      throw new \RuntimeException('Could not find paragraph in parent field');
-    }
-
-    // Remove the paragraph from the parent field.
-    $parent->get($field_name)->removeItem($delta);
-
-    $affected_nodes[$parent->id()] = $parent;
   }
 
   /**

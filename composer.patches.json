@@ -11,7 +11,7 @@
             "Issue #3392572: strnatcasecmp(): Passing null to parameter #2 in LayoutPluginManager": "https://www.drupal.org/files/issues/2023-10-25/drupal-strnatcasecmp_string_only-3392572-10.patch",
             "Issue #3413079: Cannot read properties of null (reading 'nodeType') on node.page.body": "https://www.drupal.org/files/issues/2024-01-08/3413079-9.patch",
             "Issue #3008292: ImageItem::getUploadValidators() should be the source of truth for validating uploaded images": "https://www.drupal.org/files/issues/2025-07-11/3008292-10.5x-108.patch",
-            "Issue #": "https://git.drupalcode.org/project/drupal/-/merge_requests/12869.diff"
+            "Issue #3538681: Add support for selecting the dropbutton_type with the Views dropbutton field": "./patches/3538681- 2025-10-23-modified-for-10.5.patch"
         },
         "drupal/csp": {
             "Simplify log format": "./patches/csp-log-format.patch"

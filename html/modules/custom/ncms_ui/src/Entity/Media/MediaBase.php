@@ -377,15 +377,21 @@ abstract class MediaBase extends Media implements MediaInterface {
    *   Storage for nodes affected by removing the paragraph.
    */
   private function updateNodesWithOptionalUsages(array &$affected_nodes): void {
-    // Find the usages of this directly on the node level, so we can create
-    // updated versions of the content to inform publishers about the media
-    // having been removed.
+    // Find the usages of this directly on the node level, so we can remove the
+    // reference to the media and create updated versions of the content to
+    // inform publishers about the media having been removed.
     $node_usages = $this->getUsageReferences(['node']);
     foreach ($node_usages['optional'] as $node_source) {
       $node = $this->entityTypeManager()->getStorage('node')->load($node_source['source_id']);
-      if (!$node instanceof ContentInterface) {
+      if (!$node instanceof ContentInterface || !$node->hasField($node_source['field_name'])) {
         continue;
       }
+      /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $field */
+      $field = $node->get($node_source['field_name']);
+      $field->filter(function (EntityReferenceItem $item) {
+        $value = $item->getValue();
+        return $value['target_id'] !== $this->id();
+      });
       $affected_nodes[$node->id()] = $node;
     }
   }

@@ -39,6 +39,14 @@ interface MediaInterface extends BaseMediaInterface, BaseEntityInterface {
   public function getUsageReferences(?array $entity_type_ids = NULL): array;
 
   /**
+   * Get the nodes that would be affected by deleting this media.
+   *
+   * @return \Drupal\node\NodeInterface[]
+   *   An array of node objects.
+   */
+  public function getNodesAffectedByDeletion();
+
+  /**
    * Get the number of usage references for this media.
    *
    * @param array|null $entity_type_ids

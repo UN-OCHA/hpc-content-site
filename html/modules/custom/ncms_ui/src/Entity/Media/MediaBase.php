@@ -189,6 +189,27 @@ abstract class MediaBase extends Media implements MediaInterface {
   /**
    * {@inheritdoc}
    */
+  public function getNodesAffectedByDeletion() {
+    $references = $this->getUsageReferences();
+    $nodes = [];
+    // Only looking at the optional references, because we can't delete media
+    // with active mandatory references.
+    foreach ($references['optional'] as $source) {
+      $entity = $this->entityTypeManager()->getStorage($source['source_type'])->load($source['source_id']);
+      if ($entity instanceof ParagraphInterface) {
+        $entity = $entity->getParentEntity();
+      }
+      if (!$entity instanceof NodeInterface) {
+        continue;
+      }
+      $nodes[] = $entity;
+    }
+    return $nodes;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getUsageCount(?array $entity_type_ids = NULL): int {
     $references = $this->getUsageReferences($entity_type_ids);
     return count($references['mandatory']) + count($references['optional']);
@@ -306,6 +327,10 @@ abstract class MediaBase extends Media implements MediaInterface {
    */
   public function setDeleted() {
     parent::setUnpublished();
+
+    if ($this->hasMandatoryReferences()) {
+      throw new \Exception('Cannot delete media entity with mandatory references.');
+    }
 
     $affected_nodes = [];
     $this->updateNodesWithOptionalUsages($affected_nodes);

@@ -73,5 +73,8 @@ $config['seckit.settings']['seckit_xss']['csp']['checkbox'] = FALSE;
 $settings['config_exclude_modules'] = [
   'dblog',
   'debug_tools',
+  'views_ui',
+  'upgrade_status',
   'stage_file_proxy',
+  'config_inspector',
 ];

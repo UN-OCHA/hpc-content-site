@@ -602,6 +602,8 @@ function ncms_ui_link_alter(&$variables) {
   /** @var \Drupal\Core\Url $url */
   $url = $variables['url'];
   $routes = [
+    'entity.node.iframe',
+    'entity.node_revision.iframe',
     'entity.node.canonical',
     'entity.node.revision',
   ];

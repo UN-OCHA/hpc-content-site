@@ -31,13 +31,7 @@ abstract class ContentBase extends Node implements ContentInterface {
    * {@inheritdoc}
    */
   public function access($operation = 'view', AccountInterface $account = NULL, $return_as_object = FALSE) {
-    $route_match = $this->getRouteMatch();
-    $route_name = $route_match?->getRouteName() ?? NULL;
-    $grant_routes = [
-      'entity.node.standalone',
-      'entity.node.iframe',
-    ];
-    if (in_array($route_name, $grant_routes) && $operation == 'view' && (!$this->isDeleted() || $this->hasContentSpaceAccess($account))) {
+    if ($operation == 'view' && (!$this->isDeleted() || $this->hasContentSpaceAccess($account))) {
       // Always allow view operation on specific internal routes for non
       // deleted content or if the user can access the content space.
       return $return_as_object ? AccessResult::allowed() : TRUE;
@@ -69,6 +63,29 @@ abstract class ContentBase extends Node implements ContentInterface {
       $operation = 'update';
     }
     return parent::access($operation, $account, $return_as_object);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function toUrl($rel = 'canonical', array $options = []) {
+    // Links pointing to the current revision point to the actual entity. So
+    // instead of using the 'revision' link, use the 'canonical' link.
+    if ($rel === 'revision' && $this->isDefaultRevision()) {
+      $rel = 'canonical';
+    }
+    if ($rel == 'canonical') {
+      return Url::fromRoute('entity.node.iframe', [
+        'node' => $this->id(),
+      ], $options);
+    }
+    if ($rel == 'revision') {
+      return Url::fromRoute('entity.node_revision.iframe', [
+        'node' => $this->id(),
+        'node_revision' => $this->getRevisionId(),
+      ], $options);
+    }
+    return parent::toUrl($rel, $options);
   }
 
   /**

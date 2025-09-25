@@ -2,6 +2,7 @@ _core:
   default_config_hash: ZKVq7lpyGFQf-SCuj_Ng2yLPD24rKHxz-TzGQxBjLl4
 paths:
   - '*'
+  - ~user/login
   - '~user/login/*'
   - ~openid-connect/entraid
   - ~ncms

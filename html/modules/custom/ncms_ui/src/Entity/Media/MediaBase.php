@@ -27,7 +27,7 @@ abstract class MediaBase extends Media implements ContentSpaceAwareInterface, En
       $path = self::filUrlGenerator()->generateAbsoluteString($thumbnail_uri);
       return Url::fromUri($path);
     }
-    return parent::toUrl();
+    return parent::toUrl($rel, $options);
   }
 
   /**

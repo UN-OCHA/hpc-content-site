@@ -139,9 +139,13 @@ class ContentSpaceAccessTest extends ContentTestBase {
 
     // Confirm we see what we should.
     $this->drupalGet('/admin/content');
-    $this->assertSession()->pageTextContains($node_1_1->label());
-    $this->assertSession()->pageTextContains($node_2_1->label());
-    $this->assertSession()->pageTextContains($node_3_1->label());
+    $this->assertSession()->linkExists($node_1_1->label());
+    $this->assertSession()->linkExists($node_2_1->label());
+    $this->assertSession()->linkExists($node_3_1->label());
+    $this->assertSession()->linkByHrefExistsExact('/node/' . $node_1_1->id() . '/iframe');
+    $this->assertSession()->linkByHrefExistsExact('/node/' . $node_2_1->id() . '/iframe');
+    $this->assertSession()->linkByHrefExistsExact('/node/' . $node_3_1->id() . '/iframe');
+    // Confirm we don't see what we shouldn't.
     $this->assertSession()->pageTextNotContains($node_1_2->label());
     $this->assertSession()->pageTextNotContains($node_2_2->label());
     $this->assertSession()->pageTextNotContains($node_3_2->label());
@@ -162,12 +166,16 @@ class ContentSpaceAccessTest extends ContentTestBase {
 
     // Confirm we see what we should.
     $this->drupalGet('/admin/content');
+    $this->assertSession()->linkExists($node_1_2->label());
+    $this->assertSession()->linkExists($node_2_2->label());
+    $this->assertSession()->linkExists($node_3_2->label());
+    $this->assertSession()->linkByHrefExistsExact('/node/' . $node_1_2->id() . '/iframe');
+    $this->assertSession()->linkByHrefExistsExact('/node/' . $node_2_2->id() . '/iframe');
+    $this->assertSession()->linkByHrefExistsExact('/node/' . $node_3_2->id() . '/iframe');
+    // Confirm we don't see what we shouldn't.
     $this->assertSession()->pageTextNotContains($node_1_1->label());
     $this->assertSession()->pageTextNotContains($node_2_1->label());
     $this->assertSession()->pageTextNotContains($node_3_1->label());
-    $this->assertSession()->pageTextContains($node_1_2->label());
-    $this->assertSession()->pageTextContains($node_2_2->label());
-    $this->assertSession()->pageTextContains($node_3_2->label());
     // Edit links.
     $this->assertSession()->elementNotExists('css', '.dropbutton a[href="/node/' . $node_1_2->id() . '/edit?destination=/admin/content"]');
     $this->assertSession()->elementNotExists('css', '.dropbutton a[href="/node/' . $node_2_2->id() . '/edit?destination=/admin/content"]');

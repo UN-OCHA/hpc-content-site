@@ -5,6 +5,8 @@ ncms_publisher.publisher.*:
     id:
       type: string
       label: 'ID'
+      constraints:
+        NotNull: []
     label:
       type: label
       label: 'Label'
@@ -13,3 +15,5 @@ ncms_publisher.publisher.*:
       label: 'ID'
     uuid:
       type: string
+      constraints:
+        Uuid: []

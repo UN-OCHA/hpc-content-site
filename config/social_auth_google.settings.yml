@@ -1,0 +1,6 @@
+client_id: ANSIBLE_SECRET
+client_secret: ANSIBLE_SECRET
+scopes: ''
+endpoints: ''
+restricted_domain: ''
+uuid: ea6a8e7b-3790-4c1f-a6c0-c8ae4b274ff2

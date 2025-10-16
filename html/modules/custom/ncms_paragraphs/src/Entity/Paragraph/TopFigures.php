@@ -14,6 +14,7 @@ class TopFigures extends NcmsParagraphBase {
 
   const EMPHASIS_OPTION_NORMAL = 'normal';
   const EMPHASIS_OPTION_NEEDS_RELATED = 'needs_related';
+  const EMPHASIS_OPTION_TARGETED = 'targeted';
   const EMPHASIS_OPTION_EMPHASIZED = 'emphasized';
   const USE_EMPHASIS = TRUE;
 
@@ -53,6 +54,7 @@ class TopFigures extends NcmsParagraphBase {
             '#options' => [
               self::EMPHASIS_OPTION_NORMAL => $this->t('Normal (Grey)'),
               self::EMPHASIS_OPTION_NEEDS_RELATED => $this->t('Needs related (Blue)'),
+              self::EMPHASIS_OPTION_TARGETED => $this->t('Targeted (Orange)'),
               self::EMPHASIS_OPTION_EMPHASIZED => $this->t('Emphasized (Red)'),
             ],
             '#size' => 0,

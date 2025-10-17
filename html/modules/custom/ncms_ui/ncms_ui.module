@@ -161,6 +161,12 @@ function ncms_ui_local_tasks_alter(&$local_tasks) {
   if (array_key_exists('content_moderation.workflows:node.latest_version_tab', $local_tasks)) {
     unset($local_tasks['content_moderation.workflows:node.latest_version_tab']);
   }
+
+  // Set weight for the connected accounts tab, so that it appears after the
+  // edit tab.
+  if (array_key_exists('entity.user.openid_connect_accounts', $local_tasks)) {
+    $local_tasks['entity.user.openid_connect_accounts']['weight'] = 4;
+  }
 }
 
 /**
@@ -566,6 +572,15 @@ function ncms_ui_form_user_form_alter(array &$form, FormStateInterface $form_sta
   $user = \Drupal::currentUser();
   $form['account']['mail']['#disabled'] = !$user->hasPermission('administer users');
   $form['field_content_spaces']['#disabled'] = !$user->hasPermission('administer users');
+  $form['#after_build'][] = 'ncms_ui_form_user_form_after_build';
+}
+
+/**
+ * After build callback for the user edit form.
+ */
+function ncms_ui_form_user_form_after_build(array $form, FormStateInterface $form_state) {
+  $form['social_auth']['#access'] = FALSE;
+  return $form;
 }
 
 /**

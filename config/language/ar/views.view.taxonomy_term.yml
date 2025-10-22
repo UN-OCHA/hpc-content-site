@@ -5,7 +5,11 @@ display:
     display_options:
       pager:
         options:
+          tags:
+            next: ››
+            previous: ‹‹
           expose:
+            items_per_page_label: 'Items per page'
             items_per_page_options_all_label: '- All -'
             offset_label: Offset
       exposed_form:
@@ -19,6 +23,7 @@ display:
         tid:
           exception:
             title: All
+          title: '{{ arguments.tid }}'
   feed_1:
     display_title: Feed
   page_1:

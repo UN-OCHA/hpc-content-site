@@ -94,6 +94,7 @@
         "drupal/social_auth_google": "^4",
         "drupal/social_auth_hid": "^4",
         "drupal/stage_file_proxy": "^3",
+        "drupal/svg_image": "^3.2",
         "drupal/taxonomy_max_depth": "^2.1",
         "drupal/taxonomy_term_depth": "^2.6",
         "drupal/user_expire": "^1.0",

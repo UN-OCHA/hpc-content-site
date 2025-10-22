@@ -6,6 +6,15 @@ dependencies:
     - field.storage.paragraph.field_image
     - media.type.image
     - paragraphs.paragraphs_type.image_with_text
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: paragraph.image_with_text.field_image
 field_name: field_image
 entity_type: paragraph
@@ -23,6 +32,7 @@ settings:
       image: image
     sort:
       field: _none
+      direction: ASC
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: image
 field_type: entity_reference

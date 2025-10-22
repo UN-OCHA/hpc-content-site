@@ -14,5 +14,6 @@ display:
   block_1:
     display_title: "Who's new"
     display_options:
+      display_description: 'A list of new users'
       block_description: "Who's new"
       block_category: المستخدم

@@ -3,9 +3,14 @@ display:
   default:
     display_title: Master
     display_options:
+      title: 'Monthly archive'
       pager:
         options:
+          tags:
+            next: ››
+            previous: ‹‹
           expose:
+            items_per_page_label: 'Items per page'
             items_per_page_options_all_label: '- All -'
             offset_label: Offset
       exposed_form:
@@ -15,7 +20,14 @@ display:
           exposed_sorts_label: 'Sort by'
           sort_asc_label: Asc
           sort_desc_label: Desc
+      arguments:
+        created_year_month:
+          title: '{{ arguments.created_year_month }}'
   block_1:
     display_title: Block
+    display_options:
+      arguments:
+        created_year_month:
+          title: '{{ arguments.created_year_month }}'
   page_1:
     display_title: Page

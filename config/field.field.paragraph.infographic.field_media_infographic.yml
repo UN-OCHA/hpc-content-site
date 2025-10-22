@@ -6,6 +6,15 @@ dependencies:
     - field.storage.paragraph.field_media_infographic
     - media.type.infographic
     - paragraphs.paragraphs_type.infographic
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: paragraph.infographic.field_media_infographic
 field_name: field_media_infographic
 entity_type: paragraph
@@ -25,5 +34,5 @@ settings:
       field: _none
       direction: ASC
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: infographic
 field_type: entity_reference

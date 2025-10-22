@@ -39,6 +39,34 @@ picture img {
   --cd-font-size--medium-large: 1.5rem; /* 24px */
 }
 
+.site-login {
+  margin-top: 3rem;
+}
+.site-login .login-link {
+  margin-top: 0;
+  border-radius: 5px;
+  font-size: var(--cd-font-size--base);
+  font-weight: bold;
+}
+.site-login .login-link::before {
+  position: relative;
+  top: 2px;
+  left: 0;
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+}
+.site-login .login-link.login-link--un::before {
+  content: url("/themes/custom/common_design_subtheme/img/logos/un-white.svg");
+}
+.site-login .login-link.login-link--google::before {
+  content: url("/themes/custom/common_design_subtheme/img/logos/google.svg");
+}
+.site-login .site-login-other {
+  margin-top: 2rem;
+}
+
 h1,
 h2,
 h3,

@@ -7,6 +7,7 @@ dependencies:
     - media.type.image
   module:
     - content_translation
+    - field_config_cardinality
     - image
 third_party_settings:
   content_translation:
@@ -14,6 +15,12 @@ third_party_settings:
       alt: alt
       title: title
       file: '0'
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: media.image.field_media_image
 field_name: field_media_image
 entity_type: media
@@ -30,7 +37,7 @@ settings:
   file_directory: images
   file_extensions: 'png gif jpg jpeg'
   max_filesize: ''
-  max_resolution: ''
+  max_resolution: 2800x2800
   min_resolution: ''
   alt_field: true
   alt_field_required: true

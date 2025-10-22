@@ -6,6 +6,15 @@ dependencies:
     - field.storage.node.field_hero_image
     - media.type.image
     - node.type.article
+  module:
+    - field_config_cardinality
+third_party_settings:
+  field_config_cardinality:
+    cardinality_config: '1'
+    cardinality_label_config: false
+    unlimited_not_required: ''
+    limited_not_required: ''
+    limited_required: ''
 id: node.article.field_hero_image
 field_name: field_hero_image
 entity_type: node

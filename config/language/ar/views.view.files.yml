@@ -5,6 +5,8 @@ display:
     display_options:
       title: Files
       fields:
+        fid:
+          label: Fid
         filename:
           label: Name
           separator: ', '
@@ -14,6 +16,11 @@ display:
           label: Size
         status:
           label: Status
+          settings:
+            format_custom_false: Temporary
+            format_custom_true: Permanent
+        created:
+          label: 'Upload date'
         count:
           label: 'Used in'
           format_plural_string: !!binary MSBwbGFjZQNAY291bnQgcGxhY2Vz
@@ -23,6 +30,7 @@ display:
             next: 'Next ›'
             previous: '‹ Previous'
           expose:
+            items_per_page_label: 'Items per page'
             items_per_page_options_all_label: '- All -'
             offset_label: Offset
       exposed_form:
@@ -32,6 +40,9 @@ display:
           exposed_sorts_label: 'Sort by'
           sort_asc_label: Asc
           sort_desc_label: Desc
+      empty:
+        area_text_custom:
+          content: 'No files available.'
       filters:
         filename:
           expose:
@@ -47,7 +58,9 @@ display:
       menu:
         title: Files
   page_2:
+    display_title: 'File usage'
     display_options:
+      title: 'File usage'
       fields:
         entity_label:
           label: Entity
@@ -61,9 +74,11 @@ display:
             next: 'Next ›'
             previous: '‹ Previous'
           expose:
+            items_per_page_label: 'Items per page'
             items_per_page_options_all_label: '- All -'
             offset_label: Offset
       arguments:
         fid:
           exception:
             title: All
+          title: 'File usage information for {{ arguments.fid }}'

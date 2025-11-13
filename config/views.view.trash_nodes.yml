@@ -16,7 +16,7 @@ _core:
 id: trash_nodes
 label: 'Trash - Nodes'
 module: node
-description: 'Find and manage content.'
+description: 'Trash bin for nodes'
 tag: default
 base_table: node_field_data
 base_field: nid
@@ -734,7 +734,7 @@ display:
       display_extenders: {  }
       path: admin/content/trash
       menu:
-        type: tab
+        type: none
         title: Trash
         description: ''
         weight: 10
@@ -743,9 +743,9 @@ display:
         parent: system.admin_content
         context: '0'
       tab_options:
-        type: normal
-        title: Content
-        description: 'Find and manage content'
+        type: none
+        title: Trash
+        description: 'Trash bin'
         weight: -10
     cache_metadata:
       max-age: -1

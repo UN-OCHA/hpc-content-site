@@ -57,6 +57,7 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
     /** @var \Drupal\replicate_ui\Form\ReplicateConfirmForm $form_object */
     $form_object = $form_state->getFormObject();
     $entity = $form_object->getEntity();
+    $current_content_space_id = $this->contentSpaceManager->getCurrentContentSpaceId();
 
     if (!$entity instanceof ContentSpaceAwareInterface) {
       return;
@@ -81,7 +82,9 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
       $content_space_ids = $this->contentSpaceManager->getValidContentSpaceIdsForCurrentUser();
       $content_space_widget = &$form['field_content_space']['widget'];
       $content_space_widget['#options'] = array_intersect_key($content_space_widget['#options'], $content_space_ids + ['_none' => TRUE]);
-      $content_space_widget['#default_value'] = $this->contentSpaceManager->getCurrentContentSpaceId();
+      // Default value is either the current content space id if it is part of
+      // the options, or the first available option key.
+      $content_space_widget['#default_value'] = array_key_exists($current_content_space_id, $content_space_widget['#options']) ? $current_content_space_id : array_key_first($content_space_widget['#options']);
       if (count($content_space_widget['#options']) == 1) {
         $content_space_widget['#disabled'] = TRUE;
       }

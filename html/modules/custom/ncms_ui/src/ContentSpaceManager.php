@@ -223,10 +223,10 @@ class ContentSpaceManager {
   /**
    * Get the currently selected content space.
    *
-   * @return int
+   * @return int|null
    *   The id of the content space.
    */
-  public function getCurrentContentSpaceId() {
+  public function getCurrentContentSpaceId(): ?int {
     $content_space_id = $this->tempStore->get('content_space') ?? NULL;
     $content_spaces = $this->getContentSpaces();
     if ($content_space_id === NULL || !array_key_exists($content_space_id, $content_spaces)) {

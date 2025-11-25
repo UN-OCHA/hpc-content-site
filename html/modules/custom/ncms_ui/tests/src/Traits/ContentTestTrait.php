@@ -5,6 +5,7 @@ namespace Drupal\Tests\ncms_ui\Traits;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\ncms_ui\Entity\Taxonomy\ContentSpace;
 use Drupal\node\Entity\Node;
@@ -89,7 +90,7 @@ trait ContentTestTrait {
 
     $this->createEntityReferenceField('user', 'user', 'field_content_spaces', 'Content spaces', 'taxonomy_term', 'default', $handler_settings, FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
 
-    // Make content be replicatable.
+    // Make content be replicable.
     $this->config('replicate_ui.settings')
       ->set('entity_types', ['node'])
       ->save();
@@ -112,6 +113,9 @@ trait ContentTestTrait {
       ],
     ];
     $this->createEntityReferenceField('node', $bundle, 'field_content_space', 'Content space', 'taxonomy_term', 'default', $handler_settings);
+    FieldConfig::loadByName('node', $bundle, 'field_content_space')
+      ->set('required', TRUE)
+      ->save();
     EntityFormDisplay::load('node.' . $bundle . '.default')
       ->setComponent('field_content_space', [
         'type' => 'options_select',

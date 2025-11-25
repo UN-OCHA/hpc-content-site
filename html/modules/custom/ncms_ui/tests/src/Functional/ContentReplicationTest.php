@@ -24,7 +24,7 @@ class ContentReplicationTest extends ContentTestBase {
     $node_1_1 = $this->createArticleInContentSpace('Article 1 for Content space 1', $content_space_1->id());
     $replicate_url = '/node/' . $node_1_1->id() . '/replicate';
 
-    // Create a user with permission to manage content from content spaces 1.
+    // Create a user with permission to manage content from content space 1.
     $this->drupalLogin($this->createEditorUserWithContentSpaces([
       $content_space_1,
     ]));
@@ -67,6 +67,20 @@ class ContentReplicationTest extends ContentTestBase {
     $this->assertEquals($content_space_1->id(), $this->getContentSpace()->id());
 
     // Replicate into the other content space.
+    $this->submitReplicationForm($article, [
+      'field_content_space' => $content_space_2->id(),
+    ]);
+    $this->assertEquals($content_space_2->id(), $this->getContentSpace()->id());
+
+    // Create a user with permission to manage content from content space 2.
+    $this->drupalLogin($this->createEditorUserWithContentSpaces([
+      $content_space_2,
+    ]));
+
+    // Create an article in content space 1.
+    $article = $this->createArticleInContentSpace('Article 1 for Content space 1', $content_space_1->id());
+
+    // Replicate into content space 2.
     $this->submitReplicationForm($article, [
       'field_content_space' => $content_space_2->id(),
     ]);

@@ -27,7 +27,7 @@
         },
         "drupal/entity_usage": {
           "Issue #3043388: Views integration: usage of the latest source revisions": "https://www.drupal.org/files/issues/2020-09-26/entity_usage_views_integration_usage_count-3043388-6.patch",
-            "Issue #3315164: Add support for File entities and full Views integration": "https://git.drupalcode.org/project/entity_usage/-/merge_requests/35.diff"
+            "Issue #3315164: Add support for File entities and full Views integration": "./patches/entity_usage-3315164-mr35-beta25.patch"
         },
         "drupal/field_group": {
           "Issue #3395375: Duplicated required marks in field tabs with GIn admin theme": "https://www.drupal.org/files/issues/2024-08-06/3395375-6.patch"

@@ -9,6 +9,8 @@ use Drupal\common_design_subtheme\AddComponentClasses;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
+use Drupal\media\MediaInterface;
+use Drupal\ncms_ui\Entity\Content\Article;
 use Drupal\node\NodeInterface;
 
 /**
@@ -167,8 +169,10 @@ function common_design_subtheme_preprocess_node(&$variables) {
  * Extract the media credits to display them after the text.
  */
 function common_design_subtheme_preprocess_node__story(&$variables) {
-  if (isset($variables['content']['field_media'][0]['#media'])) {
-    $credits = $variables['content']['field_media'][0]['#media']->field_credits->value;
+  \Drupal::logger('ncms_ui')->debug('common_design_subtheme_preprocess_node__story');
+  $media = $variables['content']['field_media'][0]['#media'] ?? NULL;
+  if ($media instanceof MediaInterface && $media->hasField('field_credits')) {
+    $credits = $media->get('field_credits')->value;
     $variables['content']['credits'] = ['#markup' => $credits];
   }
 }
@@ -183,8 +187,9 @@ function common_design_subtheme_preprocess_node__article(&$variables) {
 
   // Copy the hero image credits to the end of the caption field.
   if ($view_mode === 'full' || $view_mode === 'home_page') {
-    if (isset($variables['content']['field_hero_image'][0]['#media'])) {
-      $credits = $variables['content']['field_hero_image'][0]['#media']->field_credits->value;
+    $media = $variables['content']['field_hero_image'][0]['#media'] ?? NULL;
+    if ($media instanceof MediaInterface && $media->hasField('field_credits')) {
+      $credits = $media->get('field_credits')->value;
       $variables['content']['field_caption'][0]['#credits'] = ['#markup' => $credits];
     }
   }
@@ -197,8 +202,9 @@ function common_design_subtheme_preprocess_node__article(&$variables) {
  * a hero or not as it's difficult to access from within the twig templates.
  */
 function common_design_subtheme_preprocess_paragraph__sub_article(&$variables) {
-  if (isset($variables['content']['field_article'][0]['#node'])) {
-    $hero = $variables['content']['field_article'][0]['#node']->field_hero_image->target_id;
+  $node = $variables['content']['field_article'][0]['#node'] ?? NULL;
+  if ($node instanceof Article && $node->hasField('field_hero_image')) {
+    $hero = $node->get('field_hero_image')->target_id;
     $variables['hero'] = !empty($hero);
   }
 }
@@ -209,8 +215,10 @@ function common_design_subtheme_preprocess_paragraph__sub_article(&$variables) {
  * Extract the media credits to display them after the text.
  */
 function common_design_subtheme_preprocess_paragraph__photo_gallery(&$variables) {
-  if (isset($variables['content']['field_photos'][0]['#media'])) {
-    $credits = $variables['content']['field_photos'][0]['#media']->field_credits->value;
+  \Drupal::logger('ncms_ui')->debug('common_design_subtheme_preprocess_paragraph__photo_gallery');
+  $media = $variables['content']['field_photos'][0]['#media'] ?? NULL;
+  if ($media instanceof MediaInterface && $media->hasField('field_credits')) {
+    $credits = $media->get('field_credits')->value;
     $variables['content']['credits'] = ['#markup' => $credits];
   }
 }
@@ -221,21 +229,10 @@ function common_design_subtheme_preprocess_paragraph__photo_gallery(&$variables)
  * Extract the media credits to display them after the text.
  */
 function common_design_subtheme_preprocess_paragraph__image_with_text(&$variables) {
-  if (isset($variables['content']['field_image'][0]['#media'])) {
-    $credits = $variables['content']['field_image'][0]['#media']->field_credits->value;
+  $media = $variables['content']['field_image'][0]['#media'] ?? NULL;
+  if ($media instanceof MediaInterface && $media->hasField('field_credits')) {
+    $credits = $media->get('field_credits')->value;
     $variables['content']['credits'] = ['#markup' => $credits];
-  }
-}
-
-/**
- * Implements hook_preprocess_paragraph__section_index().
- *
- * Extract the media credits to display them after the text.
- */
-function common_design_subtheme_preprocess_paragraph__section_index(&$variables) {
-  if (isset($variables['content']['field_image'][0]['#media'])) {
-    $credits = $variables['content']['field_image'][0]['#media']->field_credits->value;
-    $variables['content']['field_caption'][0]['#credits'] = ['#markup' => $credits];
   }
 }
 

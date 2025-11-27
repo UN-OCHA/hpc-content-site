@@ -95,29 +95,31 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
       ]);
     }
 
-    if ($entity instanceof Article && $entity->hasSubArticles()) {
-      $form['replicate_subarticles'] = [
-        '#type' => 'container',
-        '#tree' => TRUE,
-      ];
-      $form['replicate_subarticles']['toggle'] = [
-        '#type' => 'checkbox',
-        '#title' => $this->t('Replicate sub articles as well'),
-        '#description' => $this->t('Checking this will create new copies of all the sub articles in the same content space as the replicated article. If unchecked, then an article replicated in the same content space will continue to link to the original sub articles, and an article replicated in a different content space will have the sub articles removed.'),
-      ];
-      $form['replicate_subarticles']['suffix'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Sub article title suffix'),
-        '#default_value' => '(Copy)',
-        '#description' => $this->t('Leaving blank will create all the replicated sub articles with the same title as the original sub articles.'),
-        '#states' => [
-          'visible' => [
-            ':input[name="replicate_subarticles[toggle]"]' => ['checked' => TRUE],
+    if ($entity instanceof Article) {
+      if ($entity->hasSubArticles()) {
+        $form['replicate_subarticles'] = [
+          '#type' => 'container',
+          '#tree' => TRUE,
+        ];
+        $form['replicate_subarticles']['toggle'] = [
+          '#type' => 'checkbox',
+          '#title' => $this->t('Replicate sub articles as well'),
+          '#description' => $this->t('Checking this will create new copies of all the sub articles in the same content space as the replicated article. If unchecked, then an article replicated in the same content space will continue to link to the original sub articles, and an article replicated in a different content space will have the sub articles removed.'),
+        ];
+        $form['replicate_subarticles']['suffix'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Sub article title suffix'),
+          '#default_value' => '(Copy)',
+          '#description' => $this->t('Leaving blank will create all the replicated sub articles with the same title as the original sub articles.'),
+          '#states' => [
+            'visible' => [
+              ':input[name="replicate_subarticles[toggle]"]' => ['checked' => TRUE],
+            ],
           ],
-        ],
-      ];
+        ];
+      }
       $form['actions']['submit']['#submit'][] = [
-        self::class, 'submitProcessArticleSubarticles',
+        self::class, 'submitProcessArticle',
       ];
     }
 
@@ -143,7 +145,7 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
         ],
       ];
       $form['actions']['submit']['#submit'][] = [
-        self::class, 'submitProcessDocumentArticles',
+        self::class, 'submitProcessDocument',
       ];
     }
 
@@ -174,23 +176,25 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
   }
 
   /**
-   * Custom submit handler to handle referenced articles.
+   * Custom submit handler for replication of documents.
+   *
+   * This also replicates referenced articles if necessary.
    *
    * @param array $form
    *   An associative array containing the structure of the form.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    */
-  public static function submitProcessDocumentArticles(array &$form, FormStateInterface $form_state): void {
-    $replicate_content = $form_state->getValue(['replicate_content', 'toggle']);
-    $article_suffix = trim($form_state->getValue(['replicate_content', 'suffix']) ?? '');
-
+  public static function submitProcessDocument(array &$form, FormStateInterface $form_state): void {
     // Get the reoplicated entity and check if it's a document.
     $replicated_entity = $form_state->get('replicated_entity');
     if (!$replicated_entity instanceof Document) {
       // We only support replication of referenced entities for documents.
       return;
     }
+
+    $replicate_content = $form_state->getValue(['replicate_content', 'toggle']);
+    $article_suffix = trim($form_state->getValue(['replicate_content', 'suffix']) ?? '');
 
     if ($replicate_content) {
       // The chapters of the replicated document have been replicated by the
@@ -243,14 +247,23 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
   }
 
   /**
-   * Custom submit handler to handle referenced articles.
+   * Custom submit handler for replication of articles.
+   *
+   * This also replicates referenced sub articles if necessary.
    *
    * @param array $form
    *   An associative array containing the structure of the form.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    */
-  public static function submitProcessArticleSubarticles(array &$form, FormStateInterface $form_state): void {
+  public static function submitProcessArticle(array &$form, FormStateInterface $form_state): void {
+    // Get the reoplicated entity and check if it's an article.
+    $replicated_entity = $form_state->get('replicated_entity');
+    if (!$replicated_entity instanceof Article) {
+      // We only support replication of referenced entities for articles here.
+      return;
+    }
+
     $replicate_subarticles = $form_state->getValue([
       'replicate_subarticles',
       'toggle',
@@ -259,13 +272,6 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
       'replicate_subarticles',
       'suffix',
     ]) ?? '');
-
-    // Get the reoplicated entity and check if it's an article.
-    $replicated_entity = $form_state->get('replicated_entity');
-    if (!$replicated_entity instanceof Article) {
-      // We only support replication of referenced entities for articles here.
-      return;
-    }
 
     if ($replicate_subarticles) {
       // The paragraphs of the replicated article have been replicated by the
@@ -294,11 +300,13 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
       foreach ($replicated_entity->getSubArticleParagraphs() as $sub_article_paragraph) {
         $sub_article_paragraph->delete();
       }
-      // Save the replicated article again to update the article references.
-      $replicated_entity->setNewRevision(FALSE);
-      $replicated_entity->setSyncing(TRUE);
-      $replicated_entity->save();
     }
+
+    // Update the document references and save again.
+    $replicated_entity->updateDocumentReferences();
+    $replicated_entity->setNewRevision(FALSE);
+    $replicated_entity->setSyncing(TRUE);
+    $replicated_entity->save();
   }
 
   /**

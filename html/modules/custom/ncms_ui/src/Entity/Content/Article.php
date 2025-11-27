@@ -3,6 +3,7 @@
 namespace Drupal\ncms_ui\Entity\Content;
 
 use Drupal\Core\Url;
+use Drupal\ncms_paragraphs\Entity\Paragraph\SubArticle;
 
 /**
  * Bundle class for article nodes.
@@ -58,6 +59,37 @@ class Article extends ContentBase {
       }
     }
     return $documents;
+  }
+
+  /**
+   * Get all sub article paragraphs for this article.
+   *
+   * @return \Drupal\ncms_paragraphs\Entity\Paragraph\SubArticle[]
+   *   An array of sub article paragraphs.
+   */
+  public function getSubArticleParagraphs(): array {
+    /** @var \Drupal\paragraphs\Entity\Paragraph[] $paragraphs */
+    $paragraphs = $this->entityTypeManager()->getStorage('paragraph')->loadByProperties([
+      'type' => ['sub_article'],
+      'parent_type' => 'node',
+      'parent_id' => $this->id(),
+    ]);
+    $paragraphs = array_filter($paragraphs, fn ($paragraph) => $paragraph instanceof SubArticle);
+    return $paragraphs;
+  }
+
+  /**
+   * Check if the article has sub articles.
+   *
+   * Because the article field in a sub article paragraph is mandatory, we can
+   * assume that there are indeed sub articles if there is a non empty set of
+   * sub article paragraphs.
+   *
+   * @return bool
+   *   TRUE if the article has sub articles, FALSE otherwise.
+   */
+  public function hasSubArticles(): bool {
+    return !empty($this->getSubArticleParagraphs());
   }
 
 }

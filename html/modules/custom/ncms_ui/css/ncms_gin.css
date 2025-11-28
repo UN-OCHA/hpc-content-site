@@ -25,13 +25,23 @@
   background-color: rgb(5, 80, 230) !important;
 }
 
+body.toolbar-vertical .toolbar-tab a.toolbar-icon-menu::before {
+  filter: none !important;
+}
+
 body.toolbar-vertical #toolbar-item-administration-tray > nav {
   background-color: white;
 }
 
 /* The secondary toolbar */
+body.toolbar-horizontal .gin-secondary-toolbar {
+  gap: 1rem;
+}
 body.toolbar-vertical .gin-secondary-toolbar {
   height: auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
 }
 body.toolbar-vertical .toolbar-secondary {
   flex-direction: row !important;
@@ -76,22 +86,31 @@ body.toolbar-vertical .toolbar-secondary #toolbar-bar {
 /* The secondary toolbar. */
 .gin-secondary-toolbar .gin-breadcrumb-wrapper {
   display: none;
+  margin-inline-end: 0;
+  min-width: fit-content;
 }
-.gin--edit-form.path-node .gin-secondary-toolbar .gin-breadcrumb-wrapper,
-.user-logged-in.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper {
+.gin-secondary-toolbar .gin-breadcrumb-wrapper nav.gin-breadcrumb {
+  padding-right: 1rem;
+}
+.path-node.node-edit .gin-secondary-toolbar .gin-breadcrumb-wrapper,
+.path-node.node-revisions .gin-secondary-toolbar .gin-breadcrumb-wrapper,
+.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper {
   display: block;
 }
-.gin--edit-form.path-node .gin-secondary-toolbar .gin-breadcrumb-wrapper .gin-breadcrumb__list,
-.user-logged-in.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper .gin-breadcrumb__list {
+.path-node.node-edit .gin-secondary-toolbar .gin-breadcrumb-wrapper .gin-breadcrumb__list,
+.path-node.node-revisions .gin-secondary-toolbar .gin-breadcrumb-wrapper .gin-breadcrumb__list,
+.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper .gin-breadcrumb__list {
   width: fit-content;
   text-overflow: clip;
 }
-.gin--edit-form.path-node .gin-secondary-toolbar .gin-breadcrumb-wrapper li,
-.user-logged-in.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper li {
+.path-node.node-edit .gin-secondary-toolbar .gin-breadcrumb-wrapper li,
+.path-node.node-revisions .gin-secondary-toolbar .gin-breadcrumb-wrapper li,
+.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper li {
   overflow: visible;
 }
-.gin--edit-form.path-node .gin-secondary-toolbar .gin-breadcrumb-wrapper li::before,
-.user-logged-in.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper li::before {
+.path-node.node-edit .gin-secondary-toolbar .gin-breadcrumb-wrapper li::before,
+.path-node.node-revisions .gin-secondary-toolbar .gin-breadcrumb-wrapper li::before,
+.path-media .gin-secondary-toolbar .gin-breadcrumb-wrapper li::before {
   border-right: 0;
 }
 .gin-secondary-toolbar #toolbar-administration-secondary {

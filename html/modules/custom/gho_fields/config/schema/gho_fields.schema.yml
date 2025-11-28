@@ -2,18 +2,28 @@
 field.formatter.settings.gho_article_list:
   type: mapping
   label: 'GHO article list formatter settings'
+  mapping: {  }
+    # No settings.
 field.formatter.settings.gho_caption:
   type: mapping
   label: 'GHO caption formatter settings'
+  mapping: {  }
+    # No settings.
 field.formatter.settings.gho_dataset_link:
   type: mapping
   label: 'GHO dataset link formatter settings'
+  mapping: {  }
+    # No settings.
 field.formatter.settings.gho_interactive_content:
   type: mapping
   label: 'GHO interactive content formatter settings'
+  mapping: {  }
+    # No settings.
 field.formatter.settings.gho_further_reading_link:
   type: mapping
   label: 'GHO further reading link formatter settings'
+  mapping: {  }
+    # No settings.
 field.formatter.settings.gho_number:
   type: mapping
   label: 'GHO number formatter settings'
@@ -51,3 +61,5 @@ field.widget.settings.gho_further_reading_link:
 field.widget.settings.gho_menu_select:
   type: mapping
   label: 'GHO menu select widget settings'
+  mapping: {  }
+    # No settings.

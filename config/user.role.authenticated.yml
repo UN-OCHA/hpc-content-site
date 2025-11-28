@@ -92,7 +92,6 @@ permissions:
   - 'use text format filtered_html'
   - 'use text format footnotes'
   - 'use text format limited_html'
-  - 'view all media revisions'
   - 'view article revisions'
   - 'view document revisions'
   - 'view latest version'

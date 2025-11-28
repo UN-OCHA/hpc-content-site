@@ -50,6 +50,7 @@ content:
     weight: 1
     region: content
 hidden:
+  content_moderation_control: true
   created: true
   langcode: true
   thumbnail: true

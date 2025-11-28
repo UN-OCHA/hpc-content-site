@@ -5,29 +5,27 @@ namespace Drupal\ncms_ui\Plugin\Action;
 use Drupal\Core\Action\Attribute\Action;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\ncms_ui\Entity\ContentInterface;
-use Drupal\node\NodeInterface;
+use Drupal\ncms_ui\Entity\BaseEntityInterface;
 
 /**
- * Custom action to move a content entity to the trash.
+ * Custom action to move an entity to the trash.
  */
 #[Action(
-  id: 'content_entity_move_to_trash',
-  label: new TranslatableMarkup('Move to trash'),
-  type: 'node'
+  id: 'entity_move_to_trash',
+  label: new TranslatableMarkup('Move to trash')
 )]
 class MoveToTrash extends ContentActionBase {
 
   /**
    * {@inheritdoc}
    */
-  public function execute($node = NULL) {
-    if (!$node instanceof NodeInterface || !$node instanceof ContentInterface) {
+  public function execute($entity = NULL) {
+    if (!$entity instanceof BaseEntityInterface) {
       return;
     }
-    $node->setDeleted();
-    $node->save();
-    Cache::invalidateTags($node->getCacheTags());
+    $entity->setDeleted();
+    $entity->save();
+    Cache::invalidateTags($entity->getCacheTags());
   }
 
 }

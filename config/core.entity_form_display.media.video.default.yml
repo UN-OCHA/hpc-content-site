@@ -36,17 +36,12 @@ content:
       size: 255
       placeholder: 'https://www.youtube.com/watch?v=VIDEOID'
     third_party_settings: {  }
-  status:
-    type: boolean_checkbox
-    weight: 3
-    region: content
-    settings:
-      display_label: true
-    third_party_settings: {  }
 hidden:
   created: true
   langcode: true
+  moderation_state: true
   name: true
   path: true
+  status: true
   translation: true
   uid: true

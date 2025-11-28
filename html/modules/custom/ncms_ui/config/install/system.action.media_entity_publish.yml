@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - workflows
+id: media_entity_publish
+label: "Publish"
+type: media
+plugin: entity_publish
+configuration: {  }

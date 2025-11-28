@@ -8,13 +8,15 @@ use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\ncms_ui\Ajax\ReloadPageCommand;
-use Drupal\ncms_ui\Entity\ContentInterface;
+use Drupal\ncms_ui\Traits\RouteMatchEntityTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Form class for content submit confirm forms.
  */
 class ContentRestoreForm extends ConfirmFormBase {
+
+  use RouteMatchEntityTrait;
 
   /**
    * The entity type manager service.
@@ -43,9 +45,9 @@ class ContentRestoreForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
-    $entity = $this->getNodeFromRouteMatch();
+    $entity = $this->getEntityFromRouteMatch();
     return $this->t('This will restore this @type and make it automatically publicly available again if there are any published versions. Are you sure?', [
-      '@type' => strtolower($entity->type->entity->label()),
+      '@type' => strtolower($entity->getBundleLabel()),
     ]);
   }
 
@@ -63,7 +65,7 @@ class ContentRestoreForm extends ConfirmFormBase {
     $form = parent::buildForm($form, $form_state);
 
     if ($entity === NULL) {
-      $entity = $this->getNodeFromRouteMatch();
+      $entity = $this->getEntityFromRouteMatch();
     }
 
     $form['description'] = ['#markup' => $this->getQuestion()];
@@ -114,31 +116,20 @@ class ContentRestoreForm extends ConfirmFormBase {
 
     // Confirmed, so we can delete the revision where the node got marked as
     // deleted.
-    $entity = $this->getNodeFromRouteMatch();
-
-    /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
-    $node_storage = $this->entityTypeManager->getStorage('node');
-    $node_storage->deleteLatestRevision($entity);
+    $entity = $this->getEntityFromRouteMatch();
+    if (!$entity) {
+      throw new \Exception('Fatal error: Entity not found.');
+    }
+    $entity->restore();
 
     // And inform the user.
     $this->messenger()->addStatus($this->t('@type <a href="@url">%title</a> has been restored from the trash bin.', [
-      '@type' => $entity->type->entity->label(),
+      '@type' => $entity->getBundleLabel(),
       '@url' => $entity->toUrl('edit-form')->toString(),
       '%title' => $entity->label(),
     ]));
 
     $form_state->setRedirectUrl($entity->getOverviewUrl());
-  }
-
-  /**
-   * Get the current entity from the route match.
-   *
-   * @return \Drupal\ncms_ui\Entity\ContentInterface|null
-   *   The entity or NULL.
-   */
-  private function getNodeFromRouteMatch() {
-    $entity = $this->getRouteMatch()->getParameter('node');
-    return $entity && $entity instanceof ContentInterface ? $entity : NULL;
   }
 
 }

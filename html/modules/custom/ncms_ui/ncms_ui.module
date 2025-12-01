@@ -530,9 +530,9 @@ function ncms_ui_form_entity_browser_form_alter(&$form, FormStateInterface $form
  * Implements hook_form_FORM_ID_alter().
  */
 function ncms_ui_form_revision_overview_form_alter(&$form, FormStateInterface $form_state) {
-  /** @var \Drupal\ncms_ui\Form\RevisionOverviewFormAlter $replicate_form_alter */
-  $replicate_form_alter = \Drupal::service('ncms_ui.revision_overview_form_alter');
-  $replicate_form_alter->alterForm($form, $form_state);
+  /** @var \Drupal\ncms_ui\Form\RevisionOverviewFormAlter $revision_overview_form_alter */
+  $revision_overview_form_alter = \Drupal::service('ncms_ui.revision_overview_form_alter');
+  $revision_overview_form_alter->alterForm($form, $form_state);
 }
 
 /**

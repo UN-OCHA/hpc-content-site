@@ -8,9 +8,11 @@ type: ops
 dialog_group: contrib_modules
 dialog_type: modal
 dialog_width: '750'
+dialog_title_override: ''
 selection_criteria:
   entity_type: node
+  key: replicate
   bundles:
     article: article
     document: document
-  key: replicate
+    story: story

@@ -14,10 +14,12 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Entity\Query\QueryInterface;
 use Drupal\Core\Entity\Query\Sql\Query;
+use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
+use Drupal\media\Entity\Media;
 use Drupal\media\MediaInterface;
 use Drupal\ncms_ui\ContentSpaceManager;
 use Drupal\ncms_ui\Controller\ViewController;
@@ -35,6 +37,7 @@ use Drupal\ncms_ui\Entity\Media\Image;
 use Drupal\ncms_ui\Entity\Media\Infographic;
 use Drupal\ncms_ui\Entity\Media\MediaBase;
 use Drupal\ncms_ui\Entity\Media\Video;
+use Drupal\ncms_ui\Entity\MediaInterface as EntityMediaInterface;
 use Drupal\ncms_ui\Entity\Taxonomy\ContentSpace;
 use Drupal\ncms_ui\Form\ContentSpaceSelectForm;
 use Drupal\node\NodeInterface;
@@ -74,9 +77,14 @@ function ncms_ui_entity_bundle_info_alter(array &$bundles) {
  */
 function ncms_ui_entity_type_alter(array &$entity_types) {
   /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
-  // Set the controller class for nodes to an alternate implementation of the
-  // Drupal\Core\Entity\EntityStorageInterface interface.
-  $entity_types['node']->setStorageClass('Drupal\ncms_ui\Entity\Storage\ContentStorage');
+  // Set the controller classes for node and media entities to an alternate
+  // implementation of the Drupal\Core\Entity\EntityStorageInterface interface.
+  if (array_key_exists('node', $entity_types)) {
+    $entity_types['node']->setStorageClass('Drupal\ncms_ui\Entity\Storage\ContentStorage');
+  }
+  if (array_key_exists('media', $entity_types)) {
+    $entity_types['media']->setStorageClass('Drupal\ncms_ui\Entity\Storage\MediaStorage');
+  }
 }
 
 /**
@@ -102,7 +110,7 @@ function ncms_ui_entity_base_field_info_alter(&$fields, $entity_type) {
  */
 function ncms_ui_entity_operation(EntityInterface $entity) {
   $operations = [];
-  if ($entity instanceof ContentInterface) {
+  if ($entity instanceof ContentInterface || $entity instanceof Media) {
     $operations = $entity->getEntityOperations();
   }
   return $operations;
@@ -167,6 +175,9 @@ function ncms_ui_local_tasks_alter(&$local_tasks) {
   if (array_key_exists('entity.user.openid_connect_accounts', $local_tasks)) {
     $local_tasks['entity.user.openid_connect_accounts']['weight'] = 4;
   }
+  // Remove the "Usages" task provided by the Entity Usage module as we provide
+  // our own task under a different name.
+  unset($local_tasks['entity_usage.entities:media.entity_usage']);
 }
 
 /**
@@ -230,7 +241,7 @@ function ncms_ui_entity_view_alter(array &$build, EntityInterface $entity, Entit
   if ($build['#view_mode'] === 'full' && $display->getComponent('workflow_buttons')) {
     unset($build['workflow_buttons']);
   }
-  if ($build['#view_mode'] === 'full' && $display->getComponent('content_moderation_control')) {
+  if (in_array($build['#view_mode'], ['full', 'media_library']) && $display->getComponent('content_moderation_control')) {
     unset($build['content_moderation_control']);
   }
 }
@@ -240,6 +251,7 @@ function ncms_ui_entity_view_alter(array &$build, EntityInterface $entity, Entit
  */
 function ncms_ui_preprocess_html(&$variables) {
   // Hide admin toolbar.
+  $request = \Drupal::requestStack()->getCurrentRequest();
   $route_match = \Drupal::routeMatch();
   $route_name = $route_match->getRouteName();
   $routes = [
@@ -275,6 +287,68 @@ function ncms_ui_preprocess_html(&$variables) {
   if ($route_name == 'node.add' && is_subclass_of($bundle_info[$node_type->id()]['class'], ContentBase::class)) {
     $variables['attributes']['class'][] = 'node-content-base';
   }
+
+  $path = $request->getPathInfo();
+  $path_parts = explode('/', ltrim($path, '/'));
+  $first_part = count($path_parts) > 1 ? reset($path_parts) : NULL;
+  $last_part = count($path_parts) > 1 ? end($path_parts) : NULL;
+  if ($first_part && $last_part && in_array($first_part, ['node', 'media']) && is_string($last_part)) {
+    $variables['attributes']['class'][] = $path_parts[0] . '-' . $last_part;
+  }
+
+  // Set the redirect url. This either redirects to the publisher site if this
+  // request came from an external publisher, or to a url given in the
+  // destination query argument, or, as a fallback, to the main content
+  // overview page.
+  $entity = $route_match->getParameter('node') ?? NULL;
+  $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
+  if ($entity instanceof EntityInterface && $is_gin) {
+    /** @var \Drupal\ncms_publisher\PublisherManager $publisher_manager */
+    $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
+    $publisher_redirect = $publisher_manager->getCurrentRedirectUrl();
+
+    $redirect_label = $publisher_redirect ? (string) t('Back to @publisher', [
+      '@publisher' => $publisher_manager->getCurrentPublisher()->label(),
+    ]) : NULL;
+
+    // Take the destination only if it's not pointing to the current edit page.
+    $current_destination = \Drupal::destination()->get();
+    $destination_redirect = $entity->id() && !str_contains($current_destination, $entity->toUrl('edit-form')->toString()) ? $current_destination : NULL;
+
+    // Set the redirect url. Publishers have priority, otherwise take the
+    // destination if it's available.
+    $redirect_url = $publisher_redirect ? Url::fromUri($publisher_redirect) : NULL;
+    if (!$redirect_url && $destination_redirect) {
+      $redirect_url = url::fromUserInput($destination_redirect);
+    }
+    if (!$redirect_url && $entity instanceof EntityOverviewInterface) {
+      $redirect_url = $entity->getOverviewUrl();
+      $redirect_label = t('Back to content library');
+    }
+    // And if we still don't have a valid redirect, use the fallback.
+    if (!$redirect_url) {
+      $redirect_url = Url::fromRoute('system.admin_content');
+      $redirect_label = t('Back to content library');
+    }
+
+    $variables['#attached']['library'][] = 'ncms_ui/ncms_gin';
+    $variables['#attached']['drupalSettings']['ncms_gin']['redirect_url'] = $redirect_url->toString();
+    if ($redirect_label) {
+      $variables['#attached']['drupalSettings']['ncms_gin']['redirect_label'] = $redirect_label;
+    }
+  }
+
+  // Add a redirect url for media too.
+  $media = $route_match->getParameter('media') ?? NULL;
+  $media = $media ?? $request->attributes->get('media');
+  $media = $media && !is_object($media) ? \Drupal::entityTypeManager()->getStorage('media')->load($media) : $media;
+  if ($media instanceof MediaBase && $is_gin) {
+    $redirect_url = $media->getOverviewUrl();
+    $redirect_label = t('Back to media library');
+    $variables['#attached']['library'][] = 'ncms_ui/ncms_gin';
+    $variables['#attached']['drupalSettings']['ncms_gin']['redirect_url'] = $redirect_url->toString();
+    $variables['#attached']['drupalSettings']['ncms_gin']['redirect_label'] = $redirect_label;
+  }
 }
 
 /**
@@ -308,9 +382,28 @@ function ncms_ui_preprocess_node(&$variables) {
     $variables['page'] = TRUE;
   }
   $route_match = \Drupal::routeMatch();
+  /** @var \Drupal\node\NodeInterface $node */
   $node = $variables['node'];
   if ($route_match->getRouteName() == 'diff.revisions_diff' && $node instanceof ContentInterface) {
     $variables['diff_metadata'] = $node->buildMetaDataForDiff();
+  }
+
+  // Hide all deleted media items from public display.
+  if ($node->isDefaultRevision()) {
+    foreach ($node->getFields() as $field_name => $field_item) {
+      if (!$field_item instanceof EntityReferenceFieldItemList) {
+        continue;
+      }
+      if ($field_item->getItemDefinition()->getSetting('target_type') != 'media') {
+        continue;
+      }
+      $images = $field_item->referencedEntities();
+      $image = reset($images);
+      if ($image instanceof EntityMediaInterface && $image->isDeleted()) {
+        // Hide the image from public display if it's been deleted.
+        $variables['content'][$field_name] = NULL;
+      }
+    }
   }
 }
 
@@ -418,53 +511,6 @@ function ncms_ui_form_node_form_alter(&$form, FormStateInterface $form_state) {
   if (array_key_exists('field_caption', $form)) {
     $form['field_caption']['widget'][0]['#title_display'] = FALSE;
   }
-
-  // Add a cancel link. This either redirects to the publisher site if this
-  // request came from an external publisher, or to a url given in the
-  // destination query argument, or, as a fallback, to the main content
-  // overview page.
-  /** @var \Drupal\ncms_publisher\PublisherManager $publisher_manager */
-  $publisher_manager = \Drupal::service('ncms_publisher.publisher.manager');
-  $publisher_redirect = $publisher_manager->getCurrentRedirectUrl();
-
-  $redirect_label = $publisher_redirect ? (string) t('Back to @publisher', [
-    '@publisher' => $publisher_manager->getCurrentPublisher()->label(),
-  ]) : NULL;
-
-  // Take the destination only if it's not pointing to the current edit page.
-  $current_destination = \Drupal::destination()->get();
-  $destination_redirect = $node->id() && $current_destination != $node->toUrl('edit-form')->toString() ? $current_destination : NULL;
-
-  // Set the redirect url. Publishers have priority, otherwise take the
-  // destination if it's available.
-  $redirect_url = $publisher_redirect ? Url::fromUri($publisher_redirect) : NULL;
-  if (!$redirect_url && $destination_redirect) {
-    $redirect_url = url::fromUserInput($destination_redirect);
-  }
-  if (!$redirect_url && $node instanceof EntityOverviewInterface) {
-    $redirect_url = $node->getOverviewUrl();
-  }
-  // And if we still don't have a valid redirect, use the fallback.
-  if (!$redirect_url) {
-    $redirect_url = Url::fromRoute('system.admin_content');
-  }
-
-  $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
-  if ($is_gin) {
-    $form['#attached']['library'][] = 'ncms_ui/ncms_gin';
-    $form['#attached']['drupalSettings']['ncms_gin']['redirect_url'] = $redirect_url->toString();
-    if ($redirect_label) {
-      $form['#attached']['drupalSettings']['ncms_gin']['redirect_label'] = $redirect_label;
-    }
-  }
-  else {
-    $form['actions']['cancel'] = [
-      '#type' => 'link',
-      '#title' => t('Cancel'),
-      '#url' => $redirect_url,
-      '#weight' => 20,
-    ];
-  }
 }
 
 /**
@@ -482,38 +528,6 @@ function ncms_ui_form_media_form_alter(&$form, FormStateInterface $form_state) {
     /** @var \Drupal\ncms_ui\Form\EntityOverviewFormAlter $entity_overview_form_alter */
     $entity_overview_form_alter = \Drupal::service('ncms_ui.entity_overview_form_alter');
     $entity_overview_form_alter->alterForm($form, $form_state);
-  }
-
-  // Take the destination only if it's not pointing to the current edit page.
-  $current_destination = \Drupal::destination()->get();
-  $destination_redirect = $entity->id() && $current_destination != $entity->toUrl('edit-form')->toString() ? $current_destination : NULL;
-
-  // Set the redirect url. Publishers have priority, otherwise take the
-  // destination if it's available.
-  $redirect_url = NULL;
-  if ($destination_redirect) {
-    $redirect_url = url::fromUserInput($destination_redirect);
-  }
-  if (!$redirect_url && $entity instanceof EntityOverviewInterface) {
-    $redirect_url = $entity->getOverviewUrl();
-  }
-  // And if we still don't have a valid redirect, use the fallback.
-  if (!$redirect_url) {
-    $redirect_url = Url::fromRoute('system.admin_content');
-  }
-
-  $is_gin = \Drupal::service('theme.manager')->getActiveTheme()->getName() == 'gin';
-  if ($is_gin) {
-    $form['#attached']['library'][] = 'ncms_ui/ncms_gin';
-    $form['#attached']['drupalSettings']['ncms_gin']['redirect_url'] = $redirect_url->toString();
-  }
-  else {
-    $form['actions']['cancel'] = [
-      '#type' => 'link',
-      '#title' => t('Cancel'),
-      '#url' => $redirect_url,
-      '#weight' => 20,
-    ];
   }
 }
 
@@ -606,6 +620,18 @@ function ncms_ui_views_post_render(ViewExecutable $view, &$output, CachePluginBa
     //   $output['#attached']['library'] = array_diff($output['#attached']['library'], ['media_library/view']);
     // }
     // @codingStandardsIgnoreEnd
+  }
+  if ($view->id() === 'media_usage') {
+    $media_id = reset($view->args);
+    $media = \Drupal::entityTypeManager()->getStorage('media')->load($media_id);
+    $t_args = [
+      '@name' => $media->label(),
+      '@type' => $media->bundle(),
+    ];
+    match ($view->current_display) {
+      'page_content' => $view->setTitle(t('Content using <em>@type</em> @name', $t_args)),
+      'page_paragraphs' => $view->setTitle(t('Paragraphs using <em>@type</em> @name', $t_args)),
+    };
   }
 }
 
@@ -732,6 +758,21 @@ function ncms_ui_views_query_alter(ViewExecutable $view, QueryPluginBase $query)
  * of the users content spaces.
  */
 function ncms_ui_views_pre_render(ViewExecutable $view) {
+  if ($view->id() === 'media_library') {
+    if ($view->current_display === 'page') {
+      $add_classes = function (&$option, array $classes_to_add) {
+        $classes = preg_split('/\s+/', $option);
+        $classes = array_filter($classes);
+        $classes = array_merge($classes, $classes_to_add);
+        $option = implode(' ', array_unique($classes));
+      };
+      if (array_key_exists('soft_delete_media', $view->field)) {
+        $add_classes($view->field['soft_delete_media']->options['alter']['link_class'], ['media-library-item__remove']);
+        $add_classes($view->field['soft_delete_media']->options['alter']['link_class'], ['icon-link']);
+        $add_classes($view->field['soft_delete_media']->options['alter']['link_class'], ['use-ajax']);
+      }
+    }
+  }
   $valid_displays = [
     'page_articles',
     'page_documents',

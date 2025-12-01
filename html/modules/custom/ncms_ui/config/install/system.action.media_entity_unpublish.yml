@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - workflows
+id: media_entity_unpublish
+label: "Unpublish"
+type: media
+plugin: entity_unpublish
+configuration: {  }

@@ -7,5 +7,5 @@ dependencies:
 id: content_entity_unpublish
 label: "Unpublish"
 type: node
-plugin: content_entity_unpublish
+plugin: entity_unpublish
 configuration: {  }

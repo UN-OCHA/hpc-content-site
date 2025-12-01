@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - workflows
+id: media_entity_move_to_trash
+label: "Move to trash"
+type: media
+plugin: entity_move_to_trash
+configuration: {  }

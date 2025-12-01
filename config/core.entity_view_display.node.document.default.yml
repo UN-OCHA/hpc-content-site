@@ -28,11 +28,6 @@ targetEntityType: node
 bundle: document
 mode: default
 content:
-  content_moderation_control:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 0
-    region: content
   field_caption:
     type: double_field_unformatted_list
     label: above
@@ -55,7 +50,7 @@ content:
         scale: 2
       inline: true
     third_party_settings: {  }
-    weight: 5
+    weight: 4
     region: content
   field_hero_image:
     type: entity_reference_entity_view
@@ -64,7 +59,7 @@ content:
       view_mode: hero_image
       link: false
     third_party_settings: {  }
-    weight: 1
+    weight: 0
     region: content
   field_paragraphs:
     type: entity_reference_revisions_entity_view
@@ -73,7 +68,7 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 3
+    weight: 2
     region: content
   field_short_title:
     type: string
@@ -81,7 +76,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 4
+    weight: 3
     region: content
   title:
     type: string
@@ -89,7 +84,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 2
+    weight: 1
     region: content
   workflow_buttons:
     settings: {  }
@@ -97,6 +92,7 @@ content:
     weight: 0
     region: content
 hidden:
+  content_moderation_control: true
   field_articles: true
   field_automatically_visible: true
   field_computed_tags: true

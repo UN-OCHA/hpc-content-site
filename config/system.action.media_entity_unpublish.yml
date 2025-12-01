@@ -1,0 +1,12 @@
+uuid: 0489fd2b-52cd-42ab-97ab-3b9f17ab830c
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - workflows
+id: media_entity_unpublish
+label: Unpublish
+type: media
+plugin: entity_unpublish
+configuration: {  }

@@ -10,6 +10,7 @@ use Drupal\content_moderation\Entity\ContentModerationStateInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\ncms_ui\Entity\ContentInterface;
+use Drupal\ncms_ui\Entity\MediaInterface;
 use Drupal\node\NodeInterface;
 
 /**
@@ -366,4 +367,85 @@ function ncms_ui_deploy_update_document_article_references(&$sandbox) {
     $node->setSyncing(TRUE);
     $node->save();
   }
+}
+
+/**
+ * Set the moderation state for existing media entities.
+ */
+function ncms_ui_deploy_set_moderation_state_media() {
+  if (ncms_ui_update_already_run('set_moderation_state_media')) {
+    return;
+  }
+  /** @var \Drupal\ncms_ui\Entity\Storage\MediaStorage $media_storage */
+  $media_storage = \Drupal::entityTypeManager()->getStorage('media');
+  /** @var \Drupal\ncms_ui\Entity\MediaInterface[] $entities */
+  $entities = $media_storage->loadMultiple();
+  foreach ($entities as $entity) {
+    if (!$entity->getRevisionUserId()) {
+      $entity->setRevisionUserId($entity->getOwnerId());
+      $entity->setSyncing(TRUE);
+      $entity->setNewRevision(FALSE);
+      $entity->save();
+    }
+    $moderation_state = $entity->isPublished() ? 'published' : 'draft';
+    $entity_revision_id = $entity->getRevisionId();
+    $content_moderation_state = ContentModerationState::loadFromModeratedEntity($entity);
+    /** @var \Drupal\Core\Entity\ContentEntityStorageInterface $storage */
+    $storage = \Drupal::entityTypeManager()->getStorage('content_moderation_state');
+
+    if (!($content_moderation_state instanceof ContentModerationStateInterface)) {
+      $content_moderation_state = $storage->create([
+        'content_entity_type_id' => $entity->getEntityTypeId(),
+        'content_entity_id' => $entity->id(),
+        // Make sure that the moderation state entity has the same language code
+        // as the moderated entity.
+        'langcode' => $entity->language()->getId(),
+      ]);
+      $content_moderation_state->workflow->target_id = 'article_workflow';
+    }
+    $content_moderation_state->set('content_entity_revision_id', $entity_revision_id);
+    $content_moderation_state->set('moderation_state', $moderation_state);
+    $content_moderation_state->set('uid', $entity->getRevisionUserId());
+    ContentModerationState::updateOrCreateFromEntity($content_moderation_state);
+
+    // Also iterate over all revisions for this entity and update the
+    // moderation state.
+    $revision_ids = $media_storage->revisionIds($entity);
+    /** @var \Drupal\ncms_ui\Entity\MediaInterface[] $revisions */
+    $revisions = $media_storage->loadMultipleRevisions($revision_ids);
+    foreach ($revisions as $revision) {
+      if (!$revision instanceof MediaInterface || $revision->isDefaultRevision() || $revision->isLatestRevision()) {
+        continue;
+      }
+
+      $revision_state = 'draft';
+      $revision_moderation_state = $storage->createRevision($content_moderation_state, FALSE);
+      $revision_moderation_state->set('content_entity_revision_id', $revision->getRevisionId());
+      $revision_moderation_state->set('moderation_state', $revision_state);
+      $revision_moderation_state->set('uid', $revision->getRevisionUserId() ?? $revision->getOwnerId());
+      ContentModerationState::updateOrCreateFromEntity($revision_moderation_state);
+    }
+  }
+
+  // Update the revision status for each entity. For some reason, this needs to
+  // be done in a separate step, otherwise there are duplicate key errors.
+  foreach ($entities as $entity) {
+    // Also iterate over all revisions for this entity and update the
+    // moderation state.
+    $revision_ids = $media_storage->revisionIds($entity);
+    /** @var \Drupal\ncms_ui\Entity\MediaInterface[] $revisions */
+    $revisions = $media_storage->loadMultipleRevisions($revision_ids);
+    foreach ($revisions as $revision) {
+      if (!$revision instanceof MediaInterface || $revision->isDefaultRevision() || $revision->isLatestRevision() || !$revision->isPublished()) {
+        continue;
+      }
+      $media_storage->updateRevisionStatus($revision, 0, FALSE);
+    }
+  }
+
+  // Update the revision_translation_affected field so that all revisions show
+  // up on the versions tab.
+  \Drupal::database()->update('media_field_revision')
+    ->fields(['revision_translation_affected' => 1])
+    ->execute();
 }

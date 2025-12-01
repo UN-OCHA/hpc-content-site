@@ -30,6 +30,9 @@ function ncms_ui_views_data_alter(array &$data) {
       'no group by' => TRUE,
       'click sortable' => FALSE,
     ],
+    'filter' => [
+      'id' => 'latest_published_version_filter',
+    ],
   ];
   $data['node']['content_status'] = [
     'title' => t('Content status'),
@@ -38,6 +41,15 @@ function ncms_ui_views_data_alter(array &$data) {
       'id' => 'content_status_field',
       'no group by' => TRUE,
       'click sortable' => FALSE,
+    ],
+  ];
+  $data['node']['places_used_count'] = [
+    'title' => t('Places used count'),
+    'help' => t('Shows the number of places an entity is used.'),
+    'field' => [
+      'id' => 'places_used_count_field',
+      'no group by' => TRUE,
+      'click sortable' => TRUE,
     ],
   ];
   $data['node']['article_count'] = [
@@ -49,4 +61,35 @@ function ncms_ui_views_data_alter(array &$data) {
       'click sortable' => TRUE,
     ],
   ];
+  $data['node']['soft_delete_node'] = [
+    'title' => t('Link to soft-delete content'),
+    'help' => t('Provide a soft-delete link to the content.'),
+    'field' => [
+      'id' => 'entity_link_soft_delete',
+      'no group by' => TRUE,
+      'click sortable' => FALSE,
+    ],
+  ];
+  if (array_key_exists('media_field_data', $data)) {
+    $data['media_field_data']['soft_delete_media'] = [
+      'title' => t('Link to soft-delete Media'),
+      'help' => t('Provide a soft-delete link to the Media.'),
+      'field' => [
+        'id' => 'entity_link_soft_delete',
+        'no group by' => TRUE,
+        'click sortable' => FALSE,
+      ],
+    ];
+  }
+  if (array_key_exists('entity_usage', $data)) {
+    $data['entity_usage']['media_usage_type'] = [
+      'title' => t('Media usage type'),
+      'help' => t('For media entities, shows whether the usage is optional or mandatory'),
+      'field' => [
+        'id' => 'media_usage_type',
+        'no group by' => TRUE,
+        'click sortable' => FALSE,
+      ],
+    ];
+  }
 }

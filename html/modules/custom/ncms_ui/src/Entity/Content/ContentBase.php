@@ -3,8 +3,8 @@
 namespace Drupal\ncms_ui\Entity\Content;
 
 use Drupal\Component\Render\FormattableMarkup;
-use Drupal\Component\Serialization\Json;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -13,9 +13,11 @@ use Drupal\Core\Url;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\ncms_ui\Entity\ContentVersionInterface;
 use Drupal\ncms_ui\Traits\ContentSpaceEntityTrait;
+use Drupal\ncms_ui\Traits\EntityBundleLabelTrait;
 use Drupal\ncms_ui\Traits\IframeDisplayContentTrait;
+use Drupal\ncms_ui\Traits\ModalLinkTrait;
+use Drupal\ncms_ui\Traits\ModeratedEntityTrait;
 use Drupal\node\Entity\Node;
-use Drupal\node\NodeInterface;
 use Drupal\taxonomy\Entity\Term;
 
 /**
@@ -26,14 +28,21 @@ abstract class ContentBase extends Node implements ContentInterface {
   use StringTranslationTrait;
   use ContentSpaceEntityTrait;
   use IframeDisplayContentTrait;
+  use EntityBundleLabelTrait;
+  use ModeratedEntityTrait;
+  use ModalLinkTrait;
 
   /**
    * {@inheritdoc}
    */
-  public function access($operation = 'view', AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($operation = 'view', ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     if ($operation == 'view' && (!$this->isDeleted() || $this->hasContentSpaceAccess($account))) {
       // Always allow view operation on specific internal routes for non
       // deleted content or if the user can access the content space.
+      return $return_as_object ? AccessResult::allowed() : TRUE;
+    }
+
+    if ($operation == 'view label' && $this->hasContentSpaceAccess($account)) {
       return $return_as_object ? AccessResult::allowed() : TRUE;
     }
 
@@ -85,6 +94,16 @@ abstract class ContentBase extends Node implements ContentInterface {
         'node_revision' => $this->getRevisionId(),
       ], $options);
     }
+    if ($rel == 'soft-delete-form' && $this->access('soft delete')) {
+      return Url::fromRoute('entity.node.soft_delete', [
+        'node' => $this->id(),
+      ], $options);
+    }
+    if ($rel == 'restore-form' && $this->access('restore')) {
+      return Url::fromRoute('entity.node.restore', [
+        'node' => $this->id(),
+      ], $options);
+    }
     return parent::toUrl($rel, $options);
   }
 
@@ -92,13 +111,6 @@ abstract class ContentBase extends Node implements ContentInterface {
    * {@inheritdoc}
    */
   abstract public function getOverviewUrl();
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getBundleLabel() {
-    return $this->type->entity->label();
-  }
 
   /**
    * {@inheritdoc}
@@ -176,6 +188,9 @@ abstract class ContentBase extends Node implements ContentInterface {
     $this->setNewRevision(TRUE);
     $this->setRevisionTranslationAffectedEnforced(TRUE);
     $this->setModerationState('trash');
+
+    // Invalidate caches so that changes are applied immediately.
+    Cache::invalidateTags($this->getCacheTagsToInvalidate());
   }
 
   /**
@@ -191,138 +206,8 @@ abstract class ContentBase extends Node implements ContentInterface {
   /**
    * {@inheritdoc}
    */
-  public function getVersionId() {
-    /** @var \Drupal\Node\NodeStorageInterface $node_storage */
-    $node_storage = $this->entityTypeManager()->getStorage('node');
-    $revision_ids = $node_storage->revisionIds($this);
-    $version_key = array_search($this->getRevisionId(), $revision_ids);
-    return $version_key !== FALSE ? $version_key + 1 : NULL;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getModerationState() {
-    return $this->moderation_state?->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setModerationState($state) {
-    $this->moderation_state->value = $state;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isModerationState($state) {
-    return $this->getModerationState() == $state;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getModerationStateLabel() {
-    /** @var \Drupal\content_moderation\ModerationInformation $moderation_information */
-    $moderation_information = \Drupal::service('content_moderation.moderation_information');
-    return $moderation_information->getOriginalState($this)->label();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getContentStatus() {
-    if ($this->isDeleted()) {
-      return self::CONTENT_STATUS_DELETED;
-    }
-    if ($this->getLatestRevision() && $this->getLatestRevision()->isPublished()) {
-      return self::CONTENT_STATUS_PUBLISHED;
-    }
-
-    /** @var \Drupal\Node\NodeStorageInterface $node_storage */
-    $node_storage = $this->entityTypeManager()->getStorage('node');
-    $revision_ids = $node_storage->revisionIds($this);
-    $revisions = $node_storage->loadMultipleRevisions($revision_ids);
-
-    $count_published = count(array_filter($revisions, function (NodeInterface $revision) {
-      return $revision->isPublished();
-    }));
-    // If there are no published versions we call it "Draft". If at least one
-    // published version exists we call it "Published with newer draft".
-    return !$count_published ? self::CONTENT_STATUS_DRAFT : self::CONTENT_STATUS_PUBLISHED_WITH_DRAFT;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getContentStatusLabel() {
-    $content_status = $this->getContentStatus();
-    $label_map = [
-      self::CONTENT_STATUS_PUBLISHED => $this->t('Published'),
-      self::CONTENT_STATUS_PUBLISHED_WITH_DRAFT => $this->t('Published with newer draft'),
-      self::CONTENT_STATUS_DRAFT => $this->t('Draft'),
-      self::CONTENT_STATUS_DELETED => $this->t('Deleted'),
-    ];
-    return $label_map[$content_status];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getVersionStatusLabel() {
-    if ($this->getLatestRevision()->isDeleted()) {
-      return $this->t('Deleted');
-    }
-    if ($this->isPublished()) {
-      return $this->t('Published');
-    }
-    return $this->isLatestRevision() ? $this->t('Draft') : $this->t('Archived');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getLatestRevision() {
-    /** @var \Drupal\Node\NodeStorageInterface $node_storage */
-    $node_storage = $this->entityTypeManager()->getStorage('node');
-    $revision_id = $node_storage->getLatestRevisionId($this->id());
-    return $revision_id ? $node_storage->loadRevision($revision_id) : NULL;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getLastPublishedRevision() {
-    /** @var \Drupal\Node\NodeStorageInterface $node_storage */
-    $node_storage = $this->entityTypeManager()->getStorage('node');
-    $revision_ids = array_reverse($node_storage->revisionIds($this));
-
-    /** @var \Drupal\node\NodeInterface[] $revisions */
-    $revisions = $node_storage->loadMultipleRevisions($revision_ids);
-    foreach ($revisions as $revision) {
-      if (!$revision->isPublished()) {
-        continue;
-      }
-      return $revision;
-    };
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getPreviousRevision() {
-    /** @var \Drupal\Node\NodeStorageInterface $node_storage */
-    $node_storage = $this->entityTypeManager()->getStorage('node');
-    $revision_ids = array_reverse($node_storage->revisionIds($this));
-    if (count($revision_ids) < 2) {
-      return NULL;
-    }
-    array_shift($revision_ids);
-    $previous_revision_id = array_shift($revision_ids);
-
-    /** @var \Drupal\node\NodeInterface[] $revisions */
-    return $previous_revision_id ? $node_storage->loadRevision($previous_revision_id) : NULL;
+  public function restore() {
+    $this->getEntityStorage()->deleteLatestRevision($this);
   }
 
   /**
@@ -342,57 +227,21 @@ abstract class ContentBase extends Node implements ContentInterface {
       }
       $operations['soft_delete'] = [
         'title' => $this->t('Move to trash'),
-        'url' => Url::fromRoute('entity.node.soft_delete', [
-          'node' => $this->id(),
-        ], [
-          'attributes' => [
-            'class' => ['use-ajax'],
-            'data-dialog-type' => 'modal',
-            'data-dialog-options' => Json::encode([
-              'width' => '80%',
-              'title' => $this->t('Confirm deletion'),
-              'dialogClass' => 'node-confirm',
-            ]),
-          ],
-        ]),
+        'url' => $this->toUrl('soft-delete-form', $this->getModalUrlOptions($this->t('Confirm delete'))),
         'weight' => 50,
       ];
     }
     if ($this->access('restore')) {
       $operations['restore'] = [
         'title' => $this->t('Restore'),
-        'url' => Url::fromRoute('entity.node.restore', [
-          'node' => $this->id(),
-        ], [
-          'attributes' => [
-            'class' => ['use-ajax'],
-            'data-dialog-type' => 'modal',
-            'data-dialog-options' => Json::encode([
-              'width' => '80%',
-              'title' => $this->t('Confirm restore'),
-              'dialogClass' => 'node-confirm',
-            ]),
-          ],
-        ]),
+        'url' => $this->toUrl('restore-form', $this->getModalUrlOptions($this->t('Confirm restore'))),
         'weight' => 50,
       ];
     }
     if ($this->access('delete')) {
       $operations['delete'] = [
         'title' => $this->t('Delete for ever'),
-        'url' => Url::fromRoute('entity.node.delete_form', [
-          'node' => $this->id(),
-        ], [
-          'attributes' => [
-            'class' => ['use-ajax'],
-            'data-dialog-type' => 'modal',
-            'data-dialog-options' => Json::encode([
-              'width' => '80%',
-              'title' => $this->t('Confirm delete'),
-              'dialogClass' => 'node-confirm',
-            ]),
-          ],
-        ]),
+        'url' => $this->toUrl('delete-form', $this->getModalUrlOptions($this->t('Confirm delete'))),
         'weight' => 50,
       ];
     }
@@ -417,7 +266,7 @@ abstract class ContentBase extends Node implements ContentInterface {
     $build = [
       '#type' => 'container',
       '#attributes' => [
-        'class' => ['metadata-wrapper'],
+        'class' => ['metadata-wrapper', 'content-width'],
       ],
     ];
     $build['header'] = [

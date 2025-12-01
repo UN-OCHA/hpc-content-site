@@ -1,0 +1,12 @@
+uuid: e9938b86-1481-49f5-af10-f6aca6368f28
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - workflows
+id: media_entity_publish
+label: Publish
+type: media
+plugin: entity_publish
+configuration: {  }

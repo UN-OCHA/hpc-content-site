@@ -50,18 +50,8 @@ trait ContentSpaceEntityTrait {
       return FALSE;
     }
     $content_space_manager = $this->getContentSpaceManager();
-    $user = $this->getEntityTypeManager()->getStorage('user')->load($account->id());
+    $user = $this->entityTypeManager()->getStorage('user')->load($account->id());
     return in_array($content_space, $content_space_manager->getValidContentSpaceIdsForUser($user));
-  }
-
-  /**
-   * Get the entity type manager service.
-   *
-   * @return \Drupal\Core\Entity\EntityTypeManagerInterface
-   *   The entity type manager
-   */
-  public function getEntityTypeManager() {
-    return \Drupal::entityTypeManager();
   }
 
   /**

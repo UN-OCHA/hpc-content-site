@@ -1,0 +1,2069 @@
+diff --git a/config/install/entity_usage.settings.yml b/config/install/entity_usage.settings.yml
+index 5be2839..b6f239d 100644
+--- a/config/install/entity_usage.settings.yml
++++ b/config/install/entity_usage.settings.yml
+@@ -1,3 +1,12 @@
++local_task_enabled_entity_types: []
++operations_enabled_entity_types: []
++# track_enabled_source_entity_types: []
++# track_enabled_target_entity_types: []
++# track_enabled_plugins: []
+ track_enabled_base_fields: false
+-local_task_enabled_entity_types: { }
++ignore_media_thumbnails: true
++site_domains: []
++edit_warning_message_entity_types: []
++delete_warning_message_entity_types: []
++delete_warning_form_classes: []
+ usage_controller_items_per_page: 25
+diff --git a/config/schema/entity_usage.schema.yml b/config/schema/entity_usage.schema.yml
+index d506df9..83bd0bf 100644
+--- a/config/schema/entity_usage.schema.yml
++++ b/config/schema/entity_usage.schema.yml
+@@ -7,6 +7,11 @@ entity_usage.settings:
+       orderby: value
+       sequence:
+         type: string
++    operations_enabled_entity_types:
++      label: Operations enabled entity types
++      type: sequence
++      sequence:
++        type: string
+     track_enabled_source_entity_types:
+       label: Track enabled source entity types
+       type: sequence
+@@ -28,6 +33,9 @@ entity_usage.settings:
+     track_enabled_base_fields:
+       type: boolean
+       label: Track referencing base fields
++    ignore_media_thumbnails:
++      type: boolean
++      label: Ignore media thumbnails
+     site_domains:
+       label: Domains for this website
+       type: sequence
+diff --git a/config/schema/entity_usage.views.schema.yml b/config/schema/entity_usage.views.schema.yml
+new file mode 100644
+index 0000000..cdd8a50
+--- /dev/null
++++ b/config/schema/entity_usage.views.schema.yml
+@@ -0,0 +1,35 @@
++views.field.entity_usage_entity:
++  type: views.field.numeric
++  label: 'Entity Usage Entity'
++  mapping:
++    source_revision:
++      type: boolean
++      label: 'Load source revisions'
++views.field.entity_usage_field_name_views_field:
++  type: views.field.field
++  label: 'Entity Usage field'
++  mapping:
++    use_field_label:
++      type: boolean
++      label: 'Use human friendly field name'
++views.field.entity_usage_method_views_field:
++  type: views.field.field
++  label: 'Entity Usage tracking method'
++  mapping:
++    use_method_label:
++      type: boolean
++      label: 'Use human friendly tracking method name'
++views.field.entity_usage_entity_type_field:
++  type: views.field.field
++  label: 'Entity Usage entity type'
++  mapping:
++    use_entity_type_label:
++      type: boolean
++      label: 'Use human friendly entity type name'
++
++views.filter.entity_usage_entity_type:
++  type: views.filter.in_operator
++  label: 'Entity Usage entity type'
++views.filter.entity_usage_method:
++  type: views.filter.in_operator
++  label: 'Entity Usage tracking method'
+diff --git a/entity_usage.module b/entity_usage.module
+index 9037c19..0164c5d 100644
+--- a/entity_usage.module
++++ b/entity_usage.module
+@@ -103,6 +103,30 @@ function entity_usage_field_storage_config_delete(FieldStorageConfigInterface $f
+   \Drupal::service('entity_usage.usage')->deleteByField($field->getTargetEntityTypeId(), $field->getName());
+ }
+ 
++/**
++ * Implements hook_entity_operation().
++ */
++function entity_usage_entity_operation(EntityInterface $entity): array {
++  $operations = [];
++  $entity_type_id = $entity->getEntityTypeId();
++  $entity_usage_config = \Drupal::config('entity_usage.settings');
++  $operations_supported_entity_types = $entity_usage_config->get('operations_enabled_entity_types') ?: [];
++  $local_task_enabled_entity_types = $entity_usage_config->get('local_task_enabled_entity_types') ?: [];
++  $supported_entity_types = array_intersect($operations_supported_entity_types, $local_task_enabled_entity_types);
++  if (in_array($entity_type_id, $supported_entity_types, TRUE)) {
++    // Add the entity usage page as an operation.
++    $operations['entity-usage'] = [
++      'title' => t('Entity usage'),
++      'url' => Url::fromRoute("entity.$entity_type_id.entity_usage", [
++        $entity_type_id => $entity->id(),
++      ]),
++      'weight' => 200,
++    ];
++  }
++
++  return $operations;
++}
++
+ /**
+  * Implements hook_form_alter().
+  */
+diff --git a/entity_usage.post_update.php b/entity_usage.post_update.php
+index df77e3c..385c8eb 100644
+--- a/entity_usage.post_update.php
++++ b/entity_usage.post_update.php
+@@ -67,3 +67,10 @@ function entity_usage_post_update_fix_local_task_enabled_entity_types(): void {
+     $config->set('local_task_enabled_entity_types', [])->save();
+   }
+ }
++
++/**
++ * Rebuild the container to update services for Entity Usage module.
++ */
++function entity_usage_post_update_update_url_to_entity_service(array &$sandbox): void {
++  // Empty update to force container rebuild.
++}
+diff --git a/entity_usage.services.yml b/entity_usage.services.yml
+index 8103e64..7f70a37 100644
+--- a/entity_usage.services.yml
++++ b/entity_usage.services.yml
+@@ -36,6 +36,8 @@ services:
+ 
+   Drupal\entity_usage\Routing\RouteSubscriber: ~
+ 
++  Drupal\entity_usage\EventSubscriber\EntityUsageConfigurationSubscriber: ~
++
+   logger.channel.entity_usage:
+     parent: logger.channel_base
+     arguments:
+diff --git a/entity_usage.views.inc b/entity_usage.views.inc
+index 4bc0e91..217f376 100644
+--- a/entity_usage.views.inc
++++ b/entity_usage.views.inc
+@@ -13,6 +13,141 @@ use Drupal\Core\Entity\FieldableEntityInterface;
+ function entity_usage_views_data(): array {
+ 
+   $data['entity_usage']['table']['group'] = t('Entity Usage');
++  // Expose the entity usage schema to Views.
++  $data['entity_usage']['table']['base'] = [
++    'field' => 'source_id',
++    'title' => t('Entity usage'),
++    'help' => t('Entity usage references within the current site.'),
++  ];
++
++  // Reference the source and target entities.
++  $data['entity_usage']['entity_usage_target'] = [
++    'title' => 'Target entity',
++    'help' => t('The target entity.'),
++    'field' => [
++      'id' => 'entity_usage_entity',
++      'entity_usage_type' => 'target',
++      'real field' => 'target_id',
++      'additional fields' => ['target_id', 'target_id_string', 'target_type'],
++    ],
++  ];
++  $data['entity_usage']['entity_usage_source'] = [
++    'title' => 'Source entity',
++    'help' => t('The source entity.'),
++    'field' => [
++      'id' => 'entity_usage_entity',
++      'entity_usage_type' => 'source',
++      'real field' => 'source_id',
++      'additional fields' => [
++        'source_id',
++        'source_id_string',
++        'source_type',
++        'source_langcode',
++      ],
++    ],
++  ];
++
++  $data['entity_usage']['target_id'] = [
++    'title' => t('Target entity ID'),
++    'help' => t('The target entity ID.'),
++    'field' => ['id' => 'numeric'],
++    'sort' => ['id' => 'standard'],
++    'filter' => ['id' => 'numeric'],
++    'argument' => ['id' => 'numeric'],
++  ];
++
++  $data['entity_usage']['target_id_string'] = [
++    'title' => t('Target string entity ID'),
++    'help' => t('The target ID, when the entity uses string IDs.'),
++    'field' => ['id' => 'standard'],
++    'sort' => ['id' => 'standard'],
++    'filter' => ['id' => 'string'],
++    'argument' => ['id' => 'standard'],
++  ];
++
++  $data['entity_usage']['target_type'] = [
++    'title' => t('Target type'),
++    'help' => t('The target entity type.'),
++    'field' => [
++      'id' => 'entity_usage_entity_type_field',
++      'entity_usage_type' => 'source',
++    ],
++    'sort' => ['id' => 'standard'],
++    'filter' => [
++      'id' => 'entity_usage_entity_type',
++      'entity_usage_type' => 'target',
++    ],
++    'argument' => ['id' => 'standard'],
++  ];
++
++  $data['entity_usage']['source_id'] = [
++    'title' => t('Source entity ID'),
++    'help' => t('The source entity ID.'),
++    'field' => ['id' => 'numeric'],
++    'sort' => ['id' => 'standard'],
++    'filter' => ['id' => 'numeric'],
++    'argument' => ['id' => 'numeric'],
++  ];
++
++  $data['entity_usage']['source_id_string'] = [
++    'title' => t('Source string entity ID'),
++    'help' => t('The source ID, when the entity uses string IDs.'),
++    'field' => ['id' => 'standard'],
++    'sort' => ['id' => 'standard'],
++    'filter' => ['id' => 'string'],
++    'argument' => ['id' => 'standard'],
++  ];
++
++  $data['entity_usage']['source_type'] = [
++    'title' => t('Source type'),
++    'help' => t('The source entity type.'),
++    'field' => [
++      'id' => 'entity_usage_entity_type_field',
++      'entity_usage_type' => 'source',
++    ],
++    'sort' => ['id' => 'standard'],
++    'filter' => [
++      'id' => 'entity_usage_entity_type',
++      'entity_usage_type' => 'source',
++    ],
++    'argument' => ['id' => 'standard'],
++  ];
++
++  $data['entity_usage']['source_langcode'] = [
++    'title' => t('Source language code'),
++    'help' => t('The source entity language code.'),
++    'field' => ['id' => 'language'],
++    'sort' => ['id' => 'standard'],
++    'filter' => ['id' => 'language'],
++    'argument' => ['id' => 'language'],
++  ];
++
++  $data['entity_usage']['source_vid'] = [
++    'title' => t('Source revision ID'),
++    'help' => t('The source entity revision ID.'),
++    'field' => ['id' => 'numeric'],
++    'sort' => ['id' => 'standard'],
++    'filter' => ['id' => 'numeric'],
++    'argument' => ['id' => 'numeric'],
++  ];
++
++  $data['entity_usage']['method'] = [
++    'title' => t('Tracking method'),
++    'help' => t('The method used to track the target, generally the plugin ID.'),
++    'field' => ['id' => 'entity_usage_method_views_field'],
++    'sort' => ['id' => 'standard'],
++    'filter' => ['id' => 'entity_usage_method'],
++    'argument' => ['id' => 'standard'],
++  ];
++
++  $data['entity_usage']['field_name'] = [
++    'title' => t('Field name'),
++    'help' => t('The field in the source entity containing the target entity.'),
++    'field' => ['id' => 'entity_usage_field_name_views_field'],
++    'sort' => ['id' => 'standard'],
++    'filter' => ['id' => 'string'],
++    'argument' => ['id' => 'standard'],
++  ];
+ 
+   $data['entity_usage']['count'] = [
+     'title' => t('Usage count'),
+@@ -48,23 +183,50 @@ function entity_usage_views_data_alter(array &$data): void {
+       continue;
+     }
+ 
++    $args['@entity_type'] = $entity_type->getLabel();
++    $args['@label'] = $entity_type->getSingularLabel();
++
+     // Decide what column to use as base field depending on this entity type
+     // "id" type.
+     $id_key = $entity_type->getKey('id');
+     /** @var \Drupal\Core\Field\BaseFieldDefinition $id_field */
+     $id_field = \Drupal::service('entity_field.manager')->getBaseFieldDefinitions($type)[$id_key];
+-    $target_id_column = ($id_field->getType() === 'integer') ? 'target_id' : 'target_id_string';
++    if ($id_field->getType() === 'integer') {
++      $target_id_column = 'target_id';
++      $source_id_column = 'source_id';
++    }
++    else {
++      $target_id_column = 'target_id_string';
++      $source_id_column = 'source_id_string';
++    }
++
++    // Add the relevant relationships.
++    foreach (['base', 'revision'] as $table_group) {
++      $is_revision = $table_group === 'revision';
++
++      if ($is_revision) {
++        $base_table = $entity_type->getRevisionTable() ?: $entity_type->getRevisionDataTable();
++      }
++      else {
++        $base_table = $entity_type->getBaseTable() ?: $entity_type->getDataTable();
++      }
+ 
+-    if ($data_table = $entity_type->getBaseTable()) {
+-      $data[$data_table][$type . '_to_usage_entity'] = [
+-        'title' => t('Information about the usage of this @entity_type', ['@entity_type' => $entity_type->getLabel()]),
+-        'help' => t('Creates a relationship about this <em>@entity_type</em> and the entity_usage information that relates to it.', ['@entity_type' => $entity_type->getLabel()]),
++      if (empty($base_table)) {
++        // Does not have a valid base/data table.
++        continue;
++      }
++
++      $group_name = $is_revision ? t('Entity usage (revisions)') : t('Entity usage');
++      $data[$base_table][$type . '_to_usage_entity'] = [
+         'relationship' => [
++          'title' => t('@entity_type target', $args),
++          'help' => t('Creates a relationship about this <em>@label</em> and the entity_usage information that relates to it.', $args),
++          'label' => t('Usage information (@entity_type)', $args),
++          'group' => $group_name,
++          'id' => 'standard',
+           'base' => 'entity_usage',
+           'base field' => $target_id_column,
+           'field' => $entity_type->getKey('id'),
+-          'id' => 'standard',
+-          'label' => t('Usage information (@entity_type)', ['@entity_type' => $entity_type->getLabel()]),
+           'extra' => [
+             [
+               'field' => 'target_type',
+@@ -73,27 +235,79 @@ function entity_usage_views_data_alter(array &$data): void {
+           ],
+         ],
+       ];
+-    }
+-    elseif ($base_table = $entity_type->getDataTable()) {
+-      $data[$base_table][$type . '_to_usage_entity'] = [
+-        'title' => t('Information about the usage of this @entity_type', ['@entity_type' => $entity_type->getLabel()]),
+-        'help' => t('Creates a relationship about this <em>@entity_type</em> and the entity_usage information that relates to it.', ['@entity_type' => $entity_type->getLabel()]),
++
++      $entity_id_field = $is_revision ? $entity_type->getKey('revision') : $entity_type->getKey('id');
++      $data[$base_table][$type . '_to_usage_entity_source'] = [
+         'relationship' => [
++          'title' => t('@entity_type source', $args),
++          'help' => t('Creates a relationship about this <em>@label</em> and its entity_usage information as a source.', $args),
++          'label' => t('Source usage information (@entity_type)', $args),
++          'group' => $group_name,
++          'id' => 'standard',
+           'base' => 'entity_usage',
+-          'base field' => $target_id_column,
+-          'field' => $entity_type->getKey('id'),
++          // Join to the source revision ID if possible.
++          'base field' => $is_revision ? 'source_vid' : $source_id_column,
++          'field' => $entity_id_field,
++          'extra' => [
++            [
++              'field' => 'source_type',
++              'value' => $type,
++            ],
++          ],
++        ],
++      ];
++
++      // Add entity relationships to the base entity_usage table.
++      if ($is_revision) {
++        $relationship_table = $entity_type->getRevisionDataTable() ?: $entity_type->getRevisionTable();
++      }
++      else {
++        $relationship_table = $entity_type->getDataTable() ?: $entity_type->getBaseTable();
++      }
++      if (empty($relationship_table)) {
++        continue;
++      }
++
++      $pseudo_field_name_prefix = $is_revision ? "reverse__{$type}_revision" : "reverse__{$type}";
++      $data['entity_usage']["{$pseudo_field_name_prefix}__target"] = [
++        'relationship' => [
++          'title' => t('@entity_type target', $args),
++          'help' => t('The <em>@label</em> that is associated with this entity usage target.', $args) ,
++          'label' => t('Usage information (@entity_type)', $args),
++          'group' => $group_name,
+           'id' => 'standard',
+-          'label' => t('Usage information (@entity_type)', ['@entity_type' => $entity_type->getLabel()]),
++          'base' => $relationship_table,
++          'entity_type' => $entity_type->id(),
++          'base field' => $entity_type->getKey('id'),
++          'field' => $target_id_column,
+           'extra' => [
+             [
+-              'field' => 'target_type',
++              'left_field' => 'target_type',
++              'value' => $type,
++            ],
++          ],
++        ],
++      ];
++      $data['entity_usage']["{$pseudo_field_name_prefix}__source"] = [
++        'relationship' => [
++          'title' => t('@entity_type source', $args),
++          'help' => t('The <em>@label</em> that is associated with this entity usage source.', $args) ,
++          'label' => t('Source entity usage information (@entity_type)', $args),
++          'group' => $group_name,
++          'id' => 'standard',
++          'base' => $relationship_table,
++          'entity_type' => $entity_type->id(),
++          'base field' => $entity_id_field,
++          'field' => $is_revision ? 'source_vid' : $source_id_column,
++          'extra' => [
++            [
++              'left_field' => 'source_type',
+               'value' => $type,
+             ],
+           ],
+         ],
+       ];
+     }
+-
+   }
+ 
+ }
+diff --git a/phpstan-baseline.neon b/phpstan-baseline.neon
+index cf7edbd..8bcf029 100644
+--- a/phpstan-baseline.neon
++++ b/phpstan-baseline.neon
+@@ -64,6 +64,11 @@ parameters:
+ 			count: 1
+ 			path: src/Plugin/EntityUsage/Track/EntityReference.php
+ 
++		-
++			message: "#^Method Drupal\\\\entity_usage\\\\Plugin\\\\EntityUsage\\\\Track\\\\FileField\\:\\:(getTargetEntitiesFromField|doGetTargetEntities|retrieveTargetId)\\(\\) has parameter \\$field with generic interface Drupal\\\\Core\\\\Field\\\\FieldItemListInterface but does not specify its types\\: T$#"
++			count: 3
++			path: src/Plugin/EntityUsage/Track/FileField.php
++
+ 		-
+ 			message: '#^Method Drupal\\entity_usage\\Plugin\\EntityUsage\\Track\\EntityReference\:\:getTargetEntitiesFromField\(\) has parameter \$field with generic interface Drupal\\Core\\Field\\FieldItemListInterface but does not specify its types\: T$#'
+ 			identifier: missingType.generics
+@@ -82,6 +87,16 @@ parameters:
+ 			count: 1
+ 			path: src/Plugin/EntityUsage/Track/EntityReference.php
+ 
++		-
++			message: "#^Method Drupal\\\\entity_usage\\\\Plugin\\\\views\\\\field\\\\[a-zA-Z0-9\\\\_]+::buildOptionsForm\\(\\) has parameter \\$form with no type specified\\.$#"
++			paths:
++				- src/Plugin/views/field/*.php
++
++		-
++			message: "#^Method Drupal\\\\entity_usage\\\\Plugin\\\\views\\\\field\\\\EntityUsageEntity::render\\(\\) should return Drupal\\\\Component\\\\Render\\\\MarkupInterface\\|string but returns array\\.$#"
++			count: 1
++			path: src/Plugin/views/field/EntityUsageEntity.php
++
+ 		-
+ 			message: '#^Access to an undefined property Drupal\\filter\\FilterPluginCollection\|Drupal\\filter\\Plugin\\FilterInterface\:\:\$status\.$#'
+ 			identifier: property.notFound
+diff --git a/src/Controller/ListUsageController.php b/src/Controller/ListUsageController.php
+index 065612f..421d376 100644
+--- a/src/Controller/ListUsageController.php
++++ b/src/Controller/ListUsageController.php
+@@ -9,15 +9,14 @@ use Drupal\Core\Config\ConfigFactoryInterface;
+ use Drupal\Core\Controller\ControllerBase;
+ use Drupal\Core\Entity\EntityFieldManagerInterface;
+ use Drupal\Core\Entity\EntityInterface;
+-use Drupal\Core\Entity\EntityPublishedInterface;
+ use Drupal\Core\Entity\EntityTypeManagerInterface;
+ use Drupal\Core\Entity\RevisionableInterface;
+ use Drupal\Core\Language\LanguageInterface;
+ use Drupal\Core\Pager\PagerManagerInterface;
+ use Drupal\Core\StringTranslation\TranslatableMarkup;
+ use Drupal\entity_usage\EntityUsageInterface;
++use Drupal\entity_usage\EntityUsageListTrait;
+ use Drupal\layout_builder\InlineBlockUsageInterface;
+-use Drupal\paragraphs\ParagraphInterface;
+ use Drupal\trash\TrashManagerInterface;
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+ 
+@@ -26,6 +25,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
+  */
+ class ListUsageController extends ControllerBase {
+ 
++  use EntityUsageListTrait;
++
+   /**
+    * Number of items per page to use when nothing was configured.
+    */
+@@ -459,124 +460,6 @@ class ListUsageController extends ControllerBase {
+     return $this->t('Entity Usage List');
+   }
+ 
+-  /**
+-   * Retrieve the source entity's status.
+-   *
+-   * @param \Drupal\Core\Entity\EntityInterface $source_entity
+-   *   The source entity.
+-   *
+-   * @return string|\Drupal\Core\StringTranslation\TranslatableMarkup
+-   *   The entity's status.
+-   */
+-  protected function getSourceEntityStatus(EntityInterface $source_entity): string|TranslatableMarkup {
+-    // Treat paragraph entities in a special manner. Paragraph entities
+-    // should get their host (parent) entity's status.
+-    if ($source_entity->getEntityTypeId() == 'paragraph') {
+-      assert($source_entity instanceof ParagraphInterface);
+-      $parent = $source_entity->getParentEntity();
+-      if (!empty($parent)) {
+-        return $this->getSourceEntityStatus($parent);
+-      }
+-    }
+-    // Do the same for inline content blocks.
+-    elseif ($source_entity instanceof BlockContentInterface && !$source_entity->isReusable()) {
+-      $parent = $this->getContentBlockParentEntity($source_entity);
+-      if (!empty($parent)) {
+-        return $this->getSourceEntityStatus($parent);
+-      }
+-    }
+-
+-    if ($source_entity instanceof EntityPublishedInterface) {
+-      $published = $source_entity->isPublished() ? $this->t('Published') : $this->t('Unpublished');
+-    }
+-    else {
+-      $published = '';
+-    }
+-
+-    return $published;
+-  }
+-
+-  /**
+-   * Retrieve a link to the source entity.
+-   *
+-   * Note that some entities are special-cased, since they don't have canonical
+-   * template and aren't expected to be re-usable. For example, if the entity
+-   * passed in is a paragraph or a block content, the link we produce will point
+-   * to this entity's parent (host) entity instead.
+-   *
+-   * @param \Drupal\Core\Entity\EntityInterface $source_entity
+-   *   The source entity.
+-   * @param string|null $text
+-   *   (optional) The link text for the anchor tag as a translated string.
+-   *   If NULL, it will use the entity's label. Defaults to NULL.
+-   *
+-   * @return \Drupal\Core\Link|string|false
+-   *   A link to the entity, or its non-linked label, in case it was impossible
+-   *   to correctly build a link. Will return FALSE if this item should not be
+-   *   shown on the UI (for example when dealing with an orphan paragraph).
+-   */
+-  protected function getSourceEntityLink(EntityInterface $source_entity, $text = NULL): mixed {
+-    // Treat block_content entities in a special manner. Block content
+-    // relationships are stored as serialized data on the host entity. This
+-    // makes it difficult to query parent data. Instead we look up relationship
+-    // data which may exist in entity_usage tables. This requires site builders
+-    // to set up entity usage on host-entity-type -> block_content manually.
+-    // @todo this could be made more generic to support other entity types with
+-    // difficult to handle parent -> child relationships.
+-    if ($source_entity instanceof BlockContentInterface && !$source_entity->isReusable()) {
+-      $parent = $this->getContentBlockParentEntity($source_entity);
+-      if ($parent) {
+-        return $this->getSourceEntityLink($parent);
+-      }
+-    }
+-
+-    $entity_in_trash = !is_null($this->trashManager) && trash_entity_is_deleted($source_entity);
+-
+-    $entity_label = $source_entity->access('view label') ? $source_entity->label() : $this->t('- Restricted access -');
+-    if ($entity_in_trash) {
+-      $entity_label .= ' ' . $this->t('(in trash)');
+-    }
+-
+-    $rel = NULL;
+-    if ($source_entity->hasLinkTemplate('revision')) {
+-      $rel = 'revision';
+-    }
+-    elseif ($source_entity->hasLinkTemplate('canonical')) {
+-      $rel = 'canonical';
+-    }
+-
+-    // Block content likely used in Layout Builder inline or reusable blocks.
+-    if ($source_entity instanceof BlockContentInterface) {
+-      $rel = NULL;
+-    }
+-
+-    $link_text = $text ?: $entity_label;
+-    if ($rel) {
+-      // Prevent 404s by exposing the text unlinked if the user has no access
+-      // to view the entity.
+-      $options = [];
+-      if ($entity_in_trash) {
+-        // Trashed entities need a query string parameter to allow viewing.
+-        $options['query'] = ['in_trash' => TRUE];
+-      }
+-      return $source_entity->access('view') ? $source_entity->toLink($link_text, $rel, $options) : $link_text;
+-    }
+-
+-    // Treat paragraph entities in a special manner. Normal paragraph entities
+-    // only exist in the context of their host (parent) entity. For this reason
+-    // we will use the link to the parent's entity label instead.
+-    /** @var \Drupal\paragraphs\ParagraphInterface $source_entity */
+-    if ($source_entity->getEntityTypeId() == 'paragraph') {
+-      $parent = $source_entity->getParentEntity();
+-      if ($parent) {
+-        return $this->getSourceEntityLink($parent, $link_text);
+-      }
+-    }
+-
+-    // As a fallback just return a non-linked label.
+-    return $link_text;
+-  }
+-
+   /**
+    * Figure out the "parent" entity of a content block.
+    *
+diff --git a/src/EntityUsageListTrait.php b/src/EntityUsageListTrait.php
+new file mode 100644
+index 0000000..4e52225
+--- /dev/null
++++ b/src/EntityUsageListTrait.php
+@@ -0,0 +1,180 @@
++<?php
++
++namespace Drupal\entity_usage;
++
++use Drupal\block_content\BlockContentInterface;
++use Drupal\Core\Entity\EntityInterface;
++use Drupal\Core\Entity\EntityPublishedInterface;
++use Drupal\Core\Link;
++use Drupal\Core\StringTranslation\StringTranslationTrait;
++use Drupal\Core\StringTranslation\TranslatableMarkup;
++use Drupal\Core\Url;
++use Drupal\file\FileInterface;
++use Drupal\paragraphs\ParagraphInterface;
++
++/**
++ * Provides a trait that can be used to help with rendering entities.
++ */
++trait EntityUsageListTrait {
++
++  use StringTranslationTrait;
++
++  /**
++   * The EntityUsage service.
++   *
++   * @var \Drupal\entity_usage\EntityUsageInterface
++   */
++  protected $entityUsage;
++
++  /**
++   * The entity type manager.
++   *
++   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
++   */
++  protected $entityTypeManager;
++
++    /**
++   * Retrieve the source entity's status.
++   *
++   * @param \Drupal\Core\Entity\EntityInterface $source_entity
++   *   The source entity.
++   *
++   * @return string|\Drupal\Core\StringTranslation\TranslatableMarkup
++   *   The entity's status.
++   */
++  protected function getSourceEntityStatus(EntityInterface $source_entity): string|TranslatableMarkup {
++    // Treat paragraph entities in a special manner. Paragraph entities
++    // should get their host (parent) entity's status.
++    if ($source_entity->getEntityTypeId() == 'paragraph') {
++      assert($source_entity instanceof ParagraphInterface);
++      $parent = $source_entity->getParentEntity();
++      if (!empty($parent)) {
++        return $this->getSourceEntityStatus($parent);
++      }
++    }
++    // Do the same for inline content blocks.
++    elseif ($source_entity instanceof BlockContentInterface && !$source_entity->isReusable()) {
++      $parent = $this->getContentBlockParentEntity($source_entity);
++      if (!empty($parent)) {
++        return $this->getSourceEntityStatus($parent);
++      }
++    }
++
++    if ($source_entity instanceof EntityPublishedInterface) {
++      $published = $source_entity->isPublished() ? $this->t('Published') : $this->t('Unpublished');
++    }
++    else {
++      $published = '';
++    }
++
++    return $published;
++  }
++
++  /**
++   * Retrieve a link to the source entity.
++   *
++   * Note that some entities are special-cased, since they don't have canonical
++   * template and aren't expected to be re-usable. For example, if the entity
++   * passed in is a paragraph or a block content, the link we produce will point
++   * to this entity's parent (host) entity instead.
++   *
++   * @param \Drupal\Core\Entity\EntityInterface $source_entity
++   *   The source entity.
++   * @param string|null $text
++   *   (optional) The link text for the anchor tag as a translated string.
++   *   If NULL, it will use the entity's label. Defaults to NULL.
++   *
++   * @return \Drupal\Core\Link|string|false
++   *   A link to the entity, or its non-linked label, in case it was impossible
++   *   to correctly build a link. Will return FALSE if this item should not be
++   *   shown on the UI (for example when dealing with an orphan paragraph).
++   */
++  protected function getSourceEntityLink(EntityInterface $source_entity, $text = NULL): mixed {
++    // Treat block_content entities in a special manner. Block content
++    // relationships are stored as serialized data on the host entity. This
++    // makes it difficult to query parent data. Instead we look up relationship
++    // data which may exist in entity_usage tables. This requires site builders
++    // to set up entity usage on host-entity-type -> block_content manually.
++    // @todo this could be made more generic to support other entity types with
++    // difficult to handle parent -> child relationships.
++    if ($source_entity instanceof BlockContentInterface && !$source_entity->isReusable()) {
++      $parent = $this->getContentBlockParentEntity($source_entity);
++      if ($parent) {
++        return $this->getSourceEntityLink($parent);
++      }
++    }
++
++    $entity_in_trash = !is_null($this->trashManager) && trash_entity_is_deleted($source_entity);
++
++    $entity_label = $source_entity->access('view label') ? $source_entity->label() : $this->t('- Restricted access -');
++    if ($entity_in_trash) {
++      $entity_label .= ' ' . $this->t('(in trash)');
++    }
++
++    $rel = NULL;
++    if ($source_entity->hasLinkTemplate('revision')) {
++      $rel = 'revision';
++    }
++    elseif ($source_entity->hasLinkTemplate('canonical')) {
++      $rel = 'canonical';
++    }
++
++    // Block content likely used in Layout Builder inline or reusable blocks.
++    if ($source_entity instanceof BlockContentInterface) {
++      $rel = NULL;
++    }
++
++    $link_text = $text ?: $entity_label;
++    if ($rel) {
++      // Prevent 404s by exposing the text unlinked if the user has no access
++      // to view the entity.
++      $options = [];
++      if ($entity_in_trash) {
++        // Trashed entities need a query string parameter to allow viewing.
++        $options['query'] = ['in_trash' => TRUE];
++      }
++      return $source_entity->access('view') ? $source_entity->toLink($link_text, $rel, $options) : $link_text;
++    }
++
++    // Treat paragraph entities in a special manner. Normal paragraph entities
++    // only exist in the context of their host (parent) entity. For this reason
++    // we will use the link to the parent's entity label instead.
++    /** @var \Drupal\paragraphs\ParagraphInterface $source_entity */
++    if ($source_entity->getEntityTypeId() == 'paragraph') {
++      $parent = $source_entity->getParentEntity();
++      if ($parent) {
++        return $this->getSourceEntityLink($parent, $link_text);
++      }
++    }
++
++    // As a fallback just return a non-linked label.
++    return $link_text;
++  }
++
++  /**
++   * Retrieves the entity usage service.
++   *
++   * @return \Drupal\entity_usage\EntityUsageInterface
++   *   The entity usage service.
++   */
++  protected function entityUsage() {
++    if ($this->entityUsage === NULL) {
++      $this->entityUsage = \Drupal::service('entity_usage.usage');
++    }
++    return $this->entityUsage;
++  }
++
++  /**
++   * Retrieves the entity type manager.
++   *
++   * @return \Drupal\Core\Entity\EntityTypeManagerInterface
++   *   The entity type manager.
++   */
++  protected function entityTypeManager() {
++    if ($this->entityTypeManager === NULL) {
++      $this->entityTypeManager = \Drupal::entityTypeManager();
++    }
++    return $this->entityTypeManager;
++  }
++
++}
+diff --git a/src/EventSubscriber/EntityUsageConfigurationSubscriber.php b/src/EventSubscriber/EntityUsageConfigurationSubscriber.php
+new file mode 100644
+index 0000000..f77ad7d
+--- /dev/null
++++ b/src/EventSubscriber/EntityUsageConfigurationSubscriber.php
+@@ -0,0 +1,63 @@
++<?php
++
++namespace Drupal\entity_usage\EventSubscriber;
++
++use Drupal\Core\Cache\CacheBackendInterface;
++use Drupal\Core\Config\ConfigCrudEvent;
++use Drupal\Core\Config\ConfigEvents;
++use Drupal\Core\Routing\RouteBuilderInterface;
++use Symfony\Component\DependencyInjection\Attribute\Autowire;
++use Symfony\Component\EventDispatcher\EventSubscriberInterface;
++
++/**
++ * Entity Usage configuration event subscriber.
++ *
++ * This ensures that the appropriate side effects occurs regardless of where
++ * the configuration changes occur.
++ */
++class EntityUsageConfigurationSubscriber implements EventSubscriberInterface {
++
++  /**
++   * Constructs the entity usage configuration change event subscriber.
++   *
++   * @param \Drupal\Core\Routing\RouteBuilderInterface $routerBuilder
++   *   The router builder.
++   * @param \Drupal\Core\Cache\CacheBackendInterface $cacheRender
++   *   The render cache.
++   */
++  public function __construct(
++    protected RouteBuilderInterface $routerBuilder,
++    #[Autowire(service: 'cache.render')]
++    protected CacheBackendInterface $cacheRender,
++  ) {
++
++  }
++
++  /**
++   * Detect changes to the event_usage configurations.
++   */
++  public function onConfigSave(ConfigCrudEvent $event): void {
++    $config = $event->getConfig();
++    if ($config->getName() === 'entity_usage.settings') {
++      if ($event->isChanged('local_task_enabled_entity_types')) {
++        // Invalidate the local tasks cache.
++        $this->routerBuilder->rebuild();
++        $this->cacheRender->invalidateAll();
++      }
++      if ($event->isChanged('operations_enabled_entity_types')) {
++        // Invalid the render cache if the operations settings changed.
++        $this->cacheRender->invalidateAll();
++      }
++    }
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function getSubscribedEvents() {
++    return [
++      ConfigEvents::SAVE => ['onConfigSave'],
++    ];
++  }
++
++}
+diff --git a/src/Form/EntityUsageSettingsForm.php b/src/Form/EntityUsageSettingsForm.php
+index 8f8131f..ebd8648 100644
+--- a/src/Form/EntityUsageSettingsForm.php
++++ b/src/Form/EntityUsageSettingsForm.php
+@@ -2,16 +2,10 @@
+ 
+ namespace Drupal\entity_usage\Form;
+ 
+-use Drupal\Core\Cache\CacheBackendInterface;
+-use Drupal\Core\Config\ConfigFactoryInterface;
+-use Drupal\Core\Config\TypedConfigManagerInterface;
+ use Drupal\Core\Entity\ContentEntityTypeInterface;
+-use Drupal\Core\Entity\EntityTypeManagerInterface;
+ use Drupal\Core\Form\ConfigFormBase;
+ use Drupal\Core\Form\FormStateInterface;
+-use Drupal\Core\Routing\RouteBuilderInterface;
+ use Drupal\entity_usage\Controller\ListUsageController;
+-use Drupal\entity_usage\EntityUsageTrackManager;
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+ 
+ /**
+@@ -26,20 +20,6 @@ class EntityUsageSettingsForm extends ConfigFormBase {
+    */
+   protected $entityTypeManager;
+ 
+-  /**
+-   * The router builder.
+-   *
+-   * @var \Drupal\Core\Routing\RouteBuilderInterface
+-   */
+-  protected $routerBuilder;
+-
+-  /**
+-   * The Cache Render.
+-   *
+-   * @var \Drupal\Core\Cache\CacheBackendInterface
+-   */
+-  protected $cacheRender;
+-
+   /**
+    * The Entity Usage Track Manager service.
+    *
+@@ -47,36 +27,15 @@ class EntityUsageSettingsForm extends ConfigFormBase {
+    */
+   protected $usageTrackManager;
+ 
+-  /**
+-   * {@inheritdoc}
+-   */
+-  public function __construct(
+-    ConfigFactoryInterface $config_factory,
+-    TypedConfigManagerInterface $typed_config_manager,
+-    EntityTypeManagerInterface $entity_type_manager,
+-    RouteBuilderInterface $router_builder,
+-    CacheBackendInterface $cache_render,
+-    EntityUsageTrackManager $usage_track_manager,
+-  ) {
+-    parent::__construct($config_factory, $typed_config_manager);
+-    $this->entityTypeManager = $entity_type_manager;
+-    $this->routerBuilder = $router_builder;
+-    $this->cacheRender = $cache_render;
+-    $this->usageTrackManager = $usage_track_manager;
+-  }
+-
+   /**
+    * {@inheritdoc}
+    */
+   public static function create(ContainerInterface $container): static {
+-    return new static(
+-      $container->get('config.factory'),
+-      $container->get('config.typed'),
+-      $container->get('entity_type.manager'),
+-      $container->get('router.builder'),
+-      $container->get('cache.render'),
+-      $container->get('plugin.manager.entity_usage.track')
+-    );
++    $instance = parent::create($container);
++    $instance->entityTypeManager = $container->get('entity_type.manager');
++    $instance->usageTrackManager = $container->get('plugin.manager.entity_usage.track');
++
++    return $instance;
+   }
+ 
+   /**
+@@ -111,7 +70,7 @@ class EntityUsageSettingsForm extends ConfigFormBase {
+         $content_entity_types[$entity_type->id()] = $entity_type->getLabel();
+       }
+       $entity_type_options[$entity_type->id()] = $entity_type->getLabel();
+-      if ($entity_type->hasLinkTemplate('canonical') || $entity_type->hasLinkTemplate('edit-form')) {
++      if ($entity_type->id() === 'file' || $entity_type->hasLinkTemplate('canonical') || $entity_type->hasLinkTemplate('edit-form')) {
+         $tabs_options[$entity_type->id()] = $entity_type->getLabel();
+       }
+ 
+@@ -119,13 +78,13 @@ class EntityUsageSettingsForm extends ConfigFormBase {
+         $source_options[$entity_type->id()] = $entity_type->getLabel();
+       }
+     }
+-
++    // Sort the options by human friendly labels.
++    natcasesort($content_entity_types);
+     natcasesort($tabs_options);
+     natcasesort($entity_type_options);
+     natcasesort($source_options);
+ 
+-    // Files and users shouldn't be tracked by default.
+-    unset($content_entity_types['file']);
++    // Users shouldn't be tracked by default.
+     unset($content_entity_types['user']);
+ 
+     // Tabs configuration.
+@@ -143,6 +102,20 @@ class EntityUsageSettingsForm extends ConfigFormBase {
+       '#default_value' => $config->get('local_task_enabled_entity_types'),
+     ];
+ 
++    // Entity operations configuration.
++    $form['operations_enabled_entity_types'] = [
++      '#type' => 'details',
++      '#title' => $this->t('Enabled operations'),
++      '#description' => $this->t('Specify which entity types should have an "Entity usage" operation linking to the usage page. Please note that the entity must have local tasks enabled for this to take effect.'),
++      '#tree' => TRUE,
++    ];
++    $form['operations_enabled_entity_types']['entity_types'] = [
++      '#type' => 'checkboxes',
++      '#title' => $this->t('Operation entity types'),
++      '#options' => $tabs_options,
++      '#default_value' => $config->get('operations_enabled_entity_types') ?: [],
++    ];
++
+     // Entity types (source).
+     $form['track_enabled_source_entity_types'] = [
+       '#type' => 'details',
+@@ -264,6 +237,18 @@ class EntityUsageSettingsForm extends ConfigFormBase {
+       '#description' => $this->t('If enabled, relationships generated through non-configurable fields (basefields) will also be tracked.'),
+       '#default_value' => (bool) $config->get('track_enabled_base_fields'),
+     ];
++    $form['generic_settings']['ignore_media_thumbnails'] = [
++      '#type' => 'checkbox',
++      '#title' => $this->t('Ignore Media thumbnails'),
++      '#description' => $this->t('If enabled, Media thumbnail files will be ignored if they are the same as the underlying source file entity. This ensures that the usage count is a little more accurate.'),
++      '#default_value' => $config->get('ignore_media_thumbnails') ?? TRUE,
++      '#states' => [
++        'enabled' => [
++          ':input[name="track_enabled_base_fields"]' => ['checked' => TRUE],
++          ':input[name="track_enabled_plugins[plugins][file_field]"]' => ['checked' => TRUE],
++        ],
++      ],
++    ];
+     $form['generic_settings']['site_domains'] = [
+       '#type' => 'textarea',
+       '#title' => $this->t('Domains for this website'),
+@@ -289,28 +274,48 @@ class EntityUsageSettingsForm extends ConfigFormBase {
+     $form_state->cleanValues();
+     $config = $this->config('entity_usage.settings');
+ 
+-    $local_tasks_updated = array_filter($config->get('local_task_enabled_entity_types')) !== array_filter($form_state->getValue('local_task_enabled_entity_types')['entity_types']);
+-
+     $site_domains = preg_replace('/[\s, ]/', ',', $form_state->getValue('site_domains'));
+     $site_domains = array_values(array_filter(explode(',', $site_domains)));
+ 
+-    $config->set('track_enabled_base_fields', (bool) $form_state->getValue('track_enabled_base_fields'))
+-      ->set('local_task_enabled_entity_types', array_values(array_filter($form_state->getValue('local_task_enabled_entity_types')['entity_types'])))
+-      ->set('track_enabled_source_entity_types', array_values(array_filter($form_state->getValue('track_enabled_source_entity_types')['entity_types'])))
+-      ->set('track_enabled_target_entity_types', array_values(array_filter($form_state->getValue('track_enabled_target_entity_types')['entity_types'])))
+-      ->set('edit_warning_message_entity_types', array_values(array_filter($form_state->getValue('edit_warning_message_entity_types')['entity_types'])))
+-      ->set('delete_warning_message_entity_types', array_values(array_filter($form_state->getValue('delete_warning_message_entity_types')['entity_types'])))
+-      ->set('track_enabled_plugins', array_values(array_filter($form_state->getValue('track_enabled_plugins')['plugins'])))
++    $config
++      ->set('track_enabled_base_fields', (bool) $form_state->getValue('track_enabled_base_fields'))
++      ->set('ignore_media_thumbnails', (bool) $form_state->getValue('ignore_media_thumbnails'))
++      ->set('local_task_enabled_entity_types', $this->getSortedArrayValues(
++        $form_state->getValue(['local_task_enabled_entity_types', 'entity_types']))
++      )
++      ->set('operations_enabled_entity_types', $this->getSortedArrayValues(
++        $form_state->getValue(['operations_enabled_entity_types', 'entity_types']))
++      )
++      ->set('track_enabled_source_entity_types', $this->getSortedArrayValues(
++        $form_state->getValue(['track_enabled_source_entity_types', 'entity_types']))
++      )
++      ->set('track_enabled_target_entity_types', $this->getSortedArrayValues(
++        $form_state->getValue(['track_enabled_target_entity_types', 'entity_types']))
++      )
++      ->set('edit_warning_message_entity_types', $this->getSortedArrayValues(
++        $form_state->getValue(['edit_warning_message_entity_types', 'entity_types']))
++      )
++      ->set('delete_warning_message_entity_types', $this->getSortedArrayValues(
++        $form_state->getValue(['delete_warning_message_entity_types', 'entity_types']))
++      )
++      ->set('track_enabled_plugins', $this->getSortedArrayValues(
++        $form_state->getValue(['track_enabled_plugins', 'plugins']))
++      )
+       ->set('site_domains', $site_domains)
+       ->set('usage_controller_items_per_page', $form_state->getValue('usage_controller_items_per_page'))
+       ->save();
+ 
+-    if ($local_tasks_updated) {
+-      $this->routerBuilder->rebuild();
+-      $this->cacheRender->invalidateAll();
+-    }
+-
+     parent::submitForm($form, $form_state);
+   }
+ 
++  /**
++   * Normalize the order of the array values for consistency.
++   */
++  protected function getSortedArrayValues(array $options): array {
++    $options = array_values(array_filter($options));
++    sort($options);
++
++    return $options;
++  }
++
+ }
+diff --git a/src/Plugin/EntityUsage/Track/EntityReference.php b/src/Plugin/EntityUsage/Track/EntityReference.php
+index 7f3cccc..de6f50d 100644
+--- a/src/Plugin/EntityUsage/Track/EntityReference.php
++++ b/src/Plugin/EntityUsage/Track/EntityReference.php
+@@ -18,8 +18,6 @@ use Drupal\entity_usage\EntityUsageTrackMultipleLoadInterface;
+  *     "entity_reference",
+  *     "entity_reference_revisions",
+  *     "entity_reference_entity_modify",
+- *     "file",
+- *     "image",
+  *     "webform",
+  *   },
+  *   source_entity_class = "Drupal\Core\Entity\FieldableEntityInterface",
+diff --git a/src/Plugin/EntityUsage/Track/FileField.php b/src/Plugin/EntityUsage/Track/FileField.php
+new file mode 100644
+index 0000000..f76f312
+--- /dev/null
++++ b/src/Plugin/EntityUsage/Track/FileField.php
+@@ -0,0 +1,100 @@
++<?php
++
++namespace Drupal\entity_usage\Plugin\EntityUsage\Track;
++
++use Drupal\Core\Field\FieldItemInterface;
++use Drupal\Core\Field\FieldItemListInterface;
++use Drupal\entity_usage\EntityUsageTrackBase;
++use Drupal\entity_usage\EntityUsageTrackMultipleLoadInterface;
++use Drupal\media\MediaInterface;
++
++/**
++ * Tracks usage of entities related in file or file_uri fields.
++ *
++ * @EntityUsageTrack(
++ *   id = "file_field",
++ *   label = @Translation("File field"),
++ *   description = @Translation("Tracks relationships to 'File' fields. These are typically referenced in Media entities."),
++ *   field_types = {
++ *     "file",
++ *     "image",
++ *     "video",
++ *   },
++ *   source_entity_class = "Drupal\Core\Entity\FieldableEntityInterface",
++ * )
++ */
++class FileField extends EntityUsageTrackBase implements EntityUsageTrackMultipleLoadInterface {
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getTargetEntities(FieldItemInterface $item): array {
++    $field = $item->getParent();
++    assert($field instanceof FieldItemListInterface);
++    return $this->doGetTargetEntities($field, $item);
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getTargetEntitiesFromField(FieldItemListInterface $field): array {
++    return $this->doGetTargetEntities($field);
++  }
++
++  /**
++   * Retrieve the target entity(ies) from a field.
++   */
++  protected function doGetTargetEntities(FieldItemListInterface $field, ?FieldItemInterface $field_item = NULL): array {
++    $target_type_id = $field->getFieldDefinition()->getSetting('target_type');
++    // Check if target entity type is enabled, all entity types are enabled by
++    // default.
++    if (!$this->isEntityTypeTracked($target_type_id)) {
++      return [];
++    }
++
++    $entity_ids = [];
++    if ($field_item instanceof FieldItemInterface) {
++      if ($entity_id = $this->retrieveTargetId($field, $field_item)) {
++        $entity_ids[] = $entity_id;
++      }
++    }
++    else {
++      foreach ($field as $item) {
++        if ($entity_id = $this->retrieveTargetId($field, $item)) {
++          $entity_ids[] = $entity_id;
++        }
++      }
++    }
++
++    return $this->checkAndPrepareEntityIds($target_type_id, $entity_ids, 'id');
++  }
++
++  /**
++   * Returns the target file ID.
++   */
++  protected function retrieveTargetId(FieldItemListInterface $field, FieldItemInterface $field_item): ?string {
++    if ($this->config->get('track_enabled_base_fields') && ($this->config->get('ignore_media_thumbnails') ?? TRUE)) {
++      // If tracking base fields, then attempt to handle media thumbnails
++      // specially, so that they're not tracked twice.
++      $entity = $field_item->getEntity();
++      if ($entity instanceof MediaInterface) {
++        if ($field->getName() === 'thumbnail') {
++          // Include the thumbnail reference only if it is actually different
++          // from the source file entity, e.g. when the thumbnail is generated
++          // by the media_thumbnails module.
++          $source_field = $entity->getSource()->getConfiguration()['source_field'] ?? NULL;
++          if ($source_field && $entity->hasField($source_field)) {
++            $source_file_id = (int) $entity->get($source_field)->target_id;
++            $thumbnail_file_id = (int) $field_item->get('target_id')->getValue();
++            if ($source_file_id === $thumbnail_file_id) {
++              return NULL;
++            }
++          }
++        }
++      }
++    }
++
++    return $field_item->get('target_id')->getValue();
++  }
++
++}
+diff --git a/src/Plugin/EntityUsage/Track/Link.php b/src/Plugin/EntityUsage/Track/Link.php
+index 312ad06..f8551df 100644
+--- a/src/Plugin/EntityUsage/Track/Link.php
++++ b/src/Plugin/EntityUsage/Track/Link.php
+@@ -23,13 +23,12 @@ class Link extends EntityUsageTrackBase {
+    */
+   public function getTargetEntities(FieldItemInterface $link): array {
+     /** @var \Drupal\link\LinkItemInterface $link */
+-    if ($link->isExternal()) {
+-      $url = $link->getUrl()->toString();
+-      $entity_info = $this->urlToEntity->findEntityIdByUrl($url);
++    $url_object = $link->getUrl();
++    if ($link->isExternal() || !$url_object->isRouted()) {
++      $entity_info = $this->urlToEntity->findEntityIdByUrl($url_object->toString());
+     }
+     else {
+-      $url = $link->getUrl();
+-      $entity_info = $this->urlToEntity->findEntityIdByRoutedUrl($url);
++      $entity_info = $this->urlToEntity->findEntityIdByRoutedUrl($url_object);
+     }
+ 
+     if (empty($entity_info)) {
+diff --git a/src/Plugin/views/field/EntityUsageEntity.php b/src/Plugin/views/field/EntityUsageEntity.php
+new file mode 100644
+index 0000000..92f262a
+--- /dev/null
++++ b/src/Plugin/views/field/EntityUsageEntity.php
+@@ -0,0 +1,95 @@
++<?php
++
++namespace Drupal\entity_usage\Plugin\views\field;
++
++use Drupal\Core\Form\FormStateInterface;
++use Drupal\Core\Render\RenderableInterface;
++use Drupal\entity_usage\EntityUsageListTrait;
++use Drupal\views\Plugin\views\field\NumericField;
++use Drupal\views\ResultRow;
++
++/**
++ * Provides Entity Usage Entity field handler.
++ *
++ * @ViewsField("entity_usage_entity")
++ */
++class EntityUsageEntity extends NumericField {
++
++  use EntityUsageListTrait;
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function defineOptions() {
++    $options = parent::defineOptions();
++    $options['source_revision'] = ['default' => FALSE];
++
++    return $options;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function buildOptionsForm(&$form, FormStateInterface $form_state): void {
++    parent::buildOptionsForm($form, $form_state);
++    $form['source_revision'] = [
++      '#type' => 'checkbox',
++      '#title' => $this->t('Load entity revisions'),
++      '#description' => $this->t('Enable to attempt to link to the entity revisions.'),
++      '#default_value' => $this->options['source_revision'],
++      '#access' => $this->configuration['entity_usage_type'] === 'source',
++    ];
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function query(): void {
++    parent::query();
++    if ($this->configuration['entity_usage_type'] === 'source' && $this->options['source_revision']) {
++      $this->addAdditionalFields(['source_vid']);
++    }
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function render(ResultRow $values) {
++    $entity = NULL;
++    if ($this->configuration['entity_usage_type'] === 'source') {
++      $source_id = $this->getValue($values, 'source_id') ?? $this->getValue($values, 'source_id_string');
++      if (isset($source_id)) {
++        $source_vid = NULL;
++        if ($this->options['source_revision']) {
++          $source_vid = $this->getValue($values, 'source_vid');
++        }
++        $source_type = $this->getValue($values, 'source_type');
++        $entity_storage = $this->entityTypeManager()->getStorage($source_type);
++        /** @var \Drupal\Core\Entity\RevisionableStorageInterface $entity_storage */
++        $entity = $source_vid ? $entity_storage->loadRevision($source_vid) : $entity_storage->load($source_id);
++      }
++    }
++    elseif ($this->configuration['entity_usage_type'] === 'target') {
++      $target_id = $this->getValue($values, 'target_id') ?? $this->getValue($values, 'target_id_string');
++      if (isset($target_id)) {
++        $target_type = $this->getValue($values, 'target_type');
++        $entity = $this->entityTypeManager()->getStorage($target_type)->load($target_id);
++      }
++    }
++
++    if (isset($entity)) {
++      // Render the entity link.
++      $link = $this->getSourceEntityLink($entity);
++      if ($link !== FALSE) {
++        if ($link instanceof RenderableInterface) {
++          // Return the render array so that it's not escaped.
++          return $link->toRenderable();
++        }
++        return $this->sanitizeValue($link);
++      }
++    }
++
++    return parent::render($values);
++  }
++
++}
+diff --git a/src/Plugin/views/field/EntityUsageEntityTypeField.php b/src/Plugin/views/field/EntityUsageEntityTypeField.php
+new file mode 100644
+index 0000000..eb39e5c
+--- /dev/null
++++ b/src/Plugin/views/field/EntityUsageEntityTypeField.php
+@@ -0,0 +1,96 @@
++<?php
++
++namespace Drupal\entity_usage\Plugin\views\field;
++
++use Drupal\Core\Entity\EntityTypeManagerInterface;
++use Drupal\Core\Form\FormStateInterface;
++use Drupal\views\Plugin\views\field\FieldPluginBase;
++use Drupal\views\ResultRow;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++
++/**
++ * A handler for entity type method.
++ *
++ * @ingroup views_field_handlers
++ *
++ * @ViewsField("entity_usage_entity_type_field")
++ */
++class EntityUsageEntityTypeField extends FieldPluginBase {
++
++  /**
++   * The Entity type manager service.
++   *
++   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
++   */
++  protected $entityTypeManager;
++
++  /**
++   * Constructs an object.
++   *
++   * @param array $configuration
++   *   A configuration array containing information about the plugin instance.
++   * @param string $plugin_id
++   *   The plugin_id for the plugin instance.
++   * @param mixed $plugin_definition
++   *   The plugin implementation definition.
++   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
++   *   The Entity type manager service.
++   */
++  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager) {
++    parent::__construct($configuration, $plugin_id, $plugin_definition);
++    $this->entityTypeManager = $entity_type_manager;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
++    return new static(
++      $configuration,
++      $plugin_id,
++      $plugin_definition,
++      $container->get('entity_type.manager')
++    );
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function defineOptions() {
++    $options = parent::defineOptions();
++    $options['use_entity_type_label'] = ['default' => TRUE];
++
++    return $options;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function buildOptionsForm(&$form, FormStateInterface $form_state): void {
++    parent::buildOptionsForm($form, $form_state);
++    $form['use_entity_type_label'] = [
++      '#title' => $this->t('Human friendly label'),
++      '#description' => $this->t('Use the human friendly entity type name.'),
++      '#type' => 'checkbox',
++      '#default_value' => $this->options['use_entity_type_label'],
++    ];
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function render(ResultRow $values) {
++    if ($this->options['use_entity_type_label']) {
++      if ($entity_type_id = $this->getValue($values)) {
++        if ($this->entityTypeManager->hasDefinition($entity_type_id)) {
++          return $this->sanitizeValue(
++            $this->entityTypeManager->getDefinition($entity_type_id)->getLabel()
++          );
++        }
++      }
++    }
++
++    return parent::render($values);
++  }
++
++}
+diff --git a/src/Plugin/views/field/EntityUsageFieldNameViewsField.php b/src/Plugin/views/field/EntityUsageFieldNameViewsField.php
+new file mode 100644
+index 0000000..846f2e4
+--- /dev/null
++++ b/src/Plugin/views/field/EntityUsageFieldNameViewsField.php
+@@ -0,0 +1,128 @@
++<?php
++
++namespace Drupal\entity_usage\Plugin\views\field;
++
++use Drupal\Core\Entity\EntityFieldManagerInterface;
++use Drupal\Core\Entity\EntityTypeManagerInterface;
++use Drupal\Core\Form\FormStateInterface;
++use Drupal\views\Plugin\views\field\FieldPluginBase;
++use Drupal\views\ResultRow;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++
++/**
++ * A handler for entity usage relation field name.
++ *
++ * @ingroup views_field_handlers
++ *
++ * @ViewsField("entity_usage_field_name_views_field")
++ */
++class EntityUsageFieldNameViewsField extends FieldPluginBase {
++
++  /**
++   * The entity type manager.
++   *
++   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
++   */
++  protected $entityTypeManager;
++
++  /**
++   * The entity field manager.
++   *
++   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
++   */
++  protected $entityFieldManager;
++
++  /**
++   * Constructs an object.
++   *
++   * @param array $configuration
++   *   A configuration array containing information about the plugin instance.
++   * @param string $plugin_id
++   *   The plugin_id for the plugin instance.
++   * @param mixed $plugin_definition
++   *   The plugin implementation definition.
++   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
++   *   The entity type manager.
++   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
++   *   The entity field manager.
++   */
++  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $entity_field_manager) {
++    parent::__construct($configuration, $plugin_id, $plugin_definition);
++    $this->entityTypeManager = $entity_type_manager;
++    $this->entityFieldManager = $entity_field_manager;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
++    return new static(
++      $configuration,
++      $plugin_id,
++      $plugin_definition,
++      $container->get('entity_type.manager'),
++      $container->get('entity_field.manager')
++    );
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function defineOptions() {
++    $options = parent::defineOptions();
++    $options['use_field_label'] = ['default' => TRUE];
++
++    return $options;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function buildOptionsForm(&$form, FormStateInterface $form_state): void {
++    parent::buildOptionsForm($form, $form_state);
++    $form['use_field_label'] = [
++      '#title' => $this->t('Human friendly label'),
++      '#description' => $this->t('Use the human friendly field name.'),
++      '#type' => 'checkbox',
++      '#default_value' => $this->options['use_field_label'],
++    ];
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function query(): void {
++    parent::query();
++    if ($this->options['use_field_label']) {
++      // Ensure the source ID and source type fields are available.
++      $this->addAdditionalFields(['source_id', 'source_type']);
++    }
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function render(ResultRow $values) {
++    if ($this->options['use_field_label']) {
++      if ($field_name = $this->getValue($values)) {
++        $source_id = $this->getValue($values, 'source_id');
++        $source_type = $this->getValue($values, 'source_type');
++        if ($this->entityTypeManager->hasDefinition($source_type)) {
++          // There's a possibility that an invalid source type is in the
++          // database.
++          $type_storage = $this->entityTypeManager->getStorage($source_type);
++          $source_entity = $type_storage->load($source_id);
++          if ($source_entity) {
++            $field_definitions = $this->entityFieldManager->getFieldDefinitions($source_entity->getEntityTypeId(), $source_entity->bundle());
++            if (!empty($field_definitions[$field_name])) {
++              return $this->sanitizeValue($field_definitions[$field_name]->getLabel());
++            }
++          }
++        }
++      }
++    }
++
++    return parent::render($values);
++  }
++
++}
+diff --git a/src/Plugin/views/field/EntityUsageMethodViewsField.php b/src/Plugin/views/field/EntityUsageMethodViewsField.php
+new file mode 100644
+index 0000000..1f6de77
+--- /dev/null
++++ b/src/Plugin/views/field/EntityUsageMethodViewsField.php
+@@ -0,0 +1,97 @@
++<?php
++
++namespace Drupal\entity_usage\Plugin\views\field;
++
++use Drupal\Core\Form\FormStateInterface;
++use Drupal\entity_usage\EntityUsageTrackManager;
++use Drupal\views\Plugin\views\field\FieldPluginBase;
++use Drupal\views\ResultRow;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++
++/**
++ * A handler for entity usage relation method.
++ *
++ * @ingroup views_field_handlers
++ *
++ * @ViewsField("entity_usage_method_views_field")
++ */
++class EntityUsageMethodViewsField extends FieldPluginBase {
++
++  /**
++   * The Entity Usage Track Manager service.
++   *
++   * @var \Drupal\entity_usage\EntityUsageTrackManager
++   */
++  protected $usageTrackManager;
++
++  /**
++   * Constructs an object.
++   *
++   * @param array $configuration
++   *   A configuration array containing information about the plugin instance.
++   * @param string $plugin_id
++   *   The plugin_id for the plugin instance.
++   * @param mixed $plugin_definition
++   *   The plugin implementation definition.
++   * @param \Drupal\entity_usage\EntityUsageTrackManager $usage_track_manager
++   *   The Entity Usage Track Manager service.
++   */
++  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityUsageTrackManager $usage_track_manager) {
++    parent::__construct($configuration, $plugin_id, $plugin_definition);
++    $this->usageTrackManager = $usage_track_manager;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
++    return new static(
++      $configuration,
++      $plugin_id,
++      $plugin_definition,
++      $container->get('plugin.manager.entity_usage.track')
++    );
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function defineOptions() {
++    $options = parent::defineOptions();
++    $options['use_method_label'] = ['default' => TRUE];
++
++    return $options;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function buildOptionsForm(&$form, FormStateInterface $form_state): void {
++    parent::buildOptionsForm($form, $form_state);
++    $form['use_method_label'] = [
++      '#title' => $this->t('Human friendly label'),
++      '#description' => $this->t('Use the human friendly tracking method name.'),
++      '#type' => 'checkbox',
++      '#default_value' => $this->options['use_method_label'],
++    ];
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function render(ResultRow $values) {
++    if ($this->options['use_method_label']) {
++      if ($plugin_id = $this->getValue($values)) {
++        if ($this->usageTrackManager->hasDefinition($plugin_id)) {
++          // There's a possibility the plugin might no longer exist.
++          if ($plugin = $this->usageTrackManager->createInstance($plugin_id)) {
++            return $this->sanitizeValue($plugin->getLabel());
++          }
++        }
++      }
++    }
++
++    return parent::render($values);
++  }
++
++}
+diff --git a/src/Plugin/views/filter/EntityUsageEntityType.php b/src/Plugin/views/filter/EntityUsageEntityType.php
+new file mode 100644
+index 0000000..a6e80f3
+--- /dev/null
++++ b/src/Plugin/views/filter/EntityUsageEntityType.php
+@@ -0,0 +1,118 @@
++<?php
++
++namespace Drupal\entity_usage\Plugin\views\filter;
++
++use Drupal\Core\Config\ConfigFactoryInterface;
++use Drupal\Core\Entity\EntityTypeManagerInterface;
++use Drupal\views\Plugin\views\filter\InOperator;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++
++/**
++ * Filter class which allows filtering by entity types.
++ *
++ * @ingroup views_filter_handlers
++ *
++ * @ViewsFilter("entity_usage_entity_type")
++ */
++class EntityUsageEntityType extends InOperator {
++
++  /**
++   * The entity type manager.
++   *
++   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
++   */
++  protected $entityTypeManager;
++
++  /**
++   * The configuration factory.
++   *
++   * @var \Drupal\Core\Config\ConfigFactoryInterface
++   */
++  protected $configFactory;
++
++  /**
++   * Constructs an EntityUsageEntityType object.
++   *
++   * @param array $configuration
++   *   A configuration array containing information about the plugin instance.
++   * @param string $plugin_id
++   *   The plugin_id for the plugin instance.
++   * @param mixed $plugin_definition
++   *   The plugin implementation definition.
++   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
++   *   The entity type manager.
++   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
++   *   The config factory.
++   */
++  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ConfigFactoryInterface $config_factory) {
++    parent::__construct($configuration, $plugin_id, $plugin_definition);
++    $this->entityTypeManager = $entity_type_manager;
++    $this->configFactory = $config_factory;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
++    return new static(
++      $configuration,
++      $plugin_id,
++      $plugin_definition,
++      $container->get('entity_type.manager'),
++      $container->get('config.factory')
++    );
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getValueOptions() {
++    if ($this->valueOptions === NULL) {
++      $options = [];
++      $supported_entity_types = [];
++      if ($this->configuration['entity_usage_type'] === 'source') {
++        $supported_entity_types = $this->configFactory->get('entity_usage.settings')->get('track_enabled_source_entity_types') ?? [];
++      }
++      elseif ($this->configuration['entity_usage_type'] === 'target') {
++        $supported_entity_types = $this->configFactory->get('entity_usage.settings')->get('track_enabled_target_entity_types') ?? [];
++      }
++      foreach ($supported_entity_types as $entity_type_id) {
++        if ($entity_type = $this->entityTypeManager->getDefinition($entity_type_id, FALSE)) {
++          $options[$entity_type->id()] = $entity_type->getLabel();
++        }
++      }
++
++      asort($options);
++      $this->valueTitle = $this->t('Supported entity usage entity types');
++      $this->valueOptions = $options;
++    }
++
++    return $this->valueOptions;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function query(): void {
++    // Make sure that the entity base table is in the query.
++    $this->ensureMyTable();
++    parent::query();
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function calculateDependencies() {
++    $dependencies = parent::calculateDependencies();
++
++    foreach (array_keys($this->value) as $entity_type) {
++      if ($this->entityTypeManager->hasDefinition($entity_type)) {
++        $entity_definition = $this->entityTypeManager->getDefinition($entity_type);
++        $dependencies['module'][] = $entity_definition->getProvider();
++      }
++    }
++
++    return $dependencies;
++  }
++
++}
+diff --git a/src/Plugin/views/filter/EntityUsageMethod.php b/src/Plugin/views/filter/EntityUsageMethod.php
+new file mode 100644
+index 0000000..b74f9da
+--- /dev/null
++++ b/src/Plugin/views/filter/EntityUsageMethod.php
+@@ -0,0 +1,98 @@
++<?php
++
++namespace Drupal\entity_usage\Plugin\views\filter;
++
++use Drupal\entity_usage\EntityUsageTrackManager;
++use Drupal\views\Plugin\views\filter\InOperator;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++
++/**
++ * Filter class which allows filtering by tracking methods.
++ *
++ * @ingroup views_filter_handlers
++ *
++ * @ViewsFilter("entity_usage_method")
++ */
++class EntityUsageMethod extends InOperator {
++
++  /**
++   * The Entity Usage Track Manager service.
++   *
++   * @var \Drupal\entity_usage\EntityUsageTrackManager
++   */
++  protected $usageTrackManager;
++
++  /**
++   * Constructs an EntityUsageEntityType object.
++   *
++   * @param array $configuration
++   *   A configuration array containing information about the plugin instance.
++   * @param string $plugin_id
++   *   The plugin_id for the plugin instance.
++   * @param mixed $plugin_definition
++   *   The plugin implementation definition.
++   * @param \Drupal\entity_usage\EntityUsageTrackManager $usage_track_manager
++   *   The Entity Usage Track Manager service.
++   */
++  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityUsageTrackManager $usage_track_manager) {
++    parent::__construct($configuration, $plugin_id, $plugin_definition);
++    $this->usageTrackManager = $usage_track_manager;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
++    return new static(
++      $configuration,
++      $plugin_id,
++      $plugin_definition,
++      $container->get('plugin.manager.entity_usage.track')
++    );
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getValueOptions() {
++    if ($this->valueOptions === NULL) {
++      $options = [];
++      foreach ($this->usageTrackManager->getDefinitions() as $method_definition) {
++        $plugin = $this->usageTrackManager->createInstance($method_definition['id']);
++        $options[$plugin->getId()] = $plugin->getLabel();
++      }
++
++      asort($options);
++      $this->valueTitle = $this->t('Supported entity usage tracking methods');
++      $this->valueOptions = $options;
++    }
++
++    return $this->valueOptions;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function query(): void {
++    // Make sure that the entity base table is in the query.
++    $this->ensureMyTable();
++    parent::query();
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function calculateDependencies() {
++    $dependencies = parent::calculateDependencies();
++
++    foreach (array_keys($this->value) as $tracking_method) {
++      $method_definition = $this->usageTrackManager->getDefinition($tracking_method, FALSE);
++      if (isset($method_definition['provider'])) {
++        $dependencies['module'][] = $method_definition['provider'];
++      }
++    }
++
++    return $dependencies;
++  }
++
++}
+diff --git a/src/Routing/RouteSubscriber.php b/src/Routing/RouteSubscriber.php
+index ed5f35e..4ec168c 100644
+--- a/src/Routing/RouteSubscriber.php
++++ b/src/Routing/RouteSubscriber.php
+@@ -48,6 +48,9 @@ class RouteSubscriber extends RouteSubscriberBase {
+     $configured_types = $this->config->get('entity_usage.settings')->get('local_task_enabled_entity_types');
+ 
+     foreach ($this->entityTypeManager->getDefinitions() as $entity_type_id => $entity_type) {
++      // Ensure that the template from a previous iteration isn't accidentally
++      // reused.
++      $template = NULL;
+       // We prefer the canonical template, but we also allow edit-form templates
+       // on entities that don't have canonical (like views, etc).
+       if ($entity_type->hasLinkTemplate('canonical')) {
+@@ -56,6 +59,11 @@ class RouteSubscriber extends RouteSubscriberBase {
+       elseif ($entity_type->hasLinkTemplate('edit-form')) {
+         $template = $entity_type->getLinkTemplate('edit-form');
+       }
++      if ($entity_type_id === 'file' && empty($template)) {
++        // Add a suitable template if a contrib module hasn't already declared
++        // one for the file entity.
++        $template = '/file/{file}';
++      }
+       if (empty($template) || !in_array($entity_type_id, $configured_types, TRUE)) {
+         continue;
+       }
+diff --git a/src/UrlToEntity.php b/src/UrlToEntity.php
+index 66f3395..aae69c3 100644
+--- a/src/UrlToEntity.php
++++ b/src/UrlToEntity.php
+@@ -4,6 +4,7 @@ namespace Drupal\entity_usage;
+ 
+ use Drupal\Component\Utility\UrlHelper;
+ use Drupal\Core\Config\ConfigFactoryInterface;
++use Drupal\Core\Entity\EntityTypeManagerInterface;
+ use Drupal\Core\PathProcessor\InboundPathProcessorInterface;
+ use Drupal\Core\Url;
+ use Drupal\entity_usage\Events\Events;
+@@ -41,7 +42,7 @@ class UrlToEntity implements UrlToEntityInterface {
+    */
+   private ?array $enabledTargetEntityTypes;
+ 
+-  public function __construct(private readonly InboundPathProcessorInterface $pathProcessor, ConfigFactoryInterface $configFactory, private readonly EventDispatcherInterface $eventDispatcher) {
++  public function __construct(private readonly InboundPathProcessorInterface $pathProcessor, ConfigFactoryInterface $configFactory, private readonly EventDispatcherInterface $eventDispatcher, private readonly EntityTypeManagerInterface $entityTypeManager) {
+     $config = $configFactory->get('entity_usage.settings');
+ 
+     // Convert site domains into a regex pattern.
+@@ -101,7 +102,8 @@ class UrlToEntity implements UrlToEntityInterface {
+       return NULL;
+     }
+ 
+-    if (preg_match(static::ENTITY_ROUTE_PATTERN, $url->getRouteName(), $matches)) {
++    $route_name = $url->getRouteName();
++    if (preg_match(static::ENTITY_ROUTE_PATTERN, $route_name, $matches)) {
+       $entity_type_id = $matches[1];
+       if ($this->isEntityTypeTracked($entity_type_id) && isset($url->getRouteParameters()[$entity_type_id])) {
+         return [
+@@ -110,6 +112,21 @@ class UrlToEntity implements UrlToEntityInterface {
+         ];
+       }
+     }
++    elseif (in_array($route_name, ['system.files', 'system.private_file_download'], TRUE) && $this->isEntityTypeTracked('file')) {
++      // Pick up private file references.
++      $scheme = $url->getRouteParameters()['scheme'] ?? 'private';
++      $target = $route_name === 'system.files' ? $url->getOption('query')['file'] : $url->getRouteParameters()['filepath'];
++      $file_uri = $scheme . '://' . $target;
++      $files = $this->entityTypeManager->getStorage('file')->loadByProperties(['uri' => $file_uri]);
++      if ($files) {
++        // File entity found.
++        $file = reset($files);
++        return [
++          'type' => 'file',
++          'id' => $file->id(),
++        ];
++      }
++    }
+ 
+     return NULL;
+   }
+diff --git a/src/UrlToEntityIntegrations/PublicFileIntegration.php b/src/UrlToEntityIntegrations/PublicFileIntegration.php
+index 464013b..d9d55cd 100644
+--- a/src/UrlToEntityIntegrations/PublicFileIntegration.php
++++ b/src/UrlToEntityIntegrations/PublicFileIntegration.php
+@@ -4,6 +4,7 @@ namespace Drupal\entity_usage\UrlToEntityIntegrations;
+ 
+ use Drupal\Core\Entity\EntityTypeManagerInterface;
+ use Drupal\Core\StreamWrapper\StreamWrapperInterface;
++use Drupal\Core\Url;
+ use Drupal\entity_usage\Events\Events;
+ use Drupal\entity_usage\Events\UrlToEntityEvent;
+ use Symfony\Component\DependencyInjection\Attribute\Autowire;
+@@ -19,6 +20,11 @@ class PublicFileIntegration implements EventSubscriberInterface {
+    */
+   private string $publicFilePattern;
+ 
++  /**
++   * The regex pattern to match file entity ID patterns.
++   */
++  private string $fileUriPattern;
++
+   public function __construct(
+     private readonly EntityTypeManagerInterface $entityTypeManager,
+     #[Autowire(service: 'stream_wrapper.public')]
+@@ -34,6 +40,9 @@ class PublicFileIntegration implements EventSubscriberInterface {
+       throw new \LogicException('The public stream wrapper does not provide a valid external URL.');
+     }
+ 
++    $filePathPrefix = Url::fromUri('internal:/file/')->toString();
++    $parsed = parse_url($filePathPrefix);
++    $this->fileUriPattern = '@^' . preg_quote($parsed['path'], '@') . '(?P<file>\d+)$@';
+   }
+ 
+   /**
+@@ -69,6 +78,15 @@ class PublicFileIntegration implements EventSubscriberInterface {
+         $event->setEntityInfo('file', reset($files));
+       }
+     }
++    elseif (preg_match($this->fileUriPattern, $url, $matches)) {
++      // Load the file from the ID.
++      $file = $this->entityTypeManager->getStorage('file')
++        ->load($matches['file']);
++      if ($file) {
++        // File entity found.
++        $event->setEntityInfo('file', $file->id());
++      }
++    }
+   }
+ 
+ }
+diff --git a/tests/src/FunctionalJavascript/ConfigurationFormTest.php b/tests/src/FunctionalJavascript/ConfigurationFormTest.php
+index c40e67f..2b84952 100644
+--- a/tests/src/FunctionalJavascript/ConfigurationFormTest.php
++++ b/tests/src/FunctionalJavascript/ConfigurationFormTest.php
+@@ -97,7 +97,6 @@ class ConfigurationFormTest extends EntityUsageJavascriptTestBase {
+         $tabs[$entity_type->id()] = $entity_type->getLabel();
+       }
+     }
+-    unset($content_entity_types['file']);
+     unset($content_entity_types['user']);
+ 
+     // Check the form is using the expected permission-based access.
+diff --git a/tests/src/Kernel/EntityUsageTrackFileTest.php b/tests/src/Kernel/EntityUsageTrackFileTest.php
+index 8e6a45d..8a32657 100644
+--- a/tests/src/Kernel/EntityUsageTrackFileTest.php
++++ b/tests/src/Kernel/EntityUsageTrackFileTest.php
+@@ -130,14 +130,14 @@ class EntityUsageTrackFileTest extends KernelTestBase {
+       'file' => [
+         $entity->get('image')->target_id => [
+           [
+-            'method' => 'entity_reference',
++            'method' => 'file_field',
+             'field_name' => 'image',
+             'count' => '1',
+           ],
+         ],
+         $entity->get('file')->target_id => [
+           [
+-            'method' => 'entity_reference',
++            'method' => 'file_field',
+             'field_name' => 'file',
+             'count' => '1',
+           ],

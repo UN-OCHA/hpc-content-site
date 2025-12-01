@@ -1,0 +1,629 @@
+diff --git a/core/modules/views/config/schema/views.field.schema.yml b/core/modules/views/config/schema/views.field.schema.yml
+index 065f2d78bcee6f4f785af9c313b16c8f02c934df..732905836ac9036c2466f65a526a43add7a043e8 100644
+--- a/core/modules/views/config/schema/views.field.schema.yml
++++ b/core/modules/views/config/schema/views.field.schema.yml
+@@ -84,6 +84,11 @@ views.field.links:
+ views.field.dropbutton:
+   type: views.field.links
+   label: 'Drop button'
++  mapping:
++    dropbutton_type:
++      type: string
++      label: 'Dropbutton type'
++      nullable: true
+
+ views.field.machine_name:
+   type: views_field
+diff --git a/core/modules/views/src/Plugin/views/field/Dropbutton.php b/core/modules/views/src/Plugin/views/field/Dropbutton.php
+index 7c1111be3d6bc8dbc5b512f82be78b420bfc3b5c..16d9f201734f1dfba25fb50b913b022d61593123 100644
+--- a/core/modules/views/src/Plugin/views/field/Dropbutton.php
++++ b/core/modules/views/src/Plugin/views/field/Dropbutton.php
+@@ -2,6 +2,7 @@
+
+ namespace Drupal\views\Plugin\views\field;
+
++use Drupal\Core\Form\FormStateInterface;
+ use Drupal\views\Attribute\ViewsField;
+ use Drupal\views\ResultRow;
+
+@@ -16,18 +17,47 @@ class Dropbutton extends Links {
+   /**
+    * {@inheritdoc}
+    */
+-  public function render(ResultRow $values) {
++  public function render(ResultRow $values): array|string {
+     $links = $this->getLinks();
+
+     if (!empty($links)) {
+       return [
+         '#type' => 'dropbutton',
++        '#dropbutton_type' => $this->options['dropbutton_type'] ?? '',
+         '#links' => $links,
+       ];
+     }
+-    else {
+-      return '';
+-    }
++
++    return '';
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function defineOptions(): array {
++    $options = parent::defineOptions();
++    $options['dropbutton_type'] = ['default' => ''];
++    return $options;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function buildOptionsForm(&$form, FormStateInterface $form_state): void {
++    parent::buildOptionsForm($form, $form_state);
++    // Add option to select the dropbutton type.
++    // @see \Drupal\Core\Render\Element\Dropbutton
++    $form['dropbutton_type'] = [
++      '#type' => 'select',
++      '#title' => $this->t('Dropbutton type'),
++      '#description' => $this->t('Select the dropbutton style type.'),
++      '#options' => [
++        '' => $this->t('Default'),
++        'small' => $this->t('Small'),
++        'extrasmall' => $this->t('Extra small'),
++      ],
++      '#default_value' => $this->options['dropbutton_type'] ?? '',
++    ];
+   }
+
+ }
+diff --git a/core/modules/views/src/ViewsConfigUpdater.php b/core/modules/views/src/ViewsConfigUpdater.php
+index 2bfa7deb2e22bf9b01c37b6998e3c0bacc1a9092..133fa11c7d6e77fbe8c82474ba80c787b154b118 100644
+--- a/core/modules/views/src/ViewsConfigUpdater.php
++++ b/core/modules/views/src/ViewsConfigUpdater.php
+@@ -84,6 +84,9 @@ public function updateAll(ViewEntityInterface $view) {
+       if ($this->processRssViewModeUpdate($view)) {
+         $changed = TRUE;
+       }
++      if ($this->processFieldHandlerDropbutton($handler, $handler_type)) {
++        $changed = TRUE;
++      }
+       return $changed;
+     });
+   }
+@@ -472,4 +475,41 @@ public function processRssViewModeUpdate(ViewEntityInterface $view, ?string $pre
+     return $changed;
+   }
+
++  /**
++   * Checks for dropbutton fields.
++   *
++   * @param \Drupal\views\ViewEntityInterface $view
++   *   The View to update.
++   *
++   * @return bool
++   *   TRUE if view has dropbutton field(s).
++   */
++  public function needsDropbuttonFieldUpdate(ViewEntityInterface $view): bool {
++    return $this->processDisplayHandlers($view, FALSE, function (&$handler, $handler_type) {
++      return $this->processFieldHandlerDropbutton($handler, $handler_type);
++    });
++  }
++
++  /**
++   * Updates dropbutton fields to set the default dropbutton_type.
++   *
++   * @param array $handler
++   *   A display handler.
++   * @param string $handler_type
++   *   The handler type.
++   *
++   * @return bool
++   *   Whether the handler was updated.
++   */
++  protected function processFieldHandlerDropbutton(array &$handler, string $handler_type): bool {
++    if ($handler_type === 'field' && isset($handler['id']) && $handler['id'] === 'dropbutton') {
++      // Set default dropbutton_type key value, if not set.
++      if (!isset($handler['dropbutton_type'])) {
++        $handler['dropbutton_type'] = '';
++        return TRUE;
++      }
++    }
++    return FALSE;
++  }
++
+ }
+diff --git a/core/modules/views/tests/fixtures/update/dropbutton-type.php b/core/modules/views/tests/fixtures/update/dropbutton-type.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..11760d511a8bb52dc32936f8373dafb7ef351683
+--- /dev/null
++++ b/core/modules/views/tests/fixtures/update/dropbutton-type.php
+@@ -0,0 +1,21 @@
++<?php
++
++/**
++ * @file
++ * Test fixture.
++ */
++
++use Drupal\Core\Database\Database;
++use Drupal\Component\Serialization\Yaml;
++
++$connection = Database::getConnection();
++
++$config = Yaml::decode(file_get_contents(__DIR__ . '/views.view.test_dropbutton_update.yml'));
++
++$connection->insert('config')
++  ->fields([
++    'collection' => '',
++    'name' => 'views.view.test_dropbutton_update',
++    'data' => serialize($config),
++  ])
++  ->execute();
+diff --git a/core/modules/views/tests/fixtures/update/views.view.test_dropbutton_update.yml b/core/modules/views/tests/fixtures/update/views.view.test_dropbutton_update.yml
+new file mode 100644
+index 0000000000000000000000000000000000000000..5c8ff5a44bc07a214a877f4f191ead56aec624e5
+--- /dev/null
++++ b/core/modules/views/tests/fixtures/update/views.view.test_dropbutton_update.yml
+@@ -0,0 +1,350 @@
++uuid: 6b9a3dba-03ce-4f55-b644-1dce0d234a1b
++langcode: en
++status: true
++dependencies:
++  module:
++    - node
++    - user
++id: test_dropbutton_update
++label: test_dropbutton_update
++module: views
++description: ''
++tag: ''
++base_table: node_field_data
++base_field: nid
++display:
++  default:
++    display_plugin: default
++    id: default
++    display_title: Default
++    position: null
++    display_options:
++      access:
++        type: perm
++        options:
++          perm: 'access content overview'
++      cache:
++        type: tag
++      query:
++        type: views_query
++      exposed_form:
++        type: basic
++      pager:
++        type: full
++        options:
++          items_per_page: 10
++      style:
++        type: default
++      row:
++        type: fields
++      fields:
++        nid:
++          id: nid
++          table: node_field_data
++          field: nid
++          plugin_id: field
++          relationship: none
++          group_type: group
++          admin_label: ''
++          label: Nid
++          exclude: true
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          entity_type: node
++          entity_field: nid
++        title:
++          id: title
++          table: node_field_data
++          field: title
++          plugin_id: field
++          label: ''
++          alter:
++            alter_text: false
++            make_link: true
++            path: node/{{nid}}
++            absolute: false
++            trim: false
++            word_boundary: false
++            ellipsis: false
++            strip_tags: false
++            html: false
++          hide_empty: false
++          empty_zero: false
++          type: string
++          settings:
++            link_to_entity: false
++          entity_type: node
++          entity_field: title
++        nothing:
++          id: nothing
++          table: views
++          field: nothing
++          plugin_id: custom
++          relationship: none
++          group_type: group
++          admin_label: ''
++          label: 'Custom text'
++          exclude: false
++          alter:
++            alter_text: true
++            text: 'Custom Text'
++            make_link: true
++            path: 'node/{{nid}}'
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: false
++        edit_node:
++          id: edit_node
++          table: node
++          field: edit_node
++          relationship: none
++          group_type: group
++          admin_label: ''
++          label: ''
++          exclude: true
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: false
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          text: edit
++          entity_type: node
++          plugin_id: entity_link_edit
++        delete_node:
++          id: delete_node
++          table: node
++          field: delete_node
++          relationship: none
++          group_type: group
++          admin_label: ''
++          label: ''
++          exclude: true
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: false
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          text: delete
++          entity_type: node
++          plugin_id: entity_link_delete
++        dropbutton:
++          id: dropbutton
++          table: views
++          field: dropbutton
++          relationship: none
++          plugin_id: dropbutton
++          group_type: group
++          admin_label: ''
++          label: Dropbutton
++          exclude: false
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          fields:
++            title: title
++            nothing: nothing
++            edit_node: edit_node
++            delete_node: delete_node
++            nid: '0'
++          destination: true
++      filters:
++        status:
++          value: '1'
++          table: node_field_data
++          field: status
++          id: status
++          plugin_id: boolean
++          expose:
++            operator: '0'
++          group: 1
++          entity_type: node
++          entity_field: status
++      sorts:
++        created:
++          id: created
++          table: node_field_data
++          field: created
++          order: DESC
++          plugin_id: date
++          entity_type: node
++          entity_field: created
++      title: test_dropbutton
++  page_1:
++    display_plugin: page
++    id: page_1
++    display_title: Page
++    position: null
++    display_options:
++      path: test-dropbutton
+diff --git a/core/modules/views/tests/modules/views_test_config/test_views/views.view.test_dropbutton.yml b/core/modules/views/tests/modules/views_test_config/test_views/views.view.test_dropbutton.yml
+index 9b0436538099b000d04d75a7a9fd8614ff2a5a4e..0dc4f9b6c1d04658374eeaf029f8b9ac0e94710f 100644
+--- a/core/modules/views/tests/modules/views_test_config/test_views/views.view.test_dropbutton.yml
++++ b/core/modules/views/tests/modules/views_test_config/test_views/views.view.test_dropbutton.yml
+@@ -318,6 +318,7 @@ display:
+             delete_node: delete_node
+             nid: '0'
+           destination: true
++          dropbutton_type: extrasmall
+       filters:
+         status:
+           value: '1'
+diff --git a/core/modules/views/tests/src/Functional/Handler/FieldDropButtonTest.php b/core/modules/views/tests/src/Functional/Handler/FieldDropButtonTest.php
+index ec6c4f779225ee0550d95ff7944f1fb0eaf03439..6e134178fcb8b8463759e032a9ee49e852a499c8 100644
+--- a/core/modules/views/tests/src/Functional/Handler/FieldDropButtonTest.php
++++ b/core/modules/views/tests/src/Functional/Handler/FieldDropButtonTest.php
+@@ -66,6 +66,14 @@ public function testDropbutton(): void {
+       $this->assertSession()->elementsCount('xpath', "//ul[contains(@class, dropbutton)]/li/a[contains(@href, '/node/{$node->id()}') and text()='Custom Text']", 1);
+     }
+
++    // Test that a dropbutton with the configured dropbutton_type was found,
++    // one for each node.
++    $this->assertSession()->elementsCount(
++      'xpath',
++      "//ul[contains(@class, 'dropbutton') and contains(@class, 'dropbutton--extrasmall')]",
++      5
++    );
++
+     // Check if the dropbutton.js library is available.
+     $this->drupalGet('admin/content');
+     $this->assertSession()->responseContains('dropbutton.js');
+diff --git a/core/modules/views/tests/src/Functional/Update/DropbuttonConfigUpdateTest.php b/core/modules/views/tests/src/Functional/Update/DropbuttonConfigUpdateTest.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..524c73ad4d1679d4d326be674eb97189c5acdd32
+--- /dev/null
++++ b/core/modules/views/tests/src/Functional/Update/DropbuttonConfigUpdateTest.php
+@@ -0,0 +1,53 @@
++<?php
++
++declare(strict_types=1);
++
++namespace Drupal\Tests\views\Functional\Update;
++
++use Drupal\FunctionalTests\Update\UpdatePathTestBase;
++use PHPUnit\Framework\Attributes\CoversFunction;
++use PHPUnit\Framework\Attributes\Group;
++use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
++use Drupal\views\Entity\View;
++
++/**
++ * Tests the Views dropbutton_type configuration update.
++ *
++ * @see views_post_update_dropbutton_type()
++ */
++#[Group('Update')]
++#[CoversFunction('views_post_update_dropbutton_type')]
++#[RunTestsInSeparateProcesses]
++class DropbuttonConfigUpdateTest extends UpdatePathTestBase {
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function setDatabaseDumpFiles(): void {
++    $this->databaseDumpFiles = [
++      __DIR__ . '/../../../../../system/tests/fixtures/update/drupal-10.3.0.filled.standard.php.gz',
++      __DIR__ . '/../../../fixtures/update/dropbutton-type.php',
++    ];
++  }
++
++  /**
++   * Tests updating the dropbutton_type field configuration.
++   */
++  public function testDropbuttonConfigUpdate(): void {
++    $view = View::load('test_dropbutton_update');
++    $data = $view->toArray();
++    $this->assertArrayNotHasKey('dropbutton_type', $data['display']['default']['display_options']['fields']['dropbutton'],
++      'Pre-update: dropbutton_type is not set.'
++    );
++
++    $this->runUpdates();
++
++    $view = View::load('test_dropbutton_update');
++    $data = $view->toArray();
++    // Ensure that the dropbutton_type key has been set.
++    $this->assertArrayHasKey('dropbutton_type', $data['display']['default']['display_options']['fields']['dropbutton'],
++      'Post-update: dropbutton_type has been set.'
++    );
++  }
++
++}
+diff --git a/core/modules/views/views.post_update.php b/core/modules/views/views.post_update.php
+index 0cb1267668d12333b1c1430ff9fc97ce9fd00388..a1c81370fdf6a68d7d5f7f447ff876a200af597d 100644
+--- a/core/modules/views/views.post_update.php
++++ b/core/modules/views/views.post_update.php
+@@ -122,3 +122,15 @@ function views_post_update_block_items_per_page(?array &$sandbox = NULL): void {
+       return FALSE;
+     });
+ }
++
++/**
++ * Adds a default dropbutton_type setting to Views using dropbutton fields.
++ */
++function views_post_update_dropbutton_type(?array &$sandbox = NULL): void {
++  /** @var \Drupal\views\ViewsConfigUpdater $view_config_updater */
++  $view_config_updater = \Drupal::classResolver(ViewsConfigUpdater::class);
++  $view_config_updater->setDeprecationsEnabled(FALSE);
++  \Drupal::classResolver(ConfigEntityUpdater::class)->update($sandbox, 'view', function (ViewEntityInterface $view) use ($view_config_updater): bool {
++    return $view_config_updater->needsDropbuttonFieldUpdate($view);
++  });
++}

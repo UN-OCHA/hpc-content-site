@@ -40,11 +40,6 @@ targetEntityType: node
 bundle: article
 mode: full
 content:
-  content_moderation_control:
-    settings: {  }
-    third_party_settings: {  }
-    weight: -20
-    region: content
   field_appeals:
     type: entity_reference_entity_view
     label: hidden
@@ -91,7 +86,7 @@ content:
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 0
+    weight: 1
     region: content
   title:
     type: string
@@ -99,7 +94,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: -5
+    weight: 0
     region: content
   workflow_buttons:
     settings: {  }
@@ -107,6 +102,7 @@ content:
     weight: 0
     region: content
 hidden:
+  content_moderation_control: true
   field_automatically_visible: true
   field_card_title: true
   field_computed_tags: true

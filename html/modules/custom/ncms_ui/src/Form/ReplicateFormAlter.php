@@ -9,6 +9,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Url;
 use Drupal\ncms_ui\ContentSpaceManager;
+use Drupal\ncms_ui\Entity\Content\Article;
 use Drupal\ncms_ui\Entity\Content\Document;
 use Drupal\ncms_ui\Entity\ContentSpaceAwareInterface;
 use Drupal\replicate\Replicator;
@@ -94,6 +95,34 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
       ]);
     }
 
+    if ($entity instanceof Article) {
+      if ($entity->hasSubArticles()) {
+        $form['replicate_subarticles'] = [
+          '#type' => 'container',
+          '#tree' => TRUE,
+        ];
+        $form['replicate_subarticles']['toggle'] = [
+          '#type' => 'checkbox',
+          '#title' => $this->t('Replicate sub articles as well'),
+          '#description' => $this->t('Checking this will create new copies of all the sub articles in the same content space as the replicated article. If unchecked, then an article replicated in the same content space will continue to link to the original sub articles, and an article replicated in a different content space will have the sub articles removed.'),
+        ];
+        $form['replicate_subarticles']['suffix'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Sub article title suffix'),
+          '#default_value' => '(Copy)',
+          '#description' => $this->t('Leaving blank will create all the replicated sub articles with the same title as the original sub articles.'),
+          '#states' => [
+            'visible' => [
+              ':input[name="replicate_subarticles[toggle]"]' => ['checked' => TRUE],
+            ],
+          ],
+        ];
+      }
+      $form['actions']['submit']['#submit'][] = [
+        self::class, 'submitProcessArticle',
+      ];
+    }
+
     if ($entity instanceof Document) {
       $form['replicate_content'] = [
         '#type' => 'container',
@@ -116,7 +145,7 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
         ],
       ];
       $form['actions']['submit']['#submit'][] = [
-        self::class, 'submitProcessDocumentArticles',
+        self::class, 'submitProcessDocument',
       ];
     }
 
@@ -147,17 +176,16 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
   }
 
   /**
-   * Custom submit handler to handle referenced articles.
+   * Custom submit handler for replication of documents.
+   *
+   * This also replicates referenced articles if necessary.
    *
    * @param array $form
    *   An associative array containing the structure of the form.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    */
-  public static function submitProcessDocumentArticles(array &$form, FormStateInterface $form_state): void {
-    $replicate_content = $form_state->getValue(['replicate_content', 'toggle']);
-    $article_suffix = trim($form_state->getValue(['replicate_content', 'suffix']) ?? '');
-
+  public static function submitProcessDocument(array &$form, FormStateInterface $form_state): void {
     // Get the reoplicated entity and check if it's a document.
     $replicated_entity = $form_state->get('replicated_entity');
     if (!$replicated_entity instanceof Document) {
@@ -165,8 +193,11 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
       return;
     }
 
+    $replicate_content = $form_state->getValue(['replicate_content', 'toggle']);
+    $article_suffix = trim($form_state->getValue(['replicate_content', 'suffix']) ?? '');
+
     if ($replicate_content) {
-      // The chapters of the replicated docuument have been replicated by the
+      // The chapters of the replicated document have been replicated by the
       // replicator, but we need to replicate all articles contained in each
       // chapter and replace them with the original articles, which also might
       // be in a different content space by now.
@@ -180,6 +211,8 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
             $article->set($label_key, $article->label() . ' ' . $article_suffix);
           }
           $replicated_article = $replicator->replicateEntity($article);
+          self::replicateSubarticles($replicated_article, $articles_count, $article_suffix);
+
           $chapter->replaceArticle($article, $replicated_article);
           $chapter->save();
           $articles_count++;
@@ -214,6 +247,69 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
   }
 
   /**
+   * Custom submit handler for replication of articles.
+   *
+   * This also replicates referenced sub articles if necessary.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   */
+  public static function submitProcessArticle(array &$form, FormStateInterface $form_state): void {
+    // Get the reoplicated entity and check if it's an article.
+    $replicated_entity = $form_state->get('replicated_entity');
+    if (!$replicated_entity instanceof Article) {
+      // We only support replication of referenced entities for articles here.
+      return;
+    }
+
+    $replicate_subarticles = $form_state->getValue([
+      'replicate_subarticles',
+      'toggle',
+    ]);
+    $article_suffix = trim($form_state->getValue([
+      'replicate_subarticles',
+      'suffix',
+    ]) ?? '');
+
+    if ($replicate_subarticles) {
+      // The paragraphs of the replicated article have been replicated by the
+      // replicator, but we need to replicate all sub articles contained in each
+      // sub article paragraph and replace the articles, which also might be in
+      // a different content space by now.
+      $articles_count = 0;
+      self::replicateSubarticles($replicated_entity, $articles_count, $article_suffix);
+
+      // Save the replicated article again to update the article references.
+      $replicated_entity->setNewRevision(FALSE);
+      $replicated_entity->setSyncing(TRUE);
+      $replicated_entity->save();
+
+      \Drupal::messenger()->addStatus(t('@count_articles sub articles have been replicated for %article_title', [
+        '@count_articles' => $articles_count,
+        '%article_title' => $replicated_entity->label(),
+      ]));
+    }
+
+    // If the article has been replicated into a different content space and
+    // content replication has not been requested, we need to remove all
+    // contained articles.
+    $different_content_space = self::submittedToDifferentContentSpace($form_state);
+    if ($different_content_space && !$replicate_subarticles) {
+      foreach ($replicated_entity->getSubArticleParagraphs() as $sub_article_paragraph) {
+        $sub_article_paragraph->delete();
+      }
+    }
+
+    // Update the document references and save again.
+    $replicated_entity->updateDocumentReferences();
+    $replicated_entity->setNewRevision(FALSE);
+    $replicated_entity->setSyncing(TRUE);
+    $replicated_entity->save();
+  }
+
+  /**
    * Check if the replication has been submitted to a different content space.
    *
    * @param \Drupal\Core\Form\FormStateInterface $form_state
@@ -230,6 +326,40 @@ class ReplicateFormAlter implements TrustedCallbackInterface {
       $form_state->set('different_content_space', $content_space_manager->getCurrentContentSpaceId() != $target_content_space);
     }
     return $form_state->get('different_content_space');
+  }
+
+  /**
+   * Replicate sub articles of the given article.
+   *
+   * @param \Drupal\ncms_ui\Entity\Content\Article $article
+   *   The article containing the sub article.
+   * @param int $articles_count
+   *   The count of updated articles.
+   * @param string $article_suffix
+   *   The suffix to use for replicated articles.
+   */
+  private static function replicateSubarticles(Article $article, int &$articles_count, string $article_suffix): void {
+    if (!$article->hasSubArticles()) {
+      return;
+    }
+    $replicator = self::getReplicator();
+    $label_key = $article->getEntityType()->getKey('label');
+    // If the article has sub articles, replicate these too.
+    foreach ($article->getSubArticleParagraphs() as $sub_article_paragraph) {
+      $sub_article = $sub_article_paragraph->getArticle();
+      if (!$sub_article) {
+        continue;
+      }
+      $sub_article->set($label_key, $sub_article->label() . ' ' . $article_suffix);
+      $replicated_sub_article = $replicator->replicateEntity($sub_article);
+      $sub_article_paragraph->setArticle($replicated_sub_article);
+      $sub_article_paragraph->save();
+      $articles_count++;
+
+      if ($sub_article->hasSubArticles()) {
+        self::replicateSubarticles($sub_article, $articles_count, $article_suffix);
+      }
+    }
   }
 
   /**

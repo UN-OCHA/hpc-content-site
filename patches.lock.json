@@ -1,0 +1,185 @@
+{
+    "_hash": "5efd0fb446b67e5eed31f2530a1bf4016c22d2104aa6bfdbcdaad10f4dfa0505",
+    "patches": {
+        "drupal/anonymous_login": [
+            {
+                "package": "drupal/anonymous_login",
+                "description": "Issue #3495893: Warning: foreach() argument must be of type array|object, string given",
+                "url": "https://www.drupal.org/files/issues/2025-01-13/3495893-7.patch",
+                "sha256": "4a8dc6c35f92df6b30c7ecdb035a7d6d9ea4535e28a36594b3691a316467556d",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/core": [
+            {
+                "package": "drupal/core",
+                "description": "Issue #2544110: XSS attribute filtering is inconsistent and strips valid attributes",
+                "url": "./patches/2544110-2025-01-08.patch",
+                "sha256": "a536b7418c76c09e27576ed461eed6887c876f04e461fe5f3105f019aa47bd12",
+                "depth": 2,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            },
+            {
+                "package": "drupal/core",
+                "description": "Issue #2546212: Entity view/form mode formatter/widget settings have no translation UI",
+                "url": "https://www.drupal.org/files/issues/2024-08-06/drupal-core-2546212-10.3-reroll-302.patch",
+                "sha256": "8054c049cc7c83ac219b1741b2435f04b2124aa737af1f6343bd71f323469346",
+                "depth": 2,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            },
+            {
+                "package": "drupal/core",
+                "description": "Issue #2329253: Allow the ChangedItem to skip updating the entity's changed timestamp when synchronizing (f.e. when migrating)",
+                "url": "https://www.drupal.org/files/issues/2024-07-30/2329253-10.x.patch",
+                "sha256": "316697156913cbfe5fd8017432f4f225c7516bd56da11b200c0b24a86e6a6594",
+                "depth": 2,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            },
+            {
+                "package": "drupal/core",
+                "description": "Issue #3274635: [upstream] Use CKEditor 5's native <ol type> and <ul type> UX",
+                "url": "https://www.drupal.org/files/issues/2024-08-11/3274635--ckeditor_list_styles-10.3.2--108.patch",
+                "sha256": "d128ce0ca9a10dd293ce0d8c73592a5a9c5fffacb425f59958eeade509076502",
+                "depth": 2,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            },
+            {
+                "package": "drupal/core",
+                "description": "Issue #3392572: strnatcasecmp(): Passing null to parameter #2 in LayoutPluginManager",
+                "url": "https://www.drupal.org/files/issues/2023-10-25/drupal-strnatcasecmp_string_only-3392572-10.patch",
+                "sha256": "7227ee7bc0055652d24591f60ec81b515580d4365ca8bf188b81440ad8499945",
+                "depth": 2,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            },
+            {
+                "package": "drupal/core",
+                "description": "Issue #3413079: Cannot read properties of null (reading 'nodeType') on node.page.body",
+                "url": "https://www.drupal.org/files/issues/2024-01-08/3413079-9.patch",
+                "sha256": "0096e4152c122fd34b633d9eb3631307535ad5e2ca921361f6d27604fa30d718",
+                "depth": 2,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            },
+            {
+                "package": "drupal/core",
+                "description": "Issue #3008292: ImageItem::getUploadValidators() should be the source of truth for validating uploaded images",
+                "url": "https://www.drupal.org/files/issues/2025-07-11/3008292-10.5x-108.patch",
+                "sha256": "650c60beed0d935d92d70c5545bf5d2cb3489c087f5f52281a8343c5e8e6fa2f",
+                "depth": 2,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/csp": [
+            {
+                "package": "drupal/csp",
+                "description": "Simplify log format",
+                "url": "./patches/csp-log-format.patch",
+                "sha256": "877a344f6715fbed03f9237659f484211e96fad61a6ead4d9f0e649d7d326b56",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/entity_browser": [
+            {
+                "package": "drupal/entity_browser",
+                "description": "Issue #3056057: Position the main form actions to the bottom of IFrame",
+                "url": "patches/entity_browser-position-main-form-actins-on-bottom-3056057-10.patch",
+                "sha256": "47811949b917f31063c53d064a106e7c440cc85bf46e0f475fac6bc3caac69cc",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/entity_browser_table": [
+            {
+                "package": "drupal/entity_browser_table",
+                "description": "Issue #3408217: Error: Call to a member function getStorage() on null",
+                "url": "https://www.drupal.org/files/issues/2023-12-21/3408217-error-call-to-member-function-getstorage-on-null.patch",
+                "sha256": "0830ab7477e6ff48cf1f958387bc6eb6b6fe3796831cdcd620d3a740b4348d1d",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/entity_reference_revisions": [
+            {
+                "package": "drupal/entity_reference_revisions",
+                "description": "Issue #2799479: Views doesn't recognize relationship to host",
+                "url": "patches/entity_reference_revisions-relationship_host_id-2799479-176.patch",
+                "sha256": "1d41186b45f839db2728ec93cd48a61ec7473cae119d00f71a31a9d463cba44a",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/field_group": [
+            {
+                "package": "drupal/field_group",
+                "description": "Issue #3395375: Duplicated required marks in field tabs with GIn admin theme",
+                "url": "https://www.drupal.org/files/issues/2024-08-06/3395375-6.patch",
+                "sha256": "a144ee4b6048645dc2454cf1a0973220835f2e1b901c0e9bc5f796af988a7627",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/openid_connect": [
+            {
+                "package": "drupal/openid_connect",
+                "description": "Handle case if user is in blocked state after SSO Authorization",
+                "url": "./patches/openid_connect-3390668-6.patch",
+                "sha256": "3dfdaf6593f62c629db9d4a8701ebb7bf8a6ae9f479c4d5d89e1799d37a5a422",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/openid_connect_windows_aad": [
+            {
+                "package": "drupal/openid_connect_windows_aad",
+                "description": "Failed to get authentication tokens for Windows Azure AD",
+                "url": "./patches/openid_connect_windows_aad-3346603-5.patch",
+                "sha256": "58e490a3bc1eaf6449ae204b3cdb0dd3e589b1209c124f4cac929da2d448472f",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/paragraphs_viewmode": [
+            {
+                "package": "drupal/paragraphs_viewmode",
+                "description": "Issue #3345123: entityViewModeAlter throws an exception in php 8.2",
+                "url": "https://www.drupal.org/files/issues/2023-03-01/paragraphs_viewmode-remove-context-parameter-3345123-2.patch",
+                "sha256": "746551a691127fd7ef7d7e597608baaced642d2b0603c581596f656d5088f886",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ]
+    }
+}

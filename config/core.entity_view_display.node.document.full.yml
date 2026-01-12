@@ -33,11 +33,6 @@ targetEntityType: node
 bundle: document
 mode: full
 content:
-  content_moderation_control:
-    settings: {  }
-    third_party_settings: {  }
-    weight: -20
-    region: content
   field_hero_image:
     type: entity_reference_entity_view
     label: hidden
@@ -70,6 +65,7 @@ content:
     weight: 0
     region: content
 hidden:
+  content_moderation_control: true
   field_articles: true
   field_automatically_visible: true
   field_caption: true

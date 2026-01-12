@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_ui\Plugin\views\field;
 
+use Drupal\Core\Entity\EntityPublishedInterface;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\ncms_ui\Plugin\views\ContentBaseField;
 use Drupal\views\Attribute\ViewsField;
@@ -17,17 +18,18 @@ class ContentStatusField extends ContentBaseField {
    * {@inheritdoc}
    */
   public function render(ResultRow $row) {
-    if (!$row->_entity instanceof ContentInterface) {
+    $entity = $row->_entity;
+    if (!$entity instanceof EntityPublishedInterface) {
       return NULL;
     }
     $build = [
       '#type' => 'html_tag',
       '#tag' => 'span',
-      '#value' => $row->_entity->getContentStatusLabel(),
+      '#value' => $entity instanceof ContentInterface ? $entity->getContentStatusLabel() : ($entity->isPublished() ? $this->t('Published') : $this->t('Not published')),
       '#attributes' => [
         'class' => array_filter([
           'marker',
-          $row->_entity->isPublished() ? 'marker--published' : NULL,
+          $entity->isPublished() ? 'marker--published' : NULL,
         ]),
       ],
     ];

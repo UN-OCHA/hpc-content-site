@@ -29,16 +29,13 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  translation:
-    weight: 10
-    region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
   created: true
   field_content_space: true
   field_media_oembed_video: true
   langcode: true
+  moderation_state: true
   path: true
   status: true
+  translation: true
   uid: true

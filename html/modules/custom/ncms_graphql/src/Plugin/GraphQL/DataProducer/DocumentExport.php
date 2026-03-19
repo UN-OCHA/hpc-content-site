@@ -39,7 +39,7 @@ class DocumentExport extends ContentExportBase {
    * @return \GraphQL\Deferred
    *   A promise.
    */
-  public function resolve(array $tags = NULL, FieldContext $context) {
+  public function resolve(?array $tags = NULL, FieldContext $context) {
 
     return new Deferred(function () use ($tags, $context) {
       $type = 'node';

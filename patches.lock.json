@@ -1,5 +1,5 @@
 {
-    "_hash": "7012d1a71f1c0bf3bbfd1581eedbc3c124abad8e8f37c079f0cc98d1f1633259",
+    "_hash": "701244b16b466ff3e2da4ba0953e69182193804fc4a0c187837d16ed89e8a862",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -133,12 +133,12 @@
                 }
             }
         ],
-        "drupal/field_group": [
+        "drupal/layout_paragraphs": [
             {
-                "package": "drupal/field_group",
-                "description": "Issue #3395375: Duplicated required marks in field tabs with GIn admin theme",
-                "url": "https://www.drupal.org/files/issues/2024-08-06/3395375-6.patch",
-                "sha256": "a144ee4b6048645dc2454cf1a0973220835f2e1b901c0e9bc5f796af988a7627",
+                "package": "drupal/layout_paragraphs",
+                "description": "Issue #3502083: Fix validation issues for automated testing",
+                "url": "https://www.drupal.org/files/issues/2025-09-23/fix-implicit-nullable-warnings-3502083-7.patch",
+                "sha256": "8f43786c2903c4c5607bf3d4d5957ab379793f405001ca0f27fb5e2a81f49747",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

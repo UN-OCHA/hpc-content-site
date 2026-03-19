@@ -46,7 +46,7 @@ class ViewController extends NodeViewController {
    * Using an iframe to be able to use the full frontend styling from links in
    * the backend.
    */
-  public function viewIframe(IframeDisplayContentInterface $node, ContentInterface $node_revision = NULL, $preview = FALSE) {
+  public function viewIframe(IframeDisplayContentInterface $node, ?ContentInterface $node_revision = NULL, $preview = FALSE) {
     // Iframe dimensions. The height is set initially, but is adjusted in the
     // client.
     $max_width = '100%';

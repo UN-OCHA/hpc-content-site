@@ -1,0 +1,96 @@
+diff --git a/css/entity_browser.entity_browser.css b/css/entity_browser.entity_browser.css
+index 90de87b..cee7876 100644
+--- a/css/entity_browser.entity_browser.css
++++ b/css/entity_browser.entity_browser.css
+@@ -6,3 +6,56 @@
+ .layout-container {
+   margin: 0 !important;
+ }
++
++.entity-browser-form {
++  /* IFrame scrolling is disabled because of iOS problems with IFrame height,
++     so we need to enable scrolling on form element it self.
++     Because form actions are rendered as position fixes bottom we will make
++     form height a bit smaller to to avoid any element goes behind the form
++     actions.
++     Note that this will not work good if we have more then one form action
++     button on the small screens. */
++  height: calc(100vh - 4em);
++  overflow-y: auto;
++}
++
++/* iOS will not show scrollbars in overflow elements. So we need to manually
++   turn them on. This will be applied for now for all touch devices with webkit
++   engine. See https://stackoverflow.com/a/17276376.
++   Do note that it is possible that this is fixed in webkit recently and it
++   should be possible that we will be able to just use
++   -webkit-overflow-scrolling: touch for iOS and iPad.
++   See https://bugs.webkit.org/show_bug.cgi?id=158342
++ */
++@media (pointer:coarse) {
++  .entity-browser-form::-webkit-scrollbar {
++    -webkit-appearance: none;
++    width: 2px;
++  }
++  .entity-browser-form::-webkit-scrollbar-thumb {
++    border-radius: 4px;
++    background-color: rgba(0, 0, 0, .5);
++    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
++  }
++}
++
++/* Use first level child selector to avoid applying this rules to exposed
++ *  filters actions. */
++.entity-browser-form > .form-actions {
++  box-sizing: border-box;
++  position: fixed;
++  /* Increase the z-index so they are rendered above .entities-list which is
++     injected after form actions. */
++  z-index: 1;
++  bottom: 0;
++  width: 100%;
++  margin: 0;
++  padding: 10px;
++  background: #f5f5f2;
++}
++@media only screen and (min-width: 595px) {
++  /* Stack form actions horizontally. */
++  .entity-browser-form > .form-actions {
++    display: flex;
++  }
++}
+diff --git a/css/entity_browser.modal.css b/css/entity_browser.modal.css
+index c81687e..fc607a0 100644
+--- a/css/entity_browser.modal.css
++++ b/css/entity_browser.modal.css
+@@ -10,6 +10,13 @@
+   display: block;
+ }
+ 
++.entity-browser-modal.ui-dialog {
++  /* Switch to fixed position so modal does not move when parent body is
++     scrolled. This can happen on iOS when you scroll over beginning or end of
++     modal. */
++  position: fixed;
++}
++
+ /** Prevent div wrapper to have height bigger then dialog content height. */
+ .entity-browser-modal .ui-dialog-content > * {
+   max-height: 100%;
+diff --git a/src/Plugin/EntityBrowser/Display/Modal.php b/src/Plugin/EntityBrowser/Display/Modal.php
+index 9070886..fc961ae 100644
+--- a/src/Plugin/EntityBrowser/Display/Modal.php
++++ b/src/Plugin/EntityBrowser/Display/Modal.php
+@@ -122,6 +122,12 @@ class Modal extends IFrame {
+         'style' => 'padding:0; position:relative; z-index:10002;',
+         'name' => $name,
+         'id' => $name,
++        // iOS Safari will auto-expend the height of IFrame to fit the page
++        // content inside of it.
++        // We need to add scrolling="no" attribute to entity browser modal
++        // IFrame because of iOS problems and iframe height.
++        // See https://stackoverflow.com/a/34320508.
++        'scrolling' => 'no',
+       ],
+     ];
+     if (!empty($this->configuration['height']) && is_numeric($this->configuration['height']) && $this->configuration['height'] > 90) {

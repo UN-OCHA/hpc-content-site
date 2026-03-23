@@ -44,18 +44,6 @@
     "dnoegel/php-xdg-base-dir": {
         "version": "v0.1.1"
     },
-    "doctrine/annotations": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "a2759dd6123694c8d901d0ec80006e044c2e6457"
-        },
-        "files": [
-            "config/routes/annotations.yaml"
-        ]
-    },
     "doctrine/deprecations": {
         "version": "1.1",
         "recipe": {
@@ -402,9 +390,6 @@
             "phpunit.xml.dist",
             "tests/bootstrap.php"
         ]
-    },
-    "psr/cache": {
-        "version": "1.0.1"
     },
     "psr/container": {
         "version": "1.0.0"

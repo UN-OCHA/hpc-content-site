@@ -41,7 +41,7 @@ trait ContentSpaceEntityTrait {
    * @return bool
    *   TRUE if the account has access, FALSE otherwise.
    */
-  public function hasContentSpaceAccess(AccountInterface $account = NULL) {
+  public function hasContentSpaceAccess(?AccountInterface $account = NULL) {
     if (!$account) {
       $account = \Drupal::currentUser();
     }

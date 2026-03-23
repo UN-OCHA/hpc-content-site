@@ -47,7 +47,7 @@ class GhoMenuLinkTreeManipulators extends DefaultMenuLinkTreeManipulators {
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager.
    */
-  public function __construct(AccessManagerInterface $access_manager, AccountInterface $account, EntityTypeManagerInterface $entity_type_manager, ModuleHandlerInterface $module_handler = NULL, LanguageManagerInterface $language_manager) {
+  public function __construct(AccessManagerInterface $access_manager, AccountInterface $account, EntityTypeManagerInterface $entity_type_manager, ?ModuleHandlerInterface $module_handler = NULL, LanguageManagerInterface $language_manager) {
     $this->accessManager = $access_manager;
     $this->account = $account;
     $this->entityTypeManager = $entity_type_manager;

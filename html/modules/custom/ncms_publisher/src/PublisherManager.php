@@ -105,7 +105,7 @@ class PublisherManager {
     }
     if (!$publisher->isKnownHost($host)) {
       return NULL;
-    };
+    }
     return $publisher_destination;
   }
 

@@ -23,7 +23,7 @@ content:
     weight: 0
     region: content
   field_computed_tags:
-    type: computed_string
+    type: text
     label: inline
     settings:
       sanitized: true

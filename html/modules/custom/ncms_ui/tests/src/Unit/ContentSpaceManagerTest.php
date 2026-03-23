@@ -156,7 +156,7 @@ class ContentSpaceManagerTest extends UnitTestCase {
    * @return Drupal\ncms_ui\ContentSpaceManager
    *   The content space manager service.
    */
-  private function getContentSpaceManager($uid = 1, array $user_permissions = NULL, array $content_spaces = NULL, $current_content_space_id = NULL, array $user_content_space_ids = NULL) {
+  private function getContentSpaceManager(int $uid = 1, ?array $user_permissions = NULL, ?array $content_spaces = NULL, ?int $current_content_space_id = NULL, ?array $user_content_space_ids = NULL) {
     $account = $this->prophesize(AccountInterface::class);
     $account->id()->willReturn($uid);
     $user = $this->prophesize(UserInterface::class);

@@ -26,11 +26,12 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
+  add_more_label: ''
   field_settings:
     label:
+      check_empty: false
       type: text
       weight: 0
-      check_empty: false
       widget_settings:
         label: Label
         settings:
@@ -44,9 +45,9 @@ settings:
           suffix: ''
           required: false
     value:
+      check_empty: false
       type: text
       weight: 0
-      check_empty: false
       widget_settings:
         label: Value
         settings:
@@ -60,9 +61,9 @@ settings:
           suffix: ''
           required: false
     footnote:
+      check_empty: false
       type: text
       weight: 0
-      check_empty: false
       widget_settings:
         label: Footnote
         settings:

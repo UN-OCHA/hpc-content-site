@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "613ec408e9bac09e85df0477a5d3ab4c",
+    "content-hash": "5be85b60f2d1236cb49e9ef2ec948012",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1487,26 +1487,29 @@
         },
         {
             "name": "drupal/allowed_formats",
-            "version": "2.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/allowed_formats.git",
-                "reference": "2.0.0"
+                "reference": "3.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/allowed_formats-2.0.0.zip",
-                "reference": "2.0.0",
-                "shasum": "ac6c6d398f303608ced7e9cd9d4556a728dc41f0"
+                "url": "https://ftp.drupal.org/files/projects/allowed_formats-3.0.1.zip",
+                "reference": "3.0.1",
+                "shasum": "9dfaed3ab8425ee94146914fdb492cefc6c6bb4d"
             },
             "require": {
-                "drupal/core": "^9.2 || ^10"
+                "drupal/core": "^10.1 || ^11"
+            },
+            "conflict": {
+                "drupal/core": "<10.1.0"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.0",
-                    "datestamp": "1669170410",
+                    "version": "3.0.1",
+                    "datestamp": "1723158950",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -1539,7 +1542,7 @@
                     "role": "Maintainer"
                 }
             ],
-            "description": "Limit which text formats are available for each field instance.",
+            "description": "Hides info about the selected text format. The 'allowed formats' functionality has been moved to core since Drupal 10.1.0.",
             "homepage": "https://www.drupal.org/project/allowed_formats",
             "support": {
                 "source": "http://cgit.drupalcode.org/allowed_formats",
@@ -1717,27 +1720,27 @@
         },
         {
             "name": "drupal/classy",
-            "version": "1.0.2",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/classy.git",
-                "reference": "1.0.2"
+                "reference": "2.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/classy-1.0.2.zip",
-                "reference": "1.0.2",
-                "shasum": "c2f4fbfd9ae7d4e0cbd952d96247d00a0759da06"
+                "url": "https://ftp.drupal.org/files/projects/classy-2.0.0.zip",
+                "reference": "2.0.0",
+                "shasum": "d1aade177c5735c3de953b00d3ade323ca711db1"
             },
             "require": {
-                "drupal/core": "^9 || ^10",
-                "drupal/stable": "^2.0.0"
+                "drupal/core": "^10.3 || ^11",
+                "drupal/stable": "^2.1"
             },
             "type": "drupal-theme",
             "extra": {
                 "drupal": {
-                    "version": "1.0.2",
-                    "datestamp": "1663949784",
+                    "version": "2.0.0",
+                    "datestamp": "1744243951",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -1903,72 +1906,6 @@
             }
         },
         {
-            "name": "drupal/config_filter",
-            "version": "1.13.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/config_filter.git",
-                "reference": "8.x-1.13"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/config_filter-8.x-1.13.zip",
-                "reference": "8.x-1.13",
-                "shasum": "d9f83dbeaeaa1a1788368219a6e530f6b681459b"
-            },
-            "require": {
-                "drupal/core": "^8.8 || ^9 || ^10 || ^11"
-            },
-            "suggest": {
-                "drupal/config_split": "Split site configuration for different environments."
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.13",
-                    "datestamp": "1727472406",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Fabian Bircher",
-                    "homepage": "https://www.drupal.org/u/bircher",
-                    "email": "opensource@fabianbircher.com",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "Nuvole Web",
-                    "homepage": "http://nuvole.org",
-                    "email": "info@nuvole.org",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "pescetti",
-                    "homepage": "https://www.drupal.org/user/436244"
-                }
-            ],
-            "description": "Config Filter allows other modules to interact with a ConfigStorage through filter plugins.",
-            "homepage": "https://www.drupal.org/project/config_filter",
-            "keywords": [
-                "Drupal",
-                "configuration",
-                "configuration management"
-            ],
-            "support": {
-                "source": "https://git.drupalcode.org/project/config_filter",
-                "issues": "https://www.drupal.org/project/issues/config_filter",
-                "slack": "https://drupal.slack.com/archives/C45342CDD"
-            }
-        },
-        {
             "name": "drupal/config_ignore",
             "version": "3.3.0",
             "source": {
@@ -2034,27 +1971,26 @@
         },
         {
             "name": "drupal/config_split",
-            "version": "1.10.0",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/config_split.git",
-                "reference": "8.x-1.10"
+                "reference": "2.0.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/config_split-8.x-1.10.zip",
-                "reference": "8.x-1.10",
-                "shasum": "634b04afb920100ff7022066554253635e30dd77"
+                "url": "https://ftp.drupal.org/files/projects/config_split-2.0.2.zip",
+                "reference": "2.0.2",
+                "shasum": "efde01f790ca6f6023982e918fe51740da931d3e"
             },
             "require": {
-                "drupal/config_filter": "^1",
-                "drupal/core": "^9.3 || ^10"
+                "drupal/core": "^8.8 || ^9 || ^10 || ^11"
             },
             "conflict": {
-                "drupal/console": "<1.3.2"
+                "drush/drush": "<10"
             },
             "require-dev": {
-                "drush/drush": "*"
+                "drupal/config_filter": "^1||^2"
             },
             "suggest": {
                 "drupal/chosen": "Chosen uses the Chosen jQuery plugin to make the <select> elements more user-friendly.",
@@ -2063,8 +1999,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.10",
-                    "datestamp": "1739381813",
+                    "version": "2.0.2",
+                    "datestamp": "1739381800",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2072,7 +2008,7 @@
                 },
                 "drush": {
                     "services": {
-                        "drush.services.yml": "^9 || ^10 || ^11"
+                        "drush.services.yml": "^10 || ^11"
                     }
                 }
             },
@@ -2452,27 +2388,26 @@
         },
         {
             "name": "drupal/csp",
-            "version": "1.40.0",
+            "version": "2.2.2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/csp.git",
-                "reference": "8.x-1.40"
+                "reference": "2.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/csp-8.x-1.40.zip",
-                "reference": "8.x-1.40",
-                "shasum": "37f39e13f9afce4ac4a67c207ae0659b924c1e99"
+                "url": "https://ftp.drupal.org/files/projects/csp-2.2.2.zip",
+                "reference": "2.2.2",
+                "shasum": "4ae305859e6997c62296ddbeee480ba619557fe8"
             },
             "require": {
-                "drupal/core": "^10.1.3 || ^11",
-                "ext-json": "*"
+                "drupal/core": "^10.2 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.40",
-                    "datestamp": "1741745877",
+                    "version": "2.2.2",
+                    "datestamp": "1741822236",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2594,27 +2529,27 @@
         },
         {
             "name": "drupal/custom_field",
-            "version": "3.1.16",
+            "version": "4.0.6",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/custom_field.git",
-                "reference": "3.1.16"
+                "reference": "4.0.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/custom_field-3.1.16.zip",
-                "reference": "3.1.16",
-                "shasum": "ad7eba4d213cd02f21430bbf6bc07c822f568d84"
+                "url": "https://ftp.drupal.org/files/projects/custom_field-4.0.6.zip",
+                "reference": "4.0.6",
+                "shasum": "2cb2b318a0107e0e28d4c42ea4d38e9a10c28b41"
             },
             "require": {
-                "drupal/core": "~10.3"
+                "drupal/core": "^10.3 || ^11"
             },
             "require-dev": {
                 "drupal/ai": "^1.2",
                 "drupal/entity_browser": "^2",
                 "drupal/entity_usage": "^2",
                 "drupal/feeds": "^3",
-                "drupal/graphql_compose": "^2",
+                "drupal/graphql_compose": "2.4.x-dev",
                 "drupal/linkit": "^6.1 || ^7",
                 "drupal/paragraphs": "^1",
                 "drupal/search_api": "^1",
@@ -2624,8 +2559,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "3.1.16",
-                    "datestamp": "1756499046",
+                    "version": "4.0.6",
+                    "datestamp": "1773263041",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2634,7 +2569,7 @@
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -2974,30 +2909,27 @@
         },
         {
             "name": "drupal/entity_browser_table",
-            "version": "1.4.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/entity_browser_table.git",
-                "reference": "8.x-1.4"
+                "reference": "2.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/entity_browser_table-8.x-1.4.zip",
-                "reference": "8.x-1.4",
-                "shasum": "9272f52b015f5ca0d532e111926bfd71f826c5cf"
+                "url": "https://ftp.drupal.org/files/projects/entity_browser_table-2.0.1.zip",
+                "reference": "2.0.1",
+                "shasum": "7dcb6b8999d62634a2fccc1a074662d7f02e7956"
             },
             "require": {
-                "drupal/core": "^8 || ^9 || ^10",
-                "drupal/entity_browser": "~2.9"
-            },
-            "require-dev": {
-                "drupal/media": "*"
+                "drupal/core": "^10.3 || ^11",
+                "drupal/entity_browser": "^2.15"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.4",
-                    "datestamp": "1678795945",
+                    "version": "2.0.1",
+                    "datestamp": "1772567379",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3021,7 +2953,7 @@
             "description": "Creates a new Entity Browser display widget to display referenced content as a table.",
             "homepage": "https://www.drupal.org/project/entity_browser_table",
             "support": {
-                "source": "http://cgit.drupalcode.org/entity_browser_table",
+                "source": "https://cgit.drupalcode.org/entity_browser_table",
                 "issues": "https://www.drupal.org/project/issues/entity_browser_table"
             }
         },
@@ -3221,26 +3153,29 @@
         },
         {
             "name": "drupal/field_config_cardinality",
-            "version": "3.0.1",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/field_config_cardinality.git",
-                "reference": "3.0.1"
+                "reference": "4.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/field_config_cardinality-3.0.1.zip",
-                "reference": "3.0.1",
-                "shasum": "47a2d933514464bea620617eb2ec34988b60ce37"
+                "url": "https://ftp.drupal.org/files/projects/field_config_cardinality-4.0.1.zip",
+                "reference": "4.0.1",
+                "shasum": "2fe63cb1736ae824c92402e431f841c9f4d792ba"
             },
             "require": {
-                "drupal/core": "^9 || ^10"
+                "drupal/core": "^10.3 || ^11"
+            },
+            "require-dev": {
+                "drupal/inline_entity_form": "^3.0 || ^3.0RC"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "3.0.1",
-                    "datestamp": "1680866025",
+                    "version": "4.0.1",
+                    "datestamp": "1753654965",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3297,7 +3232,7 @@
                     "homepage": "https://www.drupal.org/user/1942204"
                 }
             ],
-            "description": "Allow apply cardinality on Field Config (Cardinality Instance)",
+            "description": "Allows the cardinality of specific config fields to be overridden.",
             "homepage": "https://www.drupal.org/project/field_config_cardinality",
             "support": {
                 "source": "https://git.drupalcode.org/project/field_config_cardinality"
@@ -3560,30 +3495,42 @@
         },
         {
             "name": "drupal/google_tag",
-            "version": "1.8.0",
+            "version": "2.0.9",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/google_tag.git",
-                "reference": "8.x-1.8"
+                "reference": "2.0.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/google_tag-8.x-1.8.zip",
-                "reference": "8.x-1.8",
-                "shasum": "13c95050a0d1b19ae1178636b2cc56217073b23e"
+                "url": "https://ftp.drupal.org/files/projects/google_tag-2.0.9.zip",
+                "reference": "2.0.9",
+                "shasum": "78749a4520f6d89ca374061ac4f85f561118b3f1"
             },
             "require": {
-                "drupal/core": "^8.8 || ^9 || ^10"
+                "drupal/core": "^9.5 || ^10 || ^11"
+            },
+            "require-dev": {
+                "drupal/commerce": "^2.0 || ^3.0",
+                "drupal/commerce_wishlist": "^3.0@beta",
+                "drupal/csp": "^1.0 || ~2.1.1",
+                "drupal/google_analytics": "^4.0",
+                "drupal/search_api": "^1.28.0",
+                "drupal/token": "^1.11.0",
+                "drupal/webform": "^6.0"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.8",
-                    "datestamp": "1738172701",
+                    "version": "2.0.9",
+                    "datestamp": "1756130983",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "branch-alias": {
+                    "dev-main": "2.x-dev"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -3612,7 +3559,7 @@
                     "homepage": "https://www.drupal.org/user/240748"
                 }
             ],
-            "description": "Allows your website analytics to be managed using Google Tag Manager.",
+            "description": "Provides support for Google Tag and Google Tag Manager in Drupal.",
             "homepage": "https://www.drupal.org/project/google_tag",
             "support": {
                 "source": "https://git.drupalcode.org/project/google_tag"
@@ -4336,26 +4283,26 @@
         },
         {
             "name": "drupal/maxlength",
-            "version": "2.1.6",
+            "version": "3.1.3",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/maxlength.git",
-                "reference": "2.1.6"
+                "reference": "3.1.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/maxlength-2.1.6.zip",
-                "reference": "2.1.6",
-                "shasum": "f58a36a8138792895e55b90dc0b1d8b3abc328e4"
+                "url": "https://ftp.drupal.org/files/projects/maxlength-3.1.3.zip",
+                "reference": "3.1.3",
+                "shasum": "7f063d0a449eda6bc499a718a09d1091907ef054"
             },
             "require": {
-                "drupal/core": "^9.5 || ^10"
+                "drupal/core": "^10 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.1.6",
-                    "datestamp": "1756373151",
+                    "version": "3.1.3",
+                    "datestamp": "1756373060",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4398,8 +4345,9 @@
                     "role": "Maintainer"
                 },
                 {
-                    "name": "srdtwc",
-                    "homepage": "https://www.drupal.org/user/3422763"
+                    "name": "Adam Nagy (joevagyok)",
+                    "homepage": "https://www.drupal.org/u/joevagyok",
+                    "role": "Maintainer"
                 }
             ],
             "description": "MaxLength allows a soft or hard character limit to be set on titles, text fields and link fields.",
@@ -5113,20 +5061,20 @@
         },
         {
             "name": "drupal/reference_table_formatter",
-            "version": "1.2.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/reference_table_formatter.git",
-                "reference": "8.x-1.2"
+                "reference": "2.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/reference_table_formatter-8.x-1.2.zip",
-                "reference": "8.x-1.2",
-                "shasum": "b92c02306dc66ec99f99d0e0c5383359c92c501c"
+                "url": "https://ftp.drupal.org/files/projects/reference_table_formatter-2.0.0.zip",
+                "reference": "2.0.0",
+                "shasum": "80a01bb8fb5f8864df688268640d9aef8c9c1945"
             },
             "require": {
-                "drupal/core": "^8.8 || ^9 || ^10"
+                "drupal/core": "^10.1 || ^11"
             },
             "require-dev": {
                 "drupal/paragraphs": "*"
@@ -5134,8 +5082,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.2",
-                    "datestamp": "1670762251",
+                    "version": "2.0.0",
+                    "datestamp": "1747944596",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -5625,65 +5573,6 @@
             }
         },
         {
-            "name": "drupal/social_auth_hid",
-            "version": "4.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/social_auth_hid.git",
-                "reference": "8.x-4.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/social_auth_hid-8.x-4.0.zip",
-                "reference": "8.x-4.0",
-                "shasum": "c4c9bcfd327f5ca7165f00d8d4098aedda51a2c6"
-            },
-            "require": {
-                "drupal/core": "^9 || ^10",
-                "drupal/social_auth": "^4.0",
-                "un-ocha/oauth2-hid": "^1.0.2"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-4.0",
-                    "datestamp": "1695109966",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Guillaume Viguier-Just (guillaumev)",
-                    "homepage": "https://www.drupal.org/user/105002",
-                    "email": "guillaume@gvj-web.com"
-                },
-                {
-                    "name": "guillaumev",
-                    "homepage": "https://www.drupal.org/user/849890"
-                },
-                {
-                    "name": "orakili",
-                    "homepage": "https://www.drupal.org/user/1287634"
-                }
-            ],
-            "description": "Social Auth integration for Humanitarian ID.",
-            "homepage": "https://www.drupal.org/project/social_auth_hid",
-            "keywords": [
-                "Drupal"
-            ],
-            "support": {
-                "source": "http://cgit.drupalcode.org/social_auth_hid",
-                "issues": "https://www.drupal.org/project/issues/social_auth_hid"
-            }
-        },
-        {
             "name": "drupal/sophron",
             "version": "2.2.1",
             "source": {
@@ -5993,26 +5882,26 @@
         },
         {
             "name": "drupal/taxonomy_term_depth",
-            "version": "2.6.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/taxonomy_term_depth.git",
-                "reference": "8.x-2.6"
+                "reference": "3.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/taxonomy_term_depth-8.x-2.6.zip",
-                "reference": "8.x-2.6",
-                "shasum": "767bccb9dc06bb6d89872bc38943c89b09f75a03"
+                "url": "https://ftp.drupal.org/files/projects/taxonomy_term_depth-3.0.1.zip",
+                "reference": "3.0.1",
+                "shasum": "e769bb10d23359c8dc68acdbdd83d82e4c939573"
             },
             "require": {
-                "drupal/core": "^8 || ^9 || ^10"
+                "drupal/core": "^10.3 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-2.6",
-                    "datestamp": "1684849556",
+                    "version": "3.0.1",
+                    "datestamp": "1743600171",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -6021,7 +5910,7 @@
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -11745,64 +11634,6 @@
                 }
             ],
             "time": "2025-12-14T11:28:47+00:00"
-        },
-        {
-            "name": "un-ocha/oauth2-hid",
-            "version": "v1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/UN-OCHA/oauth2-hid.git",
-                "reference": "8589bd00d692d6e1977644537e0f30069084a2c0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/UN-OCHA/oauth2-hid/zipball/8589bd00d692d6e1977644537e0f30069084a2c0",
-                "reference": "8589bd00d692d6e1977644537e0f30069084a2c0",
-                "shasum": ""
-            },
-            "require": {
-                "league/oauth2-client": "^2.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "League\\OAuth2\\Client\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Guillaume Viguier-Just",
-                    "email": "guillaume@gvj-web.com"
-                }
-            ],
-            "description": "Humanitarian ID OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
-            "keywords": [
-                "authorisation",
-                "authorization",
-                "client",
-                "humanitarian id",
-                "oauth",
-                "oauth2"
-            ],
-            "support": {
-                "issues": "https://github.com/UN-OCHA/oauth2-hid/issues",
-                "source": "https://github.com/UN-OCHA/oauth2-hid/tree/v1.0.2"
-            },
-            "time": "2019-10-01T10:01:54+00:00"
         },
         {
             "name": "unocha/common_design",

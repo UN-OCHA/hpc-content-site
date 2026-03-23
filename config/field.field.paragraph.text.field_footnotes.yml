@@ -11,9 +11,6 @@ dependencies:
     - field_config_cardinality
     - text
 third_party_settings:
-  allowed_formats:
-    allowed_formats:
-      - footnotes
   field_config_cardinality:
     cardinality_config: '1'
     cardinality_label_config: false

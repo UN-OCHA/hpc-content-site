@@ -1,5 +1,5 @@
 {
-    "_hash": "701244b16b466ff3e2da4ba0953e69182193804fc4a0c187837d16ed89e8a862",
+    "_hash": "d0c0719bd771d2fc744cb95e854f2911264ece8f63557e2a6632b9862f7c4654",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -85,36 +85,12 @@
                 }
             }
         ],
-        "drupal/csp": [
-            {
-                "package": "drupal/csp",
-                "description": "Simplify log format",
-                "url": "./patches/csp-log-format.patch",
-                "sha256": "877a344f6715fbed03f9237659f484211e96fad61a6ead4d9f0e649d7d326b56",
-                "depth": 1,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            }
-        ],
         "drupal/entity_browser": [
             {
                 "package": "drupal/entity_browser",
                 "description": "Issue #3056057: Position the main form actions to the bottom of IFrame",
                 "url": "patches/entity_browser-position-main-form-actins-on-bottom-3056057-10.patch",
                 "sha256": "47811949b917f31063c53d064a106e7c440cc85bf46e0f475fac6bc3caac69cc",
-                "depth": 1,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            }
-        ],
-        "drupal/entity_browser_table": [
-            {
-                "package": "drupal/entity_browser_table",
-                "description": "Issue #3408217: Error: Call to a member function getStorage() on null",
-                "url": "https://www.drupal.org/files/issues/2023-12-21/3408217-error-call-to-member-function-getstorage-on-null.patch",
-                "sha256": "0830ab7477e6ff48cf1f958387bc6eb6b6fe3796831cdcd620d3a740b4348d1d",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

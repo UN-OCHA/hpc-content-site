@@ -27,7 +27,7 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
   /**
    * {@inheritdoc}
    */
-  public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
+  public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state): array {
     $element = parent::formElement($items, $delta, $element, $form, $form_state);
     $element['current']['#weight'] = -1;
     return $element;
@@ -46,7 +46,7 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
    * @return array
    *   The render array for the current selection.
    */
-  protected function displayCurrentSelection($details_id, array $field_parents, array $entities) {
+  protected function displayCurrentSelection($details_id, array $field_parents, array $entities): array {
     $entity_browser = $this->getEntityBrowser();
     $add_more_button_label = $entity_browser->getDisplay()->getConfiguration()['link_text'];
     $empty_text_args = [
@@ -74,7 +74,7 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
         ],
         '#empty' => $empty_text,
       ];
-      return array_merge($table, $this->buildTableRows($entities, $details_id, $field_parents));
+      return array_merge($table, $this->buildTableRows($details_id, $field_parents, $entities));
     }
     catch (PluginException $exception) {
       \Drupal::logger('Entity Browser - Table Display')
@@ -103,7 +103,7 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
       $this->isSortable() ? '' : NULL,
       $this->getFirstColumnHeader(),
       $this->canShowTags() ? $this->t('Tags') : NULL,
-      $this->getAdditionalFieldColumnHeader(),
+      $this->getAdditionalFieldsColumnHeader(),
       $this->getActionColumnHeader(),
     ]);
   }
@@ -111,7 +111,7 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
   /**
    * {@inheritdoc}
    */
-  public function buildTableRows(array $entities, $details_id, $field_parents) {
+  public function buildTableRows(string $details_id, array $field_parents, array $entities): array {
     /** @var \Drupal\entity_browser\FieldWidgetDisplayInterface $field_widget_display */
     $field_widget_display = $this->getFieldWidgetDisplay();
 

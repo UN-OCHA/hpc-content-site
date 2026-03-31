@@ -3,9 +3,6 @@
 namespace Drupal\ncms_graphql\Plugin\GraphQL\DataProducer;
 
 use Drupal\graphql\GraphQL\Execution\FieldContext;
-use Drupal\ncms_graphql\Wrappers\ContentExportWrapper;
-use Drupal\node\NodeInterface;
-use GraphQL\Deferred;
 
 /**
  * Load all exportable documents.
@@ -31,41 +28,16 @@ class DocumentExport extends ContentExportBase {
   /**
    * Resolver.
    *
-   * @param array $tags
-   *   The tags to search for.
+   * @param string[] $tags
+   *   Optional tags to search for.
    * @param \Drupal\graphql\GraphQL\Execution\FieldContext $context
    *   A context object.
    *
    * @return \GraphQL\Deferred
    *   A promise.
    */
-  public function resolve(?array $tags = NULL, FieldContext $context) {
-
-    return new Deferred(function () use ($tags, $context) {
-      $type = 'node';
-
-      // Add the list cache tags so that the cache entry is purged whenever a
-      // new entity of this type is saved.
-      $entity_type = $this->entityTypeManager->getDefinition($type);
-      $context->addCacheTags($entity_type->getListCacheTags());
-      $context->addCacheContexts($entity_type->getListCacheContexts());
-
-      // Build the query.
-      $query = $this->entityTypeManager
-        ->getStorage($type)
-        ->getQuery();
-      $query->accessCheck(TRUE);
-      $query->condition('type', 'document');
-      $query->condition('status', NodeInterface::PUBLISHED);
-      $query->condition('field_computed_tags', NULL, 'IS NOT NULL');
-      $query->condition('field_content_space', NULL, 'IS NOT NULL');
-      $query->sort('changed', 'DESC');
-
-      if (!empty($tags)) {
-        $this->addTagConditionsToQuery($query, $tags);
-      }
-      return new ContentExportWrapper($query);
-    });
+  public function resolve(array $tags, FieldContext $context) {
+    return $this->getDeferredExportWrapper($context, $tags, 'document');
   }
 
 }

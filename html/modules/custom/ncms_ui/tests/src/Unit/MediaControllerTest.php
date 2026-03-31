@@ -28,8 +28,10 @@ class MediaControllerTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
 
-    $content_space_manager = $this->prophesize(ContentSpaceManager::class);
-    $this->controller = new MediaController($content_space_manager->reveal());
+    $container = new ContainerBuilder();
+    $container->set('ncms_ui.content_space.manager', $this->prophesize(ContentSpaceManager::class)->reveal());
+    $this->controller = MediaController::create($container);
+    \Drupal::setContainer($container);
 
     $string_translation = $this->prophesize(TranslationInterface::class);
     $string_translation->translateString(Argument::cetera())->will(function ($args) {

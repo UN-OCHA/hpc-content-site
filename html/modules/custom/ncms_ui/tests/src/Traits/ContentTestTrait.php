@@ -17,6 +17,7 @@ use Drupal\Tests\field\Traits\EntityReferenceFieldCreationTrait;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\Tests\paragraphs\FunctionalJavascript\ParagraphsTestBaseTrait;
 use Drupal\Tests\taxonomy\Traits\TaxonomyTestTrait;
+use Drupal\Tests\user\Traits\UserCreationTrait;
 use Drupal\workflows\Entity\Workflow;
 
 /**
@@ -24,6 +25,7 @@ use Drupal\workflows\Entity\Workflow;
  */
 trait ContentTestTrait {
 
+  use UserCreationTrait;
   use EntityReferenceFieldCreationTrait;
   use ContentTypeCreationTrait;
   use ParagraphsTestBaseTrait;
@@ -255,7 +257,7 @@ trait ContentTestTrait {
    *   The user object or FALSE.
    */
   protected function createEditorUserWithContentSpaces(array $content_spaces, $permissions = []) {
-    return $this->drupalCreateUser(array_merge([
+    return $this->createUser(array_merge([
       'access content overview',
       'access administration pages',
       'view the administration theme',
@@ -271,7 +273,7 @@ trait ContentTestTrait {
       'use article_workflow transition restore_publish',
       'use article_workflow transition save_draft_leave_current_published',
       'use article_workflow transition update',
-    ], $permissions), NULL, NULL, [
+    ], $permissions), NULL, FALSE, [
       'field_content_spaces' => array_map(function ($content_space) {
         return ['target_id' => $content_space->id()];
       }, $content_spaces),

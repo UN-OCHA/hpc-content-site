@@ -4,7 +4,6 @@ namespace Drupal\ncms_ui\Plugin\Action;
 
 use Drupal\Core\Action\Attribute\Action;
 use Drupal\Core\Cache\Cache;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\node\NodeInterface;
@@ -17,7 +16,7 @@ use Drupal\node\NodeInterface;
   label: new TranslatableMarkup('Unpublish'),
   type: 'node'
 )]
-class Unpublish extends ContentActionBase implements ContainerFactoryPluginInterface {
+class Unpublish extends ContentActionBase {
 
   /**
    * {@inheritdoc}
@@ -30,7 +29,7 @@ class Unpublish extends ContentActionBase implements ContainerFactoryPluginInter
     // Entity has not been changed, so we simply update the current
     // revision to unpublished.
     /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
-    $node_storage = $this->entityTypeManager->getStorage('node');
+    $node_storage = self::getEntityTypeManager()->getStorage('node');
     $node_storage->updateRevisionStatus($node, NodeInterface::NOT_PUBLISHED);
     Cache::invalidateTags($node->getCacheTags());
   }

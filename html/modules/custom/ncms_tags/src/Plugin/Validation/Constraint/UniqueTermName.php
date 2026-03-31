@@ -4,25 +4,20 @@ namespace Drupal\ncms_tags\Plugin\Validation\Constraint;
 
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Symfony\Component\Validator\Constraint;
+use Drupal\Core\Validation\Attribute\Constraint;
+use Symfony\Component\Validator\Constraint as ValidatorConstraint;
 use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Checks that the submitted value is a unique integer.
- *
- * @Constraint(
- *   id = "UniqueTermName",
- *   label = @Translation("Unique term name", context = "Validation"),
- *   type = { "string" }
- * )
  */
 #[Constraint(
   id: 'UniqueTermName',
   label: new TranslatableMarkup('Unique term name', [], ['context' => 'Validation']),
   type: ['string']
 )]
-class UniqueTermName extends Constraint implements ConstraintValidatorInterface {
+class UniqueTermName extends ValidatorConstraint implements ConstraintValidatorInterface {
 
   /**
    * A context object.
@@ -48,7 +43,7 @@ class UniqueTermName extends Constraint implements ConstraintValidatorInterface 
   /**
    * {@inheritdoc}
    */
-  public function validate($item_list, Constraint $constraint) {
+  public function validate($item_list, ValidatorConstraint $constraint) {
     /** @var \Drupal\Core\Field\FieldItemListInterface $item_list */
     $entity = $item_list->getEntity();
     $field_name = $item_list->getFieldDefinition()->getName();

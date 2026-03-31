@@ -41,14 +41,9 @@ class GhoMenuSelectWidget extends OptionsSelectWidget {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $plugin_id,
-      $plugin_definition,
-      $configuration['field_definition'],
-      $configuration['settings'],
-      $configuration['third_party_settings'],
-      $container->get('entity_type.manager')
-    );
+    $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition);
+    $instance->storage = $container->get('entity_type.manager')->getStorage('menu_link_content');
+    return $instance;
   }
 
   /**

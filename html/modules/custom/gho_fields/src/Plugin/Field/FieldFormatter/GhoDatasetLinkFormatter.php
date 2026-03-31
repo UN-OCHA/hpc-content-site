@@ -35,7 +35,7 @@ class GhoDatasetLinkFormatter extends FormatterBase {
 
       if (!empty($item->_attributes)) {
         // Set our RDFa attributes on the <a> element that is being built.
-        $url->setOption('attributes', $item->_attributes);
+        $element[$delta]['#url']->setOption('attributes', $item->_attributes);
 
         // Unset field item attributes since they have been included in the
         // formatter output and should not be rendered in the field template.

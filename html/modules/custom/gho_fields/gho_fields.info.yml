@@ -1,7 +1,7 @@
 name: 'GHO Fields'
 type: module
 description: 'Provides field formatters and widgets.'
-core_version_requirement: ^9.3 || ^10
+core_version_requirement: ^10.6 || ^11.3
 package: gho
 dependencies:
   - drupal:link

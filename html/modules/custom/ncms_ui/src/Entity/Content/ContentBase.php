@@ -157,6 +157,7 @@ abstract class ContentBase extends Node implements ContentInterface {
   public function setPublished() {
     parent::setPublished();
     $this->setModerationState('published');
+    return $this;
   }
 
   /**
@@ -165,6 +166,7 @@ abstract class ContentBase extends Node implements ContentInterface {
   public function setUnpublished() {
     parent::setUnpublished();
     $this->setModerationState('draft');
+    return $this;
   }
 
   /**

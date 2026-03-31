@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 /**
  * Implementation of the LoginProxyPageController class.
  */
-class LoginProxyPageController extends ControllerBase implements ContainerInjectionInterface {
+final class LoginProxyPageController extends ControllerBase implements ContainerInjectionInterface {
 
   /**
    * The block manager service.

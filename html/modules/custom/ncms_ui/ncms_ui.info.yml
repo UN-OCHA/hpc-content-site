@@ -2,7 +2,7 @@ name: UI additions for the HPC Content Module
 type: module
 description: 'Provides additional UI logic to streamline UX.'
 package: HPC Content Module
-core_version_requirement: ^9.3 || ^10
+core_version_requirement: ^10.6 || ^11.3
 dependencies:
   - ncms_publisher:ncms_publisher
   - anonymous_login:anonymous_login

@@ -3,20 +3,17 @@
 namespace Drupal\gho_download\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Http\Exception\CacheableNotFoundHttpException;
-use Drupal\Core\StreamWrapper\StreamWrapperManagerInterface;
 use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * Implementation of the GhoDownloadController class.
  */
-class GhoDownloadController extends ControllerBase {
+final class GhoDownloadController extends ControllerBase {
 
   /**
    * Symfony\Component\HttpFoundation\RequestStack definition.
@@ -40,30 +37,14 @@ class GhoDownloadController extends ControllerBase {
   protected $streamWrapperManager;
 
   /**
-   * DownloadController constructor.
-   *
-   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
-   *   The request object.
-   * @param \Drupal\Core\File\FileSystemInterface $file_system
-   *   The file system service.
-   * @param \Drupal\Core\StreamWrapper\StreamWrapperManagerInterface $stream_wrapper_manager
-   *   The stream wrapper manager.
-   */
-  public function __construct(RequestStack $request_stack, FileSystemInterface $file_system, StreamWrapperManagerInterface $stream_wrapper_manager) {
-    $this->requestStack = $request_stack;
-    $this->fileSystem = $file_system;
-    $this->streamWrapperManager = $stream_wrapper_manager;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('request_stack'),
-      $container->get('file_system'),
-      $container->get('stream_wrapper_manager')
-    );
+    $instance = new static();
+    $instance->requestStack = $container->get('request_stack');
+    $instance->fileSystem = $container->get('file_system');
+    $instance->streamWrapperManager = $container->get('stream_wrapper_manager');
+    return $instance;
   }
 
   /**

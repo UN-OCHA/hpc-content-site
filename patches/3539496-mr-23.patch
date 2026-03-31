@@ -1,0 +1,50 @@
+From 012f80d2f896eaa4c15b57032dd8e9467bce1746 Mon Sep 17 00:00:00 2001
+From: Ashley SlayMoore <aslay@arizona.edu>
+Date: Mon, 20 Oct 2025 16:40:38 -0700
+Subject: [PATCH 1/2] Issue #3539496: Drupal 11 compatibility for v3
+
+---
+ computed_field.info.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/computed_field.info.yml b/computed_field.info.yml
+index 734a596..58593af 100644
+--- a/computed_field.info.yml
++++ b/computed_field.info.yml
+@@ -1,5 +1,5 @@
+ name: Computed Field
+ type: module
+ description: Defines a field type that allows values to be "computed" via PHP code.
+-core_version_requirement: ^8 || ^9 || ^10
++core_version_requirement: ^8 || ^9 || ^10 || ^11
+ package: Field types
+-- 
+GitLab
+
+
+From d1893c015d2fac7efce9a6745b64c055ea1dd989 Mon Sep 17 00:00:00 2001
+From: Sean Fremouw <sean.fremouw@fremouwconsulting.com>
+Date: Fri, 5 Dec 2025 17:12:24 -0800
+Subject: [PATCH 2/2] Add D 10 and 11 compatibility to
+ computered_field_example_formatter.info as well
+
+---
+ .../computed_field_example_formatter.info.yml                   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/computed_field_example_formatter/computed_field_example_formatter.info.yml b/computed_field_example_formatter/computed_field_example_formatter.info.yml
+index d3125b9..2e510d4 100644
+--- a/computed_field_example_formatter/computed_field_example_formatter.info.yml
++++ b/computed_field_example_formatter/computed_field_example_formatter.info.yml
+@@ -1,7 +1,7 @@
+ name: Computed Field Example Formatter
+ type: module
+ description: Provides an example PHP formatter for computed fields where the code is implemented inside the module.
+-core_version_requirement: ^8 || ^9
++core_version_requirement: ^8 || ^9 || ^10 || ^11
+ package: Field types
+ dependencies:
+   - computed_field:computed_field
+-- 
+GitLab
+

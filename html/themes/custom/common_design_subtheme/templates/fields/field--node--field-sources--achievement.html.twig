@@ -4,18 +4,12 @@
   ]
 %}
 {% if items %}
-{% apply spaceless %}
-<div class="gho-achievement__sources">
-{% if label_hidden %}
+  <div class="gho-achievement__sources">
+  {% if not label_hidden %}
+    <div{{ title_attributes.addClass(title_classes) }}>{{- label -}}</div>
+  {% endif %}
   {% for item in items %}
-    {{ item.content }}
+    {{- item.content -}}
   {% endfor %}
-{% else %}
-  <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
-  {% for item in items %}
-    {{ item.content }}
-  {% endfor %}
-{% endif %}
-</div>
-{% endapply %}
+  </div>
 {% endif %}

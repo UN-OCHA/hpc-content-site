@@ -1,5 +1,5 @@
 diff --git a/core/lib/Drupal/Component/Utility/Xss.php b/core/lib/Drupal/Component/Utility/Xss.php
-index 8e1d7d38eb2..c683b83d191 100644
+index f84299fc8c5..1ebc1698570 100644
 --- a/core/lib/Drupal/Component/Utility/Xss.php
 +++ b/core/lib/Drupal/Component/Utility/Xss.php
 @@ -2,7 +2,7 @@
@@ -11,7 +11,7 @@ index 8e1d7d38eb2..c683b83d191 100644
  
  /**
   * Provides helper to filter for cross-site scripting.
-@@ -29,6 +29,46 @@ class Xss {
+@@ -108,6 +108,46 @@ class Xss {
     */
    protected static $htmlTags = ['a', 'em', 'strong', 'cite', 'blockquote', 'code', 'ul', 'ol', 'li', 'dl', 'dt', 'dd'];
  
@@ -58,7 +58,7 @@ index 8e1d7d38eb2..c683b83d191 100644
    /**
     * Filters HTML to prevent cross-site-scripting (XSS) vulnerabilities.
     *
-@@ -205,6 +245,7 @@ protected static function attributes($attributes) {
+@@ -284,6 +324,7 @@ protected static function attributes($attributes) {
      $attribute_name = '';
      $skip = FALSE;
      $skip_protocol_filtering = FALSE;
@@ -66,7 +66,7 @@ index 8e1d7d38eb2..c683b83d191 100644
  
      while (strlen($attributes) != 0) {
        // Was the last operation successful?
-@@ -229,18 +270,16 @@ protected static function attributes($attributes) {
+@@ -308,18 +349,16 @@ protected static function attributes($attributes) {
              // starting with "javascript:"). However, for some non-URI
              // attributes performing this filtering causes valid and safe data
              // to be mangled. We prevent this by skipping protocol filtering on
@@ -92,7 +92,7 @@ index 8e1d7d38eb2..c683b83d191 100644
              $working = $mode = 1;
              $attributes = preg_replace('/^[-a-zA-Z][-a-zA-Z0-9]*/', '', $attributes);
            }
-@@ -272,7 +311,12 @@ protected static function attributes($attributes) {
+@@ -351,7 +390,12 @@ protected static function attributes($attributes) {
            $working = 1;
            // Attribute value, a URL after href= for instance.
            if (preg_match('/^"([^"]*)"(\s+|$)/', $attributes, $match)) {
@@ -106,7 +106,7 @@ index 8e1d7d38eb2..c683b83d191 100644
  
              if (!$skip) {
                $attributes_array[] = "$attribute_name=\"$value\"";
-@@ -282,7 +326,12 @@ protected static function attributes($attributes) {
+@@ -361,7 +405,12 @@ protected static function attributes($attributes) {
            }
  
            if (preg_match("/^'([^']*)'(\s+|$)/", $attributes, $match)) {
@@ -120,7 +120,7 @@ index 8e1d7d38eb2..c683b83d191 100644
  
              if (!$skip) {
                $attributes_array[] = "$attribute_name='$value'";
-@@ -292,7 +341,12 @@ protected static function attributes($attributes) {
+@@ -371,7 +420,12 @@ protected static function attributes($attributes) {
            }
  
            if (preg_match("%^([^\s\"']+)(\s+|$)%", $attributes, $match)) {
@@ -134,7 +134,7 @@ index 8e1d7d38eb2..c683b83d191 100644
  
              if (!$skip) {
                $attributes_array[] = "$attribute_name=\"$value\"";
-@@ -341,6 +395,33 @@ protected static function needsRemoval(array $html_tags, $elem) {
+@@ -420,6 +474,33 @@ protected static function needsRemoval(array $html_tags, $elem) {
      return !isset($html_tags[strtolower($elem)]);
    }
  
@@ -169,12 +169,12 @@ index 8e1d7d38eb2..c683b83d191 100644
     * Gets the list of HTML tags allowed by Xss::filterAdmin().
     *
 diff --git a/core/tests/Drupal/Tests/Component/Utility/XssTest.php b/core/tests/Drupal/Tests/Component/Utility/XssTest.php
-index 7d7dc401add..63dd4ee19bf 100644
+index 4d8d360208a..4ca7af112f6 100644
 --- a/core/tests/Drupal/Tests/Component/Utility/XssTest.php
 +++ b/core/tests/Drupal/Tests/Component/Utility/XssTest.php
-@@ -8,10 +8,11 @@
- use Drupal\Component\Utility\UrlHelper;
- use Drupal\Component\Utility\Xss;
+@@ -12,10 +12,11 @@
+ use PHPUnit\Framework\Attributes\Group;
+ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
  use PHPUnit\Framework\TestCase;
 +use Prophecy\PhpUnit\ProphecyTrait;
  
@@ -182,11 +182,11 @@ index 7d7dc401add..63dd4ee19bf 100644
  // cspell:ignore nfocus nmedi nosuchscheme nosuchtag onmediaerror scrscriptipt
 -// cspell:ignore tascript vbscript
 +// cspell:ignore tascript vbscript rdfa
- 
  /**
   * XSS Filtering tests.
+  *
 @@ -30,6 +31,8 @@
-  */
+ #[RunTestsInSeparateProcesses]
  class XssTest extends TestCase {
  
 +  use ProphecyTrait;
@@ -194,7 +194,7 @@ index 7d7dc401add..63dd4ee19bf 100644
    /**
     * {@inheritdoc}
     */
-@@ -509,6 +512,36 @@ public static function providerTestAttributes() {
+@@ -514,6 +517,36 @@ public static function providerTestAttributes(): array {
          'Link tag with rel attribute',
          ['a'],
        ],
@@ -231,7 +231,7 @@ index 7d7dc401add..63dd4ee19bf 100644
        [
          '<span property="dc:subject">Drupal 8: The best release ever.</span>',
          '<span property="dc:subject">Drupal 8: The best release ever.</span>',
-@@ -563,6 +596,68 @@ public static function providerTestAttributes() {
+@@ -568,6 +601,68 @@ public static function providerTestAttributes(): array {
          'Time with datetime attribute',
          ['time'],
        ],

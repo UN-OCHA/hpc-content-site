@@ -8,8 +8,6 @@ use Drupal\Tests\ncms_ui\Traits\ContentTestTrait;
 
 /**
  * Tests access based on content spaces.
- *
- * @group ncms_ui
  */
 class DocumentEditTest extends ContentTestBaseJavascript {
 

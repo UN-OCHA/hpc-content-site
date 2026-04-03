@@ -8,8 +8,6 @@ use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 
 /**
  * Tests the story entity.
- *
- * @group ncms_ui
  */
 class StoryTest extends KernelTestBase {
 

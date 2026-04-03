@@ -16,8 +16,6 @@ use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 
 /**
  * Tests the document entity.
- *
- * @group ncms_ui
  */
 class DocumentTest extends KernelTestBase {
 
@@ -34,6 +32,7 @@ class DocumentTest extends KernelTestBase {
     'text',
     'user',
     'node',
+    'entity_reference_revisions',
     'paragraphs',
     'views',
     'ncms_publisher',

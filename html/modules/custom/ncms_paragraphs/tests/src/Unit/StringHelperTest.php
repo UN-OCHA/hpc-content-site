@@ -4,6 +4,7 @@ namespace Drupal\Tests\ncms_paragraphs\Unit;
 
 use Drupal\ncms_paragraphs\Helpers\StringHelper;
 use Drupal\Tests\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Tests the StringHelper service.
@@ -13,7 +14,7 @@ class StringHelperTest extends UnitTestCase {
   /**
    * Data provider for testMakeCamelCase.
    */
-  public function makeCamelCaseDataProvider() {
+  public static function makeCamelCaseDataProvider() {
     return [
       ['camel_case', FALSE, 'CamelCase'],
       ['Camel_Case', TRUE, 'camelCase'],
@@ -26,10 +27,8 @@ class StringHelperTest extends UnitTestCase {
 
   /**
    * Test making string camel case.
-   *
-   * @group StringHelper
-   * @dataProvider makeCamelCaseDataProvider
    */
+  #[DataProvider('makeCamelCaseDataProvider')]
   public function testMakeCamelCase($string, $initial_lower_case, $result) {
     $this->assertEquals($result, StringHelper::makeCamelCase($string, $initial_lower_case));
   }
@@ -37,7 +36,7 @@ class StringHelperTest extends UnitTestCase {
   /**
    * Data provider for testCamelCaseToUnderscoreCase.
    */
-  public function camelCaseToUnderscoreCaseDataProvider() {
+  public static function camelCaseToUnderscoreCaseDataProvider() {
     return [
       ['camelCase', 'camel_case'],
       ['camelCaseCase', 'camel_case_case'],
@@ -49,10 +48,8 @@ class StringHelperTest extends UnitTestCase {
 
   /**
    * Test making string camel case.
-   *
-   * @group StringHelper
-   * @dataProvider camelCaseToUnderscoreCaseDataProvider
    */
+  #[DataProvider('camelCaseToUnderscoreCaseDataProvider')]
   public function testCamelCaseToUnderscoreCase($string, $result) {
     $this->assertEquals($result, StringHelper::camelCaseToUnderscoreCase($string));
   }

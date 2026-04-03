@@ -11,8 +11,6 @@ use Drupal\Tests\user\Traits\UserCreationTrait;
 
 /**
  * Tests the article entity.
- *
- * @group ncms_ui
  */
 class ContentVersionTest extends KernelTestBase {
 
@@ -73,8 +71,6 @@ class ContentVersionTest extends KernelTestBase {
 
   /**
    * Test deletion of the last revision.
-   *
-   * @covers \Drupal\ncms_ui\Entity\Storage\ContentStorage::deleteLatestRevision()
    */
   public function testDeleteLatestRevision() {
     $article = Article::create([

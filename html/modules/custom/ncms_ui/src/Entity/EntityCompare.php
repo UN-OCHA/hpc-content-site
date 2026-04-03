@@ -113,7 +113,7 @@ class EntityCompare {
         }
       }
       if (is_object($a)) {
-        if ($a instanceof ContentEntityInterface) {
+        if (method_exists($a, 'toArray')) {
           $array[$key] = $a->toArray();
           self::reduceArray($array[$key], $remove_keys);
         }

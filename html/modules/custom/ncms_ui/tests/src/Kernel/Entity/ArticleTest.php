@@ -12,8 +12,6 @@ use Drupal\Tests\user\Traits\UserCreationTrait;
 
 /**
  * Tests the article entity.
- *
- * @group ncms_ui
  */
 class ArticleTest extends KernelTestBase {
 

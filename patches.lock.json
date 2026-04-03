@@ -1,5 +1,5 @@
 {
-    "_hash": "68dbcfe1525de817b2a9da4dd074f48992be960b278301ea205ecc04740c3e40",
+    "_hash": "c6d65664a9d616b3ff12cf06a61242f5de1e0ecd468d16ad1320fbbe90c4eadd",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -17,8 +17,8 @@
             {
                 "package": "drupal/core",
                 "description": "Issue #2544110: XSS attribute filtering is inconsistent and strips valid attributes",
-                "url": "./patches/2544110-2025-01-08.patch",
-                "sha256": "a536b7418c76c09e27576ed461eed6887c876f04e461fe5f3105f019aa47bd12",
+                "url": "./patches/2544110-11.3.x.patch",
+                "sha256": "94c7bd1a8299c4e1ac71caea0b6d1615dbe68878acb87d1249be1a422d756094",
                 "depth": 2,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"
@@ -27,58 +27,8 @@
             {
                 "package": "drupal/core",
                 "description": "Issue #2546212: Entity view/form mode formatter/widget settings have no translation UI",
-                "url": "https://www.drupal.org/files/issues/2024-08-06/drupal-core-2546212-10.3-reroll-302.patch",
-                "sha256": "8054c049cc7c83ac219b1741b2435f04b2124aa737af1f6343bd71f323469346",
-                "depth": 2,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            },
-            {
-                "package": "drupal/core",
-                "description": "Issue #2329253: Allow the ChangedItem to skip updating the entity's changed timestamp when synchronizing (f.e. when migrating)",
-                "url": "https://www.drupal.org/files/issues/2024-07-30/2329253-10.x.patch",
-                "sha256": "316697156913cbfe5fd8017432f4f225c7516bd56da11b200c0b24a86e6a6594",
-                "depth": 2,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            },
-            {
-                "package": "drupal/core",
-                "description": "Issue #3274635: [upstream] Use CKEditor 5's native <ol type> and <ul type> UX",
-                "url": "https://www.drupal.org/files/issues/2024-08-11/3274635--ckeditor_list_styles-10.3.2--108.patch",
-                "sha256": "d128ce0ca9a10dd293ce0d8c73592a5a9c5fffacb425f59958eeade509076502",
-                "depth": 2,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            },
-            {
-                "package": "drupal/core",
-                "description": "Issue #3392572: strnatcasecmp(): Passing null to parameter #2 in LayoutPluginManager",
-                "url": "https://www.drupal.org/files/issues/2023-10-25/drupal-strnatcasecmp_string_only-3392572-10.patch",
-                "sha256": "7227ee7bc0055652d24591f60ec81b515580d4365ca8bf188b81440ad8499945",
-                "depth": 2,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            },
-            {
-                "package": "drupal/core",
-                "description": "Issue #3413079: Cannot read properties of null (reading 'nodeType') on node.page.body",
-                "url": "https://www.drupal.org/files/issues/2024-01-08/3413079-9.patch",
-                "sha256": "0096e4152c122fd34b633d9eb3631307535ad5e2ca921361f6d27604fa30d718",
-                "depth": 2,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            },
-            {
-                "package": "drupal/core",
-                "description": "Issue #3008292: ImageItem::getUploadValidators() should be the source of truth for validating uploaded images",
-                "url": "https://www.drupal.org/files/issues/2025-07-11/3008292-10.5x-108.patch",
-                "sha256": "650c60beed0d935d92d70c5545bf5d2cb3489c087f5f52281a8343c5e8e6fa2f",
+                "url": "https://www.drupal.org/files/issues/2025-12-16/2546212-336.patch",
+                "sha256": "6baf32fdd668a8be4df24ae5868fa22cb0975b5ee93ac96ed4e58053c2ea8703",
                 "depth": 2,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"
@@ -101,7 +51,7 @@
             {
                 "package": "drupal/entity_browser",
                 "description": "Issue #3056057: Position the main form actions to the bottom of IFrame",
-                "url": "patches/entity_browser-position-main-form-actins-on-bottom-3056057-10.patch",
+                "url": "./patches/entity_browser-position-main-form-actins-on-bottom-3056057-10.patch",
                 "sha256": "47811949b917f31063c53d064a106e7c440cc85bf46e0f475fac6bc3caac69cc",
                 "depth": 1,
                 "extra": {
@@ -113,7 +63,7 @@
             {
                 "package": "drupal/entity_reference_revisions",
                 "description": "Issue #2799479: Views doesn't recognize relationship to host",
-                "url": "patches/entity_reference_revisions-relationship_host_id-2799479-176.patch",
+                "url": "./patches/entity_reference_revisions-relationship_host_id-2799479-176.patch",
                 "sha256": "1d41186b45f839db2728ec93cd48a61ec7473cae119d00f71a31a9d463cba44a",
                 "depth": 1,
                 "extra": {
@@ -127,18 +77,6 @@
                 "description": "Issue #3561746: type error on drush updb",
                 "url": "https://www.drupal.org/files/issues/2025-12-05/graphql-3561746-2.patch",
                 "sha256": "5ade2d4b1e259785a023ec779e1bd4ab1281df1983e14f1f5e49875dc7e19919",
-                "depth": 1,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            }
-        ],
-        "drupal/layout_paragraphs": [
-            {
-                "package": "drupal/layout_paragraphs",
-                "description": "Issue #3502083: Fix validation issues for automated testing",
-                "url": "https://www.drupal.org/files/issues/2025-09-23/fix-implicit-nullable-warnings-3502083-7.patch",
-                "sha256": "8f43786c2903c4c5607bf3d4d5957ab379793f405001ca0f27fb5e2a81f49747",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

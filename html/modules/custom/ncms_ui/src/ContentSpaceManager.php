@@ -114,6 +114,7 @@ class ContentSpaceManager {
     if ($type == 'media') {
       return !$this->currentUser->hasPermission('administer media');
     }
+    return TRUE;
   }
 
   /**

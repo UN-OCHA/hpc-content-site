@@ -3,6 +3,7 @@
 namespace Drupal\gho_general\OEmbed;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\media\OEmbed\ResourceException;
 use GuzzleHttp\Exception\RequestException;
 use Drupal\media\OEmbed\ResourceFetcher;
 

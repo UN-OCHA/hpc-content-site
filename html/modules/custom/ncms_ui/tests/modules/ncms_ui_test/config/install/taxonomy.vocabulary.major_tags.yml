@@ -4,5 +4,5 @@ status: true
 dependencies: {  }
 name: 'Major tags'
 vid: major_tags
-description: ''
+description: 'Deprecated - The main theme(s) of the content'
 weight: 0

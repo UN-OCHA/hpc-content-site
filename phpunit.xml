@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-    bootstrap="html/core/tests/bootstrap.php" colors="true"
+    bootstrap="html/core/tests/bootstrap.php"
+    colors="true"
     beStrictAboutTestsThatDoNotTestAnything="true"
     beStrictAboutOutputDuringTests="true"
     beStrictAboutChangesToGlobalState="true"
+    failOnRisky="true"
     failOnWarning="true"
-    printerClass="\Drupal\Tests\Listeners\HtmlOutputPrinter"
+    failOnPhpunitWarning="true"
+    displayDetailsOnTestsThatTriggerErrors="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnTestsThatTriggerNotices="true"
+    displayDetailsOnPhpunitDeprecations="true"
+    cacheResult="false"
   >
   <php>
     <ini name="error_reporting" value="32767"/>
@@ -32,14 +39,39 @@
         <!-- MAILER_DSN=null://null -->
         <!-- ###- symfony/mailer ### -->
   </php>
-  <coverage includeUncoveredFiles="false">
+  <extensions>
+    <bootstrap class="Paraunit\Configuration\ParaunitExtension"/>
+    <!-- Functional tests HTML output logging. -->
+    <bootstrap class="Drupal\TestTools\Extension\HtmlLogging\HtmlOutputLogger">
+      <!-- The directory where the browser output will be stored. If a relative
+        path is specified, it will be relative to the current working directory
+        of the process running the PHPUnit CLI. In CI environments, this can be
+        overridden by the value set for the "BROWSERTEST_OUTPUT_DIRECTORY"
+        environment variable.
+      -->
+      <parameter name="outputDirectory" value="sites/simpletest/browser_output"/>
+      <!-- By default browser tests print the individual links in the test run
+        report. To avoid overcrowding the output in CI environments, you can
+        set the "verbose" parameter or the "BROWSERTEST_OUTPUT_VERBOSE"
+        environment variable to "false". In GitLabCI, the output is saved
+        anyway as an artifact that can be browsed or downloaded from Gitlab.
+      -->
+      <parameter name="verbose" value="true"/>
+    </bootstrap>
+    <!-- Debug dump() printer. -->
+    <bootstrap class="Drupal\TestTools\Extension\Dump\DebugDump">
+      <parameter name="colors" value="true"/>
+      <parameter name="printCaller" value="true"/>
+    </bootstrap>
+  </extensions>
+  <source>
     <include>
       <directory suffix=".php">./html/modules/custom</directory>
     </include>
     <exclude>
       <directory suffix=".php">./html/modules/custom/**/tests</directory>
     </exclude>
-  </coverage>
+  </source>
   <testsuites>
     <testsuite name="unit">
       <directory>./html/modules/custom/*/tests/src/Unit</directory>

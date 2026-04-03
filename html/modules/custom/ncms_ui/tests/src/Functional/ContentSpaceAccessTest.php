@@ -4,8 +4,6 @@ namespace Drupal\Tests\ncms_ui\Functional;
 
 /**
  * Tests access based on content spaces.
- *
- * @group ncms_ui
  */
 class ContentSpaceAccessTest extends ContentTestBase {
 

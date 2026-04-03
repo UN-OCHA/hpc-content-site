@@ -124,12 +124,50 @@ trait ContentTestTrait {
         'region' => 'content',
       ])
       ->save();
+  }
 
+  /**
+   * Add a tag reference field to the given node bundle.
+   *
+   * @param string $bundle
+   *   The node bundle to which the field should be added.
+   */
+  protected function addTagsToBundle($bundle) {
     $handler_settings = [
       'target_bundles' => [
-        'content_space' => 'content_space',
+        'theme' => 'theme',
       ],
     ];
+    $this->createEntityReferenceField('node', $bundle, 'field_theme', 'Theme tags', 'taxonomy_term', 'default', $handler_settings);
+    FieldConfig::loadByName('node', $bundle, 'field_theme')
+      ->set('required', FALSE)
+      ->save();
+    EntityFormDisplay::load('node.' . $bundle . '.default')
+      ->setComponent('field_theme', [
+        'type' => 'options_select',
+        'region' => 'content',
+      ])
+      ->save();
+  }
+
+  /**
+   * Create a taxonomy term in the given vocabulary.
+   *
+   * @param string $vid
+   *   The id of the vocabulary.
+   * @param array|null $values
+   *   Optional values for the term.
+   *
+   * @return \Drupal\taxonomy\TermInterface
+   *   The created term object.
+   */
+  private function createTermInVid(string $vid, ?array $values = []): TermInterface {
+    $term = Term::create($values + [
+      'name' => $this->randomMachineName(),
+      'vid' => $vid,
+    ]);
+    $term->save();
+    return $term;
   }
 
   /**
@@ -139,12 +177,7 @@ trait ContentTestTrait {
    *   The created term object.
    */
   protected function createMajorTag(): TermInterface {
-    $term = Term::create([
-      'name' => $this->randomMachineName(),
-      'vid' => 'major_tags',
-    ]);
-    $term->save();
-    return $term;
+    return $this->createTermInVid('major_tags');
   }
 
   /**
@@ -155,13 +188,19 @@ trait ContentTestTrait {
    */
   protected function createContentSpace(): TermInterface {
     $tag = $this->createMajorTag();
-    $term = Term::create([
-      'name' => $this->randomMachineName(),
-      'vid' => 'content_space',
+    return $this->createTermInVid('content_space', [
       'field_major_tags' => ['target_id' => $tag->id()],
     ]);
-    $term->save();
-    return $term;
+  }
+
+  /**
+   * Create a theme tag term.
+   *
+   * @return \Drupal\taxonomy\TermInterface
+   *   The created term object.
+   */
+  protected function createThemeTag(): TermInterface {
+    return $this->createTermInVid('theme');
   }
 
   /**
@@ -206,6 +245,7 @@ trait ContentTestTrait {
    *   The created node object.
    */
   protected function createArticleInContentSpace($title, $content_space_id, $status = NodeInterface::PUBLISHED): NodeInterface {
+    $tag = $this->createThemeTag();
     $node = Node::create([
       'type' => 'article',
       'title' => $title,
@@ -214,6 +254,7 @@ trait ContentTestTrait {
       'moderation_state' => [
         'value' => $status == NodeInterface::PUBLISHED ? 'published' : 'draft',
       ],
+      'field_theme' => ['target_id' => $tag->id()],
     ]);
     $result = $node->save();
     $this->assertEquals($result, SAVED_NEW);

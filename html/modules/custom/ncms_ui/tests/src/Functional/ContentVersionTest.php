@@ -7,8 +7,6 @@ use Drupal\node\NodeInterface;
 
 /**
  * Tests logic around content versions.
- *
- * @group ncms_ui
  */
 class ContentVersionTest extends ContentTestBase {
 

@@ -7,12 +7,10 @@ use Drupal\node\NodeInterface;
 
 /**
  * Tests logic around content editing.
- *
- * @group ncms_ui
  */
 class ContentEditModalsTest extends ContentTestBaseJavascript {
 
-  const CONFIRM_SAVE_AND_PUBLISH = 'This will make this article publicly available on the API and will automatically create a page for this article on Humanitarian Action. Are you sure?';
+  const CONFIRM_SAVE_AND_PUBLISH = "Publishing the article will make it publicly available on the API. It will also create a page for this article on Humanitarian Action, which will be set to 'Not displayed'.";
   const CONFIRM_PUBLISH_CORRECTION = 'This will publish these changes as a correction to the currently published version, which will be entirely replaced. Are you sure?';
   const CONFIRM_PUBLISH_REVISION = 'This will publish these changes as a new revision to the currently published version, which will remain publicly available as an earlier or original version. Are you sure?';
   const CONFIRM_NO_CHANGES = 'No changes have been made to the already published version. Please make some changes before publishing again.';
@@ -88,7 +86,6 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
 
     // Cancel the dialog and confirm nothing changed.
     $this->pressModalButton('Cancel');
-    $this->waitForAjaxToFinish();
     $assert_session->elementTextContains('css', '#edit-meta-published', '#2 Draft');
 
     // Now click save again to open the dialog again and confirm this time.
@@ -148,7 +145,6 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
 
     // Cancel the dialog and confirm nothing changed.
     $this->pressModalButton('Cancel');
-    $this->waitForAjaxToFinish();
     $assert_session->elementTextContains('css', '#edit-meta-published', '#1 Published');
 
     // Now click save again to open the dialog again and confirm this time.
@@ -217,7 +213,6 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
 
     // Cancel the dialog and confirm nothing changed.
     $this->pressModalButton('Cancel');
-    $this->waitForAjaxToFinish();
     $assert_session->elementTextContains('css', '#edit-meta-published', '#1 Published');
 
     // Now click save again to open the dialog again and confirm this time.
@@ -282,7 +277,6 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
 
     // Confirm the dialog and confirm nothing changed.
     $this->pressModalButton('Ok');
-    $this->waitForAjaxToFinish();
     $assert_session->elementTextContains('css', '#edit-meta-published', '#1 Published');
 
     // Do the same with publish as revision.
@@ -295,7 +289,6 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
 
     // Cancel the dialog and confirm nothing changed.
     $this->pressModalButton('Ok');
-    $this->waitForAjaxToFinish();
     $assert_session->elementTextContains('css', '#edit-meta-published', '#1 Published');
   }
 

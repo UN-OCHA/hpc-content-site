@@ -36,7 +36,7 @@ class UniqueTermName extends ValidatorConstraint implements ConstraintValidatorI
   /**
    * {@inheritdoc}
    */
-  public function validatedBy() {
+  public function validatedBy(): string {
     return get_class($this);
   }
 

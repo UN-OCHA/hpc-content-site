@@ -15,6 +15,7 @@ use Drupal\Tests\UnitTestCase;
 use Drupal\user\UserInterface;
 use Drupal\user\UserStorageInterface;
 use Drupal\views\Plugin\ViewsHandlerManager;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Prophecy\Argument;
 
 /**
@@ -25,7 +26,7 @@ class ContentSpaceManagerTest extends UnitTestCase {
   /**
    * Data provider for testIsContentSpaceRestrictPath.
    */
-  public function isContentSpaceRestrictPathDataProvider() {
+  public static function isContentSpaceRestrictPathDataProvider() {
     return [
       ['/admin/content', TRUE],
       ['/admin/media/grid', TRUE],
@@ -35,9 +36,8 @@ class ContentSpaceManagerTest extends UnitTestCase {
 
   /**
    * Test the isContentSpaceRestrictPath method.
-   *
-   * @dataProvider isContentSpaceRestrictPathDataProvider
    */
+  #[DataProvider('isContentSpaceRestrictPathDataProvider')]
   public function testIsContentSpaceRestrictPath($path, $result) {
     $content_space_manager = $this->getContentSpaceManager();
     $this->assertEquals($result, $content_space_manager->isContentSpaceRestrictPath($path));

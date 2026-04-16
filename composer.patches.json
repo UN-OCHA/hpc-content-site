@@ -18,9 +18,6 @@
         "drupal/entity_reference_revisions": {
             "Issue #2799479: Views doesn't recognize relationship to host": "patches/entity_reference_revisions-relationship_host_id-2799479-176.patch"
         },
-        "drupal/layout_paragraphs": {
-          "Issue #3502083: Fix validation issues for automated testing": "https://www.drupal.org/files/issues/2025-09-23/fix-implicit-nullable-warnings-3502083-7.patch"
-        },
         "drupal/openid_connect": {
             "Handle case if user is in blocked state after SSO Authorization": "./patches/openid_connect-3390668-6.patch",
             "Incorrect context in hook_redirect_logout_alter": "./patches/openid_connect-3577436-191.patch"

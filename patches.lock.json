@@ -1,5 +1,5 @@
 {
-    "_hash": "d0c0719bd771d2fc744cb95e854f2911264ece8f63557e2a6632b9862f7c4654",
+    "_hash": "e245dd16b2f3bfb5eee10c59a6b068d4c0d5da5b00eb3122df1d3b84c9a8c4e8",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -103,18 +103,6 @@
                 "description": "Issue #2799479: Views doesn't recognize relationship to host",
                 "url": "patches/entity_reference_revisions-relationship_host_id-2799479-176.patch",
                 "sha256": "1d41186b45f839db2728ec93cd48a61ec7473cae119d00f71a31a9d463cba44a",
-                "depth": 1,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            }
-        ],
-        "drupal/layout_paragraphs": [
-            {
-                "package": "drupal/layout_paragraphs",
-                "description": "Issue #3502083: Fix validation issues for automated testing",
-                "url": "https://www.drupal.org/files/issues/2025-09-23/fix-implicit-nullable-warnings-3502083-7.patch",
-                "sha256": "8f43786c2903c4c5607bf3d4d5957ab379793f405001ca0f27fb5e2a81f49747",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

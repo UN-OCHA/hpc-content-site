@@ -29,9 +29,9 @@ settings:
   add_more_label: ''
   field_settings:
     label:
+      check_empty: false
       type: text
       weight: -10
-      check_empty: false
       widget_settings:
         label: Label
         translatable: false
@@ -46,9 +46,9 @@ settings:
           suffix: ''
           required: false
     value:
+      check_empty: false
       type: text
       weight: -9
-      check_empty: false
       widget_settings:
         label: Value
         translatable: false
@@ -63,9 +63,9 @@ settings:
           suffix: ''
           required: false
     emphasis:
+      check_empty: false
       type: text
       weight: -8
-      check_empty: false
       widget_settings:
         label: Emphasis
         translatable: false
@@ -80,9 +80,9 @@ settings:
           suffix: ''
           required: false
     footnote:
+      check_empty: false
       type: text
       weight: -7
-      check_empty: false
       widget_settings:
         label: Footnote
         translatable: false

@@ -126,7 +126,7 @@ class ContentSpaceManager {
    *   TRUE if the current content space is valid for the given account, FALSE
    *   otherwise.
    */
-  public function userIsInValidContentSpace(AccountInterface $account = NULL) {
+  public function userIsInValidContentSpace(?AccountInterface $account = NULL) {
     $user = $account !== NULL ? $this->entityTypeManager->getStorage('user')->load($account->id()) : $this->currentUser;
     return in_array($this->getCurrentContentSpaceId(), $this->getValidContentSpaceIdsForUser($user));
   }

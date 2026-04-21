@@ -53,7 +53,7 @@ class TagMigration {
    * @return \Drupal\taxonomy\TermInterface
    *   The created term.
    */
-  public function createTag($vid, $term_name, $weight = NULL, TermInterface $parent_term = NULL) {
+  public function createTag($vid, $term_name, $weight = NULL, ?TermInterface $parent_term = NULL) {
     $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
     $terms = $term_storage->loadByProperties(array_filter([
       'vid' => $vid,

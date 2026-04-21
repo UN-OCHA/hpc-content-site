@@ -47,7 +47,7 @@ class GhoMenuLinkTreeManipulators extends DefaultMenuLinkTreeManipulators {
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager.
    */
-  public function __construct(AccessManagerInterface $access_manager, AccountInterface $account, EntityTypeManagerInterface $entity_type_manager, ModuleHandlerInterface $module_handler = NULL, LanguageManagerInterface $language_manager) {
+  public function __construct(AccessManagerInterface $access_manager, AccountInterface $account, EntityTypeManagerInterface $entity_type_manager, ?ModuleHandlerInterface $module_handler = NULL, ?LanguageManagerInterface $language_manager = NULL) {
     $this->accessManager = $access_manager;
     $this->account = $account;
     $this->entityTypeManager = $entity_type_manager;
@@ -72,8 +72,8 @@ class GhoMenuLinkTreeManipulators extends DefaultMenuLinkTreeManipulators {
     $this->collectNodeLinks($tree, $node_links);
     if ($node_links) {
       // Exit early if the visibility for the language is not enabled.
-      $langcode = $this->languageManager->getCurrentLanguage()->getId();
-      if (!gho_access_check_language_visibility($langcode)) {
+      $langcode = $this->languageManager?->getCurrentLanguage()?->getId() ?? NULL;
+      if ($langcode && !gho_access_check_language_visibility($langcode)) {
         return $tree;
       }
 
@@ -96,7 +96,9 @@ class GhoMenuLinkTreeManipulators extends DefaultMenuLinkTreeManipulators {
         $access_result->addCacheContexts(['user.node_grants:view']);
         $query->condition('status', NodeInterface::PUBLISHED);
         // This is to prevent language mismatch.
-        $query->condition('langcode', $langcode, 'IN');
+        if ($langcode) {
+          $query->condition('langcode', $langcode, 'IN');
+        }
         $query->accessCheck(TRUE);
       }
 

@@ -124,7 +124,7 @@ class EntityLoadMultipleByTitle extends DataProducerPluginBase implements Contai
     array $pluginDefinition,
     EntityTypeManagerInterface $entityTypeManager,
     EntityRepositoryInterface $entityRepository,
-    EntityMatchingBuffer $entityBuffer
+    EntityMatchingBuffer $entityBuffer,
   ) {
     parent::__construct($configuration, $pluginId, $pluginDefinition);
     $this->entityTypeManager = $entityTypeManager;

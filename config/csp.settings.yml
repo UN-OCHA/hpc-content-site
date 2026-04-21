@@ -62,7 +62,7 @@ report-only:
     frame-ancestors:
       base: self
   reporting:
-    plugin: sitelog
+    plugin: none
 enforce:
   enable: true
   directives:
@@ -73,4 +73,4 @@ enforce:
       sources:
         - humanitarianaction.info
   reporting:
-    plugin: sitelog
+    plugin: none

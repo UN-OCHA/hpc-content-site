@@ -84,7 +84,7 @@ class EntityConfiguration extends DataProducerPluginBase implements ContainerFac
     $pluginId,
     $pluginDefinition,
     EntityTypeManagerInterface $entityTypeManager,
-    RendererInterface $renderer
+    RendererInterface $renderer,
   ) {
     parent::__construct($configuration, $pluginId, $pluginDefinition);
     $this->entityTypeManager = $entityTypeManager;

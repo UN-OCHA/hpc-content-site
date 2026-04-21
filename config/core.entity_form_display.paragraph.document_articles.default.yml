@@ -18,11 +18,11 @@ content:
     weight: 1
     region: content
     settings:
+      open: true
       entity_browser: articles
       field_widget_display: label
       field_widget_edit: '1'
       field_widget_remove: '1'
-      open: '1'
       selection_mode: selection_append
       additional_fields:
         options:

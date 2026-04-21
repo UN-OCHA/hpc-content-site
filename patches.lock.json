@@ -1,5 +1,5 @@
 {
-    "_hash": "7012d1a71f1c0bf3bbfd1581eedbc3c124abad8e8f37c079f0cc98d1f1633259",
+    "_hash": "e245dd16b2f3bfb5eee10c59a6b068d4c0d5da5b00eb3122df1d3b84c9a8c4e8",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -85,18 +85,6 @@
                 }
             }
         ],
-        "drupal/csp": [
-            {
-                "package": "drupal/csp",
-                "description": "Simplify log format",
-                "url": "./patches/csp-log-format.patch",
-                "sha256": "877a344f6715fbed03f9237659f484211e96fad61a6ead4d9f0e649d7d326b56",
-                "depth": 1,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            }
-        ],
         "drupal/entity_browser": [
             {
                 "package": "drupal/entity_browser",
@@ -109,36 +97,12 @@
                 }
             }
         ],
-        "drupal/entity_browser_table": [
-            {
-                "package": "drupal/entity_browser_table",
-                "description": "Issue #3408217: Error: Call to a member function getStorage() on null",
-                "url": "https://www.drupal.org/files/issues/2023-12-21/3408217-error-call-to-member-function-getstorage-on-null.patch",
-                "sha256": "0830ab7477e6ff48cf1f958387bc6eb6b6fe3796831cdcd620d3a740b4348d1d",
-                "depth": 1,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            }
-        ],
         "drupal/entity_reference_revisions": [
             {
                 "package": "drupal/entity_reference_revisions",
                 "description": "Issue #2799479: Views doesn't recognize relationship to host",
                 "url": "patches/entity_reference_revisions-relationship_host_id-2799479-176.patch",
                 "sha256": "1d41186b45f839db2728ec93cd48a61ec7473cae119d00f71a31a9d463cba44a",
-                "depth": 1,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            }
-        ],
-        "drupal/field_group": [
-            {
-                "package": "drupal/field_group",
-                "description": "Issue #3395375: Duplicated required marks in field tabs with GIn admin theme",
-                "url": "https://www.drupal.org/files/issues/2024-08-06/3395375-6.patch",
-                "sha256": "a144ee4b6048645dc2454cf1a0973220835f2e1b901c0e9bc5f796af988a7627",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

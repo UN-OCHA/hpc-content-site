@@ -75,7 +75,6 @@ content:
     weight: 2
     region: content
     settings:
-      label: false
       wrapper: div
       open: true
       columns:
@@ -84,6 +83,7 @@ content:
         emphasis: auto
         footnote: auto
       breakpoint: ''
+      label: false
     third_party_settings: {  }
   status:
     type: boolean_checkbox

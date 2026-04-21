@@ -12,20 +12,11 @@
             "Issue #3413079: Cannot read properties of null (reading 'nodeType') on node.page.body": "https://www.drupal.org/files/issues/2024-01-08/3413079-9.patch",
             "Issue #3008292: ImageItem::getUploadValidators() should be the source of truth for validating uploaded images": "https://www.drupal.org/files/issues/2025-07-11/3008292-10.5x-108.patch"
         },
-        "drupal/csp": {
-            "Simplify log format": "./patches/csp-log-format.patch"
-        },
         "drupal/entity_browser": {
             "Issue #3056057: Position the main form actions to the bottom of IFrame": "patches/entity_browser-position-main-form-actins-on-bottom-3056057-10.patch"
         },
-        "drupal/entity_browser_table": {
-          "Issue #3408217: Error: Call to a member function getStorage() on null": "https://www.drupal.org/files/issues/2023-12-21/3408217-error-call-to-member-function-getstorage-on-null.patch"
-        },
         "drupal/entity_reference_revisions": {
             "Issue #2799479: Views doesn't recognize relationship to host": "patches/entity_reference_revisions-relationship_host_id-2799479-176.patch"
-        },
-        "drupal/field_group": {
-          "Issue #3395375: Duplicated required marks in field tabs with GIn admin theme": "https://www.drupal.org/files/issues/2024-08-06/3395375-6.patch"
         },
         "drupal/openid_connect": {
             "Handle case if user is in blocked state after SSO Authorization": "./patches/openid_connect-3390668-6.patch",

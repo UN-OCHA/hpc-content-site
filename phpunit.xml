@@ -40,7 +40,7 @@
         <!-- ###- symfony/mailer ### -->
   </php>
   <extensions>
-    <bootstrap class="Paraunit\Configuration\ParaunitExtension"/>
+    <!-- <bootstrap class="Paraunit\Configuration\ParaunitExtension"/> -->
     <!-- Functional tests HTML output logging. -->
     <bootstrap class="Drupal\TestTools\Extension\HtmlLogging\HtmlOutputLogger">
       <!-- The directory where the browser output will be stored. If a relative

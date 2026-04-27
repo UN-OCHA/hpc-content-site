@@ -1,5 +1,5 @@
 {
-    "_hash": "e245dd16b2f3bfb5eee10c59a6b068d4c0d5da5b00eb3122df1d3b84c9a8c4e8",
+    "_hash": "c33dc1b9d9dc6752ff34d8940e5a93723fb7c34f5816d833122d8395aef413bc",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -103,6 +103,18 @@
                 "description": "Issue #2799479: Views doesn't recognize relationship to host",
                 "url": "patches/entity_reference_revisions-relationship_host_id-2799479-176.patch",
                 "sha256": "1d41186b45f839db2728ec93cd48a61ec7473cae119d00f71a31a9d463cba44a",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/graphql": [
+            {
+                "package": "drupal/graphql",
+                "description": "Issue #3561746: type error on drush updb",
+                "url": "https://www.drupal.org/files/issues/2025-12-05/graphql-3561746-2.patch",
+                "sha256": "5ade2d4b1e259785a023ec779e1bd4ab1281df1983e14f1f5e49875dc7e19919",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

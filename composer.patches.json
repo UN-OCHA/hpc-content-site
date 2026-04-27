@@ -18,6 +18,9 @@
         "drupal/entity_reference_revisions": {
             "Issue #2799479: Views doesn't recognize relationship to host": "patches/entity_reference_revisions-relationship_host_id-2799479-176.patch"
         },
+        "drupal/graphql": {
+          "Issue #3561746: type error on drush updb": "https://www.drupal.org/files/issues/2025-12-05/graphql-3561746-2.patch"
+        },
         "drupal/openid_connect": {
             "Handle case if user is in blocked state after SSO Authorization": "./patches/openid_connect-3390668-6.patch",
             "Incorrect context in hook_redirect_logout_alter": "./patches/openid_connect-3577436-191.patch"

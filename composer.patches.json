@@ -31,6 +31,9 @@
     },
     "drupal/paragraphs_viewmode": {
       "Issue #3345123: entityViewModeAlter throws an exception in php 8.2": "https://www.drupal.org/files/issues/2023-03-01/paragraphs_viewmode-remove-context-parameter-3345123-2.patch"
+    },
+    "drupal/taxonomy_max_depth": {
+      "Issue #3564063: PHP 8.4 compatibility": "./patches/taxonomy_max_depth-3564063-mr4.patch"
     }
   }
 }

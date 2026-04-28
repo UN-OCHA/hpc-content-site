@@ -1,5 +1,5 @@
 {
-    "_hash": "c6d65664a9d616b3ff12cf06a61242f5de1e0ecd468d16ad1320fbbe90c4eadd",
+    "_hash": "74a9fe29384db58d11bc79c745226aa9c8f3eff3414ab4e7537e52ae8b1f4d78",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -135,6 +135,18 @@
                 "description": "Issue #3345123: entityViewModeAlter throws an exception in php 8.2",
                 "url": "https://www.drupal.org/files/issues/2023-03-01/paragraphs_viewmode-remove-context-parameter-3345123-2.patch",
                 "sha256": "746551a691127fd7ef7d7e597608baaced642d2b0603c581596f656d5088f886",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/taxonomy_max_depth": [
+            {
+                "package": "drupal/taxonomy_max_depth",
+                "description": "Issue #3564063: PHP 8.4 compatibility",
+                "url": "./patches/taxonomy_max_depth-3564063-mr4.patch",
+                "sha256": "729c3a4c31ebdfcad401d195273a5a0f87e9f9dc1e7d81f57e856e0da17f58a1",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

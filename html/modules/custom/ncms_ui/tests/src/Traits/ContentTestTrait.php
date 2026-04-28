@@ -17,6 +17,7 @@ use Drupal\Tests\field\Traits\EntityReferenceFieldCreationTrait;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\Tests\paragraphs\FunctionalJavascript\ParagraphsTestBaseTrait;
 use Drupal\Tests\taxonomy\Traits\TaxonomyTestTrait;
+use Drupal\Tests\user\Traits\UserCreationTrait;
 use Drupal\workflows\Entity\Workflow;
 
 /**
@@ -24,6 +25,7 @@ use Drupal\workflows\Entity\Workflow;
  */
 trait ContentTestTrait {
 
+  use UserCreationTrait;
   use EntityReferenceFieldCreationTrait;
   use ContentTypeCreationTrait;
   use ParagraphsTestBaseTrait;
@@ -122,12 +124,50 @@ trait ContentTestTrait {
         'region' => 'content',
       ])
       ->save();
+  }
 
+  /**
+   * Add a tag reference field to the given node bundle.
+   *
+   * @param string $bundle
+   *   The node bundle to which the field should be added.
+   */
+  protected function addTagsToBundle($bundle) {
     $handler_settings = [
       'target_bundles' => [
-        'content_space' => 'content_space',
+        'theme' => 'theme',
       ],
     ];
+    $this->createEntityReferenceField('node', $bundle, 'field_theme', 'Theme tags', 'taxonomy_term', 'default', $handler_settings);
+    FieldConfig::loadByName('node', $bundle, 'field_theme')
+      ->set('required', FALSE)
+      ->save();
+    EntityFormDisplay::load('node.' . $bundle . '.default')
+      ->setComponent('field_theme', [
+        'type' => 'options_select',
+        'region' => 'content',
+      ])
+      ->save();
+  }
+
+  /**
+   * Create a taxonomy term in the given vocabulary.
+   *
+   * @param string $vid
+   *   The id of the vocabulary.
+   * @param array|null $values
+   *   Optional values for the term.
+   *
+   * @return \Drupal\taxonomy\TermInterface
+   *   The created term object.
+   */
+  private function createTermInVid(string $vid, ?array $values = []): TermInterface {
+    $term = Term::create($values + [
+      'name' => $this->randomMachineName(),
+      'vid' => $vid,
+    ]);
+    $term->save();
+    return $term;
   }
 
   /**
@@ -137,12 +177,7 @@ trait ContentTestTrait {
    *   The created term object.
    */
   protected function createMajorTag(): TermInterface {
-    $term = Term::create([
-      'name' => $this->randomMachineName(),
-      'vid' => 'major_tags',
-    ]);
-    $term->save();
-    return $term;
+    return $this->createTermInVid('major_tags');
   }
 
   /**
@@ -153,13 +188,19 @@ trait ContentTestTrait {
    */
   protected function createContentSpace(): TermInterface {
     $tag = $this->createMajorTag();
-    $term = Term::create([
-      'name' => $this->randomMachineName(),
-      'vid' => 'content_space',
+    return $this->createTermInVid('content_space', [
       'field_major_tags' => ['target_id' => $tag->id()],
     ]);
-    $term->save();
-    return $term;
+  }
+
+  /**
+   * Create a theme tag term.
+   *
+   * @return \Drupal\taxonomy\TermInterface
+   *   The created term object.
+   */
+  protected function createThemeTag(): TermInterface {
+    return $this->createTermInVid('theme');
   }
 
   /**
@@ -204,6 +245,7 @@ trait ContentTestTrait {
    *   The created node object.
    */
   protected function createArticleInContentSpace($title, $content_space_id, $status = NodeInterface::PUBLISHED): NodeInterface {
+    $tag = $this->createThemeTag();
     $node = Node::create([
       'type' => 'article',
       'title' => $title,
@@ -212,6 +254,7 @@ trait ContentTestTrait {
       'moderation_state' => [
         'value' => $status == NodeInterface::PUBLISHED ? 'published' : 'draft',
       ],
+      'field_theme' => ['target_id' => $tag->id()],
     ]);
     $result = $node->save();
     $this->assertEquals($result, SAVED_NEW);
@@ -255,7 +298,7 @@ trait ContentTestTrait {
    *   The user object or FALSE.
    */
   protected function createEditorUserWithContentSpaces(array $content_spaces, $permissions = []) {
-    return $this->drupalCreateUser(array_merge([
+    return $this->createUser(array_merge([
       'access content overview',
       'access administration pages',
       'view the administration theme',
@@ -271,7 +314,7 @@ trait ContentTestTrait {
       'use article_workflow transition restore_publish',
       'use article_workflow transition save_draft_leave_current_published',
       'use article_workflow transition update',
-    ], $permissions), NULL, NULL, [
+    ], $permissions), NULL, FALSE, [
       'field_content_spaces' => array_map(function ($content_space) {
         return ['target_id' => $content_space->id()];
       }, $content_spaces),

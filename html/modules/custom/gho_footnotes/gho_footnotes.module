@@ -85,6 +85,7 @@ function gho_footnotes_prepare_build(array &$build, EntityInterface $entity) {
   // This module requires a field_footnotes and a field_text to work with.
   // If there is none then skip the process entirely.
   if (isset($build['field_footnotes'], $build['field_text'])) {
+    /** @var \Drupal\Core\Render\RendererInterface $renderer */
     $renderer = \Drupal::service('renderer');
 
     // We render the text to ensure all the text filters are applied (like
@@ -93,7 +94,7 @@ function gho_footnotes_prepare_build(array &$build, EntityInterface $entity) {
     // have a markup compatible with some of the text filters (like removing
     // some classes).
     if (isset($build['field_text'][0])) {
-      $markup = $renderer->renderPlain($build['field_text'][0]);
+      $markup = $renderer->renderInIsolation($build['field_text'][0]);
       $build['field_text'][0] = [
         '#type' => 'inline_template',
         '#template' => '<gho-footnotes-text data-id="' . $id . '">' . $markup . '</gho-footnotes-text>',
@@ -106,7 +107,7 @@ function gho_footnotes_prepare_build(array &$build, EntityInterface $entity) {
     // text format strips the `<p>` tag which makes it easier to extract the
     // content.
     if (isset($build['field_footnotes'][0])) {
-      $markup = $renderer->renderPlain($build['field_footnotes'][0]);
+      $markup = $renderer->renderInIsolation($build['field_footnotes'][0]);
       $build['field_footnotes'] = [
         '#type' => 'inline_template',
         '#template' => '<gho-footnotes-list id="gho-footnotes-list-' . $id . '">' . $markup . '</gho-footnotes-list>',
@@ -306,6 +307,7 @@ function gho_footnotes_get_backlinks($footnote_id, array $references, $running_i
  *   Text with references to footnotes replaced with links.
  */
 function gho_footnotes_update_text($base_id, $text, array $references, array $footnotes) {
+  /** @var \Drupal\Core\Render\RendererInterface $renderer */
   $renderer = \Drupal::service('renderer');
   // Start updating the references from the end to be able to use the extracted
   // positions otherwise they would not be correct after updating the first one.
@@ -333,7 +335,7 @@ function gho_footnotes_update_text($base_id, $text, array $references, array $fo
         // preserved. We cannot blindly trim the spaces because they may be of
         // significant value depending of the language. So this is left to the
         // editors to put appropriate spaces if necessary.
-        $replacement = str_replace($reference, trim($renderer->renderPlain($element)), $value);
+        $replacement = str_replace($reference, trim($renderer->renderInIsolation($element)), $value);
       }
       // Note that we don't use the mb_* functions to work with "bytes" so that
       // it's compatible with the PREG_OFFSET_CAPTURE flag used to extract the

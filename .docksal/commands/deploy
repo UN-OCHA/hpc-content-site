@@ -71,8 +71,8 @@ composer install
 echo "Set maintenance mode to on"
 drush sset system.maintenance_mode 1 -y
 
-echo "Clear cache"
-drush cr
+# Database updates must happen before the first cache rebuild with the new
+# code.
 
 echo "Run the deploy commands"
 drush deploy

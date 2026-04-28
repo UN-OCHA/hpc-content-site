@@ -1,0 +1,52 @@
+diff --git a/src/Taxonomy/VocabularySettingsWriter.php b/src/Taxonomy/VocabularySettingsWriter.php
+index 45a7851ee14e369653c622744c9cca99f65cdb41..24a67195d5f0c65e052e9492cfde569055c588a8 100644
+--- a/src/Taxonomy/VocabularySettingsWriter.php
++++ b/src/Taxonomy/VocabularySettingsWriter.php
+@@ -24,7 +24,7 @@ class VocabularySettingsWriter implements VocabularySettingsWriterInterface {
+    */
+   public function setMaxAncestorDepth(
+     VocabularyInterface $vocabulary,
+-    int $max_depth = NULL
++    ?int $max_depth = NULL
+   ): VocabularySettingsWriterInterface {
+     $module_name = static::MODULE_NAME;
+     $key = static::MAX_DEPTH_KEY;
+diff --git a/src/Taxonomy/VocabularySettingsWriterInterface.php b/src/Taxonomy/VocabularySettingsWriterInterface.php
+index bcd40096e12b301bec939e13c29f33d0e1ce7eaf..27a8aab4814652264ceb0a2d43116b8a7924227d 100644
+--- a/src/Taxonomy/VocabularySettingsWriterInterface.php
++++ b/src/Taxonomy/VocabularySettingsWriterInterface.php
+@@ -22,7 +22,7 @@ interface VocabularySettingsWriterInterface {
+    */
+   public function setMaxAncestorDepth(
+     VocabularyInterface $vocabulary,
+-    int $max_depth = NULL
++    ?int $max_depth = NULL
+   ): VocabularySettingsWriterInterface;
+ 
+ }
+diff --git a/tests/src/Functional/Form/TermFormTest.php b/tests/src/Functional/Form/TermFormTest.php
+index e82bddb3eb1d6005f13b4bb595cf70063a9d5d2a..b591bbf22a7f2fdc7f1846cbe7b1fd7730b98966 100644
+--- a/tests/src/Functional/Form/TermFormTest.php
++++ b/tests/src/Functional/Form/TermFormTest.php
+@@ -56,7 +56,7 @@ class TermFormTest extends FormTestBase {
+     $this->submitForm($values, 'Save');
+   }
+ 
+-  protected function setMaxAncestorDepth(int $max_depth = NULL) {
++  protected function setMaxAncestorDepth(?int $max_depth = NULL) {
+     $this->settingsWriter->setMaxAncestorDepth($this->vocabulary, $max_depth);
+     $this->vocabulary->save();
+   }
+diff --git a/tests/src/Functional/Form/TermOverviewFormTest.php b/tests/src/Functional/Form/TermOverviewFormTest.php
+index c47c910280bf06452e7f59a77bf2b4395212c810..3c1deca2715ab59c2c3053bfad9080092bd23b05 100644
+--- a/tests/src/Functional/Form/TermOverviewFormTest.php
++++ b/tests/src/Functional/Form/TermOverviewFormTest.php
+@@ -105,7 +105,7 @@ class TermOverviewFormTest extends FormTestBase {
+     $this->assertEquals($parent_ids, $actual_parent_ids);
+   }
+ 
+-  protected function setMaxAncestorDepth(int $max_depth = NULL) {
++  protected function setMaxAncestorDepth(?int $max_depth = NULL) {
+     $this->settingsWriter->setMaxAncestorDepth($this->vocabulary, $max_depth);
+     $this->vocabulary->save();
+   }

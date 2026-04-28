@@ -1,5 +1,5 @@
 {
-    "_hash": "c33dc1b9d9dc6752ff34d8940e5a93723fb7c34f5816d833122d8395aef413bc",
+    "_hash": "8825f576843f340b76333245eedc3eb7c07b991d32209f373e25298b1dcc7dbf",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -161,6 +161,18 @@
                 "description": "Issue #3345123: entityViewModeAlter throws an exception in php 8.2",
                 "url": "https://www.drupal.org/files/issues/2023-03-01/paragraphs_viewmode-remove-context-parameter-3345123-2.patch",
                 "sha256": "746551a691127fd7ef7d7e597608baaced642d2b0603c581596f656d5088f886",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/user_expire": [
+            {
+                "package": "drupal/user_expire",
+                "description": "Issue #3587307: Misleading config when 'authenticated' is used with more specific roles",
+                "url": "./patches/user_expire-3587307-mr46.patch",
+                "sha256": "95a54a36600aaa7a131ec1eb3d3f85f0b1bb632d75003701064a90a8ef506fb6",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

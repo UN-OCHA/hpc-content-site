@@ -1,0 +1,46 @@
+--- a/src/Form/UserExpireSettingsForm.php
++++ b/src/Form/UserExpireSettingsForm.php
+@@ -124,7 +124,7 @@
+     $form['user_expire_roles'] = [
+       '#type' => 'fieldset',
+       '#title' => $this->t('Account expiration settings by role'),
+-      '#description' => $this->t('Set inactivity expiration times for each user role. Enter 0 to disable expiration for a role. Enter 7776000 for 90 days.'),
++      '#description' => $this->t('Set inactivity expiration times for each user role. Enter 0 to disable expiration for a role. Enter 7776000 for 90 days. The authenticated role applies to all logged-in users, including users with additional roles such as administrator.'),
+     ];
+ 
+     foreach ($roles as $rid => $role) {
+@@ -138,7 +138,34 @@
+         '#default_value' => $rules[$rid] ?? 0,
+         '#min' => 0,
+       ];
++
++      if ($rid === RoleInterface::AUTHENTICATED_ID) {
++        $form['user_expire_roles']['user_expire_' . $rid]['#description'] = $this->t('A non-zero value here applies to all logged-in users, including users who also have more specific roles such as administrator.');
++      }
++      else {
++        $form['user_expire_roles']['user_expire_' . $rid]['#states'] = [
++          'enabled' => [
++            'input[name="user_expire_' . RoleInterface::AUTHENTICATED_ID . '"]' => ['value' => '0'],
++          ],
++        ];
++      }
+     }
++
++    if (isset($form['user_expire_roles']['user_expire_' . RoleInterface::AUTHENTICATED_ID])) {
++      $form['user_expire_roles']['authenticated_notice'] = [
++        '#type' => 'container',
++        '#markup' => $this->t('A non-zero authenticated inactivity value applies to all logged-in users. Role-specific inactivity fields are disabled while this value is non-zero.'),
++        '#states' => [
++          'invisible' => [
++            'input[name="user_expire_' . RoleInterface::AUTHENTICATED_ID . '"]' => ['value' => '0'],
++          ],
++        ],
++        '#attributes' => [
++          'class' => ['messages', 'messages--warning'],
++        ],
++        '#weight' => 100,
++      ];
++    }
+     // Account expiration warning settings.
+     $form['warnings'] = [
+       '#type' => 'fieldset',

@@ -28,4 +28,28 @@ interface PublisherInterface extends ConfigEntityInterface {
    */
   public function isKnownHost($host);
 
+  /**
+   * Check if remote refresh notifications are enabled.
+   *
+   * @return bool
+   *   TRUE if notifications are enabled, FALSE otherwise.
+   */
+  public function refreshNotificationsEnabled();
+
+  /**
+   * Get the remote refresh endpoint URL.
+   *
+   * @return string|null
+   *   The endpoint URL or NULL if none is configured.
+   */
+  public function getRefreshEndpoint();
+
+  /**
+   * Get the remote refresh shared secret.
+   *
+   * @return string|null
+   *   The shared secret or NULL if none is configured.
+   */
+  public function getRefreshSecret();
+
 }

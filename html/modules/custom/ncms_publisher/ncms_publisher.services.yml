@@ -1,7 +1,13 @@
 services:
+  logger.channel.ncms_publisher:
+    parent: logger.channel_base
+    arguments: ['ncms_publisher']
   ncms_publisher.publisher.manager:
     class: Drupal\ncms_publisher\PublisherManager
     arguments: ['@entity_type.manager', '@request_stack']
+  ncms_publisher.refresh_notifier:
+    class: Drupal\ncms_publisher\PublisherRefreshNotifier
+    arguments: ['@entity_type.manager', '@queue', '@logger.channel.ncms_publisher']
   ncms_publisher.csp_subscriber:
     class: Drupal\ncms_publisher\EventSubscriber\CspSubscriber
     arguments: ['@ncms_publisher.publisher.manager']

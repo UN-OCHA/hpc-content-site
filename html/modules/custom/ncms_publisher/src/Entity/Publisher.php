@@ -33,6 +33,9 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *     "id",
  *     "label",
  *     "known_hosts",
+ *     "refresh_notifications_enabled",
+ *     "refresh_endpoint",
+ *     "refresh_secret",
  *   },
  *   links = {
  *     "canonical" = "/admin/structure/publisher/{publisher}",
@@ -74,6 +77,27 @@ class Publisher extends ConfigEntityBase implements PublisherInterface {
   public function isKnownHost($host) {
     $known_hosts = $this->getKnownHosts();
     return in_array($host, $known_hosts);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function refreshNotificationsEnabled() {
+    return (bool) $this->get('refresh_notifications_enabled');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRefreshEndpoint() {
+    return $this->get('refresh_endpoint') ?: NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRefreshSecret() {
+    return $this->get('refresh_secret') ?: NULL;
   }
 
 }

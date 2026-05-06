@@ -12,7 +12,16 @@ ncms_publisher.publisher.*:
       label: 'Label'
     known_hosts:
       type: text
-      label: 'ID'
+      label: 'Known hosts'
+    refresh_notifications_enabled:
+      type: boolean
+      label: 'Send refresh notifications'
+    refresh_endpoint:
+      type: uri
+      label: 'Refresh endpoint'
+    refresh_secret:
+      type: string
+      label: 'Refresh secret'
     uuid:
       type: string
       constraints:

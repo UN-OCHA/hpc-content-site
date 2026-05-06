@@ -5,6 +5,7 @@
  * NCMS module file.
  */
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\ncms_ui\Entity\ContentInterface;
@@ -47,4 +48,40 @@ function ncms_publisher_content_base_edit_form_submit($form, FormStateInterface 
     // Redirect to the front page.
     $form_state->setRedirectUrl(Url::fromUserInput('/'));
   }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function ncms_publisher_entity_insert(EntityInterface $entity) {
+  ncms_publisher_queue_refresh_notification($entity, 'saved');
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function ncms_publisher_entity_update(EntityInterface $entity) {
+  ncms_publisher_queue_refresh_notification($entity, 'saved');
+}
+
+/**
+ * Queue a refresh notification for exportable content changes.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The saved entity.
+ * @param string $event
+ *   The event name.
+ */
+function ncms_publisher_queue_refresh_notification(EntityInterface $entity, string $event) {
+  if (!$entity instanceof ContentInterface || !in_array($entity->bundle(), ['article', 'document'])) {
+    return;
+  }
+
+  if (!$entity->isPublished() && $entity->getLastPublishedRevision()) {
+    return;
+  }
+
+  /** @var \Drupal\ncms_publisher\PublisherRefreshNotifier $refresh_notifier */
+  $refresh_notifier = \Drupal::service('ncms_publisher.refresh_notifier');
+  $refresh_notifier->enqueue($entity, $event);
 }

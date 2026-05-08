@@ -2,6 +2,7 @@
 
 namespace Drupal\ncms_publisher;
 
+use Drupal\Component\Uuid\UuidInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\ncms_publisher\Plugin\QueueWorker\PublisherRefreshQueue;
@@ -35,12 +36,20 @@ class PublisherRefreshNotifier {
   protected $logger;
 
   /**
+   * The UUID generator.
+   *
+   * @var \Drupal\Component\Uuid\UuidInterface
+   */
+  protected $uuid;
+
+  /**
    * Constructs a publisher refresh notifier.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, QueueFactory $queue_factory, LoggerInterface $logger) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, QueueFactory $queue_factory, LoggerInterface $logger, UuidInterface $uuid) {
     $this->entityTypeManager = $entity_type_manager;
     $this->queueFactory = $queue_factory;
     $this->logger = $logger;
+    $this->uuid = $uuid;
   }
 
   /**
@@ -67,9 +76,11 @@ class PublisherRefreshNotifier {
         'changed' => (int) $entity->getChangedTime(),
         'force_update' => (int) ($entity->get('force_update')?->value ?? 0),
         'event' => $event,
+        'delivery_id' => $this->uuid->generate(),
       ]);
 
-      $this->logger->info('Queued refresh notification for @publisher: @type @id.', [
+      $this->logger->info('Queued @event refresh notification for @publisher: @type @id.', [
+        '@event' => $event,
         '@publisher' => $publisher->id(),
         '@type' => $entity->bundle(),
         '@id' => $entity->id(),

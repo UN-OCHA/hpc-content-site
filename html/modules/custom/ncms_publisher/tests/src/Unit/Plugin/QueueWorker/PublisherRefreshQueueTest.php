@@ -19,6 +19,11 @@ use Psr\Log\NullLogger;
 class PublisherRefreshQueueTest extends UnitTestCase {
 
   /**
+   * A valid delivery id.
+   */
+  const DELIVERY_ID = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
+
+  /**
    * Tests that queue items are sent as signed JSON requests.
    */
   public function testProcessItemSendsSignedRefreshNotification() {
@@ -39,6 +44,7 @@ class PublisherRefreshQueueTest extends UnitTestCase {
           'changed' => 1710000000,
           'forceUpdate' => 1,
           'event' => 'saved',
+          'deliveryId' => self::DELIVERY_ID,
         ], $payload);
 
         $this->assertSame('application/json', $options['headers']['Content-Type']);
@@ -59,6 +65,7 @@ class PublisherRefreshQueueTest extends UnitTestCase {
       'changed' => 1710000000,
       'force_update' => 1,
       'event' => 'saved',
+      'delivery_id' => self::DELIVERY_ID,
     ]);
   }
 
@@ -78,6 +85,36 @@ class PublisherRefreshQueueTest extends UnitTestCase {
       'id' => 123,
       'status' => 1,
       'changed' => 1710000000,
+    ]);
+  }
+
+  /**
+   * Tests that deleted queue items are sent with an unpublished status.
+   */
+  public function testProcessItemSendsDeletedRefreshNotification() {
+    $endpoint = 'http://example.com/webhooks/content/remote-refresh';
+    $publisher = $this->createPublisher($endpoint, 'local-refresh-secret');
+
+    $http_client = $this->createMock(ClientInterface::class);
+    $http_client->expects($this->once())
+      ->method('request')
+      ->with('POST', $endpoint, $this->callback(function (array $options) {
+        $payload = Json::decode($options['body']);
+        $this->assertSame(0, $payload['status']);
+        $this->assertSame('deleted', $payload['event']);
+        $this->assertSame(self::DELIVERY_ID, $payload['deliveryId']);
+        return TRUE;
+      }));
+
+    $worker = $this->createWorker($publisher, $http_client);
+    $worker->processItem((object) [
+      'publisher' => 'ghi',
+      'type' => 'article',
+      'id' => 123,
+      'status' => 0,
+      'changed' => 1710000000,
+      'event' => 'deleted',
+      'delivery_id' => self::DELIVERY_ID,
     ]);
   }
 

@@ -61,7 +61,15 @@ function ncms_publisher_entity_insert(EntityInterface $entity) {
  * Implements hook_entity_update().
  */
 function ncms_publisher_entity_update(EntityInterface $entity) {
-  ncms_publisher_queue_refresh_notification($entity, 'saved');
+  $event = $entity instanceof ContentInterface && $entity->isDeleted() ? 'trashed' : 'saved';
+  ncms_publisher_queue_refresh_notification($entity, $event);
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function ncms_publisher_entity_delete(EntityInterface $entity) {
+  ncms_publisher_queue_refresh_notification($entity, 'deleted');
 }
 
 /**
@@ -77,7 +85,7 @@ function ncms_publisher_queue_refresh_notification(EntityInterface $entity, stri
     return;
   }
 
-  if (!$entity->isPublished() && $entity->getLastPublishedRevision()) {
+  if ($event === 'saved' && !$entity->isPublished() && $entity->getLastPublishedRevision()) {
     return;
   }
 

@@ -52,6 +52,13 @@ final class PublisherRefreshQueue extends QueueWorkerBase implements ContainerFa
   protected $logger;
 
   /**
+   * The UUID generator.
+   *
+   * @var \Drupal\Component\Uuid\UuidInterface
+   */
+  protected $uuid;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -59,6 +66,7 @@ final class PublisherRefreshQueue extends QueueWorkerBase implements ContainerFa
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->httpClient = $container->get('http_client');
     $instance->logger = $container->get('logger.channel.ncms_publisher');
+    $instance->uuid = $container->get('uuid');
     return $instance;
   }
 
@@ -79,6 +87,7 @@ final class PublisherRefreshQueue extends QueueWorkerBase implements ContainerFa
       'changed' => (int) $data->changed,
       'forceUpdate' => (int) ($data->force_update ?? 0),
       'event' => $data->event ?? 'saved',
+      'deliveryId' => $data->delivery_id ?? $this->uuid->generate(),
     ];
     $body = Json::encode($payload);
     $timestamp = (string) time();
@@ -94,7 +103,8 @@ final class PublisherRefreshQueue extends QueueWorkerBase implements ContainerFa
       'timeout' => 10,
     ]);
 
-    $this->logger->info('Sent refresh notification to @publisher for @type @id.', [
+    $this->logger->info('Sent @event refresh notification to @publisher for @type @id.', [
+      '@event' => $payload['event'],
       '@publisher' => $publisher->id(),
       '@type' => $data->type,
       '@id' => $data->id,

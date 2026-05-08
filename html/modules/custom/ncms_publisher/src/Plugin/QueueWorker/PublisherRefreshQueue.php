@@ -2,12 +2,12 @@
 
 namespace Drupal\ncms_publisher\Plugin\QueueWorker;
 
-use Drupal\Component\Serialization\Json;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\Attribute\QueueWorker;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\ncms_publisher\Entity\PublisherInterface;
+use Drupal\ncms_publisher\PublisherRefreshClient;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -38,11 +38,11 @@ final class PublisherRefreshQueue extends QueueWorkerBase implements ContainerFa
   protected $entityTypeManager;
 
   /**
-   * The HTTP client.
+   * The publisher refresh client.
    *
-   * @var \GuzzleHttp\ClientInterface
+   * @var \Drupal\ncms_publisher\PublisherRefreshClient
    */
-  protected $httpClient;
+  protected $refreshClient;
 
   /**
    * Logger channel.
@@ -64,7 +64,7 @@ final class PublisherRefreshQueue extends QueueWorkerBase implements ContainerFa
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $instance = new static($configuration, $plugin_id, $plugin_definition);
     $instance->entityTypeManager = $container->get('entity_type.manager');
-    $instance->httpClient = $container->get('http_client');
+    $instance->refreshClient = $container->get('ncms_publisher.refresh_client');
     $instance->logger = $container->get('logger.channel.ncms_publisher');
     $instance->uuid = $container->get('uuid');
     return $instance;
@@ -80,7 +80,7 @@ final class PublisherRefreshQueue extends QueueWorkerBase implements ContainerFa
     }
 
     $payload = [
-      'source' => 'hpc_content_module',
+      'source' => PublisherRefreshClient::SOURCE,
       'type' => $data->type,
       'id' => (int) $data->id,
       'status' => (int) $data->status,
@@ -89,19 +89,8 @@ final class PublisherRefreshQueue extends QueueWorkerBase implements ContainerFa
       'event' => $data->event ?? 'saved',
       'deliveryId' => $data->delivery_id ?? $this->uuid->generate(),
     ];
-    $body = Json::encode($payload);
-    $timestamp = (string) time();
-    $signature = 'sha256=' . hash_hmac('sha256', $timestamp . '.' . $body, $publisher->getRefreshSecret());
 
-    $this->httpClient->request('POST', $publisher->getRefreshEndpoint(), [
-      'body' => $body,
-      'headers' => [
-        'Content-Type' => 'application/json',
-        'X-NCMS-Timestamp' => $timestamp,
-        'X-NCMS-Signature' => $signature,
-      ],
-      'timeout' => 10,
-    ]);
+    $this->refreshClient->post($publisher->getRefreshEndpoint(), $publisher->getRefreshSecret(), $payload);
 
     $this->logger->info('Sent @event refresh notification to @publisher for @type @id.', [
       '@event' => $payload['event'],

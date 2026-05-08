@@ -3,10 +3,12 @@
 namespace Drupal\Tests\ncms_publisher\Unit\Plugin\QueueWorker;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Component\Uuid\UuidInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\ncms_publisher\Entity\PublisherInterface;
 use Drupal\ncms_publisher\Plugin\QueueWorker\PublisherRefreshQueue;
+use Drupal\ncms_publisher\PublisherRefreshClient;
 use Drupal\Tests\UnitTestCase;
 use GuzzleHttp\ClientInterface;
 use Psr\Log\NullLogger;
@@ -56,7 +58,7 @@ class PublisherRefreshQueueTest extends UnitTestCase {
         return TRUE;
       }));
 
-    $worker = $this->createWorker($publisher, $http_client);
+    $worker = $this->createWorker($publisher, $this->createRefreshClient($http_client));
     $worker->processItem((object) [
       'publisher' => 'ghi',
       'type' => 'article',
@@ -78,7 +80,7 @@ class PublisherRefreshQueueTest extends UnitTestCase {
     $http_client = $this->createMock(ClientInterface::class);
     $http_client->expects($this->never())->method('request');
 
-    $worker = $this->createWorker($publisher, $http_client);
+    $worker = $this->createWorker($publisher, $this->createRefreshClient($http_client));
     $worker->processItem((object) [
       'publisher' => 'ghi',
       'type' => 'article',
@@ -106,7 +108,7 @@ class PublisherRefreshQueueTest extends UnitTestCase {
         return TRUE;
       }));
 
-    $worker = $this->createWorker($publisher, $http_client);
+    $worker = $this->createWorker($publisher, $this->createRefreshClient($http_client));
     $worker->processItem((object) [
       'publisher' => 'ghi',
       'type' => 'article',
@@ -145,13 +147,13 @@ class PublisherRefreshQueueTest extends UnitTestCase {
    *
    * @param \Drupal\ncms_publisher\Entity\PublisherInterface $publisher
    *   The publisher returned from storage.
-   * @param \GuzzleHttp\ClientInterface $http_client
-   *   The HTTP client mock.
+   * @param \Drupal\ncms_publisher\PublisherRefreshClient $refresh_client
+   *   The publisher refresh client.
    *
    * @return \Drupal\ncms_publisher\Plugin\QueueWorker\PublisherRefreshQueue
    *   The queue worker.
    */
-  private function createWorker(PublisherInterface $publisher, ClientInterface $http_client): PublisherRefreshQueue {
+  private function createWorker(PublisherInterface $publisher, PublisherRefreshClient $refresh_client): PublisherRefreshQueue {
     $storage = $this->createMock(EntityStorageInterface::class);
     $storage->method('load')->with('ghi')->willReturn($publisher);
 
@@ -160,9 +162,22 @@ class PublisherRefreshQueueTest extends UnitTestCase {
 
     $worker = new PublisherRefreshQueue([], PublisherRefreshQueue::QUEUE_ID, []);
     $this->setProtectedProperty($worker, 'entityTypeManager', $entity_type_manager);
-    $this->setProtectedProperty($worker, 'httpClient', $http_client);
+    $this->setProtectedProperty($worker, 'refreshClient', $refresh_client);
     $this->setProtectedProperty($worker, 'logger', new NullLogger());
     return $worker;
+  }
+
+  /**
+   * Create a publisher refresh client.
+   *
+   * @param \GuzzleHttp\ClientInterface $http_client
+   *   The HTTP client mock.
+   *
+   * @return \Drupal\ncms_publisher\PublisherRefreshClient
+   *   The publisher refresh client.
+   */
+  private function createRefreshClient(ClientInterface $http_client): PublisherRefreshClient {
+    return new PublisherRefreshClient($http_client, $this->createMock(UuidInterface::class));
   }
 
   /**

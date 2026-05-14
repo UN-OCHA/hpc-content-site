@@ -28,11 +28,6 @@ $config['graphql.graphql_servers.ncms']['schema_configuration']['ncms_schema'] =
   'access_key' => getenv('GRAPHQL_KEY'),
 ];
 
-// Setup HID.
-$config['social_auth_hid.settings']['client_id'] = getenv('HID_CLIENT_ID');
-$config['social_auth_hid.settings']['client_secret'] = getenv('HID_CLIENT_SECRET');
-$config['social_auth_hid.settings']['base_url'] = 'https://auth.humanitarian.id';
-
 $settings['social_auth.settings']['redirect_user_form'] = true;
 
 $config['stage_file_proxy.settings']['origin'] = 'https://content.hpc.tools';

@@ -3,8 +3,6 @@ services:
     volumes:
       - ${PROJECT_ROOT}/html/sites/simpletest/:/var/www/html/sites/simpletest:rw
     environment:
-      - HID_CLIENT_ID
-      - HID_CLIENT_SECRET
       - GRAPHQL_KEY
       - COMPOSER_MEMORY_LIMIT=-1
       - XDEBUG_ENABLED=1

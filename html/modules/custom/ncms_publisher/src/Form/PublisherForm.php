@@ -67,54 +67,93 @@ class PublisherForm extends EntityForm {
       '#type' => 'details',
       '#title' => $this->t('Refresh notifications'),
       '#open' => $publisher->refreshNotificationsEnabled(),
+      '#tree' => TRUE,
     ];
 
-    $form['refresh_notifications']['refresh_notifications_enabled'] = [
+    $form['refresh_notifications']['enabled'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Send refresh notifications'),
       '#default_value' => $publisher->refreshNotificationsEnabled(),
     ];
 
-    $form['refresh_notifications']['refresh_endpoint'] = [
+    $form['refresh_notifications']['endpoint'] = [
       '#type' => 'url',
       '#title' => $this->t('Refresh endpoint'),
       '#default_value' => $publisher->getRefreshEndpoint(),
       '#states' => [
         'disabled' => [
-          ':input[name="refresh_notifications_enabled"]' => ['checked' => FALSE],
+          ':input[name="refresh_notifications[enabled]"]' => ['checked' => FALSE],
         ],
         'required' => [
-          ':input[name="refresh_notifications_enabled"]' => ['checked' => TRUE],
+          ':input[name="refresh_notifications[enabled]"]' => ['checked' => TRUE],
         ],
       ],
     ];
 
-    $form['refresh_notifications']['refresh_secret'] = [
+    $form['refresh_notifications']['secret'] = [
       '#type' => 'password',
       '#title' => $this->t('Refresh secret'),
       '#description' => $this->t('No refresh secret is currently set.'),
       '#default_value' => $publisher->getRefreshSecret(),
       '#states' => [
         'disabled' => [
-          ':input[name="refresh_notifications_enabled"]' => ['checked' => FALSE],
+          ':input[name="refresh_notifications[enabled]"]' => ['checked' => FALSE],
         ],
       ],
     ];
 
     if ($publisher->getRefreshSecret()) {
-      $form['refresh_notifications']['refresh_secret']['#description'] = $this->t('A refresh secret is currently set. Enter a new value to replace it, or leave this field empty to keep the current one.');
+      $form['refresh_notifications']['secret']['#description'] = $this->t('A refresh secret is currently set. Enter a new value to replace it, or leave this field empty to keep the current one.');
     }
 
-    $runtime_refresh_notifications_enabled = $this->getRuntimeRefreshSetting('refresh_notifications_enabled');
-    $runtime_refresh_endpoint = $this->getRuntimeRefreshSetting('refresh_endpoint');
-    $runtime_refresh_secret = $this->getRuntimeRefreshSetting('refresh_secret');
+    $refresh_basic_auth = $publisher->getRefreshBasicAuth();
+    $form['refresh_notifications']['basic_auth'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Basic auth'),
+      '#open' => !empty($refresh_basic_auth),
+      '#tree' => TRUE,
+      '#states' => [
+        'disabled' => [
+          ':input[name="refresh_notifications[enabled]"]' => ['checked' => FALSE],
+        ],
+      ],
+    ];
+    $form['refresh_notifications']['basic_auth']['user'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Username'),
+      '#description' => $this->t('Enter the basic auth username.'),
+      '#default_value' => $refresh_basic_auth['user'] ?? NULL,
+      '#states' => [
+        'disabled' => [
+          ':input[name="refresh_notifications[enabled]"]' => ['checked' => FALSE],
+        ],
+      ],
+    ];
+    $form['refresh_notifications']['basic_auth']['pass'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Password'),
+      '#description' => $this->t('Enter the basic auth password.'),
+      '#default_value' => $refresh_basic_auth['pass'] ?? NULL,
+      '#states' => [
+        'disabled' => [
+          ':input[name="refresh_notifications[enabled]"]' => ['checked' => FALSE],
+        ],
+      ],
+    ];
+
+    $runtime_refresh_notifications_enabled = $this->getRuntimeRefreshSetting('enabled');
+    $runtime_refresh_endpoint = $this->getRuntimeRefreshSetting('endpoint');
+    $runtime_refresh_secret = $this->getRuntimeRefreshSetting('secret');
+    $runtime_refresh_basic_auth = $this->getRuntimeRefreshSetting('basic_auth');
+    $runtime_refresh_basic_auth_is_set = !empty($runtime_refresh_basic_auth['user']) || !empty($runtime_refresh_basic_auth['pass']);
     $form['refresh_notifications']['connection_check_info'] = [
       '#type' => 'item',
       '#title' => $this->t('Connection check'),
       '#markup' => $runtime_refresh_notifications_enabled
-        ? $this->t('Uses runtime refresh configuration. Endpoint: @endpoint. Secret: @secret.', [
+        ? $this->t('Uses runtime refresh configuration. Endpoint: @endpoint. Secret: @secret. Basic auth: @basic_auth.', [
           '@endpoint' => $runtime_refresh_endpoint ?: $this->t('Not set'),
           '@secret' => $runtime_refresh_secret ? $this->t('Set') : $this->t('Not set'),
+          '@basic_auth' => $runtime_refresh_basic_auth_is_set ? $this->t('Set') : $this->t('Not set'),
         ])
         : $this->t('Connection check is unavailable because refresh notifications are not enabled in the runtime configuration.'),
     ];
@@ -125,8 +164,8 @@ class PublisherForm extends EntityForm {
       '#disabled' => !$runtime_refresh_notifications_enabled,
       '#submit' => ['::checkRefreshConnection'],
       '#limit_validation_errors' => [
-        ['refresh_endpoint'],
-        ['refresh_secret'],
+        ['refresh_notifications', 'endpoint'],
+        ['refresh_notifications', 'secret'],
       ],
     ];
 
@@ -139,19 +178,21 @@ class PublisherForm extends EntityForm {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
 
-    if (!(bool) $form_state->getValue('refresh_notifications_enabled')) {
+    // This method currently only adds validation for refresh settings, so
+    // there is nothing more to check when refresh notifications are disabled.
+    if (!(bool) $this->getSubmittedRefreshSetting($form_state, 'enabled')) {
       return;
     }
 
-    if (!$form_state->getValue('refresh_endpoint')) {
-      $form_state->setErrorByName('refresh_endpoint', $this->t('The refresh endpoint is required when refresh notifications are enabled.'));
+    if (!$this->getSubmittedRefreshSetting($form_state, 'endpoint')) {
+      $form_state->setErrorByName('refresh_notifications][endpoint', $this->t('The refresh endpoint is required when refresh notifications are enabled.'));
     }
 
     $refresh_secret = $this->getRefreshSecret($form_state);
     if (!$refresh_secret) {
-      $form_state->setErrorByName('refresh_secret', $this->t('The refresh secret is required when refresh notifications are enabled.'));
+      $form_state->setErrorByName('refresh_notifications][secret', $this->t('The refresh secret is required when refresh notifications are enabled.'));
     }
-    elseif (!$this->getSubmittedRefreshSetting($form_state, 'refresh_secret')) {
+    elseif (!$this->getSubmittedRefreshSetting($form_state, 'secret')) {
       // The password element intentionally renders empty, so an unchanged
       // secret is submitted as an empty value. At this point we have already
       // resolved the value that will be used at runtime: either the stored
@@ -159,7 +200,9 @@ class PublisherForm extends EntityForm {
       // back into form state before EntityForm::submitForm() copies submitted
       // values to the config entity; otherwise the later entity build step
       // would treat the empty password submission as an intentional deletion.
-      $form_state->setValue('refresh_secret', $refresh_secret);
+      $refresh_notifications = $form_state->getValue('refresh_notifications') ?: [];
+      $refresh_notifications['secret'] = $refresh_secret;
+      $form_state->setValue('refresh_notifications', $refresh_notifications);
     }
   }
 
@@ -170,9 +213,12 @@ class PublisherForm extends EntityForm {
     /** @var \Drupal\ncms_publisher\Entity\PublisherInterface $publisher */
     $publisher = $this->entity;
     $publisher->set('known_hosts', $form_state->getValue('known_hosts'));
-    $publisher->set('refresh_notifications_enabled', (bool) $form_state->getValue('refresh_notifications_enabled'));
-    $publisher->set('refresh_endpoint', $form_state->getValue('refresh_endpoint') ?: NULL);
-    $publisher->set('refresh_secret', $this->getRefreshSecret($form_state));
+    $publisher->set('refresh_notifications', [
+      'enabled' => (bool) $this->getSubmittedRefreshSetting($form_state, 'enabled'),
+      'endpoint' => $this->getSubmittedRefreshSetting($form_state, 'endpoint'),
+      'secret' => $this->getRefreshSecret($form_state),
+      'basic_auth' => $this->getSubmittedRefreshBasicAuth($form_state),
+    ]);
     $status = $publisher->save();
 
     switch ($status) {
@@ -194,8 +240,10 @@ class PublisherForm extends EntityForm {
    * Submit handler for checking the refresh webhook connection.
    */
   public function checkRefreshConnection(array &$form, FormStateInterface $form_state): void {
-    $endpoint = $this->getRuntimeRefreshSetting('refresh_endpoint');
-    $secret = $this->getRuntimeRefreshSetting('refresh_secret');
+    $endpoint = $this->getRuntimeRefreshSetting('endpoint');
+    $secret = $this->getRuntimeRefreshSetting('secret');
+    $options = $this->refreshClient->buildRequestOptions($this->getRuntimeRefreshSetting('basic_auth'));
+    $options['http_errors'] = FALSE;
     if (!$endpoint || !$secret) {
       $this->messenger()->addError($this->t('Enter a refresh endpoint and refresh secret before checking the connection.'));
       $form_state->setRebuild();
@@ -203,9 +251,7 @@ class PublisherForm extends EntityForm {
     }
 
     try {
-      $response = $this->refreshClient->post($endpoint, $secret, $this->refreshClient->buildPingPayload(), [
-        'http_errors' => FALSE,
-      ]);
+      $response = $this->refreshClient->post($endpoint, $secret, $this->refreshClient->buildPingPayload(), $options);
       if ($response->getStatusCode() === Response::HTTP_ACCEPTED) {
         $this->messenger()->addStatus($this->t('Refresh webhook connection check succeeded.'));
       }
@@ -236,8 +282,9 @@ class PublisherForm extends EntityForm {
    *   The submitted refresh setting value.
    */
   private function getSubmittedRefreshSetting(FormStateInterface $form_state, string $key) {
-    $value = $form_state->getValue($key);
-    return $key === 'refresh_notifications_enabled' ? (bool) $value : ($value ?: NULL);
+    $refresh_notifications = $form_state->getValue('refresh_notifications') ?: [];
+    $value = $refresh_notifications[$key] ?? NULL;
+    return $key === 'enabled' ? (bool) $value : ($value ?: NULL);
   }
 
   /**
@@ -255,8 +302,28 @@ class PublisherForm extends EntityForm {
    *   The runtime refresh setting value.
    */
   private function getRuntimeRefreshSetting(string $key) {
-    $value = $this->config($this->entity->getConfigDependencyName())->get($key);
-    return $key === 'refresh_notifications_enabled' ? (bool) $value : ($value ?: NULL);
+    $value = $this->config($this->entity->getConfigDependencyName())->get('refresh_notifications.' . $key);
+    return $key === 'enabled' ? (bool) $value : ($value ?: NULL);
+  }
+
+  /**
+   * Get submitted basic auth settings for refresh webhook requests.
+   *
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   The submitted basic auth settings.
+   */
+  private function getSubmittedRefreshBasicAuth(FormStateInterface $form_state): array {
+    $basic_auth = $this->getSubmittedRefreshSetting($form_state, 'basic_auth') ?: [];
+    if (empty($basic_auth['user']) && empty($basic_auth['pass'])) {
+      return [];
+    }
+    return [
+      'user' => $basic_auth['user'] ?? '',
+      'pass' => $basic_auth['pass'] ?? '',
+    ];
   }
 
   /**
@@ -273,9 +340,9 @@ class PublisherForm extends EntityForm {
     // explicit replacement value. If the password field was left empty, fall
     // back to the stored entity value and then to runtime config so a
     // settings.php override is also accepted as a configured secret.
-    return $this->getSubmittedRefreshSetting($form_state, 'refresh_secret')
+    return $this->getSubmittedRefreshSetting($form_state, 'secret')
       ?: $this->entity->getRefreshSecret()
-      ?: $this->getRuntimeRefreshSetting('refresh_secret');
+      ?: $this->getRuntimeRefreshSetting('secret');
   }
 
 }

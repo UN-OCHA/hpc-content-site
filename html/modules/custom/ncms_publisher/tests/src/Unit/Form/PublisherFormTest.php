@@ -28,6 +28,10 @@ class PublisherFormTest extends UnitTestCase {
   public function testCheckRefreshConnectionUsesRefreshClient(): void {
     $endpoint = 'http://example.com/webhooks/content/remote-refresh';
     $secret = 'stored-refresh-secret';
+    $basic_auth = [
+      'user' => 'viewer',
+      'pass' => 'viewer-pass',
+    ];
     $payload = [
       'source' => PublisherRefreshClient::SOURCE,
       'type' => 'article',
@@ -44,8 +48,15 @@ class PublisherFormTest extends UnitTestCase {
       ->method('buildPingPayload')
       ->willReturn($payload);
     $refresh_client->expects($this->once())
+      ->method('buildRequestOptions')
+      ->with($basic_auth)
+      ->willReturn(['auth' => ['viewer', 'viewer-pass']]);
+    $refresh_client->expects($this->once())
       ->method('post')
-      ->with($endpoint, $secret, $payload, ['http_errors' => FALSE])
+      ->with($endpoint, $secret, $payload, [
+        'auth' => ['viewer', 'viewer-pass'],
+        'http_errors' => FALSE,
+      ])
       ->willReturn($response);
 
     $form_state = $this->createMock(FormStateInterface::class);
@@ -61,8 +72,10 @@ class PublisherFormTest extends UnitTestCase {
     $this->setProtectedProperty($form, 'refreshClient', $refresh_client);
     $this->setProtectedProperty($form, 'entity', $this->createPublisher());
     $this->setProtectedProperty($form, 'configFactory', $this->createConfigFactory([
-      'refresh_endpoint' => $endpoint,
-      'refresh_secret' => $secret,
+      'refresh_notifications.enabled' => TRUE,
+      'refresh_notifications.endpoint' => $endpoint,
+      'refresh_notifications.secret' => $secret,
+      'refresh_notifications.basic_auth' => $basic_auth,
     ]));
 
     $build = [];
@@ -88,9 +101,11 @@ class PublisherFormTest extends UnitTestCase {
    */
   public function testValidateAllowsEmptyRefreshSecretWhenExistingSecretIsSet(): void {
     $submitted_values = [
-      'refresh_notifications_enabled' => TRUE,
-      'refresh_endpoint' => 'http://example.com/webhooks/content/remote-refresh',
-      'refresh_secret' => '',
+      'refresh_notifications' => [
+        'enabled' => TRUE,
+        'endpoint' => 'http://example.com/webhooks/content/remote-refresh',
+        'secret' => '',
+      ],
     ];
 
     $publisher = $this->createPublisher();
@@ -102,7 +117,11 @@ class PublisherFormTest extends UnitTestCase {
     $form_state->expects($this->never())->method('setErrorByName');
     $form_state->expects($this->once())
       ->method('setValue')
-      ->with('refresh_secret', 'existing-refresh-secret');
+      ->with('refresh_notifications', [
+        'enabled' => TRUE,
+        'endpoint' => 'http://example.com/webhooks/content/remote-refresh',
+        'secret' => 'existing-refresh-secret',
+      ]);
 
     $form = new PublisherForm();
     $form->setStringTranslation($this->createMock(TranslationInterface::class));
@@ -127,9 +146,15 @@ class PublisherFormTest extends UnitTestCase {
 
     $submitted_values = [
       'known_hosts' => 'example.com',
-      'refresh_notifications_enabled' => TRUE,
-      'refresh_endpoint' => 'http://example.com/webhooks/content/remote-refresh',
-      'refresh_secret' => $submitted_secret,
+      'refresh_notifications' => [
+        'enabled' => TRUE,
+        'endpoint' => 'http://example.com/webhooks/content/remote-refresh',
+        'secret' => $submitted_secret,
+        'basic_auth' => [
+          'user' => 'viewer',
+          'pass' => 'viewer-pass',
+        ],
+      ],
     ];
     $saved_values = [];
 
@@ -158,7 +183,15 @@ class PublisherFormTest extends UnitTestCase {
 
     $form->save([], $form_state);
 
-    $this->assertSame($expected_saved_secret, $saved_values['refresh_secret']);
+    $this->assertSame([
+      'enabled' => TRUE,
+      'endpoint' => 'http://example.com/webhooks/content/remote-refresh',
+      'secret' => $expected_saved_secret,
+      'basic_auth' => [
+        'user' => 'viewer',
+        'pass' => 'viewer-pass',
+      ],
+    ], $saved_values['refresh_notifications']);
   }
 
   /**
@@ -170,6 +203,7 @@ class PublisherFormTest extends UnitTestCase {
   private function createPublisher(): PublisherInterface {
     $publisher = $this->createMock(PublisherInterface::class);
     $publisher->method('getConfigDependencyName')->willReturn('ncms_publisher.publisher.ghi');
+    $publisher->method('getRefreshBasicAuth')->willReturn(NULL);
     return $publisher;
   }
 

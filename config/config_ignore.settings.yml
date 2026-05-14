@@ -3,6 +3,4 @@ _core:
 mode: simple
 ignored_config_entities:
   - 'graphql.graphql_servers.ncms:schema_configuration.ncms_schema.access_key'
-  - 'ncms_publisher.publisher.*:refresh_endpoint'
-  - 'ncms_publisher.publisher.*:refresh_notifications_enabled'
-  - 'ncms_publisher.publisher.*:refresh_secret'
+  - 'ncms_publisher.publisher.*:refresh_notifications'

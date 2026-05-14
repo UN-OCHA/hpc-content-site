@@ -5,6 +5,7 @@ namespace Drupal\ncms_publisher;
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Uuid\UuidInterface;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -76,6 +77,26 @@ class PublisherRefreshClient {
     ];
 
     return $this->httpClient->request('POST', $endpoint, $options);
+  }
+
+  /**
+   * Builds HTTP request options for publisher-specific connection settings.
+   *
+   * @param array|null $basic_auth
+   *   The basic auth settings, if configured.
+   *
+   * @return array
+   *   The request options.
+   */
+  public function buildRequestOptions(?array $basic_auth = NULL): array {
+    $options = [];
+    if (!empty($basic_auth['user']) || !empty($basic_auth['pass'])) {
+      $options[RequestOptions::AUTH] = [
+        $basic_auth['user'] ?? '',
+        $basic_auth['pass'] ?? '',
+      ];
+    }
+    return $options;
   }
 
   /**

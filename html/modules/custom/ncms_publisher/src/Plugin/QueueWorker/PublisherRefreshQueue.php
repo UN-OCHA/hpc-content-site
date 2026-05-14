@@ -90,7 +90,12 @@ final class PublisherRefreshQueue extends QueueWorkerBase implements ContainerFa
       'deliveryId' => $data->delivery_id ?? $this->uuid->generate(),
     ];
 
-    $this->refreshClient->post($publisher->getRefreshEndpoint(), $publisher->getRefreshSecret(), $payload);
+    $this->refreshClient->post(
+      $publisher->getRefreshEndpoint(),
+      $publisher->getRefreshSecret(),
+      $payload,
+      $this->refreshClient->buildRequestOptions($publisher->getRefreshBasicAuth())
+    );
 
     $this->logger->info('Sent @event refresh notification to @publisher for @type @id.', [
       '@event' => $payload['event'],

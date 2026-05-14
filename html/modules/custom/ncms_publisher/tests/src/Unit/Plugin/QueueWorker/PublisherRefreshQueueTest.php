@@ -11,6 +11,7 @@ use Drupal\ncms_publisher\Plugin\QueueWorker\PublisherRefreshQueue;
 use Drupal\ncms_publisher\PublisherRefreshClient;
 use Drupal\Tests\UnitTestCase;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\RequestOptions;
 use Psr\Log\NullLogger;
 
 /**
@@ -31,7 +32,10 @@ class PublisherRefreshQueueTest extends UnitTestCase {
   public function testProcessItemSendsSignedRefreshNotification() {
     $secret = 'local-refresh-secret';
     $endpoint = 'http://example.com/webhooks/content/remote-refresh';
-    $publisher = $this->createPublisher($endpoint, $secret);
+    $publisher = $this->createPublisher($endpoint, $secret, TRUE, [
+      'user' => 'viewer',
+      'pass' => 'viewer-pass',
+    ]);
 
     $http_client = $this->createMock(ClientInterface::class);
     $http_client->expects($this->once())
@@ -51,6 +55,7 @@ class PublisherRefreshQueueTest extends UnitTestCase {
 
         $this->assertSame('application/json', $options['headers']['Content-Type']);
         $this->assertSame(10, $options['timeout']);
+        $this->assertSame(['viewer', 'viewer-pass'], $options[RequestOptions::AUTH]);
 
         $timestamp = $options['headers']['X-NCMS-Timestamp'];
         $expected = 'sha256=' . hash_hmac('sha256', $timestamp . '.' . $options['body'], $secret);
@@ -129,16 +134,19 @@ class PublisherRefreshQueueTest extends UnitTestCase {
    *   The refresh secret.
    * @param bool $enabled
    *   Whether refresh notifications are enabled.
+   * @param array|null $basic_auth
+   *   The refresh basic auth settings.
    *
    * @return \Drupal\ncms_publisher\Entity\PublisherInterface
    *   The publisher mock.
    */
-  private function createPublisher(string $endpoint, string $secret, bool $enabled = TRUE): PublisherInterface {
+  private function createPublisher(string $endpoint, string $secret, bool $enabled = TRUE, ?array $basic_auth = NULL): PublisherInterface {
     $publisher = $this->createMock(PublisherInterface::class);
     $publisher->method('id')->willReturn('ghi');
     $publisher->method('refreshNotificationsEnabled')->willReturn($enabled);
     $publisher->method('getRefreshEndpoint')->willReturn($endpoint);
     $publisher->method('getRefreshSecret')->willReturn($secret);
+    $publisher->method('getRefreshBasicAuth')->willReturn($basic_auth);
     return $publisher;
   }
 

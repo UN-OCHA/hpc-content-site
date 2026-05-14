@@ -7,6 +7,7 @@ use Drupal\Component\Uuid\UuidInterface;
 use Drupal\ncms_publisher\PublisherRefreshClient;
 use Drupal\Tests\UnitTestCase;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -72,6 +73,20 @@ class PublisherRefreshClientTest extends UnitTestCase {
       'event' => 'ping',
       'deliveryId' => self::DELIVERY_ID,
     ], $client->buildPingPayload());
+  }
+
+  /**
+   * Tests that basic auth settings are converted to request options.
+   */
+  public function testBuildRequestOptionsAddsBasicAuth(): void {
+    $client = new PublisherRefreshClient($this->createMock(ClientInterface::class), $this->createMock(UuidInterface::class));
+
+    $this->assertSame([
+      RequestOptions::AUTH => ['viewer', 'viewer-pass'],
+    ], $client->buildRequestOptions([
+      'user' => 'viewer',
+      'pass' => 'viewer-pass',
+    ]));
   }
 
 }

@@ -33,9 +33,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *     "id",
  *     "label",
  *     "known_hosts",
- *     "refresh_notifications_enabled",
- *     "refresh_endpoint",
- *     "refresh_secret",
+ *     "refresh_notifications",
  *   },
  *   links = {
  *     "canonical" = "/admin/structure/publisher/{publisher}",
@@ -83,21 +81,45 @@ class Publisher extends ConfigEntityBase implements PublisherInterface {
    * {@inheritdoc}
    */
   public function refreshNotificationsEnabled() {
-    return (bool) $this->get('refresh_notifications_enabled');
+    return (bool) ($this->getRefreshNotifications()['enabled'] ?? FALSE);
   }
 
   /**
    * {@inheritdoc}
    */
   public function getRefreshEndpoint() {
-    return $this->get('refresh_endpoint') ?: NULL;
+    return ($this->getRefreshNotifications()['endpoint'] ?? NULL) ?: NULL;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getRefreshSecret() {
-    return $this->get('refresh_secret') ?: NULL;
+    return ($this->getRefreshNotifications()['secret'] ?? NULL) ?: NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRefreshBasicAuth() {
+    $basic_auth = $this->getRefreshNotifications()['basic_auth'] ?? [];
+    if (empty($basic_auth['user']) && empty($basic_auth['pass'])) {
+      return NULL;
+    }
+    return [
+      'user' => $basic_auth['user'] ?? '',
+      'pass' => $basic_auth['pass'] ?? '',
+    ];
+  }
+
+  /**
+   * Get the refresh notification settings.
+   *
+   * @return array
+   *   The refresh notification settings.
+   */
+  private function getRefreshNotifications(): array {
+    return $this->get('refresh_notifications') ?: [];
   }
 
 }

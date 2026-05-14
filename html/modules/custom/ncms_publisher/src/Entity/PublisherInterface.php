@@ -52,4 +52,12 @@ interface PublisherInterface extends ConfigEntityInterface {
    */
   public function getRefreshSecret();
 
+  /**
+   * Get the basic auth settings for refresh webhook requests.
+   *
+   * @return array|null
+   *   The basic auth settings or NULL if none are configured.
+   */
+  public function getRefreshBasicAuth();
+
 }

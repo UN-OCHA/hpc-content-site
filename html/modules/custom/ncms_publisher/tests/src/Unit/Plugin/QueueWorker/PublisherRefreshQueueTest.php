@@ -46,9 +46,7 @@ class PublisherRefreshQueueTest extends UnitTestCase {
           'source' => 'hpc_content_module',
           'type' => 'article',
           'id' => 123,
-          'status' => 1,
           'changed' => 1710000000,
-          'forceUpdate' => 1,
           'event' => 'saved',
           'deliveryId' => self::DELIVERY_ID,
         ], $payload);
@@ -68,9 +66,7 @@ class PublisherRefreshQueueTest extends UnitTestCase {
       'publisher' => 'ghi',
       'type' => 'article',
       'id' => 123,
-      'status' => 1,
       'changed' => 1710000000,
-      'force_update' => 1,
       'event' => 'saved',
       'delivery_id' => self::DELIVERY_ID,
     ]);
@@ -90,13 +86,12 @@ class PublisherRefreshQueueTest extends UnitTestCase {
       'publisher' => 'ghi',
       'type' => 'article',
       'id' => 123,
-      'status' => 1,
       'changed' => 1710000000,
     ]);
   }
 
   /**
-   * Tests that deleted queue items are sent with an unpublished status.
+   * Tests that deleted queue items are sent semantically.
    */
   public function testProcessItemSendsDeletedRefreshNotification() {
     $endpoint = 'http://example.com/webhooks/content/remote-refresh';
@@ -107,7 +102,7 @@ class PublisherRefreshQueueTest extends UnitTestCase {
       ->method('request')
       ->with('POST', $endpoint, $this->callback(function (array $options) {
         $payload = Json::decode($options['body']);
-        $this->assertSame(0, $payload['status']);
+        $this->assertArrayNotHasKey('status', $payload);
         $this->assertSame('deleted', $payload['event']);
         $this->assertSame(self::DELIVERY_ID, $payload['deliveryId']);
         return TRUE;
@@ -118,7 +113,6 @@ class PublisherRefreshQueueTest extends UnitTestCase {
       'publisher' => 'ghi',
       'type' => 'article',
       'id' => 123,
-      'status' => 0,
       'changed' => 1710000000,
       'event' => 'deleted',
       'delivery_id' => self::DELIVERY_ID,

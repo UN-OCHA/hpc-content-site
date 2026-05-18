@@ -83,9 +83,7 @@ final class PublisherRefreshQueue extends QueueWorkerBase implements ContainerFa
       'source' => PublisherRefreshClient::SOURCE,
       'type' => $data->type,
       'id' => (int) $data->id,
-      'status' => (int) $data->status,
       'changed' => (int) $data->changed,
-      'forceUpdate' => (int) ($data->force_update ?? 0),
       'event' => $data->event ?? 'saved',
       'deliveryId' => $data->delivery_id ?? $this->uuid->generate(),
     ];

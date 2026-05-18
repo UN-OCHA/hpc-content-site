@@ -72,9 +72,7 @@ class PublisherRefreshNotifier {
         'publisher' => $publisher->id(),
         'type' => $entity->bundle(),
         'id' => (int) $entity->id(),
-        'status' => (int) $entity->isPublished(),
         'changed' => (int) $entity->getChangedTime(),
-        'force_update' => (int) ($entity->get('force_update')?->value ?? 0),
         'event' => $event,
         'delivery_id' => $this->uuid->generate(),
       ]);

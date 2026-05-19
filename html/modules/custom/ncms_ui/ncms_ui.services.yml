@@ -4,6 +4,9 @@ services:
     arguments: ['@entity_type.manager', '@current_user', '@tempstore.private', '@plugin.manager.views.join']
   ncms_ui.entity_compare:
     class: Drupal\ncms_ui\Entity\EntityCompare
+  ncms_ui.auth_provider_role_manager:
+    class: Drupal\ncms_ui\AuthProviderRoleManager
+    arguments: ['@entity_type.manager']
   ncms_ui.content_base_form_alter:
     class: Drupal\ncms_ui\Form\ContentBaseFormAlter
     arguments: ['@request_stack', '@entity_type.manager', '@ncms_ui.content_space.manager', '@messenger', '@form_builder', '@ncms_publisher.publisher.manager', '@ncms_ui.entity_compare']
@@ -27,6 +30,11 @@ services:
   ncms_ui.replicate_subscriber:
     class: Drupal\ncms_ui\EventSubscriber\ReplicateEventSubscriber
     arguments: ['@entity_type.manager', '@ncms_ui.content_space.manager']
+    tags:
+      - { name: event_subscriber }
+  ncms_ui.auth_provider_subscriber:
+    class: Drupal\ncms_ui\EventSubscriber\AuthProviderLoginSubscriber
+    arguments: ['@ncms_ui.auth_provider_role_manager']
     tags:
       - { name: event_subscriber }
   ncms_ui.theme_negotiator.admin_theme:

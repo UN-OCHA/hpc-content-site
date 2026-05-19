@@ -71,6 +71,9 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
             'table--widget-entity_reference_browser_table_widget',
             $this->isSortable() ? 'table--widget-entity_reference_browser_table_widget--sortable' : NULL,
           ]),
+          // Keep the expected contrib hook so drag/drop JS can rewrite the
+          // hidden target_id input with the current row order.
+          'data-entity-browser-entities-list' => TRUE,
         ],
         '#empty' => $empty_text,
       ];
@@ -104,6 +107,10 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
       $this->getFirstColumnHeader(),
       $this->canShowTags() ? $this->t('Tags') : NULL,
       $this->getAdditionalFieldsColumnHeader(),
+      $this->isSortable() ? [
+        'data' => $this->t('Weight'),
+        'class' => ['tabledrag-hide'],
+      ] : NULL,
       $this->getActionColumnHeader(),
     ]);
   }
@@ -148,6 +155,7 @@ class EntityReferenceBrowserTableWidgetNcms extends EntityReferenceBrowserTableW
           ],
           'status_label' => $this->getAdditionalFieldsColumn($entity),
         ],
+        'weight' => $this->isSortable() ? $this->buildWeightCell($row_id) : NULL,
         'actions' => [
           'replace_button' => $this->buildReplaceButton($entity, $entities, $details_id, $row_id, $field_parents),
           'remove_button' => $this->buildRemoveButton($entity, $details_id, $row_id, $field_parents),

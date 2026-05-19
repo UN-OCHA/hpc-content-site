@@ -21,9 +21,9 @@ This will add the database settings and hash_salt to the `html/sites/default/set
 
 **View overriden configuration**
 
-For example, to view HID settings defined in a dev settings.php:
+For example, to view social auth settings defined in a dev settings.php:
 
-Run `drush cget social_auth_hid.settings --include-overridden`
+Run `drush cget social_auth.settings --include-overridden`
 
 **Missing User 0**
 

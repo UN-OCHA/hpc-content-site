@@ -31,8 +31,8 @@ abstract class ContentBase extends Node implements ContentInterface {
    * {@inheritdoc}
    */
   public function access($operation = 'view', ?AccountInterface $account = NULL, $return_as_object = FALSE) {
-    if ($operation == 'view' && (!$this->isDeleted() || $this->hasContentSpaceAccess($account))) {
-      // Always allow view operation on specific internal routes for non
+    if (in_array($operation, ['view', 'view label']) && (!$this->isDeleted() || $this->hasContentSpaceAccess($account))) {
+      // Always allow view operations on specific internal routes for non
       // deleted content or if the user can access the content space.
       return $return_as_object ? AccessResult::allowed() : TRUE;
     }

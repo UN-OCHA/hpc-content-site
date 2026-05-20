@@ -45,6 +45,33 @@ use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\views\ViewExecutable;
 
 /**
+ * Implements hook_module_implements_alter().
+ *
+ * Let user_expire block inactive accounts before restoring the service account.
+ */
+function ncms_ui_module_implements_alter(&$implementations, $hook) {
+  if ($hook === 'cron') {
+    $group = $implementations['ncms_ui'];
+    unset($implementations['ncms_ui']);
+    $implementations['ncms_ui'] = $group;
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ncms_ui_cron() {
+  $account = User::load(1);
+  if ($account && $account->isBlocked()) {
+    // Keep UID 1 available for emergency Drush login links. Its password is
+    // rotated separately, so user_expire should not leave it blocked.
+    // @see https://www.drupal.org/project/user_expire/issues/3095886
+    $account->activate();
+    $account->save();
+  }
+}
+
+/**
  * Implements hook_entity_bundle_info_alter().
  */
 function ncms_ui_entity_bundle_info_alter(array &$bundles) {

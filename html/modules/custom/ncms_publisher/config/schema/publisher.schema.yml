@@ -12,7 +12,34 @@ ncms_publisher.publisher.*:
       label: 'Label'
     known_hosts:
       type: text
-      label: 'ID'
+      label: 'Known hosts'
+    refresh_notifications:
+      type: mapping
+      label: 'Refresh notifications'
+      mapping:
+        enabled:
+          type: boolean
+          label: 'Send refresh notifications'
+        endpoint:
+          type: uri
+          label: 'Refresh endpoint'
+        secret:
+          type: string
+          label: 'Refresh secret'
+        basic_auth:
+          type: mapping
+          label: 'Refresh basic auth'
+          mapping:
+            user:
+              type: string
+              label: 'Username'
+              constraints:
+                PrimitiveType: []
+            pass:
+              type: string
+              label: 'Password'
+              constraints:
+                PrimitiveType: []
     uuid:
       type: string
       constraints:

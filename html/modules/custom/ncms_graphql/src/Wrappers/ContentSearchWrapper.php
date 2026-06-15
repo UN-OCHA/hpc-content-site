@@ -13,7 +13,7 @@ use Drupal\ncms_graphql\ResultWrapperInterface;
 class ContentSearchWrapper implements ResultWrapperInterface {
 
   /**
-   * An array of entitie objects.
+   * An array of entity objects.
    *
    * @var \Drupal\Core\Entity\ContentEntityInterface[]
    */
@@ -57,7 +57,7 @@ class ContentSearchWrapper implements ResultWrapperInterface {
         'created' => method_exists($entity, 'getCreatedTime') ? (new \DateTime())->setTimestamp($entity->getCreatedTime())->format(\DateTime::ISO8601) : NULL,
         'updated' => $entity instanceof EntityChangedInterface ? (new \DateTime())->setTimestamp($entity->getChangedTime())->format(\DateTime::ISO8601) : NULL,
         'autoVisible' => $entity->hasField('field_automatically_visible') ? $entity->get('field_automatically_visible')->value : NULL,
-        'forceUpdate' => $entity->get('force_update')?->value,
+        'forceUpdate' => $entity->hasField('force_update') ? $entity->get('force_update')->value : NULL,
       ];
     }, $this->entities);
   }

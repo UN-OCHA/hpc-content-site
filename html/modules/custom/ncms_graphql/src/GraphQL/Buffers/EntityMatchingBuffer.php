@@ -15,7 +15,7 @@ class EntityMatchingBuffer extends GraphQlEntityBuffer {
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected $entityTypeManager;
+  protected EntityTypeManagerInterface $entityTypeManager;
 
   /**
    * EntityBuffer constructor.
@@ -53,14 +53,14 @@ class EntityMatchingBuffer extends GraphQlEntityBuffer {
   /**
    * {@inheritdoc}
    */
-  protected function getBufferId($item) {
+  protected function getBufferId(\ArrayObject $item): string {
     return $item['type'];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function resolveBufferArray(array $buffer) {
+  public function resolveBufferArray(array $buffer): array {
     $type = reset($buffer)['type'];
     $bundles = reset($buffer)['bundles'];
     $titles = array_map(function (\ArrayObject $item) {

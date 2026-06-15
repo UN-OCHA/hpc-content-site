@@ -35,7 +35,7 @@ class EntityForceUpdate extends DataProducerPluginBase {
    *   NULL.
    */
   public function resolve(EntityInterface $entity) {
-    return $entity->get('force_update')?->value;
+    return $entity->hasField('force_update') ? $entity->get('force_update')->value : NULL;
   }
 
 }

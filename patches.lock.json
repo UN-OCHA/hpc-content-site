@@ -1,5 +1,5 @@
 {
-    "_hash": "74a9fe29384db58d11bc79c745226aa9c8f3eff3414ab4e7537e52ae8b1f4d78",
+    "_hash": "4581531e0bf09cc668312d7fd9b79d188ec99589791de1f3955800653953e44d",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -30,18 +30,6 @@
                 "url": "https://www.drupal.org/files/issues/2025-12-16/2546212-336.patch",
                 "sha256": "6baf32fdd668a8be4df24ae5868fa22cb0975b5ee93ac96ed4e58053c2ea8703",
                 "depth": 2,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            }
-        ],
-        "drupal/computed_field": [
-            {
-                "package": "drupal/computed_field",
-                "description": "Issue #3539496: Drupal 11 compatibility for v3",
-                "url": "./patches/3539496-mr-23.patch",
-                "sha256": "b921215c412418fe7e4b99834458e3ced46d476b6162f2fba62ebf558633949e",
-                "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"
                 }

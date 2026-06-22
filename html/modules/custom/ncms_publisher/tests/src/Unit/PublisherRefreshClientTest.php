@@ -8,13 +8,13 @@ use Drupal\ncms_publisher\PublisherRefreshClient;
 use Drupal\Tests\UnitTestCase;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Tests the publisher refresh client.
- *
- * @group ncms_publisher
  */
+#[Group('ncms_publisher')]
 class PublisherRefreshClientTest extends UnitTestCase {
 
   /**

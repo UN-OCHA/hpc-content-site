@@ -6,6 +6,9 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\ncms_ui\Entity\Content\Article;
 use Drupal\ncms_ui\Entity\Content\ContentBase;
 use Drupal\ncms_ui\Entity\ContentVersionInterface;
+use Drupal\ncms_ui\Plugin\Action\Publish;
+use Drupal\ncms_ui\Plugin\Action\Unpublish;
+use Drupal\node\NodeInterface;
 use Drupal\Tests\ncms_ui\Traits\ContentTestTrait;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\Tests\user\Traits\UserCreationTrait;
@@ -214,6 +217,35 @@ class ArticleTest extends KernelTestBase {
     $this->assertArrayNotHasKey('soft_delete', $operations);
     $this->assertArrayHasKey('restore', $operations);
     $this->assertArrayHasKey('delete', $operations);
+  }
+
+  /**
+   * Tests the publish and unpublish content actions.
+   */
+  public function testPublishActions() {
+    /** @var \Drupal\ncms_ui\Entity\Content\Article $article */
+    $article = Article::create([
+      'title' => 'Article title',
+    ]);
+    $article->setUnpublished();
+    $article->save();
+    $this->assertFalse($article->isPublished());
+
+    $publish = new Publish([], 'content_entity_publish', []);
+    $publish->execute($article);
+
+    /** @var \Drupal\ncms_ui\Entity\Content\Article $article */
+    $article = Article::load($article->id());
+    $this->assertTrue($article->isPublished());
+    $this->assertEquals('published', $article->getModerationState());
+
+    $unpublish = new Unpublish([], 'content_entity_unpublish', []);
+    $unpublish->execute($article);
+
+    /** @var \Drupal\ncms_ui\Entity\Content\Article $article */
+    $article = Article::load($article->id());
+    $this->assertSame(NodeInterface::NOT_PUBLISHED, (int) $article->get('status')->value);
+    $this->assertEquals('draft', $article->getModerationState());
   }
 
 }

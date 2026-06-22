@@ -70,6 +70,9 @@
     </include>
     <exclude>
       <directory suffix=".php">./html/modules/custom/**/tests</directory>
+      <directory suffix=".deploy.php">./html/modules/custom</directory>
+      <directory suffix=".post_update.php">./html/modules/custom</directory>
+      <file>./html/modules/custom/ncms_tags/src/TagMigration.php</file>
     </exclude>
   </source>
   <testsuites>

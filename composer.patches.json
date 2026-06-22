@@ -7,9 +7,6 @@
       "Issue #2544110: XSS attribute filtering is inconsistent and strips valid attributes": "./patches/2544110-11.3.x.patch",
       "Issue #2546212: Entity view/form mode formatter/widget settings have no translation UI": "https://www.drupal.org/files/issues/2025-12-16/2546212-336.patch"
     },
-    "drupal/computed_field": {
-      "Issue #3539496: Drupal 11 compatibility for v3": "./patches/3539496-mr-23.patch"
-    },
     "drupal/entity_browser": {
       "Issue #3056057: Position the main form actions to the bottom of IFrame": "./patches/entity_browser-position-main-form-actins-on-bottom-3056057-10.patch"
     },

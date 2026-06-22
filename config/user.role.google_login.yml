@@ -1,0 +1,9 @@
+uuid: 4f042491-969c-4854-8490-7b5e008b0a4c
+langcode: en
+status: true
+dependencies: {  }
+id: google_login
+label: 'Authenticated via Google'
+weight: -7
+is_admin: false
+permissions: {  }

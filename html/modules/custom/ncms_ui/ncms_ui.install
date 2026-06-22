@@ -169,3 +169,102 @@ function ncms_ui_update_9009() {
   $entities = $storage->loadMultiple();
   $storage->delete($entities);
 }
+
+/**
+ * Create auth provider roles and backfill them for existing users.
+ */
+function ncms_ui_update_9010(&$sandbox) {
+  /** @var \Drupal\ncms_ui\AuthProviderRoleManager $role_manager */
+  $role_manager = \Drupal::service('ncms_ui.auth_provider_role_manager');
+  $role_manager->ensureRolesExist();
+  $openid_connect_enabled = \Drupal::moduleHandler()->moduleExists('openid_connect');
+
+  if (!isset($sandbox['user_ids'])) {
+    $sandbox['current'] = 0;
+    $sandbox['updated'] = 0;
+    $database = \Drupal::database();
+    $google_ids = $database->select('social_auth', 'sa')
+      ->fields('sa', ['user_id'])
+      ->condition('plugin_id', 'social_auth_google')
+      ->distinct()
+      ->execute()
+      ->fetchCol();
+
+    $entraid_ids = [];
+    if ($openid_connect_enabled) {
+      $entraid_ids = $database->select('authmap', 'am')
+        ->fields('am', ['uid'])
+        ->condition('provider', 'openid_connect.entraid')
+        ->distinct()
+        ->execute()
+        ->fetchCol();
+    }
+
+    $sandbox['user_ids'] = array_values(array_unique(array_map('intval', array_merge($google_ids, $entraid_ids))));
+    sort($sandbox['user_ids']);
+    $sandbox['total'] = count($sandbox['user_ids']);
+
+    if ($sandbox['total'] === 0) {
+      $sandbox['#finished'] = 1;
+      return 'No users needed auth provider role backfilling.';
+    }
+  }
+
+  $batch_size = 50;
+  $user_ids = array_slice($sandbox['user_ids'], $sandbox['current'], $batch_size);
+
+  if (empty($user_ids)) {
+    $sandbox['#finished'] = 1;
+    return t('Backfilled auth provider roles for @count users.', ['@count' => $sandbox['updated']]);
+  }
+
+  $database = \Drupal::database();
+  $google_ids = $database->select('social_auth', 'sa')
+    ->fields('sa', ['user_id'])
+    ->condition('plugin_id', 'social_auth_google')
+    ->condition('user_id', $user_ids, 'IN')
+    ->distinct()
+    ->execute()
+    ->fetchCol();
+  $google_ids = array_map('intval', $google_ids);
+
+  $entraid_ids = [];
+  if ($openid_connect_enabled) {
+    $entraid_ids = $database->select('authmap', 'am')
+      ->fields('am', ['uid'])
+      ->condition('provider', 'openid_connect.entraid')
+      ->condition('uid', $user_ids, 'IN')
+      ->distinct()
+      ->execute()
+      ->fetchCol();
+    $entraid_ids = array_map('intval', $entraid_ids);
+  }
+
+  /** @var \Drupal\user\UserInterface[] $accounts */
+  $accounts = \Drupal::entityTypeManager()->getStorage('user')->loadMultiple($user_ids);
+  foreach ($accounts as $account) {
+    $changed = FALSE;
+
+    if (in_array((int) $account->id(), $google_ids, TRUE) && !$account->hasRole('google_login')) {
+      $account->addRole('google_login');
+      $changed = TRUE;
+    }
+
+    if (in_array((int) $account->id(), $entraid_ids, TRUE) && !$account->hasRole('un_agency_login')) {
+      $account->addRole('un_agency_login');
+      $changed = TRUE;
+    }
+
+    if ($changed) {
+      $account->save();
+      $sandbox['updated']++;
+    }
+  }
+
+  $sandbox['current'] += count($user_ids);
+  $sandbox['#finished'] = min(1, $sandbox['current'] / $sandbox['total']);
+
+  if ($sandbox['#finished'] == 1) {
+    return t('Backfilled auth provider roles for @count users.', ['@count' => $sandbox['updated']]);
+  }
+}

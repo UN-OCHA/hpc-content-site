@@ -19,7 +19,7 @@ abstract class ContentActionBase extends ActionBase {
    */
   public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     if (!$object instanceof NodeInterface || !$object instanceof ContentInterface) {
-      return $return_as_object ? FALSE : AccessResult::forbidden();
+      return $return_as_object ? AccessResult::forbidden() : FALSE;
     }
     /** @var \Drupal\Core\Access\AccessResultInterface $result */
     $result = $object->access('update', $account, TRUE);

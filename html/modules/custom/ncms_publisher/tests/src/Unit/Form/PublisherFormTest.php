@@ -12,14 +12,14 @@ use Drupal\ncms_publisher\Entity\PublisherInterface;
 use Drupal\ncms_publisher\Form\PublisherForm;
 use Drupal\ncms_publisher\PublisherRefreshClient;
 use Drupal\Tests\UnitTestCase;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Tests the publisher form.
- *
- * @group ncms_publisher
  */
+#[Group('ncms_publisher')]
 class PublisherFormTest extends UnitTestCase {
 
   /**

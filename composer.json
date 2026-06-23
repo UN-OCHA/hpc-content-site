@@ -146,6 +146,24 @@
             "drupal-composer/preserve-paths": true,
             "php-http/discovery": true,
             "tbachert/spi": true
+        },
+        "policy": {
+            "advisories": {
+                "audit": "fail",
+                "ignore-severity": {
+                    "low":    { "on-audit": true, "reason": "Do not alert on low severity issues." },
+                    "medium": { "on-audit": true, "reason": "Do not alert on medium severity issues." }
+                },
+                "ignore-id": {
+                    "GHSA-mg8j-w93w-xjgc": "OPS-10899 - we do not store the hash salt in a file"
+                }
+            },
+            "abandoned": {
+                "audit": "report"
+            },
+            "malware:": {
+                "block-scope": "all"
+            }
         }
     },
     "autoload": {

@@ -28,7 +28,7 @@ class ArticleExport extends ContentExportBase {
   /**
    * Resolver.
    *
-   * @param string[] $tags
+   * @param string[]|null $tags
    *   Optional tags to search for.
    * @param \Drupal\graphql\GraphQL\Execution\FieldContext $context
    *   A context object.
@@ -36,8 +36,8 @@ class ArticleExport extends ContentExportBase {
    * @return \GraphQL\Deferred
    *   A promise.
    */
-  public function resolve(array $tags, FieldContext $context) {
-    return $this->getDeferredExportWrapper($context, $tags, 'article');
+  public function resolve(?array $tags, FieldContext $context) {
+    return $this->getDeferredExportWrapper($context, $tags ?? [], 'article');
   }
 
 }

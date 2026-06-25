@@ -244,6 +244,46 @@ class NcmsQueryExecutionTest extends GraphQLTestBase {
         ],
       ],
     );
+
+    // Confirms the optional tags argument can be omitted by export clients and
+    // metadata remains importable for the returned article rows.
+    $this->assertQueryData(
+      <<<'GRAPHQL'
+        query {
+          articleExport {
+            count
+            metaData {
+              id
+              title
+              title_short
+              summary
+              content_space
+              tags
+              autoVisible
+              forceUpdate
+            }
+          }
+        }
+        GRAPHQL,
+      [],
+      [
+        'articleExport' => [
+          'count' => 1,
+          'metaData' => [
+            [
+              'id' => (int) $this->article->id(),
+              'title' => 'Dummy article',
+              'title_short' => 'Article short',
+              'summary' => 'Article summary',
+              'content_space' => 'Operations',
+              'tags' => ['Shelter', 'Operations'],
+              'autoVisible' => 1,
+              'forceUpdate' => 1710000100,
+            ],
+          ],
+        ],
+      ],
+    );
   }
 
   /**
@@ -368,6 +408,46 @@ class NcmsQueryExecutionTest extends GraphQLTestBase {
             [
               'id' => (int) $this->document->id(),
               'title' => 'Dummy document',
+            ],
+          ],
+        ],
+      ],
+    );
+
+    // Confirms documents follow the same no-tags export path as articles and
+    // expose the metadata consumed by synchronisation imports.
+    $this->assertQueryData(
+      <<<'GRAPHQL'
+        query {
+          documentExport {
+            count
+            metaData {
+              id
+              title
+              title_short
+              summary
+              content_space
+              tags
+              autoVisible
+              forceUpdate
+            }
+          }
+        }
+        GRAPHQL,
+      [],
+      [
+        'documentExport' => [
+          'count' => 1,
+          'metaData' => [
+            [
+              'id' => (int) $this->document->id(),
+              'title' => 'Dummy document',
+              'title_short' => 'Document short',
+              'summary' => 'Document summary',
+              'content_space' => 'Operations',
+              'tags' => ['Shelter'],
+              'autoVisible' => 1,
+              'forceUpdate' => 1710000200,
             ],
           ],
         ],

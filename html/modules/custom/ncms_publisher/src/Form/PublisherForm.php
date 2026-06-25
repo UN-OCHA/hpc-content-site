@@ -234,6 +234,7 @@ class PublisherForm extends EntityForm {
         ]));
     }
     $form_state->setRedirectUrl($publisher->toUrl('collection'));
+    return $status;
   }
 
   /**

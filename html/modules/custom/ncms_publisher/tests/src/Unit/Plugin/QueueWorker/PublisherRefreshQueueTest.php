@@ -12,13 +12,13 @@ use Drupal\ncms_publisher\PublisherRefreshClient;
 use Drupal\Tests\UnitTestCase;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Log\NullLogger;
 
 /**
  * Tests publisher refresh notification queue items.
- *
- * @group ncms_publisher
  */
+#[Group('ncms_publisher')]
 class PublisherRefreshQueueTest extends UnitTestCase {
 
   /**

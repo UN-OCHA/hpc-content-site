@@ -7,21 +7,20 @@ use Drupal\media\Entity\Media;
 use Drupal\responsive_image\Entity\ResponsiveImageStyle;
 
 use Drupal\Tests\BrowserTestBase;
-use Drupal\Tests\field\Traits\EntityReferenceTestTrait;
+use Drupal\Tests\field\Traits\EntityReferenceFieldCreationTrait;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\Tests\node\Traits\NodeCreationTrait;
 use Drupal\Tests\media\Traits\MediaTypeCreationTrait;
 use Drupal\Tests\TestFileCreationTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test LinkedResponsiveImageMediaFormatter.
- *
- * @group media
  */
 class LinkedResponsiveImageMediaFormatterTest extends BrowserTestBase {
 
   use ContentTypeCreationTrait;
-  use EntityReferenceTestTrait;
+  use EntityReferenceFieldCreationTrait;
   use MediaTypeCreationTrait;
   use NodeCreationTrait;
   use TestFileCreationTrait;
@@ -29,7 +28,7 @@ class LinkedResponsiveImageMediaFormatterTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'system',
     'node',
     'field',
@@ -155,7 +154,7 @@ class LinkedResponsiveImageMediaFormatterTest extends BrowserTestBase {
    * @return array
    *   Data for the ::testRender().
    */
-  public function providerRender() {
+  public static function providerRender() {
     return [
       'Responsive image style only' => [
         'settings' => [
@@ -375,9 +374,8 @@ class LinkedResponsiveImageMediaFormatterTest extends BrowserTestBase {
    *   An array of arrays. Each key is a CSS selector targeting an element in
    *   the rendered output, and each value is an array of attributes, keyed by
    *   name, that the element is expected to have.
-   *
-   * @dataProvider providerRender
    */
+  #[DataProvider('providerRender')]
   public function testRender(array $settings, array $selectors) {
     // Set the display settings for the media field.
     $this->viewDisplay->setComponent('field_media', [

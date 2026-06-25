@@ -79,7 +79,7 @@ class EntityMatchingBuffer extends GraphQlEntityBuffer {
       $title_match_group->condition('title', '%' . $title . '%', 'LIKE');
     }
     if (!empty($bundles)) {
-      $query->condition('type', $bundles);
+      $query->condition('type', $bundles, 'IN');
     }
     $query->condition($title_match_group);
     $query->accessCheck(TRUE);

@@ -63,16 +63,17 @@ class ContentExportWrapper implements ResultWrapperInterface {
     // names, but it's the most performant we can do right now.
     $field_query = \Drupal::database()->select('node_field_data', 'n');
     $field_query->condition('nid', $ids, 'IN');
-    $field_query->addJoin('LEFT', 'node__field_summary', 'summary', 'n.nid = summary.entity_id');
-    $field_query->addJoin('LEFT', 'node__field_short_title', 'short_title', 'n.nid = short_title.entity_id');
-    $field_query->addJoin('LEFT', 'node__field_automatically_visible', 'auto_visible', 'n.nid = auto_visible.entity_id');
-    $field_query->addJoin('LEFT', 'node__field_content_space', 'content_space', 'n.nid = content_space.entity_id');
-    $field_query->addJoin('LEFT', 'node__field_computed_tags', 'computed_tags', 'n.nid = computed_tags.entity_id');
-    $field_query->addJoin('LEFT', 'taxonomy_term_field_data', 'cm_tag', 'content_space.field_content_space_target_id = cm_tag.tid');
+    $field_query->condition('n.default_langcode', 1);
+    $field_query->addJoin('LEFT', 'node__field_summary', 'summary', 'n.nid = summary.entity_id AND n.langcode = summary.langcode');
+    $field_query->addJoin('LEFT', 'node__field_short_title', 'short_title', 'n.nid = short_title.entity_id AND n.langcode = short_title.langcode');
+    $field_query->addJoin('LEFT', 'node__field_automatically_visible', 'auto_visible', 'n.nid = auto_visible.entity_id AND n.langcode = auto_visible.langcode');
+    $field_query->addJoin('LEFT', 'node__field_content_space', 'content_space', 'n.nid = content_space.entity_id AND n.langcode = content_space.langcode');
+    $field_query->addJoin('LEFT', 'node__field_computed_tags', 'computed_tags', 'n.nid = computed_tags.entity_id AND n.langcode = computed_tags.langcode');
+    $field_query->addJoin('LEFT', 'taxonomy_term_field_data', 'cm_tag', 'content_space.field_content_space_target_id = cm_tag.tid AND cm_tag.default_langcode = 1');
     $field_query->addField('n', 'nid', 'id');
     $field_query->addField('n', 'status');
-    $field_query->addExpression('FROM_UNIXTIME(n.created)', 'created');
-    $field_query->addExpression('FROM_UNIXTIME(n.changed)', 'updated');
+    $field_query->addField('n', 'created');
+    $field_query->addField('n', 'changed', 'updated');
     $field_query->addField('n', 'title');
     $field_query->addField('short_title', 'field_short_title_value', 'title_short');
     $field_query->addField('summary', 'field_summary_value', 'summary');
@@ -83,7 +84,9 @@ class ContentExportWrapper implements ResultWrapperInterface {
     $field_query->orderBy('n.changed', 'DESC');
     $result = $field_query->execute()->fetchAllAssoc('id');
     $result = array_map(function ($item) {
-      $item->tags = explode(',', $item->tags);
+      $item->created = date('Y-m-d H:i:s', $item->created);
+      $item->updated = date('Y-m-d H:i:s', $item->updated);
+      $item->tags = !empty($item->tags) ? explode(',', $item->tags) : [];
       return $item;
     }, $result);
     return $result;

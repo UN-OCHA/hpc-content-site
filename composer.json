@@ -145,7 +145,8 @@
             "phpstan/extension-installer": true,
             "drupal-composer/preserve-paths": true,
             "php-http/discovery": true,
-            "tbachert/spi": true
+            "tbachert/spi": true,
+            "symfony/runtime": true
         },
         "policy": {
             "advisories": {

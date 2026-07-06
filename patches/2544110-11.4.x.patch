@@ -1,5 +1,5 @@
 diff --git a/core/lib/Drupal/Component/Utility/Xss.php b/core/lib/Drupal/Component/Utility/Xss.php
-index f84299fc8c5..1ebc1698570 100644
+index f84299f..1ebc169 100644
 --- a/core/lib/Drupal/Component/Utility/Xss.php
 +++ b/core/lib/Drupal/Component/Utility/Xss.php
 @@ -2,7 +2,7 @@
@@ -58,7 +58,7 @@ index f84299fc8c5..1ebc1698570 100644
    /**
     * Filters HTML to prevent cross-site-scripting (XSS) vulnerabilities.
     *
-@@ -284,6 +324,7 @@ protected static function attributes($attributes) {
+@@ -284,6 +324,7 @@ class Xss {
      $attribute_name = '';
      $skip = FALSE;
      $skip_protocol_filtering = FALSE;
@@ -66,7 +66,7 @@ index f84299fc8c5..1ebc1698570 100644
  
      while (strlen($attributes) != 0) {
        // Was the last operation successful?
-@@ -308,18 +349,16 @@ protected static function attributes($attributes) {
+@@ -308,18 +349,16 @@ class Xss {
              // starting with "javascript:"). However, for some non-URI
              // attributes performing this filtering causes valid and safe data
              // to be mangled. We prevent this by skipping protocol filtering on
@@ -92,7 +92,7 @@ index f84299fc8c5..1ebc1698570 100644
              $working = $mode = 1;
              $attributes = preg_replace('/^[-a-zA-Z][-a-zA-Z0-9]*/', '', $attributes);
            }
-@@ -351,7 +390,12 @@ protected static function attributes($attributes) {
+@@ -351,7 +390,12 @@ class Xss {
            $working = 1;
            // Attribute value, a URL after href= for instance.
            if (preg_match('/^"([^"]*)"(\s+|$)/', $attributes, $match)) {
@@ -106,7 +106,7 @@ index f84299fc8c5..1ebc1698570 100644
  
              if (!$skip) {
                $attributes_array[] = "$attribute_name=\"$value\"";
-@@ -361,7 +405,12 @@ protected static function attributes($attributes) {
+@@ -361,7 +405,12 @@ class Xss {
            }
  
            if (preg_match("/^'([^']*)'(\s+|$)/", $attributes, $match)) {
@@ -120,7 +120,7 @@ index f84299fc8c5..1ebc1698570 100644
  
              if (!$skip) {
                $attributes_array[] = "$attribute_name='$value'";
-@@ -371,7 +420,12 @@ protected static function attributes($attributes) {
+@@ -371,7 +420,12 @@ class Xss {
            }
  
            if (preg_match("%^([^\s\"']+)(\s+|$)%", $attributes, $match)) {
@@ -134,7 +134,7 @@ index f84299fc8c5..1ebc1698570 100644
  
              if (!$skip) {
                $attributes_array[] = "$attribute_name=\"$value\"";
-@@ -420,6 +474,33 @@ protected static function needsRemoval(array $html_tags, $elem) {
+@@ -420,6 +474,33 @@ class Xss {
      return !isset($html_tags[strtolower($elem)]);
    }
  
@@ -169,48 +169,41 @@ index f84299fc8c5..1ebc1698570 100644
     * Gets the list of HTML tags allowed by Xss::filterAdmin().
     *
 diff --git a/core/tests/Drupal/Tests/Component/Utility/XssTest.php b/core/tests/Drupal/Tests/Component/Utility/XssTest.php
-index 4d8d360208a..4ca7af112f6 100644
+index 61fe360..605dffe 100644
 --- a/core/tests/Drupal/Tests/Component/Utility/XssTest.php
 +++ b/core/tests/Drupal/Tests/Component/Utility/XssTest.php
-@@ -12,10 +12,11 @@
- use PHPUnit\Framework\Attributes\Group;
+@@ -13,9 +13,9 @@ use PHPUnit\Framework\Attributes\Group;
  use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
  use PHPUnit\Framework\TestCase;
-+use Prophecy\PhpUnit\ProphecyTrait;
  
- // cspell:ignore ascript barbaz ckers cript CVEs dynsrc fooÿñ msgbox ncript
+-// cspell:ignore ascript barbaz ckers cript CVEs dynsrc fooÿñ msgbox ncript
++// cspell:ignore ascript barbaz ckers cript CVEs dynsrc foaf fooÿñ msgbox ncript
  // cspell:ignore nfocus nmedi nosuchscheme nosuchtag onmediaerror scrscriptipt
 -// cspell:ignore tascript vbscript
 +// cspell:ignore tascript vbscript rdfa
  /**
   * XSS Filtering tests.
   *
-@@ -30,6 +31,8 @@
- #[RunTestsInSeparateProcesses]
- class XssTest extends TestCase {
- 
-+  use ProphecyTrait;
-+
-   /**
-    * {@inheritdoc}
-    */
-@@ -514,6 +517,36 @@ public static function providerTestAttributes(): array {
+@@ -519,6 +519,34 @@ class XssTest extends TestCase {
          'Link tag with rel attribute',
          ['a'],
        ],
 +      [
 +        '<a href="mailto:me@example.com">Drupal</a>',
 +        '<a href="mailto:me@example.com">Drupal</a>',
-+        'Link tag with rev attribute',
-+        ['a'],
-+      ],
-+      [
-+        '<a href="https://www.drupal.org/" rev="section">Drupal</a>',
-+        '<a href="https://www.drupal.org/" rev="section">Drupal</a>',
++        '<a href="mailto:me@example.com">Drupal</a>',
 +        'Link tag with mailto href',
 +        ['a'],
 +      ],
 +      [
++        '<a href="https://www.drupal.org/" rev="section">Drupal</a>',
++        '<a href="https://www.drupal.org/" rev="section">Drupal</a>',
++        '<a href="https://www.drupal.org/" rev="section">Drupal</a>',
++        'Link tag with rev attribute',
++        ['a'],
++      ],
++      [
++        '<a media="print and (resolution:300dpi)">Drupal</a>',
 +        '<a media="print and (resolution:300dpi)">Drupal</a>',
 +        '<a media="print and (resolution:300dpi)">Drupal</a>',
 +        'Link tag with media attribute',
@@ -219,23 +212,26 @@ index 4d8d360208a..4ca7af112f6 100644
 +      [
 +        '<a sizes="16x16">Drupal</a>',
 +        '<a sizes="16x16">Drupal</a>',
++        '<a sizes="16x16">Drupal</a>',
 +        'Link tag with sizes attribute',
 +        ['a'],
-+      ],
-+      [
-+        '<time datetime="2017-02-14">',
-+        '<time datetime="2017-02-14">',
-+        'Time with datetime attribute',
-+        ['time'],
 +      ],
        [
          '<span property="dc:subject">Drupal 8: The best release ever.</span>',
          '<span property="dc:subject">Drupal 8: The best release ever.</span>',
-@@ -568,6 +601,68 @@ public static function providerTestAttributes(): array {
+@@ -582,6 +610,85 @@ class XssTest extends TestCase {
          'Time with datetime attribute',
          ['time'],
        ],
 +      [
++        '<time datetime="2017-02-14">',
++        '<time datetime="2017-02-14">',
++        '<time datetime="2017-02-14"></time>',
++        'Time with datetime attribute',
++        ['time'],
++      ],
++      [
++        '<section class="actions-menu-inner" ng-style="{ \'max-height\': maxPanelHeight }" pretty-scrollbar scroll-axis="y" scroll-theme="light"></section>',
 +        '<section class="actions-menu-inner" ng-style="{ \'max-height\': maxPanelHeight }" pretty-scrollbar scroll-axis="y" scroll-theme="light"></section>',
 +        '<section class="actions-menu-inner" ng-style="{ \'max-height\': maxPanelHeight }" pretty-scrollbar scroll-axis="y" scroll-theme="light"></section>',
 +        'Section tag with ng- attribute',
@@ -244,11 +240,13 @@ index 4d8d360208a..4ca7af112f6 100644
 +      [
 +        '<source srcset="image.jpg 1x" media="all and (min-width: 560px) and (max-width: 850px)" type="image/jpeg" />',
 +        '<source srcset="image.jpg 1x" media="all and (min-width: 560px) and (max-width: 850px)" type="image/jpeg" />',
++        '<source srcset="image.jpg 1x" media="all and (min-width: 560px) and (max-width: 850px)" type="image/jpeg">',
 +        'Source with media containing breakpoints',
 +        ['source'],
 +      ],
 +      // Test RDFa attributes.
 +      [
++        '<img src="http://example.com/foo.jpg" typeof="foaf:Image">',
 +        '<img src="http://example.com/foo.jpg" typeof="foaf:Image">',
 +        '<img src="http://example.com/foo.jpg" typeof="foaf:Image">',
 +        'Image tag with RDFa with namespaced attribute',
@@ -257,16 +255,19 @@ index 4d8d360208a..4ca7af112f6 100644
 +      [
 +        '<img src="http://example.com/foo.jpg" typeof="foaf:bad////value">',
 +        '<img src="http://example.com/foo.jpg" typeof="foaf:bad////value">',
-+        'Image tag with RDFa with bad with namespaced attribute',
++        '<img src="http://example.com/foo.jpg" typeof="foaf:bad////value">',
++        'Image tag with RDFa with bad namespaced attribute',
 +        ['img'],
 +      ],
 +      [
 +        '<img src="http://example.com/foo.jpg" foo="bar:baz">',
 +        '<img src="http://example.com/foo.jpg" foo="baz">',
++        '<img src="http://example.com/foo.jpg" foo="baz">',
 +        'Image tag with non-RDFa attribute',
 +        ['img'],
 +      ],
 +      [
++        '<h2 property="title">The Title</h2>',
 +        '<h2 property="title">The Title</h2>',
 +        '<h2 property="title">The Title</h2>',
 +        'H2 tag with RDFa attribute without namespace',
@@ -275,10 +276,12 @@ index 4d8d360208a..4ca7af112f6 100644
 +      [
 +        '<h2 property="http://purl.org/dc/terms/title">The Title</h2>',
 +        '<h2 property="http://purl.org/dc/terms/title">The Title</h2>',
++        '<h2 property="http://purl.org/dc/terms/title">The Title</h2>',
 +        'H2 tag with RDFa attribute with URL',
 +        ['h2'],
 +      ],
 +      [
++        '<h2 property="javascript:alert(0);">The Title</h2>',
 +        '<h2 property="javascript:alert(0);">The Title</h2>',
 +        '<h2 property="javascript:alert(0);">The Title</h2>',
 +        'H2 tag with RDFa attribute with XSS',
@@ -288,15 +291,17 @@ index 4d8d360208a..4ca7af112f6 100644
 +      [
 +        '<img src="http://example.com/foo.jpg" title="Example: title" alt="Example: alt">',
 +        '<img src="http://example.com/foo.jpg" title="Example: title" alt="Example: alt">',
++        '<img src="http://example.com/foo.jpg" title="Example: title" alt="Example: alt">',
 +        'img tag alt and title attributes with colons in text',
 +        ['img'],
 +      ],
 +      [
 +        '<img src="http://example.com/foo.jpg" data-caption="Example: data-caption.">',
 +        '<img src="http://example.com/foo.jpg" data-caption="Example: data-caption.">',
++        '<img src="http://example.com/foo.jpg" data-caption="Example: data-caption.">',
 +        'img tag with colon in data-caption attribute',
 +        ['img'],
 +      ],
-     ];
-   }
- 
+       [
+         '<a -dummy=\': href=javascript:alert("oh\x20no")//\'>I\'m magic, click me!</a>',
+         '<a>I\'m magic, click me!</a>',

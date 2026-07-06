@@ -1,0 +1,1203 @@
+diff --git a/core/modules/config_translation/src/Controller/BundleAwareConfigEntityListBuilder.php b/core/modules/config_translation/src/Controller/BundleAwareConfigEntityListBuilder.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..82cfa4c9d08bc5a3fbc848efae86bcd1a6bdfd2f
+--- /dev/null
++++ b/core/modules/config_translation/src/Controller/BundleAwareConfigEntityListBuilder.php
+@@ -0,0 +1,118 @@
++<?php
++
++namespace Drupal\config_translation\Controller;
++
++use Drupal\Core\Entity\EntityStorageInterface;
++use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
++use Drupal\Core\Entity\EntityTypeInterface;
++use Drupal\Core\Entity\EntityTypeManagerInterface;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++
++/**
++ * Defines the config translation list builder for field entities.
++ */
++abstract class BundleAwareConfigEntityListBuilder extends ConfigTranslationEntityListBuilder {
++
++  /**
++   * The name of the entity type the configs are attached to.
++   *
++   * @var string
++   */
++  protected $baseEntityType = '';
++
++  /**
++   * An array containing the base entity type's definition.
++   *
++   * @var \Drupal\Core\Entity\EntityTypeInterface
++   */
++  protected $baseEntityInfo;
++
++  /**
++   * The bundles info for the base entity type.
++   *
++   * @var array
++   */
++  protected $baseEntityBundles = [];
++
++  /**
++   * The entity type manager.
++   *
++   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
++   */
++  protected $entityTypeManager;
++
++  /**
++   * The entity bundle info.
++   *
++   * @var \Drupal\Core\Entity\EntityTypeBundleInfoInterface
++   */
++  protected $entityTypeBundleInfo;
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
++    $entity_type_manager = $container->get('entity_type.manager');
++    $entity_type_bundle_info = $container->get('entity_type.bundle.info');
++    return new static(
++      $entity_type,
++      $entity_type_manager->getStorage($entity_type->id()),
++      $entity_type_manager,
++      $entity_type_bundle_info
++    );
++  }
++
++  /**
++   * Constructs a new ConfigTranslationFieldListBuilder object.
++   *
++   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
++   *   The entity type definition.
++   * @param \Drupal\Core\Entity\EntityStorageInterface $storage
++   *   The entity storage class.
++   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
++   *   The entity type manager.
++   * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
++   *   The entity type bundle info.
++   */
++  public function __construct(EntityTypeInterface $entity_type, EntityStorageInterface $storage, EntityTypeManagerInterface $entity_type_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info) {
++    parent::__construct($entity_type, $storage);
++    $this->entityTypeManager = $entity_type_manager;
++    $this->entityTypeBundleInfo = $entity_type_bundle_info;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function setMapperDefinition($mapper_definition) {
++    $this->baseEntityType = $mapper_definition['base_entity_type'];
++    $this->baseEntityInfo = $this->entityTypeManager->getDefinition($this->baseEntityType);
++    $this->baseEntityBundles = $this->entityTypeBundleInfo->getBundleInfo($this->baseEntityType);
++    return $this;
++  }
++
++  /**
++   * Controls the visibility of the bundle column on field list pages.
++   *
++   * @return bool
++   *   Whenever the bundle is displayed or not.
++   */
++  public function displayBundle() {
++    // The bundle key is explicitly defined in the entity definition.
++    if ($this->baseEntityInfo->getKey('bundle')) {
++      return TRUE;
++    }
++
++    // There is more than one bundle defined.
++    if (count($this->baseEntityBundles) > 1) {
++      return TRUE;
++    }
++
++    // The defined bundle ones not match the entity type name.
++    if (!empty($this->baseEntityBundles) && !isset($this->baseEntityBundles[$this->baseEntityType])) {
++      return TRUE;
++    }
++
++    return FALSE;
++  }
++
++}
+diff --git a/core/modules/config_translation/src/Controller/ConfigTranslationEntityDisplayListBuilder.php b/core/modules/config_translation/src/Controller/ConfigTranslationEntityDisplayListBuilder.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..b8a63da0f058316cf562a938cc8d2e729152baff
+--- /dev/null
++++ b/core/modules/config_translation/src/Controller/ConfigTranslationEntityDisplayListBuilder.php
+@@ -0,0 +1,143 @@
++<?php
++
++namespace Drupal\config_translation\Controller;
++
++use Drupal\Core\Entity\EntityInterface;
++use Drupal\Core\Entity\EntityStorageInterface;
++use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
++use Drupal\Core\Entity\EntityTypeInterface;
++use Drupal\Core\Entity\EntityTypeManagerInterface;
++use Drupal\Core\Session\AccountInterface;
++use Drupal\Core\Url;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++
++/**
++ * Defines the config translation list builder for entity display entities.
++ */
++class ConfigTranslationEntityDisplayListBuilder extends BundleAwareConfigEntityListBuilder {
++
++  /**
++   * Context display id.
++   *
++   * @var string
++   */
++  protected $displayContext;
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
++    $entity_type_manager = $container->get('entity_type.manager');
++    $entity_type_bundle_info = $container->get('entity_type.bundle.info');
++    return new static(
++      $entity_type,
++      $entity_type_manager->getStorage($entity_type->id()),
++      $entity_type_manager,
++      $entity_type_bundle_info,
++      $container->get('current_user')
++    );
++  }
++
++  /**
++   * Constructs a new ConfigTranslationEntityDisplayListBuilder object.
++   *
++   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
++   *   The entity type definition.
++   * @param \Drupal\Core\Entity\EntityStorageInterface $storage
++   *   The entity storage class.
++   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
++   *   The entity type manager.
++   * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
++   *   The entity type bundle info.
++   * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
++   *   The current user service.
++   */
++  public function __construct(EntityTypeInterface $entity_type, EntityStorageInterface $storage, EntityTypeManagerInterface $entity_type_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info, protected AccountInterface $currentUser) {
++    parent::__construct($entity_type, $storage, $entity_type_manager, $entity_type_bundle_info);
++    // Property displayContext from $this->entityType is protected,
++    // so recreate it from its ID.
++    $this->displayContext = preg_replace('/^entity_(.+)_display$/', '\1', $this->entityType->id());
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function load(): ?array {
++    // It is not possible to use the standard load method, because this needs
++    // all display entities only for the given baseEntityType.
++    $ids = \Drupal::entityQuery($this->entityType->id())
++      ->accessCheck()
++      ->condition('id', $this->baseEntityType . '.', 'STARTS_WITH')
++      ->execute();
++    return $this->storage->loadMultiple($ids);
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getFilterLabels(): array {
++    $info = parent::getFilterLabels();
++    $bundle = $this->baseEntityInfo->getBundleLabel() ?: $this->t('Bundle');
++    $bundle = mb_strtolower($bundle);
++    $info['placeholder'] = $this->t('Enter mode or @bundle', [
++      '@bundle' => $bundle,
++    ]);
++    $info['description'] = $this->t('Enter a part of the mode or @bundle to filter by.', [
++      '@bundle' => $bundle,
++    ]);
++    return $info;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function buildRow(EntityInterface $entity): array {
++    /** @var \Drupal\Core\Entity\Display\EntityDisplayInterface $entity */
++    $row = parent::buildRow($entity);
++    $mode = $entity->getMode() == 'default' ? $this->t('Default') : $this->entityTypeManager
++      ->getStorage('entity_' . $this->displayContext . '_mode')
++      ->load($entity->getTargetEntityTypeId() . '.' . $entity->getMode())
++      ->label();
++    $row['label']['data'] = $entity->bundle . " - " . $mode;
++    return $row;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function buildHeader(): array {
++    $header = parent::buildHeader();
++    $header['label'] = $this->entityType->getLabel();
++    return $header;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getOperations(EntityInterface $entity): array {
++    /** @var \Drupal\Core\Entity\Display\EntityDisplayInterface $entity */
++    if ($this->currentUser->hasPermission('translate configuration')) {
++      // Entity displays have no canonical no direct edit-form links so we
++      // hard-code the route to the translation operation.
++      $route_parameters = [
++        $this->displayContext . '_mode_name' => $entity->getMode(),
++      ];
++
++      $bundle_type = $this->entityTypeManager
++        ->getDefinition($entity->getTargetEntityTypeId())
++        ->getBundleEntityType();
++      if ($bundle_type) {
++        $route_parameters[$bundle_type] = $entity->getTargetBundle();
++      }
++
++      $operations['translate'] = [
++        'title' => $this->t('Translate'),
++        'url' => $this->ensureDestination(Url::fromRoute("entity.{$this->entityType->id()}.config_translation_overview.{$entity->getTargetEntityTypeId()}", $route_parameters)),
++      ];
++
++      return $operations;
++    }
++    return [];
++  }
++
++}
+diff --git a/core/modules/config_translation/src/Controller/ConfigTranslationFieldListBuilder.php b/core/modules/config_translation/src/Controller/ConfigTranslationFieldListBuilder.php
+index e9eef5b28db6f198cd7832bcf80fee0ac24cd87d..f8adc6a6a51c550322bcf3321b139b0c34676ba3 100644
+--- a/core/modules/config_translation/src/Controller/ConfigTranslationFieldListBuilder.php
++++ b/core/modules/config_translation/src/Controller/ConfigTranslationFieldListBuilder.php
+@@ -3,93 +3,11 @@
+ namespace Drupal\config_translation\Controller;
+
+ use Drupal\Core\Entity\EntityInterface;
+-use Drupal\Core\Entity\EntityStorageInterface;
+-use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
+-use Drupal\Core\Entity\EntityTypeInterface;
+-use Drupal\Core\Entity\EntityTypeManagerInterface;
+-use Symfony\Component\DependencyInjection\ContainerInterface;
+
+ /**
+  * Defines the config translation list builder for field entities.
+  */
+-class ConfigTranslationFieldListBuilder extends ConfigTranslationEntityListBuilder {
+-
+-  /**
+-   * The name of the entity type the fields are attached to.
+-   *
+-   * @var string
+-   */
+-  protected $baseEntityType = '';
+-
+-  /**
+-   * An array containing the base entity type's definition.
+-   *
+-   * @var \Drupal\Core\Entity\EntityTypeInterface
+-   */
+-  protected $baseEntityInfo;
+-
+-  /**
+-   * The bundle info for the base entity type.
+-   *
+-   * @var array
+-   */
+-  protected $baseEntityBundles = [];
+-
+-  /**
+-   * The entity type manager.
+-   *
+-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+-   */
+-  protected $entityTypeManager;
+-
+-  /**
+-   * The entity bundle info.
+-   *
+-   * @var \Drupal\Core\Entity\EntityTypeBundleInfoInterface
+-   */
+-  protected $entityTypeBundleInfo;
+-
+-  /**
+-   * {@inheritdoc}
+-   */
+-  public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
+-    $entity_type_manager = $container->get('entity_type.manager');
+-    $entity_type_bundle_info = $container->get('entity_type.bundle.info');
+-    return new static(
+-      $entity_type,
+-      $entity_type_manager->getStorage($entity_type->id()),
+-      $entity_type_manager,
+-      $entity_type_bundle_info
+-    );
+-  }
+-
+-  /**
+-   * Constructs a new ConfigTranslationFieldListBuilder object.
+-   *
+-   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
+-   *   The entity type definition.
+-   * @param \Drupal\Core\Entity\EntityStorageInterface $storage
+-   *   The entity storage class.
+-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+-   *   The entity type manager.
+-   * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
+-   *   The entity type bundle info.
+-   */
+-  public function __construct(EntityTypeInterface $entity_type, EntityStorageInterface $storage, EntityTypeManagerInterface $entity_type_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info) {
+-    parent::__construct($entity_type, $storage);
+-    $this->entityTypeManager = $entity_type_manager;
+-    $this->entityTypeBundleInfo = $entity_type_bundle_info;
+-  }
+-
+-  /**
+-   * {@inheritdoc}
+-   */
+-  public function setMapperDefinition($mapper_definition) {
+-    $this->baseEntityType = $mapper_definition['base_entity_type'];
+-    $this->baseEntityInfo = $this->entityTypeManager->getDefinition($this->baseEntityType);
+-    $this->baseEntityBundles = $this->entityTypeBundleInfo->getBundleInfo($this->baseEntityType);
+-    return $this;
+-  }
++class ConfigTranslationFieldListBuilder extends BundleAwareConfigEntityListBuilder {
+
+   /**
+    * {@inheritdoc}
+diff --git a/core/modules/config_translation/src/Hook/ConfigTranslationHooks.php b/core/modules/config_translation/src/Hook/ConfigTranslationHooks.php
+index 21daa8b7a2c953e30384a2a4650dc846e8aa205c..0e4c3b8244274c24ff0b2a71367ec816a3932958 100644
+--- a/core/modules/config_translation/src/Hook/ConfigTranslationHooks.php
++++ b/core/modules/config_translation/src/Hook/ConfigTranslationHooks.php
+@@ -2,7 +2,9 @@
+
+ namespace Drupal\config_translation\Hook;
+
++use Drupal\config_translation\Controller\ConfigTranslationEntityDisplayListBuilder;
+ use Drupal\Core\StringTranslation\StringTranslationTrait;
++use Drupal\Core\Entity\Display\EntityDisplayInterface;
+ use Drupal\field\FieldConfigInterface;
+ use Drupal\Core\Entity\EntityInterface;
+ use Drupal\Core\Config\Entity\ConfigEntityInterface;
+@@ -119,6 +121,9 @@ public function entityTypeAlter(array &$entity_types) : void {
+           // \Drupal\field\Entity\FieldConfig::linkTemplates().
+           $entity_type->setLinkTemplate('config-translation-overview', $entity_type->getLinkTemplate('edit-form') . '/translate');
+         }
++        elseif ($entity_type->entityClassImplements(EntityDisplayInterface::class)) {
++          $class = ConfigTranslationEntityDisplayListBuilder::class;
++        }
+         else {
+           $class = 'Drupal\config_translation\Controller\ConfigTranslationEntityListBuilder';
+         }
+@@ -136,23 +141,7 @@ public function entityTypeAlter(array &$entity_types) : void {
+   #[Hook('config_translation_info')]
+   public function configTranslationInfo(&$info): void {
+     $entity_type_manager = \Drupal::entityTypeManager();
+-    // If field UI is not enabled, the base routes of the type
+-    // "entity.field_config.{$entity_type}_field_edit_form" are not defined.
+-    if (\Drupal::moduleHandler()->moduleExists('field_ui')) {
+-      // Add fields entity mappers to all fieldable entity types defined.
+-      foreach ($entity_type_manager->getDefinitions() as $entity_type_id => $entity_type) {
+-        // Make sure entity type has field UI enabled and has a base route.
+-        if ($entity_type->get('field_ui_base_route')) {
+-          $info[$entity_type_id . '_fields'] = [
+-            'base_route_name' => "entity.field_config.{$entity_type_id}_field_edit_form",
+-            'entity_type' => 'field_config',
+-            'class' => '\Drupal\config_translation\ConfigFieldMapper',
+-            'base_entity_type' => $entity_type_id,
+-            'weight' => 10,
+-          ];
+-        }
+-      }
+-    }
++
+     // Discover configuration entities automatically.
+     foreach ($entity_type_manager->getDefinitions() as $entity_type_id => $entity_type) {
+       // Determine base path for entities automatically if provided via the
+diff --git a/core/modules/config_translation/tests/src/Functional/ConfigTranslationListUiTest.php b/core/modules/config_translation/tests/src/Functional/ConfigTranslationListUiTest.php
+index 1f53468f439c6419cb3ec6b875bf1b0ddcc08069..b77f698f33bcc728cf91a9f3c1e2a5eb766474a8 100644
+--- a/core/modules/config_translation/tests/src/Functional/ConfigTranslationListUiTest.php
++++ b/core/modules/config_translation/tests/src/Functional/ConfigTranslationListUiTest.php
+@@ -5,6 +5,7 @@
+ namespace Drupal\Tests\config_translation\Functional;
+
+ use Drupal\block_content\Entity\BlockContentType;
++use Drupal\Component\Utility\Html;
+ use Drupal\filter\Entity\FilterFormat;
+ use Drupal\language\Entity\ConfigurableLanguage;
+ use Drupal\taxonomy\Entity\Vocabulary;
+@@ -41,6 +42,7 @@ class ConfigTranslationListUiTest extends BrowserTestBase {
+     'image',
+     'responsive_image',
+     'toolbar',
++    'layout_builder',
+   ];
+
+   /**
+@@ -80,6 +82,9 @@ protected function setUp(): void {
+       'administer image styles',
+       'administer responsive images',
+       'translate configuration',
++      'configure any layout',
++      'administer node display',
++      'administer display modes',
+     ];
+
+     // Create and log in user.
+@@ -453,6 +458,121 @@ public function doSettingsPageTest($link): void {
+     $this->assertSession()->responseContains('<th>Language</th>');
+   }
+
++  /**
++   * Test entity form translation operation.
++   */
++  public function doEntityFormTest(): void {
++    $content_type = $this->drupalCreateContentType([
++      'type' => mb_strtolower($this->randomMachineName(16)),
++      'name' => $this->randomMachineName(),
++    ]);
++
++    ConfigurableLanguage::createFromLangcode('de')->save();
++
++    $this->drupalGet('admin/config/regional/config-translation');
++    $this->assertSession()->linkByHrefExists('admin/config/regional/config-translation/node_form_display');
++
++    $this->drupalGet('admin/config/regional/config-translation/node_form_display');
++    $this->assertSession()->statusCodeEquals(200);
++    $this->assertSession()->linkByHrefExists('admin/structure/types/manage/' . $content_type->id() . '/form-display/default/translate');
++
++    $this->drupalGet('admin/structure/types/manage/' . $content_type->id() . '/form-display/default/translate');
++    $this->assertSession()->statusCodeEquals(200);
++
++    $this->drupalGet('admin/structure/types/manage/' . $content_type->id() . '/form-display/default/translate/de/edit');
++    $this->assertSession()->statusCodeEquals(200);
++    $this->assertSession()->pageTextContains('Field widgets');
++    $this->assertSession()->pageTextContains('Body');
++  }
++
++  /**
++   * Test entity view display translation operation.
++   */
++  public function doViewDisplayTest(): void {
++    $content_type = $this->drupalCreateContentType([
++      'type' => mb_strtolower($this->randomMachineName(16)),
++      'name' => $this->randomMachineName(),
++    ]);
++
++    // Add a field that will be visible under
++    // config-translation/node_view_display.
++    $id = $content_type->id();
++    $this->drupalGet("admin/structure/types/manage/$id/fields/add-field");
++    $this->clickLink('Boolean');
++    $this->submitForm([], 'Continue');
++    $this->submitForm([
++      'label' => 'Bool field label',
++      'field_name' => 'boolean',
++    ], 'Continue');
++    $this->getSession()->getPage()->pressButton('Save');
++
++    // Before layout builder is enabled.
++    $this->drupalGet('admin/structure/types/manage/' . $id . '/display/default/translate/de/edit');
++    // Initially select the deepest element.
++    $expected_labels = [
++      'Boolean format settings',
++      'Bool field label Field: field_boolean, type: Boolean',
++      'Field formatters',
++    ];
++    $xpath = new \DOMXPath(Html::load($this->getSession()->getPage()->getHtml()));
++    $element = $xpath->query('//details/summary[text()=" format settings"]')->item(0)->parentNode;
++    foreach ($expected_labels as $expected_label) {
++      // Remove extra spaces and newlines.
++      $actual_label = trim(preg_replace('/\s+/u', ' ', $element->nodeValue));
++      $this->assertStringStartsWith($expected_label, $actual_label);
++      $element = $element->parentNode;
++    }
++
++    // Setup layout builder.
++    $field_ui_prefix = "admin/structure/types/manage/$id/display";
++    $page = $this->getSession()->getPage();
++    // Enable Layout Builder for the default view modes, and overrides.
++    $this->drupalGet("$field_ui_prefix/default");
++    $page->checkField('layout[enabled]');
++    $page->pressButton('Save');
++    $page->checkField('layout[allow_custom]');
++    $page->pressButton('Save');
++
++    $this->drupalGet("$field_ui_prefix/default/layout");
++    $this->clickLink('Configure Section 1');
++    $this->submitForm([
++      'layout_settings[label]' => 'Custom section',
++    ], 'Update');
++    $this->getSession()->getPage()->pressButton('Save layout');
++
++    $this->drupalGet('admin/config/regional/config-translation');
++    $this->assertSession()->linkByHrefExists('admin/config/regional/config-translation/node_view_display');
++
++    $this->drupalGet('admin/config/regional/config-translation/node_view_display');
++    $this->assertSession()->statusCodeEquals(200);
++    $this->assertSession()->linkByHrefExists('/admin/structure/types/manage/' . $id . '/display/default/translate');
++    $this->drupalGet('admin/structure/types/manage/' . $id . '/display/default/translate/de/edit');
++    $this->assertSession()->statusCodeEquals(200);
++    // Assert duplicate field formatter settings is not found.
++    $this->assertSession()->pageTextNotContains('Field formatters');
++    $xpath = new \DOMXPath(Html::load($this->getSession()->getPage()->getHtml()));
++    $expected_labels = [
++      'Boolean format settings',
++      'Bool field label Field: field_boolean, type: Boolean',
++      '(Empty) Block settings',
++      'Bool field label',
++      'Components',
++      'Custom section',
++      'Sequence',
++      'Per-view-mode Layout Builder settings',
++      'Third party settings',
++    ];
++    // Initially select the deepest element.
++    $element = $xpath->query('//details/summary[text()=" format settings"]')->item(0)->parentNode;
++    foreach ($expected_labels as $expected_label) {
++      // Remove extra spaces and newlines.
++      $actual_label = trim(preg_replace('/\s+/u', ' ', $element->nodeValue));
++      $this->assertStringStartsWith($expected_label, $actual_label);
++      $element = $element->parentNode;
++    }
++
++  }
++
+   /**
+    * Tests if translate link is added to operations in all configuration lists.
+    */
+@@ -471,6 +591,8 @@ public function testTranslateOperationInListUi(): void {
+     $this->doResponsiveImageListTest();
+     $this->doDateFormatListTest();
+     $this->doFieldListTest();
++    $this->doEntityFormTest();
++    $this->doViewDisplayTest();
+
+     // Views is tested in
+     // Drupal\config_translation\Tests\ConfigTranslationViewListUiTest.
+diff --git a/core/modules/field_ui/src/ConfigTranslation/EntityDisplayMapper.php b/core/modules/field_ui/src/ConfigTranslation/EntityDisplayMapper.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..f53e25990932180f67d1793256c30b15982ba7c6
+--- /dev/null
++++ b/core/modules/field_ui/src/ConfigTranslation/EntityDisplayMapper.php
+@@ -0,0 +1,106 @@
++<?php
++
++namespace Drupal\field_ui\ConfigTranslation;
++
++use Drupal\config_translation\ConfigEntityMapper;
++use Drupal\Core\Routing\RouteMatchInterface;
++
++/**
++ * Provides a configuration mapper for entity displays.
++ */
++class EntityDisplayMapper extends ConfigEntityMapper {
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getBaseRouteParameters(): array {
++    $base_entity_info = $this->entityTypeManager->getDefinition($this->pluginDefinition['base_entity_type']);
++    $bundle_parameter_key = $base_entity_info->getBundleEntityType() ?: 'bundle';
++
++    $parameters = [];
++    $parameters[$bundle_parameter_key] = $this->entity->getTargetBundle();
++    $parameters[$this->pluginDefinition['display_context'] . '_mode_name'] = $this->entity->getMode();
++
++    return $parameters;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getOverviewRouteName(): string {
++    return "entity.{$this->entityType}.config_translation_overview.{$this->pluginDefinition['base_entity_type']}";
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getTitle(): string {
++    $base_entity_info = $this->entityTypeManager->getDefinition($this->pluginDefinition['base_entity_type']);
++    $bundle = $base_entity_info->getLabel();
++    if ($bundle_type = $base_entity_info->getBundleEntityType()) {
++      $bundle = $this->entityTypeManager
++        ->getStorage($bundle_type)
++        ->load($this->entity->getTargetBundle())
++        ->label();
++    }
++
++    $mode = $this->entityTypeManager
++      ->getStorage("entity_{$this->pluginDefinition['display_context']}_mode")
++      ->load($this->pluginDefinition['base_entity_type'] . '.' . $this->entity->getMode());
++    $mode = $mode ? $mode->label() : $this->t('Default');
++
++    if ($this->entityType == 'entity_view_display') {
++      return $this->t('@bundle @mode display', [
++        '@bundle' => $bundle,
++        '@mode' => $mode,
++      ]);
++    }
++    if ($this->entityType == 'entity_form_display') {
++      return $this->t('@bundle @mode form display', [
++        '@bundle' => $bundle,
++        '@mode' => $mode,
++      ]);
++    }
++    return parent::getTypeLabel();
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getTypeLabel(): string {
++    $base_entity_info = $this->entityTypeManager->getDefinition($this->pluginDefinition['base_entity_type']);
++
++    if ($this->entityType == 'entity_view_display') {
++      return $this->t('@label view display', [
++        '@label' => $base_entity_info->getLabel(),
++      ]);
++    }
++    if ($this->entityType == 'entity_form_display') {
++      return $this->t('@label form display', [
++        '@label' => $base_entity_info->getLabel(),
++      ]);
++    }
++    return parent::getTypeLabel();
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function populateFromRouteMatch(RouteMatchInterface $route_match): void {
++    $bundle_entity_type = $this->entityTypeManager->getDefinition($this->pluginDefinition['base_entity_type'])->getBundleEntityType();
++    $bundle = $route_match->getParameter($bundle_entity_type ?: 'bundle') ?: $this->pluginDefinition['base_entity_type'];
++    $mode = $route_match->getParameter($this->pluginDefinition['display_context'] . '_mode_name') ?: 'default';
++
++    $entity = $this->entityTypeManager
++      ->getStorage($this->entityType)
++      ->load("{$this->pluginDefinition['base_entity_type']}.{$bundle}.{$mode}");
++
++    if ($entity) {
++      $route_match->getParameters()->set($this->entityType, $entity);
++
++      $this->setEntity($entity);
++      parent::populateFromRouteMatch($route_match);
++    }
++  }
++
++}
+diff --git a/core/modules/field_ui/src/FormElement/EntityDisplayElement.php b/core/modules/field_ui/src/FormElement/EntityDisplayElement.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..f22b049ff757d864833a9d01c15bdcc419e69d55
+--- /dev/null
++++ b/core/modules/field_ui/src/FormElement/EntityDisplayElement.php
+@@ -0,0 +1,126 @@
++<?php
++
++namespace Drupal\field_ui\FormElement;
++
++use Drupal\config_translation\FormElement\ListElement;
++use Drupal\Core\Language\LanguageInterface;
++use Drupal\Core\Render\Element;
++
++/**
++ * Adds translatable labels to entity_display elements.
++ */
++class EntityDisplayElement extends ListElement {
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getTranslationBuild(
++    LanguageInterface $source_language,
++    LanguageInterface $translation_language,
++    $source_config,
++    $translation_config,
++    array $parents,
++    $base_key = NULL,
++  ): array {
++    $parent_build = parent::getTranslationBuild($source_language, $translation_language,
++      $source_config, $translation_config, $parents,
++      $base_key);
++
++    $target_type_id = $source_config['targetEntityType'];
++    $bundle_name = $source_config['bundle'];
++    $components = $source_config['content'];
++
++    /** @var \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager */
++    $field_manager = \Drupal::service('entity_field.manager');
++    /** @var \Drupal\Core\Field\FieldDefinitionInterface[] $field_definitions */
++    $field_definitions = $field_manager->getFieldDefinitions($target_type_id, $bundle_name);
++
++    $element_names = [];
++    if (isset($parent_build['content'])) {
++      $parent_build['content']['#collapsible'] = FALSE;
++      $element_names = array_intersect(array_keys($components), Element::children($parent_build['content']), array_keys($field_definitions));
++    }
++
++    if (empty($element_names)) {
++      unset($parent_build['content']);
++      return $parent_build;
++    }
++
++    $this->addLabels($parent_build, $element_names, $components, $target_type_id, $bundle_name);
++
++    return $parent_build;
++  }
++
++  /**
++   * Adds labels to the components.
++   *
++   * @param array $parent_build
++   *   Parent translation build data.
++   * @param array $element_names
++   *   Associative array of element names.
++   * @param array $components
++   *   The components.
++   * @param string $target_type_id
++   *   The target type id.
++   * @param string $bundle_name
++   *   The bundle name.
++   *
++   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
++   */
++  protected function addLabels(array &$parent_build, array $element_names, array $components, string $target_type_id, string $bundle_name): void {
++    /** @var \Drupal\Core\Field\FieldTypePluginManagerInterface $field_type_manager */
++    $field_type_manager = \Drupal::service('plugin.manager.field.field_type');
++    /** @var \Drupal\Core\Field\WidgetPluginManager $field_widget_manager */
++    $field_widget_manager = \Drupal::service('plugin.manager.field.widget');
++    /** @var \Drupal\Core\Field\FormatterPluginManager $field_formatter_manager */
++    $field_formatter_manager = \Drupal::service('plugin.manager.field.formatter');
++    /** @var \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager */
++    $field_manager = \Drupal::service('entity_field.manager');
++    /** @var \Drupal\Core\Field\FieldDefinitionInterface[] $field_definitions */
++    $field_definitions = $field_manager->getFieldDefinitions($target_type_id, $bundle_name);
++
++    foreach ($element_names as $component_name) {
++      $item = &$parent_build['content'][$component_name];
++      /** @var \Drupal\Core\Field\FieldDefinitionInterface $definition */
++      $definition = $field_definitions[$component_name] ?? NULL;
++      if ($definition) {
++        $field_type = $field_type_manager->getDefinition($definition->getType());
++
++        $item['#title'] = $definition->getLabel();
++        $item['#description'] = $this->t("Field: %name, type: @type", [
++          '%name' => $component_name,
++          '@type' => $field_type['label'],
++        ]);
++        // Set open state to let user reach settings without additional clicks.
++        if (isset($item['#open'])) {
++          $item['#open'] = TRUE;
++        }
++
++        $component_type = $components[$component_name]['type'];
++        if (isset($item['settings']['#open'])) {
++          $item['settings']['#open'] = TRUE;
++        }
++
++        if (str_starts_with($this->element->getName(), 'core.entity_view_display')) {
++          /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $entity */
++          // Set formatter type name if available.
++          $formatter_options = $field_formatter_manager->getOptions($definition->getType());
++          if (isset($formatter_options[$component_type]) && isset($item['settings'])) {
++            $item['settings']['#title'] = $this->t("%label format settings", ['%label' => $formatter_options[$component_type]]);
++          }
++        }
++        else {
++          /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface $entity */
++          // Set widget name if available.
++          $widget_options = $field_widget_manager->getOptions($definition->getType());
++          if (isset($widget_options[$component_type]) && isset($item['settings'])) {
++            $item['settings']['#title'] = $this->t("%label widget settings", ['%label' => $widget_options[$component_type]]);
++          }
++        }
++
++      }
++    }
++
++  }
++
++}
+diff --git a/core/modules/field_ui/src/Hook/FieldUiHooks.php b/core/modules/field_ui/src/Hook/FieldUiHooks.php
+index df0100d932ba83812f0fddda8227f7d9d8b92b5a..69ea7261e5e9435c11f7047e3deb4896c514a5f1 100644
+--- a/core/modules/field_ui/src/Hook/FieldUiHooks.php
++++ b/core/modules/field_ui/src/Hook/FieldUiHooks.php
+@@ -5,6 +5,8 @@
+ use Drupal\Core\Form\FormStateInterface;
+ use Drupal\Core\StringTranslation\StringTranslationTrait;
+ use Drupal\Core\Theme\ThemePreprocess;
++use Drupal\field_ui\ConfigTranslation\EntityDisplayMapper;
++use Drupal\field_ui\FormElement\EntityDisplayElement;
+ use Drupal\field_ui\Plugin\Derivative\FieldUiLocalTask;
+ use Drupal\Core\Entity\EntityFormModeInterface;
+ use Drupal\Core\Entity\EntityViewModeInterface;
+@@ -102,6 +104,25 @@ public function theme() : array {
+     ];
+   }
+
++  /**
++   * Implements hook_config_schema_info_alter().
++   */
++  #[Hook('config_schema_info_alter')]
++  public function configSchemaInfoAlter(&$definitions): void {
++    $map = [
++      'core.entity_form_display.*.*.*' => EntityDisplayElement::class,
++      'core.entity_view_display.*.*.*' => EntityDisplayElement::class,
++    ];
++
++    // Enhance entity view and form display definitions with above class
++    // in order to generate translatable labels.
++    foreach ($definitions as $type => &$definition) {
++      if (isset($map[$type]) && !isset($definition['form_element_class'])) {
++        $definition['form_element_class'] = $map[$type];
++      }
++    }
++  }
++
+   /**
+    * Implements hook_entity_type_build().
+    */
+@@ -277,4 +298,42 @@ public function formAlter(&$form, FormStateInterface $form_state, $form_id) : vo
+     }
+   }
+
++  /**
++   * Implements hook_config_translation_info().
++   */
++  #[Hook('config_translation_info')]
++  public function configTranslationInfo(&$info): void {
++    $entity_type_manager = \Drupal::entityTypeManager();
++
++    // Add fields entity mappers to all fieldable entity types defined.
++    foreach ($entity_type_manager->getDefinitions() as $entity_type_id => $entity_type) {
++      // Make sure entity type has field UI enabled and has a base route.
++      if ($entity_type->get('field_ui_base_route')) {
++        $info[$entity_type_id . '_fields'] = [
++          'base_route_name' => "entity.field_config.{$entity_type_id}_field_edit_form",
++          'entity_type' => 'field_config',
++          'class' => '\Drupal\config_translation\ConfigFieldMapper',
++          'base_entity_type' => $entity_type_id,
++          'weight' => 10,
++        ];
++        $info[$entity_type_id . '_form_display'] = [
++          'base_route_name' => "entity.entity_form_display.{$entity_type_id}.form_mode",
++          'entity_type' => 'entity_form_display',
++          'class' => EntityDisplayMapper::class,
++          'base_entity_type' => $entity_type_id,
++          'display_context' => 'form',
++          'weight' => 10,
++        ];
++        $info[$entity_type_id . '_view_display'] = [
++          'base_route_name' => "entity.entity_view_display.{$entity_type_id}.view_mode",
++          'entity_type' => 'entity_view_display',
++          'class' => EntityDisplayMapper::class,
++          'base_entity_type' => $entity_type_id,
++          'display_context' => 'view',
++          'weight' => 10,
++        ];
++      }
++    }
++  }
++
+ }
+diff --git a/core/modules/layout_builder/src/FormElement/LayoutBuilderDisplayElement.php b/core/modules/layout_builder/src/FormElement/LayoutBuilderDisplayElement.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..c19d3e3d32987e38d5cfc2c8fc9e86afe61ca297
+--- /dev/null
++++ b/core/modules/layout_builder/src/FormElement/LayoutBuilderDisplayElement.php
+@@ -0,0 +1,168 @@
++<?php
++
++namespace Drupal\layout_builder\FormElement;
++
++use Drupal\Component\Plugin\PluginBase;
++use Drupal\config_translation\FormElement\ListElement;
++use Drupal\Core\Language\LanguageInterface;
++use Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay;
++
++/**
++ * Adds translatable labels to layout_builder elements.
++ */
++class LayoutBuilderDisplayElement extends ListElement {
++
++  /**
++   * The elements names data.
++   *
++   * @var array|null
++   */
++  public static $data = NULL;
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getTranslationBuild(
++    LanguageInterface $source_language,
++    LanguageInterface $translation_language,
++    $source_config,
++    $translation_config,
++    array $parents,
++    $base_key = NULL,
++  ): array {
++    $parent_build = parent::getTranslationBuild($source_language, $translation_language,
++      $source_config, $translation_config, $parents,
++      $base_key);
++    if (!empty($parent_build['sections'])) {
++      $build_element_names = $this->layoutBuilderGetElementNames($parent_build);
++    }
++
++    if (empty($build_element_names)) {
++      return $parent_build;
++    }
++    self::setElementNames($build_element_names);
++    $this->addLabels($parent_build, $build_element_names);
++    return $parent_build;
++  }
++
++  /**
++   * Returns the layout builder form element names.
++   *
++   * @param array $parent_build
++   *   Parent translation build data.
++   *
++   * @throws \Drupal\Component\Plugin\Exception\PluginException
++   */
++  public function layoutBuilderGetElementNames(array $parent_build): array {
++    // Configuration name will be also used as element name.
++    $element_names = [];
++    $element_name = $this->element->getParent()->getParent()->getName();
++    $entity = LayoutBuilderEntityViewDisplay::load(str_replace("core.entity_view_display.", "", $element_name));
++    /** @var \Drupal\layout_builder\Section $section */
++    foreach ($entity->getSections() as $section_index => $section) {
++      $section_components = $section->getComponents();
++      if (empty($section_components)) {
++        continue;
++      }
++      foreach ($section_components as $component) {
++        if (!str_starts_with($component->getPluginId(), 'field_block:') && !str_starts_with($component->getPluginId(), 'extra_field_block:')) {
++          continue;
++        }
++        if (!isset($component->get('configuration')['formatter']['settings']) || empty($component->get('configuration')['formatter']['settings'])) {
++          continue;
++        }
++        if (!isset($parent_build['sections'][$section_index]['components'][$component->getUuid()]['configuration']['formatter']['settings'])) {
++          continue;
++        }
++        try {
++          [,,, $field_name] = explode(PluginBase::DERIVATIVE_SEPARATOR, $component->getPluginId(), 4);
++        }
++        catch (\Exception) {
++          continue;
++        }
++        $element_names[] = $section_index . PluginBase::DERIVATIVE_SEPARATOR . $component->getUuid() . PluginBase::DERIVATIVE_SEPARATOR . $field_name;
++      }
++    }
++    return $element_names;
++  }
++
++  /**
++   * Adds labels to the components.
++   *
++   * @param array $parent_build
++   *   Parent translation build data.
++   * @param array $element_names
++   *   Associative array of element names and layout builder flag.
++   *
++   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
++   */
++  protected function addLabels(array &$parent_build, array $element_names): void {
++    /** @var \Drupal\Core\Field\FieldTypePluginManagerInterface $field_type_manager */
++    $field_type_manager = \Drupal::service('plugin.manager.field.field_type');
++    /** @var \Drupal\Core\Field\FormatterPluginManager $field_formatter_manager */
++    $field_formatter_manager = \Drupal::service('plugin.manager.field.formatter');
++    /** @var \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager */
++    $field_manager = \Drupal::service('entity_field.manager');
++    /** @var \Drupal\Core\Field\FieldDefinitionInterface[] $field_definitions */
++    $field_definitions = $field_manager->getFieldDefinitions($this->element->getParent()->getParent()->getValue()['targetEntityType'], $this->element->getParent()->getParent()->getValue()['bundle']);
++
++    // Let the layouts be named too.
++    foreach ($parent_build['sections'] as $section_index => $value) {
++      if (is_array($value) && !str_contains($parent_build['sections'][$section_index]['layout_settings']['#title'], '(Empty) Layout settings')) {
++        $parent_build['sections'][$section_index]['#title'] = str_replace('Layout settings', '', $parent_build['sections'][$section_index]['layout_settings']['#title']);
++      }
++    }
++
++    foreach ($element_names as $component_name) {
++      // Not considering the layout builder case.
++      [$section_index, $component_id, $component_name] = explode(PluginBase::DERIVATIVE_SEPARATOR, $component_name, 3);
++      // phpcs:ignore DrupalPractice.CodeAnalysis.VariableAnalysis.UnusedVariable
++      $item = &$parent_build['sections'][$section_index]['components'][$component_id]['configuration']['formatter'];
++      $component = &$parent_build['sections'][$section_index]['components'][$component_id];
++
++      /** @var \Drupal\Core\Field\FieldDefinitionInterface $definition */
++      $definition = $field_definitions[$component_name] ?? NULL;
++      if ($definition) {
++        $field_type = $field_type_manager->getDefinition($definition->getType());
++
++        $item['#title'] = $definition->getLabel();
++        $component['#title'] = $definition->getLabel();
++        $item['#description'] = $this->t("Field: %name, type: @type", [
++          '%name' => $component_name,
++          '@type' => $field_type['label'],
++        ]);
++        // Set open state to let user reach settings without additional clicks.
++        if (isset($item['#open'])) {
++          $item['#open'] = TRUE;
++        }
++
++        $component_type = $field_type['id'];
++        if (isset($item['settings']['#open'])) {
++          $item['settings']['#open'] = TRUE;
++        }
++
++        /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $entity */
++        // Set formatter type name if available.
++        $formatter_options = $field_formatter_manager->getOptions($definition->getType());
++        if (isset($formatter_options[$component_type]) && isset($item['settings'])) {
++          $item['settings']['#title'] = $this->t("%label format settings", ['%label' => $formatter_options[$component_type]]);
++        }
++      }
++    }
++  }
++
++  /**
++   * Set element names.
++   */
++  public static function setElementNames($data): array {
++    return self::$data = $data;
++  }
++
++  /**
++   * Get element names.
++   */
++  public static function getElementNames(): ?array {
++    return self::$data;
++  }
++
++}
+diff --git a/core/modules/layout_builder/src/FormElement/LayoutBuilderEntityDisplayElement.php b/core/modules/layout_builder/src/FormElement/LayoutBuilderEntityDisplayElement.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..c2229ca71087f3b48db9b9be2dfc2f68a10634ef
+--- /dev/null
++++ b/core/modules/layout_builder/src/FormElement/LayoutBuilderEntityDisplayElement.php
+@@ -0,0 +1,74 @@
++<?php
++
++namespace Drupal\layout_builder\FormElement;
++
++use Drupal\Core\Language\LanguageInterface;
++use Drupal\Core\Plugin\PluginBase;
++use Drupal\field_ui\FormElement\EntityDisplayElement;
++
++/**
++ * Removes duplicated fields from element build.
++ */
++class LayoutBuilderEntityDisplayElement extends EntityDisplayElement {
++
++  /**
++   * {@inheritdoc}
++   */
++  public function getTranslationBuild(
++    LanguageInterface $source_language,
++    LanguageInterface $translation_language,
++    $source_config,
++    $translation_config,
++    array $parents,
++    $base_key = NULL,
++  ): array {
++    $parent_build = parent::getTranslationBuild($source_language, $translation_language,
++      $source_config, $translation_config, $parents,
++      $base_key);
++
++    if (isset($parent_build['third_party_settings']['layout_builder']['sections'])) {
++      // Add open state for details with sections, but don't open each section.
++      $parent_build['third_party_settings']['layout_builder']['#open'] = TRUE;
++      $parent_build['third_party_settings']['layout_builder']['sections']['#open'] = TRUE;
++      $sections = &$parent_build['third_party_settings']['layout_builder']['sections'];
++      foreach ($sections as $weight => &$section) {
++        if (!is_array($section) || (is_array($section) && !isset($section['components']))) {
++          continue;
++        }
++        // Same state logic for details with components: keep each component
++        // closed, but open all details inside it.
++        $section['components']['#open'] = TRUE;
++        foreach ($section['components'] as $uuid => &$component) {
++          if (!is_array($component) || (is_array($component) && !isset($component['configuration']['formatter']))) {
++            continue;
++          }
++          if (!isset($source_config['third_party_settings']['layout_builder']['sections'][$weight]['components'][$uuid])) {
++            continue;
++          }
++          $component_config = $source_config['third_party_settings']['layout_builder']['sections'][$weight]['components'][$uuid];
++          $field_name = '';
++          try {
++            [,,, $field_name] = explode(PluginBase::DERIVATIVE_SEPARATOR, $component_config['configuration']['id']);
++          }
++          catch (\Exception) {
++            continue;
++          }
++          $component['configuration']['#open'] = TRUE;
++          $component['configuration']['formatter']['#open'] = TRUE;
++          $component['configuration']['formatter']['settings']['#open'] = TRUE;
++          // Take existing labels from content section.
++          if (!empty($parent_build['content'][$field_name]['#description'])) {
++            $component['configuration']['formatter']['#title'] = $parent_build['content'][$field_name]['#title'];
++            $component['configuration']['formatter']['#description'] = $parent_build['content'][$field_name]['#description'];
++            $component['configuration']['formatter']['settings']['#title'] = $parent_build['content'][$field_name]['settings']['#title'];
++          }
++        }
++      }
++      // Don't provide duplicate settings for fields under layout builder.
++      unset($parent_build['content']);
++    }
++
++    return $parent_build;
++  }
++
++}
+diff --git a/core/modules/layout_builder/src/Hook/LayoutBuilderHooks.php b/core/modules/layout_builder/src/Hook/LayoutBuilderHooks.php
+index 6dc1b9fa249d14f7d97c05c6d1f8a21d68130165..833312985b4da7e219bf29f875f92b5821e7bb68 100644
+--- a/core/modules/layout_builder/src/Hook/LayoutBuilderHooks.php
++++ b/core/modules/layout_builder/src/Hook/LayoutBuilderHooks.php
+@@ -9,6 +9,8 @@
+ use Drupal\Core\Access\AccessResult;
+ use Drupal\Core\Session\AccountInterface;
+ use Drupal\Core\StringTranslation\StringTranslationTrait;
++use Drupal\layout_builder\FormElement\LayoutBuilderDisplayElement;
++use Drupal\layout_builder\FormElement\LayoutBuilderEntityDisplayElement;
+ use Drupal\layout_builder\InlineBlockEntityOperations;
+ use Drupal\layout_builder\Plugin\Block\ExtraFieldBlock;
+ use Drupal\Core\Render\Element;
+@@ -425,4 +427,27 @@ public function themeSuggestionsFieldAlter(&$suggestions, array $variables): voi
+     }
+   }
+
++  /**
++   * Implements hook_config_schema_info_alter().
++   */
++  #[Hook('config_schema_info_alter', order: Order::Last)]
++  public function configSchemaInfoAlter(&$definitions): void {
++    // It's needed to run after field_ui module in order to perform
++    // our alterations for the form element once main logic is done.
++    $map = [
++      'core.entity_view_display.*.*.*.third_party.layout_builder' => LayoutBuilderDisplayElement::class,
++      'core.entity_form_display.*.*.*' => LayoutBuilderEntityDisplayElement::class,
++      'core.entity_view_display.*.*.*' => LayoutBuilderEntityDisplayElement::class,
++    ];
++
++    // Provide specific handling for entity view display layout builder settings
++    // and enhance entity view and form display definitions in order to
++    // generate translatable labels.
++    foreach ($definitions as $type => &$definition) {
++      if (isset($map[$type])) {
++        $definition['form_element_class'] = $map[$type];
++      }
++    }
++  }
++
+ }

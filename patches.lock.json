@@ -1,5 +1,5 @@
 {
-    "_hash": "b6ad8e6a82c949b85cee8e5aacedecd50c4e5760cc3ededea81d5c4417ab798b",
+    "_hash": "5c821453a9a8b534d809c9410918bf83872282ffbe8432cead13a2cfbd2f1ef2",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -17,8 +17,8 @@
             {
                 "package": "drupal/core",
                 "description": "Issue #2544110: XSS attribute filtering is inconsistent and strips valid attributes",
-                "url": "./patches/2544110-11.3.x.patch",
-                "sha256": "94c7bd1a8299c4e1ac71caea0b6d1615dbe68878acb87d1249be1a422d756094",
+                "url": "./patches/2544110-11.4.x.patch",
+                "sha256": "9ef3bf983967268b7ad4bfb9d661e0fcc2736fea06b3f270db73c6a8d3fdfea3",
                 "depth": 2,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"
@@ -27,8 +27,8 @@
             {
                 "package": "drupal/core",
                 "description": "Issue #2546212: Entity view/form mode formatter/widget settings have no translation UI",
-                "url": "https://www.drupal.org/files/issues/2025-12-16/2546212-336.patch",
-                "sha256": "6baf32fdd668a8be4df24ae5868fa22cb0975b5ee93ac96ed4e58053c2ea8703",
+                "url": "./patches/2546212-11.4.x.patch",
+                "sha256": "094162215049e2ea6587218e891976f4eb0dfa005c9b7f202ae06644106afab3",
                 "depth": 2,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

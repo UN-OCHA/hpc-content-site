@@ -6,7 +6,10 @@ version: VERSION
 dependencies:
   - ncms_ui:ncms_ui
   - drupal:field
+  - drupal:node
+  - drupal:path
   - drupal:taxonomy
+  - drupal:text
   - drupal:views
   - drupal:content_moderation
   - workflows:workflows

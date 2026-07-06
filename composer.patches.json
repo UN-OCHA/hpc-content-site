@@ -4,8 +4,8 @@
       "Issue #3495893: Warning: foreach() argument must be of type array|object, string given": "https://www.drupal.org/files/issues/2025-01-13/3495893-7.patch"
     },
     "drupal/core": {
-      "Issue #2544110: XSS attribute filtering is inconsistent and strips valid attributes": "./patches/2544110-11.3.x.patch",
-      "Issue #2546212: Entity view/form mode formatter/widget settings have no translation UI": "https://www.drupal.org/files/issues/2025-12-16/2546212-336.patch"
+      "Issue #2544110: XSS attribute filtering is inconsistent and strips valid attributes": "./patches/2544110-11.4.x.patch",
+      "Issue #2546212: Entity view/form mode formatter/widget settings have no translation UI": "./patches/2546212-11.4.x.patch"
     },
     "drupal/entity_browser": {
       "Issue #3056057: Position the main form actions to the bottom of IFrame": "./patches/entity_browser-position-main-form-actins-on-bottom-3056057-10.patch"

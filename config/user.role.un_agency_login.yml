@@ -1,0 +1,9 @@
+uuid: 7466640a-1ad5-4d2f-a864-98ca51408864
+langcode: en
+status: true
+dependencies: {  }
+id: un_agency_login
+label: 'Authenticated via UN Agency'
+weight: -6
+is_admin: false
+permissions: {  }

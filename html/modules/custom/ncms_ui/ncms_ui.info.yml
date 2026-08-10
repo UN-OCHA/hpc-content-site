@@ -8,6 +8,7 @@ dependencies:
   - anonymous_login:anonymous_login
   - replicate_ui:replicate_ui
   - replicate_actions:replicate_actions
+  - social_auth:social_auth
   - diff:diff
   - views:views
   - drupal:content_moderation

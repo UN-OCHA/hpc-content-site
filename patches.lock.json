@@ -1,5 +1,5 @@
 {
-    "_hash": "c33dc1b9d9dc6752ff34d8940e5a93723fb7c34f5816d833122d8395aef413bc",
+    "_hash": "60dd3976b9ace9da3e06c3c09c7b8fdd7a08fa217d9e7979004b377301df7e2f",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -88,9 +88,9 @@
         "drupal/entity_browser": [
             {
                 "package": "drupal/entity_browser",
-                "description": "Issue #3056057: Position the main form actions to the bottom of IFrame",
-                "url": "patches/entity_browser-position-main-form-actins-on-bottom-3056057-10.patch",
-                "sha256": "47811949b917f31063c53d064a106e7c440cc85bf46e0f475fac6bc3caac69cc",
+                "description": "Issue #3250995 + local follow-up: Allow page scrolling and keep modal iframe actions reachable",
+                "url": "https://www.drupal.org/files/issues/2026-08-14/entity_browser-allow-main-page-scrolling-3250995-2.17.patch",
+                "sha256": "6515f0b5143ef7527a73c7c8da8df9b4d7dbf27de3bc1ccb2b9f90865c548961",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

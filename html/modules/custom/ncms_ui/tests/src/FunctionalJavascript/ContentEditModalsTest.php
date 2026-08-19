@@ -142,6 +142,7 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
     $modal = $assert_session->waitForElementVisible('css', '#drupal-modal');
     $this->assertNotEmpty($modal);
     $assert_session->elementTextContains('css', '#drupal-modal', self::CONFIRM_PUBLISH_CORRECTION);
+    $this->assertModalOverlayIsBelowDialog();
 
     // Cancel the dialog and confirm nothing changed.
     $this->pressModalButton('Cancel');
@@ -290,6 +291,19 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
     // Cancel the dialog and confirm nothing changed.
     $this->pressModalButton('Ok');
     $assert_session->elementTextContains('css', '#edit-meta-published', '#1 Published');
+  }
+
+  /**
+   * Asserts that the modal backdrop is visible below the modal dialog.
+   */
+  private function assertModalOverlayIsBelowDialog(): void {
+    $assert_session = $this->assertSession();
+    $assert_session->elementExists('css', '.ui-widget-overlay');
+    $assert_session->elementNotExists('css', '.ajax-loading-overlay');
+    $assert_session->elementExists('css', '.ui-dialog');
+
+    $modal_is_above_overlay = $this->getSession()->evaluateScript("return Number.parseInt(window.getComputedStyle(document.querySelector('.ui-dialog')).zIndex, 10) > Number.parseInt(window.getComputedStyle(document.querySelector('.ui-widget-overlay')).zIndex, 10);");
+    $this->assertTrue($modal_is_above_overlay);
   }
 
 }

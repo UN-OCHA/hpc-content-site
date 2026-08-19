@@ -1,5 +1,5 @@
 {
-    "_hash": "5c821453a9a8b534d809c9410918bf83872282ffbe8432cead13a2cfbd2f1ef2",
+    "_hash": "cfc9ce8ed7cdefb67d29d00ba3d7d2645b27e58e2d7bf809ee5d3d2915637a31",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -77,6 +77,18 @@
                 "description": "Issue #3431791: Automated Drupal 11 compatibility fixes",
                 "url": "https://www.drupal.org/files/issues/2024-03-18/maintenance200.8.x-2.1.rector.patch",
                 "sha256": "a18c917b199168ded802407a11e2d9eb75b1933c75aea4e60701c3ba0f6ea623",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
+        "drupal/maxlength": [
+            {
+                "package": "drupal/maxlength",
+                "description": "Issue #3517672: Maxlength message blinks when an ajax call happens within the form",
+                "url": "./patches/maxlength-3517672-mr60.patch",
+                "sha256": "d691dbcac1067b52f93f73dd11a4a6cf353d036f480e9e4fdc16b87a19c744ae",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

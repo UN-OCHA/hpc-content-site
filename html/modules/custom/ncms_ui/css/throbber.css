@@ -1,10 +1,14 @@
+body > .ajax-loading-overlay,
+body > .ui-widget-overlay {
+  opacity: 0.65;
+  background: black;
+}
+
 .ajax-loading-overlay {
   position: fixed;
-  background: black;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 505;
-  opacity: 0.5;
+  z-index: calc(var(--jui-dialog-z-index, 1260) - 1);
 }

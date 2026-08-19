@@ -4,22 +4,21 @@ namespace Drupal\ncms_ui\Form;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\AppendCommand;
 use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Ajax\MessageCommand;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\ncms_publisher\PublisherManager;
-use Drupal\ncms_ui\ContentSpaceManager;
+use Drupal\ncms_ui\ContentRevisionWorkflow;
 use Drupal\ncms_ui\Entity\Content\ContentBase;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\ncms_ui\Entity\EntityCompare;
-use Drupal\node\NodeInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -36,20 +35,6 @@ class ContentBaseFormAlter {
    * @var \Symfony\Component\HttpFoundation\RequestStack
    */
   protected $requestStack;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The content manager.
-   *
-   * @var \Drupal\ncms_ui\ContentSpaceManager
-   */
-  protected $contentSpaceManager;
 
   /**
    * Messenger service.
@@ -80,14 +65,17 @@ class ContentBaseFormAlter {
   protected $entityCompare;
 
   /**
+   * The content revision workflow service.
+   *
+   * @var \Drupal\ncms_ui\ContentRevisionWorkflow
+   */
+  protected $contentRevisionWorkflow;
+
+  /**
    * Constructor.
    *
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   The request stack.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager.
-   * @param \Drupal\ncms_ui\ContentSpaceManager $content_manager
-   *   The content manager.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
@@ -96,15 +84,16 @@ class ContentBaseFormAlter {
    *   The publisher manager service.
    * @param \Drupal\ncms_ui\Entity\EntityCompare $entity_compare
    *   The entity compare service.
+   * @param \Drupal\ncms_ui\ContentRevisionWorkflow $content_revision_workflow
+   *   The content revision workflow service.
    */
-  public function __construct(RequestStack $request_stack, EntityTypeManagerInterface $entity_type_manager, ContentSpaceManager $content_manager, MessengerInterface $messenger, FormBuilderInterface $form_builder, PublisherManager $publisher_manager, EntityCompare $entity_compare) {
+  public function __construct(RequestStack $request_stack, MessengerInterface $messenger, FormBuilderInterface $form_builder, PublisherManager $publisher_manager, EntityCompare $entity_compare, ContentRevisionWorkflow $content_revision_workflow) {
     $this->requestStack = $request_stack;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->contentSpaceManager = $content_manager;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
     $this->publisherManager = $publisher_manager;
     $this->entityCompare = $entity_compare;
+    $this->contentRevisionWorkflow = $content_revision_workflow;
 
   }
 
@@ -136,6 +125,7 @@ class ContentBaseFormAlter {
     $form['moderation_state']['#access'] = FALSE;
     $form['#submit'] = [[$this, 'submitForm']];
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    $form['#attached']['library'][] = 'ncms_ui/throbber';
 
     // Add a confirm field. This will be set by ContentSubmitConfirmForm.
     $form['confirmed'] = [
@@ -146,6 +136,7 @@ class ContentBaseFormAlter {
     $ajax_confirm = [
       'callback' => [$this, 'ajaxConfirm'],
       'confirm_field' => 'confirmed',
+      'progress' => ['type' => 'fullscreen'],
     ];
 
     switch ($entity->getContentStatus()) {
@@ -290,6 +281,7 @@ class ContentBaseFormAlter {
 
         // Go back to the publisher or to the backend listings page.
         $redirect_url = $this->publisherManager->getCurrentRedirectUrl() ?? $updated_entity->getOverviewUrl()->toString();
+        $response->addCommand(new AppendCommand('body', '<div class="ajax-progress ajax-progress--fullscreen"><div class="ajax-progress__throbber ajax-progress__throbber--fullscreen">&nbsp;</div></div>'));
         $response->addCommand(new RedirectCommand($redirect_url));
       }
     }
@@ -321,101 +313,72 @@ class ContentBaseFormAlter {
     $updated_entity = $form_object->buildEntity($form, $form_state);
     $entity_updated = $this->entityCompare->hasChanged($updated_entity, $original_entity);
 
-    /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
-    $node_storage = $this->entityTypeManager->getStorage('node');
-
     // What happens next depends on the used submit button and whether the
     // entity has changed or not.
+    $workflow_result = ContentRevisionWorkflow::RESULT_NO_ACTION;
     switch ($triggering_element['#name']) {
       case 'save_and_publish':
-        if ($entity_updated) {
-          // Entity has been changed. We create a new revision and set it to
-          // publish.
-          $updated_entity->setPublished();
-          $updated_entity->save();
-          // Add a message.
-          $this->messenger->addStatus($this->t('Created and published a new version of <em>@label</em>.', [
-            '@label' => $updated_entity->label(),
-          ]));
-        }
-        else {
-          // Entity has not been changed, so we simply update the current
-          // revision to published.
-          $node_storage->updateRevisionStatus($original_entity, NodeInterface::PUBLISHED);
-          // Add a message.
-          $this->messenger->addStatus($this->t('Published current version of <em>@label</em>.', [
-            '@label' => $updated_entity->label(),
-          ]));
-        }
+        $workflow_result = $this->contentRevisionWorkflow->saveAndPublish($updated_entity, $original_entity, $entity_updated);
         break;
 
       case 'publish_correction':
-        $last_published = $updated_entity->getLastPublishedRevision();
-        if ($entity_updated) {
-          // Entity has been updated. Unpublish the last published revision.
-          $node_storage->updateRevisionStatus($last_published, NodeInterface::NOT_PUBLISHED);
-          // Create a new revision and set to published.
-          $updated_entity->setPublished();
-          $updated_entity->save();
-          // Add a message.
-          $this->messenger->addStatus($this->t('Created and published a new version of <em>@label</em>. Unpublished the last published version.', [
-            '@label' => $updated_entity->label(),
-          ]));
-        }
-        elseif (!$updated_entity->isPublished()) {
-          // No changes and current entity is unpublished. Just publish it
-          // without a new revision.
-          $node_storage->updateRevisionStatus($original_entity, NodeInterface::PUBLISHED);
-          // Add a message.
-          $this->messenger->addStatus($this->t('Published current version of <em>@label</em>.', [
-            '@label' => $updated_entity->label(),
-          ]));
-        }
+        $workflow_result = $this->contentRevisionWorkflow->publishCorrection($updated_entity, $original_entity, $entity_updated);
         break;
 
       case 'publish_revision':
-        if ($entity_updated) {
-          // Entity has changes. Create a new revision and publish it. The
-          // last published revision stays published.
-          $updated_entity->setPublished();
-          $updated_entity->save();
-          // Add a message.
-          $this->messenger->addStatus($this->t('Created and published a new version of <em>@label</em>.', [
-            '@label' => $updated_entity->label(),
-          ]));
-        }
-        elseif (!$updated_entity->isPublished()) {
-          // No changes and current entity is unpublished. Just publish it
-          // without a new revision.
-          $node_storage->updateRevisionStatus($original_entity, NodeInterface::PUBLISHED);
-          // Add a message.
-          $this->messenger->addStatus($this->t('Published current version of <em>@label</em>.', [
-            '@label' => $updated_entity->label(),
-          ]));
-        }
+        $workflow_result = $this->contentRevisionWorkflow->publishRevision($updated_entity, $original_entity, $entity_updated);
         break;
 
       case 'save_draft':
-        if ($entity_updated) {
-          // Entity has been changed, just make sure it's unpublished, create
-          // a new revision and save.
-          $updated_entity->setUnpublished();
-          $updated_entity->save();
-          // Add a message.
-          $this->messenger->addStatus($this->t('Saved a new draft version of <em>@label</em>.', [
-            '@label' => $updated_entity->label(),
-          ]));
-        }
-        else {
-          $this->messenger->addStatus($this->t('No changes detected for <em>@label</em>. The @type has not been updated.', [
-            '@label' => $updated_entity->label(),
-            '@type' => strtolower($updated_entity->type->entity->label()),
-          ]));
-        }
+        $workflow_result = $this->contentRevisionWorkflow->saveDraft($updated_entity, $entity_updated);
         break;
     }
 
+    $this->addWorkflowResultMessage($workflow_result, $updated_entity);
     $form_state->setRedirectUrl($updated_entity->getOverviewUrl());
+  }
+
+  /**
+   * Adds the editor-facing message for a workflow result.
+   *
+   * @param string $workflow_result
+   *   One of the \Drupal\ncms_ui\ContentRevisionWorkflow RESULT_* constants.
+   * @param \Drupal\ncms_ui\Entity\ContentInterface $updated_entity
+   *   The updated entity.
+   */
+  private function addWorkflowResultMessage(string $workflow_result, ContentInterface $updated_entity): void {
+    switch ($workflow_result) {
+      case ContentRevisionWorkflow::RESULT_CREATED_PUBLISHED_CORRECTION:
+        $this->messenger->addStatus($this->t('Created and published a new version of <em>@label</em>. Unpublished the last published version.', [
+          '@label' => $updated_entity->label(),
+        ]));
+        break;
+
+      case ContentRevisionWorkflow::RESULT_CREATED_PUBLISHED_VERSION:
+        $this->messenger->addStatus($this->t('Created and published a new version of <em>@label</em>.', [
+          '@label' => $updated_entity->label(),
+        ]));
+        break;
+
+      case ContentRevisionWorkflow::RESULT_PUBLISHED_CURRENT_VERSION:
+        $this->messenger->addStatus($this->t('Published current version of <em>@label</em>.', [
+          '@label' => $updated_entity->label(),
+        ]));
+        break;
+
+      case ContentRevisionWorkflow::RESULT_SAVED_DRAFT:
+        $this->messenger->addStatus($this->t('Saved a new draft version of <em>@label</em>.', [
+          '@label' => $updated_entity->label(),
+        ]));
+        break;
+
+      case ContentRevisionWorkflow::RESULT_NO_CHANGES:
+        $this->messenger->addStatus($this->t('No changes detected for <em>@label</em>. The @type has not been updated.', [
+          '@label' => $updated_entity->label(),
+          '@type' => strtolower($updated_entity->type->entity->label()),
+        ]));
+        break;
+    }
   }
 
 }

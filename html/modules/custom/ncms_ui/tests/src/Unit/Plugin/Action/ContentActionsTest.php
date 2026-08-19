@@ -5,14 +5,12 @@ namespace Drupal\Tests\ncms_ui\Unit\Plugin\Action;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\ncms_ui\ContentRevisionWorkflow;
 use Drupal\ncms_ui\Entity\Content\Article;
-use Drupal\ncms_ui\Entity\Storage\ContentStorage;
 use Drupal\ncms_ui\Plugin\Action\MoveToTrash;
 use Drupal\ncms_ui\Plugin\Action\Publish;
 use Drupal\ncms_ui\Plugin\Action\Unpublish;
-use Drupal\node\NodeInterface;
 use Drupal\Tests\UnitTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -39,7 +37,7 @@ class ContentActionsTest extends UnitTestCase {
   public function testAccessDelegatesToContentUpdateAccess(): void {
     $action = new MoveToTrash([], 'content_entity_move_to_trash', []);
     $account = $this->createMock(AccountInterface::class);
-    $node = $this->createContentNodeMock(['access']);
+    $node = $this->mockContentNode(['access']);
 
     $node->expects($this->exactly(2))
       ->method('access')
@@ -56,7 +54,7 @@ class ContentActionsTest extends UnitTestCase {
   public function testMoveToTrashExecutesOnContentEntities(): void {
     $this->setUpCacheTagsInvalidator(['node:1']);
 
-    $node = $this->createContentNodeMock(['setDeleted', 'save', 'getCacheTags']);
+    $node = $this->mockContentNode(['setDeleted', 'save', 'getCacheTags']);
     $node->expects($this->once())->method('setDeleted');
     $node->expects($this->once())->method('save');
     $node->method('getCacheTags')->willReturn(['node:1']);
@@ -69,10 +67,10 @@ class ContentActionsTest extends UnitTestCase {
    * Tests that the publish action updates the current revision to published.
    */
   public function testPublishExecutesOnContentEntities(): void {
-    $this->setUpEntityTypeManager(NodeInterface::PUBLISHED);
+    $this->setUpContentRevisionWorkflow('publishExistingRevision');
     $this->setUpCacheTagsInvalidator(['node:1']);
 
-    $node = $this->createContentNodeMock(['getCacheTags']);
+    $node = $this->mockContentNode(['getCacheTags']);
     $node->method('getCacheTags')->willReturn(['node:1']);
 
     $action = new Publish([], 'content_entity_publish', []);
@@ -83,10 +81,10 @@ class ContentActionsTest extends UnitTestCase {
    * Tests unpublishing the current revision.
    */
   public function testUnpublishExecutesOnContentEntities(): void {
-    $this->setUpEntityTypeManager(NodeInterface::NOT_PUBLISHED);
+    $this->setUpContentRevisionWorkflow('unpublishExistingRevision');
     $this->setUpCacheTagsInvalidator(['node:1']);
 
-    $node = $this->createContentNodeMock(['getCacheTags']);
+    $node = $this->mockContentNode(['getCacheTags']);
     $node->method('getCacheTags')->willReturn(['node:1']);
 
     $action = new Unpublish([], 'content_entity_unpublish', []);
@@ -94,12 +92,12 @@ class ContentActionsTest extends UnitTestCase {
   }
 
   /**
-   * Creates an Article mock so the object passes both required interfaces.
+   * Mocks an Article so the object passes both required interfaces.
    *
    * @param string[] $methods
    *   Methods to override on the mock.
    */
-  private function createContentNodeMock(array $methods): Article {
+  private function mockContentNode(array $methods): Article {
     return $this->getMockBuilder(Article::class)
       ->disableOriginalConstructor()
       ->onlyMethods($methods)
@@ -107,25 +105,30 @@ class ContentActionsTest extends UnitTestCase {
   }
 
   /**
-   * Sets up node storage and expects the requested revision status update.
+   * Sets up the content revision workflow service.
    */
-  private function setUpEntityTypeManager(int $expected_status): void {
-    $node_storage = $this->getMockBuilder(ContentStorage::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods(['updateRevisionStatus'])
-      ->getMock();
-    $node_storage->expects($this->once())
-      ->method('updateRevisionStatus')
-      ->with($this->isInstanceOf(Article::class), $expected_status);
-
-    $entity_type_manager = $this->createMock(EntityTypeManagerInterface::class);
-    $entity_type_manager->method('getStorage')
-      ->with('node')
-      ->willReturn($node_storage);
+  private function setUpContentRevisionWorkflow(string $expected_method): void {
+    $content_revision_workflow = $this->mockContentRevisionWorkflow($expected_method);
 
     $container = \Drupal::hasContainer() ? \Drupal::getContainer() : new ContainerBuilder();
-    $container->set('entity_type.manager', $entity_type_manager);
+    $container->set('ncms_ui.content_revision_workflow', $content_revision_workflow);
     \Drupal::setContainer($container);
+  }
+
+  /**
+   * Mocks the content revision workflow service.
+   */
+  private function mockContentRevisionWorkflow(string $expected_method): ContentRevisionWorkflow {
+    $content_revision_workflow = $this->getMockBuilder(ContentRevisionWorkflow::class)
+      ->disableOriginalConstructor()
+      ->onlyMethods([$expected_method])
+      ->getMock();
+    $content_revision_workflow->expects($this->once())
+      ->method($expected_method)
+      ->with($this->isInstanceOf(Article::class))
+      ->willReturn(TRUE);
+
+    return $content_revision_workflow;
   }
 
   /**

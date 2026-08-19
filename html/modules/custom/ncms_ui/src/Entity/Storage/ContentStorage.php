@@ -48,6 +48,9 @@ class ContentStorage extends NodeStorage {
       return FALSE;
     }
 
+    // Ensure revision lookups below reflect the direct database update.
+    $this->resetCache([$entity->id()]);
+
     if ($status == NodeInterface::PUBLISHED && !$entity->isPublished()) {
       $this->database
         ->update($this->dataTable)
@@ -70,22 +73,41 @@ class ContentStorage extends NodeStorage {
     }
 
     if ($update_moderation_state) {
-      if ($status == NodeInterface::NOT_PUBLISHED) {
-        $entity->set('moderation_state', 'draft');
-        $entity->setNewRevision(FALSE);
-        $entity->setSyncing(TRUE);
-        $entity->save();
-      }
-      else {
-        $entity->set('moderation_state', 'published');
-        $entity->setNewRevision(FALSE);
-        $entity->setSyncing(TRUE);
-        $entity->save();
-      }
+      $moderation_state = $status == NodeInterface::NOT_PUBLISHED ? 'draft' : 'published';
+      $this->updateContentModerationState($entity, $moderation_state);
     }
 
     $this->resetCache([$entity->id()]);
     return !empty($result);
+  }
+
+  /**
+   * Updates the content moderation state for an existing content revision.
+   *
+   * Resaving the moderated node can make an existing default revision
+   * non-default when the new moderation state is a draft. Drupal 11 forbids
+   * that, so keep the related moderation revision in sync directly.
+   *
+   * @param \Drupal\ncms_ui\Entity\ContentInterface $entity
+   *   The entity revision.
+   * @param string $moderation_state
+   *   The moderation state.
+   */
+  private function updateContentModerationState(ContentInterface $entity, string $moderation_state): void {
+    $content_moderation_state = ContentModerationState::loadFromModeratedEntity($entity);
+    if (!$content_moderation_state instanceof ContentModerationState) {
+      return;
+    }
+
+    $langcode = $entity->language()->getId();
+    if ($content_moderation_state->hasTranslation($langcode)) {
+      $content_moderation_state = $content_moderation_state->getTranslation($langcode);
+    }
+
+    $content_moderation_state->set('moderation_state', $moderation_state);
+    $content_moderation_state->setNewRevision(FALSE);
+    $content_moderation_state->setSyncing(TRUE);
+    ContentModerationState::updateOrCreateFromEntity($content_moderation_state);
   }
 
   /**

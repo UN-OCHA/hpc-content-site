@@ -88,4 +88,7 @@ throbber:
     component:
       css/throbber.css: {}
   dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
     - core/once

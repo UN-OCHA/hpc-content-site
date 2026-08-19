@@ -97,6 +97,7 @@ class ContentSubmitFormsTest extends UnitTestCase {
     $this->assertSame('field_confirm_publish', $build['confirm_field']['#value']);
     $this->assertSame('edit-submit', $build['submit_button']['#value']);
     $this->assertSame([$form, 'ajaxCallbackConfirm'], $build['actions']['submit']['#ajax']['callback']);
+    $this->assertSame(['type' => 'none'], $build['actions']['submit']['#ajax']['progress']);
     $this->assertSame([
       'query' => [
         'ajax_form' => TRUE,
@@ -104,6 +105,7 @@ class ContentSubmitFormsTest extends UnitTestCase {
     ], $build['actions']['submit']['#ajax']['options']);
     $this->assertSame('entity.node_edit.submit_confirm', $build['actions']['submit']['#ajax']['url']->getRouteName());
     $this->assertSame(['node' => 123], $build['actions']['submit']['#ajax']['url']->getRouteParameters());
+    $this->assertContains('ncms_ui/throbber', $build['#attached']['library']);
     $this->assertContains('dialog-cancel', $build['actions']['cancel']['#attributes']['class']);
   }
 

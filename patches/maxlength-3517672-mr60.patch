@@ -1,0 +1,35 @@
+diff --git a/js/maxlength.js b/js/maxlength.js
+index eac23ea427a8b21823520b78e5cf9efd27890265..6f2cf4db27a19a84e5c58774a32ca4f75b915211 100644
+--- a/js/maxlength.js
++++ b/js/maxlength.js
+@@ -58,7 +58,10 @@
+         }
+       });
+     },
+-    detach: function(context, settings) {
++    detach: function(context, settings, trigger) {
++      if (trigger === 'serialize') {
++        return;
++      }
+       let $context = $(context);
+       $(once.remove('maxlength', $context.find('.maxlength'))).each(function () {
+         $(this).charCount({
+diff --git a/tests/src/FunctionalJavascript/MaxLengthCustomWidgetTest.php b/tests/src/FunctionalJavascript/MaxLengthCustomWidgetTest.php
+index 92bb8e8a4106f53a46867da00cc41a693eba49be..d4e8b702026375a20529e82954f1ea770e1df7a0 100644
+--- a/tests/src/FunctionalJavascript/MaxLengthCustomWidgetTest.php
++++ b/tests/src/FunctionalJavascript/MaxLengthCustomWidgetTest.php
+@@ -151,12 +151,14 @@ class MaxLengthCustomWidgetTest extends WebDriverTestBase {
+     // $this->assertSession()->pageTextNotContains('The maximum length has to
+     // be a positive number.');
+     $page->pressButton('Save');
++    $this->getSession()->wait(1000);
+     $this->assertSession()->responseContains('Maximum summary length: 123');
+ 
+     $this->drupalGet('node/add/article');
+ 
+     // Give maxlength.js some time to manipulate the DOM.
+     $this->assertSession()->waitForElement('css', 'div.counter');
++    $this->getSession()->wait(1000);
+ 
+     // Check each counter for summary and body.
+     $this->assertSession()->elementsCount('css', 'div.counter', 2);

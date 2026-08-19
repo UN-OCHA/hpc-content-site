@@ -2,7 +2,9 @@
 
 namespace Drupal\Tests\ncms_ui\Kernel\Entity;
 
+use Drupal\content_moderation\Entity\ContentModerationState;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\ncms_ui\ContentRevisionWorkflow;
 use Drupal\ncms_ui\Entity\Content\Article;
 use Drupal\ncms_ui\Entity\Storage\ContentStorage;
 use Drupal\Tests\ncms_ui\Traits\ContentTestTrait;
@@ -151,6 +153,59 @@ class ContentVersionTest extends KernelTestBase {
     $this->assertEquals(3, $article->getVersionId());
     $this->assertEquals('Article title #3', $article->label());
     $this->assertTrue($article->isPublished());
+  }
+
+  /**
+   * Tests publishing a correction after the current published revision exists.
+   */
+  public function testPublishCorrectionReplacesPublishedRevision() {
+    /** @var \Drupal\ncms_ui\ContentRevisionWorkflow $content_revision_workflow */
+    $content_revision_workflow = $this->container->get('ncms_ui.content_revision_workflow');
+    $this->assertInstanceOf(ContentRevisionWorkflow::class, $content_revision_workflow);
+
+    /** @var \Drupal\ncms_ui\Entity\Content\Article $article */
+    $article = Article::create([
+      'title' => 'Article title #1',
+      'moderation_state' => [
+        'value' => 'published',
+      ],
+    ]);
+    $article->setPublished();
+    $article->save();
+    $previous_published_revision_id = $article->getRevisionId();
+
+    /** @var \Drupal\ncms_ui\Entity\Content\Article $original */
+    $original = Article::load($article->id());
+    /** @var \Drupal\ncms_ui\Entity\Content\Article $updated */
+    $updated = Article::load($article->id());
+    $updated->title = 'Article title #2';
+
+    $result = $content_revision_workflow->publishCorrection($updated, $original, TRUE);
+    $this->assertSame(ContentRevisionWorkflow::RESULT_CREATED_PUBLISHED_CORRECTION, $result);
+
+    /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
+    $node_storage = $this->container->get('entity_type.manager')->getStorage('node');
+    $this->assertInstanceOf(ContentStorage::class, $node_storage);
+
+    /** @var \Drupal\ncms_ui\Entity\Content\Article $article */
+    $article = Article::load($article->id());
+    $this->assertSame('Article title #2', $article->label());
+    $this->assertTrue($article->isPublished());
+    $this->assertTrue($article->isDefaultRevision());
+    $this->assertSame('published', $article->getModerationState());
+
+    $last_published = $article->getLastPublishedRevision();
+    $this->assertSame($article->getRevisionId(), $last_published->getRevisionId());
+
+    /** @var \Drupal\ncms_ui\Entity\Content\Article $previous_published */
+    $previous_published = $node_storage->loadRevision($previous_published_revision_id);
+    $this->assertFalse($previous_published->isPublished());
+    $this->assertFalse($previous_published->isDefaultRevision());
+    $this->assertSame('draft', $previous_published->getModerationState());
+
+    $content_moderation_state = ContentModerationState::loadFromModeratedEntity($previous_published);
+    $this->assertInstanceOf(ContentModerationState::class, $content_moderation_state);
+    $this->assertSame('draft', $content_moderation_state->get('moderation_state')->value);
   }
 
 }

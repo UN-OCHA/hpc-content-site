@@ -4,8 +4,8 @@ namespace Drupal\ncms_ui\Plugin\Action;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Action\ActionBase;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\ncms_ui\ContentRevisionWorkflow;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\node\NodeInterface;
 
@@ -27,13 +27,13 @@ abstract class ContentActionBase extends ActionBase {
   }
 
   /**
-   * Get the entity type manager.
+   * Gets the content revision workflow service.
    *
-   * @return \Drupal\Core\Entity\EntityTypeManagerInterface
-   *   The entity type manager.
+   * @return \Drupal\ncms_ui\ContentRevisionWorkflow
+   *   The content revision workflow service.
    */
-  protected static function getEntityTypeManager(): EntityTypeManagerInterface {
-    return \Drupal::entityTypeManager();
+  protected static function getContentRevisionWorkflow(): ContentRevisionWorkflow {
+    return \Drupal::service('ncms_ui.content_revision_workflow');
   }
 
 }

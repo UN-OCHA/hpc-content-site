@@ -26,11 +26,7 @@ class Publish extends ContentActionBase {
       return;
     }
 
-    // Entity has not been changed, so we simply update the current
-    // revision to published.
-    /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
-    $node_storage = self::getEntityTypeManager()->getStorage('node');
-    $node_storage->updateRevisionStatus($node, NodeInterface::PUBLISHED);
+    self::getContentRevisionWorkflow()->publishExistingRevision($node);
     Cache::invalidateTags($node->getCacheTags());
   }
 

@@ -3,9 +3,6 @@
     "drupal/anonymous_login": {
       "Issue #3495893: Warning: foreach() argument must be of type array|object, string given": "https://www.drupal.org/files/issues/2025-01-13/3495893-7.patch"
     },
-    "drupal/computed_field": {
-      "Issue #3539496: Drupal 11 compatibility for v3": "./patches/3539496-mr-23.patch"
-    },
     "drupal/core": {
       "Issue #2544110: XSS attribute filtering is inconsistent and strips valid attributes": "./patches/2544110-11.4.x.patch",
       "Issue #2546212: Entity view/form mode formatter/widget settings have no translation UI": "./patches/2546212-11.4.x.patch"
@@ -24,6 +21,9 @@
     },
     "drupal/maintenance200": {
       "Issue #3431791: Automated Drupal 11 compatibility fixes": "https://www.drupal.org/files/issues/2024-03-18/maintenance200.8.x-2.1.rector.patch"
+    },
+    "drupal/maxlength": {
+      "Issue #3517672: Maxlength message blinks when an ajax call happens within the form": "./patches/maxlength-3517672-mr60.patch"
     },
     "drupal/openid_connect": {
       "Handle case if user is in blocked state after SSO Authorization": "./patches/openid_connect-3390668-6.patch"

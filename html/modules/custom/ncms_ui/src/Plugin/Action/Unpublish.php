@@ -26,11 +26,7 @@ class Unpublish extends ContentActionBase {
       return;
     }
 
-    // Entity has not been changed, so we simply update the current
-    // revision to unpublished.
-    /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
-    $node_storage = self::getEntityTypeManager()->getStorage('node');
-    $node_storage->updateRevisionStatus($node, NodeInterface::NOT_PUBLISHED);
+    self::getContentRevisionWorkflow()->unpublishExistingRevision($node);
     Cache::invalidateTags($node->getCacheTags());
   }
 

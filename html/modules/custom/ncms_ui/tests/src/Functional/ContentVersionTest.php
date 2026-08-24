@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\ncms_ui\Functional;
 
+use Drupal\Core\Url;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\node\NodeInterface;
 
@@ -68,7 +69,7 @@ class ContentVersionTest extends ContentTestBase {
     // Go back to the versions page. Confirm there are 2 revisions listed now.
     // Both are unpublished but their status is labeled "Draft" for the most
     // current one and "Archived" for the earlier one.
-    // Note that the index fo the <td> elements has increased now, because with
+    // Note that the index of the <td> elements has increased now, because with
     // more than a single revision, the diff module adds 2 radio button columns
     // to the table.
     $this->drupalGet($versions_url);
@@ -81,7 +82,19 @@ class ContentVersionTest extends ContentTestBase {
     $assert_session->elementContains('xpath', $tbody_xpath . '/tr[2]/td[5]', 'Archived');
     $assert_session->elementContains('xpath', $tbody_xpath . '/tr[2]/td[8]//a[@href="/node/' . $node_1_1->id() . '/revisions/1/publish"]', 'Publish');
 
+    // Confirm the site's visual comparison renders the changed content.
+    $diff_url = Url::fromRoute('diff.revisions_diff', [
+      'node' => $node_1_1->id(),
+      'left_revision' => 1,
+      'right_revision' => 2,
+      'filter' => 'visual_inline',
+    ]);
+    $this->drupalGet($diff_url);
+    $assert_session->statusCodeEquals(200);
+    $assert_session->elementExists('css', '.diff-responsive-table-wrapper ins');
+
     // Publish the current revision.
+    $this->drupalGet($versions_url);
     $this->getSession()->getPage()->find('xpath', $tbody_xpath . '/tr[1]/td[8]')->findLink('Publish')->click();
     $this->assertContentModerationTableEntry($node_1_1);
 

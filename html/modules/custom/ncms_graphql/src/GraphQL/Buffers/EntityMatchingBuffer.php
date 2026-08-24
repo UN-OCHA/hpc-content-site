@@ -54,7 +54,10 @@ class EntityMatchingBuffer extends GraphQlEntityBuffer {
    * {@inheritdoc}
    */
   protected function getBufferId(\ArrayObject $item): string {
-    return $item['type'];
+    $bundles = (array) ($item['bundles'] ?? []);
+    sort($bundles);
+    // Keep searches with different bundle conditions in separate buffers.
+    return $item['type'] . ':' . implode(',', $bundles);
   }
 
   /**

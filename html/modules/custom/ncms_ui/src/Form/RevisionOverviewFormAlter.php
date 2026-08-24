@@ -121,14 +121,6 @@ class RevisionOverviewFormAlter {
       return;
     }
 
-    // Looking for the submit buttons of the diff module.
-    if ($form['submit_top']['#type'] ?? NULL == 'submit') {
-      $form['submit_top']['#value'] = $this->t('Compare selected versions');
-    }
-    if ($form['submit_bottom']['#type'] ?? NULL == 'submit') {
-      $form['submit_bottom']['#value'] = $this->t('Compare selected versions');
-    }
-
     // Get the curent node.
     /** @var \Drupal\node\NodeInterface $node */
     $node = $this->routeMatch->getParameter('node');
@@ -315,14 +307,22 @@ class RevisionOverviewFormAlter {
 
     $form['#attached']['library'][] = 'ncms_ui/revisions';
 
+    $submit_keys = ['submit_top', 'submit'];
     if ($this->diffLayoutManager) {
       $ajax = [
         'callback' => [$this, 'openDiffModal'],
         'event' => 'click',
       ];
-      $form['submit_top']['#ajax'] = $ajax;
-      $form['submit_bottom']['#ajax'] = $ajax;
       $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    }
+    foreach ($submit_keys as $submit_key) {
+      if (($form[$submit_key]['#type'] ?? NULL) !== 'submit') {
+        continue;
+      }
+      $form[$submit_key]['#value'] = $this->t('Compare selected versions');
+      if (isset($ajax)) {
+        $form[$submit_key]['#ajax'] = $ajax;
+      }
     }
   }
 
@@ -343,7 +343,7 @@ class RevisionOverviewFormAlter {
     $input = $form_state->getUserInput();
     $vid_left = $input['radios_left'];
     $vid_right = $input['radios_right'];
-    $nid = $input['nid'];
+    $nid = $input['entity_id'];
     $entity = $this->entityTypeManager->getStorage('node')->load($nid);
 
     // Always place the older revision on the left side of the comparison

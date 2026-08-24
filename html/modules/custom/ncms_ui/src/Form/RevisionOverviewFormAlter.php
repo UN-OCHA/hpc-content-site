@@ -121,14 +121,6 @@ class RevisionOverviewFormAlter {
       return;
     }
 
-    // Looking for the submit buttons of the diff module.
-    if ($form['submit_top']['#type'] ?? NULL == 'submit') {
-      $form['submit_top']['#value'] = $this->t('Compare selected versions');
-    }
-    if ($form['submit_bottom']['#type'] ?? NULL == 'submit') {
-      $form['submit_bottom']['#value'] = $this->t('Compare selected versions');
-    }
-
     // Get the curent node.
     /** @var \Drupal\node\NodeInterface $node */
     $node = $this->routeMatch->getParameter('node');
@@ -232,7 +224,25 @@ class RevisionOverviewFormAlter {
       ];
 
       $last_cell = &$row['operations'];
-      unset($last_cell['#links']['delete']);
+      $operation_links = $last_cell['#links'] ?? [];
+      $revert_link = $operation_links['revert'] ?? NULL;
+      if (!$revert_link) {
+        // Diff 2.x returns operation links with numeric keys, so identify the
+        // revert link by its route before rebuilding the site's operations.
+        $revert_routes = [
+          'node.revision_revert_confirm',
+          'node.revision_revert_translation_confirm',
+        ];
+        foreach ($operation_links as $operation_link) {
+          $operation_url = $operation_link['url'] ?? NULL;
+          $operation_route = $operation_url instanceof Url ? $operation_url->getRouteName() : NULL;
+          if (in_array($operation_route, $revert_routes, TRUE)) {
+            $revert_link = $operation_link;
+            break;
+          }
+        }
+      }
+      $last_cell['#links'] = [];
       if ($revision->isDefaultRevision() && $rev_revert_perm) {
         $last_cell = [
           '#type' => 'operations',
@@ -251,7 +261,7 @@ class RevisionOverviewFormAlter {
           ];
         }
       }
-      elseif (array_key_exists('revert', $last_cell['#links'] ?? [])) {
+      elseif ($revert_link) {
         // We have a revert link, so the user has permission to update this
         // revision.
         if ($revision->isPublished()) {
@@ -277,36 +287,42 @@ class RevisionOverviewFormAlter {
         $last_cell['#links'] = array_filter([
           'publish' => $last_cell['#links']['publish'] ?? NULL,
           'unpublish' => $last_cell['#links']['unpublish'] ?? NULL,
-          'revert' => $last_cell['#links']['revert'] ?? NULL,
+          'revert' => $revert_link,
           'delete' => $last_cell['#links']['delete'] ?? NULL,
         ]);
 
-        if (!empty($last_cell['#links']['revert'])) {
-          $attributes = [
-            'class' => ['use-ajax'],
-            'data-dialog-type' => 'modal',
-            'data-dialog-options' => Json::encode([
-              'title' => $this->t('Revert to version #@version', [
-                '@version' => $revision->getVersionId(),
-              ]),
-              'width' => '350px',
+        $attributes = [
+          'class' => ['use-ajax'],
+          'data-dialog-type' => 'modal',
+          'data-dialog-options' => Json::encode([
+            'title' => $this->t('Revert to version #@version', [
+              '@version' => $revision->getVersionId(),
             ]),
-          ];
-          $last_cell['#links']['revert']['attributes'] = $attributes;
-        }
+            'width' => '350px',
+          ]),
+        ];
+        $last_cell['#links']['revert']['attributes'] = $attributes;
       }
     }
 
     $form['#attached']['library'][] = 'ncms_ui/revisions';
 
+    $submit_keys = ['submit_top', 'submit'];
     if ($this->diffLayoutManager) {
       $ajax = [
         'callback' => [$this, 'openDiffModal'],
         'event' => 'click',
       ];
-      $form['submit_top']['#ajax'] = $ajax;
-      $form['submit_bottom']['#ajax'] = $ajax;
       $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    }
+    foreach ($submit_keys as $submit_key) {
+      if (($form[$submit_key]['#type'] ?? NULL) !== 'submit') {
+        continue;
+      }
+      $form[$submit_key]['#value'] = $this->t('Compare selected versions');
+      if (isset($ajax)) {
+        $form[$submit_key]['#ajax'] = $ajax;
+      }
     }
   }
 
@@ -327,7 +343,7 @@ class RevisionOverviewFormAlter {
     $input = $form_state->getUserInput();
     $vid_left = $input['radios_left'];
     $vid_right = $input['radios_right'];
-    $nid = $input['nid'];
+    $nid = $input['entity_id'];
     $entity = $this->entityTypeManager->getStorage('node')->load($nid);
 
     // Always place the older revision on the left side of the comparison
@@ -344,10 +360,6 @@ class RevisionOverviewFormAlter {
       'left_revision' => $vid_left,
       'right_revision' => $vid_right,
       'filter' => $this->diffLayoutManager->getDefaultLayout(),
-    ], [
-      'query' => [
-        'view_mode' => 'full',
-      ],
     ]);
 
     $title = $this->t('Changes to %title', ['%title' => $entity->label()]);

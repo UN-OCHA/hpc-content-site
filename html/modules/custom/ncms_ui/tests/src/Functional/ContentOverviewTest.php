@@ -7,8 +7,6 @@ use Drupal\node\NodeInterface;
 
 /**
  * Tests logic around the content overview page.
- *
- * @group ncms_ui
  */
 class ContentOverviewTest extends ContentTestBase {
 

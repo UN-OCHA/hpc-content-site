@@ -6,10 +6,8 @@ use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RenderContext;
-use Drupal\Core\Render\RendererInterface;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 use Drupal\paragraphs\Entity\Paragraph;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -53,42 +51,11 @@ class EntityConfiguration extends DataProducerPluginBase implements ContainerFac
    *
    * @codeCoverageIgnore
    */
-  public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
-    return new static(
-      $configuration,
-      $pluginId,
-      $pluginDefinition,
-      $container->get('entity_type.manager'),
-      $container->get('renderer')
-    );
-  }
-
-  /**
-   * EntityRendered constructor.
-   *
-   * @param array $configuration
-   *   The plugin configuration array.
-   * @param string $pluginId
-   *   The plugin id.
-   * @param mixed $pluginDefinition
-   *   The plugin definition.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   The entity type manager service.
-   * @param \Drupal\Core\Render\RendererInterface $renderer
-   *   The renderer service.
-   *
-   * @codeCoverageIgnore
-   */
-  public function __construct(
-    array $configuration,
-    $pluginId,
-    $pluginDefinition,
-    EntityTypeManagerInterface $entityTypeManager,
-    RendererInterface $renderer,
-  ) {
-    parent::__construct($configuration, $pluginId, $pluginDefinition);
-    $this->entityTypeManager = $entityTypeManager;
-    $this->renderer = $renderer;
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $instance = new self($configuration, $plugin_id, $plugin_definition);
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->renderer = $container->get('renderer');
+    return $instance;
   }
 
   /**

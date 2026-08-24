@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Form class for content submit confirm forms.
  */
-class ContentRestoreForm extends ConfirmFormBase {
+final class ContentRestoreForm extends ConfirmFormBase {
 
   /**
    * The entity type manager service.

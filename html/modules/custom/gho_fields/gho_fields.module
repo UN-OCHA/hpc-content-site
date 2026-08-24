@@ -132,7 +132,9 @@ function gho_fields_preprocess_node__story(&$variables) {
   // so that we can more easily update the sources. Notably the "footnotes"
   // text format strips the `<p>` tag which makes it easier to extract the
   // content.
-  $text = \Drupal::service('renderer')->renderPlain($variables['content']['field_source'][0]);
+  /** @var \Drupal\Core\Render\RendererInterface $renderer */
+  $renderer = \Drupal::service('renderer');
+  $text = $renderer->renderInIsolation($variables['content']['field_source'][0]);
 
   // The sources are separated by a new line, split them and generate the list.
   $items = [];

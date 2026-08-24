@@ -7,8 +7,6 @@ use Drupal\Tests\ncms_ui\Traits\ContentTestTrait;
 
 /**
  * Tests access based on content spaces.
- *
- * @group ncms_ui
  */
 abstract class ContentTestBaseJavascript extends WebDriverTestBase {
 
@@ -46,6 +44,7 @@ abstract class ContentTestBaseJavascript extends WebDriverTestBase {
 
     $this->setupContentSpaceStructure();
     $this->addContentSpaceFieldToBundle('article');
+    $this->addTagsToBundle('article');
   }
 
   /**

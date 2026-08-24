@@ -8,6 +8,7 @@ use Drupal\ncms_ui\Entity\EntityCompare;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Tests\ckeditor5\Traits\PrivateMethodUnitTestTrait;
 use Drupal\Tests\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Tests the ncms_ui.entity_compare service.
@@ -19,30 +20,44 @@ class EntityCompareTest extends UnitTestCase {
   /**
    * Data provider for testHasChanged.
    */
-  public function dataProviderHasChanged() {
+  public static function dataProviderHasChanged() {
     $test_cases = [];
 
-    $entity_data = $this->getEntityDataArray();
-    $paragraph_data = $this->getParagraphDataArray();
-    $updated_entity = $this->getEntityProphecyWithData(['status' => [['value' => TRUE]]] + $entity_data, $paragraph_data)->reveal();
-    $original_entity = $this->getEntityProphecyWithData(['status' => [['value' => FALSE]]] + $entity_data, $paragraph_data)->reveal();
+    $entity_data = self::getEntityDataArray();
+    $paragraph_data = self::getParagraphDataArray();
 
     $test_cases['equal'] = [
-      'updated' => $updated_entity,
-      'original' => $updated_entity,
+      'updated' => [
+        'entity_data' => ['status' => [['value' => TRUE]]] + $entity_data,
+        'paragraph_data' => $paragraph_data,
+      ],
+      'original' => [
+        'entity_data' => ['status' => [['value' => TRUE]]] + $entity_data,
+        'paragraph_data' => $paragraph_data,
+      ],
       'expected' => FALSE,
     ];
     $test_cases['changed_entity_status'] = [
-      'updated' => $updated_entity,
-      'original' => $original_entity,
+      'updated' => [
+        'entity_data' => ['status' => [['value' => TRUE]]] + $entity_data,
+        'paragraph_data' => $paragraph_data,
+      ],
+      'original' => [
+        'entity_data' => ['status' => [['value' => FALSE]]] + $entity_data,
+        'paragraph_data' => $paragraph_data,
+      ],
       'expected' => TRUE,
     ];
 
-    $updated_entity = $this->getEntityProphecyWithData($entity_data, ['status' => [['value' => TRUE]]] + $paragraph_data)->reveal();
-    $original_entity = $this->getEntityProphecyWithData($entity_data, ['status' => [['value' => FALSE]]] + $paragraph_data)->reveal();
     $test_cases['changed_paragraph_status'] = [
-      'updated' => $updated_entity,
-      'original' => $original_entity,
+      'updated' => [
+        'entity_data' => $entity_data,
+        'paragraph_data' => ['status' => [['value' => TRUE]]] + $paragraph_data,
+      ],
+      'original' => [
+        'entity_data' => $entity_data,
+        'paragraph_data' => ['status' => [['value' => FALSE]]] + $paragraph_data,
+      ],
       'expected' => TRUE,
     ];
 
@@ -51,10 +66,11 @@ class EntityCompareTest extends UnitTestCase {
 
   /**
    * Test the ::hasChanged method.
-   *
-   * @dataProvider dataProviderHasChanged
    */
-  public function testHasChanged($updated_entity, $original_entity, $expected) {
+  #[DataProvider('dataProviderHasChanged')]
+  public function testHasChanged($updated, $original, $expected) {
+    $updated_entity = $this->getEntityProphecyWithData($updated['entity_data'], $updated['paragraph_data'])->reveal();
+    $original_entity = $this->getEntityProphecyWithData($original['entity_data'], $original['paragraph_data'])->reveal();
     $entity_compare = new EntityCompare();
     $this->assertEquals($expected, $entity_compare->hasChanged($updated_entity, $original_entity));
   }
@@ -94,22 +110,15 @@ class EntityCompareTest extends UnitTestCase {
   /**
    * Data provider for testHashEntity.
    */
-  public function dataBuildHashableEntityData() {
-    $promoted_paragraph = $this->getParagraphProphecyWithData([
-      'title' => 'Paragraph title',
-    ]);
-    $promoted_paragraph->getAllBehaviorSettings()->willReturn([
-      'promoted_behavior' => ['promoted' => TRUE],
-    ]);
-    $unpromoted_paragraph = $this->getParagraphProphecyWithData([
-      'title' => 'Paragraph title',
-    ]);
-    $unpromoted_paragraph->getAllBehaviorSettings()->willReturn([
-      'promoted_behavior' => ['promoted' => FALSE],
-    ]);
+  public static function dataBuildHashableEntityData() {
     $test_cases = [];
     $test_cases['promoted_paragraph'] = [
-      'entity' => $promoted_paragraph->reveal(),
+      'entity_data' => [
+        'paragraph' => [
+          'title' => 'Paragraph title',
+          'promoted_behavior' => ['promoted' => TRUE],
+        ],
+      ],
       'expected' => [
         'title' => 'Paragraph title',
         'promoted_behavior' => [
@@ -118,14 +127,21 @@ class EntityCompareTest extends UnitTestCase {
       ],
     ];
     $test_cases['unpromoted_paragraph'] = [
-      'entity' => $unpromoted_paragraph->reveal(),
+      'entity_data' => [
+        'paragraph' => [
+          'title' => 'Paragraph title',
+          'promoted_behavior' => ['promoted' => FALSE],
+        ],
+      ],
       'expected' => [
         'title' => 'Paragraph title',
       ],
     ];
-    $entity_data = $this->getEntityDataArray();
+    $entity_data = self::getEntityDataArray();
     $test_cases['unset_entity_keys'] = [
-      'entity' => $this->getEntityProphecyWithData($entity_data)->reveal(),
+      'entity_data' => [
+        'entity' => $entity_data,
+      ],
       'expected' => array_diff_key($entity_data, array_flip([
         'vid', 'changed', 'revision_timestamp', 'revision_uid', 'revision_log',
       ])),
@@ -135,21 +151,27 @@ class EntityCompareTest extends UnitTestCase {
 
   /**
    * Test the building of hashable entity data.
-   *
-   * @dataProvider dataBuildHashableEntityData
    */
-  public function testBuildHashableEntityData(ContentEntityInterface $entity, $expected_array) {
+  #[DataProvider('dataBuildHashableEntityData')]
+  public function testBuildHashableEntityData(array $entity_data, $expected) {
     $entity_compare = new EntityCompare();
     $method = self::getMethod(EntityCompare::class, 'buildHashableEntityData');
 
-    $array = $method->invokeArgs($entity_compare, [$entity]);
-    $this->assertEquals($expected_array, $array);
+    if (!empty($entity_data['paragraph'])) {
+      $entity = $this->getParagraphProphecyWithData($entity_data['paragraph']);
+    }
+    elseif (!empty($entity_data['entity'])) {
+      $entity = $this->getEntityProphecyWithData($entity_data['entity']);
+    }
+
+    $array = $method->invokeArgs($entity_compare, [$entity->reveal()]);
+    $this->assertEquals($expected, $array);
   }
 
   /**
    * Data provider for testReduceArray.
    */
-  public function dataProviderReduceArray() {
+  public static function dataProviderReduceArray() {
     $test_cases = [];
     $test_cases[] = [
       'array' => [
@@ -221,14 +243,14 @@ class EntityCompareTest extends UnitTestCase {
       'remove_keys' => [],
       'expected' => [0 => 1],
     ];
-    $entity = $this->prophesize(ContentEntityInterface::class);
-    $entity->toArray()->willReturn([
+
+    $entity = new ArrayTestClass([
       'name' => 'Michael',
       'profession' => 'basketball player',
       'status' => 0,
     ]);
     $test_cases[] = [
-      'array' => [0 => 1, 1 => $entity->reveal()],
+      'array' => [0 => 1, 1 => $entity],
       'remove_keys' => [],
       'expected' => [
         0 => 1,
@@ -239,7 +261,7 @@ class EntityCompareTest extends UnitTestCase {
       ],
     ];
     $test_cases[] = [
-      'array' => [0 => 1, 'profession' => 'test', 1 => $entity->reveal()],
+      'array' => [0 => 1, 'profession' => 'test', 1 => $entity],
       'remove_keys' => ['profession', 0],
       'expected' => [1 => ['name' => 'Michael']],
     ];
@@ -248,9 +270,8 @@ class EntityCompareTest extends UnitTestCase {
 
   /**
    * Test the reduction of arrays.
-   *
-   * @dataProvider dataProviderReduceArray
    */
+  #[DataProvider('dataProviderReduceArray')]
   public function testReduceArray(array $array, array $remove_keys, array $expected) {
     $entity_compare = new EntityCompare();
     $method = self::getMethod(EntityCompare::class, 'reduceArray');
@@ -281,9 +302,14 @@ class EntityCompareTest extends UnitTestCase {
    *   The paragraph prohpecy.
    */
   private function getParagraphProphecyWithData($paragraph_data) {
+    $behavior_settings = [];
+    if (!empty($paragraph_data['promoted_behavior'])) {
+      $behavior_settings = ['promoted_behavior' => $paragraph_data['promoted_behavior']];
+      unset($paragraph_data['promoted_behavior']);
+    }
     $paragraph = $this->prophesize(Paragraph::class);
     $paragraph->toArray()->willReturn($paragraph_data);
-    $paragraph->getAllBehaviorSettings()->willReturn([]);
+    $paragraph->getAllBehaviorSettings()->willReturn($behavior_settings);
     return $paragraph;
   }
 
@@ -295,7 +321,7 @@ class EntityCompareTest extends UnitTestCase {
    * @param array $promoted
    *   Whether the paragraph should be promoted or not.
    */
-  private function getParagraphDataArray(array $values = [], $promoted = FALSE) {
+  private static function getParagraphDataArray(array $values = [], $promoted = FALSE) {
     return $values + [
       'id' => [['value' => '4556']],
       'uuid' => [['value' => '3005ed14-314c-4418-a5f8-f78cfa2240d2']],
@@ -319,7 +345,7 @@ class EntityCompareTest extends UnitTestCase {
    * @param array $values
    *   An array of values to set instead of the default values.
    */
-  private function getEntityDataArray(array $values = []) {
+  private static function getEntityDataArray(array $values = []) {
     return $values + [
       'nid' => [['value' => '1']],
       'uuid' => [['value' => '9870e8e8-7e3a-4db0-9453-a3265b6b706a']],
@@ -336,6 +362,37 @@ class EntityCompareTest extends UnitTestCase {
       'changed' => [['value' => 1711100250]],
       'field_paragraphs' => [['target_id' => '4', 'target_revision_id' => '5']],
     ];
+  }
+
+}
+
+/**
+ * Test class providing a toArray method.
+ */
+class ArrayTestClass {
+
+  /**
+   * Store the array data.
+   *
+   * @var array
+   */
+  private array $data;
+
+  /**
+   * Public constructor.
+   */
+  public function __construct(array $data) {
+    $this->data = $data;
+  }
+
+  /**
+   * Return the array.
+   *
+   * @return array
+   *   The array.
+   */
+  public function toArray(): array {
+    return $this->data;
   }
 
 }

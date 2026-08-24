@@ -232,7 +232,25 @@ class RevisionOverviewFormAlter {
       ];
 
       $last_cell = &$row['operations'];
-      unset($last_cell['#links']['delete']);
+      $operation_links = $last_cell['#links'] ?? [];
+      $revert_link = $operation_links['revert'] ?? NULL;
+      if (!$revert_link) {
+        // Diff 2.x returns operation links with numeric keys, so identify the
+        // revert link by its route before rebuilding the site's operations.
+        $revert_routes = [
+          'node.revision_revert_confirm',
+          'node.revision_revert_translation_confirm',
+        ];
+        foreach ($operation_links as $operation_link) {
+          $operation_url = $operation_link['url'] ?? NULL;
+          $operation_route = $operation_url instanceof Url ? $operation_url->getRouteName() : NULL;
+          if (in_array($operation_route, $revert_routes, TRUE)) {
+            $revert_link = $operation_link;
+            break;
+          }
+        }
+      }
+      $last_cell['#links'] = [];
       if ($revision->isDefaultRevision() && $rev_revert_perm) {
         $last_cell = [
           '#type' => 'operations',
@@ -251,7 +269,7 @@ class RevisionOverviewFormAlter {
           ];
         }
       }
-      elseif (array_key_exists('revert', $last_cell['#links'] ?? [])) {
+      elseif ($revert_link) {
         // We have a revert link, so the user has permission to update this
         // revision.
         if ($revision->isPublished()) {
@@ -277,23 +295,21 @@ class RevisionOverviewFormAlter {
         $last_cell['#links'] = array_filter([
           'publish' => $last_cell['#links']['publish'] ?? NULL,
           'unpublish' => $last_cell['#links']['unpublish'] ?? NULL,
-          'revert' => $last_cell['#links']['revert'] ?? NULL,
+          'revert' => $revert_link,
           'delete' => $last_cell['#links']['delete'] ?? NULL,
         ]);
 
-        if (!empty($last_cell['#links']['revert'])) {
-          $attributes = [
-            'class' => ['use-ajax'],
-            'data-dialog-type' => 'modal',
-            'data-dialog-options' => Json::encode([
-              'title' => $this->t('Revert to version #@version', [
-                '@version' => $revision->getVersionId(),
-              ]),
-              'width' => '350px',
+        $attributes = [
+          'class' => ['use-ajax'],
+          'data-dialog-type' => 'modal',
+          'data-dialog-options' => Json::encode([
+            'title' => $this->t('Revert to version #@version', [
+              '@version' => $revision->getVersionId(),
             ]),
-          ];
-          $last_cell['#links']['revert']['attributes'] = $attributes;
-        }
+            'width' => '350px',
+          ]),
+        ];
+        $last_cell['#links']['revert']['attributes'] = $attributes;
       }
     }
 
@@ -344,10 +360,6 @@ class RevisionOverviewFormAlter {
       'left_revision' => $vid_left,
       'right_revision' => $vid_right,
       'filter' => $this->diffLayoutManager->getDefaultLayout(),
-    ], [
-      'query' => [
-        'view_mode' => 'full',
-      ],
     ]);
 
     $title = $this->t('Changes to %title', ['%title' => $entity->label()]);

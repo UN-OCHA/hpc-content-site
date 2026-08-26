@@ -18,6 +18,9 @@
         "drupal/entity_reference_revisions": {
             "Issue #2799479: Views doesn't recognize relationship to host": "patches/entity_reference_revisions-relationship_host_id-2799479-176.patch"
         },
+        "drupal/file_mdm": {
+            "Issue #3492414: Nullable types must be explicit": "https://www.drupal.org/files/issues/2026-03-20/file_mdm-nullable-3570037-8.patch"
+        },
         "drupal/graphql": {
           "Issue #3561746: type error on drush updb": "https://www.drupal.org/files/issues/2025-12-05/graphql-3561746-2.patch"
         },

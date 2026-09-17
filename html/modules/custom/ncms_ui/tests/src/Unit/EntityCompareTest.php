@@ -4,6 +4,7 @@ namespace Drupal\Tests\ncms_ui;
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemList;
+use Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList;
 use Drupal\ncms_ui\Entity\EntityCompare;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Tests\ckeditor5\Traits\PrivateMethodUnitTestTrait;
@@ -57,6 +58,29 @@ class EntityCompareTest extends UnitTestCase {
   public function testHasChanged($updated_entity, $original_entity, $expected) {
     $entity_compare = new EntityCompare();
     $this->assertEquals($expected, $entity_compare->hasChanged($updated_entity, $original_entity));
+  }
+
+  /**
+   * Tests that ordinary entity references are compared without being loaded.
+   */
+  public function testHasChangedWithoutLoadingRegularReferences() {
+    $updated_entity = $this->getEntityProphecyWithData([
+      'field_article' => [['target_id' => '2']],
+    ] + $this->getEntityDataArray());
+    $original_entity = $this->getEntityProphecyWithData([
+      'field_article' => [['target_id' => '1']],
+    ] + $this->getEntityDataArray());
+
+    $updated_reference_list = $this->prophesize(EntityReferenceFieldItemList::class);
+    $updated_reference_list->referencedEntities()->shouldNotBeCalled();
+    $updated_entity->get('field_article')->willReturn($updated_reference_list->reveal());
+
+    $original_reference_list = $this->prophesize(EntityReferenceFieldItemList::class);
+    $original_reference_list->referencedEntities()->shouldNotBeCalled();
+    $original_entity->get('field_article')->willReturn($original_reference_list->reveal());
+
+    $entity_compare = new EntityCompare();
+    $this->assertTrue($entity_compare->hasChanged($updated_entity->reveal(), $original_entity->reveal()));
   }
 
   /**
@@ -268,7 +292,7 @@ class EntityCompareTest extends UnitTestCase {
     $entity = $this->prophesize(ContentEntityInterface::class);
     $entity->toArray()->willReturn($entity_data);
     $paragraph = !empty($paragraph_data) ? $this->getParagraphProphecyWithData($paragraph_data)->reveal() : NULL;
-    $entity_reference_field_item_list = $this->prophesize(EntityReferenceFieldItemList::class);
+    $entity_reference_field_item_list = $this->prophesize(EntityReferenceRevisionsFieldItemList::class);
     $entity_reference_field_item_list->referencedEntities()->willReturn(array_filter([$paragraph]));
     $entity->get('field_paragraphs')->willReturn($entity_reference_field_item_list);
     return $entity;

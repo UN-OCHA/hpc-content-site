@@ -1,5 +1,5 @@
 {
-    "_hash": "60dd3976b9ace9da3e06c3c09c7b8fdd7a08fa217d9e7979004b377301df7e2f",
+    "_hash": "e2ad5ef486751943592280280a2d37d4c126212a004e5ccff57481398749598b",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -109,6 +109,18 @@
                 }
             }
         ],
+        "drupal/file_mdm": [
+            {
+                "package": "drupal/file_mdm",
+                "description": "Issue #3492414: Nullable types must be explicit",
+                "url": "https://www.drupal.org/files/issues/2026-03-20/file_mdm-nullable-3570037-8.patch",
+                "sha256": "e8594a1ac08db1c7298c350ea792e3a22d6eaf76cf8eb293f6186840410252e4",
+                "depth": 1,
+                "extra": {
+                    "provenance": "patches-file:composer.patches.json"
+                }
+            }
+        ],
         "drupal/graphql": [
             {
                 "package": "drupal/graphql",
@@ -127,16 +139,6 @@
                 "description": "Handle case if user is in blocked state after SSO Authorization",
                 "url": "./patches/openid_connect-3390668-6.patch",
                 "sha256": "3dfdaf6593f62c629db9d4a8701ebb7bf8a6ae9f479c4d5d89e1799d37a5a422",
-                "depth": 1,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            },
-            {
-                "package": "drupal/openid_connect",
-                "description": "Incorrect context in hook_redirect_logout_alter",
-                "url": "./patches/openid_connect-3577436-191.patch",
-                "sha256": "c04ff5f48e1a4e495bc22329b203dd42b0e9cbaa9ec2f0f08e96697dc66c17db",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

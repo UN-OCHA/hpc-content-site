@@ -3,7 +3,7 @@
 namespace Drupal\ncms_ui\Entity;
 
 use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Field\EntityReferenceFieldItemList;
+use Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList;
 use Drupal\paragraphs\Entity\Paragraph;
 
 /**
@@ -67,7 +67,9 @@ class EntityCompare {
         continue;
       }
       $field_list = $entity->get($field_name);
-      if (!$field_list instanceof EntityReferenceFieldItemList) {
+      // Recurse only into components edited as part of the parent entity.
+      // Ordinary references are already represented by their target IDs.
+      if (!$field_list instanceof EntityReferenceRevisionsFieldItemList) {
         continue;
       }
       $entities = $field_list->referencedEntities();

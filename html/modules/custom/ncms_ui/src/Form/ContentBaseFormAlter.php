@@ -136,6 +136,7 @@ class ContentBaseFormAlter {
     $form['moderation_state']['#access'] = FALSE;
     $form['#submit'] = [[$this, 'submitForm']];
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    $form['#attached']['library'][] = 'ncms_ui/publication_actions';
 
     // Add a confirm field. This will be set by ContentSubmitConfirmForm.
     $form['confirmed'] = [
@@ -146,6 +147,9 @@ class ContentBaseFormAlter {
     $ajax_confirm = [
       'callback' => [$this, 'ajaxConfirm'],
       'confirm_field' => 'confirmed',
+    ];
+    $publication_action_attributes = [
+      'data-ncms-publication-action' => 'true',
     ];
 
     switch ($entity->getContentStatus()) {
@@ -161,6 +165,7 @@ class ContentBaseFormAlter {
           ],
           '#gin_action_item' => TRUE,
           '#submit' => [],
+          '#attributes' => $publication_action_attributes,
         ];
         break;
 
@@ -175,6 +180,7 @@ class ContentBaseFormAlter {
           ],
           '#gin_action_item' => TRUE,
           '#submit' => [],
+          '#attributes' => $publication_action_attributes,
         ];
         $form['actions']['publish_revision'] = [
           '#type' => 'submit',
@@ -185,6 +191,7 @@ class ContentBaseFormAlter {
           ],
           '#gin_action_item' => TRUE,
           '#submit' => [],
+          '#attributes' => $publication_action_attributes,
         ];
         break;
     }
@@ -281,7 +288,7 @@ class ContentBaseFormAlter {
 
       if ($confirmed) {
         // Submit the form.
-        $this->submitForm($form, $form_state, TRUE);
+        $this->submitForm($form, $form_state, TRUE, $updated_entity, $entity_updated);
 
         // Remove any is_changed class just in case to prevent the beforeunload
         // event set up by layout paragraphs to trigger a browser warning. See
@@ -299,16 +306,24 @@ class ContentBaseFormAlter {
 
   /**
    * Submit callback.
+   *
+   * @param array $form
+   *   The form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   * @param bool $submit_in_ajax_context
+   *   Whether the form is being submitted from the Ajax callback.
+   * @param \Drupal\ncms_ui\Entity\ContentInterface|null $updated_entity
+   *   The entity built from the submitted form, if already available.
+   * @param bool|null $entity_updated
+   *   Whether the entity has changed, if already calculated.
    */
-  public function submitForm(array &$form, FormStateInterface $form_state, $submit_in_ajax_context = FALSE) {
+  public function submitForm(array &$form, FormStateInterface $form_state, bool $submit_in_ajax_context = FALSE, ?ContentInterface $updated_entity = NULL, ?bool $entity_updated = NULL) {
     if ($this->requestStack->getCurrentRequest()->isXmlHttpRequest() && !$submit_in_ajax_context) {
       // If this submission is done via ajax, we first need to do the
       // confirmation.
       return;
     }
-
-    /** @var \Drupal\Core\Entity\EntityForm $form_object */
-    $form_object = $form_state->getFormObject();
 
     /** @var \Drupal\ncms_ui\Entity\ContentInterface $original_entity */
     $original_entity = $form_state->get('original_entity');
@@ -316,10 +331,14 @@ class ContentBaseFormAlter {
     // Get the triggering element.
     $triggering_element = $form_state->getTriggeringElement();
 
-    // Check if the entity has changes.
-    /** @var \Drupal\ncms_ui\Entity\ContentInterface $updated_entity */
-    $updated_entity = $form_object->buildEntity($form, $form_state);
-    $entity_updated = $this->entityCompare->hasChanged($updated_entity, $original_entity);
+    if ($updated_entity === NULL) {
+      /** @var \Drupal\Core\Entity\EntityForm $form_object */
+      $form_object = $form_state->getFormObject();
+      $updated_entity = $form_object->buildEntity($form, $form_state);
+    }
+    if ($entity_updated === NULL) {
+      $entity_updated = $this->entityCompare->hasChanged($updated_entity, $original_entity);
+    }
 
     /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
     $node_storage = $this->entityTypeManager->getStorage('node');

@@ -46,6 +46,13 @@ entity_browser:
     - core/jquery
     - core/drupal
     - core/once
+publication_actions:
+  js:
+    js/publication_actions.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupal.ajax
+    - core/once
 ajax_commands:
   js:
     js/ajax_commands.js: {}

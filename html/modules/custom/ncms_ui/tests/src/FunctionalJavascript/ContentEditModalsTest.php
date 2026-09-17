@@ -299,4 +299,48 @@ class ContentEditModalsTest extends ContentTestBaseJavascript {
     $assert_session->elementTextContains('css', '#edit-meta-published', '#1 Published');
   }
 
+  /**
+   * Tests that publication actions are locked during an Ajax request.
+   */
+  public function testPublicationActionsLockedDuringAjax() {
+    $content_space = $this->createContentSpace();
+    $node = $this->createArticleInContentSpace('Article 1 for Content space 1', $content_space->id());
+
+    $this->drupalLogin($this->createEditorUserWithContentSpaces([
+      $content_space,
+    ]));
+    $this->drupalGet('/node/' . $node->id() . '/edit');
+
+    $this->getSession()->executeScript(<<<'JS'
+      window.ncmsPublicationActionsLocked = false;
+      const observer = new MutationObserver(() => {
+        const actions = Array.from(document.querySelectorAll('[data-ncms-publication-action]'));
+        if (actions.length === 2 && actions.every((action) => action.disabled)) {
+          window.ncmsPublicationActionsLocked = true;
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['disabled'],
+        subtree: true,
+      });
+      JS);
+    // Invoke the Ajax instance directly so the test can observe the request.
+    $this->getSession()->executeScript(<<<'JS'
+      const action = document.querySelector('#edit-publish-correction');
+      const ajax = Drupal.ajax.instances.find((instance) => instance && instance.element === action);
+      ajax.eventResponse(action, jQuery.Event('mousedown'));
+      JS);
+
+    $this->assertTrue($this->getSession()->wait(10000, 'window.ncmsPublicationActionsLocked === true'));
+    $this->waitForAjaxToFinish();
+    $this->assertSession()->waitForText('An article cannot be published without any tags associated with it.');
+
+    $publication_actions_enabled = $this->getSession()->evaluateScript(<<<'JS'
+      Array.from(document.querySelectorAll('[data-ncms-publication-action]')).every((action) => !action.disabled);
+      JS);
+    $this->assertTrue($publication_actions_enabled);
+  }
+
 }

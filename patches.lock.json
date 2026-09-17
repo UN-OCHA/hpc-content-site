@@ -1,5 +1,5 @@
 {
-    "_hash": "c68a7214c1bb40f5f44b1193d37384940a7595278a3c3540e421099d61f80f99",
+    "_hash": "09737d42e76053a7aa5065c35902fc2d8a24fac046525f800b055bb3cea3d28e",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -53,18 +53,6 @@
                 "description": "Issue #2799479: Views doesn't recognize relationship to host",
                 "url": "./patches/entity_reference_revisions-relationship_host_id-2799479-176.patch",
                 "sha256": "1d41186b45f839db2728ec93cd48a61ec7473cae119d00f71a31a9d463cba44a",
-                "depth": 1,
-                "extra": {
-                    "provenance": "patches-file:composer.patches.json"
-                }
-            }
-        ],
-        "drupal/file_mdm": [
-            {
-                "package": "drupal/file_mdm",
-                "description": "Issue #3492414: Nullable types must be explicit",
-                "url": "https://www.drupal.org/files/issues/2026-03-20/file_mdm-nullable-3570037-8.patch",
-                "sha256": "e8594a1ac08db1c7298c350ea792e3a22d6eaf76cf8eb293f6186840410252e4",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

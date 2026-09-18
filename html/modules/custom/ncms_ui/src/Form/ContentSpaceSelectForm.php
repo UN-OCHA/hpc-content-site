@@ -5,17 +5,14 @@ namespace Drupal\ncms_ui\Form;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\AppendCommand;
 use Drupal\Core\Ajax\RedirectCommand;
-use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Path\CurrentPathStack;
-use Drupal\ncms_ui\ContentSpaceManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a ContentSpaceSelectForm to select the current content space.
  */
-class ContentSpaceSelectForm extends FormBase {
+final class ContentSpaceSelectForm extends FormBase {
 
   /**
    * The ncms content manager service.
@@ -39,30 +36,14 @@ class ContentSpaceSelectForm extends FormBase {
   protected $renderCache;
 
   /**
-   * Class constructor.
-   *
-   * @param \Drupal\ncms_ui\ContentSpaceManager $content_manager
-   *   The ncms content manager service.
-   * @param \Drupal\Core\Path\CurrentPathStack $current_path
-   *   The current path service.
-   * @param \Drupal\Core\Cache\CacheBackendInterface $render_cache
-   *   The render cache service.
-   */
-  public function __construct(ContentSpaceManager $content_manager, CurrentPathStack $current_path, CacheBackendInterface $render_cache) {
-    $this->contentSpaceManager = $content_manager;
-    $this->currentPath = $current_path;
-    $this->renderCache = $render_cache;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('ncms_ui.content_space.manager'),
-      $container->get('path.current'),
-      $container->get('cache.render'),
-    );
+    $instance = new static();
+    $instance->contentSpaceManager = $container->get('ncms_ui.content_space.manager');
+    $instance->currentPath = $container->get('path.current');
+    $instance->renderCache = $container->get('cache.render');
+    return $instance;
   }
 
   /**

@@ -7,7 +7,7 @@ use Drupal\Component\Utility\SortArray;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Render\Element;
-use Drupal\Core\Render\Element\RenderElement;
+use Drupal\Core\Render\Element\RenderElementBase;
 use Drupal\Core\Render\Element\VerticalTabs;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\ncms_paragraphs\Traits\VerticalTabsTrait;
@@ -122,7 +122,7 @@ class ComponentMenu {
 
     // Let the tab element set itself up.
     VerticalTabs::processVerticalTabs($form['tabs'], $form_state, $complete_form);
-    RenderElement::processGroup($form['tabs']['group'], $form_state, $complete_form);
+    RenderElementBase::processGroup($form['tabs']['group'], $form_state, $complete_form);
 
     // Default tab is the first one. We have to set #value instead of the
     // #default_value, because this is not a real form and the normal form
@@ -145,7 +145,7 @@ class ComponentMenu {
           'paragraph-category-links',
         ],
       ];
-      RenderElement::processGroup($form['paragraph_categories'][$element_key], $form_state, $complete_form);
+      RenderElementBase::processGroup($form['paragraph_categories'][$element_key], $form_state, $complete_form);
     }
     $this->processVerticalTabs($form, $form_state);
 

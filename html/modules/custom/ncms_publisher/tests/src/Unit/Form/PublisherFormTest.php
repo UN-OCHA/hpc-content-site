@@ -12,14 +12,14 @@ use Drupal\ncms_publisher\Entity\PublisherInterface;
 use Drupal\ncms_publisher\Form\PublisherForm;
 use Drupal\ncms_publisher\PublisherRefreshClient;
 use Drupal\Tests\UnitTestCase;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Tests the publisher form.
- *
- * @group ncms_publisher
  */
+#[Group('ncms_publisher')]
 class PublisherFormTest extends UnitTestCase {
 
   /**
@@ -140,9 +140,10 @@ class PublisherFormTest extends UnitTestCase {
    *   The expected saved refresh secret.
    */
   private function assertSubmittedRefreshSecretSavesAs(string $submitted_secret, string $expected_saved_secret): void {
-    if (!defined('SAVED_NEW')) {
-      define('SAVED_NEW', 1);
-    }
+    // Load Drupal's core save status constants without redefining them; the
+    // switch in PublisherForm::save() evaluates SAVED_NEW even when the mocked
+    // save result takes the default branch.
+    require_once dirname(__DIR__, 7) . '/core/includes/common.inc';
 
     $submitted_values = [
       'known_hosts' => 'example.com',

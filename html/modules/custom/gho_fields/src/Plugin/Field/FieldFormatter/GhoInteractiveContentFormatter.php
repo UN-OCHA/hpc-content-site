@@ -195,10 +195,10 @@ class GhoInteractiveContentFormatter extends FormatterBase {
    * @param \Drupal\Core\Field\FieldItemInterface $item
    *   The field item.
    *
-   * @return string
-   *   The provider string if found.
+   * @return string|null
+   *   The provider string if found or NULL.
    */
-  private static function getProviderForItem(FieldItemInterface $item) {
+  private static function getProviderForItem(FieldItemInterface $item): ?string {
     $attributes = static::extractAttributes($item->value);
     return self::getProviderForSrc($attributes['src']);
   }
@@ -209,15 +209,16 @@ class GhoInteractiveContentFormatter extends FormatterBase {
    * @param string $src
    *   The src string.
    *
-   * @return string
-   *   The provider string if found.
+   * @return string|null
+   *   The provider string if found or NULL.
    */
-  private static function getProviderForSrc($src) {
+  private static function getProviderForSrc($src): ?string {
     foreach (self::EMBED_PROVIDERS as $provider => $regex) {
       if (preg_match('~^' . $regex . '~', $src ?? '') === 1) {
         return $provider;
       }
     }
+    return NULL;
   }
 
 }

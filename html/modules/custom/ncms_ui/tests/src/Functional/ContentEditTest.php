@@ -7,8 +7,6 @@ use Drupal\node\NodeInterface;
 
 /**
  * Tests logic around content editing.
- *
- * @group ncms_ui
  */
 class ContentEditTest extends ContentTestBase {
 

@@ -6,12 +6,12 @@ use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\ncms_publisher\PublisherRefreshNotifier;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\Tests\UnitTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Tests refresh notification hooks.
- *
- * @group ncms_publisher
  */
+#[Group('ncms_publisher')]
 class NcmsPublisherModuleTest extends UnitTestCase {
 
   /**

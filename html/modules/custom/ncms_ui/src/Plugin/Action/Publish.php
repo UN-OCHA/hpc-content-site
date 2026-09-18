@@ -4,7 +4,6 @@ namespace Drupal\ncms_ui\Plugin\Action;
 
 use Drupal\Core\Action\Attribute\Action;
 use Drupal\Core\Cache\Cache;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\node\NodeInterface;
@@ -17,7 +16,7 @@ use Drupal\node\NodeInterface;
   label: new TranslatableMarkup('Publish'),
   type: 'node'
 )]
-class Publish extends ContentActionBase implements ContainerFactoryPluginInterface {
+class Publish extends ContentActionBase {
 
   /**
    * {@inheritdoc}
@@ -27,11 +26,7 @@ class Publish extends ContentActionBase implements ContainerFactoryPluginInterfa
       return;
     }
 
-    // Entity has not been changed, so we simply update the current
-    // revision to published.
-    /** @var \Drupal\ncms_ui\Entity\Storage\ContentStorage $node_storage */
-    $node_storage = $this->entityTypeManager->getStorage('node');
-    $node_storage->updateRevisionStatus($node, NodeInterface::PUBLISHED);
+    self::getContentRevisionWorkflow()->publishExistingRevision($node);
     Cache::invalidateTags($node->getCacheTags());
   }
 

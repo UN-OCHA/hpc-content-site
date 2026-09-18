@@ -9,8 +9,6 @@ use Drupal\Tests\ncms_ui\Traits\ContentTestTrait;
 
 /**
  * Tests access based on content spaces.
- *
- * @group ncms_ui
  */
 abstract class ContentTestBase extends BrowserTestBase {
 

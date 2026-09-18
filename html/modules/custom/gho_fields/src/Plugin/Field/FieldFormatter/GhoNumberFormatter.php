@@ -494,9 +494,9 @@ class GhoNumberFormatter extends FormatterBase {
      */
 
     $n = abs($number);
-    $i = floor($n);
+    $i = (int) floor($n);
 
-    $c = floor(log10($n));
+    $c = $n == 0 ? 0 : (int) floor(log10($n));
 
     // To handle both scientific notation (1.23456e-3) and plain notation
     // (0.00123456), we use sprintf() to print in a consistent manner the float
@@ -507,7 +507,7 @@ class GhoNumberFormatter extends FormatterBase {
     //
     // @see https://www.php.net/manual/en/language.types.float.php
     $p = $c < 0 ? 1 - $c : max(14 - $c, 0);
-    $f = rtrim(substr(strstr(sprintf('%.' . $p . 'f', $n), '.'), 1), '0');
+    $f = $n == 0 ? '' : rtrim(substr(strstr(sprintf('%.' . $p . 'f', $n), '.'), 1), '0');
 
     // We already removed trailing zeros to avoid artifacts from the sprintf.
     // This doesn't have any impact on the language plural rules we support.
@@ -526,13 +526,13 @@ class GhoNumberFormatter extends FormatterBase {
     switch ($langcode) {
       // @see https://unicode-org.github.io/cldr-staging/charts/38/verify/numbers/ar.html
       case 'ar':
-        if ($n === 0) {
+        if ($n == 0) {
           return 'zero';
         }
-        elseif ($n === 1) {
+        elseif ($n == 1) {
           return 'one';
         }
-        elseif ($n === 2) {
+        elseif ($n == 2) {
           return 'two';
         }
         elseif (($n % 100 >= 3) && ($n % 100 <= 10)) {
@@ -552,7 +552,7 @@ class GhoNumberFormatter extends FormatterBase {
 
       // @see https://unicode-org.github.io/cldr-staging/charts/38/verify/numbers/es.html
       case 'es':
-        if ($n === 1) {
+        if ($n == 1) {
           return 'one';
         }
         return 'other';

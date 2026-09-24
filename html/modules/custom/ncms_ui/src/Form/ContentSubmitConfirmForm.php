@@ -63,6 +63,7 @@ class ContentSubmitConfirmForm extends ConfirmFormBase {
     $form['description'] = ['#markup' => $confirm_question];
     $form['actions']['submit']['#ajax'] = [
       'callback' => [$this, 'ajaxCallbackConfirm'],
+      'progress' => ['type' => 'none'],
       'url' => $entity && !$entity->isNew() ? Url::fromRoute('entity.node_edit.submit_confirm', [
         'node' => $entity->id(),
       ]) : Url::fromRoute('entity.node_add.submit_confirm'),
@@ -72,6 +73,7 @@ class ContentSubmitConfirmForm extends ConfirmFormBase {
         ],
       ],
     ];
+    $form['#attached']['library'][] = 'ncms_ui/throbber';
     // This is a special class to which JavaScript assigns dialog closing
     // behavior.
     $form['actions']['cancel']['#attributes']['class'][] = 'dialog-cancel';

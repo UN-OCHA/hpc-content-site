@@ -5,9 +5,10 @@ namespace Drupal\ncms_ui\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\ncms_ui\ContentRevisionWorkflow;
 use Drupal\ncms_ui\Entity\ContentInterface;
-use Drupal\ncms_ui\Entity\Storage\ContentStorage;
 use Drupal\node\NodeInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Implementation of the RevisionController class.
@@ -15,6 +16,22 @@ use Drupal\node\NodeInterface;
 class RevisionController extends ControllerBase implements ContainerInjectionInterface {
 
   use StringTranslationTrait;
+
+  /**
+   * The content revision workflow service.
+   *
+   * @var \Drupal\ncms_ui\ContentRevisionWorkflow
+   */
+  private ContentRevisionWorkflow $contentRevisionWorkflow;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = new static();
+    $instance->contentRevisionWorkflow = $container->get('ncms_ui.content_revision_workflow');
+    return $instance;
+  }
 
   /**
    * Publish a node revision.
@@ -68,15 +85,15 @@ class RevisionController extends ControllerBase implements ContainerInjectionInt
   /**
    * Publish a node revision.
    *
-   * @param \Drupal\node\NodeInterface $node_revision
+   * @param \Drupal\ncms_ui\Entity\ContentInterface $node_revision
    *   The node revision.
    * @param int $status
    *   The status of the revision.
    *
    * @return bool
-   *   TRUE if the operation was successfull, FALSE otherwise.
+   *   TRUE if the operation was successful, FALSE otherwise.
    */
-  private function setRevisionStatus(NodeInterface $node_revision, $status) {
+  private function setRevisionStatus(ContentInterface $node_revision, $status) {
     $status_values = [
       NodeInterface::PUBLISHED,
       NodeInterface::NOT_PUBLISHED,
@@ -84,11 +101,9 @@ class RevisionController extends ControllerBase implements ContainerInjectionInt
     if (!in_array($status, $status_values)) {
       throw new \InvalidArgumentException("Invalid status for node revisions: {$status}");
     }
-    $content_storage = $this->entityTypeManager()->getStorage('node');
-    if (!$content_storage instanceof ContentStorage) {
-      return FALSE;
-    }
-    return (bool) $content_storage->updateRevisionStatus($node_revision, $status);
+    return $status == NodeInterface::PUBLISHED
+      ? $this->contentRevisionWorkflow->publishExistingRevision($node_revision)
+      : $this->contentRevisionWorkflow->unpublishExistingRevision($node_revision);
   }
 
 }

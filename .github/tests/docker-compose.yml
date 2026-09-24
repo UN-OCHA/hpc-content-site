@@ -54,11 +54,11 @@ services:
     environment:
       - TERM=xterm
       - ENVIRONMENT=dev
-      - NGINX_SERVERNAME=hpc-content-test-site,localhost,127.0.0.1
-      - NGINX_OVERRIDE_PROTOCOL=HTTP,hpc-content-test-site,localhost,127.0.0.1
+      - NGINX_SERVERNAME=hpc-content-test-site.test,hpc-content-test-site,localhost,127.0.0.1
+      - NGINX_OVERRIDE_PROTOCOL=HTTP,hpc-content-test-site.test,hpc-content-test-site,localhost,127.0.0.1
       - NGINX_LIMIT_BOTS=2000r/m
       - NGINX_LIMIT_HUMANS=2000r/s
-      - DRUSH_OPTIONS_URI=http://hpc-content-test-site
+      - DRUSH_OPTIONS_URI=http://hpc-content-test-site.test
       - DRUPAL_DB_DATABASE=hpc_content
       - DRUPAL_DB_USERNAME=hpc_content
       - DRUPAL_DB_PASSWORD=hpc_content
@@ -68,12 +68,14 @@ services:
       - PHP_XDEBUG=true
       - XDEBUG_MODE=coverage
       - BROWSERTEST_OUTPUT_DIRECTORY=/srv/www/html/sites/default/files/browser_output
-      - DTT_BASE_URL=http://127.0.0.1
+      - DTT_BASE_URL=http://hpc-content-test-site.test
       - SYMFONY_DEPRECATIONS_HELPER=disabled
     ports:
       - "8081:80"
     networks:
-      - default
+      default:
+        aliases:
+          - hpc-content-test-site.test
 
   browser:
     hostname: hpc-content-test-browser

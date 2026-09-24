@@ -41,7 +41,6 @@
  * @see template_preprocess_field()
  */
 #}
-{% apply spaceless %}
 <div class="gho-needs-and-requirements-figure gho-figure">
   <div class="gho-needs-and-requirements-figure__label gho-figure__label">
   {% if field_name == 'field_requirements' %}
@@ -51,7 +50,6 @@
   {% endif %}
   </div>
   {% for item in items %}
-  <div class="gho-needs-and-requirements-figure__value gho-figure__value">{{ item.content }}</div>
+  <div class="gho-needs-and-requirements-figure__value gho-figure__value">{{- item.content -}}</div>
   {% endfor %}
 </div>
-{% endapply %}

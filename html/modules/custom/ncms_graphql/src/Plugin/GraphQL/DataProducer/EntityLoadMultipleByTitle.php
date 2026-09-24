@@ -4,12 +4,9 @@ namespace Drupal\ncms_graphql\Plugin\GraphQL\DataProducer;
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityPublishedInterface;
-use Drupal\Core\Entity\EntityRepositoryInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\TranslatableInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\ncms_graphql\GraphQL\Buffers\EntityMatchingBuffer;
 use Drupal\graphql\GraphQL\Execution\FieldContext;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 use Drupal\ncms_graphql\Wrappers\ContentSearchWrapper;
@@ -90,46 +87,11 @@ class EntityLoadMultipleByTitle extends DataProducerPluginBase implements Contai
    * @codeCoverageIgnore
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('entity_type.manager'),
-      $container->get('entity.repository'),
-      $container->get('ncms_graphql.buffer.entity')
-    );
-  }
-
-  /**
-   * EntityLoad constructor.
-   *
-   * @param array $configuration
-   *   The plugin configuration array.
-   * @param string $pluginId
-   *   The plugin id.
-   * @param array $pluginDefinition
-   *   The plugin definition array.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   The entity type manager service.
-   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entityRepository
-   *   The entity repository service.
-   * @param \Drupal\ncms_graphql\GraphQL\Buffers\EntityMatchingBuffer $entityBuffer
-   *   The entity buffer service.
-   *
-   * @codeCoverageIgnore
-   */
-  public function __construct(
-    array $configuration,
-    $pluginId,
-    array $pluginDefinition,
-    EntityTypeManagerInterface $entityTypeManager,
-    EntityRepositoryInterface $entityRepository,
-    EntityMatchingBuffer $entityBuffer,
-  ) {
-    parent::__construct($configuration, $pluginId, $pluginDefinition);
-    $this->entityTypeManager = $entityTypeManager;
-    $this->entityRepository = $entityRepository;
-    $this->entityBuffer = $entityBuffer;
+    $instance = new self($configuration, $plugin_id, $plugin_definition);
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->entityRepository = $container->get('entity.repository');
+    $instance->entityBuffer = $container->get('ncms_graphql.buffer.entity');
+    return $instance;
   }
 
   /**

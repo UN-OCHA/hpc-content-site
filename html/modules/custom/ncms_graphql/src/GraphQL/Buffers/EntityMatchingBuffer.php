@@ -54,7 +54,10 @@ class EntityMatchingBuffer extends GraphQlEntityBuffer {
    * {@inheritdoc}
    */
   protected function getBufferId(\ArrayObject $item): string {
-    return $item['type'];
+    $bundles = (array) ($item['bundles'] ?? []);
+    sort($bundles);
+    // Keep searches with different bundle conditions in separate buffers.
+    return $item['type'] . ':' . implode(',', $bundles);
   }
 
   /**
@@ -79,7 +82,7 @@ class EntityMatchingBuffer extends GraphQlEntityBuffer {
       $title_match_group->condition('title', '%' . $title . '%', 'LIKE');
     }
     if (!empty($bundles)) {
-      $query->condition('type', $bundles);
+      $query->condition('type', $bundles, 'IN');
     }
     $query->condition($title_match_group);
     $query->accessCheck(TRUE);

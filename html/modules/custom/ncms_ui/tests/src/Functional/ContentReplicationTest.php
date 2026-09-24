@@ -7,8 +7,6 @@ use Drupal\node\NodeInterface;
 
 /**
  * Tests replication of content into different content spaces.
- *
- * @group ncms_ui
  */
 class ContentReplicationTest extends ContentTestBase {
 

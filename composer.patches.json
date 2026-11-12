@@ -11,7 +11,7 @@
       "Issue #3250995 + local follow-up: Allow page scrolling and keep modal iframe actions reachable": "https://www.drupal.org/files/issues/2026-08-14/entity_browser-allow-main-page-scrolling-3250995-2.17.patch"
     },
     "drupal/entity_reference_revisions": {
-      "Issue #2799479: Views doesn't recognize relationship to host": "./patches/entity_reference_revisions-relationship_host_id-2799479-176.patch"
+      "Issue #2799479 / MR !5: Views doesn't recognize relationship to host": "./patches/entity_reference_revisions-2799479-mr5-4b53039a.patch"
     },
     "drupal/graphql": {
       "Issue #3561746: type error on drush updb": "https://www.drupal.org/files/issues/2025-12-05/graphql-3561746-2.patch"

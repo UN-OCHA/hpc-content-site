@@ -1,5 +1,5 @@
 {
-    "_hash": "b58491d4ea1ca025ccddc0adb2e664d25d4fe14738a7eb35025d8e7a363293c1",
+    "_hash": "b4c76bc0fd1f77bc95fda94fb90df6c90577c8d09d6f01484b24b3f29a08c566",
     "patches": {
         "drupal/anonymous_login": [
             {
@@ -50,9 +50,9 @@
         "drupal/entity_reference_revisions": [
             {
                 "package": "drupal/entity_reference_revisions",
-                "description": "Issue #2799479: Views doesn't recognize relationship to host",
-                "url": "./patches/entity_reference_revisions-relationship_host_id-2799479-176.patch",
-                "sha256": "1d41186b45f839db2728ec93cd48a61ec7473cae119d00f71a31a9d463cba44a",
+                "description": "Issue #2799479 / MR !5: Views doesn't recognize relationship to host",
+                "url": "./patches/entity_reference_revisions-2799479-mr5-4b53039a.patch",
+                "sha256": "c67f021ce0e16b15a41c69d61a8bb125b76005c0f3d9f6b547ddc4651c062c05",
                 "depth": 1,
                 "extra": {
                     "provenance": "patches-file:composer.patches.json"

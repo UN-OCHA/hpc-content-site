@@ -3,6 +3,7 @@
 namespace Drupal\ncms_publisher;
 
 use Drupal\Component\Uuid\UuidInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\ncms_publisher\Plugin\QueueWorker\PublisherRefreshQueue;
@@ -43,13 +44,33 @@ class PublisherRefreshNotifier {
   protected $uuid;
 
   /**
+   * The referenced content resolver.
+   *
+   * @var \Drupal\ncms_publisher\ReferencedContentResolver
+   */
+  protected $referencedContentResolver;
+
+  /**
    * Constructs a publisher refresh notifier.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, QueueFactory $queue_factory, LoggerInterface $logger, UuidInterface $uuid) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, QueueFactory $queue_factory, LoggerInterface $logger, UuidInterface $uuid, ReferencedContentResolver $referenced_content_resolver) {
     $this->entityTypeManager = $entity_type_manager;
     $this->queueFactory = $queue_factory;
     $this->logger = $logger;
     $this->uuid = $uuid;
+    $this->referencedContentResolver = $referenced_content_resolver;
+  }
+
+  /**
+   * Queue saved notifications for published content referencing an entity.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The referenced entity.
+   */
+  public function enqueueReferencedContent(ContentEntityInterface $entity): void {
+    foreach ($this->referencedContentResolver->resolve($entity) as $content) {
+      $this->enqueue($content, 'saved');
+    }
   }
 
   /**

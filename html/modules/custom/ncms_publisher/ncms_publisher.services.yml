@@ -7,7 +7,10 @@ services:
     arguments: ['@entity_type.manager', '@request_stack']
   ncms_publisher.refresh_notifier:
     class: Drupal\ncms_publisher\PublisherRefreshNotifier
-    arguments: ['@entity_type.manager', '@queue', '@logger.channel.ncms_publisher', '@uuid']
+    arguments: ['@entity_type.manager', '@queue', '@logger.channel.ncms_publisher', '@uuid', '@ncms_publisher.referenced_content_resolver']
+  ncms_publisher.referenced_content_resolver:
+    class: Drupal\ncms_publisher\ReferencedContentResolver
+    arguments: ['@entity_type.manager', '@entity_field.manager']
   ncms_publisher.refresh_client:
     class: Drupal\ncms_publisher\PublisherRefreshClient
     arguments: ['@http_client', '@uuid']

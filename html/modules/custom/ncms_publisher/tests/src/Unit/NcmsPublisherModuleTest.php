@@ -3,6 +3,7 @@
 namespace Drupal\Tests\ncms_publisher\Unit;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
+use Drupal\media\MediaInterface;
 use Drupal\ncms_publisher\PublisherRefreshNotifier;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\Tests\UnitTestCase;
@@ -48,6 +49,22 @@ class NcmsPublisherModuleTest extends UnitTestCase {
     $this->setRefreshNotifier($refresh_notifier);
 
     ncms_publisher_entity_update($entity);
+  }
+
+  /**
+   * Tests that media updates queue the published content using that media.
+   */
+  public function testMediaUpdateQueuesReferencedContent(): void {
+    $entity = $this->createMock(MediaInterface::class);
+
+    $refresh_notifier = $this->createMock(PublisherRefreshNotifier::class);
+    $refresh_notifier->expects($this->once())
+      ->method('enqueueReferencedContent')
+      ->with($entity);
+    $refresh_notifier->expects($this->never())->method('enqueue');
+    $this->setRefreshNotifier($refresh_notifier);
+
+    ncms_publisher_media_update($entity);
   }
 
   /**

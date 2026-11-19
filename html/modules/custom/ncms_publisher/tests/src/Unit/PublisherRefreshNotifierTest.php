@@ -9,6 +9,7 @@ use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\Queue\QueueInterface;
 use Drupal\ncms_publisher\Entity\PublisherInterface;
 use Drupal\ncms_publisher\Plugin\QueueWorker\PublisherRefreshQueue;
+use Drupal\ncms_publisher\ReferencedContentResolver;
 use Drupal\ncms_publisher\PublisherRefreshNotifier;
 use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\Tests\UnitTestCase;
@@ -67,7 +68,8 @@ class PublisherRefreshNotifierTest extends UnitTestCase {
       $this->createEntityTypeManager([$publisher, $disabled, $missing_endpoint, $missing_secret]),
       $queue_factory,
       $logger,
-      $uuid
+      $uuid,
+      $this->createMock(ReferencedContentResolver::class)
     );
     $notifier->enqueue($entity, 'saved');
   }

@@ -50,6 +50,13 @@ interface ContentInterface extends NodeInterface, ContentSpaceAwareInterface, Co
   public function getTagEntities();
 
   /**
+   * Invalidates caches after a direct persisted update.
+   *
+   * This does not replace entity save hooks or other post-save processing.
+   */
+  public function invalidateCacheTagsAfterDirectUpdate(): void;
+
+  /**
    * Mark this entity as deleted.
    */
   public function setDeleted();

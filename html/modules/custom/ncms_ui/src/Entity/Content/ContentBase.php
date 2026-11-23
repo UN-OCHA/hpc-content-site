@@ -172,6 +172,14 @@ abstract class ContentBase extends Node implements ContentInterface {
   /**
    * {@inheritdoc}
    */
+  public function invalidateCacheTagsAfterDirectUpdate(): void {
+    // Direct database updates bypass the invalidation normally run by save().
+    $this->invalidateTagsOnSave(TRUE);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function setDeleted() {
     parent::setUnpublished();
     $this->isDefaultRevision(TRUE);

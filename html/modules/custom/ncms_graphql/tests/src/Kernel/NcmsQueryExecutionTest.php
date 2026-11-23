@@ -7,8 +7,11 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\language\Entity\ContentLanguageSettings;
 use Drupal\graphql\GraphQL\Execution\ExecutionResult;
 use Drupal\ncms_graphql\Plugin\GraphQL\SchemaExtension\NcmsSchemaExtension;
+use Drupal\ncms_ui\ContentRevisionWorkflow;
+use Drupal\ncms_ui\Entity\ContentInterface;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
+use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\taxonomy\Entity\Term;
@@ -37,6 +40,9 @@ class NcmsQueryExecutionTest extends GraphQLTestBase {
     'node',
     'taxonomy',
     'file',
+    'views',
+    'workflows',
+    'content_moderation',
     'graphql',
     'layout_discovery',
     'entity_reference_revisions',
@@ -44,6 +50,8 @@ class NcmsQueryExecutionTest extends GraphQLTestBase {
     'layout_paragraphs',
     'ncms_tags',
     'ncms_paragraphs',
+    'ncms_publisher',
+    'ncms_ui',
     'ncms_graphql',
   ];
 
@@ -90,6 +98,7 @@ class NcmsQueryExecutionTest extends GraphQLTestBase {
 
     $this->installEntitySchema('taxonomy_term');
     $this->installEntitySchema('paragraph');
+    $this->installEntitySchema('content_moderation_state');
     $this->installConfig(['filter']);
 
     $this->createContentModel();
@@ -284,6 +293,68 @@ class NcmsQueryExecutionTest extends GraphQLTestBase {
         ],
       ],
     );
+  }
+
+  /**
+   * Tests publishing an existing draft invalidates the cached article export.
+   */
+  public function testPublishingExistingDraftInvalidatesArticleExportCache(): void {
+    $this->setUpCurrentUser([], [
+      'access content',
+      'bypass graphql access',
+      'bypass node access',
+    ]);
+
+    $draft = Node::create([
+      'type' => 'article',
+      'title' => 'Draft article',
+      'status' => NodeInterface::NOT_PUBLISHED,
+      'field_short_title' => 'Draft',
+      'field_summary' => 'Draft summary',
+      'field_automatically_visible' => 0,
+      'field_computed_tags' => 'Shelter,Operations',
+      'field_content_space' => $this->contentSpace,
+      'field_theme' => [$this->tag],
+    ]);
+    $draft->save();
+    $this->assertInstanceOf(ContentInterface::class, $draft);
+
+    $query = <<<'GRAPHQL'
+      query {
+        articleExport {
+          ids
+          metaData {
+            id
+            status
+            autoVisible
+          }
+        }
+      }
+      GRAPHQL;
+
+    // Cache the export while the article is still excluded as a draft.
+    $before = $this->executeQuery($query)->toArray();
+    $this->assertNotContains((int) $draft->id(), $before['data']['articleExport']['ids']);
+
+    $workflow = $this->container->get('ncms_ui.content_revision_workflow');
+    $this->assertInstanceOf(ContentRevisionWorkflow::class, $workflow);
+    $this->assertTrue($workflow->publishExistingRevision($draft));
+
+    $node_storage = $this->container->get('entity_type.manager')->getStorage('node');
+    $node_storage->resetCache([$draft->id()]);
+    $published = $node_storage->load($draft->id());
+    $this->assertTrue($published->isPublished());
+
+    $after = $this->executeQuery($query)->toArray();
+    $this->assertContains(
+      (int) $draft->id(),
+      $after['data']['articleExport']['ids'],
+      'Publishing the existing draft must invalidate the cached article export.',
+    );
+
+    $metadata = array_column($after['data']['articleExport']['metaData'], NULL, 'id');
+    $this->assertSame(1, $metadata[$draft->id()]['status']);
+    $this->assertSame(0, $metadata[$draft->id()]['autoVisible']);
   }
 
   /**
@@ -658,6 +729,12 @@ class NcmsQueryExecutionTest extends GraphQLTestBase {
     $this->createFieldStorage('node', 'field_content_space', 'entity_reference', [
       'target_type' => 'taxonomy_term',
     ]);
+    $this->createFieldStorage('node', 'field_articles', 'entity_reference', [
+      'target_type' => 'node',
+    ], FieldStorageConfig::CARDINALITY_UNLIMITED);
+    $this->createFieldStorage('node', 'field_documents', 'entity_reference', [
+      'target_type' => 'node',
+    ], FieldStorageConfig::CARDINALITY_UNLIMITED);
     foreach ([
       'field_document_type',
       'field_country',
@@ -689,6 +766,8 @@ class NcmsQueryExecutionTest extends GraphQLTestBase {
         $this->createField('node', $bundle, $field_name);
       }
     }
+    $this->createField('node', 'article', 'field_documents');
+    $this->createField('node', 'document', 'field_articles');
     $this->createField('node', 'document', 'field_paragraphs');
 
     $this->createFieldStorage('taxonomy_term', 'field_computed_tags', 'string');

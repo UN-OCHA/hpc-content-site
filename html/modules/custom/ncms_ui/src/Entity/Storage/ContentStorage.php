@@ -78,6 +78,7 @@ class ContentStorage extends NodeStorage {
     }
 
     $this->resetCache([$entity->id()]);
+    $entity->invalidateCacheTagsAfterDirectUpdate();
     return !empty($result);
   }
 

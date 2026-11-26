@@ -588,6 +588,21 @@ function ncms_ui_form_views_form_media_library_page_alter(&$form, FormStateInter
 /**
  * Implements hook_form_FORM_ID_alter().
  */
+function ncms_ui_form_user_expire_form_alter(array &$form, FormStateInterface $form_state): void {
+  // User Expire 2.1.3 disables these fields even though cron still applies
+  // shorter role-specific limits. Keep them editable until this is fixed
+  // upstream.
+  // @see https://www.drupal.org/project/user_expire/issues/3587307
+  foreach ($form['current_roles']['#value'] as $role_id => $label) {
+    unset($form['user_expire_roles']['user_expire_' . $role_id]['#states']['enabled']);
+  }
+  unset($form['user_expire_roles']['authenticated_notice']);
+  $form['user_expire_roles']['#description'] = t('The authenticated role applies to all users. The shortest nonzero inactivity period from their roles determines when an account expires. Enter 0 to disable a role rule; this does not exempt users from other role rules.');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
 function ncms_ui_form_user_form_alter(array &$form, FormStateInterface $form_state) {
   /** @var \Drupal\user\UserInterface $account */
   $account = $form_state->getFormObject()->getEntity();
